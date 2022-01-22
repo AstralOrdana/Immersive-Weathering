@@ -1,0 +1,36 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.ordana.mossier_moss.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "CobblestoneMixin",
+    "CobblestoneSlabMixin",
+    "CobblestoneStairsMixin",
+    "CobblestoneWallMixin",
+    "MossyCobblestoneMixin",
+    "MossyCobblestoneSlabMixin",
+    "MossyCobblestoneStairsMixin",
+    "MossyCobblestoneWallMixin",
+    "BricksMixin",
+    "BrickSlabMixin",
+    "BrickStairsMixin",
+    "BrickWallMixin",
+    "StoneBricksMixin",
+    "StoneBrickSlabMixin",
+    "StoneBrickStairsMixin",
+    "StoneBrickWallMixin",
+    "MossyStoneBricksMixin",
+    "MossyStoneBrickSlabMixin",
+    "MossyStoneBrickStairsMixin",
+    "MossyStoneBrickWallMixin",
+    "StoneMixin",
+    "StoneSlabMixin",
+    "StoneStairsMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "mossier_moss",
+  "version": "${version}",
+
+  "name": "Mossier Moss",
+  "description": "This mod gives moss the ability to spread to certain types of blocks.",
+  "authors": [
+    "Ordana"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "GPLv3",
+  "icon": "assets/mossier_moss/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.ordana.mossier_moss.MossierMoss"
+    ]
+  },
+  "mixins": [
+    "mossier_moss.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.18.x",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
