@@ -1,0 +1,45 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.ordana.immersive_weathering.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "CobblestoneMixin",
+    "CobblestoneSlabMixin",
+    "CobblestoneStairsMixin",
+    "CobblestoneWallMixin",
+    "MossyCobblestoneMixin",
+    "MossyCobblestoneSlabMixin",
+    "MossyCobblestoneStairsMixin",
+    "MossyCobblestoneWallMixin",
+    "BricksMixin",
+    "BrickSlabMixin",
+    "BrickStairsMixin",
+    "BrickWallMixin",
+    "StoneBricksMixin",
+    "StoneBrickSlabMixin",
+    "StoneBrickStairsMixin",
+    "StoneBrickWallMixin",
+    "MossyStoneBricksMixin",
+    "MossyStoneBrickSlabMixin",
+    "MossyStoneBrickStairsMixin",
+    "MossyStoneBrickWallMixin",
+    "StoneMixin",
+    "StoneSlabMixin",
+    "StoneStairsMixin",
+    "BlackstoneBricksMixin",
+    "NetherBricksMixin",
+    "DeepslateBricksMixin",
+    "DeepslateTilesMixin",
+    "CrackedBlackstoneBricksMixin",
+    "CrackedNetherBricksMixin",
+    "CrackedDeepslateBricksMixin",
+    "CrackedDeepslateTilesMixin",
+    "CrackedStoneBricksMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

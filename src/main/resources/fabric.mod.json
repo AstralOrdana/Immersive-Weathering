@@ -1,13 +1,14 @@
 {
   "schemaVersion": 1,
-  "id": "mossier_moss",
+  "id": "immersive_weathering",
   "version": "${version}",
 
-  "name": "Mossier Moss",
-  "description": "This mod gives moss the ability to spread to certain types of blocks.",
+  "name": "Immersive Weathering",
+  "description": "A Mod that several natural weathering systems and QOL changes.",
   "authors": [
     "Ordana",
-    "keybounce"
+    "keybounce",
+    "Paperfish"
   ],
   "contact": {
     "homepage": "",
@@ -15,16 +16,16 @@
   },
 
   "license": "GPLv3",
-  "icon": "assets/mossier_moss/icon.png",
+  "icon": "assets/immersive_weathering/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.ordana.mossier_moss.MossierMoss"
+      "com.ordana.immersive_weathering.ImmersiveWeathering"
     ]
   },
   "mixins": [
-    "mossier_moss.mixins.json"
+    "immersive_weathering.mixins.json"
   ],
 
   "depends": {

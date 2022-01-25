@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:cracked_stone_bricks"
+    },
+    {
+      "item": "immersive_weathering:stone_brick"
+    }
+  ],
+  "result": {
+    "item": "minecraft:stone_bricks"
+  }
+}

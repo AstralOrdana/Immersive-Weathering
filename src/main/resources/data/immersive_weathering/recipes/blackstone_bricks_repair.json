@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:cracked_polished_blackstone_bricks"
+    },
+    {
+      "item": "immersive_weathering:blackstone_brick"
+    }
+  ],
+  "result": {
+    "item": "minecraft:polished_blackstone_bricks"
+  }
+}

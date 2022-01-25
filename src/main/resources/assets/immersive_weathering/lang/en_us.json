@@ -1,0 +1,17 @@
+{
+  "block.immersive_weathering.mossy_bricks": "Mossy Bricks",
+  "block.immersive_weathering.mossy_brick_stairs": "Mossy Brick Stairs",
+  "block.immersive_weathering.mossy_brick_slab": "Mossy Brick Slab",
+  "block.immersive_weathering.mossy_brick_wall": "Mossy Brick Wall",
+
+  "block.immersive_weathering.mossy_stone": "Mossy Stone",
+  "block.immersive_weathering.mossy_stone_stairs": "Mossy Stone Stairs",
+  "block.immersive_weathering.mossy_stone_slab": "Mossy Stone Slab",
+
+  "block.immersive_weathering.cracked_bricks": "Cracked Bricks",
+
+  "item.immersive_weathering.stone_brick": "Stone Brick",
+  "item.immersive_weathering.blackstone_brick": "Blackstone Brick",
+  "item.immersive_weathering.deepslate_brick": "Deepslate Brick",
+  "item.immersive_weathering.deepslate_tile": "Deepslate Tile"
+}

@@ -1,7 +1,13 @@
 {
   "replace": false,
   "values": [
-    "mossier_moss:mossy_stone",
-    "mossier_moss:mossy_bricks"
+    "immersive_weathering:mossy_stone",
+    "immersive_weathering:mossy_stone_slab",
+    "immersive_weathering:mossy_stone_stairs",
+    "immersive_weathering:mossy_bricks",
+    "immersive_weathering:mossy_brick_slab",
+    "immersive_weathering:mossy_brick_stairs",
+    "immersive_weathering:mossy_brick_wall",
+    "immersive_weathering:cracked_bricks"
   ]
 }
