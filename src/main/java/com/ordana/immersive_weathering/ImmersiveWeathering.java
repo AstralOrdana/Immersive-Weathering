@@ -3,7 +3,10 @@ package com.ordana.immersive_weathering;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.fabric.api.tag.TagFactory;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
@@ -22,5 +25,7 @@ public class ImmersiveWeathering implements ModInitializer {
         ModEvents.registerEvents();
         ModBlocks.registerBlocks();
         ModItems.registerItems();
+            ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("immersive_weathering:better_bricks"), modContainer, ResourcePackActivationType.NORMAL);
+        });
     }
 }
