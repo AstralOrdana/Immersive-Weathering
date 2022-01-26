@@ -25,6 +25,7 @@ public class ImmersiveWeathering implements ModInitializer {
         ModEvents.registerEvents();
         ModBlocks.registerBlocks();
         ModItems.registerItems();
+        FabricLoader.getInstance().getModContainer(ImmersiveWeathering.MOD_ID).ifPresent(modContainer -> {
             ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("immersive_weathering:better_bricks"), modContainer, ResourcePackActivationType.NORMAL);
         });
     }
