@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.ModConfiguredFeatures;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -12,8 +11,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 public class MossySlabBlock extends CleanSlabBlock implements Fertilizable {
     public MossySlabBlock(MossLevel mossLevel, Settings settings) {
@@ -68,3 +66,4 @@ public class MossySlabBlock extends CleanSlabBlock implements Fertilizable {
         }
     }
 }
+

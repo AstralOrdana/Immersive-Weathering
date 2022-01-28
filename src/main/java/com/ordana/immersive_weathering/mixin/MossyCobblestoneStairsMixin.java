@@ -28,7 +28,7 @@ public class MossyCobblestoneStairsMixin {
                                     from = @At
                                             (
                                                     value = "CONSTANT", // Target a literal
-                                                    args="stringValue=mossy_cobblestone_Stairs"
+                                                    args="stringValue=mossy_cobblestone_stairs"
                                             )
                                     // No Slice.to bound, we use At.ordinal = 0 for Redirect.at
                                     // so only the first call is targeted
