@@ -68,16 +68,29 @@ public class ModEvents {
             BRICK_REPAIR.put(ModItems.DEEPSLATE_TILE, Blocks.DEEPSLATE_TILES);
             BRICK_REPAIR.put(Items.BRICK, Blocks.BRICKS);
 
-
             if (heldItem.getItem() == Items.SHEARS) {
-                if(targetBlock.isIn(ImmersiveWeathering.UNMOSSABLE)) {
-                    Block.dropStack(world, targetPos, new ItemStack(Blocks.VINE));
+                if(targetBlock.isIn(ImmersiveWeathering.MOSSY)) {
+                    Block.dropStack(world, targetPos, new ItemStack(ModItems.MOSS_CLUMP));
                     world.playSound(player, targetPos, SoundEvents.BLOCK_GROWING_PLANT_CROP, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     if(player != null) {
                         if(!player.isCreative())heldItem.damage(1, new Random(), null);
-                        CLEANED_BLOCKS.forEach((mossy, unmossy) -> {
+                        CLEANED_BLOCKS.forEach((mossy, clean) -> {
                             if (targetBlock.isOf(mossy)) {
-                                world.setBlockState(targetPos, unmossy.getStateWithProperties(targetBlock));
+                                world.setBlockState(targetPos, clean.getStateWithProperties(targetBlock));
+                            }
+                        });
+                    }
+                    return ActionResult.SUCCESS;
+                }
+            }
+            if (heldItem.getItem() == ModItems.MOSS_CLUMP) {
+                if(targetBlock.isIn(ImmersiveWeathering.MOSSABLE)) {
+                    world.playSound(player, targetPos, SoundEvents.BLOCK_MOSS_PLACE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    if(player != null) {
+                        if(!player.isCreative())heldItem.decrement(1);
+                        CLEANED_BLOCKS.forEach((mossy, clean) -> {
+                            if (targetBlock.isOf(clean)) {
+                                world.setBlockState(targetPos, mossy.getStateWithProperties(targetBlock));
                             }
                         });
                     }

@@ -14,7 +14,8 @@ import net.minecraft.util.Identifier;
 public class ImmersiveWeathering implements ModInitializer {
 
     public static final String MOD_ID = "immersive_weathering";
-    public static final Tag<Block> UNMOSSABLE = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "unmossable"));
+    public static final Tag<Block> MOSSY = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "mossy"));
+    public static final Tag<Block> MOSSABLE = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "mossable"));
     public static final Tag<Block> CRACKED = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "cracked"));
     public static final Tag<Block> CRACKABLE = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "crackable"));
     public static final Tag<Block> MOSS_SOURCE = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "moss_source"));
@@ -25,8 +26,10 @@ public class ImmersiveWeathering implements ModInitializer {
         ModEvents.registerEvents();
         ModBlocks.registerBlocks();
         ModItems.registerItems();
+        ModConfiguredFeatures.register();
         FabricLoader.getInstance().getModContainer(ImmersiveWeathering.MOD_ID).ifPresent(modContainer -> {
-            ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("immersive_weathering:better_bricks"), modContainer, ResourcePackActivationType.NORMAL);
+            ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("immersive_weathering:better_brick_items"), modContainer, ResourcePackActivationType.NORMAL);
+            ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("immersive_weathering:better_brick_blocks"), modContainer, ResourcePackActivationType.NORMAL);
         });
     }
 }

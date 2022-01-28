@@ -2,9 +2,11 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "immersive_weathering:mossy_bricks_from_moss_block",
-      "immersive_weathering:mossy_stone_from_moss_block",
-      "immersive_weathering:moss_clump_from_block"
+      "immersive_weathering:moss_block_from_clump",
+      "immersive_weathering:mossy_bricks_from_moss_clump",
+      "immersive_weathering:mossy_stone_bricks_from_moss_clump",
+      "immersive_weathering:mossy_stone_from_moss_clump",
+      "immersive_weathering:mossy_cobblestone_from_moss_clump"
     ]
   },
   "criteria": {
@@ -23,7 +25,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "immersive_weathering:mossy_bricks_from_moss_block"
+        "recipe": "immersive_weathering:moss_block_from_clump"
       }
     }
   },
