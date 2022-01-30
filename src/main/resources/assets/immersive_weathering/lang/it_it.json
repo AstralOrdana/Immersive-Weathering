@@ -1,0 +1,28 @@
+{
+  "block.immersive_weathering.mossy_bricks": "Mattoni muschiosi",
+  "block.immersive_weathering.mossy_brick_stairs": "Scalini di mattoni muschiosi",
+  "block.immersive_weathering.mossy_brick_slab": "Lastra di mattoni muschiosi",
+  "block.immersive_weathering.mossy_brick_wall": "Muretto di mattoni muschiosi",
+
+  "block.immersive_weathering.mossy_stone": "Pietra muschiosa",
+  "block.immersive_weathering.mossy_stone_stairs": "Scalini di pietra muschiosa",
+  "block.immersive_weathering.mossy_stone_slab": "Lastra di pietra muschiosa",
+
+  "block.immersive_weathering.cracked_bricks": "Mattoni crepati",
+
+  "item.immersive_weathering.stone_brick": "Mattone di pietra",
+  "item.immersive_weathering.blackstone_brick": "Mattone di pietranera",
+  "item.immersive_weathering.deepslate_brick": "Mattone di ardesia profonda",
+  "item.immersive_weathering.deepslate_tile": "Piastrella di ardesia profonda",
+
+  "item.immersive_weathering.moss_clump": "Ciuffo di muschio",
+
+  "item.immersive_weathering.oak_bark": "Corteccia di quercia",
+  "item.immersive_weathering.spruce_bark": "Corteccia di abete",
+  "item.immersive_weathering.birch_bark": "Corteccia di betulla",
+  "item.immersive_weathering.jungle_bark": "Corteccia della giungla",
+  "item.immersive_weathering.acacia_bark": "Corteccia di acacia",
+  "item.immersive_weathering.dark_oak_bark": "Corteccia di quercia scura",
+  "item.immersive_weathering.crimson_scales": "Scaglie cremisi",
+  "item.immersive_weathering.warped_scales": "Scaglie distorte"
+}
