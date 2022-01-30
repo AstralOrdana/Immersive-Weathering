@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:oak_log",
+    "minecraft:birch_log",
+    "minecraft:spruce_log",
+    "minecraft:jungle_log",
+    "minecraft:dark_oak_log",
+    "minecraft:acacia_log",
+    "minecraft:warped_stem",
+    "minecraft:crimson_stem",
+    "minecraft:oak_wood",
+    "minecraft:birch_wood",
+    "minecraft:spruce_wood",
+    "minecraft:jungle_wood",
+    "minecraft:dark_oak_wood",
+    "minecraft:acacia_wood",
+    "minecraft:warped_hyphae",
+    "minecraft:crimson_hyphae"
+  ]
+}

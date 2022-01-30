@@ -1,0 +1,19 @@
+{
+  "block.immersive_weathering.mossy_bricks": "苔むしたレンガ",
+  "block.immersive_weathering.mossy_brick_stairs": "苔むしたレンガの階段",
+  "block.immersive_weathering.mossy_brick_slab": "苔むしたレンガのハーフブロック",
+  "block.immersive_weathering.mossy_brick_wall": "苔むしたレンガの壁",
+
+  "block.immersive_weathering.mossy_stone": "苔むした石",
+  "block.immersive_weathering.mossy_stone_stairs": "苔むした石の階段",
+  "block.immersive_weathering.mossy_stone_slab": "苔むした石のハーフブロック",
+
+  "block.immersive_weathering.cracked_bricks": "ひび割れたレンガ",
+
+  "item.immersive_weathering.stone_brick": "石レンガ",
+  "item.immersive_weathering.blackstone_brick": "ブラックストーンレンガ",
+  "item.immersive_weathering.deepslate_brick": "深層岩レンガ",
+  "item.immersive_weathering.deepslate_tile": "深層岩タイル",
+
+  "item.immersive_weathering.moss_clump": "苔の塊"
+}

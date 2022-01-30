@@ -28,6 +28,15 @@ public class ModItems {
 
     public static final Item MOSS_CLUMP = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
 
+    public static final Item OAK_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
+    public static final Item BIRCH_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
+    public static final Item SPRUCE_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
+    public static final Item JUNGLE_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
+    public static final Item DARK_OAK_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
+    public static final Item ACACIA_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
+    public static final Item CRIMSON_SCALES = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
+    public static final Item WARPED_SCALES = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
+
     public static void registerItems() {
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_bricks"), MOSSY_BRICKS);
@@ -48,5 +57,13 @@ public class ModItems {
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "moss_clump"), MOSS_CLUMP);
 
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "oak_bark"), OAK_BARK);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "spruce_bark"), SPRUCE_BARK);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "birch_bark"), BIRCH_BARK);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "jungle_bark"), JUNGLE_BARK);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "acacia_bark"), ACACIA_BARK);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "dark_oak_bark"), DARK_OAK_BARK);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "crimson_scales"), CRIMSON_SCALES);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "warped_scales"), WARPED_SCALES);
     }
 }

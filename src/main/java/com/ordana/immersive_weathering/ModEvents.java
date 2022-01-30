@@ -24,6 +24,10 @@ public class ModEvents {
     private static final HashMap<Block, Block> CRACKED_BLOCKS = new HashMap<>();
     private static final HashMap<Block, Item> DROPPED_BRICKS = new HashMap<>();
     private static final HashMap<Item, Block> BRICK_REPAIR = new HashMap<>();
+    private static final HashMap<Block, Block> STRIPPED_BLOCKS = new HashMap<>();
+    private static final HashMap<Block, Item> DROPPED_BARK = new HashMap<>();
+    private static final HashMap<Item, Block> UNSTRIP_LOG = new HashMap<>();
+    private static final HashMap<Item, Block> UNSTRIP_WOOD = new HashMap<>();
 
     public static void registerEvents() {
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
@@ -31,6 +35,7 @@ public class ModEvents {
             BlockPos targetPos = hitResult.getBlockPos();
             BlockState targetBlock = world.getBlockState(targetPos);
             ItemStack heldItem = player.getStackInHand(hand);
+
             CLEANED_BLOCKS.put(Blocks.MOSSY_COBBLESTONE, Blocks.COBBLESTONE);
             CLEANED_BLOCKS.put(Blocks.MOSSY_COBBLESTONE_SLAB, Blocks.COBBLESTONE_SLAB);
             CLEANED_BLOCKS.put(Blocks.MOSSY_COBBLESTONE_STAIRS, Blocks.COBBLESTONE_STAIRS);
@@ -67,6 +72,57 @@ public class ModEvents {
             BRICK_REPAIR.put(ModItems.DEEPSLATE_BRICK, Blocks.DEEPSLATE_BRICKS);
             BRICK_REPAIR.put(ModItems.DEEPSLATE_TILE, Blocks.DEEPSLATE_TILES);
             BRICK_REPAIR.put(Items.BRICK, Blocks.BRICKS);
+
+            STRIPPED_BLOCKS.put(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG);
+            STRIPPED_BLOCKS.put(Blocks.SPRUCE_LOG, Blocks.STRIPPED_SPRUCE_LOG);
+            STRIPPED_BLOCKS.put(Blocks.JUNGLE_LOG, Blocks.STRIPPED_JUNGLE_LOG);
+            STRIPPED_BLOCKS.put(Blocks.BIRCH_LOG, Blocks.STRIPPED_BIRCH_LOG);
+            STRIPPED_BLOCKS.put(Blocks.DARK_OAK_LOG, Blocks.STRIPPED_DARK_OAK_LOG);
+            STRIPPED_BLOCKS.put(Blocks.ACACIA_LOG, Blocks.STRIPPED_ACACIA_LOG);
+            STRIPPED_BLOCKS.put(Blocks.WARPED_STEM, Blocks.STRIPPED_WARPED_STEM);
+            STRIPPED_BLOCKS.put(Blocks.CRIMSON_STEM, Blocks.STRIPPED_CRIMSON_STEM);
+            STRIPPED_BLOCKS.put(Blocks.OAK_WOOD, Blocks.STRIPPED_OAK_WOOD);
+            STRIPPED_BLOCKS.put(Blocks.SPRUCE_WOOD, Blocks.STRIPPED_SPRUCE_WOOD);
+            STRIPPED_BLOCKS.put(Blocks.JUNGLE_WOOD, Blocks.STRIPPED_JUNGLE_WOOD);
+            STRIPPED_BLOCKS.put(Blocks.BIRCH_WOOD, Blocks.STRIPPED_BIRCH_WOOD);
+            STRIPPED_BLOCKS.put(Blocks.DARK_OAK_WOOD, Blocks.STRIPPED_DARK_OAK_WOOD);
+            STRIPPED_BLOCKS.put(Blocks.ACACIA_WOOD, Blocks.STRIPPED_ACACIA_WOOD);
+            STRIPPED_BLOCKS.put(Blocks.WARPED_HYPHAE, Blocks.STRIPPED_WARPED_HYPHAE);
+            STRIPPED_BLOCKS.put(Blocks.CRIMSON_HYPHAE, Blocks.STRIPPED_CRIMSON_HYPHAE);
+
+            DROPPED_BARK.put(Blocks.OAK_LOG, ModItems.OAK_BARK);
+            DROPPED_BARK.put(Blocks.SPRUCE_LOG, ModItems.SPRUCE_BARK);
+            DROPPED_BARK.put(Blocks.JUNGLE_LOG, ModItems.JUNGLE_BARK);
+            DROPPED_BARK.put(Blocks.BIRCH_LOG, ModItems.BIRCH_BARK);
+            DROPPED_BARK.put(Blocks.DARK_OAK_LOG, ModItems.DARK_OAK_BARK);
+            DROPPED_BARK.put(Blocks.ACACIA_LOG, ModItems.ACACIA_BARK);
+            DROPPED_BARK.put(Blocks.WARPED_STEM, ModItems.WARPED_SCALES);
+            DROPPED_BARK.put(Blocks.CRIMSON_STEM, ModItems.CRIMSON_SCALES);
+            DROPPED_BARK.put(Blocks.OAK_WOOD, ModItems.OAK_BARK);
+            DROPPED_BARK.put(Blocks.SPRUCE_WOOD, ModItems.SPRUCE_BARK);
+            DROPPED_BARK.put(Blocks.JUNGLE_WOOD, ModItems.JUNGLE_BARK);
+            DROPPED_BARK.put(Blocks.BIRCH_WOOD, ModItems.BIRCH_BARK);
+            DROPPED_BARK.put(Blocks.DARK_OAK_WOOD, ModItems.DARK_OAK_BARK);
+            DROPPED_BARK.put(Blocks.ACACIA_WOOD, ModItems.ACACIA_BARK);
+            DROPPED_BARK.put(Blocks.WARPED_HYPHAE, ModItems.WARPED_SCALES);
+            DROPPED_BARK.put(Blocks.CRIMSON_HYPHAE, ModItems.CRIMSON_SCALES);
+
+            UNSTRIP_LOG.put(ModItems.OAK_BARK, Blocks.OAK_LOG);
+            UNSTRIP_LOG.put(ModItems.SPRUCE_BARK, Blocks.SPRUCE_LOG);
+            UNSTRIP_LOG.put(ModItems.BIRCH_BARK, Blocks.BIRCH_LOG);
+            UNSTRIP_LOG.put(ModItems.JUNGLE_BARK, Blocks.JUNGLE_LOG);
+            UNSTRIP_LOG.put(ModItems.DARK_OAK_BARK, Blocks.DARK_OAK_LOG);
+            UNSTRIP_LOG.put(ModItems.ACACIA_BARK, Blocks.ACACIA_LOG);
+            UNSTRIP_LOG.put(ModItems.WARPED_SCALES, Blocks.WARPED_STEM);
+            UNSTRIP_LOG.put(ModItems.CRIMSON_SCALES, Blocks.CRIMSON_STEM);
+            UNSTRIP_WOOD.put(ModItems.OAK_BARK, Blocks.OAK_WOOD);
+            UNSTRIP_WOOD.put(ModItems.SPRUCE_BARK, Blocks.SPRUCE_WOOD);
+            UNSTRIP_WOOD.put(ModItems.BIRCH_BARK, Blocks.BIRCH_WOOD);
+            UNSTRIP_WOOD.put(ModItems.JUNGLE_BARK, Blocks.JUNGLE_WOOD);
+            UNSTRIP_WOOD.put(ModItems.DARK_OAK_BARK, Blocks.DARK_OAK_WOOD);
+            UNSTRIP_WOOD.put(ModItems.ACACIA_BARK, Blocks.ACACIA_WOOD);
+            UNSTRIP_WOOD.put(ModItems.WARPED_SCALES, Blocks.WARPED_HYPHAE);
+            UNSTRIP_WOOD.put(ModItems.CRIMSON_SCALES, Blocks.CRIMSON_HYPHAE);
 
             if (heldItem.getItem() == Items.SHEARS) {
                 if(targetBlock.isIn(ImmersiveWeathering.MOSSY)) {
@@ -114,6 +170,41 @@ public class ModEvents {
             }
             if (BRICK_REPAIR.containsKey(heldItem.getItem()) && targetBlock.isOf(CRACKED_BLOCKS.get(BRICK_REPAIR.get(heldItem.getItem())))) {
                 Block fixedBlock = BRICK_REPAIR.get(heldItem.getItem());
+                SoundEvent placeSound = fixedBlock.getSoundGroup(fixedBlock.getDefaultState()).getPlaceSound();
+                world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                if(player != null) {
+                    if(!player.isCreative())heldItem.decrement(1);
+                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock));
+                }
+                return ActionResult.SUCCESS;
+            }
+            if (heldItem.isIn(FabricToolTags.AXES)) {
+                if(targetBlock.isIn(ImmersiveWeathering.RAW_LOGS)) {
+                    Block.dropStack(world, targetPos, new ItemStack(DROPPED_BARK.get(targetBlock.getBlock())));
+                    world.playSound(player, targetPos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    if(player != null) {
+                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        STRIPPED_BLOCKS.forEach((raw, stripped) -> {
+                            if (targetBlock.isOf(raw)) {
+                                world.setBlockState(targetPos, stripped .getStateWithProperties(targetBlock));
+                            }
+                        });
+                    }
+                    return ActionResult.SUCCESS;
+                }
+            }
+            if (UNSTRIP_LOG.containsKey(heldItem.getItem()) && targetBlock.isOf(STRIPPED_BLOCKS.get(UNSTRIP_LOG.get(heldItem.getItem())))) {
+                Block fixedBlock = UNSTRIP_LOG.get(heldItem.getItem());
+                SoundEvent placeSound = fixedBlock.getSoundGroup(fixedBlock.getDefaultState()).getPlaceSound();
+                world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                if(player != null) {
+                    if(!player.isCreative())heldItem.decrement(1);
+                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock));
+                }
+                return ActionResult.SUCCESS;
+            }
+            if (UNSTRIP_WOOD.containsKey(heldItem.getItem()) && targetBlock.isOf(STRIPPED_BLOCKS.get(UNSTRIP_WOOD.get(heldItem.getItem())))) {
+                Block fixedBlock = UNSTRIP_WOOD.get(heldItem.getItem());
                 SoundEvent placeSound = fixedBlock.getSoundGroup(fixedBlock.getDefaultState()).getPlaceSound();
                 world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
                 if(player != null) {
