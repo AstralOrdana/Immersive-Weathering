@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.registry.blocks.CleanBlock;
+import com.ordana.immersive_weathering.registry.blocks.CleanMossableBlock;
 import com.ordana.immersive_weathering.registry.blocks.Mossable;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -36,6 +36,6 @@ public class CobblestoneMixin {
      * and return the constructed type. This one must be static because <clinit> is static. */
     private static Block cobblestone(AbstractBlock.Settings settings)
     {
-        return new CleanBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new CleanMossableBlock(Mossable.MossLevel.UNAFFECTED, settings);
     }
 }

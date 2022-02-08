@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "tag": "immersive_weathering:bark"
+    }
+  },
+  "result": {
+    "item": "immersive_weathering:woodchips_block"
+  }
+}

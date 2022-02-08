@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.registry.blocks.CleanStairsBlock;
+import com.ordana.immersive_weathering.registry.blocks.CleanMossableStairsBlock;
 import com.ordana.immersive_weathering.registry.blocks.Mossable;
 import net.minecraft.block.*;
 import org.spongepowered.asm.mixin.Final;
@@ -38,6 +38,6 @@ public class CobblestoneStairsMixin {
      * and return the constructed type. This one must be static because <clinit> is static. */
     private static StairsBlock cobblestoneStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
     {
-        return new CleanStairsBlock(Mossable.MossLevel.UNAFFECTED, COBBLESTONE.getDefaultState(), settings);
+        return new CleanMossableStairsBlock(Mossable.MossLevel.UNAFFECTED, COBBLESTONE.getDefaultState(), settings);
     }
 }

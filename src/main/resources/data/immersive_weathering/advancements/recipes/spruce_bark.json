@@ -4,7 +4,8 @@
     "recipes": [
       "immersive_weathering:spruce_log_unstrip",
       "immersive_weathering:spruce_wood_unstrip",
-      "immersive_weathering:spruce_wood_from_bark"
+      "immersive_weathering:spruce_wood_from_bark",
+      "immersive_weathering:woodchips_block"
     ]
   },
   "criteria": {

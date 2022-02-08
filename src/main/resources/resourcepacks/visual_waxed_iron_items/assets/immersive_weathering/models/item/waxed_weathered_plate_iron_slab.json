@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "immersive_weathering:block/waxed_weathered_plate_iron",
+    "top": "immersive_weathering:block/waxed_weathered_plate_iron",
+    "side": "immersive_weathering:block/waxed_weathered_plate_iron_double1"
+  }
+}

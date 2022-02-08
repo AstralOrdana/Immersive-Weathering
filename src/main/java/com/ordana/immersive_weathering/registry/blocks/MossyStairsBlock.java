@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 import java.util.Random;
 
-public class MossyStairsBlock extends CleanStairsBlock implements Fertilizable {
+public class MossyStairsBlock extends CleanMossableStairsBlock implements Fertilizable {
     public MossyStairsBlock(MossLevel mossLevel, BlockState baseBlockState, Settings settings) {
         super(mossLevel, baseBlockState, settings);
     }

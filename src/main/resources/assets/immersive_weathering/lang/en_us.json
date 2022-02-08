@@ -1,4 +1,7 @@
 {
+  "advancements.moss.moss.title": "Perpetuate the Cycle of Existence?",
+  "advancements.moss.moss.description": "(You ate the moss.), (Tastes... mossy.), (Your HP was mossed out.)",
+
   "block.immersive_weathering.mossy_bricks": "Mossy Bricks",
   "block.immersive_weathering.mossy_brick_stairs": "Mossy Brick Stairs",
   "block.immersive_weathering.mossy_brick_slab": "Mossy Brick Slab",
@@ -16,6 +19,7 @@
   "item.immersive_weathering.deepslate_tile": "Deepslate Tile",
 
   "item.immersive_weathering.moss_clump": "Moss Clump",
+  "item.immersive_weathering.golden_moss_clump": "Golden Moss Clump",
 
   "item.immersive_weathering.oak_bark": "Oak Bark",
   "item.immersive_weathering.spruce_bark": "Spruce Bark",
@@ -24,5 +28,95 @@
   "item.immersive_weathering.acacia_bark": "Acacia Bark",
   "item.immersive_weathering.dark_oak_bark": "Dark Oak Bark",
   "item.immersive_weathering.crimson_scales": "Crimson Scales",
-  "item.immersive_weathering.warped_scales": "Warped Scales"
+  "item.immersive_weathering.warped_scales": "Warped Scales",
+
+  "block.immersive_weathering.woodchips_block": "Block of Woodchips",
+  "block.immersive_weathering.scalechips_block": "Block of Scalechips",
+
+  "block.immersive_weathering.cut_iron": "Cut Iron",
+  "block.immersive_weathering.exposed_cut_iron": "Exposed Cut Iron",
+  "block.immersive_weathering.weathered_cut_iron": "Weathered Cut Iron",
+  "block.immersive_weathering.rusted_cut_iron": "Rusted Cut Iron",
+
+  "block.immersive_weathering.cut_iron_stairs": "Cut Iron Stairs",
+  "block.immersive_weathering.exposed_cut_iron_stairs": "Exposed Cut Iron Stairs",
+  "block.immersive_weathering.weathered_cut_iron_stairs": "Weathered Cut Iron Stairs",
+  "block.immersive_weathering.rusted_cut_iron_stairs": "Rusted Cut Iron Stairs",
+
+  "block.immersive_weathering.cut_iron_slab": "Cut Iron Slab",
+  "block.immersive_weathering.exposed_cut_iron_slab": "Exposed Cut Iron Slab",
+  "block.immersive_weathering.weathered_cut_iron_slab": "Weathered Cut Iron Slab",
+  "block.immersive_weathering.rusted_cut_iron_slab": "Rusted Cut Iron Slab",
+
+  "block.immersive_weathering.waxed_cut_iron": "Waxed Cut Iron",
+  "block.immersive_weathering.waxed_exposed_cut_iron": "Waxed Exposed Cut Iron",
+  "block.immersive_weathering.waxed_weathered_cut_iron": "Waxed Weathered Cut Iron",
+  "block.immersive_weathering.waxed_rusted_cut_iron": "Waxed Rusted Cut Iron",
+
+  "block.immersive_weathering.waxed_cut_iron_stairs": "Waxed Cut Iron Stairs",
+  "block.immersive_weathering.waxed_exposed_cut_iron_stairs": "Waxed Exposed Cut Iron Stairs",
+  "block.immersive_weathering.waxed_weathered_cut_iron_stairs": "Waxed Weathered Cut Iron Stairs",
+  "block.immersive_weathering.waxed_rusted_cut_iron_stairs": "Waxed Rusted Cut Iron Stairs",
+
+  "block.immersive_weathering.waxed_cut_iron_slab": "Waxed Cut Iron Slab",
+  "block.immersive_weathering.waxed_exposed_cut_iron_slab": "Waxed Exposed Cut Iron Slab",
+  "block.immersive_weathering.waxed_weathered_cut_iron_slab": "Waxed Weathered Cut Iron Slab",
+  "block.immersive_weathering.waxed_rusted_cut_iron_slab": "Waxed Rusted Cut Iron Slab",
+
+  "block.immersive_weathering.plate_iron": "Plate Iron",
+  "block.immersive_weathering.exposed_plate_iron": "Exposed Plate Iron",
+  "block.immersive_weathering.weathered_plate_iron": "Weathered Plate Iron",
+  "block.immersive_weathering.rusted_plate_iron": "Rusted Plate Iron",
+
+  "block.immersive_weathering.plate_iron_stairs": "Plate Iron Stairs",
+  "block.immersive_weathering.exposed_plate_iron_stairs": "Exposed Plate Iron Stairs",
+  "block.immersive_weathering.weathered_plate_iron_stairs": "Weathered Plate Iron Stairs",
+  "block.immersive_weathering.rusted_plate_iron_stairs": "Rusted Plate Iron Stairs",
+
+  "block.immersive_weathering.plate_iron_slab": "Plate Iron Slab",
+  "block.immersive_weathering.exposed_plate_iron_slab": "Exposed Plate Iron Slab",
+  "block.immersive_weathering.weathered_plate_iron_slab": "Weathered Plate Iron Slab",
+  "block.immersive_weathering.rusted_plate_iron_slab": "Rusted Plate Iron Slab",
+
+  "block.immersive_weathering.waxed_plate_iron": "Waxed Plate Iron",
+  "block.immersive_weathering.waxed_exposed_plate_iron": "Waxed Exposed Plate Iron",
+  "block.immersive_weathering.waxed_weathered_plate_iron": "Waxed Weathered Plate Iron",
+  "block.immersive_weathering.waxed_rusted_plate_iron": "Waxed Rusted Plate Iron",
+
+  "block.immersive_weathering.waxed_plate_iron_stairs": "Waxed Plate Iron Stairs",
+  "block.immersive_weathering.waxed_exposed_plate_iron_stairs": "Waxed Exposed Plate Iron Stairs",
+  "block.immersive_weathering.waxed_weathered_plate_iron_stairs": "Waxed Weathered Plate Iron Stairs",
+  "block.immersive_weathering.waxed_rusted_plate_iron_stairs": "Waxed Rusted Plate Iron Stairs",
+
+  "block.immersive_weathering.waxed_plate_iron_slab": "Waxed Plate Iron Slab",
+  "block.immersive_weathering.waxed_exposed_plate_iron_slab": "Waxed Exposed Plate Iron Slab",
+  "block.immersive_weathering.waxed_weathered_plate_iron_slab": "Waxed Weathered Plate Iron Slab",
+  "block.immersive_weathering.waxed_rusted_plate_iron_slab": "Waxed Rusted Plate Iron Slab",
+
+  "block.immersive_weathering.exposed_iron_door": "Exposed Iron Door",
+  "block.immersive_weathering.weathered_iron_door": "Weathered Iron Door",
+  "block.immersive_weathering.rusted_iron_door": "Rusted Iron Door",
+
+  "block.immersive_weathering.exposed_iron_trapdoor": "Exposed Iron Trapdoor",
+  "block.immersive_weathering.weathered_iron_trapdoor": "Weathered Iron Trapdoor",
+  "block.immersive_weathering.rusted_iron_trapdoor": "Rusted Iron Trapdoor",
+
+  "block.immersive_weathering.exposed_iron_bars": "Exposed Iron Bars",
+  "block.immersive_weathering.weathered_iron_bars": "Weathered Iron Bars",
+  "block.immersive_weathering.rusted_iron_bars": "Rusted Iron Bars",
+
+  "block.immersive_weathering.waxed_iron_door": "Waxed Iron Door",
+  "block.immersive_weathering.waxed_exposed_iron_door": "Waxed Exposed Iron Door",
+  "block.immersive_weathering.waxed_weathered_iron_door": "Waxed Weathered Iron Door",
+  "block.immersive_weathering.waxed_rusted_iron_door": "Waxed Rusted Iron Door",
+
+  "block.immersive_weathering.waxed_iron_trapdoor": "Waxed Iron Trapdoor",
+  "block.immersive_weathering.waxed_exposed_iron_trapdoor": "Waxed Exposed Iron Trapdoor",
+  "block.immersive_weathering.waxed_weathered_iron_trapdoor": "Waxed Weathered Iron Trapdoor",
+  "block.immersive_weathering.waxed_rusted_iron_trapdoor": "Waxed Rusted Iron Trapdoor",
+
+  "block.immersive_weathering.waxed_iron_bars": "Waxed Iron Bars",
+  "block.immersive_weathering.waxed_exposed_iron_bars": "Waxed Exposed Iron Bars",
+  "block.immersive_weathering.waxed_weathered_iron_bars": "Waxed Weathered Iron Bars",
+  "block.immersive_weathering.waxed_rusted_iron_bars": "Waxed Rusted Iron Bars"
 }

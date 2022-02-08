@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 import java.util.*;
 
-public class MossyBlock extends CleanBlock implements Fertilizable {
+public class MossyBlock extends CleanMossableBlock implements Fertilizable {
     public MossyBlock(MossLevel mossLevel, Settings settings) {
         super(mossLevel, settings);
     }
@@ -48,7 +48,6 @@ public class MossyBlock extends CleanBlock implements Fertilizable {
         CLEANED_BLOCKS.put(ModBlocks.MOSSY_STONE, Blocks.STONE);
         CLEANED_BLOCKS.put(ModBlocks.MOSSY_STONE_SLAB, Blocks.STONE_SLAB);
         CLEANED_BLOCKS.put(ModBlocks.MOSSY_STONE_STAIRS, Blocks.STONE_STAIRS);
-
 
         for (var direction : Direction.values()) {
             var targetPos = pos.offset(direction);

@@ -32,7 +32,10 @@
     "CrackedNetherBricksMixin",
     "CrackedDeepslateBricksMixin",
     "CrackedDeepslateTilesMixin",
-    "CrackedStoneBricksMixin"
+    "CrackedStoneBricksMixin",
+    "IronDoorMixin",
+    "IronTrapdoorMixin",
+    "IronBarsMixin"
   ],
   "client": [
   ],

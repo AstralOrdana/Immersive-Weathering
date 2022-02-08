@@ -6,6 +6,8 @@
     "minecraft:nether_bricks",
     "minecraft:polished_blackstone_bricks",
     "minecraft:deepslate_bricks",
-    "minecraft:deepslate_tiles"
+    "minecraft:deepslate_tiles",
+    "minecraft:mossy_stone_bricks",
+    "immersive_weathering:mossy_bricks"
   ]
 }

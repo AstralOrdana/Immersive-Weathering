@@ -12,5 +12,7 @@ public class ModCompostable {
         CompostingChanceRegistry.INSTANCE.add(ModItems.JUNGLE_BARK, 0.8f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.ACACIA_BARK, 0.8f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.DARK_OAK_BARK, 0.8f);
+        CompostingChanceRegistry.INSTANCE.add(ModItems.WOODCHIPS_BLOCK, 1f);
+        CompostingChanceRegistry.INSTANCE.add(ModItems.SCALECHIPS_BLOCK, 1f);
     }
 }

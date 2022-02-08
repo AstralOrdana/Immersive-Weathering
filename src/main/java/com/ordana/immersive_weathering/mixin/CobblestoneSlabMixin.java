@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.registry.blocks.CleanSlabBlock;
+import com.ordana.immersive_weathering.registry.blocks.CleanMossableSlabBlock;
 import com.ordana.immersive_weathering.registry.blocks.Mossable;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;
@@ -36,6 +36,6 @@ public class CobblestoneSlabMixin {
      * and return the constructed type. This one must be static because <clinit> is static. */
     private static SlabBlock cobblestoneSlab(AbstractBlock.Settings settings)
     {
-        return new CleanSlabBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new CleanMossableSlabBlock(Mossable.MossLevel.UNAFFECTED, settings);
     }
 }

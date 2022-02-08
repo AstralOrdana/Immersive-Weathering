@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.registry.blocks.CleanWallBlock;
+import com.ordana.immersive_weathering.registry.blocks.CleanMossableWallBlock;
 import com.ordana.immersive_weathering.registry.blocks.Mossable;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;
@@ -36,6 +36,6 @@ public class BrickWallMixin {
      * and return the constructed type. This one must be static because <clinit> is static. */
     private static WallBlock brickWall(AbstractBlock.Settings settings)
     {
-        return new CleanWallBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new CleanMossableWallBlock(Mossable.MossLevel.UNAFFECTED, settings);
     }
 }

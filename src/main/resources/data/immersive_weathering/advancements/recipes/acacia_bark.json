@@ -4,7 +4,8 @@
     "recipes": [
       "immersive_weathering:acacia_log_unstrip",
       "immersive_weathering:acacia_wood_unstrip",
-      "immersive_weathering:acacia_wood_from_bark"
+      "immersive_weathering:acacia_wood_from_bark",
+      "immersive_weathering:woodchips_block"
     ]
   },
   "criteria": {

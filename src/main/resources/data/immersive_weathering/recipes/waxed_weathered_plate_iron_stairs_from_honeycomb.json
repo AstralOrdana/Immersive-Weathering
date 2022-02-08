@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "waxed_plate_iron_stairs",
+  "ingredients": [
+    {
+      "item": "immersive_weathering:weathered_plate_iron_stairs"
+    },
+    {
+      "item": "minecraft:honeycomb"
+    }
+  ],
+  "result": {
+    "item": "immersive_weathering:waxed_weathered_plate_iron_stairs"
+  }
+}
