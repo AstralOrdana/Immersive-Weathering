@@ -1,0 +1,106 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "immersive_weathering:soot",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1,
+              "add": true,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "immersive_weathering:soot",
+                  "properties": {
+                    "east": "true"
+                  }
+                }
+              ]
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 1,
+              "add": true,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "immersive_weathering:soot",
+                  "properties": {
+                    "west": "true"
+                  }
+                }
+              ]
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 1,
+              "add": true,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "immersive_weathering:soot",
+                  "properties": {
+                    "north": "true"
+                  }
+                }
+              ]
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 1,
+              "add": true,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "immersive_weathering:soot",
+                  "properties": {
+                    "south": "true"
+                  }
+                }
+              ]
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 1,
+              "add": true,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "immersive_weathering:soot",
+                  "properties": {
+                    "up": "true"
+                  }
+                }
+              ]
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 1,
+              "add": true,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "immersive_weathering:soot",
+                  "properties": {
+                    "down": "true"
+                  }
+                }
+              ]
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": -1,
+              "add": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

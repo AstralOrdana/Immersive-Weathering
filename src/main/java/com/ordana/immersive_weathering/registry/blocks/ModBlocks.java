@@ -9,6 +9,8 @@ import net.minecraft.util.registry.Registry;
 
 public class ModBlocks {
 
+    public static final Block SOOT = new SootBlock(FabricBlockSettings.of(Material.REPLACEABLE_UNDERWATER_PLANT, MapColor.BLACK).strength(0f, 0f).noCollision().breakInstantly().sounds(BlockSoundGroup.SNOW));
+
     public static final Block MOSSY_BRICKS = new MossyBlock(Mossable.MossLevel.MOSSY, FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
     public static final Block MOSSY_BRICK_STAIRS = new MossyStairsBlock(Mossable.MossLevel.MOSSY, MOSSY_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
     public static final Block MOSSY_BRICK_SLAB = new MossySlabBlock(Mossable.MossLevel.MOSSY, FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
@@ -22,6 +24,8 @@ public class ModBlocks {
 
     public static final Block WOODCHIPS_BLOCK = new WoodchipsBlock(FabricBlockSettings.of(Material.WOOD).strength(1f, 1f).sounds(BlockSoundGroup.WOOD));
     public static final Block SCALECHIPS_BLOCK = new WoodchipsBlock(FabricBlockSettings.of(Material.NETHER_WOOD).strength(1f, 1f).sounds(BlockSoundGroup.NETHER_STEM));
+    public static final Block WOODCHIPS = new WoodchipsCarpetBlock(FabricBlockSettings.of(Material.WOOD).strength(1f, 1f).sounds(BlockSoundGroup.WOOD));
+    public static final Block SCALECHIPS = new WoodchipsCarpetBlock(FabricBlockSettings.of(Material.NETHER_WOOD).strength(1f, 1f).sounds(BlockSoundGroup.NETHER_STEM));
 
 
     //cut iron
@@ -115,6 +119,7 @@ public class ModBlocks {
     public static final Block WAXED_RUSTED_IRON_BARS = new WaxedBarsBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
 
     public static void registerBlocks() {
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "soot"), SOOT);
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_bricks"), MOSSY_BRICKS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_brick_stairs"), MOSSY_BRICK_STAIRS);
@@ -129,6 +134,8 @@ public class ModBlocks {
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "woodchips_block"), WOODCHIPS_BLOCK);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "scalechips_block"), SCALECHIPS_BLOCK);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "woodchips"), WOODCHIPS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "scalechips"), SCALECHIPS);
 
 
         //cut iron

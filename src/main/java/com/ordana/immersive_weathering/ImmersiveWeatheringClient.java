@@ -8,7 +8,6 @@ import net.minecraft.client.render.RenderLayer;
 public class ImmersiveWeatheringClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.EXPOSED_IRON_DOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WEATHERED_IRON_DOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RUSTED_IRON_DOOR, RenderLayer.getCutout());

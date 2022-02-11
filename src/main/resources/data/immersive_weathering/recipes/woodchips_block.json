@@ -1,15 +1,21 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "##",
-    "##"
-  ],
-  "key": {
-    "#": {
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:dirt"
+    },
+    {
+      "tag": "immersive_weathering:bark"
+    },
+    {
+      "item": "minecraft:dirt"
+    },
+    {
       "tag": "immersive_weathering:bark"
     }
-  },
+  ],
   "result": {
-    "item": "immersive_weathering:woodchips_block"
+    "item": "immersive_weathering:woodchips_block",
+    "count": 4
   }
 }

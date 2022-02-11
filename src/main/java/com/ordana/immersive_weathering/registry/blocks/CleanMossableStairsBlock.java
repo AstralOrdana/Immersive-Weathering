@@ -37,7 +37,7 @@ public class CleanMossableStairsBlock extends MossableStairsBlock {
             }
             if (BlockPos.streamOutwards(pos, 1, 1, 1)
                     .map(world::getBlockState)
-                    .anyMatch(e -> e.contains(Properties.WATERLOGGED) || e.isIn(ImmersiveWeathering.MOSS_SOURCE))) {
+                    .anyMatch(e -> (e.contains(Properties.WATERLOGGED) && e.get(Properties.WATERLOGGED)) || e.isIn(ImmersiveWeathering.MOSS_SOURCE))) {
                 if (BlockPos.streamOutwards(pos, 2, 2, 2)
                         .map(world::getBlockState)
                         .map(BlockState::getBlock)
@@ -51,7 +51,7 @@ public class CleanMossableStairsBlock extends MossableStairsBlock {
             }
             if (BlockPos.streamOutwards(pos, 2, 2, 2)
                     .map(world::getBlockState)
-                    .anyMatch(e -> e.contains(Properties.WATERLOGGED) || e.isIn(ImmersiveWeathering.MOSS_SOURCE))) {
+                    .anyMatch(e -> (e.contains(Properties.WATERLOGGED) && e.get(Properties.WATERLOGGED)) || e.isIn(ImmersiveWeathering.MOSS_SOURCE))) {
                 if (BlockPos.streamOutwards(pos, 2, 2, 2)
                         .map(world::getBlockState)
                         .map(BlockState::getBlock)
@@ -65,7 +65,7 @@ public class CleanMossableStairsBlock extends MossableStairsBlock {
             }
             if (BlockPos.streamOutwards(pos, 3, 3, 3)
                     .map(world::getBlockState)
-                    .anyMatch(e -> e.contains(Properties.WATERLOGGED) || e.isIn(ImmersiveWeathering.MOSS_SOURCE))) {
+                    .anyMatch(e -> (e.contains(Properties.WATERLOGGED) && e.get(Properties.WATERLOGGED)) || e.isIn(ImmersiveWeathering.MOSS_SOURCE))) {
                 if (BlockPos.streamOutwards(pos, 2, 2, 2)
                         .map(world::getBlockState)
                         .map(BlockState::getBlock)
@@ -79,7 +79,7 @@ public class CleanMossableStairsBlock extends MossableStairsBlock {
             }
             if (BlockPos.streamOutwards(pos, 4, 4, 4)
                     .map(world::getBlockState)
-                    .anyMatch(e -> e.contains(Properties.WATERLOGGED) || e.isIn(ImmersiveWeathering.MOSS_SOURCE))) {
+                    .anyMatch(e -> (e.contains(Properties.WATERLOGGED) && e.get(Properties.WATERLOGGED)) || e.isIn(ImmersiveWeathering.MOSS_SOURCE))) {
                 if (BlockPos.streamOutwards(pos, 2, 2, 2)
                         .map(world::getBlockState)
                         .map(BlockState::getBlock)
@@ -93,7 +93,7 @@ public class CleanMossableStairsBlock extends MossableStairsBlock {
             }
             if (BlockPos.streamOutwards(pos, 5, 5, 5)
                     .map(world::getBlockState)
-                    .anyMatch(e -> e.contains(Properties.WATERLOGGED) || e.isIn(ImmersiveWeathering.MOSS_SOURCE))) {
+                    .anyMatch(e -> (e.contains(Properties.WATERLOGGED) && e.get(Properties.WATERLOGGED)) || e.isIn(ImmersiveWeathering.MOSS_SOURCE))) {
                 if (BlockPos.streamOutwards(pos, 2, 2, 2)
                         .map(world::getBlockState)
                         .map(BlockState::getBlock)

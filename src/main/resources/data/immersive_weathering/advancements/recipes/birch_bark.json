@@ -5,7 +5,9 @@
       "immersive_weathering:birch_log_unstrip",
       "immersive_weathering:birch_wood_unstrip",
       "immersive_weathering:birch_wood_from_bark",
-      "immersive_weathering:woodchips_block"
+      "immersive_weathering:woodchips_block",
+      "immersive_weathering:paper_from_birch_bark",
+      "immersvie_weathering:woodchips"
     ]
   },
   "criteria": {

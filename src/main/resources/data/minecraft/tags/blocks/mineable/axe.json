@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "immersive_weathering:woodchips_block"
+    "immersive_weathering:woodchips_block",
+    "immersive_weathering:scalechips_block",
+    "immersive_weathering:woodchips",
+    "immersive_weathering:scalechips"
   ]
 }

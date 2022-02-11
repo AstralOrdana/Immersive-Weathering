@@ -4,6 +4,7 @@ import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
+import net.fabricmc.fabric.impl.client.indigo.renderer.accessor.AccessItemRenderer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -13,6 +14,7 @@ import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 
@@ -124,6 +126,18 @@ public class ModEvents {
             UNSTRIP_WOOD.put(ModItems.WARPED_SCALES, Blocks.WARPED_HYPHAE);
             UNSTRIP_WOOD.put(ModItems.CRIMSON_SCALES, Blocks.CRIMSON_HYPHAE);
 
+            if (heldItem.isIn(FabricToolTags.SHOVELS)) {
+                if(targetBlock.isOf(Blocks.CAMPFIRE) && targetBlock.get(Properties.LIT)) {
+                    Block.dropStack(world, targetPos, new ItemStack(ModItems.SOOT));
+                }
+            }
+            if (heldItem.isIn(FabricToolTags.SHOVELS)) {
+                if(targetBlock.isOf(Blocks.FIRE)) {
+                    Block.dropStack(world, targetPos, new ItemStack(ModItems.SOOT));
+                    world.playSound(player, targetPos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    world.setBlockState(targetPos, Blocks.AIR.getDefaultState());
+                }
+            }
             if (heldItem.getItem() == Items.SHEARS) {
                 if(targetBlock.isIn(ImmersiveWeathering.MOSSY)) {
                     Block.dropStack(world, targetPos, new ItemStack(ModItems.MOSS_CLUMP));

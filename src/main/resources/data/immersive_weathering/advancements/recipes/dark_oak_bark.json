@@ -5,7 +5,8 @@
       "immersive_weathering:dark_oak_log_unstrip",
       "immersive_weathering:dark_oak_wood_unstrip",
       "immersive_weathering:dark_oak_wood_from_bark",
-      "immersive_weathering:woodchips_block"
+      "immersive_weathering:woodchips_block",
+      "immersvie_weathering:woodchips"
     ]
   },
   "criteria": {

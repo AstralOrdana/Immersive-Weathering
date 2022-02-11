@@ -1,15 +1,21 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "##",
-    "##"
-  ],
-  "key": {
-    "#": {
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:netherrack"
+    },
+    {
+      "tag": "immersive_weathering:scales"
+    },
+    {
+      "item": "minecraft:netherrack"
+    },
+    {
       "tag": "immersive_weathering:scales"
     }
-  },
+  ],
   "result": {
-    "item": "immersive_weathering:scalechips_block"
+    "item": "immersive_weathering:scalechips_block",
+    "count": 4
   }
 }

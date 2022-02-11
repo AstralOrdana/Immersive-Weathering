@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class ModItems {
+    public static final BlockItem SOOT = new BlockItem(ModBlocks.SOOT, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final BlockItem MOSSY_BRICKS = new BlockItem(ModBlocks.MOSSY_BRICKS, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem MOSSY_BRICK_STAIRS = new BlockItem(ModBlocks.MOSSY_BRICK_STAIRS, new Item.Settings().group(ItemGroup.DECORATIONS));
@@ -25,6 +26,8 @@ public class ModItems {
 
     public static final BlockItem WOODCHIPS_BLOCK = new BlockItem(ModBlocks.WOODCHIPS_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem SCALECHIPS_BLOCK = new BlockItem(ModBlocks.SCALECHIPS_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem WOODCHIPS = new BlockItem(ModBlocks.WOODCHIPS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SCALECHIPS = new BlockItem(ModBlocks.SCALECHIPS, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final Item STONE_BRICK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item BLACKSTONE_BRICK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
@@ -134,6 +137,7 @@ public class ModItems {
     public static final BlockItem WAXED_RUSTED_IRON_BARS = new BlockItem(ModBlocks.WAXED_RUSTED_IRON_BARS, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static void registerItems() {
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "soot"), SOOT);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_bricks"), MOSSY_BRICKS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_brick_stairs"), MOSSY_BRICK_STAIRS);
@@ -148,6 +152,8 @@ public class ModItems {
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "woodchips_block"), WOODCHIPS_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "scalechips_block"), SCALECHIPS_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "woodchips"), WOODCHIPS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "scalechips"), SCALECHIPS);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "stone_brick"), STONE_BRICK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "blackstone_brick"), BLACKSTONE_BRICK);
