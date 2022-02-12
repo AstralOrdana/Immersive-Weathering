@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "immersive_weathering:plate_iron",
+    "immersive_weathering:plate_iron_stairs",
+    "immersive_weathering:plate_iron_slab",
+    "immersive_weathering:cut_iron",
+    "immersive_weathering:cut_iron_stairs",
+    "immersive_weathering:cut_iron_slab",
+    "minecraft:iron_door",
+    "minecraft:iron_trapdoor",
+    "minecraft:iron_bars"
+  ]
+}

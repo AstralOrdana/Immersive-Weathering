@@ -23,8 +23,11 @@ public class ImmersiveWeathering implements ModInitializer {
     public static final Tag<Block> CRACKABLE = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "crackable"));
     public static final Tag<Block> MOSS_SOURCE = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "moss_source"));
     public static final Tag<Block> RAW_LOGS = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "raw_logs"));
+
+    public static final Tag<Block> CLEAN_IRON = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "clean_iron"));
     public static final Tag<Block> EXPOSED_IRON = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "exposed_iron"));
     public static final Tag<Block> WEATHERED_IRON = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "weathered_iron"));
+    public static final Tag<Block> RUSTABLE = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "rustable"));
 
     public static final Tag<Item> BARK = TagFactory.ITEM.create(new Identifier(ImmersiveWeathering.MOD_ID, "bark"));
     public static final Tag<Item> SCALES = TagFactory.ITEM.create(new Identifier(ImmersiveWeathering.MOD_ID, "scales"));

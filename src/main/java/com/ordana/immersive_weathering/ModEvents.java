@@ -30,11 +30,13 @@ public class ModEvents {
     private static final HashMap<Block, Item> DROPPED_BARK = new HashMap<>();
     private static final HashMap<Item, Block> UNSTRIP_LOG = new HashMap<>();
     private static final HashMap<Item, Block> UNSTRIP_WOOD = new HashMap<>();
+    private static final HashMap<Block, Block> RUSTED_BLOCKS = new HashMap<>();
 
     public static void registerEvents() {
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
 
             BlockPos targetPos = hitResult.getBlockPos();
+            BlockPos fixedPos = targetPos.offset(hitResult.getSide());
             BlockState targetBlock = world.getBlockState(targetPos);
             ItemStack heldItem = player.getStackInHand(hand);
 
@@ -126,21 +128,67 @@ public class ModEvents {
             UNSTRIP_WOOD.put(ModItems.WARPED_SCALES, Blocks.WARPED_HYPHAE);
             UNSTRIP_WOOD.put(ModItems.CRIMSON_SCALES, Blocks.CRIMSON_HYPHAE);
 
+            RUSTED_BLOCKS.put(ModBlocks.CUT_IRON, ModBlocks.EXPOSED_CUT_IRON);
+            RUSTED_BLOCKS.put(ModBlocks.EXPOSED_CUT_IRON, ModBlocks.WEATHERED_CUT_IRON);
+            RUSTED_BLOCKS.put(ModBlocks.WEATHERED_CUT_IRON, ModBlocks.RUSTED_CUT_IRON);
+            RUSTED_BLOCKS.put(ModBlocks.CUT_IRON_STAIRS, ModBlocks.EXPOSED_CUT_IRON_STAIRS);
+            RUSTED_BLOCKS.put(ModBlocks.EXPOSED_CUT_IRON_STAIRS, ModBlocks.WEATHERED_CUT_IRON_STAIRS);
+            RUSTED_BLOCKS.put(ModBlocks.WEATHERED_CUT_IRON_STAIRS, ModBlocks.RUSTED_CUT_IRON_STAIRS);
+            RUSTED_BLOCKS.put(ModBlocks.CUT_IRON_SLAB, ModBlocks.EXPOSED_CUT_IRON_SLAB);
+            RUSTED_BLOCKS.put(ModBlocks.EXPOSED_CUT_IRON_SLAB, ModBlocks.WEATHERED_CUT_IRON_SLAB);
+            RUSTED_BLOCKS.put(ModBlocks.WEATHERED_CUT_IRON_SLAB, ModBlocks.RUSTED_CUT_IRON_SLAB);
+            RUSTED_BLOCKS.put(ModBlocks.PLATE_IRON, ModBlocks.EXPOSED_PLATE_IRON);
+            RUSTED_BLOCKS.put(ModBlocks.EXPOSED_PLATE_IRON, ModBlocks.WEATHERED_PLATE_IRON);
+            RUSTED_BLOCKS.put(ModBlocks.WEATHERED_PLATE_IRON, ModBlocks.RUSTED_PLATE_IRON);
+            RUSTED_BLOCKS.put(ModBlocks.PLATE_IRON_STAIRS, ModBlocks.EXPOSED_PLATE_IRON_STAIRS);
+            RUSTED_BLOCKS.put(ModBlocks.EXPOSED_PLATE_IRON_STAIRS, ModBlocks.WEATHERED_PLATE_IRON_STAIRS);
+            RUSTED_BLOCKS.put(ModBlocks.WEATHERED_PLATE_IRON_STAIRS, ModBlocks.RUSTED_PLATE_IRON_STAIRS);
+            RUSTED_BLOCKS.put(ModBlocks.PLATE_IRON_SLAB, ModBlocks.EXPOSED_PLATE_IRON_SLAB);
+            RUSTED_BLOCKS.put(ModBlocks.EXPOSED_PLATE_IRON_SLAB, ModBlocks.WEATHERED_PLATE_IRON_SLAB);
+            RUSTED_BLOCKS.put(ModBlocks.WEATHERED_PLATE_IRON_SLAB, ModBlocks.RUSTED_PLATE_IRON_SLAB);
+            RUSTED_BLOCKS.put(Blocks.IRON_DOOR, ModBlocks.EXPOSED_IRON_DOOR);
+            RUSTED_BLOCKS.put(ModBlocks.EXPOSED_IRON_DOOR, ModBlocks.WEATHERED_IRON_DOOR);
+            RUSTED_BLOCKS.put(ModBlocks.WEATHERED_IRON_DOOR, ModBlocks.RUSTED_IRON_DOOR);
+            RUSTED_BLOCKS.put(Blocks.IRON_TRAPDOOR, ModBlocks.EXPOSED_IRON_TRAPDOOR);
+            RUSTED_BLOCKS.put(ModBlocks.EXPOSED_IRON_TRAPDOOR, ModBlocks.WEATHERED_IRON_TRAPDOOR);
+            RUSTED_BLOCKS.put(ModBlocks.WEATHERED_IRON_TRAPDOOR, ModBlocks.RUSTED_IRON_TRAPDOOR);
+            RUSTED_BLOCKS.put(Blocks.IRON_BARS, ModBlocks.EXPOSED_IRON_BARS);
+            RUSTED_BLOCKS.put(ModBlocks.EXPOSED_IRON_BARS, ModBlocks.WEATHERED_IRON_BARS);
+            RUSTED_BLOCKS.put(ModBlocks.WEATHERED_IRON_BARS, ModBlocks.RUSTED_IRON_BARS);
+
             if (heldItem.isIn(FabricToolTags.SHOVELS)) {
                 if(targetBlock.isOf(Blocks.CAMPFIRE) && targetBlock.get(Properties.LIT)) {
-                    Block.dropStack(world, targetPos, new ItemStack(ModItems.SOOT));
+                    Block.dropStack(world, fixedPos , new ItemStack(ModItems.SOOT));
                 }
             }
             if (heldItem.isIn(FabricToolTags.SHOVELS)) {
                 if(targetBlock.isOf(Blocks.FIRE)) {
-                    Block.dropStack(world, targetPos, new ItemStack(ModItems.SOOT));
-                    world.playSound(player, targetPos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    Block.dropStack(world, fixedPos, new ItemStack(ModItems.SOOT));
+                    world.playSound(player, targetPos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     world.setBlockState(targetPos, Blocks.AIR.getDefaultState());
+                }
+            }
+            if (heldItem.getItem() == Items.WET_SPONGE) {
+                if(targetBlock.isIn(ImmersiveWeathering.RUSTABLE)) {
+                    world.playSound(player, targetPos, SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    if(player != null) {
+                        RUSTED_BLOCKS.forEach((clean, rusty) -> {
+                            if (targetBlock.isOf(clean)) {
+                                world.setBlockState(targetPos, rusty.getStateWithProperties(targetBlock));
+                            }
+                        });
+                        float f = 0.5f;
+                        if (world.random.nextFloat() > 0.5f) {
+                            if (!player.isCreative()) heldItem.decrement(1);
+                            Block.dropStack(world, fixedPos, new ItemStack(Blocks.SPONGE));
+                        }
+                    }
+                    return ActionResult.SUCCESS;
                 }
             }
             if (heldItem.getItem() == Items.SHEARS) {
                 if(targetBlock.isIn(ImmersiveWeathering.MOSSY)) {
-                    Block.dropStack(world, targetPos, new ItemStack(ModItems.MOSS_CLUMP));
+                    Block.dropStack(world, fixedPos, new ItemStack(ModItems.MOSS_CLUMP));
                     world.playSound(player, targetPos, SoundEvents.BLOCK_GROWING_PLANT_CROP, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     if(player != null) {
                         if(!player.isCreative())heldItem.damage(1, new Random(), null);
@@ -169,7 +217,7 @@ public class ModEvents {
             }
             if (heldItem.isIn(FabricToolTags.PICKAXES)) {
                 if(targetBlock.isIn(ImmersiveWeathering.CRACKABLE)) {
-                    Block.dropStack(world, targetPos, new ItemStack(DROPPED_BRICKS.get(targetBlock.getBlock())));
+                    Block.dropStack(world, fixedPos, new ItemStack(DROPPED_BRICKS.get(targetBlock.getBlock())));
                     world.playSound(player, targetPos, SoundEvents.BLOCK_STONE_HIT, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     if(player != null) {
                         if(!player.isCreative())heldItem.damage(1, new Random(), null);
@@ -194,7 +242,7 @@ public class ModEvents {
             }
             if (heldItem.isIn(FabricToolTags.AXES)) {
                 if(targetBlock.isIn(ImmersiveWeathering.RAW_LOGS)) {
-                    Block.dropStack(world, targetPos, new ItemStack(DROPPED_BARK.get(targetBlock.getBlock())));
+                    Block.dropStack(world, fixedPos, new ItemStack(DROPPED_BARK.get(targetBlock.getBlock())));
                     world.playSound(player, targetPos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     if(player != null) {
                         if(!player.isCreative())heldItem.damage(1, new Random(), null);

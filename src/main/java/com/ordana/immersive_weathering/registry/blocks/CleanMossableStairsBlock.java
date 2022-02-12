@@ -16,7 +16,6 @@ public class CleanMossableStairsBlock extends MossableStairsBlock {
         super(mossLevel, baseBlockState, settings);
     }
 
-
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random){
         for (Direction direction : Direction.values()) {

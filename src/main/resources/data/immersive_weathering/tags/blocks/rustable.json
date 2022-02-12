@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#immersive_weathering:clean_iron",
+    "#immersive_weathering:exposed_iron",
+    "#immersive_weathering:weathered_iron"
+  ]
+}

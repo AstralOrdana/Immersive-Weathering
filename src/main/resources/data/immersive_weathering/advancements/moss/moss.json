@@ -22,7 +22,9 @@
       "trigger": "minecraft:consume_item",
       "conditions": {
         "item": {
-          "item": "immersive_weathering:moss_clump"
+          "items": [
+            "immersive_weathering:moss_clump"
+          ]
         }
       }
     }
@@ -33,9 +35,9 @@
     ]
   ],
   "rewards": {
-    "experience": 100,
     "recipes": [
       "immersive_weathering:golden_moss_clump"
-    ]
+    ],
+    "experience": 100
   }
 }
