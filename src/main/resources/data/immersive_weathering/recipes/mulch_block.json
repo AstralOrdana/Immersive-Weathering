@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:dirt"
+    },
+    {
+      "tag": "immersive_weathering:bark"
+    },
+    {
+      "item": "minecraft:dirt"
+    },
+    {
+      "tag": "immersive_weathering:bark"
+    }
+  ],
+  "result": {
+    "item": "immersive_weathering:mulch_block",
+    "count": 4
+  }
+}

@@ -5,8 +5,8 @@
       "immersive_weathering:jungle_log_unstrip",
       "immersive_weathering:jungle_wood_unstrip",
       "immersive_weathering:jungle_wood_from_bark",
-      "immersive_weathering:woodchips_block",
-      "immersvie_weathering:woodchips"
+      "immersive_weathering:mulch_block",
+      "immersvie_weathering:mulch"
     ]
   },
   "criteria": {

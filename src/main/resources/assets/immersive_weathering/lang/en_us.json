@@ -2,7 +2,9 @@
   "advancements.moss.moss.title": "Perpetuate the Cycle of Existence?",
   "advancements.moss.moss.description": "(You ate the moss.), (Tastes... mossy.), (Your HP was mossed out.)",
 
+  "block.immersive_weathering.weeds": "Weeds",
   "block.immersive_weathering.soot": "Soot",
+  "block.immersive_weathering.ash_block": "Ash Block",
 
   "block.immersive_weathering.mossy_bricks": "Mossy Bricks",
   "block.immersive_weathering.mossy_brick_stairs": "Mossy Brick Stairs",
@@ -32,10 +34,12 @@
   "item.immersive_weathering.crimson_scales": "Crimson Scales",
   "item.immersive_weathering.warped_scales": "Warped Scales",
 
-  "block.immersive_weathering.woodchips_block": "Block of Woodchips",
-  "block.immersive_weathering.scalechips_block": "Block of Scalechips",
-  "block.immersive_weathering.woodchips": "Woodchips",
-  "block.immersive_weathering.scalechips": "Scalechips",
+  "block.immersive_weathering.mulch_block": "Block of Mulch",
+  "block.immersive_weathering.nulch_block": "Block of Nulch",
+  "block.immersive_weathering.mulch": "Mulch",
+  "block.immersive_weathering.nulch": "Nulch",
+
+  "block.immersive_weathering.steel_wool": "Steel Wool",
 
   "block.immersive_weathering.cut_iron": "Cut Iron",
   "block.immersive_weathering.exposed_cut_iron": "Exposed Cut Iron",

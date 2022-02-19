@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 import java.util.*;
 
-public class MossyBlock extends CleanMossableBlock implements Fertilizable {
+public class MossyBlock extends MossableBlock implements Fertilizable {
     public MossyBlock(MossLevel mossLevel, Settings settings) {
         super(mossLevel, settings);
     }

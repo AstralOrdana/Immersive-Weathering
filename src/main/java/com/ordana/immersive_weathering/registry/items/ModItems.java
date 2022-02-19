@@ -3,15 +3,16 @@ package com.ordana.immersive_weathering.registry.items;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.ModFoodComponents;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class ModItems {
+    public static final Item STEEL_WOOL = new BoneMealItem(new Item.Settings().maxDamage(128).group(ItemGroup.TOOLS));
+
+    public static final BlockItem WEEDS = new BlockItem(ModBlocks.WEEDS, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem SOOT = new BlockItem(ModBlocks.SOOT, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem ASH_BLOCK = new BlockItem(ModBlocks.ASH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final BlockItem MOSSY_BRICKS = new BlockItem(ModBlocks.MOSSY_BRICKS, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem MOSSY_BRICK_STAIRS = new BlockItem(ModBlocks.MOSSY_BRICK_STAIRS, new Item.Settings().group(ItemGroup.DECORATIONS));
@@ -24,10 +25,10 @@ public class ModItems {
 
     public static final BlockItem CRACKED_BRICKS = new BlockItem(ModBlocks.CRACKED_BRICKS, new Item.Settings().group(ItemGroup.DECORATIONS));
 
-    public static final BlockItem WOODCHIPS_BLOCK = new BlockItem(ModBlocks.WOODCHIPS_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem SCALECHIPS_BLOCK = new BlockItem(ModBlocks.SCALECHIPS_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem WOODCHIPS = new BlockItem(ModBlocks.WOODCHIPS, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem SCALECHIPS = new BlockItem(ModBlocks.SCALECHIPS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem MULCH_BLOCK = new BlockItem(ModBlocks.MULCH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem NULCH_BLOCK = new BlockItem(ModBlocks.NULCH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem MULCH = new BlockItem(ModBlocks.MULCH, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem NULCH = new BlockItem(ModBlocks.NULCH, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final Item STONE_BRICK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item BLACKSTONE_BRICK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
@@ -137,7 +138,11 @@ public class ModItems {
     public static final BlockItem WAXED_RUSTED_IRON_BARS = new BlockItem(ModBlocks.WAXED_RUSTED_IRON_BARS, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static void registerItems() {
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "steel_wool"), STEEL_WOOL);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weeds"), WEEDS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "soot"), SOOT);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "ash_block"), ASH_BLOCK);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_bricks"), MOSSY_BRICKS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_brick_stairs"), MOSSY_BRICK_STAIRS);
@@ -150,10 +155,10 @@ public class ModItems {
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_bricks"), CRACKED_BRICKS);
 
-        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "woodchips_block"), WOODCHIPS_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "scalechips_block"), SCALECHIPS_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "woodchips"), WOODCHIPS);
-        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "scalechips"), SCALECHIPS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mulch_block"), MULCH_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "nulch_block"), NULCH_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mulch"), MULCH);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "nulch"), NULCH);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "stone_brick"), STONE_BRICK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "blackstone_brick"), BLACKSTONE_BRICK);

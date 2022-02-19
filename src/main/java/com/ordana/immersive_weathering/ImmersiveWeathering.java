@@ -23,10 +23,16 @@ public class ImmersiveWeathering implements ModInitializer {
     public static final Tag<Block> CRACKABLE = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "crackable"));
     public static final Tag<Block> MOSS_SOURCE = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "moss_source"));
     public static final Tag<Block> RAW_LOGS = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "raw_logs"));
+    public static final Tag<Block> SMOKEY_BLOCKS = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "smokey_blocks"));
+    public static final Tag<Block> SMALL_MUSHROOMS = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "small_mushrooms"));
+    public static final Tag<Block> SMALL_PLANTS = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "small_plants"));
+    public static final Tag<Block> FERTILE_BLOCKS = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "fertile_blocks"));
+    public static final Tag<Block> CORALS = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "corals"));
 
     public static final Tag<Block> CLEAN_IRON = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "clean_iron"));
     public static final Tag<Block> EXPOSED_IRON = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "exposed_iron"));
     public static final Tag<Block> WEATHERED_IRON = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "weathered_iron"));
+    public static final Tag<Block> RUSTED_IRON = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "rusted_iron"));
     public static final Tag<Block> RUSTABLE = TagFactory.BLOCK.create(new Identifier(ImmersiveWeathering.MOD_ID, "rustable"));
 
     public static final Tag<Item> BARK = TagFactory.ITEM.create(new Identifier(ImmersiveWeathering.MOD_ID, "bark"));

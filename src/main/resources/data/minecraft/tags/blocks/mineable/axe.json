@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "immersive_weathering:woodchips_block",
-    "immersive_weathering:scalechips_block",
-    "immersive_weathering:woodchips",
-    "immersive_weathering:scalechips"
+    "immersive_weathering:mulch_block",
+    "immersive_weathering:nulch_block",
+    "immersive_weathering:mulch",
+    "immersive_weathering:nulch"
   ]
 }

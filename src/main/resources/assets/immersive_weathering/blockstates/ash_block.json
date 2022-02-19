@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": [
+      { "model": "immersive_weathering:block/ash_block" }
+    ],
+    "lit=true": [
+      { "model": "immersive_weathering:block/ash_block_lit" }
+    ]
+  }
+}

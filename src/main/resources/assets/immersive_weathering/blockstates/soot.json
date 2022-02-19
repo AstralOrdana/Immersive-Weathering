@@ -17,7 +17,8 @@
         "west": "false",
         "south": "false",
         "east": "false",
-        "down": "false"
+        "down": "false",
+        "lit": "false"
       },
       "apply": {
         "model": "immersive_weathering:block/soot",
@@ -40,7 +41,8 @@
         "west": "false",
         "south": "false",
         "east": "false",
-        "down": "false"
+        "down": "false",
+        "lit": "false"
       },
       "apply": {
         "model": "immersive_weathering:block/soot"
@@ -63,7 +65,8 @@
         "west": "false",
         "south": "false",
         "east": "false",
-        "down": "false"
+        "down": "false",
+        "lit": "false"
       },
       "apply": {
         "model": "immersive_weathering:block/soot",
@@ -88,7 +91,8 @@
         "west": "false",
         "south": "false",
         "east": "false",
-        "down": "false"
+        "down": "false",
+        "lit": "false"
       },
       "apply": {
         "model": "immersive_weathering:block/soot",
@@ -113,7 +117,8 @@
         "west": "false",
         "south": "false",
         "east": "false",
-        "down": "false"
+        "down": "false",
+        "lit": "false"
       },
       "apply": {
         "model": "immersive_weathering:block/soot",
@@ -138,10 +143,169 @@
         "west": "false",
         "south": "false",
         "east": "false",
-        "down": "false"
+        "down": "false",
+        "lit": "false"
       },
       "apply": {
         "model": "immersive_weathering:block/soot",
+        "x": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "up": "true",
+        "lit": "true"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/soot_lit",
+        "x": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "up": "false",
+        "north": "false",
+        "west": "false",
+        "south": "false",
+        "east": "false",
+        "down": "false",
+        "lit": "false"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/soot_lit",
+        "x": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "lit": "true"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/soot_lit"
+      }
+    },
+    {
+      "when": {
+        "up": "false",
+        "north": "false",
+        "west": "false",
+        "south": "false",
+        "east": "false",
+        "down": "false",
+        "lit": "false"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/soot_lit"
+      }
+    },
+    {
+      "when": {
+        "west": "true",
+        "lit": "true"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/soot_lit",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "up": "false",
+        "north": "false",
+        "west": "false",
+        "south": "false",
+        "east": "false",
+        "down": "false",
+        "lit": "false"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/soot_lit",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "lit": "true"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/soot_lit",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "up": "false",
+        "north": "false",
+        "west": "false",
+        "south": "false",
+        "east": "false",
+        "down": "false",
+        "lit": "false"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/soot_lit",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "east": "true",
+        "lit": "true"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/soot_lit",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "up": "false",
+        "north": "false",
+        "west": "false",
+        "south": "false",
+        "east": "false",
+        "down": "false",
+        "lit": "false"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/soot_lit",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "down": "true",
+        "lit": "true"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/soot_lit",
+        "x": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "up": "false",
+        "north": "false",
+        "west": "false",
+        "south": "false",
+        "east": "false",
+        "down": "false",
+        "lit": "false"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/soot_lit",
         "x": 90,
         "uvlock": true
       }

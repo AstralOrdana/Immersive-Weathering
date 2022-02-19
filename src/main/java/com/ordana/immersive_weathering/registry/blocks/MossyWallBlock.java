@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 import java.util.Random;
 
-public class MossyWallBlock extends CleanMossableWallBlock implements Fertilizable {
+public class MossyWallBlock extends MossableWallBlock implements Fertilizable {
     public MossyWallBlock(MossLevel mossLevel, Settings settings) {
         super(mossLevel, settings);
     }

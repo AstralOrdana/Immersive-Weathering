@@ -168,6 +168,24 @@ public class ModEvents {
                     world.setBlockState(targetPos, Blocks.AIR.getDefaultState());
                 }
             }
+            if (heldItem.getItem() == Items.FLINT_AND_STEEL) {
+                if(targetBlock.isOf(ModBlocks.SOOT)) {
+                    world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    if(player != null) {
+                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        world.setBlockState(targetPos, ModBlocks.SOOT.getStateWithProperties(targetBlock).with(Properties.LIT, true));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+                if(targetBlock.isOf(ModBlocks.ASH_BLOCK)) {
+                    world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    if(player != null) {
+                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        world.setBlockState(targetPos, ModBlocks.ASH_BLOCK.getStateWithProperties(targetBlock).with(Properties.LIT, true));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+            }
             if (heldItem.getItem() == Items.WET_SPONGE) {
                 if(targetBlock.isIn(ImmersiveWeathering.RUSTABLE)) {
                     world.playSound(player, targetPos, SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundCategory.BLOCKS, 1.0f, 1.0f);
@@ -179,9 +197,24 @@ public class ModEvents {
                         });
                         float f = 0.5f;
                         if (world.random.nextFloat() > 0.5f) {
-                            if (!player.isCreative()) heldItem.decrement(1);
-                            Block.dropStack(world, fixedPos, new ItemStack(Blocks.SPONGE));
+                            if (!player.isCreative()) heldItem.decrement(1); {
+                                Block.dropStack(world, fixedPos, new ItemStack(Blocks.SPONGE));
+                            }
                         }
+                    }
+                    return ActionResult.SUCCESS;
+                }
+            }
+            if (heldItem.getItem() == ModItems.STEEL_WOOL) {
+                if(targetBlock.isIn(ImmersiveWeathering.EXPOSED_IRON)) {
+                    world.playSound(player, targetPos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    if(player != null) {
+                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        RUSTED_BLOCKS.forEach((clean, rusty) -> {
+                            if (targetBlock.isOf(rusty)) {
+                                world.setBlockState(targetPos, clean.getStateWithProperties(targetBlock));
+                            }
+                        });
                     }
                     return ActionResult.SUCCESS;
                 }
