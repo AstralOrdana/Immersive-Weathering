@@ -8,14 +8,14 @@
       "tag": "immersive_weathering:bark"
     },
     {
-      "item": "minecraft:dirt"
+      "item": "immersive_weathering:soot"
     },
     {
-      "tag": "immersive_weathering:bark"
+      "item": "immersive_weathering:moss_clump"
     }
   ],
   "result": {
     "item": "immersive_weathering:mulch_block",
-    "count": 4
+    "count": 2
   }
 }

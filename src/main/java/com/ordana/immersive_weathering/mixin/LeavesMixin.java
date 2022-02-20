@@ -16,9 +16,18 @@ import java.util.HashMap;
 import java.util.Random;
 
 @Mixin(LeavesBlock.class)
-class LeavesMixin {
+class LeavesMixin extends Block{
 
     private static final HashMap<Block, Block> LEAVES = new HashMap<>();
+
+    public LeavesMixin(Settings settings) {
+        super(settings);
+    }
+
+    @Override
+    public boolean hasRandomTicks(BlockState state) {
+        return true;
+    }
 
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
@@ -31,34 +40,42 @@ class LeavesMixin {
         LEAVES.put(Blocks.DARK_OAK_LEAVES, ModBlocks.DARK_OAK_LEAF_PILE);
         LEAVES.put(Blocks.AZALEA_LEAVES, ModBlocks.AZALEA_LEAF_PILE);
         LEAVES.put(Blocks.FLOWERING_AZALEA_LEAVES, ModBlocks.FLOWERING_AZALEA_LEAF_PILE);
-
-        if (!(Boolean)state.get(LeavesBlock.PERSISTENT)) {
-            int leafHeight = -16;
-            BlockPos leafPos = pos;
-            for (int i = 0; i > leafHeight; i--) {
-                leafPos = leafPos.down();
-                BlockState below = world.getBlockState(leafPos.down());
-                if (Block.isFaceFullSquare(below.getCollisionShape(world, leafPos.down()), Direction.UP)) {
-                    if (world.getBlockState(leafPos).isAir()) {
-                        if (BlockPos.streamOutwards(pos, 2, 2, 2)
-                                .map(world::getBlockState)
-                                .map(BlockState::getBlock)
-                                .filter(ImmersiveWeathering.LEAF_PILES::contains)
-                                .toList().size() <= 8) {
-                            for (Direction direction : Direction.values()) {
-                                var targetPos = pos.offset(direction);
-                                if (world.getBlockState(targetPos).isIn(ImmersiveWeathering.RAW_LOGS)) {
-                                    BlockPos finalLeafPos = leafPos;
-                                    LEAVES.forEach((leaves, pile) -> world.setBlockState(finalLeafPos, pile.getDefaultState().with(LeafPileBlock.LAYERS, 2)));
-                                }
-                                else if (world.getBlockState(pos.offset(direction)).isIn(ImmersiveWeathering.LEAF_PILES)) {
-                                    BlockPos finalLeafPos = leafPos;
-                                    LEAVES.forEach((leaves, pile) -> world.setBlockState(finalLeafPos, pile.getDefaultState()));
+        if (random.nextFloat() > 0.25f) {
+            if (!(Boolean) state.get(LeavesBlock.PERSISTENT)) {
+                int leafHeight = -16;
+                BlockPos leafPos = pos;
+                BlockState leafState = world.getBlockState(pos);
+                for (int i = 0; i > leafHeight; i--) {
+                    leafPos = leafPos.down();
+                    BlockState below = world.getBlockState(leafPos.down());
+                    if (Block.isFaceFullSquare(below.getCollisionShape(world, leafPos.down()), Direction.UP)) {
+                        if (world.getBlockState(leafPos).isAir()) {
+                            if (BlockPos.streamOutwards(leafPos, 2, 2, 2)
+                                    .map(world::getBlockState)
+                                    .map(BlockState::getBlock)
+                                    .filter(ImmersiveWeathering.LEAF_PILES::contains)
+                                    .toList().size() <= 7) {
+                                for (Direction direction : Direction.values()) {
+                                    if (world.getBlockState(leafPos.offset(direction)).isIn(ImmersiveWeathering.RAW_LOGS)) {
+                                        BlockPos finalLeafPos = leafPos;
+                                        LEAVES.forEach((leaves, pile) -> {
+                                            if (leafState.isOf(leaves)) {
+                                                world.setBlockState(finalLeafPos, pile.getDefaultState().with(LeafPileBlock.LAYERS, 2));
+                                            }
+                                        });
+                                    } else if (world.getBlockState(leafPos.offset(direction)).isIn(ImmersiveWeathering.LEAF_PILES)) {
+                                        BlockPos finalLeafPos = leafPos;
+                                        LEAVES.forEach((leaves, pile) -> {
+                                            if (leafState.isOf(leaves)) {
+                                                world.setBlockState(finalLeafPos, pile.getDefaultState());
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         }
+                        leafHeight = i - 1;
                     }
-                    leafHeight = i - 1;
                 }
             }
         }

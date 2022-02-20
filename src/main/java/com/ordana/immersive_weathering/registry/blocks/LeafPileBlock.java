@@ -40,13 +40,13 @@ public class LeafPileBlock extends Block {
 
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (entity instanceof LivingEntity && entity.getType() != EntityType.FOX && entity.getType() != EntityType.BEE) {
-            entity.slowMovement(state, new Vec3d(0.8D, 0.8D, 0.8D));
+            entity.slowMovement(state, new Vec3d(1.5D, 1.5D, 1.5D));
             if (world.getBlockState(pos).isOf(ModBlocks.SPRUCE_LEAF_PILE)) {
                 if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
                     double d = Math.abs(entity.getX() - entity.lastRenderX);
                     double e = Math.abs(entity.getZ() - entity.lastRenderZ);
                     if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
-                        entity.damage(DamageSource.SWEET_BERRY_BUSH, 1.0F);
+                        entity.damage(DamageSource.SWEET_BERRY_BUSH, 0.25F);
                     }
                 }
             }
@@ -111,8 +111,9 @@ public class LeafPileBlock extends Block {
             } else {
                 return true;
             }
-        } else {
-            return i == 1;
+        }
+        else {
+            return i < 3;
         }
     }
 

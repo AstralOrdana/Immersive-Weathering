@@ -2,8 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "immersive_weathering:ash_block",
-      "immersive_weathering:soot_from_ash_block"
+      "immersive_weathering:flowering_azalea_leaf_pile"
     ]
   },
   "criteria": {
@@ -13,7 +12,7 @@
         "items": [
           {
             "items": [
-              "immersive_weathering:soot"
+              "minecraft:flowering_azalea_leaves"
             ]
           }
         ]
@@ -22,8 +21,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "immersive_weathering:ash_block"
-
+        "recipe": "immersive_weathering:flowering_azalea_leaf_pile"
       }
     }
   },

@@ -8,14 +8,14 @@
       "tag": "immersive_weathering:scales"
     },
     {
-      "item": "minecraft:netherrack"
+      "item": "immersive_weathering:soot"
     },
     {
-      "tag": "immersive_weathering:scales"
+      "item": "minecraft:nether_wart"
     }
   ],
   "result": {
     "item": "immersive_weathering:nulch_block",
-    "count": 4
+    "count": 2
   }
 }

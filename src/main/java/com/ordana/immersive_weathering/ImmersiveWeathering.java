@@ -45,6 +45,7 @@ public class ImmersiveWeathering implements ModInitializer {
         ModBlocks.registerBlocks();
         ModItems.registerItems();
         ModCompostable.registerCompostable();
+        ModFlammableBlocks.registerFlammable();
         ModFuel.registerFuel();
         ModWaxable.registerWaxable();
         FabricLoader.getInstance().getModContainer(ImmersiveWeathering.MOD_ID).ifPresent(modContainer -> {

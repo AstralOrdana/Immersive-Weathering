@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:azalea_leaves"
+    }
+  },
+  "result": {
+    "item": "immersive_weathering:azalea_leaf_pile",
+    "count": 6
+  }
+}

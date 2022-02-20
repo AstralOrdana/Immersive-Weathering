@@ -1,10 +1,14 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.RegistryKey;
@@ -47,7 +51,7 @@ public class SpreadableBlockMixin extends Block {
                 float f = 0.5f;
                 if (random.nextFloat() < 0.001f) {
                     Optional<RegistryKey<Biome>> j = world.getBiomeKey(pos);
-                    if (world.getBlockState(targetPos).isOf(Blocks.AIR)) {
+                    if (world.getBlockState(targetPos).isOf(Blocks.AIR) || world.getBlockState(targetPos).isOf(ModBlocks.ASH_BLOCK) || world.getBlockState(targetPos).isOf(ModBlocks.SOOT)) {
                         if (Objects.equals(j, Optional.of(BiomeKeys.PLAINS))) {
                             if (random.nextFloat() > 0.2f) {
                                 world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
@@ -136,7 +140,7 @@ public class SpreadableBlockMixin extends Block {
                                 world.setBlockState(targetPos, Blocks.ROSE_BUSH.getDefaultState());
                                 world.setBlockState(tallPos, Blocks.ROSE_BUSH.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER));
                             }
-                            if (random.nextFloat() < 0.04f) {
+                            if (random.nextFloat() < 0.05f) {
                                 world.setBlockState(targetPos, Blocks.OAK_SAPLING.getDefaultState());
                             }
                             if (world.getBlockState(targetPos).isOf(Blocks.AIR)) {
@@ -173,8 +177,11 @@ public class SpreadableBlockMixin extends Block {
                             if (random.nextFloat() < 0.4f) {
                                 world.setBlockState(targetPos, Blocks.FERN.getDefaultState());
                             }
-                            if (random.nextFloat() < 0.05f) {
+                            if (random.nextFloat() < 0.3f) {
                                 world.setBlockState(targetPos, Blocks.SPRUCE_SAPLING.getDefaultState());
+                            }
+                            if (random.nextFloat() < 0.1f) {
+                                world.setBlockState(targetPos, Blocks.SWEET_BERRY_BUSH.getDefaultState());
                             }
                         }
                         else  if (Objects.equals(j, Optional.of(BiomeKeys.OLD_GROWTH_PINE_TAIGA))) {
@@ -260,7 +267,7 @@ public class SpreadableBlockMixin extends Block {
                             if (random.nextFloat() < 0.01f) {
                                 world.setBlockState(targetPos, Blocks.AZURE_BLUET.getDefaultState());
                             }
-                            if (random.nextFloat() < 0.1f) {
+                            if (random.nextFloat() < 0.2f) {
                                 world.setBlockState(targetPos, Blocks.OAK_SAPLING.getDefaultState());
                             }
                             if (world.getBlockState(tallPos).isOf(Blocks.AIR)) {
@@ -283,7 +290,7 @@ public class SpreadableBlockMixin extends Block {
                             if (random.nextFloat() < 0.01f) {
                                 world.setBlockState(targetPos, Blocks.AZURE_BLUET.getDefaultState());
                             }
-                            if (random.nextFloat() < 0.1f) {
+                            if (random.nextFloat() < 0.2f) {
                                 world.setBlockState(targetPos, Blocks.OAK_SAPLING.getDefaultState());
                             }
                             if (world.getBlockState(tallPos).isOf(Blocks.AIR)) {
@@ -306,7 +313,7 @@ public class SpreadableBlockMixin extends Block {
                             if (random.nextFloat() < 0.01f) {
                                 world.setBlockState(targetPos, Blocks.CORNFLOWER.getDefaultState());
                             }
-                            if (random.nextFloat() < 0.1f) {
+                            if (random.nextFloat() < 0.2f) {
                                 world.setBlockState(targetPos, Blocks.BIRCH_SAPLING.getDefaultState());
                             }
                             if (world.getBlockState(tallPos).isOf(Blocks.AIR)) {
@@ -392,7 +399,7 @@ public class SpreadableBlockMixin extends Block {
                             if (random.nextFloat() > 0.4f) {
                                 world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
                             }
-                            if (random.nextFloat() < 0.01f) {
+                            if (random.nextFloat() < 0.2f) {
                                 world.setBlockState(targetPos, Blocks.BAMBOO_SAPLING.getDefaultState());
                             }
                             if (random.nextFloat() < 0.3f) {
@@ -406,7 +413,7 @@ public class SpreadableBlockMixin extends Block {
                             if (random.nextFloat() > 0.4f) {
                                 world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
                             }
-                            if (random.nextFloat() < 0.01f) {
+                            if (random.nextFloat() < 0.05f) {
                                 world.setBlockState(targetPos, Blocks.MELON.getDefaultState());
                             }
                             if (random.nextFloat() < 0.3f) {
@@ -415,7 +422,7 @@ public class SpreadableBlockMixin extends Block {
                             if (random.nextFloat() < 0.2f) {
                                 world.setBlockState(targetPos, Blocks.JUNGLE_SAPLING.getDefaultState());
                             }
-                            if (random.nextFloat() < 0.01f) {
+                            if (random.nextFloat() < 0.1f) {
                                 world.setBlockState(targetPos, Blocks.JUNGLE_LEAVES.getDefaultState());
                             }
                         }
@@ -434,9 +441,6 @@ public class SpreadableBlockMixin extends Block {
                             }
                             if (random.nextFloat() < 0.1f) {
                                 world.setBlockState(targetPos, Blocks.JUNGLE_SAPLING.getDefaultState());
-                            }
-                            if (random.nextFloat() < 0.001f) {
-                                world.setBlockState(targetPos, Blocks.JUNGLE_LEAVES.getDefaultState());
                             }
                         }
                         else if (Objects.equals(j, Optional.of(BiomeKeys.GROVE))) {
