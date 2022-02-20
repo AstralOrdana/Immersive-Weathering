@@ -8,6 +8,15 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class ModItems {
+    public static final BlockItem OAK_LEAF_PILE = new BlockItem(ModBlocks.OAK_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SPRUCE_LEAF_PILE = new BlockItem(ModBlocks.SPRUCE_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem BIRCH_LEAF_PILE = new BlockItem(ModBlocks.BIRCH_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem JUNGLE_LEAF_PILE = new BlockItem(ModBlocks.JUNGLE_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem ACACIA_LEAF_PILE = new BlockItem(ModBlocks.ACACIA_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem DARK_OAK_LEAF_PILE = new BlockItem(ModBlocks.DARK_OAK_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem AZALEA_LEAF_PILE = new BlockItem(ModBlocks.AZALEA_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem FLOWERING_AZALEA_LEAF_PILE = new BlockItem(ModBlocks.FLOWERING_AZALEA_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+
     public static final Item STEEL_WOOL = new BoneMealItem(new Item.Settings().maxDamage(128).group(ItemGroup.TOOLS));
 
     public static final BlockItem WEEDS = new BlockItem(ModBlocks.WEEDS, new Item.Settings().group(ItemGroup.DECORATIONS));
@@ -138,6 +147,15 @@ public class ModItems {
     public static final BlockItem WAXED_RUSTED_IRON_BARS = new BlockItem(ModBlocks.WAXED_RUSTED_IRON_BARS, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static void registerItems() {
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "oak_leaf_pile"), OAK_LEAF_PILE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "spruce_leaf_pile"), SPRUCE_LEAF_PILE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "birch_leaf_pile"), BIRCH_LEAF_PILE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "jungle_leaf_pile"), JUNGLE_LEAF_PILE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "acacia_leaf_pile"), ACACIA_LEAF_PILE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "dark_oak_leaf_pile"), DARK_OAK_LEAF_PILE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "azalea_leaf_pile"), AZALEA_LEAF_PILE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "flowering_azalea_leaf_pile"), FLOWERING_AZALEA_LEAF_PILE);
+
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "steel_wool"), STEEL_WOOL);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weeds"), WEEDS);

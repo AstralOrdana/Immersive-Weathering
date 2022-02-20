@@ -26,15 +26,6 @@ public class SpreadableBlockMixin extends Block {
         super(settings);
     }
 
-    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
-        if (world.getBlockState(pos).isOf(Blocks.GRASS_BLOCK)) {
-            if (world.random.nextFloat() < 0.001f) {
-                world.setBlockState(pos, Blocks.DIRT.getDefaultState());
-            }
-        }
-        super.onSteppedOn(world, pos, state, entity);
-    }
-
     @Inject(method = "randomTick", at = @At("TAIL"))
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         var targetPos = pos.up();

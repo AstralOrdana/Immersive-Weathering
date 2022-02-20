@@ -34,6 +34,15 @@
   "item.immersive_weathering.crimson_scales": "Crimson Scales",
   "item.immersive_weathering.warped_scales": "Warped Scales",
 
+  "block.immersive_weathering.oak_leaf_pile": "Oak Leaf Pile",
+  "block.immersive_weathering.spruce_leaf_pile": "Spruce Leaf Pile",
+  "block.immersive_weathering.birch_leaf_pile": "Birch Leaf Pile",
+  "block.immersive_weathering.jungle_leaf_pile": "Jungle Leaf Pile",
+  "block.immersive_weathering.acacia_leaf_pile": "Acacia Leaf Pile",
+  "block.immersive_weathering.dark_oak_leaf_pile": "Dark Oak Leaf Pile",
+  "block.immersive_weathering.azalea_leaf_pile": "Azalea Leaf Pile",
+  "block.immersive_weathering.flowering_azalea_leaf_pile": "Flowering Azalea Leaf Pile",
+
   "block.immersive_weathering.mulch_block": "Block of Mulch",
   "block.immersive_weathering.nulch_block": "Block of Nulch",
   "block.immersive_weathering.mulch": "Mulch",

@@ -25,52 +25,6 @@ public class BlocksMixin {
                                     from = @At
                                             (
                                                     value = "CONSTANT",
-                                                    args="stringValue=dirt"
-                                            )
-                            )
-            )
-    private static Block dirt(AbstractBlock.Settings settings)
-    {
-        return new TrampleableDirtBlock(settings.ticksRandomly());
-    }
-    @Redirect
-            (
-                    method = "<clinit>",
-                    at = @At
-                            (
-                                    value = "NEW",
-                                    target = "net/minecraft/block/Block",
-                                    ordinal = 0
-                            ),
-                    slice = @Slice
-                            (
-                                    from = @At
-                                            (
-                                                    value = "CONSTANT",
-                                                    args="stringValue=coarse_dirt"
-                                            )
-                            )
-            )
-    private static Block coarseDirt(AbstractBlock.Settings settings)
-    {
-        return new TrampleableDirtBlock(settings.ticksRandomly());
-    }
-
-
-    @Redirect
-            (
-                    method = "<clinit>",
-                    at = @At
-                            (
-                                    value = "NEW",
-                                    target = "net/minecraft/block/Block",
-                                    ordinal = 0
-                            ),
-                    slice = @Slice
-                            (
-                                    from = @At
-                                            (
-                                                    value = "CONSTANT",
                                                     args="stringValue=polished_blackstone_bricks"
                                             )
                             )
