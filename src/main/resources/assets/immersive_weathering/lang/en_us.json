@@ -2,6 +2,16 @@
   "advancements.moss.moss.title": "Perpetuate the Cycle of Existence?",
   "advancements.moss.moss.description": "(You ate the moss.), (Tastes... mossy.), (Your HP was mossed out.)",
 
+
+  "death.attack.icicle": "%1$s was impaled on an icicle",
+  "death.attack.icicle.player": "%1$s was impaled on an icicle whilst fighting %2$s",
+  "death.attack.fallingIcicle": "%1$s was skewered by a falling icicle",
+  "death.attack.fallingIcicle.player": "%1$s was skewered by a falling icicle whilst fighting %2$s",
+
+  "subtitles.block.icicle.land": "Icicle crashes down",
+
+  "block.immersive_weathering.icicle": "Icicle",
+
   "block.immersive_weathering.weeds": "Weeds",
   "block.immersive_weathering.soot": "Soot",
   "block.immersive_weathering.ash_block": "Ash Block",
@@ -16,12 +26,37 @@
   "block.immersive_weathering.mossy_stone_slab": "Mossy Stone Slab",
 
   "block.immersive_weathering.cracked_bricks": "Cracked Bricks",
+  "block.immersive_weathering.cracked_brick_stairs": "Cracked Brick Stairs",
+  "block.immersive_weathering.cracked_brick_slab": "Cracked Brick Slab",
+  "block.immersive_weathering.cracked_brick_wall": "Cracked Brick Wall",
+
+  "block.immersive_weathering.cracked_stone_brick_stairs": "Cracked Stone Brick Stairs",
+  "block.immersive_weathering.cracked_stone_brick_slab": "Cracked Stone Brick Slab",
+  "block.immersive_weathering.cracked_stone_brick_wall": "Cracked Stone Brick Wall",
+
+  "block.immersive_weathering.cracked_nether_brick_stairs": "Cracked Nether Brick Stairs",
+  "block.immersive_weathering.cracked_nether_brick_slab": "Cracked Nether Brick Slab",
+  "block.immersive_weathering.cracked_nether_brick_wall": "Cracked Nether Brick Wall",
+
+  "block.immersive_weathering.cracked_deepslate_brick_stairs": "Cracked Deepslate Brick Stairs",
+  "block.immersive_weathering.cracked_deepslate_brick_slab": "Cracked Deepslate Brick Slab",
+  "block.immersive_weathering.cracked_deepslate_brick_wall": "Cracked Deepslate Brick Wall",
+
+  "block.immersive_weathering.cracked_deepslate_tile_stairs": "Cracked Deepslate Tile Stairs",
+  "block.immersive_weathering.cracked_deepslate_tile_slab": "Cracked Deepslate Tile Slab",
+  "block.immersive_weathering.cracked_deepslate_tile_wall": "Cracked Deepslate Tile Wall",
+
+  "block.immersive_weathering.cracked_polished_blackstone_brick_stairs": "Cracked Polished Blackstone Brick Stairs",
+  "block.immersive_weathering.cracked_polished_blackstone_brick_slab": "Cracked Polished Blackstone Brick Slab",
+  "block.immersive_weathering.cracked_polished_blackstone_brick_wall": "Cracked Polished Blackstone Brick Wall",
 
   "item.immersive_weathering.stone_brick": "Stone Brick",
   "item.immersive_weathering.blackstone_brick": "Blackstone Brick",
   "item.immersive_weathering.deepslate_brick": "Deepslate Brick",
   "item.immersive_weathering.deepslate_tile": "Deepslate Tile",
 
+  "item.immersive_weathering.azalea_flowers": "Azalea Flowers",
+  "item.immersive_weathering.flower_crown": "Flower Crown",
   "item.immersive_weathering.moss_clump": "Moss Clump",
   "item.immersive_weathering.golden_moss_clump": "Golden Moss Clump",
 
@@ -42,6 +77,7 @@
   "block.immersive_weathering.dark_oak_leaf_pile": "Dark Oak Leaf Pile",
   "block.immersive_weathering.azalea_leaf_pile": "Azalea Leaf Pile",
   "block.immersive_weathering.flowering_azalea_leaf_pile": "Flowering Azalea Leaf Pile",
+  "block.immersive_weathering.azalea_flower_pile": "Azalea Flower Pile",
 
   "block.immersive_weathering.mulch_block": "Block of Mulch",
   "block.immersive_weathering.nulch_block": "Block of Nulch",

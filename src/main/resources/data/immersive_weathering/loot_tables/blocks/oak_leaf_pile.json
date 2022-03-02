@@ -38,21 +38,6 @@
                     }
                   ],
                   "name": "minecraft:stick"
-                },
-                {
-                  "type": "minecraft:item",
-                  "functions": [
-                    {
-                      "function": "minecraft:set_count",
-                      "chance": 0.5,
-                      "count": {
-                        "min": 0,
-                        "max": 1
-                      },
-                      "add": false
-                    }
-                  ],
-                  "name": "minecraft:apple"
                 }
               ]
             },

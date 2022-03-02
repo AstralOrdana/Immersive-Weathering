@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
+import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
@@ -11,21 +12,12 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.state.property.Property;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeKeys;
 
-import java.util.Objects;
-import java.util.Optional;
 import java.util.Random;
 
 public class MulchBlock extends Block {
@@ -68,48 +60,18 @@ public class MulchBlock extends Block {
                 world.setBlockState(pos, state.with(SOAKED, true));
             }
         }
-        Optional<RegistryKey<Biome>> j = world.getBiomeKey(pos);
-        if (Objects.equals(j, Optional.of(BiomeKeys.DESERT))) {
-            if (world.random.nextFloat() < 0.08f) {
+        var biome = world.getBiome(pos);
+        if (biome.isIn(ModTags.HOT)) {
+            if (world.random.nextFloat() < 0.07f) {
                 world.setBlockState(pos, state.with(SOAKED, false));
             }
         }
-        else if (Objects.equals(j, Optional.of(BiomeKeys.BADLANDS))) {
-            if (world.random.nextFloat() < 0.05f) {
-                world.setBlockState(pos, state.with(SOAKED, false));
+        else if (biome.isIn(ModTags.WET)) {
+            if (world.random.nextFloat() < 0.4f) {
+                world.setBlockState(pos, state.with(SOAKED, true));
             }
         }
-        else if (Objects.equals(j, Optional.of(BiomeKeys.ERODED_BADLANDS))) {
-            if (world.random.nextFloat() < 0.05f) {
-                world.setBlockState(pos, state.with(SOAKED, false));
-            }
-        }
-        else if (Objects.equals(j, Optional.of(BiomeKeys.WOODED_BADLANDS))) {
-            if (world.random.nextFloat() < 0.01f) {
-                world.setBlockState(pos, state.with(SOAKED, false));
-            }
-        }
-        else if (Objects.equals(j, Optional.of(BiomeKeys.NETHER_WASTES))) {
-            if (world.random.nextFloat() < 0.1f) {
-                world.setBlockState(pos, state.with(SOAKED, false));
-            }
-        }
-        else if (Objects.equals(j, Optional.of(BiomeKeys.CRIMSON_FOREST))) {
-            if (world.random.nextFloat() < 0.1f) {
-                world.setBlockState(pos, state.with(SOAKED, false));
-            }
-        }
-        else if (Objects.equals(j, Optional.of(BiomeKeys.BASALT_DELTAS))) {
-            if (world.random.nextFloat() < 0.1f) {
-                world.setBlockState(pos, state.with(SOAKED, false));
-            }
-        }
-        else if (Objects.equals(j, Optional.of(BiomeKeys.WARPED_FOREST))) {
-            if (world.random.nextFloat() < 0.05f) {
-                world.setBlockState(pos, state.with(SOAKED, false));
-            }
-        }
-        else if (Objects.equals(j, Optional.of(BiomeKeys.SOUL_SAND_VALLEY))) {
+        else if (world.getRegistryKey() == World.NETHER) {
             if (world.random.nextFloat() < 0.1f) {
                 world.setBlockState(pos, state.with(SOAKED, false));
             }

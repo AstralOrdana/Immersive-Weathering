@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.registry.ModTags;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -8,69 +9,44 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
-import java.util.HashMap;
 import java.util.Random;
 
 public class CrackableBlock extends Block implements Crackable{
-    private final CrackLevel crackLevel;
+    private final Crackable.CrackLevel crackLevel;
 
-    public CrackableBlock(CrackLevel crackLevel, Settings settings) {
+    public CrackableBlock(Crackable.CrackLevel crackLevel, AbstractBlock.Settings settings) {
         super(settings);
         this.crackLevel = crackLevel;
     }
 
-    private static final HashMap<Block, Block> CLEANED_BLOCKS = new HashMap<>();
-
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-
-        CLEANED_BLOCKS.put(Blocks.NETHER_BRICKS, Blocks.CRACKED_NETHER_BRICKS);
-        CLEANED_BLOCKS.put(Blocks.POLISHED_BLACKSTONE_BRICKS, Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS);
-        CLEANED_BLOCKS.put(Blocks.DEEPSLATE_BRICKS, Blocks.CRACKED_DEEPSLATE_BRICKS);
-        CLEANED_BLOCKS.put(Blocks.DEEPSLATE_TILES, Blocks.CRACKED_DEEPSLATE_TILES);
-
         for (Direction direction : Direction.values()) {
-            BlockPos targetPos = pos.offset(direction);
-            BlockState targetBlock = world.getBlockState(targetPos);
             if (BlockPos.streamOutwards(pos, 2, 2, 2)
                     .map(world::getBlockState)
                     .map(BlockState::getBlock)
                     .anyMatch(Blocks.FIRE::equals)) {
                 float f = 0.5F;
                 if (random.nextFloat() < 0.5F) {
-                    CLEANED_BLOCKS.forEach((solid, cracked) -> {
-                        if (targetBlock.isOf(solid)) {
-                            world.setBlockState(targetPos, cracked.getStateWithProperties(targetBlock));
-                        }
-                    });
+                    this.tryDegrade(state, world, pos, random);
                 }
             }
             if (BlockPos.streamOutwards(pos, 2, 2, 2)
                     .map(world::getBlockState)
-                    .map(BlockState::getBlock)
-                    .filter(ImmersiveWeathering.CRACKABLE::contains)
+                    .filter(b->b.isIn(ModTags.CRACKABLE))
                     .toList().size() >= 20) {
                 if (BlockPos.streamOutwards(pos, 2, 2, 2)
                         .map(world::getBlockState)
-                        .map(BlockState::getBlock)
-                        .filter(ImmersiveWeathering.CRACKED::contains)
+                        .filter(b->b.isIn(ModTags.CRACKED))
                         .toList().size() <= 8) {
                     float f = 0.0000625F;
                     if (random.nextFloat() < 0.0000625F) {
-                        CLEANED_BLOCKS.forEach((solid, cracked) -> {
-                            if (targetBlock.isOf(solid)) {
-                                world.setBlockState(targetPos, cracked.getStateWithProperties(targetBlock));
-                            }
-                        });
+                        this.tryDegrade(state, world, pos, random);
                     }
-                    if (world.getBlockState(pos.offset(direction)).isIn(ImmersiveWeathering.CRACKED)) {
+                    if (world.getBlockState(pos.offset(direction)).isIn(ModTags.CRACKED)) {
                         float g = 0.02F;
                         if (random.nextFloat() < 0.02F) {
-                            CLEANED_BLOCKS.forEach((solid, cracked) -> {
-                                if (targetBlock.isOf(solid)) {
-                                    world.setBlockState(targetPos, cracked.getStateWithProperties(targetBlock));
-                                }
-                            });
+                            this.tryDegrade(state, world, pos, random);
                         }
                     }
                 }
@@ -84,7 +60,7 @@ public class CrackableBlock extends Block implements Crackable{
     }
 
     @Override
-    public CrackLevel getDegradationLevel() {
+    public Crackable.CrackLevel getDegradationLevel() {
         return this.crackLevel;
     }
 }

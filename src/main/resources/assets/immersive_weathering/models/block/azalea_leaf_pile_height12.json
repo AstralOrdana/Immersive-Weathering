@@ -1,7 +1,7 @@
 {
     "textures": {
-        "particle": "block/azalea_leaves",
-        "texture": "block/azalea_leaves"
+        "particle": "immersive_weathering:block/heavy_azalea_leaves",
+        "texture": "immersive_weathering:block/heavy_azalea_leaves"
     },
     "elements": [
         {   "from": [ 0, 0, 0 ],

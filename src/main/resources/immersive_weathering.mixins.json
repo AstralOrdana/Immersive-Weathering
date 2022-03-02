@@ -22,7 +22,8 @@
     "SproutsBlockMixin",
     "CoralBlockMixin",
     "LightningEntityMixin",
-    "LeavesMixin"
+    "LeavesMixin",
+    "IceMixin"
   ],
   "client": [
   ],

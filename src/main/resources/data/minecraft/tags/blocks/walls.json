@@ -1,6 +1,12 @@
 {
   "replace": false,
   "values": [
-    "immersive_weathering:mossy_brick_wall"
+    "immersive_weathering:mossy_brick_wall",
+    "immersive_weathering:cracked_brick_wall",
+    "immersive_weathering:cracked_stone_brick_wall",
+    "immersive_weathering:cracked_nether_brick_wall",
+    "immersive_weathering:cracked_deepslate_brick_wall",
+    "immersive_weathering:cracked_deepslate_tile_wall",
+    "immersive_weathering:cracked_polished_blackstone_brick_wall"
     ]
 }

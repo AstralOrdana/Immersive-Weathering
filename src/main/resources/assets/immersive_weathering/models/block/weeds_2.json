@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "immersive_weathering:block/weeds_2"
+  }
+}

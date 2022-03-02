@@ -1,16 +1,13 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.CampfireBlockEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -44,7 +41,7 @@ public class CampfireMixin extends BlockWithEntity{
     }
 
     private boolean doesBlockCauseSignalFire(BlockState state) {
-        return state.isIn(ImmersiveWeathering.SMOKEY_BLOCKS);
+        return state.isIn(ModTags.SMOKEY_BLOCKS);
     }
 
     @Override

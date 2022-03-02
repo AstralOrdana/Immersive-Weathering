@@ -1,26 +1,20 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
+import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.BlockView;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Objects;
-import java.util.Optional;
 import java.util.Random;
 
 @Mixin(CoralBlockBlock.class)
 public class CoralBlockMixin extends Block {
+
     public CoralBlockMixin(Settings settings) {
         super(settings);
     }
@@ -36,13 +30,12 @@ public class CoralBlockMixin extends Block {
         Direction coralDir = Direction.fromHorizontal(rand);
         BlockPos coralPos = pos.offset(coralDir);
         BlockState testBlock = world.getBlockState(coralPos);
-        Optional<RegistryKey<Biome>> j = world.getBiomeKey(pos);
-        if (Objects.equals(j, Optional.of(BiomeKeys.WARM_OCEAN))) {
+        RegistryEntry<Biome> j = world.getBiome(pos);
+        if (j.matchesKey(BiomeKeys.WARM_OCEAN)) {
             if (random.nextFloat() < 0.01f) {
                 if (BlockPos.streamOutwards(pos, 2, 2, 2)
                         .map(world::getBlockState)
-                        .map(BlockState::getBlock)
-                        .filter(ImmersiveWeathering.CORALS::contains)
+                        .filter(b->b.isIn(ModTags.CORALS))
                         .toList().size() <= 8) {
                     if (world.getBlockState(pos).isOf(Blocks.FIRE_CORAL_BLOCK)) {
                         if (random.nextFloat() < 0.5f) {

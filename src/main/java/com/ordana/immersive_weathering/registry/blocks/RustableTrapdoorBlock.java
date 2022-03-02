@@ -1,8 +1,7 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.*;
-import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -36,7 +35,16 @@ public class RustableTrapdoorBlock extends TrapdoorBlock implements Rustable{
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
         boolean hasPower = world.isReceivingRedstonePower(pos);
         if (hasPower != state.get(POWERED)) { // checks if redstone input has changed
-            if (world.getBlockState(pos).isIn(ImmersiveWeathering.EXPOSED_IRON)) {
+            if (world.getBlockState(pos).isIn(ModTags.CLEAN_IRON)) {
+                if (!this.getDefaultState().isOf(block) && hasPower != state.get(POWERED)) {
+                    if (hasPower != state.get(OPEN)) {
+                        this.playOpenCloseSound(world, pos, hasPower);
+                        world.emitGameEvent(hasPower ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+                    }
+                    world.setBlockState(pos, state.with(POWERED, hasPower).with(OPEN, hasPower), 2);
+                }
+            }
+            if (world.getBlockState(pos).isIn(ModTags.EXPOSED_IRON)) {
                 if (hasPower) { // if the door is now being powered, open right away
                     world.createAndScheduleBlockTick(pos, this, 1); // 1-tick
                 } else {
@@ -44,7 +52,7 @@ public class RustableTrapdoorBlock extends TrapdoorBlock implements Rustable{
                 }
                 world.setBlockState(pos, state.with(POWERED, hasPower), Block.NOTIFY_LISTENERS);
             }
-            if (world.getBlockState(pos).isIn(ImmersiveWeathering.WEATHERED_IRON)) {
+            if (world.getBlockState(pos).isIn(ModTags.WEATHERED_IRON)) {
                 if (hasPower) { // if the door is now being powered, open right away
                     world.createAndScheduleBlockTick(pos, this, 1); // 1-tick
                 } else {
@@ -52,7 +60,7 @@ public class RustableTrapdoorBlock extends TrapdoorBlock implements Rustable{
                 }
                 world.setBlockState(pos, state.with(POWERED, hasPower), Block.NOTIFY_LISTENERS);
             }
-            if (world.getBlockState(pos).isIn(ImmersiveWeathering.RUSTED_IRON)) {
+            if (world.getBlockState(pos).isIn(ModTags.RUSTED_IRON)) {
                 if (hasPower && !state.get(POWERED)) { // if its recieving power but the blockstate says unpowered, that means it has just been powered on this tick
                     state = state.cycle(OPEN);
                     this.playOpenCloseSound(world, pos, state.get(OPEN));
@@ -65,13 +73,13 @@ public class RustableTrapdoorBlock extends TrapdoorBlock implements Rustable{
 
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (world.getBlockState(pos).isIn(ImmersiveWeathering.EXPOSED_IRON)) {
+        if (world.getBlockState(pos).isIn(ModTags.EXPOSED_IRON)) {
             state = state.cycle(OPEN);
             this.playOpenCloseSound(world, pos, state.get(OPEN)); // if it is powered, play open sound, else play close sound
             world.emitGameEvent(state.get(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
             world.setBlockState(pos, state.with(OPEN, state.get(OPEN)), Block.NOTIFY_LISTENERS); // set open to match the powered state (powered true, open true)
         }
-        if (world.getBlockState(pos).isIn(ImmersiveWeathering.WEATHERED_IRON)) {
+        if (world.getBlockState(pos).isIn(ModTags.WEATHERED_IRON)) {
             state = state.cycle(OPEN);
             this.playOpenCloseSound(world, pos, state.get(OPEN)); // if it is powered, play open sound, else play close sound
             world.emitGameEvent(state.get(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
@@ -81,7 +89,7 @@ public class RustableTrapdoorBlock extends TrapdoorBlock implements Rustable{
 
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random){
-        if (world.getBlockState(pos).isIn(ImmersiveWeathering.CLEAN_IRON)) {
+        if (world.getBlockState(pos).isIn(ModTags.CLEAN_IRON)) {
             for (Direction direction : Direction.values()) {
                 var targetPos = pos.offset(direction);
                 BlockState neighborState = world.getBlockState(targetPos);
@@ -96,7 +104,7 @@ public class RustableTrapdoorBlock extends TrapdoorBlock implements Rustable{
                 }
             }
         }
-        if (world.getBlockState(pos).isIn(ImmersiveWeathering.EXPOSED_IRON)) {
+        if (world.getBlockState(pos).isIn(ModTags.EXPOSED_IRON)) {
             for (Direction direction : Direction.values()) {
                 var targetPos = pos.offset(direction);
                 BlockState neighborState = world.getBlockState(targetPos);
@@ -109,11 +117,10 @@ public class RustableTrapdoorBlock extends TrapdoorBlock implements Rustable{
                         this.tryDegrade(state, world, pos, random);
                     }
                 }
-                if (world.hasRain(pos.offset(direction)) && world.getBlockState(pos.up()).isIn(ImmersiveWeathering.WEATHERED_IRON)) {
+                if (world.hasRain(pos.offset(direction)) && world.getBlockState(pos.up()).isIn(ModTags.WEATHERED_IRON)) {
                     if (BlockPos.streamOutwards(pos, 2, 2, 2)
                             .map(world::getBlockState)
-                            .map(BlockState::getBlock)
-                            .filter(ImmersiveWeathering.WEATHERED_IRON::contains)
+                            .filter(b->b.isIn(ModTags.WEATHERED_IRON))
                             .toList().size() <= 9) {
                         float f = 0.06f;
                         if (random.nextFloat() > 0.06f) {
@@ -123,7 +130,7 @@ public class RustableTrapdoorBlock extends TrapdoorBlock implements Rustable{
                 }
             }
         }
-        if (world.getBlockState(pos).isIn(ImmersiveWeathering.WEATHERED_IRON)) {
+        if (world.getBlockState(pos).isIn(ModTags.WEATHERED_IRON)) {
             for (Direction direction : Direction.values()) {
                 var targetPos = pos.offset(direction);
                 BlockState neighborState = world.getBlockState(targetPos);

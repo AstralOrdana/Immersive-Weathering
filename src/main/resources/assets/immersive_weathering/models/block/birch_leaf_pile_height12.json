@@ -1,7 +1,7 @@
 {
     "textures": {
-        "particle": "block/birch_leaves",
-        "texture": "block/birch_leaves"
+        "particle": "immersive_weathering:block/heavy_birch_leaves",
+        "texture": "immersive_weathering:block/heavy_birch_leaves"
     },
     "elements": [
         {   "from": [ 0, 0, 0 ],

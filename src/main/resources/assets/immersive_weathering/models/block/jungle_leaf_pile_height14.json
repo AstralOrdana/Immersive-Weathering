@@ -1,7 +1,7 @@
 {
     "textures": {
-        "particle": "block/jungle_leaves",
-        "texture": "block/jungle_leaves"
+        "particle": "immersive_weathering:block/heavy_jungle_leaves",
+        "texture": "immersive_weathering:block/heavy_jungle_leaves"
     },
     "elements": [
         {   "from": [ 0, 0, 0 ],

@@ -1,7 +1,7 @@
 {
     "textures": {
-        "particle": "block/acacia_leaves",
-        "texture": "block/acacia_leaves"
+        "particle": "immersive_weathering:block/heavy_acacia_leaves",
+        "texture": "immersive_weathering:block/heavy_acacia_leaves"
     },
     "elements": [
         {   "from": [ 0, 0, 0 ],

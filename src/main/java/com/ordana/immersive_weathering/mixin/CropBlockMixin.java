@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.blocks.MulchBlock;
 import net.minecraft.block.*;
@@ -24,7 +24,7 @@ public class CropBlockMixin extends Block {
 
     @Inject(method = "canPlantOnTop", at = @At("HEAD"), cancellable = true)
     public void canPlantOnTop(BlockState floor, BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        if (floor.isIn(ImmersiveWeathering.FERTILE_BLOCKS)) {
+        if (floor.isIn(ModTags.FERTILE_BLOCKS)) {
             cir.setReturnValue(true);
         }
     }

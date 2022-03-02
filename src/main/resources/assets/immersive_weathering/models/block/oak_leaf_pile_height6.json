@@ -1,7 +1,7 @@
 {
     "textures": {
-        "particle": "block/oak_leaves",
-        "texture": "block/oak_leaves"
+        "particle": "immersive_weathering:block/medium_oak_leaves",
+        "texture": "immersive_weathering:block/medium_oak_leaves"
     },
     "elements": [
         {   "from": [ 0, 0, 0 ],

@@ -1,7 +1,7 @@
 {
     "textures": {
-        "particle": "block/spruce_leaves",
-        "texture": "block/spruce_leaves"
+        "particle": "immersive_weathering:block/heavy_spruce_leaves",
+        "texture": "immersive_weathering:block/heavy_spruce_leaves"
     },
     "elements": [
         {   "from": [ 0, 0, 0 ],

@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -31,6 +31,11 @@ public class MossySlabBlock extends MossableSlabBlock implements Fertilizable {
     private static final HashMap<Block, Block> CLEANED_BLOCKS = new HashMap<>();
 
     @Override
+    public boolean hasRandomTicks(BlockState state) {
+        return false;
+    }
+
+    @Override
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
 
         CLEANED_BLOCKS.put(Blocks.MOSSY_COBBLESTONE, Blocks.COBBLESTONE);
@@ -55,7 +60,7 @@ public class MossySlabBlock extends MossableSlabBlock implements Fertilizable {
             BlockState targetBlock = world.getBlockState(targetPos);
             float f = 0.5f;
             if (random.nextFloat() > 0.5f) {
-                if (world.getBlockState(targetPos).isIn(ImmersiveWeathering.MOSSABLE)) {
+                if (world.getBlockState(targetPos).isIn(ModTags.MOSSABLE)) {
                     CLEANED_BLOCKS.forEach((mossy, clean) -> {
                         if (targetBlock.isOf(clean)) {
                             world.setBlockState(targetPos, mossy.getStateWithProperties(targetBlock));

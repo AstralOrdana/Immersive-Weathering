@@ -22,7 +22,7 @@
       "model": "immersive_weathering:block/oak_leaf_pile_height14"
     },
     "layers=8": {
-      "model": "minecraft:block/oak_leaves"
+      "model": "immersive_weathering:block/oak_leaf_pile_height16"
     }
   }
 }

@@ -22,7 +22,7 @@
       "model": "immersive_weathering:block/flowering_azalea_leaf_pile_height14"
     },
     "layers=8": {
-      "model": "minecraft:block/flowering_azalea_leaves"
+      "model": "immersive_weathering:block/flowering_azalea_leaf_pile_height16"
     }
   }
 }

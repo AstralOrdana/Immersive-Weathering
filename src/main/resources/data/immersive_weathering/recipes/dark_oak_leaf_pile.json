@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "###"
+    "##"
   ],
   "key": {
     "#": {
@@ -10,6 +10,6 @@
   },
   "result": {
     "item": "immersive_weathering:dark_oak_leaf_pile",
-    "count": 6
+    "count": 3
   }
 }

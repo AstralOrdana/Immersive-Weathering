@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.registry.ModParticles;
+import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.*;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -8,8 +9,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -66,16 +65,7 @@ public class SootBlock extends AbstractLichenBlock {
             double d = (double) i + random.nextDouble();
             double e = (double) j + random.nextDouble();
             double f = (double) k + random.nextDouble();
-            world.addParticle(ParticleTypes.FLAME, d, e, f, 0.0D, 0.0D, 0.0D);
-            BlockPos.Mutable mutable = new BlockPos.Mutable();
-
-            for (int l = 0; l < 14; ++l) {
-                mutable.set(i + MathHelper.nextInt(random, -7, 7), j + MathHelper.nextInt(random, -7, 7), k + MathHelper.nextInt(random, -7, 7));
-                BlockState blockState = world.getBlockState(mutable);
-                if (!blockState.isFullCube(world, mutable)) {
-                    world.addParticle(ParticleTypes.SMOKE, (double) mutable.getX() + random.nextDouble(), (double) mutable.getY() + random.nextDouble(), (double) mutable.getZ() + random.nextDouble(), 0.0D, 0.0D, 0.0D);
-                }
-            }
+            world.addParticle(ModParticles.EMBER, d, e, f, 0.1D, 3D, 0.1D);
         }
     }
 
@@ -83,17 +73,36 @@ public class SootBlock extends AbstractLichenBlock {
         for (Direction direction : Direction.values()) {
             var targetPos = pos.offset(direction);
             BlockState neighborState = world.getBlockState(targetPos);
-            if (neighborState.isOf(Blocks.MAGMA_BLOCK)) {
+            if (neighborState.isIn(ModTags.MAGMA_SOURCE)) {
                 if (world.hasRain(pos.up())) {
                     return;
                 }
                 world.setBlockState(pos, state.with(LIT, true), 2);
             }
             if (world.hasRain(pos.up()) || neighborState.getFluidState().getFluid() == Fluids.FLOWING_WATER || neighborState.getFluidState().getFluid() == Fluids.WATER) {
-                if (neighborState.isOf(Blocks.MAGMA_BLOCK)) {
+                if (neighborState.isIn(ModTags.MAGMA_SOURCE)) {
                     return;
                 }
                 world.setBlockState(pos, state.with(LIT, false), 2);
+            }
+        }
+    }
+
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        if (!(entity instanceof LivingEntity) || entity.getBlockStateAtPos().isOf(this)) {
+            if (world.isClient) {
+                Random random = world.getRandom();
+                boolean bl = entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ();
+                if (bl && random.nextBoolean()) {
+                    if (!state.get(LIT)) {
+                        world.addParticle(ModParticles.SOOT, entity.getX(), entity.getY() + 0.5, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
+                    }
+                }
+            }
+            if (state.get(LIT)) {
+                if (!entity.isFireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
+                    entity.damage(DamageSource.HOT_FLOOR, 1.0F);
+                }
             }
         }
     }

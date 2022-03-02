@@ -27,7 +27,7 @@
   },
   "requirements": [
     [
-      "h`a`s_copper_block",
+      "has_copper_block",
       "has_the_recipe"
     ]
   ]

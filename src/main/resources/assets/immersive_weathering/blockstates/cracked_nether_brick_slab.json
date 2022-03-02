@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "immersive_weathering:block/cracked_nether_brick_slab"
+    },
+    "type=double": {
+      "model": "minecraft:block/cracked_nether_bricks"
+    },
+    "type=top": {
+      "model": "immersive_weathering:block/cracked_nether_brick_slab_top"
+    }
+  }
+}
