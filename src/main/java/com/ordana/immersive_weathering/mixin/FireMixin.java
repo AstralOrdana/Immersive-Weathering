@@ -1,10 +1,12 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.blocks.SootBlock;
 import net.minecraft.block.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
@@ -57,17 +59,18 @@ public class FireMixin {
             }
             BlockState targetBlock = world.getBlockState(pos);
             if (random.nextFloat() < 0.3f) {
-                if (random.nextFloat() > 0.4f) {
-                    if (!state.get(FireBlock.UP) && !state.get(FireBlock.NORTH) && !state.get(FireBlock.SOUTH) && !state.get(FireBlock.EAST) && !state.get(FireBlock.WEST)) {
-                        world.setBlockState(pos, ModBlocks.SOOT.getDefaultState().with(SootBlock.LIT, true).with(Properties.DOWN, true), Block.NOTIFY_LISTENERS);
-                    }
-                    else
-                        world.setBlockState(pos, ModBlocks.SOOT.getStateWithProperties(targetBlock).with(SootBlock.LIT, true), Block.NOTIFY_LISTENERS);
+                var targetPos = pos.down();
+                BlockState neighborState = world.getBlockState(targetPos);
+                if (!neighborState.isIn(BlockTags.INFINIBURN_OVERWORLD)) {
+                    if (random.nextFloat() > 0.4f) {
+                        if (!state.get(FireBlock.UP) && !state.get(FireBlock.NORTH) && !state.get(FireBlock.SOUTH) && !state.get(FireBlock.EAST) && !state.get(FireBlock.WEST)) {
+                            world.setBlockState(pos, ModBlocks.SOOT.getDefaultState().with(SootBlock.LIT, true).with(Properties.DOWN, true), Block.NOTIFY_LISTENERS);
+                        } else
+                            world.setBlockState(pos, ModBlocks.SOOT.getStateWithProperties(targetBlock).with(SootBlock.LIT, true), Block.NOTIFY_LISTENERS);
+                    } else if (random.nextFloat() > 0.5f) {
+                        world.setBlockState(pos, ModBlocks.ASH_BLOCK.getDefaultState().with(SootBlock.LIT, true), Block.NOTIFY_LISTENERS);
+                    } else world.setBlockState(pos, ModBlocks.ASH_BLOCK.getDefaultState(), Block.NOTIFY_LISTENERS);
                 }
-                else if (random.nextFloat() > 0.5f) {
-                    world.setBlockState(pos, ModBlocks.ASH_BLOCK.getDefaultState().with(SootBlock.LIT, true), Block.NOTIFY_LISTENERS);
-                }
-                else world.setBlockState(pos, ModBlocks.ASH_BLOCK.getDefaultState(), Block.NOTIFY_LISTENERS);
             }
         }
     }

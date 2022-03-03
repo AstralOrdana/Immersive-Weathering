@@ -291,12 +291,6 @@ public class ModEvents {
                                 world.setBlockState(targetPos, rusty.getStateWithProperties(targetBlock));
                             }
                         });
-                        float f = 0.5f;
-                        if (world.random.nextFloat() > 0.5f) {
-                            if (!player.isCreative()) heldItem.decrement(1); {
-                                Block.dropStack(world, fixedPos, new ItemStack(Blocks.SPONGE));
-                            }
-                        }
                     }
                     return ActionResult.SUCCESS;
                 }

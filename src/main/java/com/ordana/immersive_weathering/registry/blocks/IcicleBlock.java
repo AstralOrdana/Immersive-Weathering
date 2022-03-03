@@ -141,7 +141,6 @@ public class IcicleBlock extends PointedDripstoneBlock implements LandingBlock, 
         } else {
             spawnFallingBlock(state, world, pos);
         }
-
     }
 
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
@@ -297,19 +296,18 @@ public class IcicleBlock extends PointedDripstoneBlock implements LandingBlock, 
 
     private static void spawnFallingBlock(BlockState state, ServerWorld world, BlockPos pos) {
         BlockPos.Mutable mutable = pos.mutableCopy();
-
-        for(BlockState blockState = state; isPointingDown(blockState); blockState = world.getBlockState(mutable)) {
+        BlockState blockState = state;
+        while (isPointingDown(blockState)) {
             FallingBlockEntity fallingBlockEntity = FallingBlockEntity.spawnFromBlock(world, mutable, blockState);
             if (isTip(blockState, true)) {
                 int i = Math.max(1 + pos.getY() - mutable.getY(), 6);
-                float f = (float) i;
+                float f = 1.0f * (float)i;
                 fallingBlockEntity.setHurtEntities(f, 40);
                 break;
             }
-
             mutable.move(Direction.DOWN);
+            blockState = world.getBlockState(mutable);
         }
-
     }
 
     @VisibleForTesting

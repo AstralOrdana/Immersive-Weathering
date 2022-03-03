@@ -16,6 +16,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -58,6 +59,19 @@ public class MulchBlock extends Block {
         if (world.hasRain(pos.up())) {
             if (random.nextFloat() < 0.2f) {
                 world.setBlockState(pos, state.with(SOAKED, true));
+            }
+        }
+        BlockState campfireState = world.getBlockState(pos.up());
+        if (campfireState.isOf(Blocks.CAMPFIRE)) {
+            if (random.nextFloat() < 0.2f) {
+                world.setBlockState(pos, state.with(SOAKED, false));
+            }
+        }
+        for (Direction direction : Direction.values()) {
+            var targetPos = pos.offset(direction);
+            BlockState neighborState = world.getBlockState(targetPos);
+            if (neighborState.isIn(ModTags.MAGMA_SOURCE)) {
+                world.setBlockState(pos, state.with(SOAKED, false), 2);
             }
         }
         var biome = world.getBiome(pos);

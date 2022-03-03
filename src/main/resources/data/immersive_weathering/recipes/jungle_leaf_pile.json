@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "##"
+    "###"
   ],
   "key": {
     "#": {
@@ -10,6 +10,6 @@
   },
   "result": {
     "item": "immersive_weathering:jungle_leaf_pile",
-    "count": 3
+    "count": 6
   }
 }

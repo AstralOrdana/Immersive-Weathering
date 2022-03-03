@@ -19,6 +19,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -59,6 +60,16 @@ public class NulchBlock extends Block {
 
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         var biome = world.getBiome(pos);
+        for (Direction direction : Direction.values()) {
+            var targetPos = pos.offset(direction);
+            BlockState neighborState = world.getBlockState(targetPos);
+            if (neighborState.isIn(ModTags.MAGMA_SOURCE)) {
+                if (world.hasRain(pos.up())) {
+                    return;
+                }
+                world.setBlockState(pos, state.with(MOLTEN, true), 2);
+            }
+        }
         if (biome.isIn(ModTags.ICY)) {
             if (world.random.nextFloat() < 0.4f) {
                 world.setBlockState(pos, state.with(MOLTEN, false));

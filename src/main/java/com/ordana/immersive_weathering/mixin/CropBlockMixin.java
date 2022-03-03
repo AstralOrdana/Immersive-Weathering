@@ -34,7 +34,7 @@ public class CropBlockMixin extends Block {
     }
 
     public int getAge(BlockState state) {
-        return (Integer)state.get(this.getAgeProperty());
+        return state.get(this.getAgeProperty());
     }
 
     public IntProperty getAgeProperty() {
@@ -42,25 +42,21 @@ public class CropBlockMixin extends Block {
     }
 
     public BlockState withAge(int age) {
-        return (BlockState)this.getDefaultState().with(this.getAgeProperty(), age);
+        return this.getDefaultState().with(this.getAgeProperty(), age);
     }
 
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         var soilPos = pos.down();
         BlockState soilState = world.getBlockState(soilPos);
-        if (world.getBaseLightLevel(pos, 0) >= 9) {
-            int i = this.getAge(state);
-            if (i < this.getMaxAge()) {
-                if (soilState.isOf(ModBlocks.MULCH)) {
-                    if (soilState.get(MulchBlock.SOAKED)) {
-                        if (random.nextFloat() < 0.5f) {
-                            world.setBlockState(pos, this.withAge(i + 1), 2);
-                        }
-                    }
-                    if (!soilState.get(MulchBlock.SOAKED)) {
-                        return;
-                    }
+        int i;
+        if (world.getBaseLightLevel(pos.up(), 0) >= 9 && (i = this.getAge(state)) < this.getMaxAge()) {
+            if (soilState.isOf(ModBlocks.MULCH)) {
+                if (soilState.get(MulchBlock.SOAKED)) {
+                    world.setBlockState(pos, this.withAge(i + 1), Block.NOTIFY_LISTENERS);
+                }
+                else if (!soilState.get(MulchBlock.SOAKED)) {
+                    ci.cancel();
                 }
             }
         }

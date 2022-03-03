@@ -1,17 +1,17 @@
 {
   "display": {
     "icon": {
-      "item": "immersive_weathering:moss_clump"
+      "item": "immersive_weathering:icicle"
     },
     "title": {
-      "translate": "advancements.moss.moss.title",
-      "color": "dark_green",
-      "bold": true
+      "translate": "advancements.immersive_weathering.icicle.title",
+      "color": "white",
+      "bold": false
     },
     "description": {
-      "translate": "advancements.moss.moss.description"
+      "translate": "advancements.immersive_weathering.icicle.description"
     },
-    "frame": "challenge",
+    "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": true
@@ -23,7 +23,7 @@
       "conditions": {
         "item": {
           "items": [
-            "immersive_weathering:moss_clump"
+            "immersive_weathering:icicle"
           ]
         }
       }
@@ -35,9 +35,6 @@
     ]
   ],
   "rewards": {
-    "recipes": [
-      "immersive_weathering:golden_moss_clump"
-    ],
     "experience": 100
   }
 }

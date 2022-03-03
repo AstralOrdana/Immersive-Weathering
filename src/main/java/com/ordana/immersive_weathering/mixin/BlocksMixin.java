@@ -986,7 +986,7 @@ public class BlocksMixin {
             )
     private static DoorBlock ironDoor(AbstractBlock.Settings settings)
     {
-        return new CleanRustableDoorBlock(Rustable.RustLevel.UNAFFECTED, settings);
+        return new RustableDoorBlock(Rustable.RustLevel.UNAFFECTED, settings);
     }
     @Redirect
             (
@@ -1008,6 +1008,6 @@ public class BlocksMixin {
             )
     private static TrapdoorBlock ironTrapdoor(AbstractBlock.Settings settings)
     {
-        return new CleanRustableTrapdoorBlock(Rustable.RustLevel.UNAFFECTED, settings);
+        return new RustableTrapdoorBlock(Rustable.RustLevel.UNAFFECTED, settings);
     }
 }

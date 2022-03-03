@@ -27,15 +27,7 @@
       "required": false
     },
     {
-      "id": "terralith:forested_highlands",
-      "required": false
-    },
-    {
       "id": "terralith:wintry_forest",
-      "required": false
-    },
-    {
-      "id": "terralith:alpine_grove",
       "required": false
     },
     {

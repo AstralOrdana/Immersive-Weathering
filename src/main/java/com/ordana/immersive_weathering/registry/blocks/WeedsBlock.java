@@ -1,8 +1,11 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.registry.ModTags;
+import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
+import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.BlockTags;
@@ -27,6 +30,10 @@ public class WeedsBlock extends CropBlock {
                 world.setBlockState(pos, this.withAge(i + 1), 2);
             }
         }
+    }
+
+    protected ItemConvertible getSeedsItem() {
+        return ModItems.WEEDS;
     }
 
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {

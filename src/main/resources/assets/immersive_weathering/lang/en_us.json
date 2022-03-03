@@ -1,6 +1,9 @@
 {
-  "advancements.moss.moss.title": "Perpetuate the Cycle of Existence?",
-  "advancements.moss.moss.description": "(You ate the moss.), (Tastes... mossy.), (Your HP was mossed out.)",
+  "advancements.immersive_weathering.moss.title": "Perpetuate the Cycle of Existence?",
+  "advancements.immersive_weathering.moss.description": "(You ate the moss.), (Tastes... mossy.), (Your HP was mossed out.)",
+
+  "advancements.immersive_weathering.icicle.title": "Monch",
+  "advancements.immersive_weathering.icicle.description": "Cronch Cronch Cronch",
 
 
   "death.attack.icicle": "%1$s was impaled on an icicle",

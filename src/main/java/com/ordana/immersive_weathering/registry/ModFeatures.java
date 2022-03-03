@@ -25,6 +25,7 @@ public class ModFeatures {
         RegistryKey<PlacedFeature> icicles = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
                 new Identifier("immersive_weathering", "icicles"));
         BiomeModifications.addFeature(BiomeSelectors.tag(ModTags.ICY), GenerationStep.Feature.TOP_LAYER_MODIFICATION, icicles);
+        BiomeModifications.addFeature(BiomeSelectors.tag(ModTags.ICE_CAVES), GenerationStep.Feature.TOP_LAYER_MODIFICATION, icicles);
 
         RegistryKey<PlacedFeature> oak_leaf_pile = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
                 new Identifier("immersive_weathering", "oak_leaf_pile"));

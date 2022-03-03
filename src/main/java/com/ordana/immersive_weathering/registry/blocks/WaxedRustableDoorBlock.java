@@ -108,13 +108,13 @@ public class WaxedRustableDoorBlock extends DoorBlock {
 
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (world.getBlockState(pos).isIn(ModTags.EXPOSED_IRON)) {
+        if (world.getBlockState(pos).isOf(ModBlocks.WAXED_EXPOSED_IRON_DOOR)) {
             state = state.cycle(OPEN);
             this.playOpenCloseSound(world, pos, state.get(OPEN)); // if it is powered, play open sound, else play close sound
             world.emitGameEvent(state.get(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
             world.setBlockState(pos, state.with(OPEN, state.get(OPEN)), Block.NOTIFY_LISTENERS); // set open to match the powered state (powered true, open true)
         }
-        if (world.getBlockState(pos).isIn(ModTags.WEATHERED_IRON)) {
+        if (world.getBlockState(pos).isOf(ModBlocks.WAXED_WEATHERED_IRON_DOOR)) {
             state = state.cycle(OPEN);
             this.playOpenCloseSound(world, pos, state.get(OPEN)); // if it is powered, play open sound, else play close sound
             world.emitGameEvent(state.get(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here

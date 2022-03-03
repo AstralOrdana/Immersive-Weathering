@@ -23,7 +23,8 @@
     "CoralBlockMixin",
     "LightningEntityMixin",
     "LeavesMixin",
-    "IceMixin"
+    "IceMixin",
+    "ComposterMixin"
   ],
   "client": [
   ],

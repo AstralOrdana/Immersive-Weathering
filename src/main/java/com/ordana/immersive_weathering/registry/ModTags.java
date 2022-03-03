@@ -35,12 +35,15 @@ public final class ModTags {
     public static final TagKey<Block> FLOWERY = registerBlockTag("flowery");
     public static final TagKey<Block> FLOWERABLE = registerBlockTag("flowerable");
 
+
     //items
     public static final TagKey<Item> BARK = registerItemTag("bark");
     public static final TagKey<Item> SCALES = registerItemTag("scales");
 
+
     //biomes
     public static final TagKey<Biome> ICY = registerBiomeTag("icy");
+    public static final TagKey<Biome> ICE_CAVES = registerBiomeTag("ice_caves");
     public static final TagKey<Biome> HOT = registerBiomeTag("hot");
     public static final TagKey<Biome> WET = registerBiomeTag("wet");
 
