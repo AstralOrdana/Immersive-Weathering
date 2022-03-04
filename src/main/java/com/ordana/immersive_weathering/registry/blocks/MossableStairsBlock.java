@@ -20,6 +20,12 @@ public class MossableStairsBlock extends ModStairBlock implements Mossable {
 
     private static final HashMap<Block, Block> CLEANED_BLOCKS = new HashMap<>();
 
+    //TODO: Use cracked interface instead
+    static {
+        CLEANED_BLOCKS.put(Blocks.STONE_BRICK_STAIRS, ModBlocks.CRACKED_STONE_BRICK_STAIRS.get());
+        CLEANED_BLOCKS.put(Blocks.BRICK_STAIRS, ModBlocks.CRACKED_BRICK_STAIRS.get());
+    }
+
     public MossableStairsBlock(Mossable.MossLevel mossLevel, Supplier<Block> baseBlockState, Properties settings) {
         super(baseBlockState, settings);
         this.mossLevel = mossLevel;
@@ -27,8 +33,7 @@ public class MossableStairsBlock extends ModStairBlock implements Mossable {
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random){
-        CLEANED_BLOCKS.put(Blocks.STONE_BRICK_STAIRS, ModBlocks.CRACKED_STONE_BRICK_STAIRS);
-        CLEANED_BLOCKS.put(Blocks.BRICK_STAIRS, ModBlocks.CRACKED_BRICK_STAIRS);
+
         if (world.getBlockState(pos).is(ModTags.CRACKABLE)) {
             for (Direction direction : Direction.values()) {
                 BlockPos targetPos = pos.relative(direction);

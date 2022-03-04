@@ -2,11 +2,14 @@ package com.ordana.immersive_weathering.registry;
 
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
+import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.WeatheringCopper;
 
 public class ModWaxable {
     public static void registerWaxable() {
-        OxidizableBlocksRegistry.registerWaxableBlockPair(ModBlocks.PLATE_IRON, ModBlocks.WAXED_PLATE_IRON);
+        //we need a feaking mixin here. fabric won
+        HoneycombItem.WAXABLES.(ModBlocks.PLATE_IRON, ModBlocks.WAXED_PLATE_IRON);
         OxidizableBlocksRegistry.registerWaxableBlockPair(ModBlocks.EXPOSED_PLATE_IRON, ModBlocks.WAXED_EXPOSED_PLATE_IRON);
         OxidizableBlocksRegistry.registerWaxableBlockPair(ModBlocks.WEATHERED_PLATE_IRON, ModBlocks.WAXED_WEATHERED_PLATE_IRON);
         OxidizableBlocksRegistry.registerWaxableBlockPair(ModBlocks.RUSTED_PLATE_IRON, ModBlocks.WAXED_RUSTED_PLATE_IRON);

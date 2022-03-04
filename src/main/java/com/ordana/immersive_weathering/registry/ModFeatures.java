@@ -1,25 +1,28 @@
 package com.ordana.immersive_weathering.registry;
 
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.features.IcicleClusterFeature;
 import com.ordana.immersive_weathering.registry.features.IcicleClusterFeatureConfig;
-import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
-import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.feature.BlockPileFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.BlockPileConfiguration;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public class ModFeatures {
-    public static void registerFeatures() {
-        Registry.register(Registry.FEATURE, "immersive_weathering:icicle_cluster", new IcicleClusterFeature(IcicleClusterFeatureConfig.CODEC));
-        Registry.register(Registry.FEATURE, "immersive_weathering:oak_leaf_pile", new BlockPileFeature(BlockPileConfiguration.CODEC));
-        Registry.register(Registry.FEATURE, "immersive_weathering:dark_oak_leaf_pile", new BlockPileFeature(BlockPileConfiguration.CODEC));
-        Registry.register(Registry.FEATURE, "immersive_weathering:spruce_leaf_pile", new BlockPileFeature(BlockPileConfiguration.CODEC));
-        Registry.register(Registry.FEATURE, "immersive_weathering:birch_leaf_pile", new BlockPileFeature(BlockPileConfiguration.CODEC));
+
+    public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(
+            ForgeRegistries.FEATURES, ImmersiveWeathering.MOD_ID);
+
+    public static final RegistryObject<Feature<IcicleClusterFeatureConfig>> ICICLE_CLUSTER = FEATURES.register(
+            "icicle_cluster", () -> new IcicleClusterFeature(IcicleClusterFeatureConfig.CODEC));
+
+    public static void addFeaturesToBiomes() {
 
         ResourceKey<PlacedFeature> icicles = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
                 new ResourceLocation("immersive_weathering", "icicles"));

@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.registry.ModTags;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -9,9 +8,10 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+
 import java.util.Random;
 
-public class CrackableWallBlock extends WallBlock implements Crackable{
+public class CrackableWallBlock extends WallBlock implements Crackable {
     private final Crackable.CrackLevel crackLevel;
 
     public CrackableWallBlock(Crackable.CrackLevel crackLevel, BlockBehaviour.Properties settings) {
@@ -19,6 +19,7 @@ public class CrackableWallBlock extends WallBlock implements Crackable{
         this.crackLevel = crackLevel;
     }
 
+    //TODO: streamline all of this
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         for (Direction direction : Direction.values()) {
@@ -32,11 +33,11 @@ public class CrackableWallBlock extends WallBlock implements Crackable{
             }
             if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                     .map(world::getBlockState)
-                    .filter(b->b.is(ModTags.CRACKABLE))
+                    .filter(b -> b.is(ModTags.CRACKABLE))
                     .toList().size() >= 20) {
                 if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                         .map(world::getBlockState)
-                        .filter(b->b.is(ModTags.CRACKED))
+                        .filter(b -> b.is(ModTags.CRACKED))
                         .toList().size() <= 8) {
                     if (random.nextFloat() < 0.0000625F) {
                         this.applyChangeOverTime(state, world, pos, random);

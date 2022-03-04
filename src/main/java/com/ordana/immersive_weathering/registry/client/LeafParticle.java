@@ -1,17 +1,15 @@
 package com.ordana.immersive_weathering.registry.client;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.particle.*;
+import net.minecraft.core.particles.SimpleParticleType;
 
 public class LeafParticle extends TextureSheetParticle {
     private final float rotationSpeed;
 
     LeafParticle(ClientLevel world, SpriteSet spriteProvider, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
         super(world, x, y, z, velocityX, velocityY, velocityZ);
-        this.setSize(0.01F, 0.01F);
+        this.setSize(0.001F, 0.001F);
         this.pickSprite(spriteProvider);
         this.quadSize *= this.random.nextFloat() * 0.6F + 0.4F;
         this.lifetime = (int) (16.0D / (Math.random() * 0.8D - 0.2D));
@@ -45,12 +43,10 @@ public class LeafParticle extends TextureSheetParticle {
     }
 
 
-    public record LeafFactory(SpriteProvider spriteProvider) implements ParticleFactory<DefaultParticleType> {
+    public record LeafFactory(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
 
-        public Particle createParticle(DefaultParticleType defaultParticleType, ClientLevel clientWorld, double d, double e, double f, double g, double h, double i) {
-            LeafParticle leafParticle = new LeafParticle(clientWorld, this.spriteProvider, d, e, f, 0.0D, -1.0D, 0.0D);
-            leafParticle.setBoundingBoxSpacing(0.001F, 0.001F);
-            return leafParticle;
+        public Particle createParticle(SimpleParticleType defaultParticleType, ClientLevel clientWorld, double d, double e, double f, double g, double h, double i) {
+            return new LeafParticle(clientWorld, this.spriteProvider, d, e, f, 0.0D, -1.0D, 0.0D);
         }
     }
 }

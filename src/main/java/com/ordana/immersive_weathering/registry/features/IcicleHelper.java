@@ -42,7 +42,7 @@ public class IcicleHelper {
         if (canReplace(world.getBlockState(pos.relative(direction.getOpposite())))) {
             BlockPos.MutableBlockPos mutable = pos.mutable();
             getIcicleThickness(direction, height, merge, (state) -> {
-                if (state.is(ModBlocks.ICICLE)) {
+                if (state.is(ModBlocks.ICICLE.get())) {
                     state = state.setValue(IcicleBlock.WATERLOGGED, world.isWaterAt(mutable));
                 }
 
@@ -63,7 +63,7 @@ public class IcicleHelper {
     }
 
     private static BlockState getState(Direction direction, DripstoneThickness thickness) {
-        return ModBlocks.ICICLE.defaultBlockState().setValue(IcicleBlock.TIP_DIRECTION, direction).setValue(IcicleBlock.THICKNESS, thickness);
+        return ModBlocks.ICICLE.get().defaultBlockState().setValue(IcicleBlock.TIP_DIRECTION, direction).setValue(IcicleBlock.THICKNESS, thickness);
     }
 
     public static boolean canReplaceOrLava(BlockState state) {

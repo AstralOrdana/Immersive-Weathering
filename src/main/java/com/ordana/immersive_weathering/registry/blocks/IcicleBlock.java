@@ -1,45 +1,28 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.ordana.immersive_weathering.registry.ModDamageSource;
 import com.ordana.immersive_weathering.registry.ModTags;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.state.property.*;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.block.AbstractCauldronBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.Fallable;
-import net.minecraft.world.level.block.PointedDripstoneBlock;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.DripstoneThickness;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -137,8 +120,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
                 float f;
                 if (fluid == Fluids.WATER) {
                     f = 0.17578125F;
-                }
-                else {
+                } else {
                     f = 0.05859375F;
                 }
 
@@ -201,7 +183,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
 
             mutable.move(Direction.UP);
 
-            while(isStalactite(world.getBlockState(mutable))) {
+            while (isStalactite(world.getBlockState(mutable))) {
                 world.scheduleTick(mutable, this, 2);
                 mutable.move(Direction.UP);
             }
@@ -246,7 +228,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
     private static void growStalagmiteBelow(ServerLevel world, BlockPos pos) {
         BlockPos.MutableBlockPos mutable = pos.mutable();
 
-        for(int i = 0; i < 10; ++i) {
+        for (int i = 0; i < 10; ++i) {
             mutable.move(Direction.DOWN);
             BlockState blockState = world.getBlockState(mutable);
             if (!blockState.getFluidState().isEmpty()) {
@@ -299,9 +281,9 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
 
     private static void spawnDripParticle(Level world, BlockPos pos, BlockState state, Fluid fluid) {
         Vec3 vec3d = state.getOffset(world, pos);
-        double e = (double)pos.getX() + 0.5D + vec3d.x;
-        double f = (double)((float)(pos.getY() + 1) - 0.6875F) - 0.0625D;
-        double g = (double)pos.getZ() + 0.5D + vec3d.z;
+        double e = (double) pos.getX() + 0.5D + vec3d.x;
+        double f = (double) ((float) (pos.getY() + 1) - 0.6875F) - 0.0625D;
+        double g = (double) pos.getZ() + 0.5D + vec3d.z;
         Fluid fluid2 = getDripFluid(world, fluid);
         ParticleOptions particleEffect = fluid2.is(FluidTags.LAVA) ? ParticleTypes.DRIPPING_DRIPSTONE_LAVA : ParticleTypes.DRIPPING_DRIPSTONE_WATER;
         world.addParticle(particleEffect, e, f, g, 0.0D, 0.0D, 0.0D);
@@ -353,7 +335,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
     }
 
     public static boolean canDrip(BlockState state) {
-        return isStalactite(state) && state.getValue(THICKNESS) == DripstoneThickness.TIP && !(Boolean)state.getValue(WATERLOGGED);
+        return isStalactite(state) && state.getValue(THICKNESS) == DripstoneThickness.TIP && !(Boolean) state.getValue(WATERLOGGED);
     }
 
     private static boolean canTipGrow(BlockState state, ServerLevel world, BlockPos pos) {
@@ -442,7 +424,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
         Direction direction2 = Direction.get(direction, Direction.Axis.Y);
         BlockPos.MutableBlockPos mutable = pos.mutable();
 
-        for(int i = 1; i < range; ++i) {
+        for (int i = 1; i < range; ++i) {
             mutable.move(direction2);
             BlockState blockState = world.getBlockState(mutable);
             if (stopPredicate.test(blockState)) {
@@ -455,15 +437,6 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
         }
 
         return Optional.empty();
-    }
-
-    static {
-        TIP_MERGE_SHAPE = Block.box(5.0D, 0.0D, 5.0D, 11.0D, 16.0D, 11.0D);
-        UP_TIP_SHAPE = Block.box(5.0D, 0.0D, 5.0D, 11.0D, 11.0D, 11.0D);
-        DOWN_TIP_SHAPE = Block.box(5.0D, 5.0D, 5.0D, 11.0D, 16.0D, 11.0D);
-        BASE_SHAPE = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 16.0D, 12.0D);
-        FRUSTUM_SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 16.0D, 13.0D);
-        MIDDLE_SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 16.0D, 14.0D);
     }
 }
 

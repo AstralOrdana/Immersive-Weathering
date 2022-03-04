@@ -2,7 +2,6 @@ package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.ModTags;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -21,13 +20,17 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
+
 import java.util.Random;
 
 public class SootBlock extends MultifaceBlock {
+
+    public static final BooleanProperty LIT = BlockStateProperties.LIT;
+
     public SootBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.defaultBlockState().setValue(LIT, false));
@@ -36,19 +39,15 @@ public class SootBlock extends MultifaceBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
         stateManager.add(LIT);
-        Direction[] var2 = DIRECTIONS;
-        int var3 = var2.length;
 
-        for(int var4 = 0; var4 < var3; ++var4) {
-            Direction direction = var2[var4];
+        for (Direction direction : DIRECTIONS) {
             if (this.isFaceSupported(direction)) {
-                stateManager.add(new Property[]{getFaceProperty(direction)});
+                stateManager.add(getFaceProperty(direction));
             }
         }
     }
 
-    public static final BooleanProperty LIT = BooleanProperty.create("lit");
-
+    @Override
     public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (state.getValue(LIT)) {
             world.setBlock(pos, state.setValue(LIT, false), 2);
@@ -67,11 +66,13 @@ public class SootBlock extends MultifaceBlock {
             double d = (double) i + random.nextDouble();
             double e = (double) j + random.nextDouble();
             double f = (double) k + random.nextDouble();
-            world.addParticle(ModParticles.EMBER, d, e, f, 0.1D, 3D, 0.1D);
+            world.addParticle(ModParticles.EMBER.get(), d, e, f, 0.1D, 3D, 0.1D);
         }
     }
 
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random){
+    //TODO: merge with ash
+    @Override
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         for (Direction direction : Direction.values()) {
             var targetPos = pos.relative(direction);
             BlockState neighborState = world.getBlockState(targetPos);
@@ -90,6 +91,7 @@ public class SootBlock extends MultifaceBlock {
         }
     }
 
+    @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (!(entity instanceof LivingEntity) || entity.getFeetBlockState().is(this)) {
             if (world.isClientSide) {
@@ -97,7 +99,7 @@ public class SootBlock extends MultifaceBlock {
                 boolean bl = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
                 if (bl && random.nextBoolean()) {
                     if (!state.getValue(LIT)) {
-                        world.addParticle(ModParticles.SOOT, entity.getX(), entity.getY() + 0.5, entity.getZ(), Mth.randomBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, Mth.randomBetween(random, -1.0F, 1.0F) * 0.001f);
+                        world.addParticle(ModParticles.SOOT.get(), entity.getX(), entity.getY() + 0.5, entity.getZ(), Mth.randomBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, Mth.randomBetween(random, -1.0F, 1.0F) * 0.001f);
                     }
                 }
             }

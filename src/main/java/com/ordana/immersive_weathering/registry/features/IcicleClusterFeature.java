@@ -146,7 +146,7 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
 
     private boolean canWaterSpawn(WorldGenLevel world, BlockPos pos) {
         BlockState blockState = world.getBlockState(pos);
-        if (!blockState.is(Blocks.WATER) && !blockState.is(Blocks.ICE) && !blockState.is(ModBlocks.ICICLE)) {
+        if (!blockState.is(Blocks.WATER) && !blockState.is(Blocks.ICE) && !blockState.is(ModBlocks.ICICLE.get())) {
             Iterator<Direction> var4 = Direction.Plane.HORIZONTAL.iterator();
 
             Direction direction;

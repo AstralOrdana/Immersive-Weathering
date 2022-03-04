@@ -27,7 +27,7 @@ public class MossableBlock extends Block implements Mossable{
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random){
         CLEANED_BLOCKS.put(Blocks.STONE_BRICKS, Blocks.CRACKED_STONE_BRICKS);
         CLEANED_BLOCKS.put(Blocks.BRICKS, ModBlocks.CRACKED_BRICKS);
-        if (world.getBlockState(pos).is(ModTags.CRACKABLE)) {
+        if (state.is(ModTags.CRACKABLE)) {
             for (Direction direction : Direction.values()) {
                 BlockPos targetPos = pos.relative(direction);
                 BlockState targetBlock = world.getBlockState(targetPos);
