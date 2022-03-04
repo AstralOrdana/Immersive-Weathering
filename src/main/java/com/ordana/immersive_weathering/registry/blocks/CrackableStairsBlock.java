@@ -1,21 +1,22 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.registry.ModTags;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import java.util.Random;
 
-public class CrackableStairsBlock extends StairBlock implements Crackable{
+import java.util.Random;
+import java.util.function.Supplier;
+
+public class CrackableStairsBlock extends ModStairBlock implements Crackable {
     private final Crackable.CrackLevel crackLevel;
 
-    public CrackableStairsBlock(Crackable.CrackLevel crackLevel, BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        super(baseBlockState, settings);
+    public CrackableStairsBlock(Crackable.CrackLevel crackLevel, Supplier<Block> baseBlock, BlockBehaviour.Properties settings) {
+        super(baseBlock, settings);
         this.crackLevel = crackLevel;
     }
 
@@ -33,11 +34,11 @@ public class CrackableStairsBlock extends StairBlock implements Crackable{
             }
             if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                     .map(world::getBlockState)
-                    .filter(b->b.is(ModTags.CRACKABLE))
+                    .filter(b -> b.is(ModTags.CRACKABLE))
                     .toList().size() >= 20) {
                 if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                         .map(world::getBlockState)
-                        .filter(b->b.is(ModTags.CRACKED))
+                        .filter(b -> b.is(ModTags.CRACKED))
                         .toList().size() <= 8) {
                     float f = 0.0000625F;
                     if (random.nextFloat() < 0.0000625F) {

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "molten=false": [
+      { "model": "immersive_weathering:block/nulch_block" }
+    ],
+    "molten=true": [
+      { "model": "immersive_weathering:block/nulch_block_molten" }
+    ]
+  }
+}

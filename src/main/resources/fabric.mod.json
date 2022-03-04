@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "id": "immersive_weathering",
+  "version": "${version}",
+
+  "name": "Immersive Weathering",
+  "description": "A Mod that several natural weathering systems and QOL changes.",
+  "authors": [
+    "Ordana",
+    "keybounce",
+    "Paperfish"
+  ],
+  "contact": {
+    "homepage": "https://discord.gg/MTUHt3r",
+    "sources": ""
+  },
+
+  "license": "GPLv3",
+  "icon": "assets/immersive_weathering/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.ordana.immersive_weathering.ImmersiveWeathering"
+    ],
+    "client": [
+      "com.ordana.immersive_weathering.ImmersiveWeatheringClient"
+    ]
+  },
+  "mixins": [
+    "immersive_weathering.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.18.x",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

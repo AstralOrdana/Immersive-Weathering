@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom",
+  "textures": {
+    "top": "immersive_weathering:block/rusted_iron_door_top",
+    "bottom": "immersive_weathering:block/rusted_iron_door_bottom"
+  }
+}

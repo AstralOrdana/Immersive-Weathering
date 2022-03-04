@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_trapdoor_top",
+  "textures": {
+    "texture": "immersive_weathering:block/exposed_iron_trapdoor"
+  }
+}

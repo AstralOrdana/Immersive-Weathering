@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "terralith:ice_caves",
+      "required": false
+    }
+  ]
+}

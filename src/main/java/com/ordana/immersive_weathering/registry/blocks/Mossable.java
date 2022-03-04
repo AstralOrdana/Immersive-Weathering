@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public interface Mossable extends ChangeOverTimeBlock<Mossable.MossLevel> {
-    public static final Supplier<BiMap<Block, Block>> MOSS_LEVEL_INCREASES = Suppliers.memoize(() -> ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder)((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder)((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder)
+    Supplier<BiMap<Block, Block>> MOSS_LEVEL_INCREASES = Suppliers.memoize(() -> tableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder)((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder)
             ImmutableBiMap.builder()
                     .put(Blocks.STONE, ModBlocks.MOSSY_STONE))
             .put(Blocks.STONE_STAIRS, ModBlocks.MOSSY_STONE_STAIRS))

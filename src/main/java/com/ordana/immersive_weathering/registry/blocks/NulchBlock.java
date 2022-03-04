@@ -26,12 +26,12 @@ import net.minecraft.world.phys.BlockHitResult;
 
 public class NulchBlock extends Block {
 
+    public static final BooleanProperty MOLTEN = BooleanProperty.create("molten");
+
     public NulchBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.defaultBlockState().setValue(MOLTEN, false));
     }
-
-    public static final BooleanProperty MOLTEN = BooleanProperty.create("molten");
 
     @Override
     public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
@@ -58,6 +58,7 @@ public class NulchBlock extends Block {
         return super.use(state, world, pos, player, hand, hit);
     }
 
+    @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         var biome = world.getBiome(pos);
         for (Direction direction : Direction.values()) {
@@ -82,10 +83,12 @@ public class NulchBlock extends Block {
         }
     }
 
+    @Override
     public void fallOn(Level world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         entity.causeFallDamage(fallDistance, 0.2F, DamageSource.FALL);
     }
 
+    @Override
     public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity) {
         if (state.getValue(MOLTEN)) {
             if (!entity.fireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
@@ -96,7 +99,7 @@ public class NulchBlock extends Block {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
-        stateManager.add(MOLTEN);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
+        stateBuilder.add(MOLTEN);
     }
 }

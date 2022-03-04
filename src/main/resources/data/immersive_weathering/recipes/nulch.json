@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "immersive_weathering:nulch_block"
+    }
+  },
+  "result": {
+    "item": "immersive_weathering:nulch",
+    "count": 3
+  }
+}

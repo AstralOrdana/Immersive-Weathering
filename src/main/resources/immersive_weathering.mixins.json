@@ -1,0 +1,34 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.ordana.immersive_weathering.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "CampfireMixin",
+    "FireMixin",
+    "MagmaBlockMixin",
+    "SpreadableBlockMixin",
+    "NyliumBlockMixin",
+    "SnowyBlockMixin",
+    "FernBlockMixin",
+    "RootedDirtBlockMixin",
+    "BlocksMixin",
+    "WaterMixin",
+    "SaplingMixin",
+    "FarmlandMixin",
+    "CropBlockMixin",
+    "RootsBlockMixin",
+    "FungusBlockMixin",
+    "SproutsBlockMixin",
+    "CoralBlockMixin",
+    "LightningEntityMixin",
+    "LeavesMixin",
+    "IceMixin",
+    "ComposterMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -58,43 +58,43 @@ public class ImmersiveWeatheringClient {
         }));*/
 
 
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.ICICLE, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.OAK_LEAF_PILE, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.SPRUCE_LEAF_PILE, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.BIRCH_LEAF_PILE, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.JUNGLE_LEAF_PILE, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.ACACIA_LEAF_PILE, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.DARK_OAK_LEAF_PILE, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.AZALEA_LEAF_PILE, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.FLOWERING_AZALEA_LEAF_PILE, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.AZALEA_FLOWER_PILE, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WEEDS, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.EXPOSED_IRON_DOOR, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WEATHERED_IRON_DOOR, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.RUSTED_IRON_DOOR, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.ICICLE.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.OAK_LEAF_PILE.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.SPRUCE_LEAF_PILE.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.BIRCH_LEAF_PILE.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.JUNGLE_LEAF_PILE.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.ACACIA_LEAF_PILE.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.DARK_OAK_LEAF_PILE.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.AZALEA_LEAF_PILE.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.FLOWERING_AZALEA_LEAF_PILE.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.AZALEA_FLOWER_PILE.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WEEDS.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.EXPOSED_IRON_DOOR.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WEATHERED_IRON_DOOR.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.RUSTED_IRON_DOOR.get(), RenderType.cutout());
 
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.EXPOSED_IRON_TRAPDOOR, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WEATHERED_IRON_TRAPDOOR, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.RUSTED_IRON_TRAPDOOR, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.EXPOSED_IRON_TRAPDOOR.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WEATHERED_IRON_TRAPDOOR.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.RUSTED_IRON_TRAPDOOR.get(), RenderType.cutout());
 
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.EXPOSED_IRON_BARS, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WEATHERED_IRON_BARS, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.RUSTED_IRON_BARS, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.EXPOSED_IRON_BARS.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WEATHERED_IRON_BARS.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.RUSTED_IRON_BARS.get(), RenderType.cutout());
 
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_IRON_DOOR, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_EXPOSED_IRON_DOOR, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_WEATHERED_IRON_DOOR, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_RUSTED_IRON_DOOR, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_IRON_DOOR.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_EXPOSED_IRON_DOOR.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_WEATHERED_IRON_DOOR.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_RUSTED_IRON_DOOR.get(), RenderType.cutout());
 
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_IRON_TRAPDOOR, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_EXPOSED_IRON_TRAPDOOR, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_WEATHERED_IRON_TRAPDOOR, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_RUSTED_IRON_TRAPDOOR, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_IRON_TRAPDOOR.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_EXPOSED_IRON_TRAPDOOR.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_WEATHERED_IRON_TRAPDOOR.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_RUSTED_IRON_TRAPDOOR.get(), RenderType.cutout());
 
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_IRON_BARS, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_EXPOSED_IRON_BARS, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_WEATHERED_IRON_BARS, RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_RUSTED_IRON_BARS, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_IRON_BARS.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_EXPOSED_IRON_BARS.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_WEATHERED_IRON_BARS.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_RUSTED_IRON_BARS.get(), RenderType.cutout());
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -102,18 +102,18 @@ public class ImmersiveWeatheringClient {
 
         ParticleEngine particleEngine = Minecraft.getInstance().particleEngine;
 
-        particleEngine.register(ModParticles.EMBER, EmberParticle.EmberFactory::new);
-        particleEngine.register(ModParticles.SOOT, LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.OAK_LEAF, LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.SPRUCE_LEAF, LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.BIRCH_LEAF, LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.JUNGLE_LEAF, LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.ACACIA_LEAF, LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.DARK_OAK_LEAF, LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.AZALEA_LEAF, LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.AZALEA_FLOWER, LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.MULCH, LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.NULCH, LeafParticle.LeafFactory::new);
+        particleEngine.register(ModParticles.EMBER.get(), EmberParticle.EmberFactory::new);
+        particleEngine.register(ModParticles.SOOT.get(), LeafParticle.LeafFactory::new);
+        particleEngine.register(ModParticles.OAK_LEAF.get(), LeafParticle.LeafFactory::new);
+        particleEngine.register(ModParticles.SPRUCE_LEAF.get(), LeafParticle.LeafFactory::new);
+        particleEngine.register(ModParticles.BIRCH_LEAF.get(), LeafParticle.LeafFactory::new);
+        particleEngine.register(ModParticles.JUNGLE_LEAF.get(), LeafParticle.LeafFactory::new);
+        particleEngine.register(ModParticles.ACACIA_LEAF.get(), LeafParticle.LeafFactory::new);
+        particleEngine.register(ModParticles.DARK_OAK_LEAF.get(), LeafParticle.LeafFactory::new);
+        particleEngine.register(ModParticles.AZALEA_LEAF.get(), LeafParticle.LeafFactory::new);
+        particleEngine.register(ModParticles.AZALEA_FLOWER.get(), LeafParticle.LeafFactory::new);
+        particleEngine.register(ModParticles.MULCH.get(), LeafParticle.LeafFactory::new);
+        particleEngine.register(ModParticles.NULCH.get(), LeafParticle.LeafFactory::new);
     }
 
     @SubscribeEvent
@@ -122,8 +122,8 @@ public class ImmersiveWeatheringClient {
         BlockColor foliageColor = (state, world, pos, tintIndex) -> world != null && pos != null ?
                 BiomeColors.getAverageFoliageColor(world, pos) : FoliageColor.getDefaultColor();
 
-        colors.register(foliageColor, ModBlocks.OAK_LEAF_PILE, ModBlocks.SPRUCE_LEAF_PILE, ModBlocks.ACACIA_LEAF_PILE,
-                ModBlocks.JUNGLE_LEAF_PILE, ModBlocks.DARK_OAK_LEAF_PILE, ModBlocks.BIRCH_LEAF_PILE);
+        colors.register(foliageColor, ModBlocks.OAK_LEAF_PILE.get(), ModBlocks.SPRUCE_LEAF_PILE.get(), ModBlocks.ACACIA_LEAF_PILE.get(),
+                ModBlocks.JUNGLE_LEAF_PILE.get(), ModBlocks.DARK_OAK_LEAF_PILE.get(), ModBlocks.BIRCH_LEAF_PILE.get());
 
     }
 
@@ -131,9 +131,9 @@ public class ImmersiveWeatheringClient {
     public static void registerItemColors(ColorHandlerEvent.Item event) {
         ItemColors colors = event.getItemColors();
         colors.register((s, t) -> FoliageColor.getDefaultColor(),
-                ModItems.OAK_LEAF_PILE, ModItems.JUNGLE_LEAF_PILE, ModItems.DARK_OAK_LEAF_PILE, ModItems.ACACIA_LEAF_PILE);
-        colors.register((s, t) -> FoliageColor.getBirchColor(), ModItems.BIRCH_LEAF_PILE);
-        colors.register((s, t) -> FoliageColor.getEvergreenColor(), ModItems.SPRUCE_LEAF_PILE);
+                ModItems.OAK_LEAF_PILE.get(), ModItems.JUNGLE_LEAF_PILE.get(), ModItems.DARK_OAK_LEAF_PILE.get(), ModItems.ACACIA_LEAF_PILE.get());
+        colors.register((s, t) -> FoliageColor.getBirchColor(), ModItems.BIRCH_LEAF_PILE.get());
+        colors.register((s, t) -> FoliageColor.getEvergreenColor(), ModItems.SPRUCE_LEAF_PILE.get());
     }
 
 }

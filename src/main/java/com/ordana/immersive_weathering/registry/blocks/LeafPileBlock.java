@@ -28,14 +28,15 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
-import java.util.function.Supplier;
 
 public class LeafPileBlock extends Block implements BonemealableBlock {
-    public static final int MAX_LAYERS = 8;
+
     public static final IntegerProperty LAYERS = BlockStateProperties.LAYERS;
     protected static final VoxelShape[] LAYERS_TO_SHAPE = new VoxelShape[]{Shapes.empty(), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
 
@@ -51,11 +52,11 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
     private final float[] COLLISIONS = new float[]{0, 1.7f, 1.6f, 1.5f, 1.3f, 1.1f, 0.8f, 0.5f};
     private final boolean hasFlowers; //if it can be boneMealed
     private final boolean hasThorns; //if it can hurt
-    private final Supplier<SimpleParticleType>[] particles;
+    private final List<RegistryObject<SimpleParticleType>> particles;
 
 
     protected LeafPileBlock(Properties settings, boolean hasFlowers, boolean hasThorns,
-                            Supplier<SimpleParticleType>... particles) {
+                            List<RegistryObject<SimpleParticleType>> particles) {
         super(settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, 1));
         this.hasFlowers = hasFlowers;

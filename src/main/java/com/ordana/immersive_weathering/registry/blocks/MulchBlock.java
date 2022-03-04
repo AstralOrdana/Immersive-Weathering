@@ -1,10 +1,8 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.registry.ModTags;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -22,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
+
 import java.util.Random;
 
 public class MulchBlock extends Block {
@@ -59,22 +58,32 @@ public class MulchBlock extends Block {
     }
 
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+
+        // RandomEvent ran = new RandomEvent();
+
+        BlockState campfireState = world.getBlockState(pos.above());
+        if (campfireState.is(Blocks.CAMPFIRE)) {
+
+            if (random.nextFloat() < 0.2f) {
+                world.setBlockAndUpdate(pos, state.setValue(SOAKED, false));
+                return;
+            }
+        }
+
+
         if (world.isRainingAt(pos.above())) {
             if (random.nextFloat() < 0.2f) {
                 world.setBlockAndUpdate(pos, state.setValue(SOAKED, true));
+                return;
             }
         }
-        BlockState campfireState = world.getBlockState(pos.above());
-        if (campfireState.is(Blocks.CAMPFIRE)) {
-            if (random.nextFloat() < 0.2f) {
-                world.setBlockAndUpdate(pos, state.setValue(SOAKED, false));
-            }
-        }
+
         for (Direction direction : Direction.values()) {
             var targetPos = pos.relative(direction);
             BlockState neighborState = world.getBlockState(targetPos);
             if (neighborState.is(ModTags.MAGMA_SOURCE)) {
                 world.setBlock(pos, state.setValue(SOAKED, false), 2);
+                return;
             }
         }
         var biome = world.getBiome(pos);
@@ -82,19 +91,18 @@ public class MulchBlock extends Block {
             if (world.random.nextFloat() < 0.07f) {
                 world.setBlockAndUpdate(pos, state.setValue(SOAKED, false));
             }
-        }
-        else if (biome.is(ModTags.WET)) {
+        } else if (biome.is(ModTags.WET)) {
             if (world.random.nextFloat() < 0.4f) {
                 world.setBlockAndUpdate(pos, state.setValue(SOAKED, true));
             }
-        }
-        else if (world.dimension() == Level.NETHER) {
+        } else if (world.dimension() == Level.NETHER) {
             if (world.random.nextFloat() < 0.1f) {
                 world.setBlockAndUpdate(pos, state.setValue(SOAKED, false));
             }
         }
     }
 
+    @Override
     public void fallOn(Level world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         entity.causeFallDamage(fallDistance, 0.2F, DamageSource.FALL);
     }

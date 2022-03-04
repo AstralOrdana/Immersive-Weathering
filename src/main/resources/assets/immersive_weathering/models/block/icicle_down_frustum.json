@@ -1,0 +1,6 @@
+{
+  "parent": "immersive_weathering:block/icicle",
+  "textures": {
+    "cross": "immersive_weathering:block/icicle_down_frustum"
+  }
+}

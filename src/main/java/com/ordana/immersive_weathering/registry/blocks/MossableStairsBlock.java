@@ -3,6 +3,8 @@ package com.ordana.immersive_weathering.registry.blocks;
 import com.ordana.immersive_weathering.registry.ModTags;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.function.Supplier;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -13,12 +15,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluids;
 
-public class MossableStairsBlock extends StairBlock implements Mossable {
+public class MossableStairsBlock extends ModStairBlock implements Mossable {
     private final Mossable.MossLevel mossLevel;
 
     private static final HashMap<Block, Block> CLEANED_BLOCKS = new HashMap<>();
 
-    public MossableStairsBlock(Mossable.MossLevel mossLevel, BlockState baseBlockState, Properties settings) {
+    public MossableStairsBlock(Mossable.MossLevel mossLevel, Supplier<Block> baseBlockState, Properties settings) {
         super(baseBlockState, settings);
         this.mossLevel = mossLevel;
     }

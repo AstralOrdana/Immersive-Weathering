@@ -2,10 +2,11 @@ package com.ordana.immersive_weathering.registry;
 
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
+import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 
 public class ModFuel {
     public static void registerFuel() {
-        FuelRegistry.INSTANCE.add(ModItems.OAK_BARK, 200);
+        FurnaceBlockEntity ..INSTANCE.add(ModItems.OAK_BARK, 200);
         FuelRegistry.INSTANCE.add(ModItems.SPRUCE_BARK, 200);
         FuelRegistry.INSTANCE.add(ModItems.BIRCH_BARK, 200);
         FuelRegistry.INSTANCE.add(ModItems.JUNGLE_BARK, 200);

@@ -30,10 +30,12 @@ public class WeedsBlock extends CropBlock {
         }
     }
 
+    @Override
     protected ItemLike getBaseSeedId() {
-        return ModItems.WEEDS;
+        return ModItems.WEEDS.get();
     }
 
+    @Override
     public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
         int a = this.getAge(state);
         if (a == this.getMaxAge()) {
@@ -49,10 +51,11 @@ public class WeedsBlock extends CropBlock {
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-        BlockPos blockPos = pos.below();
-        return this.mayPlaceOn(world.getBlockState(blockPos), world, blockPos);
+        BlockPos below = pos.below();
+        return this.mayPlaceOn(world.getBlockState(below), world, below);
     }
 
+    @Override
     protected boolean mayPlaceOn(BlockState floor, BlockGetter world, BlockPos pos) {
         return floor.is(ModTags.FERTILE_BLOCKS) || floor.is(BlockTags.DIRT);
     }

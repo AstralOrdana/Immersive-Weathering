@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "immersive_weathering:plate_iron"
+    }
+  },
+  "result": {
+    "item": "immersive_weathering:cut_iron",
+    "count": 4
+  }
+}

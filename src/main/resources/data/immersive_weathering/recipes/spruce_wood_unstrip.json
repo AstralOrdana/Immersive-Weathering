@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "wood_unstrip",
+  "ingredients": [
+    {
+      "item": "immersive_weathering:spruce_bark"
+    },
+    {
+      "item": "minecraft:stripped_spruce_wood"
+    }
+  ],
+  "result": {
+    "item": "minecraft:spruce_wood"
+  }
+}

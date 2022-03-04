@@ -3,6 +3,8 @@ package com.ordana.immersive_weathering.registry.blocks;
 import com.ordana.immersive_weathering.registry.ModTags;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.function.Supplier;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -14,7 +16,7 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class MossyStairsBlock extends MossableStairsBlock implements BonemealableBlock {
-    public MossyStairsBlock(MossLevel mossLevel, BlockState baseBlockState, Properties settings) {
+    public MossyStairsBlock(MossLevel mossLevel, Supplier<Block> baseBlockState, Properties settings) {
         super(mossLevel, baseBlockState, settings);
     }
 

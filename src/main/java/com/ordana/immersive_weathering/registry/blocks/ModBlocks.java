@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.registry.ModParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.BlockGetter;
@@ -17,6 +18,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
@@ -36,23 +38,32 @@ public class ModBlocks {
             new IcicleBlock(BlockBehaviour.Properties.of(Material.ICE).randomTicks().instabreak().sound(SoundType.GLASS).noOcclusion().dynamicShape()))
 
     public static final RegistryObject<Block> OAK_LEAF_PILE = reg("OAK_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).randomTicks().instabreak().sound(SoundType.GRASS).noOcclusion().isValidSpawn(ModBlocks::canSpawnOnLeaves).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never)))
+            new LeafPileBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).randomTicks().instabreak().sound(SoundType.GRASS).noOcclusion().isValidSpawn(ModBlocks::canSpawnOnLeaves).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never),
+            false, false, List.of(ModParticles.OAK_LEAF)));
+
     public static final RegistryObject<Block> BIRCH_LEAF_PILE = reg("BIRCH_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).randomTicks().instabreak().sound(SoundType.GRASS).noOcclusion().isValidSpawn(ModBlocks::canSpawnOnLeaves).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never)))
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()),false, false, List.of(ModParticles.BIRCH_LEAF)));
+
     public static final RegistryObject<Block> SPRUCE_LEAF_PILE = reg("SPRUCE_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).randomTicks().instabreak().sound(SoundType.GRASS).noOcclusion().isValidSpawn(ModBlocks::canSpawnOnLeaves).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never)))
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()),false, true, List.of(ModParticles.SPRUCE_LEAF)));
+
     public static final RegistryObject<Block> JUNGLE_LEAF_PILE = reg("JUNGLE_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).randomTicks().instabreak().sound(SoundType.GRASS).noOcclusion().isValidSpawn(ModBlocks::canSpawnOnLeaves).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never)))
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()),false, false, List.of(ModParticles.JUNGLE_LEAF)));
+
     public static final RegistryObject<Block> ACACIA_LEAF_PILE = reg("ACACIA_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).randomTicks().instabreak().sound(SoundType.GRASS).noOcclusion().isValidSpawn(ModBlocks::canSpawnOnLeaves).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never)))
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()),false, false, List.of(ModParticles.ACACIA_LEAF)));
+
     public static final RegistryObject<Block> DARK_OAK_LEAF_PILE = reg("DARK_OAK_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).randomTicks().instabreak().sound(SoundType.GRASS).noOcclusion().isValidSpawn(ModBlocks::canSpawnOnLeaves).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never)))
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()),false, false, List.of(ModParticles.DARK_OAK_LEAF)));
+
     public static final RegistryObject<Block> AZALEA_LEAF_PILE = reg("AZALEA_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).randomTicks().instabreak().sound(SoundType.AZALEA_LEAVES).noOcclusion().isValidSpawn(ModBlocks::canSpawnOnLeaves).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never)))
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()).sound(SoundType.AZALEA_LEAVES),false, false, List.of(ModParticles.AZALEA_LEAF)));
+
     public static final RegistryObject<Block> FLOWERING_AZALEA_LEAF_PILE = reg("FLOWERING_AZALEA_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).instabreak().randomTicks().sound(SoundType.AZALEA_LEAVES).noOcclusion().isValidSpawn(ModBlocks::canSpawnOnLeaves).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never)))
+            new LeafPileBlock(BlockBehaviour.Properties.copy(AZALEA_LEAF_PILE.get()),true, false, List.of(ModParticles.AZALEA_LEAF, ModParticles.AZALEA_FLOWER)));
+
     public static final RegistryObject<Block> AZALEA_FLOWER_PILE = reg("AZALEA_FLOWER_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).randomTicks().instabreak().sound(SoundType.FLOWERING_AZALEA).noOcclusion().isValidSpawn(ModBlocks::canSpawnOnLeaves).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never)))
+            new LeafPileBlock(BlockBehaviour.Properties.copy(AZALEA_LEAF_PILE.get()),true, false, List.of(ModParticles.AZALEA_FLOWER)));
 
     public static final RegistryObject<Block> WEEDS = reg("WEEDS".toLowerCase(Locale.ROOT), () ->
             new WeedsBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS)))
@@ -169,13 +180,13 @@ public class ModBlocks {
             new Block(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
 
     public static final RegistryObject<Block> WAXED_CUT_IRON_STAIRS = reg("WAXED_CUT_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new ModStairs(WAXED_CUT_IRON.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
+            new ModStairBlock(WAXED_CUT_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
     public static final RegistryObject<Block> WAXED_EXPOSED_CUT_IRON_STAIRS = reg("WAXED_EXPOSED_CUT_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new ModStairs(WAXED_EXPOSED_CUT_IRON.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
+            new ModStairBlock(WAXED_EXPOSED_CUT_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
     public static final RegistryObject<Block> WAXED_WEATHERED_CUT_IRON_STAIRS = reg("WAXED_WEATHERED_CUT_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new ModStairs(WAXED_WEATHERED_CUT_IRON.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
+            new ModStairBlock(WAXED_WEATHERED_CUT_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
     public static final RegistryObject<Block> WAXED_RUSTED_CUT_IRON_STAIRS = reg("WAXED_RUSTED_CUT_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new ModStairs(WAXED_RUSTED_CUT_IRON.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
+            new ModStairBlock(WAXED_RUSTED_CUT_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
 
     public static final RegistryObject<Block> WAXED_CUT_IRON_SLAB = reg("WAXED_CUT_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
             new SlabBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
@@ -225,13 +236,13 @@ public class ModBlocks {
             new Block(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
 
     public static final RegistryObject<Block> WAXED_PLATE_IRON_STAIRS = reg("WAXED_PLATE_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new ModStairs(WAXED_PLATE_IRON.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
+            new ModStairBlock(WAXED_PLATE_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
     public static final RegistryObject<Block> WAXED_EXPOSED_PLATE_IRON_STAIRS = reg("WAXED_EXPOSED_PLATE_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new ModStairs(WAXED_EXPOSED_PLATE_IRON.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
+            new ModStairBlock(WAXED_EXPOSED_PLATE_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
     public static final RegistryObject<Block> WAXED_WEATHERED_PLATE_IRON_STAIRS = reg("WAXED_WEATHERED_PLATE_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new ModStairs(WAXED_WEATHERED_PLATE_IRON.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
+            new ModStairBlock(WAXED_WEATHERED_PLATE_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
     public static final RegistryObject<Block> WAXED_RUSTED_PLATE_IRON_STAIRS = reg("WAXED_RUSTED_PLATE_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new ModStairs(WAXED_RUSTED_PLATE_IRON.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
+            new ModStairBlock(WAXED_RUSTED_PLATE_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))
 
     public static final RegistryObject<Block> WAXED_PLATE_IRON_SLAB = reg("WAXED_PLATE_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
             new SlabBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)))

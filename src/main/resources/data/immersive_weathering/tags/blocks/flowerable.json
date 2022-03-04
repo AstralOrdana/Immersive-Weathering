@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:azalea",
+    "minecraft:azalea_leaves",
+    "immersive_weathering:azalea_leaf_pile"
+  ]
+}

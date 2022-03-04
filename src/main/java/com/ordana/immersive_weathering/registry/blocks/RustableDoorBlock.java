@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.registry.ModTags;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -11,14 +10,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
+
 import java.util.Random;
 
-public class RustableDoorBlock extends DoorBlock implements Rustable{
+public class RustableDoorBlock extends DoorBlock implements Rustable {
     private final RustLevel rustLevel;
 
     public RustableDoorBlock(RustLevel rustLevel, Properties settings) {
@@ -26,85 +24,48 @@ public class RustableDoorBlock extends DoorBlock implements Rustable{
         this.rustLevel = rustLevel;
     }
 
+    @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
         DoubleBlockHalf doubleBlockHalf = state.getValue(HALF);
-        if (direction == Direction.UP && doubleBlockHalf == DoubleBlockHalf.LOWER) {
-            if (neighborState.is(Blocks.IRON_DOOR)) {
-                return Blocks.IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.EXPOSED_IRON_DOOR)) {
-                return ModBlocks.EXPOSED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WEATHERED_IRON_DOOR)) {
-                return ModBlocks.WEATHERED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.RUSTED_IRON_DOOR)) {
-                return ModBlocks.RUSTED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WAXED_IRON_DOOR)) {
-                return ModBlocks.WAXED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WAXED_EXPOSED_IRON_DOOR)) {
-                return ModBlocks.WAXED_EXPOSED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WAXED_WEATHERED_IRON_DOOR)) {
-                return ModBlocks.WAXED_WEATHERED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WAXED_RUSTED_IRON_DOOR)) {
-                return ModBlocks.WAXED_RUSTED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
+        if ((direction == Direction.UP && doubleBlockHalf == DoubleBlockHalf.LOWER) ||
+                (direction == Direction.DOWN && doubleBlockHalf == DoubleBlockHalf.UPPER)) {
+            Block b = neighborState.getBlock();
+            if (neighborState.is(Blocks.IRON_DOOR) || b instanceof RustableDoorBlock || b instanceof WaxedRustableDoorBlock) {
+                if (state != neighborState) {
+                    return state.getBlock().withPropertiesOf(state)
+                            .setValue(HALF, doubleBlockHalf)
+                            .setValue(OPEN, neighborState.getValue(OPEN));
+                }
             }
         }
-        if (direction == Direction.DOWN && doubleBlockHalf == DoubleBlockHalf.UPPER) {
-            if (neighborState.is(Blocks.IRON_DOOR)) {
-                return Blocks.IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.EXPOSED_IRON_DOOR)) {
-                return ModBlocks.EXPOSED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WEATHERED_IRON_DOOR)) {
-                return ModBlocks.WEATHERED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.RUSTED_IRON_DOOR)) {
-                return ModBlocks.RUSTED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WAXED_IRON_DOOR)) {
-                return ModBlocks.WAXED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WAXED_EXPOSED_IRON_DOOR)) {
-                return ModBlocks.WAXED_EXPOSED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WAXED_WEATHERED_IRON_DOOR)) {
-                return ModBlocks.WAXED_WEATHERED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WAXED_RUSTED_IRON_DOOR)) {
-                return ModBlocks.WAXED_RUSTED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-        }
+
         if (direction.getAxis() == Direction.Axis.Y && doubleBlockHalf == DoubleBlockHalf.LOWER == (direction == Direction.UP)) {
-            return neighborState.is(this) && neighborState.getValue(HALF) != doubleBlockHalf ? (BlockState)((BlockState)((BlockState)((BlockState)state.setValue(FACING, (Direction)neighborState.getValue(FACING))).setValue(OPEN, (Boolean)neighborState.getValue(OPEN))).setValue(HINGE, (DoorHingeSide)neighborState.getValue(HINGE))).setValue(POWERED, (Boolean)neighborState.getValue(POWERED)) : Blocks.AIR.defaultBlockState();
+            return neighborState.is(this) && neighborState.getValue(HALF) != doubleBlockHalf ?
+                    state.setValue(FACING, neighborState.getValue(FACING))
+                            .setValue(OPEN, neighborState.getValue(OPEN))
+                            .setValue(HINGE, neighborState.getValue(HINGE))
+                            .setValue(POWERED, neighborState.getValue(POWERED)) : Blocks.AIR.defaultBlockState();
         } else {
             return doubleBlockHalf == DoubleBlockHalf.LOWER && direction == Direction.DOWN && !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
         }
     }
 
     public void playSound(Level world, BlockPos pos, boolean open) {
-        world.levelEvent(null, open ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+        world.levelEvent(null, open ? 1011 : 1005, pos, 0);
     }
 
-    private int getOpenSound() {
-        return this.material == Material.METAL ? 1011 : 1012;
-    }
 
-    private int getCloseSound() {
-        return this.material == Material.METAL ? 1005 : 1006;
-    }
-
+    //not sure if this is needed tbh
+    /*
     @Override
     public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
         boolean hasPower = world.hasNeighborSignal(pos) || world.hasNeighborSignal(pos.relative(state.getValue(HALF) == DoubleBlockHalf.LOWER ? Direction.UP : Direction.DOWN));
         if (hasPower != state.getValue(POWERED)) { // checks if redstone input has changed
-            if (world.getBlockState(pos).is(Blocks.IRON_DOOR)) {
-                if (!this.defaultBlockState().is(block) && hasPower != state.getValue(POWERED)) {
+
+            BlockState neighbour = world.getBlockState(pos);
+
+            if (neighbour.is(Blocks.IRON_DOOR)) {
+                if (this!=block && hasPower != state.getValue(POWERED)) {
                     if (hasPower != state.getValue(OPEN)) {
                         this.playSound(world, pos, hasPower);
                         world.gameEvent(hasPower ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
@@ -112,7 +73,7 @@ public class RustableDoorBlock extends DoorBlock implements Rustable{
                     world.setBlock(pos, state.setValue(POWERED, hasPower).setValue(OPEN, hasPower), 2);
                 }
             }
-            if (world.getBlockState(pos).is(ModBlocks.EXPOSED_IRON_DOOR)) {
+            else if (neighbour.is(ModBlocks.EXPOSED_IRON_DOOR)) {
                 if (hasPower) { // if the door is now being powered, open right away
                     world.scheduleTick(pos, this, 1); // 1-tick
                 } else {
@@ -120,7 +81,7 @@ public class RustableDoorBlock extends DoorBlock implements Rustable{
                 }
                 world.setBlock(pos, state.setValue(POWERED, hasPower), Block.UPDATE_CLIENTS);
             }
-            if (world.getBlockState(pos).is(ModBlocks.WEATHERED_IRON_DOOR)) {
+            else if (neighbour.is(ModBlocks.WEATHERED_IRON_DOOR)) {
                 if (hasPower) { // if the door is now being powered, open right away
                     world.scheduleTick(pos, this, 1); // 1-tick
                 } else {
@@ -128,7 +89,7 @@ public class RustableDoorBlock extends DoorBlock implements Rustable{
                 }
                 world.setBlock(pos, state.setValue(POWERED, hasPower), Block.UPDATE_CLIENTS);
             }
-            if (world.getBlockState(pos).is(ModBlocks.RUSTED_IRON_DOOR)) {
+            else if (neighbour.is(ModBlocks.RUSTED_IRON_DOOR)) {
                 if (hasPower && !state.getValue(POWERED)) { // if its recieving power but the blockstate says unpowered, that means it has just been powered on this tick
                     state = state.cycle(OPEN);
                     this.playSound(world, pos, state.getValue(OPEN));
@@ -137,17 +98,11 @@ public class RustableDoorBlock extends DoorBlock implements Rustable{
                 world.setBlock(pos, state.setValue(POWERED, hasPower).setValue(OPEN, state.getValue(OPEN)), Block.UPDATE_CLIENTS);
             }
         }
-    }
+    }*/
 
     @Override
     public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
-        if (world.getBlockState(pos).is(ModTags.EXPOSED_IRON)) {
-            state = state.cycle(OPEN);
-            this.playSound(world, pos, state.getValue(OPEN)); // if it is powered, play open sound, else play close sound
-            world.gameEvent(state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
-            world.setBlock(pos, state.setValue(OPEN, state.getValue(OPEN)), Block.UPDATE_CLIENTS); // set open to match the powered state (powered true, open true)
-        }
-        if (world.getBlockState(pos).is(ModTags.WEATHERED_IRON)) {
+        if (this.getAge() == RustLevel.EXPOSED || this.getAge() == RustLevel.WEATHERED) {
             state = state.cycle(OPEN);
             this.playSound(world, pos, state.getValue(OPEN)); // if it is powered, play open sound, else play close sound
             world.gameEvent(state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
@@ -156,8 +111,8 @@ public class RustableDoorBlock extends DoorBlock implements Rustable{
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random){
-        if (world.getBlockState(pos).is(ModTags.CLEAN_IRON)) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+        if (state.is(ModTags.CLEAN_IRON)) {
             for (Direction direction : Direction.values()) {
                 var targetPos = pos.relative(direction);
                 BlockState neighborState = world.getBlockState(targetPos);
@@ -165,14 +120,12 @@ public class RustableDoorBlock extends DoorBlock implements Rustable{
                     this.onRandomTick(state, world, pos, random);
                 }
                 if (world.getBlockState(pos.relative(direction)).is(Blocks.BUBBLE_COLUMN)) {
-                    float f = 0.06f;
                     if (random.nextFloat() > 0.06f) {
                         this.applyChangeOverTime(state, world, pos, random);
                     }
                 }
             }
-        }
-        if (world.getBlockState(pos).is(ModTags.EXPOSED_IRON)) {
+        } else if (world.getBlockState(pos).is(ModTags.EXPOSED_IRON)) {
             for (Direction direction : Direction.values()) {
                 var targetPos = pos.relative(direction);
                 BlockState neighborState = world.getBlockState(targetPos);
@@ -188,7 +141,7 @@ public class RustableDoorBlock extends DoorBlock implements Rustable{
                 if (world.isRainingAt(pos.relative(direction)) && world.getBlockState(pos.above()).is(ModTags.WEATHERED_IRON)) {
                     if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                             .map(world::getBlockState)
-                            .filter(b->b.is(ModTags.WEATHERED_IRON))
+                            .filter(b -> b.is(ModTags.WEATHERED_IRON))
                             .toList().size() <= 9) {
                         float f = 0.06f;
                         if (random.nextFloat() > 0.06f) {
@@ -198,6 +151,7 @@ public class RustableDoorBlock extends DoorBlock implements Rustable{
                 }
             }
         }
+        //TODO: figure out if this is intended to be called multiple times
         if (world.getBlockState(pos).is(ModTags.WEATHERED_IRON)) {
             for (Direction direction : Direction.values()) {
                 var targetPos = pos.relative(direction);
