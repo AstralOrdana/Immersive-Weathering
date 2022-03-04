@@ -13,7 +13,7 @@
     "FernBlockMixin",
     "RootedDirtBlockMixin",
     "BlocksMixin",
-    "WaterMixin",
+    "FluidMixin",
     "SaplingMixin",
     "FarmlandMixin",
     "CropBlockMixin",

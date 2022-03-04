@@ -60,7 +60,6 @@ public class FlowerCrownItem extends ArmorItem {
 
     private boolean hasHelmetOn(PlayerEntity player) {
         ItemStack helmet = player.getInventory().getArmorStack(3);
-
         return !helmet.isEmpty();
     }
 

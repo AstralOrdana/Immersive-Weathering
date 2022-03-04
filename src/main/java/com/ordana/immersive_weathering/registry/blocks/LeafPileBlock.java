@@ -8,7 +8,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
@@ -48,6 +50,11 @@ public class LeafPileBlock extends Block implements Fertilizable {
         return LAYERS;
     }
 
+    private boolean hasLeggingsOn(PlayerEntity player) {
+        ItemStack leggings = player.getInventory().getArmorStack(1);
+        return !leggings.isEmpty();
+    }
+
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         int a = this.getLayers(state);
         if (a == 2) {
@@ -74,11 +81,14 @@ public class LeafPileBlock extends Block implements Fertilizable {
             if (entity instanceof LivingEntity && entity.getType() != EntityType.FOX && entity.getType() != EntityType.BEE) {
                 entity.slowMovement(state, new Vec3d(1.1D, 1.1D, 1.1D));
                 if (world.getBlockState(pos).isOf(ModBlocks.SPRUCE_LEAF_PILE)) {
-                    if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
-                        double d = Math.abs(entity.getX() - entity.lastRenderX);
-                        double e = Math.abs(entity.getZ() - entity.lastRenderZ);
-                        if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
-                            entity.damage(DamageSource.SWEET_BERRY_BUSH, 0.5F);
+                    PlayerEntity player = (PlayerEntity)entity;
+                    if(!hasLeggingsOn(player)) {
+                        if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
+                            double d = Math.abs(entity.getX() - entity.lastRenderX);
+                            double e = Math.abs(entity.getZ() - entity.lastRenderZ);
+                            if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
+                                entity.damage(DamageSource.SWEET_BERRY_BUSH, 0.5F);
+                            }
                         }
                     }
                 }
@@ -88,11 +98,14 @@ public class LeafPileBlock extends Block implements Fertilizable {
             if (entity instanceof LivingEntity && entity.getType() != EntityType.FOX && entity.getType() != EntityType.BEE) {
                 entity.slowMovement(state, new Vec3d(0.8D, 0.8D, 0.8D));
                 if (world.getBlockState(pos).isOf(ModBlocks.SPRUCE_LEAF_PILE)) {
-                    if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
-                        double d = Math.abs(entity.getX() - entity.lastRenderX);
-                        double e = Math.abs(entity.getZ() - entity.lastRenderZ);
-                        if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
-                            entity.damage(DamageSource.SWEET_BERRY_BUSH, 1F);
+                    PlayerEntity player = (PlayerEntity)entity;
+                    if(!hasLeggingsOn(player)) {
+                        if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
+                            double d = Math.abs(entity.getX() - entity.lastRenderX);
+                            double e = Math.abs(entity.getZ() - entity.lastRenderZ);
+                            if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
+                                entity.damage(DamageSource.SWEET_BERRY_BUSH, 1F);
+                            }
                         }
                     }
                 }
@@ -102,11 +115,14 @@ public class LeafPileBlock extends Block implements Fertilizable {
             if (entity instanceof LivingEntity && entity.getType() != EntityType.FOX && entity.getType() != EntityType.BEE) {
                 entity.slowMovement(state, new Vec3d(0.5D, 0.5D, 0.5D));
                 if (world.getBlockState(pos).isOf(ModBlocks.SPRUCE_LEAF_PILE)) {
-                    if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
-                        double d = Math.abs(entity.getX() - entity.lastRenderX);
-                        double e = Math.abs(entity.getZ() - entity.lastRenderZ);
-                        if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
-                            entity.damage(DamageSource.SWEET_BERRY_BUSH, 1.5F);
+                    PlayerEntity player = (PlayerEntity)entity;
+                    if(!hasLeggingsOn(player)) {
+                        if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
+                            double d = Math.abs(entity.getX() - entity.lastRenderX);
+                            double e = Math.abs(entity.getZ() - entity.lastRenderZ);
+                            if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
+                                entity.damage(DamageSource.SWEET_BERRY_BUSH, 1.5F);
+                            }
                         }
                     }
                 }

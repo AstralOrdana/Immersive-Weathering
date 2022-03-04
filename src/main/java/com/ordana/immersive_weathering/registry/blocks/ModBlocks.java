@@ -40,30 +40,30 @@ public class ModBlocks {
     public static final Block MOSSY_STONE_STAIRS = new MossyStairsBlock(Mossable.MossLevel.MOSSY, MOSSY_STONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
     public static final Block MOSSY_STONE_SLAB = new MossySlabBlock(Mossable.MossLevel.MOSSY, FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
 
-    public static final Block CRACKED_BRICKS = new CrackedBlock(Crackable.CrackLevel.CRACKED, FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
-    public static final Block CRACKED_BRICK_STAIRS = new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, CRACKED_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
-    public static final Block CRACKED_BRICK_SLAB = new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
-    public static final Block CRACKED_BRICK_WALL = new CrackedWallBlock(Crackable.CrackLevel.CRACKED, FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
+    public static final Block CRACKED_BRICKS = new CrackedBlock(FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
+    public static final Block CRACKED_BRICK_STAIRS = new CrackedStairsBlock(CRACKED_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
+    public static final Block CRACKED_BRICK_SLAB = new CrackedSlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
+    public static final Block CRACKED_BRICK_WALL = new CrackedWallBlock(FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
 
-    public static final Block CRACKED_STONE_BRICK_STAIRS = new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, Blocks.CRACKED_STONE_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F));
-    public static final Block CRACKED_STONE_BRICK_SLAB = new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F));
-    public static final Block CRACKED_STONE_BRICK_WALL = new CrackedWallBlock(Crackable.CrackLevel.CRACKED, FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F));
+    public static final Block CRACKED_STONE_BRICK_STAIRS = new CrackedStairsBlock(Blocks.CRACKED_STONE_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F));
+    public static final Block CRACKED_STONE_BRICK_SLAB = new CrackedSlabBlock(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F));
+    public static final Block CRACKED_STONE_BRICK_WALL = new CrackedWallBlock(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F));
 
-    public static final Block CRACKED_POLISHED_BLACKSTONE_BRICK_STAIRS = new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.BLACK).requiresTool().strength(1.5F, 6.0F));
-    public static final Block CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB = new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, FabricBlockSettings.of(Material.STONE, MapColor.BLACK).requiresTool().strength(1.5F, 6.0F));
-    public static final Block CRACKED_POLISHED_BLACKSTONE_BRICK_WALL = new CrackedWallBlock(Crackable.CrackLevel.CRACKED, FabricBlockSettings.of(Material.STONE, MapColor.BLACK).requiresTool().strength(1.5F, 6.0F));
+    public static final Block CRACKED_POLISHED_BLACKSTONE_BRICK_STAIRS = new CrackedStairsBlock(Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.BLACK).requiresTool().strength(1.5F, 6.0F));
+    public static final Block CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB = new CrackedSlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).requiresTool().strength(1.5F, 6.0F));
+    public static final Block CRACKED_POLISHED_BLACKSTONE_BRICK_WALL = new CrackedWallBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).requiresTool().strength(1.5F, 6.0F));
 
-    public static final Block CRACKED_NETHER_BRICK_STAIRS = new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, Blocks.CRACKED_NETHER_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.DARK_RED).requiresTool().strength(2.0F, 6.0F).sounds(BlockSoundGroup.NETHER_BRICKS));
-    public static final Block CRACKED_NETHER_BRICK_SLAB = new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, FabricBlockSettings.of(Material.STONE, MapColor.DARK_RED).requiresTool().strength(2.0F, 6.0F).sounds(BlockSoundGroup.NETHER_BRICKS));
-    public static final Block CRACKED_NETHER_BRICK_WALL = new CrackedWallBlock(Crackable.CrackLevel.CRACKED, FabricBlockSettings.of(Material.STONE, MapColor.DARK_RED).requiresTool().strength(2.0F, 6.0F).sounds(BlockSoundGroup.NETHER_BRICKS));
+    public static final Block CRACKED_NETHER_BRICK_STAIRS = new CrackedStairsBlock(Blocks.CRACKED_NETHER_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.DARK_RED).requiresTool().strength(2.0F, 6.0F).sounds(BlockSoundGroup.NETHER_BRICKS));
+    public static final Block CRACKED_NETHER_BRICK_SLAB = new CrackedSlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.DARK_RED).requiresTool().strength(2.0F, 6.0F).sounds(BlockSoundGroup.NETHER_BRICKS));
+    public static final Block CRACKED_NETHER_BRICK_WALL = new CrackedWallBlock(FabricBlockSettings.of(Material.STONE, MapColor.DARK_RED).requiresTool().strength(2.0F, 6.0F).sounds(BlockSoundGroup.NETHER_BRICKS));
 
-    public static final Block CRACKED_DEEPSLATE_BRICK_STAIRS = new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, Blocks.CRACKED_DEEPSLATE_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.DEEPSLATE_GRAY).requiresTool().strength(3.0F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS));
-    public static final Block CRACKED_DEEPSLATE_BRICK_SLAB = new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, FabricBlockSettings.of(Material.STONE, MapColor.DEEPSLATE_GRAY).requiresTool().strength(3.0F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS));
-    public static final Block CRACKED_DEEPSLATE_BRICK_WALL = new CrackedWallBlock(Crackable.CrackLevel.CRACKED, FabricBlockSettings.of(Material.STONE, MapColor.DEEPSLATE_GRAY).requiresTool().strength(3.0F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS));
+    public static final Block CRACKED_DEEPSLATE_BRICK_STAIRS = new CrackedStairsBlock(Blocks.CRACKED_DEEPSLATE_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.DEEPSLATE_GRAY).requiresTool().strength(3.0F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS));
+    public static final Block CRACKED_DEEPSLATE_BRICK_SLAB = new CrackedSlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.DEEPSLATE_GRAY).requiresTool().strength(3.0F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS));
+    public static final Block CRACKED_DEEPSLATE_BRICK_WALL = new CrackedWallBlock(FabricBlockSettings.of(Material.STONE, MapColor.DEEPSLATE_GRAY).requiresTool().strength(3.0F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_BRICKS));
 
-    public static final Block CRACKED_DEEPSLATE_TILE_STAIRS = new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, Blocks.CRACKED_DEEPSLATE_TILES.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.DEEPSLATE_GRAY).requiresTool().strength(3.0F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_TILES));
-    public static final Block CRACKED_DEEPSLATE_TILE_SLAB = new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, FabricBlockSettings.of(Material.STONE, MapColor.DEEPSLATE_GRAY).requiresTool().strength(3.0F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_TILES));
-    public static final Block CRACKED_DEEPSLATE_TILE_WALL = new CrackedWallBlock(Crackable.CrackLevel.CRACKED, FabricBlockSettings.of(Material.STONE, MapColor.DEEPSLATE_GRAY).requiresTool().strength(3.0F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_TILES));
+    public static final Block CRACKED_DEEPSLATE_TILE_STAIRS = new CrackedStairsBlock(Blocks.CRACKED_DEEPSLATE_TILES.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.DEEPSLATE_GRAY).requiresTool().strength(3.0F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_TILES));
+    public static final Block CRACKED_DEEPSLATE_TILE_SLAB = new CrackedSlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.DEEPSLATE_GRAY).requiresTool().strength(3.0F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_TILES));
+    public static final Block CRACKED_DEEPSLATE_TILE_WALL = new CrackedWallBlock(FabricBlockSettings.of(Material.STONE, MapColor.DEEPSLATE_GRAY).requiresTool().strength(3.0F, 6.0F).sounds(BlockSoundGroup.DEEPSLATE_TILES));
 
     public static final Block MULCH_BLOCK = new MulchBlock(FabricBlockSettings.of(Material.WOOD).strength(1f, 1f).sounds(BlockSoundGroup.WOOD).ticksRandomly());
     public static final Block NULCH_BLOCK = new NulchBlock(FabricBlockSettings.of(Material.NETHER_WOOD).strength(1f, 1f).sounds(BlockSoundGroup.NETHER_STEM).luminance(createLightLevelFromMoltenBlockState(10)).ticksRandomly());
