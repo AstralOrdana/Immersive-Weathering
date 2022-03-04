@@ -1,16 +1,21 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
 import com.google.common.util.concurrent.AtomicDouble;
+import com.mojang.datafixers.util.Pair;
+import com.ordana.immersive_weathering.RandomChance;
 import com.ordana.immersive_weathering.registry.ModTags;
+
+import java.util.HashSet;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.Set;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.WeatheringCopperFullBlock;
+import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -21,6 +26,34 @@ public class CrackableBlock extends Block implements Crackable{
         super(settings);
         this.crackLevel = crackLevel;
     }
+
+    public static void spreadWeathering(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+
+        RandomChance chance = new RandomChance();
+
+        //checks all blocks in a square around this
+        BlockPos.withinManhattanStream(pos, 1, 1, 1)
+                .map(level::getBlockState)
+                .filter(b -> b.is(ModTags.CRACKED))
+                .toList().size() < 5;
+        if(condition){
+            for (Direction direction : Direction.values()) {
+                BlockPos neighborPos = pos.relative(direction);
+                BlockState neighbor = level.getBlockState(neighborPos);
+                if (random.nextFloat() < 0.5F) {
+                    CRACKED_BLOCKS.forEach((solid, cracked) -> {
+                        if (neighbor.isOf(solid)) {
+                            world.setBlockState(neighborPos, cracked.getStateWithProperties(neighbor));
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+
+
+
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
@@ -72,6 +105,7 @@ public class CrackableBlock extends Block implements Crackable{
         }
 
     }
+
 
     @Override
     public boolean isRandomlyTicking(BlockState state) {

@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
 
-public interface Crackable extends ChangeOverTimeBlock<Crackable.CrackLevel> {
+public interface Crackable extends ChangeOverTimeBlock<Crackable.CrackLevel>, IWeatheringBlock {
 
     Supplier<BiMap<Block, Block>> CRACK_LEVEL_INCREASES = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
 
@@ -44,7 +44,10 @@ public interface Crackable extends ChangeOverTimeBlock<Crackable.CrackLevel> {
             .put(Blocks.DEEPSLATE_TILE_WALL, ModBlocks.CRACKED_DEEPSLATE_TILE_WALL.get())
             .build());
 
+    //reverse map for reverse access in descending order
     Supplier<BiMap<Block, Block>> CRACK_LEVEL_DECREASES = Suppliers.memoize(() -> CRACK_LEVEL_INCREASES.get().inverse());
+
+    //these can be removed if you want
 
     static Optional<Block> getDecreasedCrackBlock(Block block) {
         return Optional.ofNullable(CRACK_LEVEL_DECREASES.get().get(block));
@@ -64,20 +67,20 @@ public interface Crackable extends ChangeOverTimeBlock<Crackable.CrackLevel> {
         return Crackable.getDecreasedCrackBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
-    static Optional<Block> getIncreasedCrackBlock(Block block) {
-        return Optional.ofNullable(CRACK_LEVEL_INCREASES.get().get(block));
-    }
-
     static BlockState getUncrackedCrackState(BlockState state) {
         return Crackable.getUncrackedCrackBlock(state.getBlock()).withPropertiesOf(state);
     }
 
+    static Optional<Block> getIncreasedCrackBlock(Block block) {
+        return Optional.ofNullable(CRACK_LEVEL_INCREASES.get().get(block));
+    }
+
     @Override
-    default public Optional<BlockState> getNext(BlockState state) {
+    default Optional<BlockState> getNext(BlockState state) {
         return Crackable.getIncreasedCrackBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
-    default public float getChanceModifier() {
+    default float getChanceModifier() {
         return 1.0f;
     }
 

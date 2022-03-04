@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public interface Mossable extends ChangeOverTimeBlock<Mossable.MossLevel> {
+public interface Mossable extends ChangeOverTimeBlock<Mossable.MossLevel>, IWeatheringBlock{
     Supplier<BiMap<Block, Block>> MOSS_LEVEL_INCREASES = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
             .put(Blocks.STONE, ModBlocks.MOSSY_STONE.get())
             .put(Blocks.STONE_STAIRS, ModBlocks.MOSSY_STONE_STAIRS.get())
@@ -59,11 +59,11 @@ public interface Mossable extends ChangeOverTimeBlock<Mossable.MossLevel> {
     }
 
     @Override
-    default public Optional<BlockState> getNext(BlockState state) {
+    default Optional<BlockState> getNext(BlockState state) {
         return Mossable.getIncreasedMossBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
-    default public float getChanceModifier() {
+    default float getChanceModifier() {
         return 1.0f;
     }
 

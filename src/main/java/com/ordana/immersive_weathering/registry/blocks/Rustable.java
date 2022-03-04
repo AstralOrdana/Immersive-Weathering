@@ -3,16 +3,18 @@ package com.ordana.immersive_weathering.registry.blocks;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Supplier;
 
-public interface Rustable
-        extends ChangeOverTimeBlock<Rustable.RustLevel> {
+public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
     Supplier<BiMap<Block, Block>> RUST_LEVEL_INCREASES = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
             .put(ModBlocks.CUT_IRON.get(), ModBlocks.EXPOSED_CUT_IRON.get())
             .put(ModBlocks.EXPOSED_CUT_IRON.get(), ModBlocks.WEATHERED_CUT_IRON.get())
@@ -88,6 +90,55 @@ public interface Rustable
         EXPOSED,
         WEATHERED,
         RUSTED;
+
+    }
+
+    default int getInfluenceRadius(){
+        return 4;
+    }
+
+    //same as the base one but has configurable radius
+    @Override
+    default void applyChangeOverTime(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
+        int age = this.getAge().ordinal();
+        int j = 0;
+        int k = 0;
+        int affectingDistance = this.getInfluenceRadius();
+        for(BlockPos blockpos : BlockPos.withinManhattan(pos, affectingDistance, affectingDistance, affectingDistance)) {
+            int distance = blockpos.distManhattan(pos);
+            if (distance > affectingDistance) {
+                break;
+            }
+
+            if (!blockpos.equals(pos)) {
+                BlockState blockstate = serverLevel.getBlockState(blockpos);
+                Block block = blockstate.getBlock();
+                if (block instanceof ChangeOverTimeBlock changeOverTimeBlock) {
+                    Enum<?> ageEnum = changeOverTimeBlock.getAge();
+                    //checks if they are of same age class
+                    if (this.getAge().getClass() == ageEnum.getClass()) {
+                        int neighbourAge = ageEnum.ordinal();
+                        if (neighbourAge < age) {
+                            return;
+                        }
+
+                        if (neighbourAge > age) {
+                            ++k;
+                        } else {
+                            ++j;
+                        }
+                    }
+                }
+            }
+        }
+
+        float f = (float)(k + 1) / (float)(k + j + 1);
+        float f1 = f * f * this.getChanceModifier();
+        if (random.nextFloat() < f1) {
+            this.getNext(state).ifPresent((p_153039_) -> {
+                serverLevel.setBlockAndUpdate(pos, p_153039_);
+            });
+        }
 
     }
 }

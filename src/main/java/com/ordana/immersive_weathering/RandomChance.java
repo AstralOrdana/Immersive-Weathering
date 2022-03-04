@@ -2,7 +2,7 @@ package com.ordana.immersive_weathering;
 
 import java.util.Random;
 
-public class RandomEvent {
+public class RandomChance {
 
     private float failChange = 1;
 
