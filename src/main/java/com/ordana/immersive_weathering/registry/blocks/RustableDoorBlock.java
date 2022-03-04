@@ -2,209 +2,213 @@ package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.*;
-import net.minecraft.block.enums.DoorHinge;
-import net.minecraft.block.enums.DoubleBlockHalf;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.event.GameEvent;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoorHingeSide;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.Material;
 import java.util.Random;
 
 public class RustableDoorBlock extends DoorBlock implements Rustable{
     private final RustLevel rustLevel;
 
-    public RustableDoorBlock(RustLevel rustLevel, Settings settings) {
+    public RustableDoorBlock(RustLevel rustLevel, Properties settings) {
         super(settings);
         this.rustLevel = rustLevel;
     }
 
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        DoubleBlockHalf doubleBlockHalf = state.get(HALF);
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+        DoubleBlockHalf doubleBlockHalf = state.getValue(HALF);
         if (direction == Direction.UP && doubleBlockHalf == DoubleBlockHalf.LOWER) {
-            if (neighborState.isOf(Blocks.IRON_DOOR)) {
-                return Blocks.IRON_DOOR.getStateWithProperties(state).with(OPEN, neighborState.get(OPEN));
+            if (neighborState.is(Blocks.IRON_DOOR)) {
+                return Blocks.IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
-            if (neighborState.isOf(ModBlocks.EXPOSED_IRON_DOOR)) {
-                return ModBlocks.EXPOSED_IRON_DOOR.getStateWithProperties(state).with(OPEN, neighborState.get(OPEN));
+            if (neighborState.is(ModBlocks.EXPOSED_IRON_DOOR)) {
+                return ModBlocks.EXPOSED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
-            if (neighborState.isOf(ModBlocks.WEATHERED_IRON_DOOR)) {
-                return ModBlocks.WEATHERED_IRON_DOOR.getStateWithProperties(state).with(OPEN, neighborState.get(OPEN));
+            if (neighborState.is(ModBlocks.WEATHERED_IRON_DOOR)) {
+                return ModBlocks.WEATHERED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
-            if (neighborState.isOf(ModBlocks.RUSTED_IRON_DOOR)) {
-                return ModBlocks.RUSTED_IRON_DOOR.getStateWithProperties(state).with(OPEN, neighborState.get(OPEN));
+            if (neighborState.is(ModBlocks.RUSTED_IRON_DOOR)) {
+                return ModBlocks.RUSTED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
-            if (neighborState.isOf(ModBlocks.WAXED_IRON_DOOR)) {
-                return ModBlocks.WAXED_IRON_DOOR.getStateWithProperties(state).with(OPEN, neighborState.get(OPEN));
+            if (neighborState.is(ModBlocks.WAXED_IRON_DOOR)) {
+                return ModBlocks.WAXED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
-            if (neighborState.isOf(ModBlocks.WAXED_EXPOSED_IRON_DOOR)) {
-                return ModBlocks.WAXED_EXPOSED_IRON_DOOR.getStateWithProperties(state).with(OPEN, neighborState.get(OPEN));
+            if (neighborState.is(ModBlocks.WAXED_EXPOSED_IRON_DOOR)) {
+                return ModBlocks.WAXED_EXPOSED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
-            if (neighborState.isOf(ModBlocks.WAXED_WEATHERED_IRON_DOOR)) {
-                return ModBlocks.WAXED_WEATHERED_IRON_DOOR.getStateWithProperties(state).with(OPEN, neighborState.get(OPEN));
+            if (neighborState.is(ModBlocks.WAXED_WEATHERED_IRON_DOOR)) {
+                return ModBlocks.WAXED_WEATHERED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
-            if (neighborState.isOf(ModBlocks.WAXED_RUSTED_IRON_DOOR)) {
-                return ModBlocks.WAXED_RUSTED_IRON_DOOR.getStateWithProperties(state).with(OPEN, neighborState.get(OPEN));
+            if (neighborState.is(ModBlocks.WAXED_RUSTED_IRON_DOOR)) {
+                return ModBlocks.WAXED_RUSTED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
         }
         if (direction == Direction.DOWN && doubleBlockHalf == DoubleBlockHalf.UPPER) {
-            if (neighborState.isOf(Blocks.IRON_DOOR)) {
-                return Blocks.IRON_DOOR.getStateWithProperties(state).with(OPEN, neighborState.get(OPEN));
+            if (neighborState.is(Blocks.IRON_DOOR)) {
+                return Blocks.IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
-            if (neighborState.isOf(ModBlocks.EXPOSED_IRON_DOOR)) {
-                return ModBlocks.EXPOSED_IRON_DOOR.getStateWithProperties(state).with(OPEN, neighborState.get(OPEN));
+            if (neighborState.is(ModBlocks.EXPOSED_IRON_DOOR)) {
+                return ModBlocks.EXPOSED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
-            if (neighborState.isOf(ModBlocks.WEATHERED_IRON_DOOR)) {
-                return ModBlocks.WEATHERED_IRON_DOOR.getStateWithProperties(state).with(OPEN, neighborState.get(OPEN));
+            if (neighborState.is(ModBlocks.WEATHERED_IRON_DOOR)) {
+                return ModBlocks.WEATHERED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
-            if (neighborState.isOf(ModBlocks.RUSTED_IRON_DOOR)) {
-                return ModBlocks.RUSTED_IRON_DOOR.getStateWithProperties(state).with(OPEN, neighborState.get(OPEN));
+            if (neighborState.is(ModBlocks.RUSTED_IRON_DOOR)) {
+                return ModBlocks.RUSTED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
-            if (neighborState.isOf(ModBlocks.WAXED_IRON_DOOR)) {
-                return ModBlocks.WAXED_IRON_DOOR.getStateWithProperties(state).with(OPEN, neighborState.get(OPEN));
+            if (neighborState.is(ModBlocks.WAXED_IRON_DOOR)) {
+                return ModBlocks.WAXED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
-            if (neighborState.isOf(ModBlocks.WAXED_EXPOSED_IRON_DOOR)) {
-                return ModBlocks.WAXED_EXPOSED_IRON_DOOR.getStateWithProperties(state).with(OPEN, neighborState.get(OPEN));
+            if (neighborState.is(ModBlocks.WAXED_EXPOSED_IRON_DOOR)) {
+                return ModBlocks.WAXED_EXPOSED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
-            if (neighborState.isOf(ModBlocks.WAXED_WEATHERED_IRON_DOOR)) {
-                return ModBlocks.WAXED_WEATHERED_IRON_DOOR.getStateWithProperties(state).with(OPEN, neighborState.get(OPEN));
+            if (neighborState.is(ModBlocks.WAXED_WEATHERED_IRON_DOOR)) {
+                return ModBlocks.WAXED_WEATHERED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
-            if (neighborState.isOf(ModBlocks.WAXED_RUSTED_IRON_DOOR)) {
-                return ModBlocks.WAXED_RUSTED_IRON_DOOR.getStateWithProperties(state).with(OPEN, neighborState.get(OPEN));
+            if (neighborState.is(ModBlocks.WAXED_RUSTED_IRON_DOOR)) {
+                return ModBlocks.WAXED_RUSTED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
         }
         if (direction.getAxis() == Direction.Axis.Y && doubleBlockHalf == DoubleBlockHalf.LOWER == (direction == Direction.UP)) {
-            return neighborState.isOf(this) && neighborState.get(HALF) != doubleBlockHalf ? (BlockState)((BlockState)((BlockState)((BlockState)state.with(FACING, (Direction)neighborState.get(FACING))).with(OPEN, (Boolean)neighborState.get(OPEN))).with(HINGE, (DoorHinge)neighborState.get(HINGE))).with(POWERED, (Boolean)neighborState.get(POWERED)) : Blocks.AIR.getDefaultState();
+            return neighborState.is(this) && neighborState.getValue(HALF) != doubleBlockHalf ? (BlockState)((BlockState)((BlockState)((BlockState)state.setValue(FACING, (Direction)neighborState.getValue(FACING))).setValue(OPEN, (Boolean)neighborState.getValue(OPEN))).setValue(HINGE, (DoorHingeSide)neighborState.getValue(HINGE))).setValue(POWERED, (Boolean)neighborState.getValue(POWERED)) : Blocks.AIR.defaultBlockState();
         } else {
-            return doubleBlockHalf == DoubleBlockHalf.LOWER && direction == Direction.DOWN && !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+            return doubleBlockHalf == DoubleBlockHalf.LOWER && direction == Direction.DOWN && !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
         }
     }
 
-    public void playOpenCloseSound(World world, BlockPos pos, boolean open) {
-        world.syncWorldEvent(null, open ? this.getOpenSoundEventId() : this.getCloseSoundEventId(), pos, 0);
+    public void playSound(Level world, BlockPos pos, boolean open) {
+        world.levelEvent(null, open ? this.getOpenSound() : this.getCloseSound(), pos, 0);
     }
 
-    private int getOpenSoundEventId() {
+    private int getOpenSound() {
         return this.material == Material.METAL ? 1011 : 1012;
     }
 
-    private int getCloseSoundEventId() {
+    private int getCloseSound() {
         return this.material == Material.METAL ? 1005 : 1006;
     }
 
     @Override
-    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-        boolean hasPower = world.isReceivingRedstonePower(pos) || world.isReceivingRedstonePower(pos.offset(state.get(HALF) == DoubleBlockHalf.LOWER ? Direction.UP : Direction.DOWN));
-        if (hasPower != state.get(POWERED)) { // checks if redstone input has changed
-            if (world.getBlockState(pos).isOf(Blocks.IRON_DOOR)) {
-                if (!this.getDefaultState().isOf(block) && hasPower != state.get(POWERED)) {
-                    if (hasPower != state.get(OPEN)) {
-                        this.playOpenCloseSound(world, pos, hasPower);
-                        world.emitGameEvent(hasPower ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+    public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
+        boolean hasPower = world.hasNeighborSignal(pos) || world.hasNeighborSignal(pos.relative(state.getValue(HALF) == DoubleBlockHalf.LOWER ? Direction.UP : Direction.DOWN));
+        if (hasPower != state.getValue(POWERED)) { // checks if redstone input has changed
+            if (world.getBlockState(pos).is(Blocks.IRON_DOOR)) {
+                if (!this.defaultBlockState().is(block) && hasPower != state.getValue(POWERED)) {
+                    if (hasPower != state.getValue(OPEN)) {
+                        this.playSound(world, pos, hasPower);
+                        world.gameEvent(hasPower ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
                     }
-                    world.setBlockState(pos, state.with(POWERED, hasPower).with(OPEN, hasPower), 2);
+                    world.setBlock(pos, state.setValue(POWERED, hasPower).setValue(OPEN, hasPower), 2);
                 }
             }
-            if (world.getBlockState(pos).isOf(ModBlocks.EXPOSED_IRON_DOOR)) {
+            if (world.getBlockState(pos).is(ModBlocks.EXPOSED_IRON_DOOR)) {
                 if (hasPower) { // if the door is now being powered, open right away
-                    world.createAndScheduleBlockTick(pos, this, 1); // 1-tick
+                    world.scheduleTick(pos, this, 1); // 1-tick
                 } else {
-                    world.createAndScheduleBlockTick(pos, this, 10); // 1 second
+                    world.scheduleTick(pos, this, 10); // 1 second
                 }
-                world.setBlockState(pos, state.with(POWERED, hasPower), Block.NOTIFY_LISTENERS);
+                world.setBlock(pos, state.setValue(POWERED, hasPower), Block.UPDATE_CLIENTS);
             }
-            if (world.getBlockState(pos).isOf(ModBlocks.WEATHERED_IRON_DOOR)) {
+            if (world.getBlockState(pos).is(ModBlocks.WEATHERED_IRON_DOOR)) {
                 if (hasPower) { // if the door is now being powered, open right away
-                    world.createAndScheduleBlockTick(pos, this, 1); // 1-tick
+                    world.scheduleTick(pos, this, 1); // 1-tick
                 } else {
-                    world.createAndScheduleBlockTick(pos, this, 20); // 1 second
+                    world.scheduleTick(pos, this, 20); // 1 second
                 }
-                world.setBlockState(pos, state.with(POWERED, hasPower), Block.NOTIFY_LISTENERS);
+                world.setBlock(pos, state.setValue(POWERED, hasPower), Block.UPDATE_CLIENTS);
             }
-            if (world.getBlockState(pos).isOf(ModBlocks.RUSTED_IRON_DOOR)) {
-                if (hasPower && !state.get(POWERED)) { // if its recieving power but the blockstate says unpowered, that means it has just been powered on this tick
+            if (world.getBlockState(pos).is(ModBlocks.RUSTED_IRON_DOOR)) {
+                if (hasPower && !state.getValue(POWERED)) { // if its recieving power but the blockstate says unpowered, that means it has just been powered on this tick
                     state = state.cycle(OPEN);
-                    this.playOpenCloseSound(world, pos, state.get(OPEN));
-                    world.emitGameEvent(state.get(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+                    this.playSound(world, pos, state.getValue(OPEN));
+                    world.gameEvent(state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
                 }
-                world.setBlockState(pos, state.with(POWERED, hasPower).with(OPEN, state.get(OPEN)), Block.NOTIFY_LISTENERS);
+                world.setBlock(pos, state.setValue(POWERED, hasPower).setValue(OPEN, state.getValue(OPEN)), Block.UPDATE_CLIENTS);
             }
         }
     }
 
     @Override
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (world.getBlockState(pos).isIn(ModTags.EXPOSED_IRON)) {
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+        if (world.getBlockState(pos).is(ModTags.EXPOSED_IRON)) {
             state = state.cycle(OPEN);
-            this.playOpenCloseSound(world, pos, state.get(OPEN)); // if it is powered, play open sound, else play close sound
-            world.emitGameEvent(state.get(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
-            world.setBlockState(pos, state.with(OPEN, state.get(OPEN)), Block.NOTIFY_LISTENERS); // set open to match the powered state (powered true, open true)
+            this.playSound(world, pos, state.getValue(OPEN)); // if it is powered, play open sound, else play close sound
+            world.gameEvent(state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
+            world.setBlock(pos, state.setValue(OPEN, state.getValue(OPEN)), Block.UPDATE_CLIENTS); // set open to match the powered state (powered true, open true)
         }
-        if (world.getBlockState(pos).isIn(ModTags.WEATHERED_IRON)) {
+        if (world.getBlockState(pos).is(ModTags.WEATHERED_IRON)) {
             state = state.cycle(OPEN);
-            this.playOpenCloseSound(world, pos, state.get(OPEN)); // if it is powered, play open sound, else play close sound
-            world.emitGameEvent(state.get(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
-            world.setBlockState(pos, state.with(OPEN, state.get(OPEN)), Block.NOTIFY_LISTENERS); // set open to match the powered state (powered true, open true)
+            this.playSound(world, pos, state.getValue(OPEN)); // if it is powered, play open sound, else play close sound
+            world.gameEvent(state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
+            world.setBlock(pos, state.setValue(OPEN, state.getValue(OPEN)), Block.UPDATE_CLIENTS); // set open to match the powered state (powered true, open true)
         }
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random){
-        if (world.getBlockState(pos).isIn(ModTags.CLEAN_IRON)) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random){
+        if (world.getBlockState(pos).is(ModTags.CLEAN_IRON)) {
             for (Direction direction : Direction.values()) {
-                var targetPos = pos.offset(direction);
+                var targetPos = pos.relative(direction);
                 BlockState neighborState = world.getBlockState(targetPos);
-                if (world.getBlockState(pos.offset(direction)).isOf(Blocks.AIR) || neighborState.getFluidState().getFluid() == Fluids.FLOWING_WATER || neighborState.getFluidState().getFluid() == Fluids.WATER) {
-                    this.tickDegradation(state, world, pos, random);
+                if (world.getBlockState(pos.relative(direction)).is(Blocks.AIR) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
+                    this.onRandomTick(state, world, pos, random);
                 }
-                if (world.getBlockState(pos.offset(direction)).isOf(Blocks.BUBBLE_COLUMN)) {
+                if (world.getBlockState(pos.relative(direction)).is(Blocks.BUBBLE_COLUMN)) {
                     float f = 0.06f;
                     if (random.nextFloat() > 0.06f) {
-                        this.tryDegrade(state, world, pos, random);
+                        this.applyChangeOverTime(state, world, pos, random);
                     }
                 }
             }
         }
-        if (world.getBlockState(pos).isIn(ModTags.EXPOSED_IRON)) {
+        if (world.getBlockState(pos).is(ModTags.EXPOSED_IRON)) {
             for (Direction direction : Direction.values()) {
-                var targetPos = pos.offset(direction);
+                var targetPos = pos.relative(direction);
                 BlockState neighborState = world.getBlockState(targetPos);
-                if (world.hasRain(pos.up()) || neighborState.getFluidState().getFluid() == Fluids.FLOWING_WATER || neighborState.getFluidState().getFluid() == Fluids.WATER) {
-                    this.tickDegradation(state, world, pos, random);
+                if (world.isRainingAt(pos.above()) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
+                    this.onRandomTick(state, world, pos, random);
                 }
-                if (world.getBlockState(pos.offset(direction)).isOf(Blocks.BUBBLE_COLUMN)) {
+                if (world.getBlockState(pos.relative(direction)).is(Blocks.BUBBLE_COLUMN)) {
                     float f = 0.06f;
                     if (random.nextFloat() > 0.06f) {
-                        this.tryDegrade(state, world, pos, random);
+                        this.applyChangeOverTime(state, world, pos, random);
                     }
                 }
-                if (world.hasRain(pos.offset(direction)) && world.getBlockState(pos.up()).isIn(ModTags.WEATHERED_IRON)) {
-                    if (BlockPos.streamOutwards(pos, 2, 2, 2)
+                if (world.isRainingAt(pos.relative(direction)) && world.getBlockState(pos.above()).is(ModTags.WEATHERED_IRON)) {
+                    if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                             .map(world::getBlockState)
-                            .filter(b->b.isIn(ModTags.WEATHERED_IRON))
+                            .filter(b->b.is(ModTags.WEATHERED_IRON))
                             .toList().size() <= 9) {
                         float f = 0.06f;
                         if (random.nextFloat() > 0.06f) {
-                            this.tryDegrade(state, world, pos, random);
+                            this.applyChangeOverTime(state, world, pos, random);
                         }
                     }
                 }
             }
         }
-        if (world.getBlockState(pos).isIn(ModTags.WEATHERED_IRON)) {
+        if (world.getBlockState(pos).is(ModTags.WEATHERED_IRON)) {
             for (Direction direction : Direction.values()) {
-                var targetPos = pos.offset(direction);
+                var targetPos = pos.relative(direction);
                 BlockState neighborState = world.getBlockState(targetPos);
-                if (neighborState.getFluidState().getFluid() == Fluids.WATER || neighborState.getFluidState().getFluid() == Fluids.FLOWING_WATER) {
-                    this.tickDegradation(state, world, pos, random);
+                if (neighborState.getFluidState().getType() == Fluids.WATER || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER) {
+                    this.onRandomTick(state, world, pos, random);
                 }
-                if (world.getBlockState(pos.offset(direction)).isOf(Blocks.BUBBLE_COLUMN)) {
+                if (world.getBlockState(pos.relative(direction)).is(Blocks.BUBBLE_COLUMN)) {
                     float f = 0.07f;
                     if (random.nextFloat() > 0.07f) {
-                        this.tryDegrade(state, world, pos, random);
+                        this.applyChangeOverTime(state, world, pos, random);
                     }
                 }
             }
@@ -212,12 +216,12 @@ public class RustableDoorBlock extends DoorBlock implements Rustable{
     }
 
     @Override
-    public boolean hasRandomTicks(BlockState state) {
+    public boolean isRandomlyTicking(BlockState state) {
         return Rustable.getIncreasedRustBlock(state.getBlock()).isPresent();
     }
 
     @Override
-    public RustLevel getDegradationLevel() {
+    public RustLevel getAge() {
         return this.rustLevel;
     }
 

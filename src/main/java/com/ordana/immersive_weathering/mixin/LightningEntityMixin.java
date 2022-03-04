@@ -1,86 +1,88 @@
 package com.ordana.immersive_weathering.mixin;
 
 import net.minecraft.block.*;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LightningEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.tag.BlockTags;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(LightningEntity.class)
+@Mixin(LightningBolt.class)
 public class LightningEntityMixin extends Entity {
 
-    public LightningEntityMixin(EntityType<?> type, World world) {
+    public LightningEntityMixin(EntityType<?> type, Level world) {
         super(type, world);
     }
 
     @Inject(method = "powerLightningRod", at = @At("HEAD"))
     private void powerLightningRod(CallbackInfo ci) {
         BlockPos blockPos = this.getAffectedBlockPos();
-        BlockPos downPos = blockPos.down();
+        BlockPos downPos = blockPos.below();
         BlockPos northPos = blockPos.north();
         BlockPos southPos = blockPos.south();
         BlockPos eastPos = blockPos.east();
         BlockPos westPos = blockPos.west();
-        BlockState downState = world.getBlockState(downPos);
-        BlockState northState = world.getBlockState(northPos);
-        BlockState southState = world.getBlockState(southPos);
-        BlockState eastState = world.getBlockState(eastPos);
-        BlockState westState = world.getBlockState(westPos);
-        BlockState blockState = this.world.getBlockState(blockPos);
-        if (blockState.isIn(BlockTags.SAND)) {
-            world.setBlockState(blockPos, Blocks.GLASS.getDefaultState());
-            if (downState.isIn(BlockTags.SAND)) {
-                world.setBlockState(downPos, Blocks.GLASS.getDefaultState());
+        BlockState downState = level.getBlockState(downPos);
+        BlockState northState = level.getBlockState(northPos);
+        BlockState southState = level.getBlockState(southPos);
+        BlockState eastState = level.getBlockState(eastPos);
+        BlockState westState = level.getBlockState(westPos);
+        BlockState blockState = this.level.getBlockState(blockPos);
+        if (blockState.is(BlockTags.SAND)) {
+            level.setBlockAndUpdate(blockPos, Blocks.GLASS.defaultBlockState());
+            if (downState.is(BlockTags.SAND)) {
+                level.setBlockAndUpdate(downPos, Blocks.GLASS.defaultBlockState());
             }
-            if (northState.isIn(BlockTags.SAND)) {
-                if (world.random.nextFloat() < 0.5f) {
-                    world.setBlockState(northPos, Blocks.GLASS.getDefaultState());
+            if (northState.is(BlockTags.SAND)) {
+                if (level.random.nextFloat() < 0.5f) {
+                    level.setBlockAndUpdate(northPos, Blocks.GLASS.defaultBlockState());
                 }
             }
-            if (southState.isIn(BlockTags.SAND)) {
-                if (world.random.nextFloat() < 0.5f) {
-                    world.setBlockState(southPos, Blocks.GLASS.getDefaultState());
+            if (southState.is(BlockTags.SAND)) {
+                if (level.random.nextFloat() < 0.5f) {
+                    level.setBlockAndUpdate(southPos, Blocks.GLASS.defaultBlockState());
                 }
             }
-            if (eastState.isIn(BlockTags.SAND)) {
-                if (world.random.nextFloat() < 0.5f) {
-                    world.setBlockState(eastPos, Blocks.GLASS.getDefaultState());
+            if (eastState.is(BlockTags.SAND)) {
+                if (level.random.nextFloat() < 0.5f) {
+                    level.setBlockAndUpdate(eastPos, Blocks.GLASS.defaultBlockState());
                 }
             }
-            if (westState.isIn(BlockTags.SAND)) {
-                if (world.random.nextFloat() < 0.5f) {
-                    world.setBlockState(westPos, Blocks.GLASS.getDefaultState());
+            if (westState.is(BlockTags.SAND)) {
+                if (level.random.nextFloat() < 0.5f) {
+                    level.setBlockAndUpdate(westPos, Blocks.GLASS.defaultBlockState());
                 }
             }
         }
     }
 
     public BlockPos getAffectedBlockPos() {
-        Vec3d vec3d = this.getPos();
+        Vec3 vec3d = this.position();
         return new BlockPos(vec3d.x, vec3d.y - 1.0E-6D, vec3d.z);
     }
 
     @Override
-    public void initDataTracker() {
+    public void defineSynchedData() {
     }
     @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
+    public void readAdditionalSaveData(CompoundTag nbt) {
     }
     @Override
-    public void writeCustomDataToNbt(NbtCompound nbt) {
+    public void addAdditionalSaveData(CompoundTag nbt) {
     }
     @Override
-    public Packet<?> createSpawnPacket() {
-        return new EntitySpawnS2CPacket(this);
+    public Packet<?> getAddEntityPacket() {
+        return new ClientboundAddEntityPacket(this);
     }
 }

@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "immersive_weathering:block/cut_iron",
-    "top": "immersive_weathering:block/cut_iron",
-    "side": "immersive_weathering:block/cut_iron"
-  }
-}

@@ -2,55 +2,54 @@ package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.ModTags;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FallingBlock;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-
 import java.util.Random;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FallingBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class AshBlock extends FallingBlock {
-    public AshBlock(Settings settings) {
+    public AshBlock(Properties settings) {
         super(settings);
-        this.setDefaultState((BlockState)this.getDefaultState().with(LIT, false));
+        this.registerDefaultState((BlockState)this.defaultBlockState().setValue(LIT, false));
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
         stateManager.add(LIT);
     }
 
-    public static final BooleanProperty LIT = BooleanProperty.of("lit");
+    public static final BooleanProperty LIT = BooleanProperty.create("lit");
 
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (state.get(LIT)) {
-            world.setBlockState(pos, state.with(LIT, false), 2);
-            world.playSound(player, pos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
-            return ActionResult.success(world.isClient);
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (state.getValue(LIT)) {
+            world.setBlock(pos, state.setValue(LIT, false), 2);
+            world.playSound(player, pos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0f, 1.0f);
+            return InteractionResult.sidedSuccess(world.isClientSide);
         } else {
-            return ActionResult.PASS;
+            return InteractionResult.PASS;
         }
     }
 
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-        if (state.get(LIT)) {
+    public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
+        if (state.getValue(LIT)) {
             int i = pos.getX();
             int j = pos.getY();
             int k = pos.getZ();
@@ -61,35 +60,35 @@ public class AshBlock extends FallingBlock {
         }
     }
 
-    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
-        if (state.get(LIT)) {
-            if (!entity.isFireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
-                entity.damage(DamageSource.HOT_FLOOR, 1.0F);
+    public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity) {
+        if (state.getValue(LIT)) {
+            if (!entity.fireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
+                entity.hurt(DamageSource.HOT_FLOOR, 1.0F);
             }
         }
-        super.onSteppedOn(world, pos, state, entity);
+        super.stepOn(world, pos, state, entity);
     }
 
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random){
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random){
         for (Direction direction : Direction.values()) {
-            var targetPos = pos.offset(direction);
+            var targetPos = pos.relative(direction);
             BlockState neighborState = world.getBlockState(targetPos);
-            if (neighborState.isIn(ModTags.MAGMA_SOURCE)) {
-                if (world.hasRain(pos.offset(direction))) {
+            if (neighborState.is(ModTags.MAGMA_SOURCE)) {
+                if (world.isRainingAt(pos.relative(direction))) {
                     return;
                 }
-                world.setBlockState(pos, state.with(LIT, true), 2);
+                world.setBlock(pos, state.setValue(LIT, true), 2);
             }
-            if (world.hasRain(pos.offset(direction)) || neighborState.getFluidState().getFluid() == Fluids.FLOWING_WATER || neighborState.getFluidState().getFluid() == Fluids.WATER) {
-                if (neighborState.isIn(ModTags.MAGMA_SOURCE)) {
+            if (world.isRainingAt(pos.relative(direction)) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
+                if (neighborState.is(ModTags.MAGMA_SOURCE)) {
                     return;
                 }
-                world.setBlockState(pos, state.with(LIT, false), 2);
+                world.setBlock(pos, state.setValue(LIT, false), 2);
             }
         }
     }
 
-    public int getColor(BlockState state, BlockView world, BlockPos pos) {
+    public int getDustColor(BlockState state, BlockGetter world, BlockPos pos) {
         return -1842206;
     }
 }

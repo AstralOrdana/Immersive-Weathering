@@ -1,11 +1,11 @@
 package com.ordana.immersive_weathering.registry;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.tag.TagKey;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 
 public final class ModTags {
     //blocks
@@ -51,14 +51,14 @@ public final class ModTags {
     }
 
     private static TagKey<Block> registerBlockTag(String id) {
-        return TagKey.of(Registry.BLOCK_KEY, new Identifier("immersive_weathering", id));
+        return TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("immersive_weathering", id));
     }
 
     private static TagKey<Item> registerItemTag(String id) {
-        return TagKey.of(Registry.ITEM_KEY, new Identifier("immersive_weathering", id));
+        return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("immersive_weathering", id));
     }
 
     private static TagKey<Biome> registerBiomeTag(String id) {
-        return TagKey.of(Registry.BIOME_KEY, new Identifier("immersive_weathering", id));
+        return TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("immersive_weathering", id));
     }
 }

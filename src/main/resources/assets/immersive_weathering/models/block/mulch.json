@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/carpet",
-  "textures": {
-    "wool": "immersive_weathering:block/mulch_block"
-  }
-}

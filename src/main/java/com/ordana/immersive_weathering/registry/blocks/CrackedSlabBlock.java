@@ -1,14 +1,14 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class CrackedSlabBlock extends CrackableSlabBlock {
-    public CrackedSlabBlock(CrackLevel crackLevel, Settings settings) {
+    public CrackedSlabBlock(CrackLevel crackLevel, Properties settings) {
         super(crackLevel, settings);
     }
 
     @Override
-    public boolean hasRandomTicks(BlockState state) {
+    public boolean isRandomlyTicking(BlockState state) {
         return false;
     }
 }

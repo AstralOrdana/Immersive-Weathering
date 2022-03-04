@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "immersive_weathering:block/mulch_block"
-  }
-}

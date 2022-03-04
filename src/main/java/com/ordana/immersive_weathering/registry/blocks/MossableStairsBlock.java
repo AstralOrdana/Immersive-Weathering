@@ -1,72 +1,71 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.registry.ModTags;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-
 import java.util.HashMap;
 import java.util.Random;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.Fluids;
 
-public class MossableStairsBlock extends StairsBlock implements Mossable {
+public class MossableStairsBlock extends StairBlock implements Mossable {
     private final Mossable.MossLevel mossLevel;
 
     private static final HashMap<Block, Block> CLEANED_BLOCKS = new HashMap<>();
 
-    public MossableStairsBlock(Mossable.MossLevel mossLevel, BlockState baseBlockState, Settings settings) {
+    public MossableStairsBlock(Mossable.MossLevel mossLevel, BlockState baseBlockState, Properties settings) {
         super(baseBlockState, settings);
         this.mossLevel = mossLevel;
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random){
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random){
         CLEANED_BLOCKS.put(Blocks.STONE_BRICK_STAIRS, ModBlocks.CRACKED_STONE_BRICK_STAIRS);
         CLEANED_BLOCKS.put(Blocks.BRICK_STAIRS, ModBlocks.CRACKED_BRICK_STAIRS);
-        if (world.getBlockState(pos).isIn(ModTags.CRACKABLE)) {
+        if (world.getBlockState(pos).is(ModTags.CRACKABLE)) {
             for (Direction direction : Direction.values()) {
-                BlockPos targetPos = pos.offset(direction);
+                BlockPos targetPos = pos.relative(direction);
                 BlockState targetBlock = world.getBlockState(targetPos);
-                if (BlockPos.streamOutwards(pos, 2, 2, 2)
+                if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                         .map(world::getBlockState)
                         .map(BlockState::getBlock)
                         .anyMatch(Blocks.FIRE::equals)) {
                     float f = 0.5F;
                     if (random.nextFloat() < 0.5F) {
                         CLEANED_BLOCKS.forEach((solid, cracked) -> {
-                            if (targetBlock.isOf(solid)) {
-                                world.setBlockState(targetPos, cracked.getStateWithProperties(targetBlock));
+                            if (targetBlock.is(solid)) {
+                                world.setBlockAndUpdate(targetPos, cracked.withPropertiesOf(targetBlock));
                             }
                         });
                     }
                 }
-                if (BlockPos.streamOutwards(pos, 2, 2, 2)
+                if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                         .map(world::getBlockState)
-                        .filter(b->b.isIn(ModTags.CRACKABLE))
+                        .filter(b->b.is(ModTags.CRACKABLE))
                         .toList().size() >= 20) {
-                    if (BlockPos.streamOutwards(pos, 2, 2, 2)
+                    if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                             .map(world::getBlockState)
-                            .filter(b->b.isIn(ModTags.CRACKED))
+                            .filter(b->b.is(ModTags.CRACKED))
                             .toList().size() <= 8) {
                         float f = 0.0000625F;
                         if (random.nextFloat() < 0.0000625F) {
                             CLEANED_BLOCKS.forEach((solid, cracked) -> {
-                                if (targetBlock.isOf(solid)) {
-                                    world.setBlockState(targetPos, cracked.getStateWithProperties(targetBlock));
+                                if (targetBlock.is(solid)) {
+                                    world.setBlockAndUpdate(targetPos, cracked.withPropertiesOf(targetBlock));
                                 }
                             });
                         }
-                        if (world.getBlockState(pos.offset(direction)).isIn(ModTags.CRACKED)) {
+                        if (world.getBlockState(pos.relative(direction)).is(ModTags.CRACKED)) {
                             float g = 0.02F;
                             if (random.nextFloat() < 0.02F) {
                                 CLEANED_BLOCKS.forEach((solid, cracked) -> {
-                                    if (targetBlock.isOf(solid)) {
-                                        world.setBlockState(targetPos, cracked.getStateWithProperties(targetBlock));
+                                    if (targetBlock.is(solid)) {
+                                        world.setBlockAndUpdate(targetPos, cracked.withPropertiesOf(targetBlock));
                                     }
                                 });
                             }
@@ -76,83 +75,83 @@ public class MossableStairsBlock extends StairsBlock implements Mossable {
             }
         }
         for (Direction direction : Direction.values()) {
-            var targetPos = pos.offset(direction);
+            var targetPos = pos.relative(direction);
             BlockState neighborState = world.getBlockState(targetPos);
-            if (neighborState.getFluidState().getFluid() == Fluids.LAVA || neighborState.getFluidState().getFluid() == Fluids.FLOWING_LAVA) {
+            if (neighborState.getFluidState().getType() == Fluids.LAVA || neighborState.getFluidState().getType() == Fluids.FLOWING_LAVA) {
                 return;
             }
         }
         for (Direction direction : Direction.values()) {
-            var targetPos = pos.offset(direction);
+            var targetPos = pos.relative(direction);
             BlockState neighborState = world.getBlockState(targetPos);
-            if ((world.getBlockState(pos.offset(direction)).isIn(ModTags.MOSS_SOURCE) || (neighborState.contains(Properties.WATERLOGGED)) && neighborState.get(Properties.WATERLOGGED))) {
+            if ((world.getBlockState(pos.relative(direction)).is(ModTags.MOSS_SOURCE) || (neighborState.hasProperty(BlockStateProperties.WATERLOGGED)) && neighborState.getValue(BlockStateProperties.WATERLOGGED))) {
                 float f = 0.5f;
                 if (random.nextFloat() > 0.5f) {
-                    this.tryDegrade(state, world, pos, random);
+                    this.applyChangeOverTime(state, world, pos, random);
                 }
             }
-            if (BlockPos.streamOutwards(pos, 1, 1, 1)
+            if (BlockPos.withinManhattanStream(pos, 1, 1, 1)
                     .map(world::getBlockState)
-                    .anyMatch(e -> (e.contains(Properties.WATERLOGGED) && e.get(Properties.WATERLOGGED)) || e.isIn(ModTags.MOSS_SOURCE))) {
-                if (BlockPos.streamOutwards(pos, 2, 2, 2)
+                    .anyMatch(e -> (e.hasProperty(BlockStateProperties.WATERLOGGED) && e.getValue(BlockStateProperties.WATERLOGGED)) || e.is(ModTags.MOSS_SOURCE))) {
+                if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                         .map(world::getBlockState)
-                        .filter(b->b.isIn(ModTags.MOSSY))
+                        .filter(b->b.is(ModTags.MOSSY))
                         .toList().size() <= 20) {
                     float f = 0.4f;
                     if (random.nextFloat() > 0.4f) {
-                        this.tryDegrade(state, world, pos, random);
+                        this.applyChangeOverTime(state, world, pos, random);
                     }
                 }
             }
-            if (BlockPos.streamOutwards(pos, 2, 2, 2)
+            if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                     .map(world::getBlockState)
-                    .anyMatch(e -> (e.contains(Properties.WATERLOGGED) && e.get(Properties.WATERLOGGED)) || e.isIn(ModTags.MOSS_SOURCE))) {
-                if (BlockPos.streamOutwards(pos, 2, 2, 2)
+                    .anyMatch(e -> (e.hasProperty(BlockStateProperties.WATERLOGGED) && e.getValue(BlockStateProperties.WATERLOGGED)) || e.is(ModTags.MOSS_SOURCE))) {
+                if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                         .map(world::getBlockState)
-                        .filter(b->b.isIn(ModTags.MOSSY))
+                        .filter(b->b.is(ModTags.MOSSY))
                         .toList().size() <= 15) {
                     float f = 0.3f;
                     if (random.nextFloat() > 0.3f) {
-                        this.tryDegrade(state, world, pos, random);
+                        this.applyChangeOverTime(state, world, pos, random);
                     }
                 }
             }
-            if (BlockPos.streamOutwards(pos, 3, 3, 3)
+            if (BlockPos.withinManhattanStream(pos, 3, 3, 3)
                     .map(world::getBlockState)
-                    .anyMatch(e -> (e.contains(Properties.WATERLOGGED) && e.get(Properties.WATERLOGGED)) || e.isIn(ModTags.MOSS_SOURCE))) {
-                if (BlockPos.streamOutwards(pos, 2, 2, 2)
+                    .anyMatch(e -> (e.hasProperty(BlockStateProperties.WATERLOGGED) && e.getValue(BlockStateProperties.WATERLOGGED)) || e.is(ModTags.MOSS_SOURCE))) {
+                if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                         .map(world::getBlockState)
-                        .filter(b->b.isIn(ModTags.MOSSY))
+                        .filter(b->b.is(ModTags.MOSSY))
                         .toList().size() <= 8) {
                     float f = 0.2f;
                     if (random.nextFloat() > 0.2f) {
-                        this.tryDegrade(state, world, pos, random);
+                        this.applyChangeOverTime(state, world, pos, random);
                     }
                 }
             }
-            if (BlockPos.streamOutwards(pos, 4, 4, 4)
+            if (BlockPos.withinManhattanStream(pos, 4, 4, 4)
                     .map(world::getBlockState)
-                    .anyMatch(e -> (e.contains(Properties.WATERLOGGED) && e.get(Properties.WATERLOGGED)) || e.isIn(ModTags.MOSS_SOURCE))) {
-                if (BlockPos.streamOutwards(pos, 2, 2, 2)
+                    .anyMatch(e -> (e.hasProperty(BlockStateProperties.WATERLOGGED) && e.getValue(BlockStateProperties.WATERLOGGED)) || e.is(ModTags.MOSS_SOURCE))) {
+                if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                         .map(world::getBlockState)
-                        .filter(b->b.isIn(ModTags.MOSSY))
+                        .filter(b->b.is(ModTags.MOSSY))
                         .toList().size() <= 6) {
                     float f = 0.1f;
                     if (random.nextFloat() > 0.1f) {
-                        this.tryDegrade(state, world, pos, random);
+                        this.applyChangeOverTime(state, world, pos, random);
                     }
                 }
             }
-            if (BlockPos.streamOutwards(pos, 5, 5, 5)
+            if (BlockPos.withinManhattanStream(pos, 5, 5, 5)
                     .map(world::getBlockState)
-                    .anyMatch(e -> (e.contains(Properties.WATERLOGGED) && e.get(Properties.WATERLOGGED)) || e.isIn(ModTags.MOSS_SOURCE))) {
-                if (BlockPos.streamOutwards(pos, 2, 2, 2)
+                    .anyMatch(e -> (e.hasProperty(BlockStateProperties.WATERLOGGED) && e.getValue(BlockStateProperties.WATERLOGGED)) || e.is(ModTags.MOSS_SOURCE))) {
+                if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                         .map(world::getBlockState)
-                        .filter(b->b.isIn(ModTags.MOSSY))
+                        .filter(b->b.is(ModTags.MOSSY))
                         .toList().size() <= 3) {
                     float f = 0.09f;
                     if (random.nextFloat() > 0.09f) {
-                        this.tryDegrade(state, world, pos, random);
+                        this.applyChangeOverTime(state, world, pos, random);
                     }
                 }
             }
@@ -160,12 +159,12 @@ public class MossableStairsBlock extends StairsBlock implements Mossable {
     }
 
     @Override
-    public boolean hasRandomTicks(BlockState state) {
+    public boolean isRandomlyTicking(BlockState state) {
         return Mossable.getIncreasedMossBlock(state.getBlock()).isPresent();
     }
 
     @Override
-    public Mossable.MossLevel getDegradationLevel() {
+    public Mossable.MossLevel getAge() {
         return this.mossLevel;
     }
 }

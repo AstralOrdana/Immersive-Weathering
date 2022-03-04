@@ -2,41 +2,39 @@ package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.items.ModItems;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CropBlock;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.Items;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.tag.BlockTags;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
-
 import java.util.Random;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class WeedsBlock extends CropBlock {
-    protected WeedsBlock(Settings settings) {
+    protected WeedsBlock(Properties settings) {
         super(settings);
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         int i = this.getAge(state);
         if (i < this.getMaxAge()) {
-            float f = getAvailableMoisture(this, world, pos);
+            float f = getGrowthSpeed(this, world, pos);
             if (random.nextInt((int)(25.0F / f) + 1) == 0) {
-                world.setBlockState(pos, this.withAge(i + 1), 2);
+                world.setBlock(pos, this.getStateForAge(i + 1), 2);
             }
         }
     }
 
-    protected ItemConvertible getSeedsItem() {
+    protected ItemLike getBaseSeedId() {
         return ModItems.WEEDS;
     }
 
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
         int a = this.getAge(state);
         if (a == this.getMaxAge()) {
             int i = pos.getX();
@@ -50,12 +48,12 @@ public class WeedsBlock extends CropBlock {
     }
 
     @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        BlockPos blockPos = pos.down();
-        return this.canPlantOnTop(world.getBlockState(blockPos), world, blockPos);
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        BlockPos blockPos = pos.below();
+        return this.mayPlaceOn(world.getBlockState(blockPos), world, blockPos);
     }
 
-    protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
-        return floor.isIn(ModTags.FERTILE_BLOCKS) || floor.isIn(BlockTags.DIRT);
+    protected boolean mayPlaceOn(BlockState floor, BlockGetter world, BlockPos pos) {
+        return floor.is(ModTags.FERTILE_BLOCKS) || floor.is(BlockTags.DIRT);
     }
 }

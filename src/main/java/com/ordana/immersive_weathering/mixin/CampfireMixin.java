@@ -3,85 +3,90 @@ package com.ordana.immersive_weathering.mixin;
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.CampfireBlockEntity;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.PipeBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.CampfireBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.Random;
 
 @Mixin(CampfireBlock.class)
-public class CampfireMixin extends BlockWithEntity{
+public class CampfireMixin extends BaseEntityBlock{
 
-    protected CampfireMixin(Settings settings) {
+    protected CampfireMixin(Properties settings) {
         super(settings);
     }
 
     @Nullable
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        WorldAccess worldAccess = ctx.getWorld();
-        BlockPos blockPos = ctx.getBlockPos();
-        boolean bl = worldAccess.getFluidState(blockPos).getFluid() == Fluids.WATER;
-        return (BlockState)((BlockState)((BlockState)((BlockState)this.getDefaultState().with(CampfireBlock.WATERLOGGED, bl)).with(CampfireBlock.SIGNAL_FIRE, this.doesBlockCauseSignalFire(worldAccess.getBlockState(blockPos.down())))).with(CampfireBlock.LIT, !bl)).with(CampfireBlock.FACING, ctx.getPlayerFacing());
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        LevelAccessor worldAccess = ctx.getLevel();
+        BlockPos blockPos = ctx.getClickedPos();
+        boolean bl = worldAccess.getFluidState(blockPos).getType() == Fluids.WATER;
+        return (BlockState)((BlockState)((BlockState)((BlockState)this.defaultBlockState().setValue(CampfireBlock.WATERLOGGED, bl)).setValue(CampfireBlock.SIGNAL_FIRE, this.doesBlockCauseSignalFire(worldAccess.getBlockState(blockPos.below())))).setValue(CampfireBlock.LIT, !bl)).setValue(CampfireBlock.FACING, ctx.getHorizontalDirection());
     }
 
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if ((Boolean)state.get(CampfireBlock.WATERLOGGED)) {
-            world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+        if ((Boolean)state.getValue(CampfireBlock.WATERLOGGED)) {
+            world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         }
 
-        return direction == Direction.DOWN ? (BlockState)state.with(CampfireBlock.SIGNAL_FIRE, this.doesBlockCauseSignalFire(neighborState)) : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+        return direction == Direction.DOWN ? (BlockState)state.setValue(CampfireBlock.SIGNAL_FIRE, this.doesBlockCauseSignalFire(neighborState)) : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
     }
 
     private boolean doesBlockCauseSignalFire(BlockState state) {
-        return state.isIn(ModTags.SMOKEY_BLOCKS);
+        return state.is(ModTags.SMOKEY_BLOCKS);
     }
 
     @Override
-    public boolean hasRandomTicks(BlockState state) {
+    public boolean isRandomlyTicking(BlockState state) {
         return true;
     }
 
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
 
         int smokeHeight = 8;
 
-        if (state.get(CampfireBlock.SIGNAL_FIRE)) {
+        if (state.getValue(CampfireBlock.SIGNAL_FIRE)) {
             smokeHeight = 23;
         }
 
-        if (state.get(CampfireBlock.LIT)) {
+        if (state.getValue(CampfireBlock.LIT)) {
             BlockPos sootPos = pos;
             for (int i = 0; i < smokeHeight; i++) {
-                sootPos = sootPos.up();
-                BlockState above = world.getBlockState(sootPos.up());
-                if (Block.isFaceFullSquare(above.getCollisionShape(world, sootPos.up()), Direction.DOWN)) {
+                sootPos = sootPos.above();
+                BlockState above = world.getBlockState(sootPos.above());
+                if (Block.isFaceFull(above.getCollisionShape(world, sootPos.above()), Direction.DOWN)) {
                     if (world.getBlockState(sootPos).isAir()) {
-                        world.setBlockState(sootPos, ModBlocks.SOOT.getDefaultState().with(Properties.UP, true), Block.NOTIFY_LISTENERS);
+                        world.setBlock(sootPos, ModBlocks.SOOT.defaultBlockState().setValue(BlockStateProperties.UP, true), Block.UPDATE_CLIENTS);
                     }
                     smokeHeight = i+1;
                 }
             }
-            BlockPos sootBlock = pos.up(random.nextInt(smokeHeight) + 1);
+            BlockPos sootBlock = pos.above(random.nextInt(smokeHeight) + 1);
             int rand = random.nextInt(4);
-            Direction sootDir = Direction.fromHorizontal(rand);
-            BlockPos testPos = sootBlock.offset(sootDir);
+            Direction sootDir = Direction.from2DDataValue(rand);
+            BlockPos testPos = sootBlock.relative(sootDir);
             BlockState testBlock = world.getBlockState(testPos);
 
-            if (Block.isFaceFullSquare(testBlock.getCollisionShape(world, testPos), sootDir.getOpposite())) {
+            if (Block.isFaceFull(testBlock.getCollisionShape(world, testPos), sootDir.getOpposite())) {
                 BlockState currentState = world.getBlockState(sootBlock);
-                if (currentState.isOf(ModBlocks.SOOT)) {
-                    world.setBlockState(sootBlock, currentState.with(ConnectingBlock.FACING_PROPERTIES.get(sootDir), true), Block.NOTIFY_LISTENERS);
+                if (currentState.is(ModBlocks.SOOT)) {
+                    world.setBlock(sootBlock, currentState.setValue(PipeBlock.PROPERTY_BY_DIRECTION.get(sootDir), true), Block.UPDATE_CLIENTS);
                 }
                 else if (currentState.isAir()) {
-                    world.setBlockState(sootBlock, ModBlocks.SOOT.getDefaultState().with(ConnectingBlock.FACING_PROPERTIES.get(sootDir), true), Block.NOTIFY_LISTENERS);
+                    world.setBlock(sootBlock, ModBlocks.SOOT.defaultBlockState().setValue(PipeBlock.PROPERTY_BY_DIRECTION.get(sootDir), true), Block.UPDATE_CLIENTS);
                 }
             }
         }
@@ -89,7 +94,7 @@ public class CampfireMixin extends BlockWithEntity{
 
     @Nullable
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new CampfireBlockEntity(pos, state);
     }
 }

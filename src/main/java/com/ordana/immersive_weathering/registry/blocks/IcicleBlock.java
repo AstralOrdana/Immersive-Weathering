@@ -4,40 +4,59 @@ import com.google.common.annotations.VisibleForTesting;
 import com.ordana.immersive_weathering.registry.ModDamageSource;
 import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.*;
-import net.minecraft.block.enums.Thickness;
-import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.FallingBlockEntity;
-import net.minecraft.entity.ai.pathing.NavigationType;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.StateManager;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.state.property.*;
-import net.minecraft.tag.FluidTags;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.*;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.AbstractCauldronBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Fallable;
+import net.minecraft.world.level.block.PointedDripstoneBlock;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.DripstoneThickness;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
 
-public class IcicleBlock extends PointedDripstoneBlock implements LandingBlock, Waterloggable {
+public class IcicleBlock extends PointedDripstoneBlock implements Fallable, SimpleWaterloggedBlock {
     public static final DirectionProperty VERTICAL_DIRECTION;
-    public static final EnumProperty<Thickness> THICKNESS;
+    public static final EnumProperty<DripstoneThickness> THICKNESS;
     public static final BooleanProperty WATERLOGGED;
     private static final int field_31205 = 11;
     private static final int field_31206 = 2147483647;
@@ -66,99 +85,99 @@ public class IcicleBlock extends PointedDripstoneBlock implements LandingBlock, 
     private static final VoxelShape MIDDLE_SHAPE;
     private static final float field_31204 = 0.125F;
 
-    public IcicleBlock(Settings settings) {
+    public IcicleBlock(Properties settings) {
         super(settings);
-        this.setDefaultState((BlockState)((BlockState)((BlockState)((BlockState)this.stateManager.getDefaultState()).with(VERTICAL_DIRECTION, Direction.UP)).with(THICKNESS, Thickness.TIP)).with(WATERLOGGED, false));
+        this.registerDefaultState((BlockState)((BlockState)((BlockState)((BlockState)this.stateDefinition.any()).setValue(TIP_DIRECTION, Direction.UP)).setValue(THICKNESS, DripstoneThickness.TIP)).setValue(WATERLOGGED, false));
     }
 
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(new Property[]{VERTICAL_DIRECTION, THICKNESS, WATERLOGGED});
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(new Property[]{TIP_DIRECTION, THICKNESS, WATERLOGGED});
     }
 
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        return canPlaceAtWithDirection(world, pos, state.get(VERTICAL_DIRECTION));
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        return isValidPointedDripstonePlacement(world, pos, state.getValue(TIP_DIRECTION));
     }
 
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if (state.get(WATERLOGGED)) {
-            world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+        if (state.getValue(WATERLOGGED)) {
+            world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         }
 
         if (direction != Direction.UP && direction != Direction.DOWN) {
             return state;
         } else {
-            Direction direction2 = state.get(VERTICAL_DIRECTION);
-            if (direction2 == Direction.DOWN && world.getBlockTickScheduler().isQueued(pos, this)) {
+            Direction direction2 = state.getValue(TIP_DIRECTION);
+            if (direction2 == Direction.DOWN && world.getBlockTicks().hasScheduledTick(pos, this)) {
                 return state;
-            } else if (direction == direction2.getOpposite() && !this.canPlaceAt(state, world, pos)) {
+            } else if (direction == direction2.getOpposite() && !this.canSurvive(state, world, pos)) {
                 if (direction2 == Direction.DOWN) {
                     this.scheduleFall(state, world, pos);
                 } else {
-                    world.createAndScheduleBlockTick(pos, this, 1);
+                    world.scheduleTick(pos, this, 1);
                 }
 
                 return state;
             } else {
-                boolean bl = state.get(THICKNESS) == Thickness.TIP_MERGE;
-                Thickness thickness = getThickness(world, pos, direction2, bl);
-                return state.with(THICKNESS, thickness);
+                boolean bl = state.getValue(THICKNESS) == DripstoneThickness.TIP_MERGE;
+                DripstoneThickness thickness = calculateDripstoneThickness(world, pos, direction2, bl);
+                return state.setValue(THICKNESS, thickness);
             }
         }
     }
 
     @Override
-    public void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
+    public void onProjectileHit(Level world, BlockState state, BlockHitResult hit, Projectile projectile) {
         BlockPos blockPos = hit.getBlockPos();
-        if (!world.isClient && projectile.canModifyAt(world, blockPos) && projectile.getVelocity().length() > 0.6D) {
-            world.breakBlock(blockPos, false);
+        if (!world.isClientSide && projectile.mayInteract(world, blockPos) && projectile.getDeltaMovement().length() > 0.6D) {
+            world.destroyBlock(blockPos, false);
         }
     }
 
     @Override
-    public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        if (state.get(VERTICAL_DIRECTION) == Direction.UP && state.get(THICKNESS) == Thickness.TIP) {
-            entity.handleFallDamage(fallDistance + 2.0F, 3.5F, ModDamageSource.ICICLE);
-            entity.setFrozenTicks(300);
+    public void fallOn(Level world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+        if (state.getValue(TIP_DIRECTION) == Direction.UP && state.getValue(THICKNESS) == DripstoneThickness.TIP) {
+            entity.causeFallDamage(fallDistance + 2.0F, 3.5F, ModDamageSource.ICICLE);
+            entity.setTicksFrozen(300);
         } else {
-            super.onLandedUpon(world, state, pos, entity, fallDistance);
+            super.fallOn(world, state, pos, entity, fallDistance);
         }
     }
 
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
         if (canDrip(state)) {
             float f = random.nextFloat();
             if (!(f > 0.12F)) {
-                getFluid(world, pos, state).filter((fluid) -> f < 0.02F || isFluidLiquid(fluid)).ifPresent((fluid) -> {
-                    createParticle(world, pos, state, fluid);
+                getFluidAboveStalactite(world, pos, state).filter((fluid) -> f < 0.02F || canFillCauldron(fluid)).ifPresent((fluid) -> {
+                    spawnDripParticle(world, pos, state, fluid);
                 });
             }
         }
     }
 
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (isPointingUp(state) && !this.canPlaceAt(state, world, pos)) {
-            world.breakBlock(pos, true);
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+        if (isStalagmite(state) && !this.canSurvive(state, world, pos)) {
+            world.destroyBlock(pos, true);
         } else {
-            spawnFallingBlock(state, world, pos);
+            spawnFallingStalactite(state, world, pos);
         }
     }
 
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        dripTick(state, world, pos, random.nextFloat());
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+        maybeFillCauldron(state, world, pos, random.nextFloat());
         if (random.nextFloat() < 0.2F && isHeldByIcicle(state, world, pos)) {
-            tryGrow(state, world, pos, random);
+            growStalactiteOrStalagmiteIfPossible(state, world, pos, random);
         }
         var biome = world.getBiome(pos);
-        if ((world.getLightLevel(LightType.BLOCK, pos) > 13 - state.getOpacity(world, pos)) || (world.getRegistryKey() == World.NETHER) || (biome.isIn(ModTags.HOT) && world.isDay())) {
+        if ((world.getBrightness(LightLayer.BLOCK, pos) > 13 - state.getLightBlock(world, pos)) || (world.dimension() == Level.NETHER) || (biome.is(ModTags.HOT) && world.isDay())) {
             world.removeBlock(pos, false);
         }
     }
 
     @VisibleForTesting
-    public static void dripTick(BlockState state, ServerWorld world, BlockPos pos, float dripChance) {
+    public static void maybeFillCauldron(BlockState state, ServerLevel world, BlockPos pos, float dripChance) {
         if (!(dripChance > 0.2F)) {
             if (isHeldByIcicle(state, world, pos) && world.isDay() && !world.isRaining() && !world.isThundering()) {
-                Fluid fluid = getDripFluid(world, pos);
+                Fluid fluid = getCauldronFillFluidType(world, pos);
                 float f;
                 if (fluid == Fluids.WATER) {
                     f = 0.17578125F;
@@ -168,15 +187,15 @@ public class IcicleBlock extends PointedDripstoneBlock implements LandingBlock, 
                 }
 
                 if (!(dripChance >= f)) {
-                    BlockPos blockPos = getTipPos(state, world, pos, 11, false);
+                    BlockPos blockPos = findTip(state, world, pos, 11, false);
                     if (blockPos != null) {
                         BlockPos blockPos2 = getCauldronPos(world, blockPos);
                         if (blockPos2 != null) {
-                            world.syncWorldEvent(1504, blockPos, 0);
+                            world.levelEvent(1504, blockPos, 0);
                             int i = blockPos.getY() - blockPos2.getY();
                             int j = 50 + i;
                             BlockState blockState = world.getBlockState(blockPos2);
-                            world.createAndScheduleBlockTick(blockPos2, blockState.getBlock(), j);
+                            world.scheduleTick(blockPos2, blockState.getBlock(), j);
                         }
                     }
                 }
@@ -184,57 +203,57 @@ public class IcicleBlock extends PointedDripstoneBlock implements LandingBlock, 
         }
     }
 
-    public PistonBehavior getPistonBehavior(BlockState state) {
-        return PistonBehavior.DESTROY;
+    public PushReaction getPistonPushReaction(BlockState state) {
+        return PushReaction.DESTROY;
     }
 
     @Nullable
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        WorldAccess worldAccess = ctx.getWorld();
-        BlockPos blockPos = ctx.getBlockPos();
-        Direction direction = ctx.getVerticalPlayerLookDirection().getOpposite();
-        Direction direction2 = getDirectionToPlaceAt(worldAccess, blockPos, direction);
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        LevelAccessor worldAccess = ctx.getLevel();
+        BlockPos blockPos = ctx.getClickedPos();
+        Direction direction = ctx.getNearestLookingVerticalDirection().getOpposite();
+        Direction direction2 = calculateTipDirection(worldAccess, blockPos, direction);
         if (direction2 == null) {
             return null;
         } else {
-            boolean bl = !ctx.shouldCancelInteraction();
-            Thickness thickness = getThickness(worldAccess, blockPos, direction2, bl);
-            return thickness == null ? null : this.getDefaultState().with(VERTICAL_DIRECTION, direction2).with(THICKNESS, thickness).with(WATERLOGGED, worldAccess.getFluidState(blockPos).getFluid() == Fluids.WATER);
+            boolean bl = !ctx.isSecondaryUseActive();
+            DripstoneThickness thickness = calculateDripstoneThickness(worldAccess, blockPos, direction2, bl);
+            return thickness == null ? null : this.defaultBlockState().setValue(TIP_DIRECTION, direction2).setValue(THICKNESS, thickness).setValue(WATERLOGGED, worldAccess.getFluidState(blockPos).getType() == Fluids.WATER);
         }
     }
 
     public FluidState getFluidState(BlockState state) {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
-    public VoxelShape getCullingShape(BlockState state, BlockView world, BlockPos pos) {
-        return VoxelShapes.empty();
+    public VoxelShape getOcclusionShape(BlockState state, BlockGetter world, BlockPos pos) {
+        return Shapes.empty();
     }
 
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        Thickness thickness = state.get(THICKNESS);
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        DripstoneThickness thickness = state.getValue(THICKNESS);
         VoxelShape voxelShape;
-        if (thickness == Thickness.TIP_MERGE) {
+        if (thickness == DripstoneThickness.TIP_MERGE) {
             voxelShape = TIP_MERGE_SHAPE;
-        } else if (thickness == Thickness.TIP) {
-            if (state.get(VERTICAL_DIRECTION) == Direction.DOWN) {
+        } else if (thickness == DripstoneThickness.TIP) {
+            if (state.getValue(TIP_DIRECTION) == Direction.DOWN) {
                 voxelShape = DOWN_TIP_SHAPE;
             } else {
                 voxelShape = UP_TIP_SHAPE;
             }
-        } else if (thickness == Thickness.FRUSTUM) {
+        } else if (thickness == DripstoneThickness.FRUSTUM) {
             voxelShape = BASE_SHAPE;
-        } else if (thickness == Thickness.MIDDLE) {
+        } else if (thickness == DripstoneThickness.MIDDLE) {
             voxelShape = FRUSTUM_SHAPE;
         } else {
             voxelShape = MIDDLE_SHAPE;
         }
 
-        Vec3d vec3d = state.getModelOffset(world, pos);
-        return voxelShape.offset(vec3d.x, 0.0D, vec3d.z);
+        Vec3 vec3d = state.getOffset(world, pos);
+        return voxelShape.move(vec3d.x, 0.0D, vec3d.z);
     }
 
-    public boolean isShapeFullCube(BlockState state, BlockView world, BlockPos pos) {
+    public boolean isCollisionShapeFullBlock(BlockState state, BlockGetter world, BlockPos pos) {
         return false;
     }
 
@@ -246,47 +265,47 @@ public class IcicleBlock extends PointedDripstoneBlock implements LandingBlock, 
         return 0.125F;
     }
 
-    public void onDestroyedOnLanding(World world, BlockPos pos, FallingBlockEntity fallingBlockEntity) {
+    public void onBrokenAfterFall(Level world, BlockPos pos, FallingBlockEntity fallingBlockEntity) {
         if (!fallingBlockEntity.isSilent()) {
-            world.syncWorldEvent(1045, pos, 0);
+            world.levelEvent(1045, pos, 0);
         }
 
     }
 
-    public DamageSource getDamageSource() {
+    public DamageSource getFallDamageSource() {
         return ModDamageSource.FALLING_ICICLE;
     }
 
-    public Predicate<Entity> getEntityPredicate() {
-        return EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.and(EntityPredicates.VALID_LIVING_ENTITY);
+    public Predicate<Entity> getHurtsEntitySelector() {
+        return EntitySelector.NO_CREATIVE_OR_SPECTATOR.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE);
     }
 
-    private void scheduleFall(BlockState state, WorldAccess world, BlockPos pos) {
-        BlockPos blockPos = getTipPos(state, world, pos, 2147483647, true);
+    private void scheduleFall(BlockState state, LevelAccessor world, BlockPos pos) {
+        BlockPos blockPos = findTip(state, world, pos, 2147483647, true);
         if (blockPos != null) {
-            BlockPos.Mutable mutable = blockPos.mutableCopy();
+            BlockPos.MutableBlockPos mutable = blockPos.mutable();
             mutable.move(Direction.DOWN);
             BlockState blockState = world.getBlockState(mutable);
-            if (blockState.getCollisionShape(world, mutable, ShapeContext.absent()).getMax(Direction.Axis.Y) >= 1.0D || blockState.isOf(Blocks.POWDER_SNOW)) {
-                world.breakBlock(blockPos, true);
+            if (blockState.getCollisionShape(world, mutable, CollisionContext.empty()).max(Direction.Axis.Y) >= 1.0D || blockState.is(Blocks.POWDER_SNOW)) {
+                world.destroyBlock(blockPos, true);
                 mutable.move(Direction.UP);
             }
 
             mutable.move(Direction.UP);
 
-            while(isPointingDown(world.getBlockState(mutable))) {
-                world.createAndScheduleBlockTick(mutable, this, 2);
+            while(isStalactite(world.getBlockState(mutable))) {
+                world.scheduleTick(mutable, this, 2);
                 mutable.move(Direction.UP);
             }
 
         }
     }
 
-    private static int getStalactiteSize(ServerWorld world, BlockPos pos) {
+    private static int getStalactiteSize(ServerLevel world, BlockPos pos) {
         int i = 1;
-        BlockPos.Mutable mutable = pos.mutableCopy().move(Direction.UP);
+        BlockPos.MutableBlockPos mutable = pos.mutable().move(Direction.UP);
 
-        while(i < 6 && isPointingDown(world.getBlockState(mutable))) {
+        while(i < 6 && isStalactite(world.getBlockState(mutable))) {
             ++i;
             mutable.move(Direction.UP);
         }
@@ -294,15 +313,15 @@ public class IcicleBlock extends PointedDripstoneBlock implements LandingBlock, 
         return i;
     }
 
-    private static void spawnFallingBlock(BlockState state, ServerWorld world, BlockPos pos) {
-        BlockPos.Mutable mutable = pos.mutableCopy();
+    private static void spawnFallingStalactite(BlockState state, ServerLevel world, BlockPos pos) {
+        BlockPos.MutableBlockPos mutable = pos.mutable();
         BlockState blockState = state;
-        while (isPointingDown(blockState)) {
-            FallingBlockEntity fallingBlockEntity = FallingBlockEntity.spawnFromBlock(world, mutable, blockState);
+        while (isStalactite(blockState)) {
+            FallingBlockEntity fallingBlockEntity = FallingBlockEntity.fall(world, mutable, blockState);
             if (isTip(blockState, true)) {
                 int i = Math.max(1 + pos.getY() - mutable.getY(), 6);
                 float f = 1.0f * (float)i;
-                fallingBlockEntity.setHurtEntities(f, 40);
+                fallingBlockEntity.setHurtsEntities(f, 40);
                 break;
             }
             mutable.move(Direction.DOWN);
@@ -311,26 +330,26 @@ public class IcicleBlock extends PointedDripstoneBlock implements LandingBlock, 
     }
 
     @VisibleForTesting
-    public static void tryGrow(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        BlockState blockState = world.getBlockState(pos.up(1));
-        BlockState blockState2 = world.getBlockState(pos.up(2));
+    public static void growStalactiteOrStalagmiteIfPossible(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+        BlockState blockState = world.getBlockState(pos.above(1));
+        BlockState blockState2 = world.getBlockState(pos.above(2));
         if (canGrow(blockState, blockState2) && world.isDay() && !world.isRaining() && !world.isThundering()) {
-            BlockPos blockPos = getTipPos(state, world, pos, 7, false);
+            BlockPos blockPos = findTip(state, world, pos, 7, false);
             if (blockPos != null) {
                 BlockState blockState3 = world.getBlockState(blockPos);
-                if (canDrip(blockState3) && canGrow(blockState3, world, blockPos)) {
+                if (canDrip(blockState3) && canTipGrow(blockState3, world, blockPos)) {
                     if (random.nextBoolean()) {
-                        tryGrow(world, blockPos, Direction.DOWN);
+                        grow(world, blockPos, Direction.DOWN);
                     } else {
-                        tryGrowStalagmite(world, blockPos);
+                        growStalagmiteBelow(world, blockPos);
                     }
                 }
             }
         }
     }
 
-    private static void tryGrowStalagmite(ServerWorld world, BlockPos pos) {
-        BlockPos.Mutable mutable = pos.mutableCopy();
+    private static void growStalagmiteBelow(ServerLevel world, BlockPos pos) {
+        BlockPos.MutableBlockPos mutable = pos.mutable();
 
         for(int i = 0; i < 10; ++i) {
             mutable.move(Direction.DOWN);
@@ -339,84 +358,84 @@ public class IcicleBlock extends PointedDripstoneBlock implements LandingBlock, 
                 return;
             }
 
-            if (isTip(blockState, Direction.UP) && canGrow(blockState, world, mutable)) {
-                tryGrow(world, mutable, Direction.UP);
+            if (isUnmergedTipWithDirection(blockState, Direction.UP) && canTipGrow(blockState, world, mutable)) {
+                grow(world, mutable, Direction.UP);
                 return;
             }
 
-            if (canPlaceAtWithDirection(world, mutable, Direction.UP) && !world.isWater(mutable.down())) {
-                tryGrow(world, mutable.down(), Direction.UP);
+            if (isValidPointedDripstonePlacement(world, mutable, Direction.UP) && !world.isWaterAt(mutable.below())) {
+                grow(world, mutable.below(), Direction.UP);
                 return;
             }
         }
 
     }
 
-    private static void tryGrow(ServerWorld world, BlockPos pos, Direction direction) {
-        BlockPos blockPos = pos.offset(direction);
+    private static void grow(ServerLevel world, BlockPos pos, Direction direction) {
+        BlockPos blockPos = pos.relative(direction);
         BlockState blockState = world.getBlockState(blockPos);
-        if (isTip(blockState, direction.getOpposite())) {
-            growMerged(blockState, world, blockPos);
-        } else if (blockState.isAir() || blockState.isOf(Blocks.WATER)) {
-            place(world, blockPos, direction, Thickness.TIP);
+        if (isUnmergedTipWithDirection(blockState, direction.getOpposite())) {
+            createMergedTips(blockState, world, blockPos);
+        } else if (blockState.isAir() || blockState.is(Blocks.WATER)) {
+            createDripstone(world, blockPos, direction, DripstoneThickness.TIP);
         }
 
     }
 
-    private static void place(WorldAccess world, BlockPos pos, Direction direction, Thickness thickness) {
-        BlockState blockState = ModBlocks.ICICLE.getDefaultState().with(VERTICAL_DIRECTION, direction).with(THICKNESS, thickness).with(WATERLOGGED, world.getFluidState(pos).getFluid() == Fluids.WATER);
-        world.setBlockState(pos, blockState, 3);
+    private static void createDripstone(LevelAccessor world, BlockPos pos, Direction direction, DripstoneThickness thickness) {
+        BlockState blockState = ModBlocks.ICICLE.defaultBlockState().setValue(TIP_DIRECTION, direction).setValue(THICKNESS, thickness).setValue(WATERLOGGED, world.getFluidState(pos).getType() == Fluids.WATER);
+        world.setBlock(pos, blockState, 3);
     }
 
-    private static void growMerged(BlockState state, WorldAccess world, BlockPos pos) {
+    private static void createMergedTips(BlockState state, LevelAccessor world, BlockPos pos) {
         BlockPos blockPos2;
         BlockPos blockPos;
-        if (state.get(VERTICAL_DIRECTION) == Direction.UP) {
+        if (state.getValue(TIP_DIRECTION) == Direction.UP) {
             blockPos = pos;
-            blockPos2 = pos.up();
+            blockPos2 = pos.above();
         } else {
             blockPos2 = pos;
-            blockPos = pos.down();
+            blockPos = pos.below();
         }
 
-        place(world, blockPos2, Direction.DOWN, Thickness.TIP_MERGE);
-        place(world, blockPos, Direction.UP, Thickness.TIP_MERGE);
+        createDripstone(world, blockPos2, Direction.DOWN, DripstoneThickness.TIP_MERGE);
+        createDripstone(world, blockPos, Direction.UP, DripstoneThickness.TIP_MERGE);
     }
 
-    public static void createParticle(World world, BlockPos pos, BlockState state) {
-        getFluid(world, pos, state).ifPresent((fluid) -> {
-            createParticle(world, pos, state, fluid);
+    public static void spawnDripParticle(Level world, BlockPos pos, BlockState state) {
+        getFluidAboveStalactite(world, pos, state).ifPresent((fluid) -> {
+            spawnDripParticle(world, pos, state, fluid);
         });
     }
 
-    private static void createParticle(World world, BlockPos pos, BlockState state, Fluid fluid) {
-        Vec3d vec3d = state.getModelOffset(world, pos);
+    private static void spawnDripParticle(Level world, BlockPos pos, BlockState state, Fluid fluid) {
+        Vec3 vec3d = state.getOffset(world, pos);
         double e = (double)pos.getX() + 0.5D + vec3d.x;
         double f = (double)((float)(pos.getY() + 1) - 0.6875F) - 0.0625D;
         double g = (double)pos.getZ() + 0.5D + vec3d.z;
         Fluid fluid2 = getDripFluid(world, fluid);
-        ParticleEffect particleEffect = fluid2.isIn(FluidTags.LAVA) ? ParticleTypes.DRIPPING_DRIPSTONE_LAVA : ParticleTypes.DRIPPING_DRIPSTONE_WATER;
+        ParticleOptions particleEffect = fluid2.is(FluidTags.LAVA) ? ParticleTypes.DRIPPING_DRIPSTONE_LAVA : ParticleTypes.DRIPPING_DRIPSTONE_WATER;
         world.addParticle(particleEffect, e, f, g, 0.0D, 0.0D, 0.0D);
     }
 
     @Nullable
-    private static BlockPos getTipPos(BlockState state, WorldAccess world, BlockPos pos, int range, boolean allowMerged) {
+    private static BlockPos findTip(BlockState state, LevelAccessor world, BlockPos pos, int range, boolean allowMerged) {
         if (isTip(state, allowMerged)) {
             return pos;
         } else {
-            Direction direction = state.get(VERTICAL_DIRECTION);
-            Predicate<BlockState> predicate = (statex) -> statex.isOf(ModBlocks.ICICLE) && statex.get(VERTICAL_DIRECTION) == direction;
-            return searchInDirection(world, pos, direction.getDirection(), predicate, (statex) -> isTip(statex, allowMerged), range).orElse(null);
+            Direction direction = state.getValue(TIP_DIRECTION);
+            Predicate<BlockState> predicate = (statex) -> statex.is(ModBlocks.ICICLE) && statex.getValue(TIP_DIRECTION) == direction;
+            return searchInDirection(world, pos, direction.getAxisDirection(), predicate, (statex) -> isTip(statex, allowMerged), range).orElse(null);
         }
     }
 
     @Nullable
-    private static Direction getDirectionToPlaceAt(WorldView world, BlockPos pos, Direction direction) {
+    private static Direction calculateTipDirection(LevelReader world, BlockPos pos, Direction direction) {
         Direction direction2;
-        if (canPlaceAtWithDirection(world, pos, direction)) {
+        if (isValidPointedDripstonePlacement(world, pos, direction)) {
             direction2 = direction;
         } else {
-            if (!canPlaceAtWithDirection(world, pos, direction.getOpposite())) {
+            if (!isValidPointedDripstonePlacement(world, pos, direction.getOpposite())) {
                 return null;
             }
 
@@ -426,126 +445,126 @@ public class IcicleBlock extends PointedDripstoneBlock implements LandingBlock, 
         return direction2;
     }
 
-    private static Thickness getThickness(WorldView world, BlockPos pos, Direction direction, boolean tryMerge) {
+    private static DripstoneThickness calculateDripstoneThickness(LevelReader world, BlockPos pos, Direction direction, boolean tryMerge) {
         Direction direction2 = direction.getOpposite();
-        BlockState blockState = world.getBlockState(pos.offset(direction));
+        BlockState blockState = world.getBlockState(pos.relative(direction));
         if (isIcicleFacingDirection(blockState, direction2)) {
-            return !tryMerge && blockState.get(THICKNESS) != Thickness.TIP_MERGE ? Thickness.TIP : Thickness.TIP_MERGE;
+            return !tryMerge && blockState.getValue(THICKNESS) != DripstoneThickness.TIP_MERGE ? DripstoneThickness.TIP : DripstoneThickness.TIP_MERGE;
         } else if (!isIcicleFacingDirection(blockState, direction)) {
-            return Thickness.TIP;
+            return DripstoneThickness.TIP;
         } else {
-            Thickness thickness = blockState.get(THICKNESS);
-            if (thickness != Thickness.TIP && thickness != Thickness.TIP_MERGE) {
-                BlockState blockState2 = world.getBlockState(pos.offset(direction2));
-                return !isIcicleFacingDirection(blockState2, direction) ? Thickness.BASE : Thickness.MIDDLE;
+            DripstoneThickness thickness = blockState.getValue(THICKNESS);
+            if (thickness != DripstoneThickness.TIP && thickness != DripstoneThickness.TIP_MERGE) {
+                BlockState blockState2 = world.getBlockState(pos.relative(direction2));
+                return !isIcicleFacingDirection(blockState2, direction) ? DripstoneThickness.BASE : DripstoneThickness.MIDDLE;
             } else {
-                return Thickness.FRUSTUM;
+                return DripstoneThickness.FRUSTUM;
             }
         }
     }
 
     public static boolean canDrip(BlockState state) {
-        return isPointingDown(state) && state.get(THICKNESS) == Thickness.TIP && !(Boolean)state.get(WATERLOGGED);
+        return isStalactite(state) && state.getValue(THICKNESS) == DripstoneThickness.TIP && !(Boolean)state.getValue(WATERLOGGED);
     }
 
-    private static boolean canGrow(BlockState state, ServerWorld world, BlockPos pos) {
-        Direction direction = state.get(VERTICAL_DIRECTION);
-        BlockPos blockPos = pos.offset(direction);
+    private static boolean canTipGrow(BlockState state, ServerLevel world, BlockPos pos) {
+        Direction direction = state.getValue(TIP_DIRECTION);
+        BlockPos blockPos = pos.relative(direction);
         BlockState blockState = world.getBlockState(blockPos);
         if (!blockState.getFluidState().isEmpty()) {
             return false;
         } else {
-            return blockState.isAir() || isTip(blockState, direction.getOpposite());
+            return blockState.isAir() || isUnmergedTipWithDirection(blockState, direction.getOpposite());
         }
     }
 
-    private static Optional<BlockPos> getSupportingPos(World world, BlockPos pos, BlockState state) {
-        Direction direction = state.get(VERTICAL_DIRECTION);
-        Predicate<BlockState> predicate = (statex) -> statex.isOf(ModBlocks.ICICLE) && statex.get(VERTICAL_DIRECTION) == direction;
-        return searchInDirection(world, pos, direction.getOpposite().getDirection(), predicate, (statex) -> !statex.isOf(ModBlocks.ICICLE), 11);
+    private static Optional<BlockPos> getSupportingPos(Level world, BlockPos pos, BlockState state) {
+        Direction direction = state.getValue(TIP_DIRECTION);
+        Predicate<BlockState> predicate = (statex) -> statex.is(ModBlocks.ICICLE) && statex.getValue(TIP_DIRECTION) == direction;
+        return searchInDirection(world, pos, direction.getOpposite().getAxisDirection(), predicate, (statex) -> !statex.is(ModBlocks.ICICLE), 11);
     }
 
-    private static boolean canPlaceAtWithDirection(WorldView world, BlockPos pos, Direction direction) {
-        BlockPos blockPos = pos.offset(direction.getOpposite());
+    private static boolean isValidPointedDripstonePlacement(LevelReader world, BlockPos pos, Direction direction) {
+        BlockPos blockPos = pos.relative(direction.getOpposite());
         BlockState blockState = world.getBlockState(blockPos);
-        return blockState.isSideSolidFullSquare(world, blockPos, direction) || isIcicleFacingDirection(blockState, direction);
+        return blockState.isFaceSturdy(world, blockPos, direction) || isIcicleFacingDirection(blockState, direction);
     }
 
     private static boolean isTip(BlockState state, boolean allowMerged) {
-        if (!state.isOf(ModBlocks.ICICLE)) {
+        if (!state.is(ModBlocks.ICICLE)) {
             return false;
         } else {
-            Thickness thickness = state.get(THICKNESS);
-            return thickness == Thickness.TIP || allowMerged && thickness == Thickness.TIP_MERGE;
+            DripstoneThickness thickness = state.getValue(THICKNESS);
+            return thickness == DripstoneThickness.TIP || allowMerged && thickness == DripstoneThickness.TIP_MERGE;
         }
     }
 
-    private static boolean isTip(BlockState state, Direction direction) {
-        return isTip(state, false) && state.get(VERTICAL_DIRECTION) == direction;
+    private static boolean isUnmergedTipWithDirection(BlockState state, Direction direction) {
+        return isTip(state, false) && state.getValue(TIP_DIRECTION) == direction;
     }
 
-    private static boolean isPointingDown(BlockState state) {
+    private static boolean isStalactite(BlockState state) {
         return isIcicleFacingDirection(state, Direction.DOWN);
     }
 
-    private static boolean isPointingUp(BlockState state) {
+    private static boolean isStalagmite(BlockState state) {
         return isIcicleFacingDirection(state, Direction.UP);
     }
 
-    private static boolean isHeldByIcicle(BlockState state, WorldView world, BlockPos pos) {
-        return isPointingDown(state) && !world.getBlockState(pos.up()).isOf(ModBlocks.ICICLE);
+    private static boolean isHeldByIcicle(BlockState state, LevelReader world, BlockPos pos) {
+        return isStalactite(state) && !world.getBlockState(pos.above()).is(ModBlocks.ICICLE);
     }
 
-    public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
+    public boolean isPathfindable(BlockState state, BlockGetter world, BlockPos pos, PathComputationType type) {
         return false;
     }
 
     private static boolean isIcicleFacingDirection(BlockState state, Direction direction) {
-        return state.isOf(ModBlocks.ICICLE) && state.get(VERTICAL_DIRECTION) == direction;
+        return state.is(ModBlocks.ICICLE) && state.getValue(TIP_DIRECTION) == direction;
     }
 
     @Nullable
-    private static BlockPos getCauldronPos(World world, BlockPos pos) {
+    private static BlockPos getCauldronPos(Level world, BlockPos pos) {
         Predicate<BlockState> predicate = (state) -> state.getBlock() instanceof AbstractCauldronBlock;
-        return searchInDirection(world, pos, Direction.DOWN.getDirection(), AbstractBlockState::isAir, predicate, 11).orElse((BlockPos) null);
+        return searchInDirection(world, pos, Direction.DOWN.getAxisDirection(), BlockStateBase::isAir, predicate, 11).orElse((BlockPos) null);
     }
 
-    public static Fluid getDripFluid(World world, BlockPos pos) {
-        return getFluid(world, pos, world.getBlockState(pos)).filter(IcicleBlock::isFluidLiquid).orElse(Fluids.EMPTY);
+    public static Fluid getCauldronFillFluidType(Level world, BlockPos pos) {
+        return getFluidAboveStalactite(world, pos, world.getBlockState(pos)).filter(IcicleBlock::canFillCauldron).orElse(Fluids.EMPTY);
     }
 
-    private static Optional<Fluid> getFluid(World world, BlockPos pos, BlockState state) {
-        return !isPointingDown(state) ? Optional.empty() : getSupportingPos(world, pos, state).map((posx) -> world.getFluidState(posx.up()).getFluid());
+    private static Optional<Fluid> getFluidAboveStalactite(Level world, BlockPos pos, BlockState state) {
+        return !isStalactite(state) ? Optional.empty() : getSupportingPos(world, pos, state).map((posx) -> world.getFluidState(posx.above()).getType());
     }
 
-    private static boolean isFluidLiquid(Fluid fluid) {
+    private static boolean canFillCauldron(Fluid fluid) {
         return fluid == Fluids.LAVA || fluid == Fluids.WATER;
     }
 
     private static boolean canGrow(BlockState iceBlockState, BlockState waterState) {
-        return ((iceBlockState.isIn(ModTags.ICE)) && (waterState.isOf(Blocks.WATER)));
+        return ((iceBlockState.is(ModTags.ICE)) && (waterState.is(Blocks.WATER)));
     }
 
-    private static Fluid getDripFluid(World world, Fluid fluid) {
-        if (fluid.matchesType(Fluids.EMPTY)) {
-            return world.getDimension().isUltrawarm() ? Fluids.LAVA : Fluids.WATER;
+    private static Fluid getDripFluid(Level world, Fluid fluid) {
+        if (fluid.isSame(Fluids.EMPTY)) {
+            return world.dimensionType().ultraWarm() ? Fluids.LAVA : Fluids.WATER;
         } else {
             return fluid;
         }
     }
 
-    private static Optional<BlockPos> searchInDirection(WorldAccess world, BlockPos pos, Direction.AxisDirection direction, Predicate<BlockState> continuePredicate, Predicate<BlockState> stopPredicate, int range) {
+    private static Optional<BlockPos> searchInDirection(LevelAccessor world, BlockPos pos, Direction.AxisDirection direction, Predicate<BlockState> continuePredicate, Predicate<BlockState> stopPredicate, int range) {
         Direction direction2 = Direction.get(direction, Direction.Axis.Y);
-        BlockPos.Mutable mutable = pos.mutableCopy();
+        BlockPos.MutableBlockPos mutable = pos.mutable();
 
         for(int i = 1; i < range; ++i) {
             mutable.move(direction2);
             BlockState blockState = world.getBlockState(mutable);
             if (stopPredicate.test(blockState)) {
-                return Optional.of(mutable.toImmutable());
+                return Optional.of(mutable.immutable());
             }
 
-            if (world.isOutOfHeightLimit(mutable.getY()) || !continuePredicate.test(blockState)) {
+            if (world.isOutsideBuildHeight(mutable.getY()) || !continuePredicate.test(blockState)) {
                 return Optional.empty();
             }
         }
@@ -554,15 +573,15 @@ public class IcicleBlock extends PointedDripstoneBlock implements LandingBlock, 
     }
 
     static {
-        VERTICAL_DIRECTION = Properties.VERTICAL_DIRECTION;
-        THICKNESS = Properties.THICKNESS;
-        WATERLOGGED = Properties.WATERLOGGED;
-        TIP_MERGE_SHAPE = Block.createCuboidShape(5.0D, 0.0D, 5.0D, 11.0D, 16.0D, 11.0D);
-        UP_TIP_SHAPE = Block.createCuboidShape(5.0D, 0.0D, 5.0D, 11.0D, 11.0D, 11.0D);
-        DOWN_TIP_SHAPE = Block.createCuboidShape(5.0D, 5.0D, 5.0D, 11.0D, 16.0D, 11.0D);
-        BASE_SHAPE = Block.createCuboidShape(4.0D, 0.0D, 4.0D, 12.0D, 16.0D, 12.0D);
-        FRUSTUM_SHAPE = Block.createCuboidShape(3.0D, 0.0D, 3.0D, 13.0D, 16.0D, 13.0D);
-        MIDDLE_SHAPE = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 16.0D, 14.0D);
+        TIP_DIRECTION = BlockStateProperties.VERTICAL_DIRECTION;
+        THICKNESS = BlockStateProperties.DRIPSTONE_THICKNESS;
+        WATERLOGGED = BlockStateProperties.WATERLOGGED;
+        TIP_MERGE_SHAPE = Block.box(5.0D, 0.0D, 5.0D, 11.0D, 16.0D, 11.0D);
+        UP_TIP_SHAPE = Block.box(5.0D, 0.0D, 5.0D, 11.0D, 11.0D, 11.0D);
+        DOWN_TIP_SHAPE = Block.box(5.0D, 5.0D, 5.0D, 11.0D, 16.0D, 11.0D);
+        BASE_SHAPE = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 16.0D, 12.0D);
+        FRUSTUM_SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 16.0D, 13.0D);
+        MIDDLE_SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 16.0D, 14.0D);
     }
 }
 

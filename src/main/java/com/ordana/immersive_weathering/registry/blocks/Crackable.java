@@ -3,15 +3,14 @@ package com.ordana.immersive_weathering.registry.blocks;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.Degradable;
-
 import java.util.Optional;
 import java.util.function.Supplier;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ChangeOverTimeBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
-public interface Crackable extends Degradable<Crackable.CrackLevel> {
+public interface Crackable extends ChangeOverTimeBlock<Crackable.CrackLevel> {
     public static final Supplier<BiMap<Block, Block>> CRACK_LEVEL_INCREASES = Suppliers.memoize(() -> ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder)
             ImmutableBiMap.builder()
             .put(Blocks.STONE_BRICKS, Blocks.CRACKED_STONE_BRICKS))
@@ -60,7 +59,7 @@ public interface Crackable extends Degradable<Crackable.CrackLevel> {
     }
 
     public static Optional<BlockState> getDecreasedCrackState(BlockState state) {
-        return Crackable.getDecreasedCrackBlock(state.getBlock()).map(block -> block.getStateWithProperties(state));
+        return Crackable.getDecreasedCrackBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
     public static Optional<Block> getIncreasedCrackBlock(Block block) {
@@ -68,15 +67,15 @@ public interface Crackable extends Degradable<Crackable.CrackLevel> {
     }
 
     public static BlockState getUncrackedCrackState(BlockState state) {
-        return Crackable.getUncrackedCrackBlock(state.getBlock()).getStateWithProperties(state);
+        return Crackable.getUncrackedCrackBlock(state.getBlock()).withPropertiesOf(state);
     }
 
     @Override
-    default public Optional<BlockState> getDegradationResult(BlockState state) {
-        return Crackable.getIncreasedCrackBlock(state.getBlock()).map(block -> block.getStateWithProperties(state));
+    default public Optional<BlockState> getNext(BlockState state) {
+        return Crackable.getIncreasedCrackBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
-    default public float getDegradationChanceMultiplier() {
+    default public float getChanceModifier() {
         return 1.0f;
     }
 

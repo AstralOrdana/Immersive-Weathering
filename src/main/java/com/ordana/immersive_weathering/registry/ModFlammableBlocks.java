@@ -2,7 +2,7 @@ package com.ordana.immersive_weathering.registry;
 
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
-import net.minecraft.block.Blocks;
+import net.minecraft.world.level.block.Blocks;
 
 public class ModFlammableBlocks {
     public static void registerFlammable() {

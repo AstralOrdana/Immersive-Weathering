@@ -4,12 +4,15 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import net.minecraft.block.*;
-
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ChangeOverTimeBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import java.util.Optional;
 import java.util.function.Supplier;
 
 public interface Rustable
-extends Degradable<Rustable.RustLevel> {
+extends ChangeOverTimeBlock<Rustable.RustLevel> {
     public static final Supplier<BiMap<Block, Block>> RUST_LEVEL_INCREASES = Suppliers.memoize(() -> ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder)((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder)((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder)
                     ImmutableBiMap.builder()
             .put(ModBlocks.CUT_IRON, ModBlocks.EXPOSED_CUT_IRON))
@@ -58,7 +61,7 @@ extends Degradable<Rustable.RustLevel> {
     }
 
     public static Optional<BlockState> getDecreasedRustState(BlockState state) {
-        return Rustable.getDecreasedRustBlock(state.getBlock()).map(block -> block.getStateWithProperties(state));
+        return Rustable.getDecreasedRustBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
     public static Optional<Block> getIncreasedRustBlock(Block block) {
@@ -66,16 +69,16 @@ extends Degradable<Rustable.RustLevel> {
     }
 
     public static BlockState getUnaffectedRustState(BlockState state) {
-        return Rustable.getUnaffectedRustBlock(state.getBlock()).getStateWithProperties(state);
+        return Rustable.getUnaffectedRustBlock(state.getBlock()).withPropertiesOf(state);
     }
 
     @Override
-    default public Optional<BlockState> getDegradationResult(BlockState state) {
-        return Rustable.getIncreasedRustBlock(state.getBlock()).map(block -> block.getStateWithProperties(state));
+    default public Optional<BlockState> getNext(BlockState state) {
+        return Rustable.getIncreasedRustBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
-    default public float getDegradationChanceMultiplier() {
-        if (this.getDegradationLevel() == Rustable.RustLevel.UNAFFECTED) {
+    default public float getChanceModifier() {
+        if (this.getAge() == Rustable.RustLevel.UNAFFECTED) {
             return 0.75f;
         }
         return 1.0f;

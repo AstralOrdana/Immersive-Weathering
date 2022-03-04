@@ -1,10 +1,10 @@
 package com.ordana.immersive_weathering.registry.items;
 
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.crafting.Ingredient;
 
 class FlowerCrownMaterial implements ArmorMaterial {
 
@@ -13,28 +13,28 @@ class FlowerCrownMaterial implements ArmorMaterial {
     public static final FlowerCrownMaterial INSTANCE = new FlowerCrownMaterial();
 
     @Override
-    public int getDurability(EquipmentSlot slot) {
-        return DURABILITY[slot.getEntitySlotId()];
+    public int getDurabilityForSlot(EquipmentSlot slot) {
+        return DURABILITY[slot.getIndex()];
     }
 
     @Override
-    public int getProtectionAmount(EquipmentSlot slot) {
-        return PROTECTION[slot.getEntitySlotId()];
+    public int getDefenseForSlot(EquipmentSlot slot) {
+        return PROTECTION[slot.getIndex()];
     }
 
     @Override
-    public int getEnchantability() {
+    public int getEnchantmentValue() {
         return 60;
     }
 
     @Override
     public SoundEvent getEquipSound() {
-        return SoundEvents.ITEM_ARMOR_EQUIP_LEATHER;
+        return SoundEvents.ARMOR_EQUIP_LEATHER;
     }
 
     @Override
     public Ingredient getRepairIngredient() {
-        return Ingredient.ofItems(ModItems.AZALEA_FLOWERS);
+        return Ingredient.of(ModItems.AZALEA_FLOWERS);
     }
 
     @Override

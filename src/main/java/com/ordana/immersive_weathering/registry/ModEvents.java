@@ -3,17 +3,23 @@ package com.ordana.immersive_weathering.registry;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.core.BlockPos;
 import net.minecraft.item.*;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.BlockPos;
-
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.PickaxeItem;
+import net.minecraft.world.item.ShearsItem;
+import net.minecraft.world.item.ShovelItem;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -36,9 +42,9 @@ public class ModEvents {
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
 
             BlockPos targetPos = hitResult.getBlockPos();
-            BlockPos fixedPos = targetPos.offset(hitResult.getSide());
+            BlockPos fixedPos = targetPos.relative(hitResult.getDirection());
             BlockState targetBlock = world.getBlockState(targetPos);
-            ItemStack heldItem = player.getStackInHand(hand);
+            ItemStack heldItem = player.getItemInHand(hand);
 
             CLEANED_BLOCKS.put(Blocks.MOSSY_COBBLESTONE, Blocks.COBBLESTONE);
             CLEANED_BLOCKS.put(Blocks.MOSSY_COBBLESTONE_SLAB, Blocks.COBBLESTONE_SLAB);
@@ -224,211 +230,211 @@ public class ModEvents {
             FLOWERY_BLOCKS.put(ModBlocks.FLOWERING_AZALEA_LEAF_PILE, ModBlocks.AZALEA_LEAF_PILE);
 
             if (heldItem.getItem() instanceof ShearsItem) {
-                if(targetBlock.isIn(ModTags.FLOWERY)) {
-                    Block.dropStack(world, fixedPos, new ItemStack(ModItems.AZALEA_FLOWERS));
-                    world.playSound(player, targetPos, SoundEvents.BLOCK_GROWING_PLANT_CROP, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                if(targetBlock.is(ModTags.FLOWERY)) {
+                    Block.popResource(world, fixedPos, new ItemStack(ModItems.AZALEA_FLOWERS));
+                    world.playSound(player, targetPos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
                     if(player != null) {
-                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        if(!player.isCreative())heldItem.hurt(1, new Random(), null);
                         FLOWERY_BLOCKS.forEach((flowery, shorn) -> {
-                            if (targetBlock.isOf(flowery)) {
-                                world.setBlockState(targetPos, shorn.getStateWithProperties(targetBlock));
+                            if (targetBlock.is(flowery)) {
+                                world.setBlockAndUpdate(targetPos, shorn.withPropertiesOf(targetBlock));
                             }
                         });
                     }
-                    return ActionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
             }
             if (heldItem.getItem() == ModItems.AZALEA_FLOWERS) {
-                if(targetBlock.isIn(ModTags.FLOWERABLE)) {
-                    world.playSound(player, targetPos, SoundEvents.BLOCK_FLOWERING_AZALEA_PLACE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                if(targetBlock.is(ModTags.FLOWERABLE)) {
+                    world.playSound(player, targetPos, SoundEvents.FLOWERING_AZALEA_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
                     if(player != null) {
-                        if(!player.isCreative())heldItem.decrement(1);
+                        if(!player.isCreative())heldItem.shrink(1);
                         FLOWERY_BLOCKS.forEach((flowery, shorn) -> {
-                            if (targetBlock.isOf(shorn)) {
-                                world.setBlockState(targetPos, flowery.getStateWithProperties(targetBlock));
+                            if (targetBlock.is(shorn)) {
+                                world.setBlockAndUpdate(targetPos, flowery.withPropertiesOf(targetBlock));
                             }
                         });
                     }
-                    return ActionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
             }
             if (heldItem.getItem() instanceof ShovelItem) {
-                if(targetBlock.isOf(Blocks.CAMPFIRE) && targetBlock.get(Properties.LIT)) {
-                    Block.dropStack(world, fixedPos , new ItemStack(ModItems.SOOT));
+                if(targetBlock.is(Blocks.CAMPFIRE) && targetBlock.getValue(BlockStateProperties.LIT)) {
+                    Block.popResource(world, fixedPos , new ItemStack(ModItems.SOOT));
                 }
             }
             if (heldItem.getItem() instanceof ShearsItem) {
-                if(targetBlock.isOf(Blocks.FIRE)) {
-                    Block.dropStack(world, fixedPos, new ItemStack(ModItems.SOOT));
-                    world.playSound(player, targetPos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                    world.setBlockState(targetPos, Blocks.AIR.getDefaultState());
+                if(targetBlock.is(Blocks.FIRE)) {
+                    Block.popResource(world, fixedPos, new ItemStack(ModItems.SOOT));
+                    world.playSound(player, targetPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0f, 1.0f);
+                    world.setBlockAndUpdate(targetPos, Blocks.AIR.defaultBlockState());
                 }
             }
             if (heldItem.getItem() == Items.FLINT_AND_STEEL) {
-                if(targetBlock.isOf(ModBlocks.SOOT)) {
-                    world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                if(targetBlock.is(ModBlocks.SOOT)) {
+                    world.playSound(player, targetPos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
                     if(player != null) {
-                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
-                        world.setBlockState(targetPos, ModBlocks.SOOT.getStateWithProperties(targetBlock).with(Properties.LIT, true));
+                        if(!player.isCreative())heldItem.hurt(1, new Random(), null);
+                        world.setBlockAndUpdate(targetPos, ModBlocks.SOOT.withPropertiesOf(targetBlock).setValue(BlockStateProperties.LIT, true));
                     }
-                    return ActionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
-                if(targetBlock.isOf(ModBlocks.ASH_BLOCK)) {
-                    world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                if(targetBlock.is(ModBlocks.ASH_BLOCK)) {
+                    world.playSound(player, targetPos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
                     if(player != null) {
-                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
-                        world.setBlockState(targetPos, ModBlocks.ASH_BLOCK.getStateWithProperties(targetBlock).with(Properties.LIT, true));
+                        if(!player.isCreative())heldItem.hurt(1, new Random(), null);
+                        world.setBlockAndUpdate(targetPos, ModBlocks.ASH_BLOCK.withPropertiesOf(targetBlock).setValue(BlockStateProperties.LIT, true));
                     }
-                    return ActionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
             }
             if (heldItem.getItem() == Items.WET_SPONGE) {
-                if(targetBlock.isIn(ModTags.RUSTABLE)) {
-                    world.playSound(player, targetPos, SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                if(targetBlock.is(ModTags.RUSTABLE)) {
+                    world.playSound(player, targetPos, SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundSource.BLOCKS, 1.0f, 1.0f);
                     if(player != null) {
                         RUSTED_BLOCKS.forEach((clean, rusty) -> {
-                            if (targetBlock.isOf(clean)) {
-                                world.setBlockState(targetPos, rusty.getStateWithProperties(targetBlock));
+                            if (targetBlock.is(clean)) {
+                                world.setBlockAndUpdate(targetPos, rusty.withPropertiesOf(targetBlock));
                             }
                         });
                     }
-                    return ActionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
             }
             if (heldItem.getItem() == ModItems.STEEL_WOOL) {
-                if(targetBlock.isIn(ModTags.EXPOSED_IRON)) {
-                    world.playSound(player, targetPos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                if(targetBlock.is(ModTags.EXPOSED_IRON)) {
+                    world.playSound(player, targetPos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
                     if(player != null) {
-                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        if(!player.isCreative())heldItem.hurt(1, new Random(), null);
                         RUSTED_BLOCKS.forEach((clean, rusty) -> {
-                            if (targetBlock.isOf(rusty)) {
-                                world.setBlockState(targetPos, clean.getStateWithProperties(targetBlock));
+                            if (targetBlock.is(rusty)) {
+                                world.setBlockAndUpdate(targetPos, clean.withPropertiesOf(targetBlock));
                             }
                         });
                     }
-                    return ActionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
             }
             if (heldItem.getItem() instanceof ShearsItem) {
-                if(targetBlock.isIn(ModTags.MOSSY)) {
-                    Block.dropStack(world, fixedPos, new ItemStack(ModItems.MOSS_CLUMP));
-                    world.playSound(player, targetPos, SoundEvents.BLOCK_GROWING_PLANT_CROP, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                if(targetBlock.is(ModTags.MOSSY)) {
+                    Block.popResource(world, fixedPos, new ItemStack(ModItems.MOSS_CLUMP));
+                    world.playSound(player, targetPos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
                     if(player != null) {
-                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        if(!player.isCreative())heldItem.hurt(1, new Random(), null);
                         CLEANED_BLOCKS.forEach((mossy, clean) -> {
-                            if (targetBlock.isOf(mossy)) {
-                                world.setBlockState(targetPos, clean.getStateWithProperties(targetBlock));
+                            if (targetBlock.is(mossy)) {
+                                world.setBlockAndUpdate(targetPos, clean.withPropertiesOf(targetBlock));
                             }
                         });
                     }
-                    return ActionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
             }
             if (heldItem.getItem() == ModItems.MOSS_CLUMP) {
-                if(targetBlock.isIn(ModTags.MOSSABLE)) {
-                    world.playSound(player, targetPos, SoundEvents.BLOCK_MOSS_PLACE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                if(targetBlock.is(ModTags.MOSSABLE)) {
+                    world.playSound(player, targetPos, SoundEvents.MOSS_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
                     if(player != null) {
-                        if(!player.isCreative())heldItem.decrement(1);
+                        if(!player.isCreative())heldItem.shrink(1);
                         CLEANED_BLOCKS.forEach((mossy, clean) -> {
-                            if (targetBlock.isOf(clean)) {
-                                world.setBlockState(targetPos, mossy.getStateWithProperties(targetBlock));
+                            if (targetBlock.is(clean)) {
+                                world.setBlockAndUpdate(targetPos, mossy.withPropertiesOf(targetBlock));
                             }
                         });
                     }
-                    return ActionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
             }
             if (heldItem.getItem() instanceof PickaxeItem) {
-                if(targetBlock.isIn(ModTags.CRACKABLE)) {
-                    Block.dropStack(world, fixedPos, new ItemStack(DROPPED_BRICKS.get(targetBlock.getBlock())));
-                    world.playSound(player, targetPos, SoundEvents.BLOCK_STONE_HIT, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                if(targetBlock.is(ModTags.CRACKABLE)) {
+                    Block.popResource(world, fixedPos, new ItemStack(DROPPED_BRICKS.get(targetBlock.getBlock())));
+                    world.playSound(player, targetPos, SoundEvents.STONE_HIT, SoundSource.BLOCKS, 1.0f, 1.0f);
                     if(player != null) {
-                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        if(!player.isCreative())heldItem.hurt(1, new Random(), null);
                         CRACKED_BLOCKS.forEach((solid, cracked) -> {
-                            if (targetBlock.isOf(solid)) {
-                                world.setBlockState(targetPos, cracked.getStateWithProperties(targetBlock));
+                            if (targetBlock.is(solid)) {
+                                world.setBlockAndUpdate(targetPos, cracked.withPropertiesOf(targetBlock));
                             }
                         });
                     }
-                    return ActionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
             }
-            if (BRICK_REPAIR.containsKey(heldItem.getItem()) && targetBlock.isOf(CRACKED_BLOCKS.get(BRICK_REPAIR.get(heldItem.getItem())))) {
+            if (BRICK_REPAIR.containsKey(heldItem.getItem()) && targetBlock.is(CRACKED_BLOCKS.get(BRICK_REPAIR.get(heldItem.getItem())))) {
                 Block fixedBlock = BRICK_REPAIR.get(heldItem.getItem());
-                SoundEvent placeSound = fixedBlock.getSoundGroup(fixedBlock.getDefaultState()).getPlaceSound();
-                world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                SoundEvent placeSound = fixedBlock.getSoundType(fixedBlock.defaultBlockState()).getPlaceSound();
+                world.playSound(player, targetPos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
                 if(player != null) {
-                    if(!player.isCreative())heldItem.decrement(1);
-                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock));
+                    if(!player.isCreative())heldItem.shrink(1);
+                    world.setBlockAndUpdate(targetPos, fixedBlock.withPropertiesOf(targetBlock));
                 }
-                return ActionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
-            if (BRICK_REPAIR_SLABS.containsKey(heldItem.getItem()) && targetBlock.isOf(CRACKED_BLOCKS.get(BRICK_REPAIR_SLABS.get(heldItem.getItem())))) {
+            if (BRICK_REPAIR_SLABS.containsKey(heldItem.getItem()) && targetBlock.is(CRACKED_BLOCKS.get(BRICK_REPAIR_SLABS.get(heldItem.getItem())))) {
                 Block fixedBlock = BRICK_REPAIR_SLABS.get(heldItem.getItem());
-                SoundEvent placeSound = fixedBlock.getSoundGroup(fixedBlock.getDefaultState()).getPlaceSound();
-                world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                SoundEvent placeSound = fixedBlock.getSoundType(fixedBlock.defaultBlockState()).getPlaceSound();
+                world.playSound(player, targetPos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
                 if(player != null) {
-                    if(!player.isCreative())heldItem.decrement(1);
-                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock));
+                    if(!player.isCreative())heldItem.shrink(1);
+                    world.setBlockAndUpdate(targetPos, fixedBlock.withPropertiesOf(targetBlock));
                 }
-                return ActionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
-            if (BRICK_REPAIR_STAIRS.containsKey(heldItem.getItem()) && targetBlock.isOf(CRACKED_BLOCKS.get(BRICK_REPAIR_STAIRS.get(heldItem.getItem())))) {
+            if (BRICK_REPAIR_STAIRS.containsKey(heldItem.getItem()) && targetBlock.is(CRACKED_BLOCKS.get(BRICK_REPAIR_STAIRS.get(heldItem.getItem())))) {
                 Block fixedBlock = BRICK_REPAIR_STAIRS.get(heldItem.getItem());
-                SoundEvent placeSound = fixedBlock.getSoundGroup(fixedBlock.getDefaultState()).getPlaceSound();
-                world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                SoundEvent placeSound = fixedBlock.getSoundType(fixedBlock.defaultBlockState()).getPlaceSound();
+                world.playSound(player, targetPos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
                 if(player != null) {
-                    if(!player.isCreative())heldItem.decrement(1);
-                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock));
+                    if(!player.isCreative())heldItem.shrink(1);
+                    world.setBlockAndUpdate(targetPos, fixedBlock.withPropertiesOf(targetBlock));
                 }
-                return ActionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
-            if (BRICK_REPAIR_WALLS.containsKey(heldItem.getItem()) && targetBlock.isOf(CRACKED_BLOCKS.get(BRICK_REPAIR_WALLS.get(heldItem.getItem())))) {
+            if (BRICK_REPAIR_WALLS.containsKey(heldItem.getItem()) && targetBlock.is(CRACKED_BLOCKS.get(BRICK_REPAIR_WALLS.get(heldItem.getItem())))) {
                 Block fixedBlock = BRICK_REPAIR_WALLS.get(heldItem.getItem());
-                SoundEvent placeSound = fixedBlock.getSoundGroup(fixedBlock.getDefaultState()).getPlaceSound();
-                world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                SoundEvent placeSound = fixedBlock.getSoundType(fixedBlock.defaultBlockState()).getPlaceSound();
+                world.playSound(player, targetPos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
                 if(player != null) {
-                    if(!player.isCreative())heldItem.decrement(1);
-                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock));
+                    if(!player.isCreative())heldItem.shrink(1);
+                    world.setBlockAndUpdate(targetPos, fixedBlock.withPropertiesOf(targetBlock));
                 }
-                return ActionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
             if (heldItem.getItem() instanceof AxeItem) {
-                if(targetBlock.isIn(ModTags.RAW_LOGS)) {
-                    Block.dropStack(world, fixedPos, new ItemStack(DROPPED_BARK.get(targetBlock.getBlock())));
-                    world.playSound(player, targetPos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                if(targetBlock.is(ModTags.RAW_LOGS)) {
+                    Block.popResource(world, fixedPos, new ItemStack(DROPPED_BARK.get(targetBlock.getBlock())));
+                    world.playSound(player, targetPos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0f, 1.0f);
                     if(player != null) {
-                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        if(!player.isCreative())heldItem.hurt(1, new Random(), null);
                         STRIPPED_BLOCKS.forEach((raw, stripped) -> {
-                            if (targetBlock.isOf(raw)) {
-                                world.setBlockState(targetPos, stripped .getStateWithProperties(targetBlock));
+                            if (targetBlock.is(raw)) {
+                                world.setBlockAndUpdate(targetPos, stripped .withPropertiesOf(targetBlock));
                             }
                         });
                     }
-                    return ActionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
             }
-            if (UNSTRIP_LOG.containsKey(heldItem.getItem()) && targetBlock.isOf(STRIPPED_BLOCKS.get(UNSTRIP_LOG.get(heldItem.getItem())))) {
+            if (UNSTRIP_LOG.containsKey(heldItem.getItem()) && targetBlock.is(STRIPPED_BLOCKS.get(UNSTRIP_LOG.get(heldItem.getItem())))) {
                 Block fixedBlock = UNSTRIP_LOG.get(heldItem.getItem());
-                SoundEvent placeSound = fixedBlock.getSoundGroup(fixedBlock.getDefaultState()).getPlaceSound();
-                world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                SoundEvent placeSound = fixedBlock.getSoundType(fixedBlock.defaultBlockState()).getPlaceSound();
+                world.playSound(player, targetPos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
                 if(player != null) {
-                    if(!player.isCreative())heldItem.decrement(1);
-                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock));
+                    if(!player.isCreative())heldItem.shrink(1);
+                    world.setBlockAndUpdate(targetPos, fixedBlock.withPropertiesOf(targetBlock));
                 }
-                return ActionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
-            if (UNSTRIP_WOOD.containsKey(heldItem.getItem()) && targetBlock.isOf(STRIPPED_BLOCKS.get(UNSTRIP_WOOD.get(heldItem.getItem())))) {
+            if (UNSTRIP_WOOD.containsKey(heldItem.getItem()) && targetBlock.is(STRIPPED_BLOCKS.get(UNSTRIP_WOOD.get(heldItem.getItem())))) {
                 Block fixedBlock = UNSTRIP_WOOD.get(heldItem.getItem());
-                SoundEvent placeSound = fixedBlock.getSoundGroup(fixedBlock.getDefaultState()).getPlaceSound();
-                world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                SoundEvent placeSound = fixedBlock.getSoundType(fixedBlock.defaultBlockState()).getPlaceSound();
+                world.playSound(player, targetPos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
                 if(player != null) {
-                    if(!player.isCreative())heldItem.decrement(1);
-                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock));
+                    if(!player.isCreative())heldItem.shrink(1);
+                    world.setBlockAndUpdate(targetPos, fixedBlock.withPropertiesOf(targetBlock));
                 }
-                return ActionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
-            return ActionResult.PASS;
+            return InteractionResult.PASS;
         });
     }
 }

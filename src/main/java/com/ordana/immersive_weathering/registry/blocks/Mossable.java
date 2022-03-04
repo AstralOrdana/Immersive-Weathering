@@ -3,15 +3,14 @@ package com.ordana.immersive_weathering.registry.blocks;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.Degradable;
-
 import java.util.Optional;
 import java.util.function.Supplier;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ChangeOverTimeBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
-public interface Mossable extends Degradable<Mossable.MossLevel> {
+public interface Mossable extends ChangeOverTimeBlock<Mossable.MossLevel> {
     public static final Supplier<BiMap<Block, Block>> MOSS_LEVEL_INCREASES = Suppliers.memoize(() -> ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder)((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder)((ImmutableBiMap.Builder) ((ImmutableBiMap.Builder)
             ImmutableBiMap.builder()
                     .put(Blocks.STONE, ModBlocks.MOSSY_STONE))
@@ -48,7 +47,7 @@ public interface Mossable extends Degradable<Mossable.MossLevel> {
     }
 
     public static Optional<BlockState> getDecreasedMossState(BlockState state) {
-        return Mossable.getDecreasedMossBlock(state.getBlock()).map(block -> block.getStateWithProperties(state));
+        return Mossable.getDecreasedMossBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
     public static Optional<Block> getIncreasedMossBlock(Block block) {
@@ -56,15 +55,15 @@ public interface Mossable extends Degradable<Mossable.MossLevel> {
     }
 
     public static BlockState getUnaffectedMossState(BlockState state) {
-        return Mossable.getUnaffectedMossBlock(state.getBlock()).getStateWithProperties(state);
+        return Mossable.getUnaffectedMossBlock(state.getBlock()).withPropertiesOf(state);
     }
 
     @Override
-    default public Optional<BlockState> getDegradationResult(BlockState state) {
-        return Mossable.getIncreasedMossBlock(state.getBlock()).map(block -> block.getStateWithProperties(state));
+    default public Optional<BlockState> getNext(BlockState state) {
+        return Mossable.getIncreasedMossBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
-    default public float getDegradationChanceMultiplier() {
+    default public float getChanceModifier() {
         return 1.0f;
     }
 

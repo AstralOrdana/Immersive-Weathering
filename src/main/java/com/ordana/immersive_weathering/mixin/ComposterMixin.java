@@ -2,15 +2,17 @@ package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.minecraft.block.*;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ComposterBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,11 +21,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ComposterBlock.class)
 public class ComposterMixin {
     @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
-    public void onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
-        int i = state.get(ComposterBlock.LEVEL);
+    public void onUse(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit, CallbackInfoReturnable<InteractionResult> cir) {
+        int i = state.getValue(ComposterBlock.LEVEL);
         if (i == 8) {
             if (world.random.nextFloat() < 0.5f) {
-                Block.dropStack(world, pos.up(), new ItemStack(Items.DIRT));
+                Block.popResource(world, pos.above(), new ItemStack(Items.DIRT));
             }
         }
     }

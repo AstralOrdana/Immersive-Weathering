@@ -1,8 +1,12 @@
 package com.ordana.immersive_weathering.mixin;
 
 import net.minecraft.block.*;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RootedDirtBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.Random;
@@ -10,27 +14,27 @@ import java.util.Random;
 @Mixin(RootedDirtBlock.class)
 public class RootedDirtBlockMixin extends Block {
 
-    public RootedDirtBlockMixin(Settings settings) {
+    public RootedDirtBlockMixin(Properties settings) {
         super(settings);
     }
 
     @Override
-    public boolean hasRandomTicks(BlockState state) {
+    public boolean isRandomlyTicking(BlockState state) {
         return true;
     }
 
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        var targetPos = pos.down();
-        if (world.getBlockState(pos).isOf(Blocks.ROOTED_DIRT)) {
-            if (BlockPos.streamOutwards(pos, 4, 4, 4)
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+        var targetPos = pos.below();
+        if (world.getBlockState(pos).is(Blocks.ROOTED_DIRT)) {
+            if (BlockPos.withinManhattanStream(pos, 4, 4, 4)
                     .map(world::getBlockState)
                     .map(BlockState::getBlock)
                     .filter(Blocks.HANGING_ROOTS::equals)
                     .toList().size() <= 8) {
                 float f = 0.5f;
                 if (random.nextFloat() < 0.001f) {
-                    if (world.getBlockState(targetPos).isOf(Blocks.AIR)) {
-                        world.setBlockState(targetPos, Blocks.HANGING_ROOTS.getDefaultState());
+                    if (world.getBlockState(targetPos).is(Blocks.AIR)) {
+                        world.setBlockAndUpdate(targetPos, Blocks.HANGING_ROOTS.defaultBlockState());
                     }
                 }
             }

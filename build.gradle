@@ -1,72 +1,203 @@
-plugins {
-	id 'fabric-loom' version '0.10-SNAPSHOT'
-	id 'maven-publish'
+buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = 'https://repo.spongepowered.org/maven' }
+        maven { url = 'https://maven.parchmentmc.org' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: "${project.forgegradle_version}", changing: true
+        classpath "org.spongepowered:mixingradle:${project.mixingradle_version}"
+        classpath "org.parchmentmc:librarian:${project.librarian_version}"
+    }
+}
+apply plugin: 'net.minecraftforge.gradle'
+// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply plugin: 'org.spongepowered.mixin'
+apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
+
+mixin {
+    add sourceSets.main, "${project.mod_id}+.refmap.json"
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
 
-archivesBaseName = project.archives_base_name
-version = project.mod_version
-group = project.maven_group
+archivesBaseName = project.mod_id
+version = "${project.mc_update_version}-${project.mod_version}".toString()
+group = "${project.maven_group}.${archivesBaseName}".toString()
 
-repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '17' // Need this here so eclipse task generates correctly.
+
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+minecraft {
+
+    if(project.parchment_enabled == "true"){
+        mappings channel: 'parchment', version: "${project.parchment_version}-${project.minecraft_version}"
+    }else{
+        mappings channel: 'official', version: "${project.minecraft_version}"
+    }
+
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
+    runs {
+        client {
+
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+            property 'mixin.env.remapRefMap', 'true'
+            arg "-mixin.config=${project.mod_id}.mixins.json".toString()
+
+            workingDirectory project.file('run')
+
+            // Recommendedo logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+        }
+
+        server {
+
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+            property 'mixin.env.remapRefMap', 'true'
+            arg "-mixin.config=${project.mod_id}.mixins.json".toString()
+
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+        }
+
+        data {
+
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            args '--mod', "${project.mod_id}", '--all', '--output', file('src/generated/resources/'), '--existing', sourceSets.main.resources.srcDirs[0]   //args "--mod", "usefulbackpacks", "--all", "--output", "\"" + file("src/generated/resources").toString() + "\"", "--validate", "--existing", "\"" + sourceSets.main.resources.srcDirs[0] + "\""
+
+        }
+    }
+}
+
+
+// Example for how to get properties into the manifest for reading by the runtime..
+jar {
+    manifest {
+        attributes([
+                "Specification-Title": "${projectDir}",
+                "Specification-Version": "1", // We are version 1 of ourselves
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${version}",
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs": "${projectDir}.mixins.json"
+        ])
+    }
+}
+
+// Example configuration to allow publishing using the maven-publish task
+// This is the preferred method to reobfuscate your jar file
+jar.finalizedBy('reobfJar')
+// However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
+//publish.dependsOn('reobfJar')
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            url "file:///${project.projectDir}/mcmodsrepo"
+            allowInsecureProtocol = true
+        }
+    }
 }
 
 dependencies {
-	// To change the versions see the gradle.properties file
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	// Fabric API. This is technically optional, but you probably want it anyway.
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+
+
+    annotationProcessor "org.spongepowered:mixin:${project.mixin_version}:processor"
 }
 
-processResources {
-	inputs.property "version", project.version
-
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
-	}
+repositories {
+    maven {
+        url = "https://www.cursemaven.com"
+        allowInsecureProtocol = true
+    }
 }
 
-tasks.withType(JavaCompile).configureEach {
-	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-	it.options.release = 17
+// Loads files in the format {modid}-{version}.jar, MC version optional but picky about hyphens.
+// See the regex pattern.
+def getModVersion(filename) {
+    // println(filename);
+    def pattern = /^(?<modid>[^-]+)(?:-(?<mcversion>[0-9.]+))?(?:-(?<modver>[0-9.\-]+))\.jar$/;
+
+    def matcher = filename =~ pattern
+
+    def found = matcher.find()
+
+    if(found) {
+        def mod = matcher.group("modid");
+
+        // Extract MC version or default
+        def mcVersion = matcher.group("mcversion");
+
+        // Extract mod version
+        def version = matcher.group("modver");
+
+        // println("> mod: ${mod}; mc: ${mcVersion}; version: ${version}");
+
+        if(mcVersion == null)
+            return "${mod}:${mod}:${version}";
+        else
+            return "${mod}:${mod}-${mcVersion}:${version}";
+
+    } else {
+        println(" > not a mod filename")
+        return filename;
+    }
 }
 
-java {
-	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-	// if it is present.
-	// If you remove this line, sources will not be generated.
-	withSourcesJar()
+def dev_mods_dir = "mods"
+
+def dev_mods = fileTree(dev_mods_dir).filter { it -> it.isFile() }.files.name.collect( { getModVersion(it) } )
+
+// Include resources generated by data generators.
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+
+dependencies{
+    // Deobfuscate each dev mod for runtime
+    dev_mods.each {
+        compileOnly fg.deobf(it)
+        runtimeOnly fg.deobf(it)
+    }
+
+    implementation 'org.jetbrains:annotations:22.0.0'
 }
 
-jar {
-	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
-	}
-}
-
-// configure the maven publication
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-		}
-	}
-
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-	repositories {
-		// Add repositories to publish to here.
-		// Notice: This block does NOT have the same function as the block in the top level.
-		// The repositories here will be used for publishing your artifact, not for
-		// retrieving dependencies.
-	}
+repositories{
+    // Built mods
+    flatDir {
+        dirs dev_mods_dir
+    }
+    mavenCentral()
 }

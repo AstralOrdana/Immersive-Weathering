@@ -3,14 +3,21 @@ package com.ordana.immersive_weathering.mixin;
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.minecraft.block.*;
-import net.minecraft.block.enums.DoubleBlockHalf;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeKeys;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CarvedPumpkinBlock;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.SpreadingSnowyDirtBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,477 +25,477 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Random;
 
-@Mixin(SpreadableBlock.class)
+@Mixin(SpreadingSnowyDirtBlock.class)
 public class SpreadableBlockMixin extends Block {
-    public SpreadableBlockMixin(Settings settings) {
+    public SpreadableBlockMixin(Properties settings) {
         super(settings);
     }
 
     @Inject(method = "randomTick", at = @At("TAIL"))
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
-        var targetPos = pos.up();
-        var tallPos = targetPos.up();
-        if (BlockPos.streamOutwards(pos, 1, 1, 1)
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
+        var targetPos = pos.above();
+        var tallPos = targetPos.above();
+        if (BlockPos.withinManhattanStream(pos, 1, 1, 1)
                 .map(world::getBlockState)
                 .map(BlockState::getBlock)
                 .anyMatch(Blocks.FIRE::equals)) {
             if (world.random.nextFloat() < 0.1f) {
-                world.setBlockState(pos, Blocks.DIRT.getDefaultState());
+                world.setBlockAndUpdate(pos, Blocks.DIRT.defaultBlockState());
             }
         }
-        if (world.getBlockState(pos).isOf(Blocks.GRASS_BLOCK)) {
-            if (BlockPos.streamOutwards(pos, 5, 5, 5)
+        if (world.getBlockState(pos).is(Blocks.GRASS_BLOCK)) {
+            if (BlockPos.withinManhattanStream(pos, 5, 5, 5)
                     .map(world::getBlockState)
-                    .filter(b->b.isIn(ModTags.SMALL_PLANTS))
+                    .filter(b->b.is(ModTags.SMALL_PLANTS))
                     .toList().size() <= 25) {
                 float f = 0.5f;
                 if (random.nextFloat() < 0.001f) {
                     var biome = world.getBiome(pos);
-                    RegistryEntry<Biome> j = world.getBiome(pos);
-                    if (world.getBlockState(targetPos).isOf(Blocks.AIR) || world.getBlockState(targetPos).isOf(ModBlocks.ASH_BLOCK) || world.getBlockState(targetPos).isOf(ModBlocks.SOOT)) {
-                        if (j.matchesKey(BiomeKeys.PLAINS)) {
+                    Holder<Biome> j = world.getBiome(pos);
+                    if (world.getBlockState(targetPos).is(Blocks.AIR) || world.getBlockState(targetPos).is(ModBlocks.ASH_BLOCK) || world.getBlockState(targetPos).is(ModBlocks.SOOT)) {
+                        if (j.is(Biomes.PLAINS)) {
                             if (random.nextFloat() > 0.2f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.1f) {
-                                world.setBlockState(targetPos, Blocks.DANDELION.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.DANDELION.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.1f) {
-                                world.setBlockState(targetPos, ModBlocks.WEEDS.getDefaultState().with(CropBlock.AGE, Properties.AGE_7_MAX));
+                                world.setBlockAndUpdate(targetPos, ModBlocks.WEEDS.defaultBlockState().setValue(CropBlock.AGE, BlockStateProperties.MAX_AGE_7));
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.AZURE_BLUET.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.AZURE_BLUET.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.OXEYE_DAISY.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.OXEYE_DAISY.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.CORNFLOWER.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.CORNFLOWER.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.001f) {
-                                world.setBlockState(targetPos, Blocks.PUMPKIN.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.PUMPKIN.defaultBlockState());
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.SUNFLOWER_PLAINS)) {
+                        else if (j.is(Biomes.SUNFLOWER_PLAINS)) {
                             if (random.nextFloat() > 0.2f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.DANDELION.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.DANDELION.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.POPPY.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.POPPY.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.AZURE_BLUET.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.AZURE_BLUET.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.OXEYE_DAISY.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.OXEYE_DAISY.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.CORNFLOWER.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.CORNFLOWER.defaultBlockState());
                             }
-                            if (world.getBlockState(targetPos).isOf(Blocks.AIR)) {
+                            if (world.getBlockState(targetPos).is(Blocks.AIR)) {
                                 if (random.nextFloat() < 0.2f) {
-                                    world.setBlockState(targetPos, Blocks.SUNFLOWER.getDefaultState());
-                                    world.setBlockState(tallPos, Blocks.SUNFLOWER.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER));
+                                    world.setBlockAndUpdate(targetPos, Blocks.SUNFLOWER.defaultBlockState());
+                                    world.setBlockAndUpdate(tallPos, Blocks.SUNFLOWER.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
                                 }
                             }
 
                         }
-                        else if (j.matchesKey(BiomeKeys.SWAMP)) {
+                        else if (j.is(Biomes.SWAMP)) {
                             if (random.nextFloat() > 0.2f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.BLUE_ORCHID.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.BLUE_ORCHID.defaultBlockState());
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.FLOWER_FOREST)) {
+                        else if (j.is(Biomes.FLOWER_FOREST)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.02f) {
-                                world.setBlockState(targetPos, Blocks.RED_TULIP.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.RED_TULIP.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.02f) {
-                                world.setBlockState(targetPos, Blocks.WHITE_TULIP.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.WHITE_TULIP.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.02f) {
-                                world.setBlockState(targetPos, Blocks.ORANGE_TULIP.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.ORANGE_TULIP.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.02f) {
-                                world.setBlockState(targetPos, Blocks.PINK_TULIP.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.PINK_TULIP.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.02f) {
-                                world.setBlockState(targetPos, Blocks.LILY_OF_THE_VALLEY.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.LILY_OF_THE_VALLEY.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.02f) {
-                                world.setBlockState(targetPos, Blocks.ALLIUM.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.ALLIUM.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.02f) {
-                                world.setBlockState(targetPos, Blocks.LILAC.getDefaultState());
-                                world.setBlockState(tallPos, Blocks.LILAC.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER));
+                                world.setBlockAndUpdate(targetPos, Blocks.LILAC.defaultBlockState());
+                                world.setBlockAndUpdate(tallPos, Blocks.LILAC.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
                             }
                             if (random.nextFloat() < 0.02f) {
-                                world.setBlockState(targetPos, Blocks.ROSE_BUSH.getDefaultState());
-                                world.setBlockState(tallPos, Blocks.ROSE_BUSH.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER));
+                                world.setBlockAndUpdate(targetPos, Blocks.ROSE_BUSH.defaultBlockState());
+                                world.setBlockAndUpdate(tallPos, Blocks.ROSE_BUSH.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
                             }
                             if (random.nextFloat() < 0.05f) {
-                                world.setBlockState(targetPos, Blocks.OAK_SAPLING.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.OAK_SAPLING.defaultBlockState());
                             }
-                            if (world.getBlockState(targetPos).isOf(Blocks.AIR)) {
+                            if (world.getBlockState(targetPos).is(Blocks.AIR)) {
                                 if (random.nextFloat() < 0.02f) {
-                                    world.setBlockState(targetPos, Blocks.PEONY.getDefaultState());
-                                    world.setBlockState(tallPos, Blocks.PEONY.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER));
+                                    world.setBlockAndUpdate(targetPos, Blocks.PEONY.defaultBlockState());
+                                    world.setBlockAndUpdate(tallPos, Blocks.PEONY.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
                                 }
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.SWAMP)) {
+                        else if (j.is(Biomes.SWAMP)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.4f) {
-                                world.setBlockState(targetPos, ModBlocks.WEEDS.getDefaultState().with(CropBlock.AGE, Properties.AGE_7_MAX));
+                                world.setBlockAndUpdate(targetPos, ModBlocks.WEEDS.defaultBlockState().setValue(CropBlock.AGE, BlockStateProperties.MAX_AGE_7));
                             }
                             if (random.nextFloat() < 0.02f) {
-                                world.setBlockState(targetPos, Blocks.ALLIUM.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.ALLIUM.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.02f) {
-                                world.setBlockState(targetPos, Blocks.AZURE_BLUET.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.AZURE_BLUET.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.02f) {
-                                world.setBlockState(targetPos, Blocks.OXEYE_DAISY.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.OXEYE_DAISY.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.02f) {
-                                world.setBlockState(targetPos, Blocks.CORNFLOWER.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.CORNFLOWER.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.02f) {
-                                world.setBlockState(targetPos, Blocks.POPPY.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.POPPY.defaultBlockState());
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.TAIGA)) {
+                        else if (j.is(Biomes.TAIGA)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.4f) {
-                                world.setBlockState(targetPos, Blocks.FERN.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.FERN.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.3f) {
-                                world.setBlockState(targetPos, Blocks.SPRUCE_SAPLING.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.SPRUCE_SAPLING.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.1f) {
-                                world.setBlockState(targetPos, Blocks.SWEET_BERRY_BUSH.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.SWEET_BERRY_BUSH.defaultBlockState());
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.OLD_GROWTH_PINE_TAIGA)) {
+                        else if (j.is(Biomes.OLD_GROWTH_PINE_TAIGA)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.4f) {
-                                world.setBlockState(targetPos, Blocks.FERN.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.FERN.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.RED_MUSHROOM.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.RED_MUSHROOM.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.BROWN_MUSHROOM.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.BROWN_MUSHROOM.defaultBlockState());
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.OLD_GROWTH_SPRUCE_TAIGA)) {
+                        else if (j.is(Biomes.OLD_GROWTH_SPRUCE_TAIGA)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.4f) {
-                                world.setBlockState(targetPos, Blocks.FERN.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.FERN.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.RED_MUSHROOM.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.RED_MUSHROOM.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.BROWN_MUSHROOM.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.BROWN_MUSHROOM.defaultBlockState());
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.BADLANDS)) {
+                        else if (j.is(Biomes.BADLANDS)) {
                             if (random.nextFloat() > 0.6f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.3f) {
-                                world.setBlockState(targetPos, Blocks.DEAD_BUSH.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.DEAD_BUSH.defaultBlockState());
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.ERODED_BADLANDS)) {
+                        else if (j.is(Biomes.ERODED_BADLANDS)) {
                             if (random.nextFloat() > 0.6f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.3f) {
-                                world.setBlockState(targetPos, Blocks.DEAD_BUSH.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.DEAD_BUSH.defaultBlockState());
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.WOODED_BADLANDS)) {
+                        else if (j.is(Biomes.WOODED_BADLANDS)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.04f) {
-                                world.setBlockState(targetPos, Blocks.ACACIA_SAPLING.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.ACACIA_SAPLING.defaultBlockState());
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.WINDSWEPT_SAVANNA)) {
+                        else if (j.is(Biomes.WINDSWEPT_SAVANNA)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.04f) {
-                                world.setBlockState(targetPos, Blocks.ACACIA_SAPLING.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.ACACIA_SAPLING.defaultBlockState());
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.SAVANNA)) {
+                        else if (j.is(Biomes.SAVANNA)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.04f) {
-                                world.setBlockState(targetPos, Blocks.ACACIA_SAPLING.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.ACACIA_SAPLING.defaultBlockState());
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.SAVANNA_PLATEAU)) {
+                        else if (j.is(Biomes.SAVANNA_PLATEAU)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.04f) {
-                                world.setBlockState(targetPos, Blocks.ACACIA_SAPLING.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.ACACIA_SAPLING.defaultBlockState());
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.FOREST)) {
+                        else if (j.is(Biomes.FOREST)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.POPPY.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.POPPY.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.LILY_OF_THE_VALLEY.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.LILY_OF_THE_VALLEY.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.AZURE_BLUET.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.AZURE_BLUET.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.2f) {
-                                world.setBlockState(targetPos, Blocks.OAK_SAPLING.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.OAK_SAPLING.defaultBlockState());
                             }
-                            if (world.getBlockState(tallPos).isOf(Blocks.AIR)) {
+                            if (world.getBlockState(tallPos).is(Blocks.AIR)) {
                                 if (random.nextFloat() < 0.01f) {
-                                    world.setBlockState(targetPos, Blocks.PEONY.getDefaultState());
-                                    world.setBlockState(tallPos, Blocks.PEONY.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER));
+                                    world.setBlockAndUpdate(targetPos, Blocks.PEONY.defaultBlockState());
+                                    world.setBlockAndUpdate(tallPos, Blocks.PEONY.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
                                 }
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.WINDSWEPT_FOREST)) {
+                        else if (j.is(Biomes.WINDSWEPT_FOREST)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.POPPY.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.POPPY.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.LILY_OF_THE_VALLEY.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.LILY_OF_THE_VALLEY.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.AZURE_BLUET.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.AZURE_BLUET.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.2f) {
-                                world.setBlockState(targetPos, Blocks.OAK_SAPLING.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.OAK_SAPLING.defaultBlockState());
                             }
-                            if (world.getBlockState(tallPos).isOf(Blocks.AIR)) {
+                            if (world.getBlockState(tallPos).is(Blocks.AIR)) {
                                 if (random.nextFloat() < 0.01f) {
-                                    world.setBlockState(targetPos, Blocks.PEONY.getDefaultState());
-                                    world.setBlockState(tallPos, Blocks.PEONY.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER));
+                                    world.setBlockAndUpdate(targetPos, Blocks.PEONY.defaultBlockState());
+                                    world.setBlockAndUpdate(tallPos, Blocks.PEONY.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
                                 }
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.BIRCH_FOREST)) {
+                        else if (j.is(Biomes.BIRCH_FOREST)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.DANDELION.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.DANDELION.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, ModBlocks.WEEDS.getDefaultState().with(CropBlock.AGE, Properties.AGE_7_MAX));
+                                world.setBlockAndUpdate(targetPos, ModBlocks.WEEDS.defaultBlockState().setValue(CropBlock.AGE, BlockStateProperties.MAX_AGE_7));
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.BROWN_MUSHROOM.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.BROWN_MUSHROOM.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.CORNFLOWER.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.CORNFLOWER.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.2f) {
-                                world.setBlockState(targetPos, Blocks.BIRCH_SAPLING.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.BIRCH_SAPLING.defaultBlockState());
                             }
-                            if (world.getBlockState(tallPos).isOf(Blocks.AIR)) {
+                            if (world.getBlockState(tallPos).is(Blocks.AIR)) {
                                 if (random.nextFloat() < 0.01f) {
-                                    world.setBlockState(targetPos, Blocks.LILAC.getDefaultState());
-                                    world.setBlockState(tallPos, Blocks.LILAC.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER));
+                                    world.setBlockAndUpdate(targetPos, Blocks.LILAC.defaultBlockState());
+                                    world.setBlockAndUpdate(tallPos, Blocks.LILAC.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
                                 }
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.OLD_GROWTH_BIRCH_FOREST)) {
+                        else if (j.is(Biomes.OLD_GROWTH_BIRCH_FOREST)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.005f) {
-                                world.setBlockState(targetPos, Blocks.DANDELION.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.DANDELION.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, ModBlocks.WEEDS.getDefaultState().with(CropBlock.AGE, Properties.AGE_7_MAX));
+                                world.setBlockAndUpdate(targetPos, ModBlocks.WEEDS.defaultBlockState().setValue(CropBlock.AGE, BlockStateProperties.MAX_AGE_7));
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.BROWN_MUSHROOM.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.BROWN_MUSHROOM.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.CORNFLOWER.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.CORNFLOWER.defaultBlockState());
                             }
-                            if (world.getBlockState(tallPos).isOf(Blocks.AIR)) {
+                            if (world.getBlockState(tallPos).is(Blocks.AIR)) {
                                 if (random.nextFloat() < 0.01f) {
-                                    world.setBlockState(targetPos, Blocks.LILAC.getDefaultState());
-                                    world.setBlockState(tallPos, Blocks.LILAC.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER));
+                                    world.setBlockAndUpdate(targetPos, Blocks.LILAC.defaultBlockState());
+                                    world.setBlockAndUpdate(tallPos, Blocks.LILAC.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
                                 }
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.DARK_FOREST)) {
+                        else if (j.is(Biomes.DARK_FOREST)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.RED_MUSHROOM.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.RED_MUSHROOM.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.BROWN_MUSHROOM.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.BROWN_MUSHROOM.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.POPPY.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.POPPY.defaultBlockState());
                             }
-                            if (world.getBlockState(tallPos).isOf(Blocks.AIR)) {
+                            if (world.getBlockState(tallPos).is(Blocks.AIR)) {
                                 if (random.nextFloat() < 0.01f) {
-                                    world.setBlockState(targetPos, Blocks.ROSE_BUSH.getDefaultState());
-                                    world.setBlockState(tallPos, Blocks.ROSE_BUSH.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER));
+                                    world.setBlockAndUpdate(targetPos, Blocks.ROSE_BUSH.defaultBlockState());
+                                    world.setBlockAndUpdate(tallPos, Blocks.ROSE_BUSH.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
                                 }
                                 if (random.nextFloat() < 0.0025f) {
-                                    world.setBlockState(targetPos, Blocks.DARK_OAK_FENCE.getDefaultState());
-                                    world.setBlockState(tallPos, Blocks.CARVED_PUMPKIN.getDefaultState().with(CarvedPumpkinBlock.FACING, Direction.NORTH));
+                                    world.setBlockAndUpdate(targetPos, Blocks.DARK_OAK_FENCE.defaultBlockState());
+                                    world.setBlockAndUpdate(tallPos, Blocks.CARVED_PUMPKIN.defaultBlockState().setValue(CarvedPumpkinBlock.FACING, Direction.NORTH));
                                 }
                                 if (random.nextFloat() < 0.0025f) {
-                                    world.setBlockState(targetPos, Blocks.DARK_OAK_FENCE.getDefaultState());
-                                    world.setBlockState(tallPos, Blocks.CARVED_PUMPKIN.getDefaultState().with(CarvedPumpkinBlock.FACING, Direction.SOUTH));
+                                    world.setBlockAndUpdate(targetPos, Blocks.DARK_OAK_FENCE.defaultBlockState());
+                                    world.setBlockAndUpdate(tallPos, Blocks.CARVED_PUMPKIN.defaultBlockState().setValue(CarvedPumpkinBlock.FACING, Direction.SOUTH));
                                 }
                                 if (random.nextFloat() < 0.0025f) {
-                                    world.setBlockState(targetPos, Blocks.DARK_OAK_FENCE.getDefaultState());
-                                    world.setBlockState(tallPos, Blocks.CARVED_PUMPKIN.getDefaultState().with(CarvedPumpkinBlock.FACING, Direction.EAST));
+                                    world.setBlockAndUpdate(targetPos, Blocks.DARK_OAK_FENCE.defaultBlockState());
+                                    world.setBlockAndUpdate(tallPos, Blocks.CARVED_PUMPKIN.defaultBlockState().setValue(CarvedPumpkinBlock.FACING, Direction.EAST));
                                 }
                                 if (random.nextFloat() < 0.0025f) {
-                                    world.setBlockState(targetPos, Blocks.DARK_OAK_FENCE.getDefaultState());
-                                    world.setBlockState(tallPos, Blocks.CARVED_PUMPKIN.getDefaultState().with(CarvedPumpkinBlock.FACING, Direction.WEST));
+                                    world.setBlockAndUpdate(targetPos, Blocks.DARK_OAK_FENCE.defaultBlockState());
+                                    world.setBlockAndUpdate(tallPos, Blocks.CARVED_PUMPKIN.defaultBlockState().setValue(CarvedPumpkinBlock.FACING, Direction.WEST));
                                 }
                                 if (random.nextFloat() < 0.0025f) {
-                                    world.setBlockState(targetPos, Blocks.DARK_OAK_FENCE.getDefaultState());
-                                    world.setBlockState(tallPos, Blocks.JACK_O_LANTERN.getDefaultState().with(CarvedPumpkinBlock.FACING, Direction.NORTH));
+                                    world.setBlockAndUpdate(targetPos, Blocks.DARK_OAK_FENCE.defaultBlockState());
+                                    world.setBlockAndUpdate(tallPos, Blocks.JACK_O_LANTERN.defaultBlockState().setValue(CarvedPumpkinBlock.FACING, Direction.NORTH));
                                 }
                                 if (random.nextFloat() < 0.0025f) {
-                                    world.setBlockState(targetPos, Blocks.DARK_OAK_FENCE.getDefaultState());
-                                    world.setBlockState(tallPos, Blocks.JACK_O_LANTERN.getDefaultState().with(CarvedPumpkinBlock.FACING, Direction.SOUTH));
+                                    world.setBlockAndUpdate(targetPos, Blocks.DARK_OAK_FENCE.defaultBlockState());
+                                    world.setBlockAndUpdate(tallPos, Blocks.JACK_O_LANTERN.defaultBlockState().setValue(CarvedPumpkinBlock.FACING, Direction.SOUTH));
                                 }
                                 if (random.nextFloat() < 0.0025f) {
-                                    world.setBlockState(targetPos, Blocks.DARK_OAK_FENCE.getDefaultState());
-                                    world.setBlockState(tallPos, Blocks.JACK_O_LANTERN.getDefaultState().with(CarvedPumpkinBlock.FACING, Direction.EAST));
+                                    world.setBlockAndUpdate(targetPos, Blocks.DARK_OAK_FENCE.defaultBlockState());
+                                    world.setBlockAndUpdate(tallPos, Blocks.JACK_O_LANTERN.defaultBlockState().setValue(CarvedPumpkinBlock.FACING, Direction.EAST));
                                 }
                                 if (random.nextFloat() < 0.0025f) {
-                                    world.setBlockState(targetPos, Blocks.DARK_OAK_FENCE.getDefaultState());
-                                    world.setBlockState(tallPos, Blocks.JACK_O_LANTERN.getDefaultState().with(CarvedPumpkinBlock.FACING, Direction.WEST));
+                                    world.setBlockAndUpdate(targetPos, Blocks.DARK_OAK_FENCE.defaultBlockState());
+                                    world.setBlockAndUpdate(tallPos, Blocks.JACK_O_LANTERN.defaultBlockState().setValue(CarvedPumpkinBlock.FACING, Direction.WEST));
                                 }
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.BAMBOO_JUNGLE)) {
+                        else if (j.is(Biomes.BAMBOO_JUNGLE)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.2f) {
-                                world.setBlockState(targetPos, Blocks.BAMBOO_SAPLING.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.BAMBOO_SAPLING.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.3f) {
-                                world.setBlockState(targetPos, Blocks.FERN.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.FERN.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.01f) {
-                                world.setBlockState(targetPos, Blocks.JUNGLE_LEAVES.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.JUNGLE_LEAVES.defaultBlockState());
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.JUNGLE)) {
+                        else if (j.is(Biomes.JUNGLE)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.05f) {
-                                world.setBlockState(targetPos, Blocks.MELON.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.MELON.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.3f) {
-                                world.setBlockState(targetPos, Blocks.FERN.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.FERN.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.2f) {
-                                world.setBlockState(targetPos, Blocks.JUNGLE_SAPLING.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.JUNGLE_SAPLING.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.1f) {
-                                world.setBlockState(targetPos, Blocks.JUNGLE_LEAVES.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.JUNGLE_LEAVES.defaultBlockState());
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.SPARSE_JUNGLE)) {
+                        else if (j.is(Biomes.SPARSE_JUNGLE)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.001f) {
-                                world.setBlockState(targetPos, Blocks.MELON.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.MELON.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.3f) {
-                                world.setBlockState(targetPos, Blocks.FERN.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.FERN.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.1f) {
-                                world.setBlockState(targetPos, Blocks.DANDELION.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.DANDELION.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.1f) {
-                                world.setBlockState(targetPos, Blocks.JUNGLE_SAPLING.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.JUNGLE_SAPLING.defaultBlockState());
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.GROVE)) {
+                        else if (j.is(Biomes.GROVE)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.3f) {
-                                world.setBlockState(targetPos, Blocks.FERN.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.FERN.defaultBlockState());
                             }
                         }
-                        else if (j.matchesKey(BiomeKeys.LUSH_CAVES)) {
+                        else if (j.is(Biomes.LUSH_CAVES)) {
                             if (random.nextFloat() > 0.4f) {
-                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.2f) {
-                                world.setBlockState(targetPos, Blocks.AZALEA.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.AZALEA.defaultBlockState());
                             }
                             if (random.nextFloat() < 0.1f) {
-                                world.setBlockState(targetPos, Blocks.FLOWERING_AZALEA.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.FLOWERING_AZALEA.defaultBlockState());
                             }
                         }
                         else if (random.nextFloat() > 0.1f) {
-                            world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                            world.setBlockAndUpdate(targetPos, Blocks.GRASS.defaultBlockState());
                         }
                     }
                 }
             }
-            if (world.getBlockState(pos).isOf(Blocks.MYCELIUM)) {
-                if (BlockPos.streamOutwards(pos, 5, 5, 5)
+            if (world.getBlockState(pos).is(Blocks.MYCELIUM)) {
+                if (BlockPos.withinManhattanStream(pos, 5, 5, 5)
                         .map(world::getBlockState)
-                        .filter(b->b.isIn(ModTags.SMALL_MUSHROOMS))
+                        .filter(b->b.is(ModTags.SMALL_MUSHROOMS))
                         .toList().size() <= 3) {
                     float f = 0.5f;
                     if (random.nextFloat() < 0.001f) {
-                        if (world.getBlockState(targetPos).isOf(Blocks.AIR)) {
+                        if (world.getBlockState(targetPos).is(Blocks.AIR)) {
                             if (random.nextFloat() > 0.5f) {
-                                world.setBlockState(targetPos, Blocks.RED_MUSHROOM.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.RED_MUSHROOM.defaultBlockState());
                             } else {
-                                world.setBlockState(targetPos, Blocks.BROWN_MUSHROOM.getDefaultState());
+                                world.setBlockAndUpdate(targetPos, Blocks.BROWN_MUSHROOM.defaultBlockState());
                             }
                         }
                     }

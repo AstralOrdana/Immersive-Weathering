@@ -1,54 +1,58 @@
 package com.ordana.immersive_weathering.mixin;
 
 import net.minecraft.block.*;
-import net.minecraft.block.enums.DoubleBlockHalf;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.TallGrassBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.Random;
 
-@Mixin(FernBlock.class)
+@Mixin(TallGrassBlock.class)
 public class FernBlockMixin extends Block {
 
-    public FernBlockMixin(Settings settings) {
+    public FernBlockMixin(Properties settings) {
         super(settings);
     }
 
     @Override
-    public boolean hasRandomTicks(BlockState state) {
+    public boolean isRandomlyTicking(BlockState state) {
         return true;
     }
 
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        var targetPos = pos.up();
-        if (world.getBlockState(pos).isOf(Blocks.GRASS)) {
-            if (world.getBlockState(targetPos).isOf(Blocks.AIR)) {
-                if (BlockPos.streamOutwards(pos, 5, 5, 5)
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+        var targetPos = pos.above();
+        if (world.getBlockState(pos).is(Blocks.GRASS)) {
+            if (world.getBlockState(targetPos).is(Blocks.AIR)) {
+                if (BlockPos.withinManhattanStream(pos, 5, 5, 5)
                         .map(world::getBlockState)
                         .map(BlockState::getBlock)
                         .filter(Blocks.TALL_GRASS::equals)
                         .toList().size() <= 2) {
                     float f = 0.5f;
                     if (random.nextFloat() < 0.001f) {
-                        world.setBlockState(pos, Blocks.TALL_GRASS.getDefaultState());
-                        world.setBlockState(targetPos, Blocks.TALL_GRASS.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER));
+                        world.setBlockAndUpdate(pos, Blocks.TALL_GRASS.defaultBlockState());
+                        world.setBlockAndUpdate(targetPos, Blocks.TALL_GRASS.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
                     }
                 }
             }
         }
-        if (world.getBlockState(pos).isOf(Blocks.FERN)) {
-            if (world.getBlockState(targetPos).isOf(Blocks.AIR)) {
-                if (BlockPos.streamOutwards(pos, 5, 5, 5)
+        if (world.getBlockState(pos).is(Blocks.FERN)) {
+            if (world.getBlockState(targetPos).is(Blocks.AIR)) {
+                if (BlockPos.withinManhattanStream(pos, 5, 5, 5)
                         .map(world::getBlockState)
                         .map(BlockState::getBlock)
                         .filter(Blocks.LARGE_FERN::equals)
                         .toList().size() <= 2) {
                     float f = 0.5f;
                     if (random.nextFloat() < 0.001f) {
-                        world.setBlockState(pos, Blocks.LARGE_FERN.getDefaultState());
-                        world.setBlockState(targetPos, Blocks.LARGE_FERN.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER));
+                        world.setBlockAndUpdate(pos, Blocks.LARGE_FERN.defaultBlockState());
+                        world.setBlockAndUpdate(targetPos, Blocks.LARGE_FERN.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
                     }
                 }
             }

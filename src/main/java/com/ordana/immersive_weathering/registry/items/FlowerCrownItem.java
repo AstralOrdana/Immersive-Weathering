@@ -1,33 +1,31 @@
 package com.ordana.immersive_weathering.registry.items;
 
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-
 import java.util.Map;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class FlowerCrownItem extends ArmorItem {
-    private static final Map<ArmorMaterial, StatusEffectInstance> MATERIAL_TO_EFFECT_MAP =
-            (new ImmutableMap.Builder<ArmorMaterial, StatusEffectInstance>())
+    private static final Map<ArmorMaterial, MobEffectInstance> MATERIAL_TO_EFFECT_MAP =
+            (new ImmutableMap.Builder<ArmorMaterial, MobEffectInstance>())
                     .put(FlowerCrownMaterial.INSTANCE,
-                            new StatusEffectInstance(StatusEffects.REGENERATION, 400, 1, true, false)).build();
+                            new MobEffectInstance(MobEffects.REGENERATION, 400, 1, true, false)).build();
 
-    public FlowerCrownItem(ArmorMaterial material, EquipmentSlot slot, Settings settings) {
+    public FlowerCrownItem(ArmorMaterial material, EquipmentSlot slot, Properties settings) {
         super(material, slot, settings);
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        if(!world.isClient()) {
-            if(entity instanceof PlayerEntity) {
-                PlayerEntity player = (PlayerEntity)entity;
+    public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
+        if(!world.isClientSide()) {
+            if(entity instanceof Player player) {
 
                 if(hasHelmetOn(player)) {
                     evaluateArmorEffects(player);
@@ -38,10 +36,10 @@ public class FlowerCrownItem extends ArmorItem {
         super.inventoryTick(stack, world, entity, slot, selected);
     }
 
-    private void evaluateArmorEffects(PlayerEntity player) {
-        for (Map.Entry<ArmorMaterial, StatusEffectInstance> entry : MATERIAL_TO_EFFECT_MAP.entrySet()) {
+    private void evaluateArmorEffects(Player player) {
+        for (Map.Entry<ArmorMaterial, MobEffectInstance> entry : MATERIAL_TO_EFFECT_MAP.entrySet()) {
             ArmorMaterial mapArmorMaterial = entry.getKey();
-            StatusEffectInstance mapStatusEffect = entry.getValue();
+            MobEffectInstance mapStatusEffect = entry.getValue();
 
             if(hasCorrectArmorOn(mapArmorMaterial, player)) {
                 addStatusEffectForMaterial(player, mapArmorMaterial, mapStatusEffect);
@@ -49,23 +47,23 @@ public class FlowerCrownItem extends ArmorItem {
         }
     }
 
-    private void addStatusEffectForMaterial(PlayerEntity player, ArmorMaterial mapArmorMaterial, StatusEffectInstance mapStatusEffect) {
-        boolean hasPlayerEffect = player.hasStatusEffect(mapStatusEffect.getEffectType());
+    private void addStatusEffectForMaterial(Player player, ArmorMaterial mapArmorMaterial, MobEffectInstance mapStatusEffect) {
+        boolean hasPlayerEffect = player.hasEffect(mapStatusEffect.getEffect());
 
         if(hasCorrectArmorOn(mapArmorMaterial, player) && !hasPlayerEffect) {
-            player.addStatusEffect(new StatusEffectInstance(mapStatusEffect.getEffectType(),
+            player.addEffect(new MobEffectInstance(mapStatusEffect.getEffect(),
                     mapStatusEffect.getDuration(), mapStatusEffect.getAmplifier()));
         }
     }
 
-    private boolean hasHelmetOn(PlayerEntity player) {
-        ItemStack helmet = player.getInventory().getArmorStack(3);
+    private boolean hasHelmetOn(Player player) {
+        ItemStack helmet = player.getInventory().getArmor(3);
 
         return !helmet.isEmpty();
     }
 
-    private boolean hasCorrectArmorOn(ArmorMaterial material, PlayerEntity player) {
-        ArmorItem helmet = ((ArmorItem)player.getInventory().getArmorStack(3).getItem());
+    private boolean hasCorrectArmorOn(ArmorMaterial material, Player player) {
+        ArmorItem helmet = ((ArmorItem)player.getInventory().getArmor(3).getItem());
 
         return helmet.getMaterial() == material;
     }

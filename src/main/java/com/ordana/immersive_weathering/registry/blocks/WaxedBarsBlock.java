@@ -1,9 +1,9 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import net.minecraft.block.PaneBlock;
+import net.minecraft.world.level.block.IronBarsBlock;
 
-public class WaxedBarsBlock extends PaneBlock {
-    protected WaxedBarsBlock(Settings settings) {
+public class WaxedBarsBlock extends IronBarsBlock {
+    protected WaxedBarsBlock(Properties settings) {
         super(settings);
     }
 }
