@@ -25,14 +25,83 @@ public class BlocksMixin {
                                     from = @At
                                             (
                                                     value = "CONSTANT",
-                                                    args="stringValue=cracked_polished_blackstone_bricks"
+                                                    args="stringValue=polished_blackstone_bricks"
                                             )
                             )
             )
-    private static Block crackedPolishedBlackstoneBricks(AbstractBlock.Settings settings)
+    private static Block polishedBlackstoneBricks(AbstractBlock.Settings settings)
     {
-        return new CrackedBlock(settings);
+        return new CrackableBlock(settings);
     }
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/SlabBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=polished_blackstone_brick_slab"
+                                            )
+                            )
+            )
+    private static SlabBlock polishedBlackstoneBrickSlab(AbstractBlock.Settings settings)
+    {
+        return new CrackableSlabBlock(settings);
+    }
+    @Shadow @Final public static Block POLISHED_BLACKSTONE_BRICKS;
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/StairsBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=polished_blackstone_brick_stairs"
+                                            )
+                            )
+            )
+    private static StairsBlock polishedBlackstoneBricksStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
+    {
+        return new CrackableStairsBlock(POLISHED_BLACKSTONE_BRICKS.getDefaultState(), settings);
+    }
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/WallBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=polished_blackstone_brick_wall"
+                                            )
+                            )
+            )
+    private static WallBlock polishedBlackstoneBrickWall(AbstractBlock.Settings settings)
+    {
+        return new CrackableWallBlock(settings);
+    }
+
+
 
     @Redirect
             (
@@ -48,14 +117,83 @@ public class BlocksMixin {
                                     from = @At
                                             (
                                                     value = "CONSTANT",
-                                                    args="stringValue=cracked_deepslate_bricks"
+                                                    args="stringValue=deepslate_bricks"
                                             )
                             )
             )
-    private static Block crackedDeepslateBricks(AbstractBlock.Settings settings)
+    private static Block deepslateBricks(AbstractBlock.Settings settings)
     {
-        return new CrackedBlock(settings);
+        return new CrackableBlock(settings);
     }
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/SlabBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=deepslate_brick_slab"
+                                            )
+                            )
+            )
+    private static SlabBlock deepslateBrickSlab(AbstractBlock.Settings settings)
+    {
+        return new CrackableSlabBlock(settings);
+    }
+    @Shadow @Final public static Block DEEPSLATE_BRICKS;
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/StairsBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=deepslate_brick_stairs"
+                                            )
+                            )
+            )
+    private static StairsBlock deepslateBrickStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
+    {
+        return new CrackableStairsBlock(DEEPSLATE_BRICKS.getDefaultState(), settings);
+    }
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/WallBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=deepslate_brick_wall"
+                                            )
+                            )
+            )
+    private static WallBlock deepslateBrickWall(AbstractBlock.Settings settings)
+    {
+        return new CrackableWallBlock(settings);
+    }
+
+
 
     @Redirect
             (
@@ -71,14 +209,83 @@ public class BlocksMixin {
                                     from = @At
                                             (
                                                     value = "CONSTANT",
-                                                    args="stringValue=cracked_deepslate_tiles"
+                                                    args="stringValue=deepslate_tiles"
                                             )
                             )
             )
-    private static Block crackedDeepslateTiles(AbstractBlock.Settings settings)
+    private static Block deepslateTiles(AbstractBlock.Settings settings)
     {
-        return new CrackedBlock(settings);
+        return new CrackableBlock(settings);
     }
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/SlabBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=deepslate_tile_slab"
+                                            )
+                            )
+            )
+    private static SlabBlock deepslateTileSlab(AbstractBlock.Settings settings)
+    {
+        return new CrackableSlabBlock(settings);
+    }
+    @Shadow @Final public static Block DEEPSLATE_TILES;
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/StairsBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=deepslate_tile_stairs"
+                                            )
+                            )
+            )
+    private static StairsBlock deepslateTileStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
+    {
+        return new CrackableStairsBlock(DEEPSLATE_TILES.getDefaultState(), settings);
+    }
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/WallBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=deepslate_tile_wall"
+                                            )
+                            )
+            )
+    private static WallBlock deepslateTileWall(AbstractBlock.Settings settings)
+    {
+        return new CrackableWallBlock(settings);
+    }
+
+
 
     @Redirect
             (
@@ -94,13 +301,80 @@ public class BlocksMixin {
                                     from = @At
                                             (
                                                     value = "CONSTANT",
-                                                    args="stringValue=cracked_nether_bricks"
+                                                    args="stringValue=nether_bricks"
                                             )
                             )
             )
-    private static Block crackedNetherBricks(AbstractBlock.Settings settings)
+    private static Block netherBricks(AbstractBlock.Settings settings)
     {
-        return new CrackedBlock(settings);
+        return new CrackableBlock(settings);
+    }
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/SlabBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=nether_brick_slab"
+                                            )
+                            )
+            )
+    private static SlabBlock netherBrickSlab(AbstractBlock.Settings settings)
+    {
+        return new CrackableSlabBlock(settings);
+    }
+    @Shadow @Final public static Block NETHER_BRICKS;
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/StairsBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=nether_brick_stairs"
+                                            )
+                            )
+            )
+    private static StairsBlock netherBrickStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
+    {
+        return new CrackableStairsBlock(NETHER_BRICKS.getDefaultState(), settings);
+    }
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/WallBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=nether_brick_wall"
+                                            )
+                            )
+            )
+    private static WallBlock netherBrickWall(AbstractBlock.Settings settings)
+    {
+        return new CrackableWallBlock(settings);
     }
 
 
@@ -218,28 +492,6 @@ public class BlocksMixin {
     private static Block stoneBricks(AbstractBlock.Settings settings)
     {
         return new MossableBlock(Mossable.MossLevel.UNAFFECTED, settings);
-    }
-    @Redirect
-            (
-                    method = "<clinit>",
-                    at = @At
-                            (
-                                    value = "NEW",
-                                    target = "net/minecraft/block/Block",
-                                    ordinal = 0
-                            ),
-                    slice = @Slice
-                            (
-                                    from = @At
-                                            (
-                                                    value = "CONSTANT",
-                                                    args="stringValue=cracked_stone_bricks"
-                                            )
-                            )
-            )
-    private static Block crackedStoneBricks(AbstractBlock.Settings settings)
-    {
-        return new CrackedBlock(settings);
     }
     @Redirect
             (

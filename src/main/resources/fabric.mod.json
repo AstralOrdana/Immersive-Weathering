@@ -4,18 +4,19 @@
   "version": "${version}",
 
   "name": "Immersive Weathering",
-  "description": "A Mod that several natural weathering systems and QOL changes.",
+  "description": "A Mod that many natural weathering systems and QOL changes.",
   "authors": [
     "Ordana",
     "keybounce",
-    "Paperfish"
+    "Paperfish",
+    "MehVahdJukaar"
   ],
   "contact": {
     "homepage": "https://discord.gg/MTUHt3r",
-    "sources": ""
+    "sources": "https://github.com/AstralOrdana/Immersive-Weathering-Fabric"
   },
 
-  "license": "GPLv3",
+  "license": "LGPLv3",
   "icon": "assets/immersive_weathering/icon.png",
 
   "environment": "*",
