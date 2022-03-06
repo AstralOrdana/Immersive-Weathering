@@ -38,13 +38,8 @@ public class SootBlock extends MultifaceBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
+        super.createBlockStateDefinition(stateManager);
         stateManager.add(LIT);
-
-        for (Direction direction : DIRECTIONS) {
-            if (this.isFaceSupported(direction)) {
-                stateManager.add(getFaceProperty(direction));
-            }
-        }
     }
 
     @Override
@@ -58,6 +53,7 @@ public class SootBlock extends MultifaceBlock {
         }
     }
 
+    @Override
     public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
         if (state.getValue(LIT)) {
             int i = pos.getX();

@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import java.util.Random;
 
 @Mixin(CampfireBlock.class)
-public class CampfireMixin extends Block {
+public abstract class CampfireMixin extends Block {
 
     protected CampfireMixin(Properties settings) {
         super(settings);

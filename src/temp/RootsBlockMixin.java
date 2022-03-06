@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+//TODO: make nulch only accept nether stuff
 @Mixin(RootsBlock.class)
 public class RootsBlockMixin extends Block {
     public RootsBlockMixin(Properties settings) {

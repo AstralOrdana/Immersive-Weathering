@@ -13,6 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -20,17 +21,18 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.common.IPlantable;
 
 import java.util.Random;
 
 public class MulchBlock extends Block {
 
+    public static final BooleanProperty SOAKED = BooleanProperty.create("soaked");
+
     public MulchBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.defaultBlockState().setValue(SOAKED, false));
     }
-
-    public static final BooleanProperty SOAKED = BooleanProperty.create("soaked");
 
     @Override
     public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
@@ -57,6 +59,7 @@ public class MulchBlock extends Block {
         return super.use(state, world, pos, player, hand, hit);
     }
 
+    @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
 
         // RandomEvent ran = new RandomEvent();
@@ -110,5 +113,15 @@ public class MulchBlock extends Block {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
         stateManager.add(SOAKED);
+    }
+
+    @Override
+    public boolean isFertile(BlockState state, BlockGetter world, BlockPos pos) {
+        return false;//state.getValue(SOAKED)
+    }
+
+    @Override
+    public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction direction, IPlantable plantable) {
+        return true;
     }
 }

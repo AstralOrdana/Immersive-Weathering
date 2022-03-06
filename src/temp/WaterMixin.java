@@ -33,7 +33,7 @@ public class WaterMixin extends Block implements BucketPickup {
     private static final IntegerProperty LEVEL;
     @Shadow
     @Final
-    public FlowingFluid fluid;
+    private FlowingFluid fluid;
     private static final ImmutableList<Direction> FLOW_DIRECTIONS;
 
     public WaterMixin(Properties settings, FlowingFluid fluid) {
@@ -48,9 +48,7 @@ public class WaterMixin extends Block implements BucketPickup {
     public void receiveNeighborFluids(Level world, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
         if (this.fluid.is(FluidTags.LAVA)) {
             boolean bl = world.getBlockState(pos.below()).is(Blocks.NETHERRACK);
-            UnmodifiableIterator var5 = FLOW_DIRECTIONS.iterator();
-            while(var5.hasNext()) {
-                Direction direction = (Direction)var5.next();
+            for (Direction direction : FLOW_DIRECTIONS) {
                 BlockPos blockPos = pos.relative(direction.getOpposite());
                 if (bl && world.getBlockState(blockPos).is(Blocks.PACKED_ICE)) {
                     world.setBlockAndUpdate(pos, Blocks.MAGMA_BLOCK.defaultBlockState());

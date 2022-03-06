@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering;
 
+import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 import java.util.Random;

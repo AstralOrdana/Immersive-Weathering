@@ -1,5 +1,7 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.registry.items.ModItems;
+import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -17,9 +19,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ComposterBlock.class)
-public abstract class ComposterMixin {
-
-    @Inject(method = "use", at = @At("HEAD"), cancellable = true)
+public class ComposterMixin {
+    @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
     public void onUse(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit, CallbackInfoReturnable<InteractionResult> cir) {
         int i = state.getValue(ComposterBlock.LEVEL);
         if (i == 8) {

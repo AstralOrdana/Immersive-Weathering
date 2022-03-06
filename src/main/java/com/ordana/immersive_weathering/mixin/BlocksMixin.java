@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
 
 @Mixin(Blocks.class)
-public class BlocksMixin {
+public abstract class BlocksMixin {
     @Redirect(method = "<clinit>", at = @At(
             value = "NEW",
             target = "net/minecraft/world/level/block/Block",

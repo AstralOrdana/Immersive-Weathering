@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
@@ -17,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Random;
 
 @Mixin(FarmBlock.class)
-public class FarmlandMixin extends Block {
+public abstract class FarmlandMixin extends Block {
     public FarmlandMixin(Properties settings) {
         super(settings);
     }
@@ -25,24 +24,29 @@ public class FarmlandMixin extends Block {
     @Inject(method = "randomTick", at = @At("TAIL"))
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
         var targetPos = pos.above();
-        if (!world.getBlockState(targetPos).is(ModBlocks.WEEDS)) {
-            if (BlockPos.withinManhattanStream(pos, 3, 3, 3)
-                    .map(world::getBlockState)
-                    .map(BlockState::getBlock)
-                    .filter(ModBlocks.WEEDS::equals)
-                    .toList().size() <= 9) {
-                if (random.nextFloat() < 0.04f) {
-                    if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
-                            .map(world::getBlockState)
-                            .anyMatch(ModBlocks.WEEDS.defaultBlockState().setValue(CropBlock.AGE, BlockStateProperties.MAX_AGE_7)::equals)) {
-                        if (random.nextFloat() < 0.8f) {
-                            world.setBlockAndUpdate(targetPos, ModBlocks.WEEDS.defaultBlockState());
-                        }
+        if (world.getBlockState(targetPos).isAir()) {
+            //checks if it doesn't have at least 9 weeds around
+            var neighbors = BlockPos.withinManhattan(pos, 3, 3, 3).iterator();
+            boolean hasFullyGrownWeedNearby = false;
+            int weedsNearby = 0;
+            while (neighbors.hasNext()) {
+                if (weedsNearby > 9) return;
+                BlockPos p = neighbors.next();
+                BlockState s = world.getBlockState(p);
+                if (s.is(ModBlocks.WEEDS.get())) {
+                    weedsNearby = weedsNearby + 1;
+                    if (!hasFullyGrownWeedNearby && s.getValue(CropBlock.AGE) == BlockStateProperties.MAX_AGE_7) {
+                        hasFullyGrownWeedNearby = true;
                     }
                 }
-                else if (random.nextFloat() < 0.0002f) {
-                    world.setBlockAndUpdate(targetPos, ModBlocks.WEEDS.defaultBlockState());
+            }
+            //almost identical to the old one
+            if (random.nextFloat() < 0.035f) {
+                if (hasFullyGrownWeedNearby) {
+                    world.setBlockAndUpdate(targetPos, ModBlocks.WEEDS.get().defaultBlockState());
                 }
+            } else if (random.nextFloat() < 0.0002f) {
+                world.setBlockAndUpdate(targetPos, ModBlocks.WEEDS.get().defaultBlockState());
             }
         }
     }

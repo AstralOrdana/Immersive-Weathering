@@ -108,7 +108,7 @@ public interface Mossable extends ChangeOverTimeBlock<Mossable.MossLevel>, Weath
                 BlockState targetBlock = world.getBlockState(targetPos);
                 if (targetBlock.getBlock() instanceof Mossable mossable) {
                     var newState = mossable.getNext(targetBlock);
-                    newState.ifPresent(s -> world.setBlockAndUpdate(targetPos, s.getBlock().withPropertiesOf(targetBlock)));
+                    newState.ifPresent(s -> world.setBlockAndUpdate(targetPos, s));
                 }
             }
         }

@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class WeedsBlock extends CropBlock {
+
     protected WeedsBlock(Properties settings) {
         super(settings);
     }

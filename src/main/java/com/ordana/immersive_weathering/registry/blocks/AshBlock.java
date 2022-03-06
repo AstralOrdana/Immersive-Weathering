@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
@@ -27,6 +28,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import java.util.Random;
 
 public class AshBlock extends FallingBlock {
+
+    public static final BooleanProperty LIT = BlockStateProperties.LIT;
+
     public AshBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.defaultBlockState().setValue(LIT, false));
@@ -36,8 +40,6 @@ public class AshBlock extends FallingBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
         stateManager.add(LIT);
     }
-
-    public static final BooleanProperty LIT = BooleanProperty.create("lit");
 
     @Override
     public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {

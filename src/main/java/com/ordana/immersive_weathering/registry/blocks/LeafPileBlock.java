@@ -1,6 +1,5 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -31,7 +30,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -39,17 +37,11 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
 
     public static final IntegerProperty LAYERS = BlockStateProperties.LAYERS;
     protected static final VoxelShape[] LAYERS_TO_SHAPE = new VoxelShape[]{Shapes.empty(), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
+    private static final float[] COLLISIONS = new float[]{0, 1.7f, 1.6f, 1.5f, 1.3f, 1.1f, 0.8f, 0.5f};
 
-    //use a tag
-    private static final HashMap<Block, Block> FLOWERY_BLOCKS = new HashMap<>();
-
-
-    //m additions
-    private final float[] COLLISIONS = new float[]{0, 1.7f, 1.6f, 1.5f, 1.3f, 1.1f, 0.8f, 0.5f};
     private final boolean hasFlowers; //if it can be boneMealed
     private final boolean hasThorns; //if it can hurt
     private final List<RegistryObject<SimpleParticleType>> particles;
-
 
     protected LeafPileBlock(Properties settings, boolean hasFlowers, boolean hasThorns,
                             List<RegistryObject<SimpleParticleType>> particles) {
@@ -196,21 +188,17 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
         return this.hasFlowers;
     }
 
-    //check what thos does
     @Override
     public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state) {
         for (var direction : Direction.values()) {
-            var targetPos = pos.relative(direction);
-            BlockState targetBlock = world.getBlockState(targetPos);
             if (random.nextFloat() > 0.5f) {
-                if (world.getBlockState(targetPos).is(ModTags.FLOWERABLE)) {
-                    FLOWERY_BLOCKS.forEach((flowery, shorn) -> {
-                        if (targetBlock.is(shorn)) {
-                            world.setBlockAndUpdate(targetPos, flowery.withPropertiesOf(targetBlock));
-                        }
-                    });
-                }
+                var targetPos = pos.relative(direction);
+                BlockState targetBlock = world.getBlockState(targetPos);
+                WeatheringHelper.getAzaleaGrowth(targetBlock).ifPresent(s ->
+                        world.setBlockAndUpdate(targetPos, s)
+                );
             }
         }
     }
+
 }
