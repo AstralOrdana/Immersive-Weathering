@@ -15,8 +15,10 @@ public interface WeatherableBlock {
 
     BooleanProperty WEATHERABLE = BooleanProperty.create("weathering");
 
-    enum Influence {
-        LOW, //can only be influenced by already weathered blocks
+    //how much the given face is influenced by other blocks
+    enum Susceptibility {
+        LOW, //ideally this should make so the block has no influence on this but can be used
+        MEDIUM, //can only be influenced by already weathered blocks
         HIGH //can also be influenced by WEATHERING blocks
     }
 
@@ -48,38 +50,45 @@ public interface WeatherableBlock {
     }
 
 
-    default Map<Direction, Influence> getInfluenceForDirections(BlockPos pos) {
+    default Map<Direction, Susceptibility> getInfluenceForDirections(BlockPos pos) {
         Random posRandom = new Random(Mth.getSeed(pos));
-        Map<Direction, Influence> directions = new HashMap<>();
+        Map<Direction, Susceptibility> directions = new HashMap<>();
         float directionChange = this.getInterestForDirection();
         float highInterestChange = this.getHighInterestChance();
         for (Direction d : Direction.values()) {
             if (posRandom.nextFloat() < directionChange) {
-                Influence in = posRandom.nextFloat() < highInterestChange ? Influence.HIGH : Influence.LOW;
+                Susceptibility in = posRandom.nextFloat() < highInterestChange ? Susceptibility.HIGH : Susceptibility.MEDIUM;
                 directions.put(d, in);
             }
         }
         return directions;
     }
 
-    default Map<Direction, Influence> getInfluenceForDirections2(BlockPos pos) {
+    default Map<Direction, Susceptibility> getInfluenceForDirections2(BlockPos pos) {
         Random posRandom = new Random(Mth.getSeed(pos));
-        Map<Direction, Influence> directions = new HashMap<>();
+        Map<Direction, Susceptibility> directions = new HashMap<>();
         float directionChance = this.getInterestForDirection();
         float highInterestChance = this.getHighInterestChance();
-        int wantedDirs = getDirectionNumber(posRandom, directionChance);
+        int wantedDirs = getDirectionCount(posRandom, directionChance);
         List<Direction> dirs = new ArrayList<>(List.of(Direction.values()));
         Collections.shuffle(dirs, posRandom);
         var selected = dirs.subList(0, wantedDirs);
-        for (Direction d : selected) {
-            Influence in = posRandom.nextFloat() < highInterestChance ? Influence.HIGH : Influence.LOW;
-            directions.put(d, in);
+        for (int i = 0; i < dirs.size(); i++) {
+            Susceptibility sus;
+            if (i < wantedDirs) {
+                //med and high Susceptibility for these directions
+                sus = posRandom.nextFloat() < highInterestChance ? Susceptibility.HIGH : Susceptibility.MEDIUM;
+            } else {
+                //low Susceptibility
+                sus = Susceptibility.LOW;
+            }
+            directions.put(dirs.get(i), sus);
         }
         return directions;
     }
 
 
-    default int getDirectionNumber(Random random, float a) {
+    default int getDirectionCount(Random random, float a) {
         final int n = 6;
         float[] values = new float[n + 1];
         for (int x = 0; x <= n; x++) {
@@ -111,20 +120,44 @@ public interface WeatherableBlock {
      * @param pos       target position
      * @return weathering effect of the target block
      */
-    default WeatheringAgent getBlockWeatheringEffect(Influence influence, BlockState state, Level level, BlockPos pos) {
+    default WeatheringAgent getBlockWeatheringEffect(Susceptibility sus, BlockState state, Level level, BlockPos pos) {
         //if high influence it can be affected by weathering blocks
-        if (influence == Influence.HIGH && isHighInfluenceOnlyBlock(state, level, pos)) return WeatheringAgent.WEATHER;
-        return getWeatheringEffect(state, level, pos);
+        WeatheringAgent effect = WeatheringAgent.NONE;
+        if(sus == Susceptibility.HIGH){
+            effect = getLowInfluenceWeatheringEffect(state, level, pos);
+        }
+        if(effect == WeatheringAgent.NONE && sus == Susceptibility.MEDIUM){
+            effect = getWeatheringEffect(state, level, pos);
+        }
+        if(effect == WeatheringAgent.NONE && sus == Susceptibility.MEDIUM){
+            effect = getHighInfluenceWeatheringEffect(state, level, pos);
+        }
+
+        return effect;
     }
 
-    //if this block can influence this only when the current side is on High influence
-    default boolean isHighInfluenceOnlyBlock(BlockState state, Level level, BlockPos pos) {
+    /**
+     * This gets called for each side since each side has at least a Low Susceptibility level
+     * be very careful when using because overusing it will in the worst case convert every single block
+     * Intended for High influence bocks like water sources for mossy blocks that will convert them 100% of the times
+     * @return effect that this block has
+     */
+    default WeatheringAgent getHighInfluenceWeatheringEffect(BlockState state, Level level, BlockPos pos){
+        return WeatheringAgent.NONE;
+    }
+
+    /**
+     * gets called more rarely since it requires the given direction has at least a HIGHSusceptibility level
+     * Dy default checks if the given block belongs to the same weathering family & it itself is weathering
+     * @return effect that this block has
+     */
+    default WeatheringAgent getLowInfluenceWeatheringEffect(BlockState state, Level level, BlockPos pos) {
         Block b = state.getBlock();
         return (b instanceof WeatherableBlock wt &&
                 this instanceof ChangeOverTimeBlock t &&
                 b instanceof ChangeOverTimeBlock c &&
                 c.getAge().getClass() == t.getAge().getClass()
-                && wt.isWeathering(state));
+                && wt.isWeathering(state)) ? WeatheringAgent.WEATHER : WeatheringAgent.NONE;
     }
 
 
