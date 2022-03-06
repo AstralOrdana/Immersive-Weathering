@@ -23,6 +23,7 @@ public final class ModTags {
     public static final TagKey<Block> CORALS = registerBlockTag("corals");
     public static final TagKey<Block> ICE = registerBlockTag("ice");
     public static final TagKey<Block> MAGMA_SOURCE = registerBlockTag("magma_source");
+    public static final TagKey<Block> CRACK_SOURCE = registerBlockTag("crack_source");
     public static final TagKey<Block> ICICLE_REPLACEABLE_BLOCKS = registerBlockTag("icicle_replaceable_blocks");
 
     public static final TagKey<Block> CLEAN_IRON = registerBlockTag("clean_iron");
