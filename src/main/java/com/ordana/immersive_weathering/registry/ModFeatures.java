@@ -23,7 +23,7 @@ public class ModFeatures {
             "icicle_cluster", () -> new IcicleClusterFeature(IcicleClusterFeatureConfig.CODEC));
 
     public static void addFeaturesToBiomes() {
-
+/*
         ResourceKey<PlacedFeature> icicles = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
                 new ResourceLocation("immersive_weathering", "icicles"));
         BiomeModifications.addFeature(BiomeSelectors.tag(ModTags.ICY), GenerationStep.Decoration.TOP_LAYER_MODIFICATION, icicles);
@@ -49,6 +49,6 @@ public class ModFeatures {
         BiomeModifications.addFeature(BiomeSelectors.includeByKey(Biomes.OLD_GROWTH_SPRUCE_TAIGA), GenerationStep.Decoration.VEGETAL_DECORATION, spruce_leaf_pile);
         BiomeModifications.addFeature(BiomeSelectors.includeByKey(Biomes.OLD_GROWTH_PINE_TAIGA), GenerationStep.Decoration.VEGETAL_DECORATION, spruce_leaf_pile);
         BiomeModifications.addFeature(BiomeSelectors.includeByKey(Biomes.TAIGA), GenerationStep.Decoration.VEGETAL_DECORATION, spruce_leaf_pile);
-
+*/
     }
 }

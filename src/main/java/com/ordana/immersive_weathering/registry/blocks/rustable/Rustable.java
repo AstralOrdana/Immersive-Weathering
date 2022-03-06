@@ -1,8 +1,9 @@
-package com.ordana.immersive_weathering.registry.blocks;
+package com.ordana.immersive_weathering.registry.blocks.rustable;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
@@ -34,6 +35,7 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
             .put(ModBlocks.PLATE_IRON_STAIRS.get(), ModBlocks.EXPOSED_PLATE_IRON_STAIRS.get())
             .put(ModBlocks.EXPOSED_PLATE_IRON_STAIRS.get(), ModBlocks.WEATHERED_PLATE_IRON_STAIRS.get())
             .put(ModBlocks.WEATHERED_PLATE_IRON_STAIRS.get(), ModBlocks.RUSTED_PLATE_IRON_STAIRS.get())
+            /*
             .put(Blocks.IRON_DOOR, ModBlocks.EXPOSED_IRON_DOOR.get())
             .put(ModBlocks.EXPOSED_IRON_DOOR.get(), ModBlocks.WEATHERED_IRON_DOOR.get())
             .put(ModBlocks.WEATHERED_IRON_DOOR.get(), ModBlocks.RUSTED_IRON_DOOR.get())
@@ -43,6 +45,8 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
             .put(Blocks.IRON_BARS, ModBlocks.EXPOSED_IRON_BARS.get())
             .put(ModBlocks.EXPOSED_IRON_BARS.get(), ModBlocks.WEATHERED_IRON_BARS.get())
             .put(ModBlocks.WEATHERED_IRON_BARS.get(), ModBlocks.RUSTED_IRON_BARS.get())
+
+            */
             .build());
 
     Supplier<BiMap<Block, Block>> RUST_LEVEL_DECREASES = Suppliers.memoize(() -> RUST_LEVEL_INCREASES.get().inverse());

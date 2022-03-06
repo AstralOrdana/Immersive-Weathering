@@ -1,17 +1,23 @@
-package com.ordana.immersive_weathering.registry.blocks;
+package com.ordana.immersive_weathering.registry.blocks.crackable;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import java.util.Optional;
 import java.util.function.Supplier;
+
+import com.ordana.immersive_weathering.registry.ModTags;
+import com.ordana.immersive_weathering.registry.blocks.WeathereableBlock;
+import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChangeOverTimeBlock;
-import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
 
-public interface Crackable extends ChangeOverTimeBlock<Crackable.CrackLevel>, IWeatheringBlock {
+public interface Crackable extends ChangeOverTimeBlock<Crackable.CrackLevel>, WeathereableBlock {
 
     Supplier<BiMap<Block, Block>> CRACK_LEVEL_INCREASES = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
 
@@ -88,4 +94,19 @@ public interface Crackable extends ChangeOverTimeBlock<Crackable.CrackLevel>, IW
         UNCRACKED,
         CRACKED;
     }
+
+    @Override
+    default float getInterestForDirection(){
+        return 0.4f;
+    }
+
+    @Override
+    default float getHighInterestChance(){
+        return 0.5f;
+    }
+
+    @Override
+    default WeatheringAgent getWeatheringEffect(BlockState state, Level level, BlockPos pos){
+        return state.is(Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS) ||state.is(ModTags.CRACKED) ? WeatheringAgent.WEATHER : WeatheringAgent.NONE;
+    };
 }

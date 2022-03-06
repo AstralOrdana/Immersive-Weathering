@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.registry;
 
+/*
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -438,5 +439,5 @@ public class ModEvents {
         });
     }
 }
-
+*/
 

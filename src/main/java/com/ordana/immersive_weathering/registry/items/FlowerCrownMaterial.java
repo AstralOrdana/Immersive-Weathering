@@ -8,23 +8,21 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 class FlowerCrownMaterial implements ArmorMaterial {
 
-    private static final int[] DURABILITY = {256, 256, 256, 256};
-    private static final int[] PROTECTION = {1, 1, 1, 1};
     public static final FlowerCrownMaterial INSTANCE = new FlowerCrownMaterial();
 
     @Override
     public int getDurabilityForSlot(EquipmentSlot slot) {
-        return DURABILITY[slot.getIndex()];
+        return 64;
     }
 
     @Override
     public int getDefenseForSlot(EquipmentSlot slot) {
-        return PROTECTION[slot.getIndex()];
+        return 1;
     }
 
     @Override
     public int getEnchantmentValue() {
-        return 60;
+        return 64;
     }
 
     @Override
@@ -34,7 +32,7 @@ class FlowerCrownMaterial implements ArmorMaterial {
 
     @Override
     public Ingredient getRepairIngredient() {
-        return Ingredient.of(ModItems.AZALEA_FLOWERS);
+        return Ingredient.of(ModItems.AZALEA_FLOWERS.get());
     }
 
     @Override

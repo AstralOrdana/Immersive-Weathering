@@ -2,6 +2,9 @@ package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.ModParticles;
+import com.ordana.immersive_weathering.registry.blocks.crackable.*;
+import com.ordana.immersive_weathering.registry.blocks.mossable.*;
+import com.ordana.immersive_weathering.registry.blocks.rustable.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.BlockGetter;
@@ -20,6 +23,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
@@ -29,9 +33,18 @@ public class ModBlocks {
     //$2)
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ImmersiveWeathering.MOD_ID);
+    public static final DeferredRegister<Block> BLOCKS_OVERRIDE = DeferredRegister.create(ForgeRegistries.BLOCKS, "minecraft");
 
     public static RegistryObject<Block> reg(String name, Supplier<Block> supplier) {
         return BLOCKS.register(name, supplier);
+    }
+
+    public static RegistryObject<Block> regOverride(Block original, Function<BlockBehaviour.Properties, Block> factory) {
+        return regOverride(original, () -> factory.apply(BlockBehaviour.Properties.copy(original)));
+    }
+
+    public static RegistryObject<Block> regOverride(Block original, Supplier<Block> supplier) {
+        return BLOCKS_OVERRIDE.register(original.getRegistryName().getPath(), supplier);
     }
 
     public static final RegistryObject<Block> ICICLE = reg("ICICLE".toLowerCase(Locale.ROOT), () ->
@@ -39,31 +52,31 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> OAK_LEAF_PILE = reg("OAK_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
             new LeafPileBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).randomTicks().instabreak().sound(SoundType.GRASS).noOcclusion().isValidSpawn(ModBlocks::canSpawnOnLeaves).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never),
-            false, false, List.of(ModParticles.OAK_LEAF)));
+                    false, false, List.of(ModParticles.OAK_LEAF)));
 
     public static final RegistryObject<Block> BIRCH_LEAF_PILE = reg("BIRCH_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()),false, false, List.of(ModParticles.BIRCH_LEAF)));
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, false, List.of(ModParticles.BIRCH_LEAF)));
 
     public static final RegistryObject<Block> SPRUCE_LEAF_PILE = reg("SPRUCE_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()),false, true, List.of(ModParticles.SPRUCE_LEAF)));
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, true, List.of(ModParticles.SPRUCE_LEAF)));
 
     public static final RegistryObject<Block> JUNGLE_LEAF_PILE = reg("JUNGLE_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()),false, false, List.of(ModParticles.JUNGLE_LEAF)));
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, false, List.of(ModParticles.JUNGLE_LEAF)));
 
     public static final RegistryObject<Block> ACACIA_LEAF_PILE = reg("ACACIA_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()),false, false, List.of(ModParticles.ACACIA_LEAF)));
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, false, List.of(ModParticles.ACACIA_LEAF)));
 
     public static final RegistryObject<Block> DARK_OAK_LEAF_PILE = reg("DARK_OAK_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()),false, false, List.of(ModParticles.DARK_OAK_LEAF)));
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, false, List.of(ModParticles.DARK_OAK_LEAF)));
 
     public static final RegistryObject<Block> AZALEA_LEAF_PILE = reg("AZALEA_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()).sound(SoundType.AZALEA_LEAVES),false, false, List.of(ModParticles.AZALEA_LEAF)));
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()).sound(SoundType.AZALEA_LEAVES), false, false, List.of(ModParticles.AZALEA_LEAF)));
 
     public static final RegistryObject<Block> FLOWERING_AZALEA_LEAF_PILE = reg("FLOWERING_AZALEA_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.copy(AZALEA_LEAF_PILE.get()),true, false, List.of(ModParticles.AZALEA_LEAF, ModParticles.AZALEA_FLOWER)));
+            new LeafPileBlock(BlockBehaviour.Properties.copy(AZALEA_LEAF_PILE.get()), true, false, List.of(ModParticles.AZALEA_LEAF, ModParticles.AZALEA_FLOWER)));
 
     public static final RegistryObject<Block> AZALEA_FLOWER_PILE = reg("AZALEA_FLOWER_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.copy(AZALEA_LEAF_PILE.get()),true, false, List.of(ModParticles.AZALEA_FLOWER)));
+            new LeafPileBlock(BlockBehaviour.Properties.copy(AZALEA_LEAF_PILE.get()), true, false, List.of(ModParticles.AZALEA_FLOWER)));
 
     public static final RegistryObject<Block> WEEDS = reg("WEEDS".toLowerCase(Locale.ROOT), () ->
             new WeedsBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
@@ -81,14 +94,14 @@ public class ModBlocks {
     public static final RegistryObject<Block> MOSSY_BRICK_WALL = reg("MOSSY_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
             new MossyWallBlock(Mossable.MossLevel.MOSSY, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
 
-    public static final RegistryObject<Block> MOSSY_STONE = reg("MOSSY_STONE".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<Block> MOSSY_STONE = reg("mossy_stone", () ->
             new MossyBlock(Mossable.MossLevel.MOSSY, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).requiresCorrectToolForDrops().strength(1.5f, 6f)));
     public static final RegistryObject<Block> MOSSY_STONE_STAIRS = reg("MOSSY_STONE_STAIRS".toLowerCase(Locale.ROOT), () ->
             new MossyStairsBlock(Mossable.MossLevel.MOSSY, MOSSY_STONE, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).requiresCorrectToolForDrops().strength(1.5f, 6f)));
     public static final RegistryObject<Block> MOSSY_STONE_SLAB = reg("MOSSY_STONE_SLAB".toLowerCase(Locale.ROOT), () ->
             new MossySlabBlock(Mossable.MossLevel.MOSSY, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).requiresCorrectToolForDrops().strength(1.5f, 6f)));
 
-    public static final RegistryObject<Block> CRACKED_BRICKS = reg("CRACKED_BRICKS".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<Block> CRACKED_BRICKS = reg("cracked_bricks", () ->
             new CrackedBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
     public static final RegistryObject<Block> CRACKED_BRICK_STAIRS = reg("CRACKED_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
             new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, CRACKED_BRICKS, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
@@ -98,35 +111,35 @@ public class ModBlocks {
             new CrackedWallBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
 
     public static final RegistryObject<Block> CRACKED_STONE_BRICK_STAIRS = reg("CRACKED_STONE_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, ()->Blocks.CRACKED_STONE_BRICKS, BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_STONE_BRICKS, BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
     public static final RegistryObject<Block> CRACKED_STONE_BRICK_SLAB = reg("CRACKED_STONE_BRICK_SLAB".toLowerCase(Locale.ROOT), () ->
             new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
     public static final RegistryObject<Block> CRACKED_STONE_BRICK_WALL = reg("CRACKED_STONE_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
             new CrackedWallBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
 
     public static final RegistryObject<Block> CRACKED_POLISHED_BLACKSTONE_BRICK_STAIRS = reg("CRACKED_POLISHED_BLACKSTONE_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, ()->Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
     public static final RegistryObject<Block> CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB = reg("CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB".toLowerCase(Locale.ROOT), () ->
             new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
     public static final RegistryObject<Block> CRACKED_POLISHED_BLACKSTONE_BRICK_WALL = reg("CRACKED_POLISHED_BLACKSTONE_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
             new CrackedWallBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
 
     public static final RegistryObject<Block> CRACKED_NETHER_BRICK_STAIRS = reg("CRACKED_NETHER_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, ()->Blocks.CRACKED_NETHER_BRICKS, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS)));
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_NETHER_BRICKS, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS)));
     public static final RegistryObject<Block> CRACKED_NETHER_BRICK_SLAB = reg("CRACKED_NETHER_BRICK_SLAB".toLowerCase(Locale.ROOT), () ->
             new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS)));
     public static final RegistryObject<Block> CRACKED_NETHER_BRICK_WALL = reg("CRACKED_NETHER_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
             new CrackedWallBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS)));
 
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_BRICK_STAIRS = reg("CRACKED_DEEPSLATE_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, ()->Blocks.CRACKED_DEEPSLATE_BRICKS, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS)));
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_DEEPSLATE_BRICKS, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS)));
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_BRICK_SLAB = reg("CRACKED_DEEPSLATE_BRICK_SLAB".toLowerCase(Locale.ROOT), () ->
             new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS)));
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_BRICK_WALL = reg("CRACKED_DEEPSLATE_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
             new CrackedWallBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS)));
 
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_TILE_STAIRS = reg("CRACKED_DEEPSLATE_TILE_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, ()->Blocks.CRACKED_DEEPSLATE_TILES, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_TILES)));
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_DEEPSLATE_TILES, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_TILES)));
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_TILE_SLAB = reg("CRACKED_DEEPSLATE_TILE_SLAB".toLowerCase(Locale.ROOT), () ->
             new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_TILES)));
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_TILE_WALL = reg("CRACKED_DEEPSLATE_TILE_WALL".toLowerCase(Locale.ROOT), () ->
@@ -253,6 +266,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> WAXED_RUSTED_PLATE_IRON_SLAB = reg("WAXED_RUSTED_PLATE_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
             new SlabBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
 
+        /*
     public static final RegistryObject<Block> EXPOSED_IRON_DOOR = reg("EXPOSED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
             new RustableDoorBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WEATHERED_IRON_DOOR = reg("WEATHERED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
@@ -273,6 +287,7 @@ public class ModBlocks {
             new RustableBarsBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> RUSTED_IRON_BARS = reg("RUSTED_IRON_BARS".toLowerCase(Locale.ROOT), () ->
             new RustableBarsBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+
 
     public static final RegistryObject<Block> WAXED_IRON_DOOR = reg("WAXED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
             new WaxedRustableDoorBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
@@ -300,6 +315,51 @@ public class ModBlocks {
             new WaxedBarsBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_RUSTED_IRON_BARS = reg("WAXED_RUSTED_IRON_BARS".toLowerCase(Locale.ROOT), () ->
             new WaxedBarsBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+*/
+
+
+    //-----overrides------
+    /*
+    public static final RegistryObject<Block> STONE_BRICKS = regOverride(Blocks.STONE_BRICKS, (p) ->
+            new MossableBlock(Mossable.MossLevel.UNAFFECTED,p));
+
+    public static final RegistryObject<Block> POLISHED_BLACKSTONE_BRICKS = regOverride(Blocks.POLISHED_BLACKSTONE_BRICKS, (p) ->
+            new CrackableBlock(Crackable.CrackLevel.UNCRACKED,p));
+
+    public static final RegistryObject<Block> POLISHED_BLACKSTONE_BRICK_SLAB = regOverride(Blocks.POLISHED_BLACKSTONE_BRICK_SLAB, (p) ->
+            new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED,p));
+
+    public static final RegistryObject<Block> POLISHED_BLACKSTONE_BRICK_STAIRS = regOverride(Blocks.POLISHED_BLACKSTONE_BRICK_STAIRS, (p) ->
+            new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED,POLISHED_BLACKSTONE_BRICKS,p));
+    */
+
+    //not all are here since they need an extra states. overriding what I can avoiding mixins... Could probably have left these there bah
+
+    public static final RegistryObject<Block> MOSSY_STONE_BRICKS = regOverride(Blocks.MOSSY_STONE_BRICKS, (p)->
+            new MossyBlock(Mossable.MossLevel.MOSSY, p));
+
+    public static final RegistryObject<Block> MOSSY_STONE_BRICK_SLAB = regOverride(Blocks.MOSSY_STONE_BRICK_SLAB, (p)->
+            new MossySlabBlock(Mossable.MossLevel.MOSSY, p));
+
+    public static final RegistryObject<Block> MOSSY_STONE_BRICK_STAIRS = regOverride(Blocks.MOSSY_STONE_BRICK_STAIRS, (p)->
+            new MossyStairsBlock(Mossable.MossLevel.MOSSY,MOSSY_STONE_BRICKS, p));
+
+    public static final RegistryObject<Block> MOSSY_STONE_BRICK_WALL = regOverride(Blocks.MOSSY_STONE_BRICK_WALL, (p)->
+        new MossyWallBlock(Mossable.MossLevel.MOSSY, p));
+
+
+    public static final RegistryObject<Block> MOSSY_COBBLESTONE = regOverride(Blocks.MOSSY_COBBLESTONE, (p)->
+            new MossyBlock(Mossable.MossLevel.MOSSY, p));
+
+    public static final RegistryObject<Block> MOSSY_COBBLESTONE_SLAB = regOverride(Blocks.MOSSY_COBBLESTONE_SLAB, (p)->
+            new MossySlabBlock(Mossable.MossLevel.MOSSY, p));
+
+    public static final RegistryObject<Block> MOSSY_COBBLESTONE_STAIRS = regOverride(Blocks.MOSSY_COBBLESTONE_STAIRS, (p)->
+            new MossyStairsBlock(Mossable.MossLevel.MOSSY,MOSSY_COBBLESTONE, p));
+
+    public static final RegistryObject<Block> MOSSY_COBBLESTONE_WALL = regOverride(Blocks.MOSSY_COBBLESTONE_WALL, (p)->
+            new MossyWallBlock(Mossable.MossLevel.MOSSY, p));
+
 
 
     private static ToIntFunction<BlockState> createLightLevelFromLitBlockState(int litLevel) {

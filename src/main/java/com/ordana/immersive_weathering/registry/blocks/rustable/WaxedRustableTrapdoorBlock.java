@@ -1,7 +1,7 @@
-package com.ordana.immersive_weathering.registry.blocks;
-
+package com.ordana.immersive_weathering.registry.blocks.rustable;
+/*
 import com.ordana.immersive_weathering.registry.ModTags;
-import net.minecraft.block.*;
+import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -85,3 +85,5 @@ public class WaxedRustableTrapdoorBlock extends TrapDoorBlock {
         }
     }
 }
+*/
+

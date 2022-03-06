@@ -1,5 +1,6 @@
-package com.ordana.immersive_weathering.registry.blocks;
+package com.ordana.immersive_weathering.registry.blocks.rustable;
 
+/*
 import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -56,7 +57,7 @@ public class RustableDoorBlock extends DoorBlock implements Rustable {
 
 
     //not sure if this is needed tbh
-    /*
+
     @Override
     public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
         boolean hasPower = world.hasNeighborSignal(pos) || world.hasNeighborSignal(pos.relative(state.getValue(HALF) == DoubleBlockHalf.LOWER ? Direction.UP : Direction.DOWN));
@@ -98,9 +99,9 @@ public class RustableDoorBlock extends DoorBlock implements Rustable {
                 world.setBlock(pos, state.setValue(POWERED, hasPower).setValue(OPEN, state.getValue(OPEN)), Block.UPDATE_CLIENTS);
             }
         }
-    }*/
+    }
 
-    @Override
+
     public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         if (this.getAge() == RustLevel.EXPOSED || this.getAge() == RustLevel.WEATHERED) {
             state = state.cycle(OPEN);
@@ -180,3 +181,4 @@ public class RustableDoorBlock extends DoorBlock implements Rustable {
     }
 
 }
+*/

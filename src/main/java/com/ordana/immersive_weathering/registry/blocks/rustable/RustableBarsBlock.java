@@ -1,20 +1,19 @@
-package com.ordana.immersive_weathering.registry.blocks;
+package com.ordana.immersive_weathering.registry.blocks.rustable;
 
 import com.ordana.immersive_weathering.registry.ModTags;
 import java.util.Random;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 
-public class RustableBlock extends Block implements Rustable{
-    private final Rustable.RustLevel rustLevel;
+public class RustableBarsBlock extends IronBarsBlock implements Rustable{
+    private final RustLevel rustLevel;
 
-    public RustableBlock(Rustable.RustLevel rustLevel, BlockBehaviour.Properties settings) {
+    public RustableBarsBlock(RustLevel rustLevel, Properties settings) {
         super(settings);
         this.rustLevel = rustLevel;
     }
@@ -70,7 +69,6 @@ public class RustableBlock extends Block implements Rustable{
                     this.onRandomTick(state, world, pos, random);
                 }
                 if (world.getBlockState(pos.relative(direction)).is(Blocks.BUBBLE_COLUMN)) {
-                    float f = 0.07f;
                     if (random.nextFloat() > 0.07f) {
                         this.applyChangeOverTime(state, world, pos, random);
                     }
@@ -85,7 +83,7 @@ public class RustableBlock extends Block implements Rustable{
     }
 
     @Override
-    public Rustable.RustLevel getAge() {
+    public RustLevel getAge() {
         return this.rustLevel;
     }
 }

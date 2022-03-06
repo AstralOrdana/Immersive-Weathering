@@ -1,17 +1,26 @@
-package com.ordana.immersive_weathering.registry.blocks;
+package com.ordana.immersive_weathering.registry.blocks.mossable;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.ordana.immersive_weathering.registry.ModTags;
+import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
+import com.ordana.immersive_weathering.registry.blocks.WeathereableBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Supplier;
 
-public interface Mossable extends ChangeOverTimeBlock<Mossable.MossLevel>, IWeatheringBlock{
+public interface Mossable extends ChangeOverTimeBlock<Mossable.MossLevel>, WeathereableBlock {
     Supplier<BiMap<Block, Block>> MOSS_LEVEL_INCREASES = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
             .put(Blocks.STONE, ModBlocks.MOSSY_STONE.get())
             .put(Blocks.STONE_STAIRS, ModBlocks.MOSSY_STONE_STAIRS.get())
@@ -71,5 +80,37 @@ public interface Mossable extends ChangeOverTimeBlock<Mossable.MossLevel>, IWeat
         UNAFFECTED,
         MOSSY;
 
+    }
+
+    @Override
+    default float getInterestForDirection() {
+        return 0.4f;
+    }
+
+    @Override
+    default float getHighInterestChance() {
+        return 0.5f;
+    }
+
+    @Override
+    default WeatheringAgent getWeatheringEffect(BlockState state, Level level, BlockPos pos) {
+        var fluidState = state.getFluidState();
+        if (fluidState.is(FluidTags.LAVA)) return WeatheringAgent.PREVENT_WEATHERING;
+        if (fluidState.is(FluidTags.WATER) || state.is(ModTags.MOSS_SOURCE)) return WeatheringAgent.WEATHER;
+        return WeatheringAgent.NONE;
+    }
+
+    //utility to grow stuff
+    static void growNeighbors(ServerLevel world, Random random, BlockPos pos) {
+        for (var direction : Direction.values()) {
+            if (random.nextFloat() > 0.5f) {
+                var targetPos = pos.relative(direction);
+                BlockState targetBlock = world.getBlockState(targetPos);
+                if (targetBlock.getBlock() instanceof Mossable mossable) {
+                    var newState = mossable.getNext(targetBlock);
+                    newState.ifPresent(s -> world.setBlockAndUpdate(targetPos, s.getBlock().withPropertiesOf(targetBlock)));
+                }
+            }
+        }
     }
 }
