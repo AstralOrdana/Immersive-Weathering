@@ -7,31 +7,29 @@ import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 
 public class IcicleClusterFeatureConfig implements FeatureConfiguration {
-    public static final Codec<IcicleClusterFeatureConfig> CODEC = RecordCodecBuilder.create((instance) -> {
-        return instance.group(Codec.intRange(1, 512).fieldOf("floor_to_ceiling_search_range").forGetter((icicleClusterFeatureConfig) -> {
-            return icicleClusterFeatureConfig.floorToCeilingSearchRange;
-        }), IntProvider.codec(1, 128).fieldOf("height").forGetter((icicleClusterFeatureConfig) -> {
-            return icicleClusterFeatureConfig.height;
-        }), IntProvider.codec(1, 128).fieldOf("radius").forGetter((icicleClusterFeatureConfig) -> {
-            return icicleClusterFeatureConfig.radius;
-        }), Codec.intRange(0, 64).fieldOf("max_stalagmite_stalactite_height_diff").forGetter((icicleClusterFeatureConfig) -> {
-            return icicleClusterFeatureConfig.maxStalagmiteStalactiteHeightDiff;
-        }), Codec.intRange(1, 64).fieldOf("height_deviation").forGetter((icicleClusterFeatureConfig) -> {
-            return icicleClusterFeatureConfig.heightDeviation;
-        }), IntProvider.codec(0, 128).fieldOf("icicle_block_layer_thickness").forGetter((icicleClusterFeatureConfig) -> {
-            return icicleClusterFeatureConfig.icicleBlockLayerThickness;
-        }), FloatProvider.codec(0.0F, 2.0F).fieldOf("density").forGetter((icicleClusterFeatureConfig) -> {
-            return icicleClusterFeatureConfig.density;
-        }), FloatProvider.codec(0.0F, 2.0F).fieldOf("wetness").forGetter((icicleClusterFeatureConfig) -> {
-            return icicleClusterFeatureConfig.wetness;
-        }), Codec.floatRange(0.0F, 1.0F).fieldOf("chance_of_icicle_column_at_max_distance_from_center").forGetter((icicleClusterFeatureConfig) -> {
-            return icicleClusterFeatureConfig.chanceOfIcicleColumnAtMaxDistanceFromCenter;
-        }), Codec.intRange(1, 64).fieldOf("max_distance_from_edge_affecting_chance_of_icicle_column").forGetter((icicleClusterFeatureConfig) -> {
-            return icicleClusterFeatureConfig.maxDistanceFromCenterAffectingChanceOfIcicleColumn;
-        }), Codec.intRange(1, 64).fieldOf("max_distance_from_center_affecting_height_bias").forGetter((icicleClusterFeatureConfig) -> {
-            return icicleClusterFeatureConfig.maxDistanceFromCenterAffectingHeightBias;
-        })).apply(instance, IcicleClusterFeatureConfig::new);
-    });
+    public static final Codec<IcicleClusterFeatureConfig> CODEC = RecordCodecBuilder.create((instance) -> instance.group(Codec.intRange(1, 512).fieldOf("floor_to_ceiling_search_range").forGetter((icicleClusterFeatureConfig) -> {
+        return icicleClusterFeatureConfig.floorToCeilingSearchRange;
+    }), IntProvider.codec(1, 128).fieldOf("height").forGetter((icicleClusterFeatureConfig) -> {
+        return icicleClusterFeatureConfig.height;
+    }), IntProvider.codec(1, 128).fieldOf("radius").forGetter((icicleClusterFeatureConfig) -> {
+        return icicleClusterFeatureConfig.radius;
+    }), Codec.intRange(0, 64).fieldOf("max_stalagmite_stalactite_height_diff").forGetter((icicleClusterFeatureConfig) -> {
+        return icicleClusterFeatureConfig.maxStalagmiteStalactiteHeightDiff;
+    }), Codec.intRange(1, 64).fieldOf("height_deviation").forGetter((icicleClusterFeatureConfig) -> {
+        return icicleClusterFeatureConfig.heightDeviation;
+    }), IntProvider.codec(0, 128).fieldOf("icicle_block_layer_thickness").forGetter((icicleClusterFeatureConfig) -> {
+        return icicleClusterFeatureConfig.icicleBlockLayerThickness;
+    }), FloatProvider.codec(0.0F, 2.0F).fieldOf("density").forGetter((icicleClusterFeatureConfig) -> {
+        return icicleClusterFeatureConfig.density;
+    }), FloatProvider.codec(0.0F, 2.0F).fieldOf("wetness").forGetter((icicleClusterFeatureConfig) -> {
+        return icicleClusterFeatureConfig.wetness;
+    }), Codec.floatRange(0.0F, 1.0F).fieldOf("chance_of_icicle_column_at_max_distance_from_center").forGetter((icicleClusterFeatureConfig) -> {
+        return icicleClusterFeatureConfig.chanceOfIcicleColumnAtMaxDistanceFromCenter;
+    }), Codec.intRange(1, 64).fieldOf("max_distance_from_edge_affecting_chance_of_icicle_column").forGetter((icicleClusterFeatureConfig) -> {
+        return icicleClusterFeatureConfig.maxDistanceFromCenterAffectingChanceOfIcicleColumn;
+    }), Codec.intRange(1, 64).fieldOf("max_distance_from_center_affecting_height_bias").forGetter((icicleClusterFeatureConfig) -> {
+        return icicleClusterFeatureConfig.maxDistanceFromCenterAffectingHeightBias;
+    })).apply(instance, IcicleClusterFeatureConfig::new));
     public final int floorToCeilingSearchRange;
     public final IntProvider height;
     public final IntProvider radius;

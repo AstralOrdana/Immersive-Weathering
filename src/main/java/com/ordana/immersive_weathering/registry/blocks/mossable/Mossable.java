@@ -5,7 +5,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
-import com.ordana.immersive_weathering.registry.blocks.WeathereableBlock;
+import com.ordana.immersive_weathering.registry.blocks.WeatherableBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.Supplier;
 
-public interface Mossable extends ChangeOverTimeBlock<Mossable.MossLevel>, WeathereableBlock {
+public interface Mossable extends ChangeOverTimeBlock<Mossable.MossLevel>, WeatherableBlock {
     Supplier<BiMap<Block, Block>> MOSS_LEVEL_INCREASES = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
             .put(Blocks.STONE, ModBlocks.MOSSY_STONE.get())
             .put(Blocks.STONE_STAIRS, ModBlocks.MOSSY_STONE_STAIRS.get())

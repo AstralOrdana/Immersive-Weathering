@@ -7,17 +7,16 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import com.ordana.immersive_weathering.registry.ModTags;
-import com.ordana.immersive_weathering.registry.blocks.WeathereableBlock;
+import com.ordana.immersive_weathering.registry.blocks.WeatherableBlock;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public interface Crackable extends ChangeOverTimeBlock<Crackable.CrackLevel>, WeathereableBlock {
+public interface Crackable extends ChangeOverTimeBlock<Crackable.CrackLevel>, WeatherableBlock {
 
     Supplier<BiMap<Block, Block>> CRACK_LEVEL_INCREASES = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
 
