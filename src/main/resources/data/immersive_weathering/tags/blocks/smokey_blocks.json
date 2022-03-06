@@ -1,8 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "minecraft:hay_block",
-    "immersive_weathering:mulch_block",
-    "immersive_weathering:ash_block"
-  ]
-}
