@@ -13,9 +13,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -89,6 +87,20 @@ public class WeatheringHelper {
     }
 
     /**
+     * Grabs block positions around center pos. Order of these is random and depends on current blockpos
+     *
+     * @param centerPos center pos
+     */
+    public static List<BlockPos> grabBlocksAroundRandomly(BlockPos centerPos, int radiusX, int radiusY, int radiusZ) {
+        var list = BlockPos.withinManhattanStream(centerPos, radiusX, radiusY, radiusZ)
+                .map(BlockPos::new)
+                .collect(Collectors.toList());
+        //shuffling. provides way better result that iterating through it conventionally
+        Collections.shuffle(list, new Random(Mth.getSeed(centerPos)));
+        return list;
+    }
+
+    /**
      * optimized version of BlockPos.withinManhattanStream / BlockPos.expandOutwards that tries to limit world.getBlockState calls
      * Remember to call  "if (!level.isAreaLoaded(pos, radius)) return" before calling this
      *
@@ -98,16 +110,15 @@ public class WeatheringHelper {
      */
     public static boolean hasEnoughBlocksAround(BlockPos centerPos, int radiusX, int radiusY, int radiusZ, Level level,
                                                 Predicate<BlockState> blockPredicate, int requiredAmount) {
+
+        var lis = grabBlocksAroundRandomly(centerPos, radiusX, radiusY, radiusZ);
+
         int count = 0;
-        //shuffling. provides way better result that iterating through it conventionally
-        var list = BlockPos.withinManhattanStream(centerPos, radiusX, radiusY, radiusZ)
-                .map(BlockPos::new)
-                .collect(Collectors.toList());
-        Collections.shuffle(list, new Random(Mth.getSeed(centerPos)));
-        for (BlockPos pos : list) {
+        for (BlockPos pos : lis) {
             if (blockPredicate.test(level.getBlockState(pos))) count += 1;
             if (count >= requiredAmount) return true;
         }
+
         return false;
     }
 
@@ -137,10 +148,7 @@ public class WeatheringHelper {
         int count = 0;
         boolean hasLava = false;
         //shuffling. provides way better result that iterating through it conventionally
-        var list = BlockPos.withinManhattanStream(centerPos, radius, radius, radius)
-                .map(BlockPos::new)
-                .collect(Collectors.toList());
-        Collections.shuffle(list, new Random(Mth.getSeed(centerPos)));
+        var list = grabBlocksAroundRandomly(centerPos, radius,radius,radius);
         for (BlockPos pos : list) {
             BlockState state = level.getBlockState(pos);
             if (state.is(Blocks.MAGMA_BLOCK)) count += 1;

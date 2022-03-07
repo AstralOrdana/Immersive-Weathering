@@ -15,6 +15,7 @@
     "LeavesMixin",
     "LightningEntityMixin",
     "MagmaBlockMixin",
+    "RootedDirtBlockMixin",
     "SaplingMixin",
     "SnowyBlockMixin",
     "SpreadableBlockMixin",
