@@ -1,6 +1,5 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.core.BlockPos;
@@ -14,7 +13,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.Tags;
+import net.minecraft.world.level.levelgen.Heightmap;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -38,40 +37,36 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
 
         //Drastically reduced this chance to help lag
-        if (random.nextFloat() > 0.1f) {
-            if (!state.getValue(LeavesBlock.PERSISTENT)) {
+        if (!state.getValue(LeavesBlock.PERSISTENT) && random.nextFloat() < 0.1f) {
 
+            var leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
+            if (leafPile != null && world.getBlockState(pos.below()).isAir()) {
+                BlockPos targetPos = world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos);
                 int maxFallenLeavesReach = 16;
-                var leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
-                if (leafPile != null) {
-                    for (int i = 0; i < maxFallenLeavesReach; i++) {
+                if (pos.getY() - targetPos.getY() < maxFallenLeavesReach) {
 
-                        pos = pos.below();
-                        BlockState below = world.getBlockState(pos);
-                        if (!below.isAir()) {
-                            //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
-                            if (i != 0 && below.isFaceSturdy(world, pos, Direction.UP)) {
-                                BlockPos targetPos = pos.above();
+                    BlockPos belowPos = targetPos.below();
+                    BlockState below = world.getBlockState(belowPos);
 
-                                if (!WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 1, 2,
-                                        world, b -> b.getBlock() instanceof LeafPileBlock, 7)) {
-                                    int pileHeight = 0;
-                                    for (Direction direction : Direction.Plane.HORIZONTAL) {
-                                        BlockState neighbor = world.getBlockState(targetPos.relative(direction));
-                                        if (neighbor.is(BlockTags.LOGS)) { //TODO: replace with mod tag
-                                            pileHeight = 2;
-                                            break;
-                                        } else if (neighbor.getBlock() instanceof LeafPileBlock) {
-                                            pileHeight = 1;
-                                        }
-                                    }
-                                    if (pileHeight > 0) {
-                                        world.setBlock(targetPos, leafPile.defaultBlockState()
-                                                .setValue(LeafPileBlock.LAYERS, pileHeight),2);
-                                    }
+                    //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
+                    if (below.isFaceSturdy(world, belowPos, Direction.UP)) {
+
+                        if (!WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 1, 2,
+                                world, b -> b.getBlock() instanceof LeafPileBlock, 7)) {
+                            int pileHeight = 0;
+                            for (Direction direction : Direction.Plane.HORIZONTAL) {
+                                BlockState neighbor = world.getBlockState(targetPos.relative(direction));
+                                if (neighbor.is(BlockTags.LOGS)) { //TODO: replace with mod tag
+                                    pileHeight = 2;
+                                    break;
+                                } else if (neighbor.getBlock() instanceof LeafPileBlock) {
+                                    pileHeight = 1;
                                 }
                             }
-                            break;
+                            if (pileHeight > 0) {
+                                world.setBlock(targetPos, leafPile.defaultBlockState()
+                                        .setValue(LeafPileBlock.LAYERS, pileHeight), 2);
+                            }
                         }
                     }
                 }

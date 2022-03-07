@@ -1,42 +1,29 @@
 package com.ordana.immersive_weathering.mixin;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.Random;
+import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.MagmaBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Random;
 
 @Mixin(MagmaBlock.class)
 public class MagmaBlockMixin {
-    //TODO: convert this to weathering state
+
     @Inject(method = "randomTick", at = @At("TAIL"))
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
         if (random.nextFloat() > 0.5f) {
-            if (BlockPos.withinManhattanStream(pos, 3, 3, 3)
-                    .map(world::getBlockState)
-                    .map(BlockState::getBlock)
-                    .anyMatch(Blocks.LAVA::equals)) {
-                if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
-                        .map(world::getBlockState)
-                        .map(BlockState::getBlock)
-                        .filter(Blocks.MAGMA_BLOCK::equals)
-                        .toList().size() <= 8) {
-                    for (var direction : Direction.values()) {
-                        var targetPos = pos.relative(direction);
-
-                        float f = 0.5f;
-
-                        if (world.getBlockState(targetPos).is(Blocks.NETHERRACK)) {
-                            world.setBlockAndUpdate(targetPos, Blocks.MAGMA_BLOCK.defaultBlockState());
-                        }
-                    }
+            if (WeatheringHelper.canMagmaSpread(pos, 2, world, 6)) {
+                var targetPos = pos.relative(Direction.getRandom(random));
+                if (world.getBlockState(targetPos).is(Blocks.NETHERRACK)) {
+                    world.setBlockAndUpdate(targetPos, Blocks.MAGMA_BLOCK.defaultBlockState());
                 }
             }
         }

@@ -17,9 +17,15 @@ public interface WeatherableBlock {
 
     //how much the given face is influenced by other blocks
     enum Susceptibility {
-        LOW, //ideally this should make so the block has no influence on this but can be used
-        MEDIUM, //can only be influenced by already weathered blocks
-        HIGH //can also be influenced by WEATHERING blocks
+        LOW(1), //ideally this should make so the block has no influence on this but can be used
+        MEDIUM(2), //can only be influenced by already weathered blocks
+        HIGH(3); //can also be influenced by WEATHERING blocks
+
+        private final int value;
+
+        Susceptibility(int effect){
+            this.value =effect;
+        }
     }
 
     enum WeatheringAgent {
@@ -114,7 +120,7 @@ public interface WeatherableBlock {
     /**
      * gets the weathering effect that this block has on the current block. Override for more control
      *
-     * @param influence previously defined "influence". Just used as a param to allow more block spreading and variety
+     * @param sus previously defined "influence". Just used as a param to allow more block spreading and variety
      * @param state     target blockState
      * @param level     world
      * @param pos       target position
@@ -123,13 +129,13 @@ public interface WeatherableBlock {
     default WeatheringAgent getBlockWeatheringEffect(Susceptibility sus, BlockState state, Level level, BlockPos pos) {
         //if high influence it can be affected by weathering blocks
         WeatheringAgent effect = WeatheringAgent.NONE;
-        if(sus == Susceptibility.HIGH){
+        if(sus.value >= Susceptibility.HIGH.value){
             effect = getLowInfluenceWeatheringEffect(state, level, pos);
         }
-        if(effect == WeatheringAgent.NONE && sus == Susceptibility.MEDIUM){
+        if(effect == WeatheringAgent.NONE && sus.value >= Susceptibility.MEDIUM.value){
             effect = getWeatheringEffect(state, level, pos);
         }
-        if(effect == WeatheringAgent.NONE && sus == Susceptibility.MEDIUM){
+        if(effect == WeatheringAgent.NONE && sus.value >= Susceptibility.LOW.value){
             effect = getHighInfluenceWeatheringEffect(state, level, pos);
         }
 
@@ -160,10 +166,6 @@ public interface WeatherableBlock {
                 && wt.isWeathering(state)) ? WeatheringAgent.WEATHER : WeatheringAgent.NONE;
     }
 
-
-    //simply check for WEATHERING blockstate
-    boolean isWeathering(BlockState state);
-
     /**
      * if this block can influence this on Low and high influence levels. Usually just checks if it is a fully weathered block
      *
@@ -173,6 +175,9 @@ public interface WeatherableBlock {
      * @return weathering effect that this block has on the current block. Dictates if the block should be allowed to weather or not
      */
     WeatheringAgent getWeatheringEffect(BlockState state, Level level, BlockPos pos);
+
+    //simply check for WEATHERING blockstate
+    boolean isWeathering(BlockState state);
 
 
 }

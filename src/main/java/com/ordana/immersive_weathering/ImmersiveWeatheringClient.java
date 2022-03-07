@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.FoliageColor;
+import net.minecraft.world.level.GrassColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
@@ -125,8 +126,11 @@ public class ImmersiveWeatheringClient {
         BlockColor foliageColor = (state, world, pos, tintIndex) -> world != null && pos != null ?
                 BiomeColors.getAverageFoliageColor(world, pos) : FoliageColor.getDefaultColor();
 
-        colors.register(foliageColor, ModBlocks.OAK_LEAF_PILE.get(), ModBlocks.SPRUCE_LEAF_PILE.get(), ModBlocks.ACACIA_LEAF_PILE.get(),
-                ModBlocks.JUNGLE_LEAF_PILE.get(), ModBlocks.DARK_OAK_LEAF_PILE.get(), ModBlocks.BIRCH_LEAF_PILE.get());
+        colors.register(foliageColor, ModBlocks.OAK_LEAF_PILE.get(), ModBlocks.ACACIA_LEAF_PILE.get(),
+                ModBlocks.JUNGLE_LEAF_PILE.get(), ModBlocks.DARK_OAK_LEAF_PILE.get());
+
+        colors.register((a,b,c,d)->FoliageColor.getBirchColor(), ModBlocks.BIRCH_LEAF_PILE.get());
+        colors.register((a,b,c,d)->FoliageColor.getEvergreenColor(), ModBlocks.SPRUCE_LEAF_PILE.get());
 
     }
 

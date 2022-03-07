@@ -14,7 +14,10 @@
     "LeavesMixin",
     "LightningEntityMixin",
     "MagmaBlockMixin",
-    "SaplingMixin"
+    "SaplingMixin",
+    "SnowyBlockMixin",
+    "SpreadableBlockMixin",
+    "WaterMixin"
   ],
   "client": [
   ],
