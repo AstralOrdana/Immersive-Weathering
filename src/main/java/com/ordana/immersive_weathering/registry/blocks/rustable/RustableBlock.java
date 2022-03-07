@@ -1,24 +1,22 @@
-package com.ordana.immersive_weathering.registry.blocks;
-
-import java.util.Random;
+package com.ordana.immersive_weathering.registry.blocks.rustable;
 
 import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.StairsBlock;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
-public class RustableStairsBlock
-        extends StairsBlock
-        implements Rustable {
+import java.util.Random;
+
+public class RustableBlock extends Block implements Rustable{
     private final Rustable.RustLevel rustLevel;
 
-    public RustableStairsBlock(Rustable.RustLevel rustLevel, BlockState baseBlockState, AbstractBlock.Settings settings) {
-        super(baseBlockState, settings);
+    public RustableBlock(Rustable.RustLevel rustLevel, AbstractBlock.Settings settings) {
+        super(settings);
         this.rustLevel = rustLevel;
     }
 

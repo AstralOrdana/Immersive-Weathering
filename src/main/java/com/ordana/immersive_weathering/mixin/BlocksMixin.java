@@ -1,6 +1,14 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.registry.blocks.*;
+import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableBlock;
+import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableSlabBlock;
+import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableStairsBlock;
+import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableWallBlock;
+import com.ordana.immersive_weathering.registry.blocks.mossable.*;
+import com.ordana.immersive_weathering.registry.blocks.rustable.Rustable;
+import com.ordana.immersive_weathering.registry.blocks.rustable.RustableBarsBlock;
+import com.ordana.immersive_weathering.registry.blocks.rustable.RustableDoorBlock;
+import com.ordana.immersive_weathering.registry.blocks.rustable.RustableTrapdoorBlock;
 import net.minecraft.block.*;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -445,7 +453,7 @@ public class BlocksMixin {
             )
     private static StairsBlock brickStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
     {
-        return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, BRICKS.getDefaultState(), settings);
+        return new MossableStairsBlock(BRICKS.getDefaultState(), settings);
     }
     @Redirect
             (
@@ -467,7 +475,7 @@ public class BlocksMixin {
             )
     private static WallBlock brickWall(AbstractBlock.Settings settings)
     {
-        return new MossableWallBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new MossableWallBlock(settings);
     }
 
 
@@ -536,7 +544,7 @@ public class BlocksMixin {
             )
     private static StairsBlock stoneBricksStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
     {
-        return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, STONE_BRICKS.getDefaultState(), settings);
+        return new MossableStairsBlock(STONE_BRICKS.getDefaultState(), settings);
     }
     @Redirect
             (
@@ -558,7 +566,7 @@ public class BlocksMixin {
             )
     private static WallBlock stoneBrickWall(AbstractBlock.Settings settings)
     {
-        return new MossableWallBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new MossableWallBlock(settings);
     }
 
 
@@ -719,7 +727,7 @@ public class BlocksMixin {
             )
     private static StairsBlock cobblestoneStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
     {
-        return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, COBBLESTONE.getDefaultState(), settings);
+        return new MossableStairsBlock(COBBLESTONE.getDefaultState(), settings);
     }
     @Redirect
             (
@@ -741,7 +749,7 @@ public class BlocksMixin {
             )
     private static WallBlock cobblestoneWall(AbstractBlock.Settings settings)
     {
-        return new MossableWallBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new MossableWallBlock(settings);
     }
     @Redirect
             (

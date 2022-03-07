@@ -1,9 +1,9 @@
-package com.ordana.immersive_weathering.registry.blocks;
+package com.ordana.immersive_weathering.registry.blocks.rustable;
 
 import net.minecraft.block.PaneBlock;
 
 public class WaxedBarsBlock extends PaneBlock {
-    protected WaxedBarsBlock(Settings settings) {
+    public WaxedBarsBlock(Settings settings) {
         super(settings);
     }
 }

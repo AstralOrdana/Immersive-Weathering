@@ -9,6 +9,7 @@ import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -17,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Random;
 
 @Mixin(CropBlock.class)
-public class CropBlockMixin extends Block {
+public abstract class CropBlockMixin extends Block {
     public CropBlockMixin(Settings settings) {
         super(settings);
     }
@@ -29,21 +30,17 @@ public class CropBlockMixin extends Block {
         }
     }
 
-    public int getMaxAge() {
-        return 7;
-    }
+    @Shadow
+    public abstract int getMaxAge();
 
-    public int getAge(BlockState state) {
-        return state.get(this.getAgeProperty());
-    }
+    @Shadow
+    protected abstract int getAge(BlockState state);
 
-    public IntProperty getAgeProperty() {
-        return CropBlock.AGE;
-    }
+    @Shadow
+    public abstract IntProperty getAgeProperty();
 
-    public BlockState withAge(int age) {
-        return this.getDefaultState().with(this.getAgeProperty(), age);
-    }
+    @Shadow
+    public abstract BlockState withAge(int age);
 
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {

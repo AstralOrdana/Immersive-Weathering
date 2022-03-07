@@ -1,8 +1,9 @@
-package com.ordana.immersive_weathering.registry.blocks;
+package com.ordana.immersive_weathering.registry.blocks.rustable;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.minecraft.block.*;
 
 import java.util.Optional;

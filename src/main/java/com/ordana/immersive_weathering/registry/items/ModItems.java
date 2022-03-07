@@ -10,6 +10,10 @@ import net.minecraft.util.registry.Registry;
 
 public class ModItems {
 
+    public static final BlockItem ROCK_LICHEN = new BlockItem(ModBlocks.ROCK_LICHEN, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem FOREST_LICHEN = new BlockItem(ModBlocks.FOREST_LICHEN, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem CINDER_LICHEN = new BlockItem(ModBlocks.CINDER_LICHEN, new Item.Settings().group(ItemGroup.DECORATIONS));
+
     public static final BlockItem ICICLE = new BlockItem(ModBlocks.ICICLE, new Item.Settings().food(ModFoods.ICICLE).group(ItemGroup.DECORATIONS));
 
     public static final BlockItem OAK_LEAF_PILE = new BlockItem(ModBlocks.OAK_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
@@ -177,6 +181,9 @@ public class ModItems {
     public static final BlockItem WAXED_RUSTED_IRON_BARS = new BlockItem(ModBlocks.WAXED_RUSTED_IRON_BARS, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static void registerItems() {
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "rock_lichen"), ROCK_LICHEN);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "forest_lichen"), FOREST_LICHEN);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cinder_lichen"), CINDER_LICHEN);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "icicle"), ICICLE);
 

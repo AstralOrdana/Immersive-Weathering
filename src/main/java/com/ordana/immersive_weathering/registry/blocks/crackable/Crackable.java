@@ -1,12 +1,17 @@
-package com.ordana.immersive_weathering.registry.blocks;
+package com.ordana.immersive_weathering.registry.blocks.crackable;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.ordana.immersive_weathering.registry.ModTags;
+import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
+import com.ordana.immersive_weathering.registry.blocks.WeatherableBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Degradable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -64,5 +69,20 @@ public interface Crackable extends Degradable<Crackable.CrackLevel>, Weatherable
     enum CrackLevel {
         UNCRACKED,
         CRACKED;
+    }
+
+    @Override
+    default float getInterestForDirection() {
+        return 0.4f;
+    }
+
+    @Override
+    default float getHighInterestChance() {
+        return 0.5f;
+    }
+
+    @Override
+    default WeatheringAgent getWeatheringEffect(BlockState state, World world, BlockPos pos){
+        return state.isOf(Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS) || state.isIn(ModTags.CRACKED) ? WeatheringAgent.WEATHER : WeatheringAgent.NONE;
     }
 }

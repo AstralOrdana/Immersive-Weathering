@@ -1,9 +1,8 @@
-package com.ordana.immersive_weathering.registry.blocks;
+package com.ordana.immersive_weathering.registry.blocks.crackable;
 
 import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.SlabBlock;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
@@ -12,13 +11,11 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class CrackableSlabBlock extends SlabBlock implements Crackable{
-
-    public CrackableSlabBlock(Settings settings) {
+public class CrackableBlock extends Block implements Crackable{
+    public CrackableBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.getDefaultState().with(WEATHERABLE, false));
     }
-
 
     @Override
     public boolean hasRandomTicks(BlockState state) {
@@ -53,7 +50,7 @@ public class CrackableSlabBlock extends SlabBlock implements Crackable{
     @Override
     public WeatheringAgent getWeatheringEffect(BlockState state, World world, BlockPos pos) {
         if (world.getBlockState(pos).isIn(ModTags.CRACK_SOURCE)) {
-            return WeatheringAgent.WEATHER;
+        return WeatheringAgent.WEATHER;
         }
         return WeatheringAgent.NONE;
     }
@@ -92,8 +89,9 @@ public class CrackableSlabBlock extends SlabBlock implements Crackable{
         BlockState state = super.getPlacementState(ctx);
         if (state != null) {
             boolean weathering = this.shouldStartWeathering(state, ctx.getBlockPos(), ctx.getWorld());
-            state.with(WEATHERABLE, weathering);
+            state = state.with(WEATHERABLE, weathering);
         }
         return state;
     }
 }
+

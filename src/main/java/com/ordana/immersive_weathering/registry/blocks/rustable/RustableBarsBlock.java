@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.registry.blocks;
+package com.ordana.immersive_weathering.registry.blocks.rustable;
 
 import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.BlockState;
