@@ -41,6 +41,7 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
 
             var leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
             if (leafPile != null && world.getBlockState(pos.below()).isAir()) {
+                if (!world.isAreaLoaded(pos, 2)) return;
                 BlockPos targetPos = world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos);
                 int maxFallenLeavesReach = 16;
                 if (pos.getY() - targetPos.getY() < maxFallenLeavesReach) {

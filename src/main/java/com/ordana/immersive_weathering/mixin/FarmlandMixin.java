@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
@@ -26,7 +27,8 @@ public abstract class FarmlandMixin extends Block {
         var targetPos = pos.above();
         if (world.getBlockState(targetPos).isAir()) {
             //checks if it doesn't have at least 9 weeds around
-            var neighbors = BlockPos.withinManhattan(pos, 3, 3, 3).iterator();
+            if (!world.isAreaLoaded(pos, 3)) return;
+            var neighbors = BlockPos.spiralAround(pos, 3, Direction.SOUTH, Direction.EAST).iterator();
             boolean hasFullyGrownWeedNearby = false;
             int weedsNearby = 0;
             while (neighbors.hasNext()) {

@@ -5,7 +5,7 @@
     "minecraft:cave_air",
     "minecraft:void_air",
     "immersive_weathering:soot",
-    "immersive_weathering:ash",
+    "immersive_weathering:ash_block",
     {"id":"supplementaries:ash","required":false}
   ]
 }

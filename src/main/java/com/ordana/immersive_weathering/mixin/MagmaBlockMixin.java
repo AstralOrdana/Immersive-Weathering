@@ -15,11 +15,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Random;
 
 @Mixin(MagmaBlock.class)
-public class MagmaBlockMixin {
+public abstract class MagmaBlockMixin {
 
     @Inject(method = "randomTick", at = @At("TAIL"))
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
         if (random.nextFloat() > 0.5f) {
+            if (!world.isAreaLoaded(pos, 2)) return;
             if (WeatheringHelper.canMagmaSpread(pos, 2, world, 6)) {
                 var targetPos = pos.relative(Direction.getRandom(random));
                 if (world.getBlockState(targetPos).is(Blocks.NETHERRACK)) {

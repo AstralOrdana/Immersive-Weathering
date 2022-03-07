@@ -28,9 +28,10 @@ public abstract class SnowyBlockMixin extends Block {
         if (state.is(Blocks.PODZOL)) {
             var targetPos = pos.above();
             if (random.nextFloat() < 0.001f && world.getBlockState(targetPos).isAir()) {
-                if(!WeatheringHelper.hasEnoughBlocksAround(pos, 4,3,4, world,
-                        p->p.getBlock()==Blocks.FERN, 8)){
-                    world.setBlock(targetPos, Blocks.FERN.defaultBlockState(),2);
+                if (!world.isAreaLoaded(pos, 4)) return;
+                if (!WeatheringHelper.hasEnoughBlocksAround(pos, 4, 3, 4, world,
+                        p -> p.getBlock() == Blocks.FERN, 8)) {
+                    world.setBlock(targetPos, Blocks.FERN.defaultBlockState(), 2);
                 }
             }
         }

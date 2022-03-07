@@ -44,25 +44,17 @@ public abstract class LightningEntityMixin extends Entity {
             if (downState.is(BlockTags.SAND)) {
                 level.setBlockAndUpdate(downPos, Blocks.GLASS.defaultBlockState());
             }
-            if (northState.is(BlockTags.SAND)) {
-                if (level.random.nextFloat() < 0.5f) {
-                    level.setBlockAndUpdate(northPos, Blocks.GLASS.defaultBlockState());
-                }
+            if (level.random.nextFloat() < 0.5f && northState.is(BlockTags.SAND)) {
+                level.setBlockAndUpdate(northPos, Blocks.GLASS.defaultBlockState());
             }
-            if (southState.is(BlockTags.SAND)) {
-                if (level.random.nextFloat() < 0.5f) {
-                    level.setBlockAndUpdate(southPos, Blocks.GLASS.defaultBlockState());
-                }
+            if (level.random.nextFloat() < 0.5f && southState.is(BlockTags.SAND)) {
+                level.setBlockAndUpdate(southPos, Blocks.GLASS.defaultBlockState());
             }
-            if (eastState.is(BlockTags.SAND)) {
-                if (level.random.nextFloat() < 0.5f) {
-                    level.setBlockAndUpdate(eastPos, Blocks.GLASS.defaultBlockState());
-                }
+            if (level.random.nextFloat() < 0.5f && eastState.is(BlockTags.SAND)) {
+                level.setBlockAndUpdate(eastPos, Blocks.GLASS.defaultBlockState());
             }
-            if (westState.is(BlockTags.SAND)) {
-                if (level.random.nextFloat() < 0.5f) {
-                    level.setBlockAndUpdate(westPos, Blocks.GLASS.defaultBlockState());
-                }
+            if (level.random.nextFloat() < 0.5f && westState.is(BlockTags.SAND)) {
+                level.setBlockAndUpdate(westPos, Blocks.GLASS.defaultBlockState());
             }
         }
     }

@@ -43,7 +43,7 @@ public abstract class SpreadableBlockMixin extends Block {
         if (state.is(Blocks.GRASS_BLOCK) && random.nextFloat() < 0.001f) {
             if (!level.isAreaLoaded(pos, 4)) return;
             if (!WeatheringHelper.hasEnoughBlocksAround(pos, 4, 3, 4, level,
-                    b -> b.is(ModTags.SMALL_PLANTS), 8)) {
+                    b -> b.is(ModTags.SMALL_PLANTS), 7)) {
 
                 BlockPos targetPos = pos.above();
                 BlockPos tallPos = targetPos.above();
@@ -354,6 +354,7 @@ public abstract class SpreadableBlockMixin extends Block {
         } else if (state.is(Blocks.MYCELIUM)) {
             BlockPos targetPos = pos.above();
             if (random.nextFloat() < 0.001f && level.getBlockState(targetPos).isAir()) {
+                if (!level.isAreaLoaded(pos, 4)) return;
                 if (WeatheringHelper.hasEnoughBlocksAround(pos, 4, 3, 3, level,
                         b -> b.is(ModTags.SMALL_MUSHROOMS), 2)) {
 

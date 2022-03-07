@@ -1,9 +1,7 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SaplingBlock;
@@ -24,13 +22,11 @@ public abstract class SaplingMixin extends Block {
     @Inject(method = "randomTick", at = @At("TAIL"))
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
         var biome = world.getBiome(pos);
-        //TODO: use this in many places       if (!p_56004_.isAreaLoaded(p_56005_, 1)) return;
-        if (biome.is(ModTags.HOT)) {
+        if (biome.value().shouldSnowGolemBurn(pos)) {
             if (world.random.nextFloat() < 0.08f) {
                 world.setBlockAndUpdate(pos, Blocks.DEAD_BUSH.defaultBlockState());
             }
-        }
-        else if (world.dimension() == Level.NETHER) {
+        } else if (world.dimensionType().ultraWarm()) {
             if (world.random.nextFloat() < 0.4f) {
                 world.setBlockAndUpdate(pos, Blocks.DEAD_BUSH.defaultBlockState());
             }

@@ -10,6 +10,7 @@
     "CoralBlockMixin",
     "CropBlockMixin",
     "FarmlandMixin",
+    "FireMixin",
     "IceMixin",
     "LeavesMixin",
     "LightningEntityMixin",
@@ -17,6 +18,7 @@
     "SaplingMixin",
     "SnowyBlockMixin",
     "SpreadableBlockMixin",
+    "TallGrassMixin",
     "WaterMixin"
   ],
   "client": [

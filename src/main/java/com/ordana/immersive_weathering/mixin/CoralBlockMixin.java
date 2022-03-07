@@ -28,11 +28,8 @@ public abstract class CoralBlockMixin extends Block {
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         if (random.nextFloat() < 0.01f) {
             if (world.getBiome(pos).is(Biomes.WARM_OCEAN)) {
-
-                if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
-                        .map(world::getBlockState)
-                        .filter(b -> b.is(ModTags.CORALS))
-                        .toList().size() <= 8) {
+                if (!world.isAreaLoaded(pos, 2)) return;
+                if (WeatheringHelper.hasEnoughBlocksAround(pos, 2, world, b -> b.is(ModTags.CORALS), 6)) {
 
                     var coralGroup = WeatheringHelper.getCoralGrowth(state);
                     coralGroup.ifPresent(c -> {
