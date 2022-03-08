@@ -1,16 +1,21 @@
 package com.ordana.immersive_weathering.registry.blocks.rustable;
 
+import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.ModTags;
-import java.util.Random;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 
-public class RustableBarsBlock extends IronBarsBlock implements Rustable{
+import java.util.Random;
+
+public class RustableBarsBlock extends IronBarsBlock implements Rustable {
     private final RustLevel rustLevel;
 
     public RustableBarsBlock(RustLevel rustLevel, Properties settings) {
@@ -19,7 +24,7 @@ public class RustableBarsBlock extends IronBarsBlock implements Rustable{
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random){
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         if (world.getBlockState(pos).is(ModTags.CLEAN_IRON)) {
             for (Direction direction : Direction.values()) {
                 var targetPos = pos.relative(direction);
@@ -51,7 +56,7 @@ public class RustableBarsBlock extends IronBarsBlock implements Rustable{
                 if (world.isRainingAt(pos.relative(direction)) && world.getBlockState(pos.above()).is(ModTags.WEATHERED_IRON)) {
                     if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                             .map(world::getBlockState)
-                            .filter(b->b.is(ModTags.WEATHERED_IRON))
+                            .filter(b -> b.is(ModTags.WEATHERED_IRON))
                             .toList().size() <= 9) {
                         float f = 0.06f;
                         if (random.nextFloat() > 0.06f) {
@@ -85,5 +90,17 @@ public class RustableBarsBlock extends IronBarsBlock implements Rustable{
     @Override
     public RustLevel getAge() {
         return this.rustLevel;
+    }
+
+
+    @Override
+    public boolean triggerEvent(BlockState state, Level level, BlockPos pos, int i, int i1) {
+        if (i == 1) {
+            if (level.isClientSide) {
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
+            }
+            return true;
+        }
+        return super.triggerEvent(state, level, pos, i, i1);
     }
 }

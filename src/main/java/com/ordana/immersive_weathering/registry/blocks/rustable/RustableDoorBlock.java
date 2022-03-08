@@ -1,10 +1,13 @@
 package com.ordana.immersive_weathering.registry.blocks.rustable;
 
+import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -212,5 +215,16 @@ public class RustableDoorBlock extends DoorBlock implements Rustable {
     @Override
     public RustLevel getAge() {
         return rustLevel;
+    }
+
+    @Override
+    public boolean triggerEvent(BlockState state, Level level, BlockPos pos, int i, int i1) {
+        if (i == 1) {
+            if (level.isClientSide) {
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
+            }
+            return true;
+        }
+        return super.triggerEvent(state, level, pos, i, i1);
     }
 }

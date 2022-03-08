@@ -82,12 +82,12 @@ public class ModItems {
     public static final RegistryObject<BlockItem> MULCH = regBlockItem(ModBlocks.MULCH, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS),800);
     public static final RegistryObject<BlockItem> NULCH = regBlockItem(ModBlocks.NULCH, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
 
-    public static final RegistryObject<Item> STONE_BRICK = ITEMS.register("stone_bricks", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
+    public static final RegistryObject<Item> STONE_BRICK = ITEMS.register("stone_brick", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
     public static final RegistryObject<Item> BLACKSTONE_BRICK = ITEMS.register("blackstone_brick", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
     public static final RegistryObject<Item> DEEPSLATE_BRICK = ITEMS.register("deepslate_brick", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
     public static final RegistryObject<Item> DEEPSLATE_TILE = ITEMS.register("deepslate_tile", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
 
-    public static final RegistryObject<Item> AZALEA_FLOWERS = ITEMS.register("azalea_flowers", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
+    public static final RegistryObject<Item> AZALEA_FLOWERS = ITEMS.register("azalea_flowers", () -> new AzaleaFlowersItem(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
     public static final RegistryObject<Item> FLOWER_CROWN = ITEMS.register("flower_crown", () -> new FlowerCrownItem(FlowerCrownMaterial.INSTANCE, EquipmentSlot.HEAD, new Item.Properties().tab(CreativeModeTab.TAB_TOOLS)));
     public static final RegistryObject<Item> MOSS_CLUMP = ITEMS.register("moss_clump", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS).food(ModFoods.MOSS_CLUMP)));
     public static final RegistryObject<Item> GOLDEN_MOSS_CLUMP = ITEMS.register("golden_moss_clump", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS).food(ModFoods.GOLDEN_MOSS_CLUMP)));
@@ -101,7 +101,7 @@ public class ModItems {
     public static final RegistryObject<Item> CRIMSON_SCALES = ITEMS.register("crimson_scales", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
     public static final RegistryObject<Item> WARPED_SCALES = ITEMS.register("warped_scales", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
 
-    public static final RegistryObject<Item> STEEL_WOOL = ITEMS.register("steel_wool", ()->new Item(new Item.Properties().durability(128).tab(CreativeModeTab.TAB_TOOLS)));
+    public static final RegistryObject<Item> STEEL_WOOL = ITEMS.register("steel_wool", ()->new SteelWoolItem(new Item.Properties().durability(128).tab(CreativeModeTab.TAB_TOOLS)));
 
 
     //cut iron
@@ -193,6 +193,7 @@ public class ModItems {
     public static final RegistryObject<BlockItem> WAXED_EXPOSED_IRON_BARS = regBlockItem(ModBlocks.WAXED_EXPOSED_IRON_BARS,  new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
     public static final RegistryObject<BlockItem> WAXED_WEATHERED_IRON_BARS = regBlockItem(ModBlocks.WAXED_WEATHERED_IRON_BARS,  new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
     public static final RegistryObject<BlockItem> WAXED_RUSTED_IRON_BARS = regBlockItem(ModBlocks.WAXED_RUSTED_IRON_BARS,  new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
+
 
 
 }

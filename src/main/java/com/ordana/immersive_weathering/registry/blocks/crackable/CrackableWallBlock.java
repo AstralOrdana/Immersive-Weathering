@@ -4,6 +4,7 @@ import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -20,11 +21,12 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Random;
+import java.util.function.Supplier;
 
 public class CrackableWallBlock extends CrackedWallBlock {
 
-    public CrackableWallBlock(CrackLevel crackLevel, Properties settings) {
-        super(crackLevel, settings);
+    public CrackableWallBlock(CrackLevel crackLevel, Supplier<Item> brickItem, Properties settings) {
+        super(crackLevel, brickItem, settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(WEATHERABLE, false));
     }
 

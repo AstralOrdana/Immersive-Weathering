@@ -30,4 +30,6 @@ public class ModParticles {
     public static final RegistryObject<SimpleParticleType> MULCH = regParticle("mulch");
     public static final RegistryObject<SimpleParticleType> NULCH = regParticle("nulch");
 
+    public static final RegistryObject<SimpleParticleType> SCRAPE_RUST = regParticle("scrape_rust");
+
 }

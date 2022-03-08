@@ -9,7 +9,10 @@ import java.util.function.Supplier;
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.SpreadingPatchBlock;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
+import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -52,6 +55,14 @@ public interface Crackable extends ChangeOverTimeBlock<Crackable.CrackLevel>, Sp
     //reverse map for reverse access in descending order
     Supplier<BiMap<Block, Block>> CRACK_LEVEL_DECREASES = Suppliers.memoize(() -> CRACK_LEVEL_INCREASES.get().inverse());
 
+    Supplier<BiMap<Item, Block>> BRICK_TO_BASE_BLOCK = Suppliers.memoize(() -> ImmutableBiMap.<Item, Block>builder()
+
+            .put(ModItems.BLACKSTONE_BRICK.get(), Blocks.POLISHED_BLACKSTONE_BRICKS)
+            .put(ModItems.DEEPSLATE_BRICK.get(), Blocks.DEEPSLATE_BRICKS)
+            .put(ModItems.STONE_BRICK.get(), Blocks.STONE_BRICKS)
+
+            .build());
+
     //these can be removed if you want
 
     static Optional<Block> getDecreasedCrackBlock(Block block) {
@@ -79,6 +90,8 @@ public interface Crackable extends ChangeOverTimeBlock<Crackable.CrackLevel>, Sp
     static Optional<Block> getIncreasedCrackBlock(Block block) {
         return Optional.ofNullable(CRACK_LEVEL_INCREASES.get().get(block));
     }
+
+    Item getRepairItem(BlockState state);
 
     @Override
     default Optional<BlockState> getNext(BlockState state) {

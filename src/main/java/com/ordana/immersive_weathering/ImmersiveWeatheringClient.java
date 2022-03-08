@@ -9,13 +9,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
-import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.GrassColor;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -87,6 +91,28 @@ public class ImmersiveWeatheringClient {
         particleEngine.register(ModParticles.AZALEA_FLOWER.get(), LeafParticle.LeafFactory::new);
         particleEngine.register(ModParticles.MULCH.get(), LeafParticle.LeafFactory::new);
         particleEngine.register(ModParticles.NULCH.get(), LeafParticle.LeafFactory::new);
+
+        particleEngine.register(ModParticles.SCRAPE_RUST.get(), ScrapeRustFactory::new);
+    }
+
+    public static class ScrapeRustFactory extends GlowParticle.ScrapeProvider {
+
+        public ScrapeRustFactory(SpriteSet spriteSet) {
+            super(spriteSet);
+        }
+
+        @Override
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel level, double p_172207_, double p_172208_, double p_172209_, double p_172210_, double p_172211_, double p_172212_) {
+            Particle p = super.createParticle(particleType, level, p_172207_, p_172208_, p_172209_, p_172210_, p_172211_, p_172212_);
+            if(p!=null) {
+                if (level.random.nextBoolean()) {
+                    p.setColor(196/255f, 118/255f, 73/255f);
+                } else {
+                    p.setColor(176/255f, 63/255f, 40/255f);
+                }
+            }
+            return p;
+        }
     }
 
     @SubscribeEvent

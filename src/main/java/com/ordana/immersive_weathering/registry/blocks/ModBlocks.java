@@ -5,8 +5,10 @@ import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.blocks.crackable.*;
 import com.ordana.immersive_weathering.registry.blocks.mossable.*;
 import com.ordana.immersive_weathering.registry.blocks.rustable.*;
+import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -102,48 +104,67 @@ public class ModBlocks {
             new MossySlabBlock(Mossable.MossLevel.MOSSY, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).requiresCorrectToolForDrops().strength(1.5f, 6f)));
 
     public static final RegistryObject<Block> CRACKED_BRICKS = reg("cracked_bricks", () ->
-            new CrackedBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
+            new CrackedBlock(Crackable.CrackLevel.CRACKED,  ()->Items.BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
     public static final RegistryObject<Block> CRACKED_BRICK_STAIRS = reg("CRACKED_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, CRACKED_BRICKS, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, CRACKED_BRICKS, ()->Items.BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
     public static final RegistryObject<Block> CRACKED_BRICK_SLAB = reg("CRACKED_BRICK_SLAB".toLowerCase(Locale.ROOT), () ->
-            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
+            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, ()->Items.BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
     public static final RegistryObject<Block> CRACKED_BRICK_WALL = reg("CRACKED_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
-            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
+            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, ()->Items.BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
 
     public static final RegistryObject<Block> CRACKED_STONE_BRICK_STAIRS = reg("CRACKED_STONE_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_STONE_BRICKS, BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_STONE_BRICKS, ModItems.STONE_BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
     public static final RegistryObject<Block> CRACKED_STONE_BRICK_SLAB = reg("CRACKED_STONE_BRICK_SLAB".toLowerCase(Locale.ROOT), () ->
-            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
+            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, ModItems.STONE_BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
     public static final RegistryObject<Block> CRACKED_STONE_BRICK_WALL = reg("CRACKED_STONE_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
-            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
+            new CrackedWallBlock(Crackable.CrackLevel.CRACKED,ModItems.STONE_BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
 
     public static final RegistryObject<Block> CRACKED_POLISHED_BLACKSTONE_BRICK_STAIRS = reg("CRACKED_POLISHED_BLACKSTONE_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS,ModItems.BLACKSTONE_BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
     public static final RegistryObject<Block> CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB = reg("CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB".toLowerCase(Locale.ROOT), () ->
-            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
+            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED,ModItems.BLACKSTONE_BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
     public static final RegistryObject<Block> CRACKED_POLISHED_BLACKSTONE_BRICK_WALL = reg("CRACKED_POLISHED_BLACKSTONE_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
-            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
+            new CrackedWallBlock(Crackable.CrackLevel.CRACKED,ModItems.BLACKSTONE_BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
 
     public static final RegistryObject<Block> CRACKED_NETHER_BRICK_STAIRS = reg("CRACKED_NETHER_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_NETHER_BRICKS, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS)));
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_NETHER_BRICKS, ()->Items.NETHER_BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS)));
     public static final RegistryObject<Block> CRACKED_NETHER_BRICK_SLAB = reg("CRACKED_NETHER_BRICK_SLAB".toLowerCase(Locale.ROOT), () ->
-            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS)));
+            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED,()->Items.NETHER_BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS)));
     public static final RegistryObject<Block> CRACKED_NETHER_BRICK_WALL = reg("CRACKED_NETHER_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
-            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS)));
+            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, ()->Items.NETHER_BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS)));
 
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_BRICK_STAIRS = reg("CRACKED_DEEPSLATE_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_DEEPSLATE_BRICKS, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS)));
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_DEEPSLATE_BRICKS,ModItems.DEEPSLATE_BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS)));
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_BRICK_SLAB = reg("CRACKED_DEEPSLATE_BRICK_SLAB".toLowerCase(Locale.ROOT), () ->
-            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS)));
+            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED,ModItems.DEEPSLATE_BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS)));
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_BRICK_WALL = reg("CRACKED_DEEPSLATE_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
-            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS)));
+            new CrackedWallBlock(Crackable.CrackLevel.CRACKED,ModItems.DEEPSLATE_BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS)));
 
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_TILE_STAIRS = reg("CRACKED_DEEPSLATE_TILE_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_DEEPSLATE_TILES, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_TILES)));
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_DEEPSLATE_TILES,ModItems.DEEPSLATE_BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_TILES)));
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_TILE_SLAB = reg("CRACKED_DEEPSLATE_TILE_SLAB".toLowerCase(Locale.ROOT), () ->
-            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_TILES)));
+            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, ModItems.DEEPSLATE_BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_TILES)));
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_TILE_WALL = reg("CRACKED_DEEPSLATE_TILE_WALL".toLowerCase(Locale.ROOT), () ->
-            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_TILES)));
+            new CrackedWallBlock(Crackable.CrackLevel.CRACKED,ModItems.DEEPSLATE_BRICK,
+                    BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_TILES)));
 
     public static final RegistryObject<Block> MULCH_BLOCK = reg("MULCH_BLOCK".toLowerCase(Locale.ROOT), () ->
             new MulchBlock(BlockBehaviour.Properties.of(Material.WOOD).strength(1f, 1f).sound(SoundType.WOOD).randomTicks()));

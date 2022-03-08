@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.registry.blocks.crackable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -13,11 +14,12 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 import java.util.Random;
+import java.util.function.Supplier;
 
 public class CrackableSlabBlock extends CrackedSlabBlock {
 
-    public CrackableSlabBlock(Crackable.CrackLevel crackLevel, BlockBehaviour.Properties settings) {
-        super(crackLevel, settings);
+    public CrackableSlabBlock(Crackable.CrackLevel crackLevel, Supplier<Item> brickItem, BlockBehaviour.Properties settings) {
+        super(crackLevel, brickItem, settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(WEATHERABLE, false));
     }
 

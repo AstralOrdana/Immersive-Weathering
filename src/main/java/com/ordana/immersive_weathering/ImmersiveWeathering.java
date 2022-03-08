@@ -43,6 +43,7 @@ public class ImmersiveWeathering {
     public static void init(final FMLCommonSetupEvent event) {
         ModWaxable.registerWaxable();
         ModCompostable.registerCompostable();
+        ModFeatures.init();
 
         //ModEvents.registerEvents();
 

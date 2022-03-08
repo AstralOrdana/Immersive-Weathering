@@ -5,6 +5,8 @@ import com.ordana.immersive_weathering.registry.blocks.mossable.*;
 import com.ordana.immersive_weathering.registry.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.registry.blocks.rustable.RustableBarsBlock;
 import com.ordana.immersive_weathering.registry.blocks.rustable.RustableTrapdoorBlock;
+import com.ordana.immersive_weathering.registry.items.ModItems;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -15,8 +17,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
 
+@SuppressWarnings("ALL")
 @Mixin(Blocks.class)
 public abstract class BlocksMixin {
+
     @Redirect(method = "<clinit>", at = @At(
             value = "NEW",
             target = "net/minecraft/world/level/block/Block",
@@ -30,7 +34,7 @@ public abstract class BlocksMixin {
             )
     )
     private static Block polishedBlackstoneBricks(BlockBehaviour.Properties settings) {
-        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, ()->ModItems.BLACKSTONE_BRICK.get(), settings);
     }
 
     @Redirect(method = "<clinit>",
@@ -47,7 +51,7 @@ public abstract class BlocksMixin {
             )
     )
     private static SlabBlock polishedBlackstoneBrickSlab(BlockBehaviour.Properties settings) {
-        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED, settings);
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED,()->ModItems.BLACKSTONE_BRICK.get(), settings);
     }
 
     @Shadow
@@ -69,7 +73,7 @@ public abstract class BlocksMixin {
             )
     )
     private static StairBlock polishedBlackstoneBricksStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> POLISHED_BLACKSTONE_BRICKS, settings);
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> POLISHED_BLACKSTONE_BRICKS,()->ModItems.BLACKSTONE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -87,7 +91,7 @@ public abstract class BlocksMixin {
             )
     )
     private static WallBlock polishedBlackstoneBrickWall(BlockBehaviour.Properties settings) {
-        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, settings);
+        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED,()->ModItems.BLACKSTONE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -107,7 +111,7 @@ public abstract class BlocksMixin {
                     )
     )
     private static Block crackedPolishedBlackstoneBricks(BlockBehaviour.Properties settings) {
-        return new CrackedBlock(Crackable.CrackLevel.CRACKED, settings);
+        return new CrackedBlock(Crackable.CrackLevel.CRACKED,()->ModItems.BLACKSTONE_BRICK.get(), settings);
     }
 
 
@@ -126,7 +130,7 @@ public abstract class BlocksMixin {
             )
     )
     private static Block deepslateBricks(BlockBehaviour.Properties settings) {
-        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED,()->ModItems.DEEPSLATE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -144,7 +148,7 @@ public abstract class BlocksMixin {
             )
     )
     private static SlabBlock deepslateBrickSlab(BlockBehaviour.Properties settings) {
-        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED, settings);
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED,()->ModItems.DEEPSLATE_BRICK.get(), settings);
     }
 
     @Shadow
@@ -167,7 +171,7 @@ public abstract class BlocksMixin {
                     )
     )
     private static StairBlock deepslateBrickStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED,()-> DEEPSLATE_BRICKS, settings);
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED,()-> DEEPSLATE_BRICKS,()->ModItems.DEEPSLATE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -185,7 +189,7 @@ public abstract class BlocksMixin {
             )
     )
     private static WallBlock deepslateBrickWall(BlockBehaviour.Properties settings) {
-        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, settings);
+        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED,()->ModItems.DEEPSLATE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -203,7 +207,7 @@ public abstract class BlocksMixin {
             )
     )
     private static Block deepslateTiles(BlockBehaviour.Properties settings) {
-        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED,()->ModItems.DEEPSLATE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -221,7 +225,7 @@ public abstract class BlocksMixin {
             )
     )
     private static SlabBlock deepslateTileSlab(BlockBehaviour.Properties settings) {
-        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED, settings);
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED,()->ModItems.DEEPSLATE_BRICK.get(), settings);
     }
 
     @Shadow
@@ -243,7 +247,7 @@ public abstract class BlocksMixin {
             )
     )
     private static StairBlock deepslateTileStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, ()->DEEPSLATE_TILES, settings);
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, ()->DEEPSLATE_TILES,()->ModItems.DEEPSLATE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -261,7 +265,7 @@ public abstract class BlocksMixin {
             )
     )
     private static WallBlock deepslateTileWall(BlockBehaviour.Properties settings) {
-        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, settings);
+        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED,()->ModItems.DEEPSLATE_BRICK.get(), settings);
     }
 
     @Redirect
@@ -280,7 +284,7 @@ public abstract class BlocksMixin {
                     )
             )
     private static Block netherBricks(BlockBehaviour.Properties settings) {
-        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, ()-> Items.BRICK,settings);
     }
 
     @Redirect(
@@ -298,7 +302,7 @@ public abstract class BlocksMixin {
             )
     )
     private static SlabBlock netherBrickSlab(BlockBehaviour.Properties settings) {
-        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED, settings);
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED,()-> Items.BRICK, settings);
     }
 
     @Shadow
@@ -322,7 +326,7 @@ public abstract class BlocksMixin {
                     )
     )
     private static StairBlock netherBrickStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> NETHER_BRICKS, settings);
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> NETHER_BRICKS, ()-> Items.BRICK, settings);
     }
 
     @Redirect(
@@ -340,7 +344,7 @@ public abstract class BlocksMixin {
             )
     )
     private static WallBlock netherBrickWall(BlockBehaviour.Properties settings) {
-        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, settings);
+        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, ()-> Items.BRICK,settings);
     }
 
     @Redirect(
@@ -359,7 +363,7 @@ public abstract class BlocksMixin {
                     )
     )
     private static Block crackedNetherBricks(BlockBehaviour.Properties settings) {
-        return new CrackedBlock(Crackable.CrackLevel.CRACKED, settings);
+        return new CrackedBlock(Crackable.CrackLevel.CRACKED, ()-> Items.BRICK, settings);
     }
 
 

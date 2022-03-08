@@ -44,7 +44,7 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
                 if (pos.getY() - targetPos.getY() < maxFallenLeavesReach) {
 
                     BlockState replaceState = world.getBlockState(targetPos);
-                    if (replaceState.isAir()) return;
+
                     boolean isOnLeaf = replaceState.getBlock() instanceof LeafPileBlock;
 
                     BlockPos belowPos = targetPos.below();
@@ -52,7 +52,7 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
 
                     //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
                     if (isOnLeaf ||
-                            (below.isFaceSturdy(world, belowPos, Direction.UP)
+                            (replaceState.isAir() && below.isFaceSturdy(world, belowPos, Direction.UP)
                                     && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 1, 2,
                                     world, b -> b.getBlock() instanceof LeafPileBlock, 7))) {
 
@@ -60,15 +60,12 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
                         int pileHeight = 0;
                         for (Direction direction : Direction.Plane.HORIZONTAL) {
                             BlockState neighbor = world.getBlockState(targetPos.relative(direction));
-                            if(isOnLeaf){
-                                if (neighbor.is(BlockTags.LOGS) && (!neighbor.hasProperty(RotatedPillarBlock.AXIS) ||
-                                        neighbor.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y)) { //TODO: replace with mod tag
-                                    pileHeight = 2;
-                                    break;
-                                }
-                            }
-                            else if (neighbor.getBlock() instanceof LeafPileBlock) {
+                            if (!isOnLeaf && neighbor.getBlock() instanceof LeafPileBlock) {
                                 pileHeight = 1;
+                            } else if (neighbor.is(BlockTags.LOGS) && (!neighbor.hasProperty(RotatedPillarBlock.AXIS) ||
+                                    neighbor.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y)) { //TODO: replace with mod tag
+                                pileHeight = isOnLeaf ? 2 : 1;
+                                break;
                             }
 
                         }
