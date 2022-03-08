@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.registry.blocks;
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -39,7 +40,7 @@ public class WeedsBlock extends CropBlock {
 
     @Override
     public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
-        if (this.getAge(state) == this.getMaxAge()) {
+        if (this.getAge(state) == this.getMaxAge() && random.nextInt(10)==0) {
             double r = 0.3;
             double x = (double) pos.getX() + 0.5 + (random.nextDouble() - 0.5) * r;
             double y = (double) pos.getY() + 0.8 + (random.nextDouble() - 0.5) * r;
@@ -57,5 +58,15 @@ public class WeedsBlock extends CropBlock {
     @Override
     protected boolean mayPlaceOn(BlockState floor, BlockGetter world, BlockPos pos) {
         return floor.is(ModTags.FERTILE_BLOCKS) || floor.is(BlockTags.DIRT);
+    }
+
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 60;
+    }
+
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 100;
     }
 }

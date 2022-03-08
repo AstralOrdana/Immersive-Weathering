@@ -201,4 +201,13 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
         }
     }
 
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 30;
+    }
+
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 60;
+    }
 }

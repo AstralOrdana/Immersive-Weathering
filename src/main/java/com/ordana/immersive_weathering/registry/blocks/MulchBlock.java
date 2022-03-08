@@ -117,11 +117,21 @@ public class MulchBlock extends Block {
 
     @Override
     public boolean isFertile(BlockState state, BlockGetter world, BlockPos pos) {
-        return false;//state.getValue(SOAKED)
+        return state.getValue(SOAKED);
     }
 
     @Override
     public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction direction, IPlantable plantable) {
         return true;
+    }
+
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 5;
+    }
+
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 5;
     }
 }

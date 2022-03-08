@@ -4,12 +4,15 @@ import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Random;
 
@@ -22,20 +25,30 @@ public class MossableWallBlock extends MossyWallBlock {
     public MossableWallBlock(Mossable.MossLevel mossLevel, BlockBehaviour.Properties settings) {
         super(mossLevel, settings);
         this.mossLevel = mossLevel;
-        //this.registerDefaultState(this.stateDefinition.any().setValue(WEATHERABLE, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(WEATHERABLE, false));
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
+        return super.getShape(state.setValue(WEATHERABLE, true), getter, pos, context);
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
+        return super.getCollisionShape(state.setValue(WEATHERABLE, true), getter, pos, context);
     }
 
     //-----weathereable-start---
 
     @Override
     public boolean isWeathering(BlockState state) {
-        return false;//state.getValue(WEATHERABLE);
+        return state.getValue(WEATHERABLE);
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
         super.createBlockStateDefinition(stateBuilder);
-        // stateBuilder.add(WEATHERABLE);
+        stateBuilder.add(WEATHERABLE);
     }
 
     @Override

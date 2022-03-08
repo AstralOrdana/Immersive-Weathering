@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "immersive_weathering:rusted_iron_trapdoor"
+    },
+    {
+      "item": "minecraft:honeycomb"
+    }
+  ],
+  "result": {
+    "item": "immersive_weathering:waxed_rusted_iron_trapdoor"
+  }
+}

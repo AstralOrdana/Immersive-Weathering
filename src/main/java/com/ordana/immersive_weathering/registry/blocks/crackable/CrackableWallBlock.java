@@ -25,18 +25,28 @@ public class CrackableWallBlock extends CrackedWallBlock {
 
     public CrackableWallBlock(CrackLevel crackLevel, Properties settings) {
         super(crackLevel, settings);
-      //  this.registerDefaultState(this.stateDefinition.any().setValue(WEATHERABLE, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(WEATHERABLE, false));
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
+        return super.getShape(state.setValue(WEATHERABLE, true), getter, pos, context);
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
+        return super.getCollisionShape(state.setValue(WEATHERABLE, true), getter, pos, context);
     }
 
     @Override
     public boolean isWeathering(BlockState state) {
-        return false;//state.getValue(WEATHERABLE);
+        return state.getValue(WEATHERABLE);
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
         super.createBlockStateDefinition(stateBuilder);
-        //stateBuilder.add(WEATHERABLE);
+        stateBuilder.add(WEATHERABLE);
     }
 
     @Override

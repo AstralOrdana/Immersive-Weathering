@@ -28,36 +28,6 @@ public class ImmersiveWeatheringClient {
 
     @SubscribeEvent
     public static void init(final FMLClientSetupEvent event) {
-/*
-        ClientSpriteRegistryCallback.event(InventoryMenu.BLOCK_ATLAS).register(((atlasTexture, registry) -> {
-            registry.register(new ResourceLocation("immersive_weathering", "particle/ember_0"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/soot_0"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/ember_1"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/soot_1"));
-
-            registry.register(new ResourceLocation("immersive_weathering", "particle/oak_leaf_0"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/birch_leaf_0"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/spruce_leaf_0"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/jungle_leaf_0"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/acacia_leaf_0"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/dark_oak_leaf_0"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/azalea_leaf_0"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/azalea_flower_0"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/oak_leaf_1"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/birch_leaf_1"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/spruce_leaf_1"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/jungle_leaf_1"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/acacia_leaf_1"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/dark_oak_leaf_1"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/azalea_leaf_1"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/azalea_flower_1"));
-
-            registry.register(new ResourceLocation("immersive_weathering", "particle/mulch_0"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/nulch_0"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/mulch_1"));
-            registry.register(new ResourceLocation("immersive_weathering", "particle/nulch_1"));
-        }));*/
-
 
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.ICICLE.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.OAK_LEAF_PILE.get(), RenderType.cutout());
@@ -70,7 +40,7 @@ public class ImmersiveWeatheringClient {
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.FLOWERING_AZALEA_LEAF_PILE.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.AZALEA_FLOWER_PILE.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.WEEDS.get(), RenderType.cutout());
-                /*
+
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.EXPOSED_IRON_DOOR.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.WEATHERED_IRON_DOOR.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.RUSTED_IRON_DOOR.get(), RenderType.cutout());
@@ -98,7 +68,6 @@ public class ImmersiveWeatheringClient {
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_EXPOSED_IRON_BARS.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_WEATHERED_IRON_BARS.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_RUSTED_IRON_BARS.get(), RenderType.cutout());
-        */
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

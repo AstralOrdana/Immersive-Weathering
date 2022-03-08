@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import com.ordana.immersive_weathering.registry.ModTags;
-import com.ordana.immersive_weathering.registry.blocks.WeatherableBlock;
+import com.ordana.immersive_weathering.registry.blocks.SpreadingPatchBlock;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public interface Crackable extends ChangeOverTimeBlock<Crackable.CrackLevel>, WeatherableBlock {
+public interface Crackable extends ChangeOverTimeBlock<Crackable.CrackLevel>, SpreadingPatchBlock {
 
     Supplier<BiMap<Block, Block>> CRACK_LEVEL_INCREASES = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
 
@@ -96,12 +96,17 @@ public interface Crackable extends ChangeOverTimeBlock<Crackable.CrackLevel>, We
 
     @Override
     default float getInterestForDirection(){
-        return 0.4f;
+        return 0.7f;
     }
 
     @Override
-    default float getHighInterestChance(){
+    default float getDisjointGrowthChance(){
         return 0.5f;
+    }
+
+    @Override
+    default float getUnWeatherableChance(){
+        return 0.2f;
     }
 
     @Override

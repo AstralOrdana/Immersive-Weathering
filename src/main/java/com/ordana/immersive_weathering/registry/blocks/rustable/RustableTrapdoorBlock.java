@@ -23,15 +23,7 @@ public class RustableTrapdoorBlock extends TrapDoorBlock implements Rustable{
     }
 
     public void playOpenCloseSound(Level world, BlockPos pos, boolean open) {
-        world.levelEvent(null, open ? this.getOpenSoundEventId() : this.getCloseSoundEventId(), pos, 0);
-    }
-
-    private int getOpenSoundEventId() {
-        return this.material == Material.METAL ? 1011 : 1012;
-    }
-
-    private int getCloseSoundEventId() {
-        return this.material == Material.METAL ? 1005 : 1006;
+        world.levelEvent(null, open ? 1011 : 1006, pos, 0);
     }
 
     @Override
@@ -76,13 +68,7 @@ public class RustableTrapdoorBlock extends TrapDoorBlock implements Rustable{
 
     @Override
     public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
-        if (world.getBlockState(pos).is(ModTags.EXPOSED_IRON)) {
-            state = state.cycle(OPEN);
-            this.playOpenCloseSound(world, pos, state.getValue(OPEN)); // if it is powered, play open sound, else play close sound
-            world.gameEvent(state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
-            world.setBlock(pos, state.setValue(OPEN, state.getValue(OPEN)), Block.UPDATE_CLIENTS); // set open to match the powered state (powered true, open true)
-        }
-        if (world.getBlockState(pos).is(ModTags.WEATHERED_IRON)) {
+        if (this.getAge() == RustLevel.EXPOSED || this.getAge() == RustLevel.WEATHERED) {
             state = state.cycle(OPEN);
             this.playOpenCloseSound(world, pos, state.getValue(OPEN)); // if it is powered, play open sound, else play close sound
             world.gameEvent(state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here

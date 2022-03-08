@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "immersive_weathering:waxed_plate_iron"
+  },
+  "result": "immersive_weathering:waxed_cut_copper_stairs",
+  "count": 1
+}

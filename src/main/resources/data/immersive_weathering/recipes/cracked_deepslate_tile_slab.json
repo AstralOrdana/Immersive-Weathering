@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:cracked_deepslate_tiles"
+    }
+  },
+  "result": {
+    "item": "immersive_weathering:cracked_deepslate_tile_slab",
+    "count": 6
+  }
+}

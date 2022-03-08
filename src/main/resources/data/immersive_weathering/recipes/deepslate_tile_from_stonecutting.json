@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "minecraft:deepslate_tiles"
+  },
+  "result": "immersive_weathering:deepslate_tile",
+  "count": 4
+}

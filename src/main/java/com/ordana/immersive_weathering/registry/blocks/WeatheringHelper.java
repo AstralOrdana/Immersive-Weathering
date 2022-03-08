@@ -38,6 +38,18 @@ public class WeatheringHelper {
                     .build())
             .build());
 
+    private static final Supplier<Map<Block, SimpleWeightedRandomList<Block>>> NETHER_VEGETATION = Suppliers.memoize(() -> ImmutableMap.<Block, SimpleWeightedRandomList<Block>>builder()
+            .put(Blocks.CRIMSON_NYLIUM, SimpleWeightedRandomList.<Block>builder()
+                    .add(Blocks.CRIMSON_ROOTS, 20)
+                    .add(Blocks.CRIMSON_FUNGUS, 15)
+                    .build())
+            .put(Blocks.WARPED_NYLIUM, SimpleWeightedRandomList.<Block>builder()
+                    .add(Blocks.WARPED_ROOTS, 20)
+                    .add(Blocks.WARPED_FUNGUS, 15)
+                    .add(Blocks.NETHER_SPROUTS, 10)
+                    .build())
+            .build());
+
     public record CoralFamily(Block coral, Block fan, Block wallFan) {
     }
 
@@ -81,7 +93,13 @@ public class WeatheringHelper {
     }
 
     public static Optional<Block> getGrassGrowthForBiome(ResourceKey<Biome> biome, Random random) {
-        var list = (BIOME_FLOWERS.get().get(biome));
+        var list = BIOME_FLOWERS.get().get(biome);
+        if (list != null) return list.getRandomValue(random);
+        return Optional.empty();
+    }
+
+    public static Optional<Block> getNyliumGrowth(BlockState state, Random random) {
+        var list = NETHER_VEGETATION.get().get(state.getBlock());
         if (list != null) return list.getRandomValue(random);
         return Optional.empty();
     }
@@ -148,7 +166,7 @@ public class WeatheringHelper {
         int count = 0;
         boolean hasLava = false;
         //shuffling. provides way better result that iterating through it conventionally
-        var list = grabBlocksAroundRandomly(centerPos, radius,radius,radius);
+        var list = grabBlocksAroundRandomly(centerPos, radius, radius, radius);
         for (BlockPos pos : list) {
             BlockState state = level.getBlockState(pos);
             if (state.is(Blocks.MAGMA_BLOCK)) count += 1;

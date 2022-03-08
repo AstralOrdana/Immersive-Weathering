@@ -8,10 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import org.spongepowered.asm.mixin.Mixin;
@@ -46,30 +43,41 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
                 int maxFallenLeavesReach = 16;
                 if (pos.getY() - targetPos.getY() < maxFallenLeavesReach) {
 
+                    BlockState replaceState = world.getBlockState(targetPos);
+                    if (replaceState.isAir()) return;
+                    boolean isOnLeaf = replaceState.getBlock() instanceof LeafPileBlock;
+
                     BlockPos belowPos = targetPos.below();
                     BlockState below = world.getBlockState(belowPos);
 
                     //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
-                    if (below.isFaceSturdy(world, belowPos, Direction.UP)) {
+                    if (isOnLeaf ||
+                            (below.isFaceSturdy(world, belowPos, Direction.UP)
+                                    && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 1, 2,
+                                    world, b -> b.getBlock() instanceof LeafPileBlock, 7))) {
 
-                        if (!WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 1, 2,
-                                world, b -> b.getBlock() instanceof LeafPileBlock, 7)) {
-                            int pileHeight = 0;
-                            for (Direction direction : Direction.Plane.HORIZONTAL) {
-                                BlockState neighbor = world.getBlockState(targetPos.relative(direction));
-                                if (neighbor.is(BlockTags.LOGS)) { //TODO: replace with mod tag
+
+                        int pileHeight = 0;
+                        for (Direction direction : Direction.Plane.HORIZONTAL) {
+                            BlockState neighbor = world.getBlockState(targetPos.relative(direction));
+                            if(isOnLeaf){
+                                if (neighbor.is(BlockTags.LOGS) && (!neighbor.hasProperty(RotatedPillarBlock.AXIS) ||
+                                        neighbor.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y)) { //TODO: replace with mod tag
                                     pileHeight = 2;
                                     break;
-                                } else if (neighbor.getBlock() instanceof LeafPileBlock) {
-                                    pileHeight = 1;
                                 }
                             }
-                            if (pileHeight > 0) {
-                                world.setBlock(targetPos, leafPile.defaultBlockState()
-                                        .setValue(LeafPileBlock.LAYERS, pileHeight), 2);
+                            else if (neighbor.getBlock() instanceof LeafPileBlock) {
+                                pileHeight = 1;
                             }
+
+                        }
+                        if (pileHeight > 0) {
+                            world.setBlock(targetPos, leafPile.defaultBlockState()
+                                    .setValue(LeafPileBlock.LAYERS, pileHeight), 2);
                         }
                     }
+
                 }
             }
         }

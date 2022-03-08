@@ -6,6 +6,7 @@
   "mixins": [
     "BlocksMixin",
     "CampfireMixin",
+    "WebMixin",
     "ComposterMixin",
     "CoralBlockMixin",
     "CropBlockMixin",
@@ -15,6 +16,7 @@
     "LeavesMixin",
     "LightningEntityMixin",
     "MagmaBlockMixin",
+    "NyliumBlockMixin",
     "RootedDirtBlockMixin",
     "SaplingMixin",
     "SnowyBlockMixin",

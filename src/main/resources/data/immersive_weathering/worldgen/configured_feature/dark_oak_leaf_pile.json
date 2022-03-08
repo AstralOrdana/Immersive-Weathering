@@ -1,0 +1,14 @@
+{
+  "type": "immersive_weathering:dark_oak_leaf_pile",
+  "config": {
+    "state_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "immersive_weathering:dark_oak_leaf_pile",
+        "Properties": {
+          "layers": "1"
+        }
+      }
+    }
+  }
+}

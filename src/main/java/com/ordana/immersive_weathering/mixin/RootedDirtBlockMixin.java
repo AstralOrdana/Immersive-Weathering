@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
@@ -27,17 +26,10 @@ public abstract class RootedDirtBlockMixin extends Block {
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         var targetPos = pos.below();
-        WeatheringHelper
-        if (BlockPos.withinManhattanStream(pos, 4, 4, 4)
-                .map(world::getBlockState)
-                .map(BlockState::getBlock)
-                .filter(Blocks.HANGING_ROOTS::equals)
-                .toList().size() <= 8) {
-            float f = 0.5f;
-            if (random.nextFloat() < 0.001f) {
-                if (world.getBlockState(targetPos).is(Blocks.AIR)) {
-                    world.setBlockAndUpdate(targetPos, Blocks.HANGING_ROOTS.defaultBlockState());
-                }
+        if (random.nextFloat() < 0.001f && world.getBlockState(targetPos).is(Blocks.AIR)) {
+            if (!world.isAreaLoaded(pos, 4)) return;
+            if (WeatheringHelper.hasEnoughBlocksAround(pos, 4, world, b -> b.is(Blocks.HANGING_ROOTS), 8)) {
+                world.setBlockAndUpdate(targetPos, Blocks.HANGING_ROOTS.defaultBlockState());
             }
         }
 

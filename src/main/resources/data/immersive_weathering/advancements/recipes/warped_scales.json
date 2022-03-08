@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "immersive_weathering:warped_stem_unstrip",
+      "immersive_weathering:warped_hyphae_unstrip",
+      "immersive_weathering:warped_hyphae_from_scales",
+      "immersive_weathering:nulch_block",
+      "immersvie_weathering:nulch"
+    ]
+  },
+  "criteria": {
+    "has_copper_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:warped_scales"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "immersive_weathering:warped_hyphae_from_scales"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_copper_block",
+      "has_the_recipe"
+    ]
+  ]
+}

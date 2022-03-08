@@ -266,7 +266,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> WAXED_RUSTED_PLATE_IRON_SLAB = reg("WAXED_RUSTED_PLATE_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
             new SlabBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
 
-        /*
+
     public static final RegistryObject<Block> EXPOSED_IRON_DOOR = reg("EXPOSED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
             new RustableDoorBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WEATHERED_IRON_DOOR = reg("WEATHERED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
@@ -290,32 +290,32 @@ public class ModBlocks {
 
 
     public static final RegistryObject<Block> WAXED_IRON_DOOR = reg("WAXED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
-            new WaxedRustableDoorBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableDoorBlock(Rustable.RustLevel.UNAFFECTED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_EXPOSED_IRON_DOOR = reg("WAXED_EXPOSED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
-            new WaxedRustableDoorBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableDoorBlock(Rustable.RustLevel.EXPOSED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_WEATHERED_IRON_DOOR = reg("WAXED_WEATHERED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
-            new WaxedRustableDoorBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableDoorBlock(Rustable.RustLevel.WEATHERED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_RUSTED_IRON_DOOR = reg("WAXED_RUSTED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
-            new WaxedRustableDoorBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableDoorBlock(Rustable.RustLevel.RUSTED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
 
     public static final RegistryObject<Block> WAXED_IRON_TRAPDOOR = reg("WAXED_IRON_TRAPDOOR".toLowerCase(Locale.ROOT), () ->
-            new WaxedRustableTrapdoorBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableTrapdoorBlock(Rustable.RustLevel.UNAFFECTED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_EXPOSED_IRON_TRAPDOOR = reg("WAXED_EXPOSED_IRON_TRAPDOOR".toLowerCase(Locale.ROOT), () ->
-            new WaxedRustableTrapdoorBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableTrapdoorBlock(Rustable.RustLevel.EXPOSED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_WEATHERED_IRON_TRAPDOOR = reg("WAXED_WEATHERED_IRON_TRAPDOOR".toLowerCase(Locale.ROOT), () ->
-            new WaxedRustableTrapdoorBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableTrapdoorBlock(Rustable.RustLevel.WEATHERED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_RUSTED_IRON_TRAPDOOR = reg("WAXED_RUSTED_IRON_TRAPDOOR".toLowerCase(Locale.ROOT), () ->
-            new WaxedRustableTrapdoorBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableTrapdoorBlock(Rustable.RustLevel.RUSTED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
 
     public static final RegistryObject<Block> WAXED_IRON_BARS = reg("WAXED_IRON_BARS".toLowerCase(Locale.ROOT), () ->
-            new WaxedBarsBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableBarsBlock(Rustable.RustLevel.UNAFFECTED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_EXPOSED_IRON_BARS = reg("WAXED_EXPOSED_IRON_BARS".toLowerCase(Locale.ROOT), () ->
-            new WaxedBarsBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableBarsBlock(Rustable.RustLevel.EXPOSED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_WEATHERED_IRON_BARS = reg("WAXED_WEATHERED_IRON_BARS".toLowerCase(Locale.ROOT), () ->
-            new WaxedBarsBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableBarsBlock(Rustable.RustLevel.WEATHERED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_RUSTED_IRON_BARS = reg("WAXED_RUSTED_IRON_BARS".toLowerCase(Locale.ROOT), () ->
-            new WaxedBarsBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
-*/
+            new RustableBarsBlock(Rustable.RustLevel.RUSTED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+
 
 
     //-----overrides------
@@ -359,6 +359,16 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> MOSSY_COBBLESTONE_WALL = regOverride(Blocks.MOSSY_COBBLESTONE_WALL, (p)->
             new MossyWallBlock(Mossable.MossLevel.MOSSY, p));
+
+
+    public static final RegistryObject<Block> IRON_DOOR = regOverride(Blocks.IRON_DOOR, (p) ->
+            new RustableDoorBlock(Rustable.RustLevel.EXPOSED, p.sound(SoundType.COPPER)));
+
+    public static final RegistryObject<Block> IRON_TRAPDOOR = regOverride(Blocks.IRON_TRAPDOOR, (p) ->
+            new RustableTrapdoorBlock(Rustable.RustLevel.EXPOSED, p.sound(SoundType.COPPER)));
+
+    public static final RegistryObject<Block> IRON_BARS = regOverride(Blocks.IRON_BARS, (p) ->
+            new RustableBarsBlock(Rustable.RustLevel.EXPOSED, p.sound(SoundType.COPPER)));
 
 
 

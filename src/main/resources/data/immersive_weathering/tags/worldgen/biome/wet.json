@@ -1,0 +1,33 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:swamp",
+    "minecraft:jungle",
+    "minecraft:sparse_jungle",
+
+    {
+      "id": "terralith:amethyst_rainforest",
+      "required": false
+    },
+    {
+      "id": "terralith:jungle_mountains",
+      "required": false
+    },
+    {
+      "id": "terralith:orchid_swamp",
+      "required": false
+    },
+    {
+      "id": "terralith:tropical_jungle",
+      "required": false
+    },
+    {
+      "id": "terralith:rocky_jungle",
+      "required": false
+    },
+    {
+      "id": "terralith:thermal_caves",
+      "required": false
+    }
+  ]
+}
