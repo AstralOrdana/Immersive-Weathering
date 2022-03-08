@@ -7,6 +7,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
@@ -54,6 +57,8 @@ abstract public class IceMixin extends Block {
         }
 
         if (world.dimensionType().ultraWarm()) {
+            world.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 0.3F, 2.9F + (random.nextFloat() - random.nextFloat()) * 0.6F);
+
             float i = pos.getX() + 0.5f;
             float j = pos.getY() + 0.5f;
             float k = pos.getZ() + 0.5f;

@@ -39,14 +39,20 @@ public interface SpreadingPatchBlock {
      * Should be called on block placement or to refresh the state
      */
     default boolean shouldStartWeathering(BlockState state, BlockPos pos, Level level) {
-        var directions = getInfluenceForDirections2(pos);
+        var directions = getInfluenceForDirections(pos, level);
         //list of weathering effects of surrounding blocks
         List<WeatheringAgent> weatheringAgents = new ArrayList<>();
+        boolean needsAir = this.needsAirToSpread(level, pos);
+        boolean hasAir = false;
         for (var e : directions.entrySet()) {
             BlockPos facingPos = pos.relative(e.getKey());
             BlockState facingState = level.getBlockState(facingPos);
+            if (!hasAir && needsAir) {
+                hasAir = !facingState.isRedstoneConductor(level, pos);
+            }
             weatheringAgents.add(this.getBlockWeatheringEffect(e.getValue(), facingState, level, facingPos));
         }
+        if (needsAir && !hasAir) return false;
         boolean oneSuccess = false;
         for (var w : weatheringAgents) {
             if (w == WeatheringAgent.PREVENT_WEATHERING) return false;
@@ -55,12 +61,12 @@ public interface SpreadingPatchBlock {
         return oneSuccess;
     }
 
-
-    default Map<Direction, Susceptibility> getInfluenceForDirections(BlockPos pos) {
+    @Deprecated
+    default Map<Direction, Susceptibility> getInfluenceForDirectionsOld(BlockPos pos, Level level) {
         Random posRandom = new Random(Mth.getSeed(pos));
         Map<Direction, Susceptibility> directions = new HashMap<>();
-        float directionChange = this.getInterestForDirection();
-        float highInterestChange = this.getDisjointGrowthChance();
+        float directionChange = this.getInterestForDirection(level, pos);
+        float highInterestChange = this.getDisjointGrowthChance(level, pos);
         for (Direction d : Direction.values()) {
             if (posRandom.nextFloat() < directionChange) {
                 Susceptibility in = posRandom.nextFloat() < highInterestChange ? Susceptibility.HIGH : Susceptibility.MEDIUM;
@@ -70,12 +76,12 @@ public interface SpreadingPatchBlock {
         return directions;
     }
 
-    default Map<Direction, Susceptibility> getInfluenceForDirections2(BlockPos pos) {
+    default Map<Direction, Susceptibility> getInfluenceForDirections(BlockPos pos, Level level) {
         Random posRandom = new Random(Mth.getSeed(pos));
         Map<Direction, Susceptibility> directions = new HashMap<>();
-        float directionChance = this.getInterestForDirection();
-        float highInterestChance = this.getDisjointGrowthChance();
-        int wantedDirs = (posRandom.nextFloat() < this.getUnWeatherableChance()) ? 0 :
+        float directionChance = this.getInterestForDirection(level, pos);
+        float highInterestChance = this.getDisjointGrowthChance(level, pos);
+        int wantedDirs = (posRandom.nextFloat() < this.getUnWeatherableChance(level, pos)) ? 0 :
                 getDirectionCount(posRandom, directionChance);
         List<Direction> dirs = new ArrayList<>(List.of(Direction.values()));
         Collections.shuffle(dirs, posRandom);
@@ -111,12 +117,12 @@ public interface SpreadingPatchBlock {
     /**
      * @return The change that a certain direction will influence this block
      */
-    float getInterestForDirection();
+    float getInterestForDirection(Level level, BlockPos pos);
 
     /**
      * @return The chance that this block will accept WEATHERING blocks instead of only fully weathered ones
      */
-    float getDisjointGrowthChance();
+    float getDisjointGrowthChance(Level level, BlockPos pos);
 
     /**
      * gets the weathering effect that this block has on the current block. Override for more control
@@ -160,6 +166,7 @@ public interface SpreadingPatchBlock {
      *
      * @return effect that this block has
      */
+    //TODO: this braeks for mossy crackable stuff
     default WeatheringAgent getLowInfluenceWeatheringEffect(BlockState state, Level level, BlockPos pos) {
         Block b = state.getBlock();
         return (b instanceof SpreadingPatchBlock wt &&
@@ -185,6 +192,15 @@ public interface SpreadingPatchBlock {
     /**
      * Chance that this block will outright not be able to weather through LOW and MEDIUM influence blocks
      */
-    float getUnWeatherableChance();
+    float getUnWeatherableChance(Level level, BlockPos pos);
+
+    /**
+     * @return true if this block can not age when surrounded by full blocks
+     */
+    default boolean needsAirToSpread(Level level, BlockPos pos) {
+        return false;
+    }
+
+    ;
 
 }

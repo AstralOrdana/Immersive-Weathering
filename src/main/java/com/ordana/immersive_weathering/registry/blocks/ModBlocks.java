@@ -356,6 +356,9 @@ public class ModBlocks {
 
     //not all are here since they need an extra states. overriding what I can avoiding mixins... Could probably have left these there bah
 
+
+//TODO: just replace with mixins
+    /*
     public static final RegistryObject<Block> MOSSY_STONE_BRICKS = regOverride(Blocks.MOSSY_STONE_BRICKS, (p)->
             new MossyBlock(Mossable.MossLevel.MOSSY, p));
 
@@ -390,7 +393,7 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> IRON_BARS = regOverride(Blocks.IRON_BARS, (p) ->
             new RustableBarsBlock(Rustable.RustLevel.EXPOSED, p.sound(SoundType.COPPER)));
-
+*/
 
 
     private static ToIntFunction<BlockState> createLightLevelFromLitBlockState(int litLevel) {

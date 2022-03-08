@@ -4,6 +4,7 @@ import com.ordana.immersive_weathering.registry.blocks.crackable.*;
 import com.ordana.immersive_weathering.registry.blocks.mossable.*;
 import com.ordana.immersive_weathering.registry.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.registry.blocks.rustable.RustableBarsBlock;
+import com.ordana.immersive_weathering.registry.blocks.rustable.RustableDoorBlock;
 import com.ordana.immersive_weathering.registry.blocks.rustable.RustableTrapdoorBlock;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.minecraft.world.item.Items;
@@ -34,7 +35,7 @@ public abstract class BlocksMixin {
             )
     )
     private static Block polishedBlackstoneBricks(BlockBehaviour.Properties settings) {
-        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, ()->ModItems.BLACKSTONE_BRICK.get(), settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.BLACKSTONE_BRICK.get(), settings);
     }
 
     @Redirect(method = "<clinit>",
@@ -51,7 +52,7 @@ public abstract class BlocksMixin {
             )
     )
     private static SlabBlock polishedBlackstoneBrickSlab(BlockBehaviour.Properties settings) {
-        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED,()->ModItems.BLACKSTONE_BRICK.get(), settings);
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.BLACKSTONE_BRICK.get(), settings);
     }
 
     @Shadow
@@ -73,7 +74,7 @@ public abstract class BlocksMixin {
             )
     )
     private static StairBlock polishedBlackstoneBricksStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> POLISHED_BLACKSTONE_BRICKS,()->ModItems.BLACKSTONE_BRICK.get(), settings);
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> POLISHED_BLACKSTONE_BRICKS, () -> ModItems.BLACKSTONE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -91,7 +92,7 @@ public abstract class BlocksMixin {
             )
     )
     private static WallBlock polishedBlackstoneBrickWall(BlockBehaviour.Properties settings) {
-        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED,()->ModItems.BLACKSTONE_BRICK.get(), settings);
+        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.BLACKSTONE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -111,7 +112,7 @@ public abstract class BlocksMixin {
                     )
     )
     private static Block crackedPolishedBlackstoneBricks(BlockBehaviour.Properties settings) {
-        return new CrackedBlock(Crackable.CrackLevel.CRACKED,()->ModItems.BLACKSTONE_BRICK.get(), settings);
+        return new CrackedBlock(Crackable.CrackLevel.CRACKED, () -> ModItems.BLACKSTONE_BRICK.get(), settings);
     }
 
 
@@ -130,7 +131,7 @@ public abstract class BlocksMixin {
             )
     )
     private static Block deepslateBricks(BlockBehaviour.Properties settings) {
-        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED,()->ModItems.DEEPSLATE_BRICK.get(), settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.DEEPSLATE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -148,7 +149,7 @@ public abstract class BlocksMixin {
             )
     )
     private static SlabBlock deepslateBrickSlab(BlockBehaviour.Properties settings) {
-        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED,()->ModItems.DEEPSLATE_BRICK.get(), settings);
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.DEEPSLATE_BRICK.get(), settings);
     }
 
     @Shadow
@@ -171,7 +172,7 @@ public abstract class BlocksMixin {
                     )
     )
     private static StairBlock deepslateBrickStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED,()-> DEEPSLATE_BRICKS,()->ModItems.DEEPSLATE_BRICK.get(), settings);
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> DEEPSLATE_BRICKS, () -> ModItems.DEEPSLATE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -189,7 +190,7 @@ public abstract class BlocksMixin {
             )
     )
     private static WallBlock deepslateBrickWall(BlockBehaviour.Properties settings) {
-        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED,()->ModItems.DEEPSLATE_BRICK.get(), settings);
+        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.DEEPSLATE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -207,7 +208,7 @@ public abstract class BlocksMixin {
             )
     )
     private static Block deepslateTiles(BlockBehaviour.Properties settings) {
-        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED,()->ModItems.DEEPSLATE_BRICK.get(), settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.DEEPSLATE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -225,7 +226,7 @@ public abstract class BlocksMixin {
             )
     )
     private static SlabBlock deepslateTileSlab(BlockBehaviour.Properties settings) {
-        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED,()->ModItems.DEEPSLATE_BRICK.get(), settings);
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.DEEPSLATE_BRICK.get(), settings);
     }
 
     @Shadow
@@ -247,7 +248,7 @@ public abstract class BlocksMixin {
             )
     )
     private static StairBlock deepslateTileStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, ()->DEEPSLATE_TILES,()->ModItems.DEEPSLATE_BRICK.get(), settings);
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> DEEPSLATE_TILES, () -> ModItems.DEEPSLATE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -265,7 +266,7 @@ public abstract class BlocksMixin {
             )
     )
     private static WallBlock deepslateTileWall(BlockBehaviour.Properties settings) {
-        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED,()->ModItems.DEEPSLATE_BRICK.get(), settings);
+        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.DEEPSLATE_BRICK.get(), settings);
     }
 
     @Redirect
@@ -284,7 +285,7 @@ public abstract class BlocksMixin {
                     )
             )
     private static Block netherBricks(BlockBehaviour.Properties settings) {
-        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, ()-> Items.BRICK,settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, () -> Items.BRICK, settings);
     }
 
     @Redirect(
@@ -302,7 +303,7 @@ public abstract class BlocksMixin {
             )
     )
     private static SlabBlock netherBrickSlab(BlockBehaviour.Properties settings) {
-        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED,()-> Items.BRICK, settings);
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED, () -> Items.BRICK, settings);
     }
 
     @Shadow
@@ -326,7 +327,7 @@ public abstract class BlocksMixin {
                     )
     )
     private static StairBlock netherBrickStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> NETHER_BRICKS, ()-> Items.BRICK, settings);
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> NETHER_BRICKS, () -> Items.BRICK, settings);
     }
 
     @Redirect(
@@ -344,7 +345,7 @@ public abstract class BlocksMixin {
             )
     )
     private static WallBlock netherBrickWall(BlockBehaviour.Properties settings) {
-        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, ()-> Items.BRICK,settings);
+        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, () -> Items.BRICK, settings);
     }
 
     @Redirect(
@@ -363,7 +364,7 @@ public abstract class BlocksMixin {
                     )
     )
     private static Block crackedNetherBricks(BlockBehaviour.Properties settings) {
-        return new CrackedBlock(Crackable.CrackLevel.CRACKED, ()-> Items.BRICK, settings);
+        return new CrackedBlock(Crackable.CrackLevel.CRACKED, () -> Items.BRICK, settings);
     }
 
 
@@ -422,7 +423,7 @@ public abstract class BlocksMixin {
             )
     )
     private static StairBlock brickStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, ()-> BRICKS, settings);
+        return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, () -> BRICKS, settings);
     }
 
     @Redirect(
@@ -499,7 +500,7 @@ public abstract class BlocksMixin {
             )
     )
     private static StairBlock stoneBricksStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, ()->STONE_BRICKS, settings);
+        return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, () -> STONE_BRICKS, settings);
     }
 
     @Redirect(
@@ -575,7 +576,7 @@ public abstract class BlocksMixin {
             )
     )
     private static StairBlock cobblestoneStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED,()-> COBBLESTONE, settings);
+        return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, () -> COBBLESTONE, settings);
     }
 
     @Redirect(
@@ -595,12 +596,166 @@ public abstract class BlocksMixin {
     private static WallBlock cobblestoneWall(BlockBehaviour.Properties settings) {
         return new MossableWallBlock(Mossable.MossLevel.UNAFFECTED, settings);
     }
-    /*
+
     @Redirect(
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/PaneBlock",
+                    target = "net/minecraft/world/level/block/Block",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=mossy_stone_bricks"
+                    )
+            )
+    )
+    private static Block mossyStoneBricks(BlockBehaviour.Properties settings) {
+        return new MossyBlock(Mossable.MossLevel.MOSSY, settings);
+    }
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/SlabBlock",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=mossy_stone_brick_slab"
+                    )
+            )
+    )
+    private static SlabBlock mossyStoneBrickSlab(BlockBehaviour.Properties settings) {
+        return new MossySlabBlock(Mossable.MossLevel.MOSSY, settings);
+    }
+
+    @Shadow
+    @Final
+    public static Block MOSSY_STONE_BRICKS;
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/StairBlock",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=mossy_stone_brick_stairs"
+                    )
+            )
+    )
+    private static StairBlock mossyStoneBrickStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
+        return new MossyStairsBlock(Mossable.MossLevel.MOSSY, () -> MOSSY_STONE_BRICKS, settings);
+    }
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/WallBlock",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=mossy_stone_brick_wall"
+                    )
+            )
+    )
+    private static WallBlock mossyStoneBrickWall(BlockBehaviour.Properties settings) {
+        return new MossyWallBlock(Mossable.MossLevel.MOSSY, settings);
+    }
+
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/Block",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=mossy_cobblestone"
+                    )
+            )
+    )
+    private static Block mossyCobblestone(BlockBehaviour.Properties settings) {
+        return new MossyBlock(Mossable.MossLevel.MOSSY, settings);
+    }
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/SlabBlock",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=mossy_cobblestone_slab"
+                    )
+            )
+    )
+    private static SlabBlock mossyCobblestoneSlab(BlockBehaviour.Properties settings) {
+        return new MossySlabBlock(Mossable.MossLevel.MOSSY, settings);
+    }
+
+    @Shadow
+    @Final
+    public static Block MOSSY_COBBLESTONE;
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/StairBlock",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=mossy_cobblestone_stairs"
+                    )
+            )
+    )
+    private static StairBlock mossyCobblestoneStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
+        return new MossyStairsBlock(Mossable.MossLevel.MOSSY, () -> MOSSY_COBBLESTONE, settings);
+    }
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/WallBlock",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=mossy_cobblestone_wall"
+                    )
+            )
+    )
+    private static WallBlock mossyCobblestoneWall(BlockBehaviour.Properties settings) {
+        return new MossyWallBlock(Mossable.MossLevel.MOSSY, settings);
+    }
+
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/IronBarsBlock",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -637,20 +792,19 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/TrapdoorBlock",
+                    target = "net/minecraft/world/level/block/TrapDoorBlock",
                     ordinal = 0
             ),
             slice = @Slice(
-                    from = @At
-                            (
-                                    value = "CONSTANT",
-                                    args = "stringValue=iron_trapdoor"
-                            )
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=iron_trapdoor"
+                    )
             )
     )
     private static TrapDoorBlock ironTrapdoor(BlockBehaviour.Properties settings) {
         return new RustableTrapdoorBlock(Rustable.RustLevel.UNAFFECTED, settings);
     }
-    */
+
 
 }

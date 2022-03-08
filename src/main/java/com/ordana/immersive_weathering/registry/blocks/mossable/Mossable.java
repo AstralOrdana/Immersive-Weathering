@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Supplier;
@@ -83,26 +84,38 @@ public interface Mossable extends ChangeOverTimeBlock<Mossable.MossLevel>, Sprea
     }
 
     @Override
-    default float getInterestForDirection() {
-        return 0.4f;
+    default float getInterestForDirection(Level level, BlockPos pos) {
+        return 0.95f;
     }
 
     @Override
-    default float getDisjointGrowthChance() {
+    default float getDisjointGrowthChance(Level level, BlockPos pos) {
         return 0.5f;
     }
 
     @Override
-    default float getUnWeatherableChance(){
-        return 0.2f;
+    default float getUnWeatherableChance(Level level, BlockPos pos) {
+        return 0.15f;
     }
 
     @Override
     default WeatheringAgent getWeatheringEffect(BlockState state, Level level, BlockPos pos) {
         var fluidState = state.getFluidState();
-        if (fluidState.is(FluidTags.LAVA)) return WeatheringAgent.PREVENT_WEATHERING;
-        if (fluidState.is(FluidTags.WATER) || state.is(ModTags.MOSS_SOURCE)) return WeatheringAgent.WEATHER;
+        if (fluidState.is(FluidTags.WATER) || state.is(ModTags.MOSSY)) return WeatheringAgent.WEATHER;
         return WeatheringAgent.NONE;
+    }
+
+    @Override
+    default WeatheringAgent getHighInfluenceWeatheringEffect(BlockState state, Level level, BlockPos pos) {
+        var fluid = state.getFluidState();
+        if (fluid.is(FluidTags.LAVA)) return WeatheringAgent.PREVENT_WEATHERING;
+        if (state.is(ModTags.MOSS_SOURCE) || fluid.is(FluidTags.WATER)) return WeatheringAgent.WEATHER;
+        return WeatheringAgent.NONE;
+    }
+
+    @Override
+    default boolean needsAirToSpread(Level level, BlockPos pos) {
+        return true;
     }
 
     //utility to grow stuff

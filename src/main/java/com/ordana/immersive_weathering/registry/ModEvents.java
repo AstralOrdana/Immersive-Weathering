@@ -3,9 +3,11 @@ package com.ordana.immersive_weathering.registry;
 
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.registry.blocks.Waxables;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import com.ordana.immersive_weathering.registry.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.registry.blocks.mossable.Mossable;
+import com.ordana.immersive_weathering.registry.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -29,8 +31,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import java.util.HashMap;
 
 @Mod.EventBusSubscriber(modid = ImmersiveWeathering.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
@@ -121,7 +121,9 @@ public class ModEvents {
                 event.setCanceled(true);
                 event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
             }
-        } else if (i instanceof AxeItem) {
+        }
+        //spawn bark
+        else if (i instanceof AxeItem) {
             var stripped = state.getToolModifiedState(level, pos, player, stack, ToolActions.AXE_STRIP);
             if (stripped != null) {
                 var bark = WeatheringHelper.getBarkForStrippedLog(stripped).orElse(null);
@@ -145,41 +147,60 @@ public class ModEvents {
 
         }
         //rust stuff
-        else if (i == Items.WET_SPONGE) {
-            //TODO: finish
-            /*
-            if (targetBlock.is(ModTags.RUSTABLE)) {
-                world.playSound(player, targetPos, SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundSource.BLOCKS, 1.0f, 1.0f);
-                if (player != null) {
-                    RUSTED_BLOCKS.forEach((clean, rusty) -> {
-                        if (targetBlock.is(clean)) {
-                            world.setBlockAndUpdate(targetPos, rusty.withPropertiesOf(targetBlock));
-                        }
-                    });
+        else if (i == Items.WET_SPONGE && state.getBlock() instanceof Rustable rustable) {
+            BlockState rusted = rustable.getNext(state).orElse(null);
+            if (rusted != null) {
+                level.playSound(player, pos, SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundSource.BLOCKS, 1.0f, 1.0f);
+
+                level.setBlockAndUpdate(pos, rusted);
+
+                if (player instanceof ServerPlayer) {
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                 }
-                return InteractionResult.SUCCESS;
-            }*/
+                event.setCanceled(true);
+                event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+            }
         }
         //mossify stuff
-        if (i == ModItems.MOSS_CLUMP.get()) {
-            /*
-            if (targetBlock.is(ModTags.MOSSABLE)) {
-                world.playSound(player, targetPos, SoundEvents.MOSS_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
+        else if (i == ModItems.MOSS_CLUMP.get() && state.getBlock() instanceof Mossable mossable) {
+            BlockState mossy = mossable.getNext(state).orElse(null);
+            if (mossy != null) {
+                level.playSound(player, pos, SoundEvents.MOSS_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
+
+                level.setBlockAndUpdate(pos, mossy);
+
                 if (player != null) {
-                    if (!player.isCreative()) heldItem.shrink(1);
-                    CLEANED_BLOCKS.forEach((mossy, clean) -> {
-                        if (targetBlock.is(clean)) {
-                            world.setBlockAndUpdate(targetPos, mossy.withPropertiesOf(targetBlock));
-                        }
-                    });
+                    if (!player.isCreative()) stack.shrink(1);
                 }
-                return InteractionResult.SUCCESS;
 
-
-            }*/
+                if (player instanceof ServerPlayer) {
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                }
+                event.setCanceled(true);
+                event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+            }
         }
+        //waxing
+        else if (i instanceof HoneycombItem) {
+            var waxed = Waxables.getWaxedState(state).orElse(null);
+            if (waxed != null) {
 
-        else {
+                level.levelEvent(player, 3003, pos, 0);
+
+                level.setBlockAndUpdate(pos, waxed);
+
+                if (player != null) {
+                    if (!player.isCreative()) stack.shrink(1);
+                }
+
+                if (player instanceof ServerPlayer) {
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                }
+                event.setCanceled(true);
+                event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+            }
+
+        } else {
             //Fix cracked stuff
             BlockState fixedBlock = Crackable.getDecreasedCrackState(state).orElse(null);
             if (fixedBlock != null && fixedBlock.getBlock() instanceof Crackable crackable &&
@@ -201,12 +222,12 @@ public class ModEvents {
 
                 event.setCanceled(true);
                 event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
-
+                return;
 
             }
             //fix logs
-            Pair<Item,Block> fixedLog = WeatheringHelper.getBarkForStrippedLog(state).orElse(null);
-            if(fixedLog != null){
+            Pair<Item, Block> fixedLog = WeatheringHelper.getBarkForStrippedLog(state).orElse(null);
+            if (fixedLog != null && stack.getItem() == fixedLog.getFirst()) {
                 BlockState fixedState = fixedLog.getSecond().withPropertiesOf(state);
 
                 level.playSound(player, pos, fixedState.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -221,8 +242,11 @@ public class ModEvents {
 
                 level.setBlockAndUpdate(pos, fixedState);
 
+                event.setCanceled(true);
+                event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+                return;
             }
-
+            //TODO: add honeycomb here
         }
     }
 }
