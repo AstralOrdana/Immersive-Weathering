@@ -121,6 +121,7 @@ public interface SpreadingPatchBlock {
 
     /**
      * @return The chance that this block will accept WEATHERING blocks instead of only fully weathered ones
+     * By default this causes the spreading to appear in different places that dont touch at once
      */
     float getDisjointGrowthChance(Level level, BlockPos pos);
 

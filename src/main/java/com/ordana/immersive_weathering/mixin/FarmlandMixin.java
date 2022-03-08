@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
+import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -14,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.List;
 import java.util.Random;
 
 @Mixin(FarmBlock.class)
@@ -28,12 +30,11 @@ public abstract class FarmlandMixin extends Block {
         if (world.getBlockState(targetPos).isAir()) {
             //checks if it doesn't have at least 9 weeds around
             if (!world.isAreaLoaded(pos, 3)) return;
-            var neighbors = BlockPos.spiralAround(pos, 3, Direction.SOUTH, Direction.EAST).iterator();
+            List<BlockPos> neighbors = WeatheringHelper.grabBlocksAroundRandomly(pos, 3,3,3);
             boolean hasFullyGrownWeedNearby = false;
             int weedsNearby = 0;
-            while (neighbors.hasNext()) {
+            for(BlockPos p : neighbors){
                 if (weedsNearby > 9) return;
-                BlockPos p = neighbors.next();
                 BlockState s = world.getBlockState(p);
                 if (s.is(ModBlocks.WEEDS.get())) {
                     weedsNearby = weedsNearby + 1;

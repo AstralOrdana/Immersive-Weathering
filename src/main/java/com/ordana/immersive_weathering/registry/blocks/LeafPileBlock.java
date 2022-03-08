@@ -20,8 +20,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -35,8 +35,10 @@ import java.util.Random;
 
 public class LeafPileBlock extends Block implements BonemealableBlock {
 
-    public static final IntegerProperty LAYERS = BlockStateProperties.LAYERS;
-    protected static final VoxelShape[] LAYERS_TO_SHAPE = new VoxelShape[]{Shapes.empty(), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
+    public static final IntegerProperty LAYERS = IntegerProperty.create("layers", 0, 8);
+    ;
+    protected static final VoxelShape[] LAYERS_TO_SHAPE = new VoxelShape[]{Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
     private static final float[] COLLISIONS = new float[]{0, 1.7f, 1.6f, 1.5f, 1.3f, 1.1f, 0.8f, 0.5f};
 
     private final boolean hasFlowers; //if it can be boneMealed
@@ -67,7 +69,7 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
 
         if (layers > 1) {
             if (entity instanceof LivingEntity && !(entity instanceof Fox || entity instanceof Bee)) {
-                float stuck = COLLISIONS[layers - 1];
+                float stuck = COLLISIONS[Math.max(0, layers - 1)];
                 entity.makeStuckInBlock(state, new Vec3(stuck, stuck, stuck));
 
                 if (layers >= 6 && this.hasThorns) {
@@ -83,7 +85,7 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
         }
 
         //particles
-        if (world.isClientSide && (!(entity instanceof LivingEntity) || entity.getFeetBlockState().is(this))) {
+        if (layers > 0 && world.isClientSide && (!(entity instanceof LivingEntity) || entity.getFeetBlockState().is(this))) {
 
             Random random = world.getRandom();
             boolean bl = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
@@ -100,28 +102,29 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
     public boolean isPathfindable(BlockState state, BlockGetter world, BlockPos pos, PathComputationType type) {
         return switch (type) {
             case LAND -> getLayers(state) < 5;
-            case WATER, AIR -> false;
+            case WATER -> getLayers(state) == 0;
+            case AIR -> false;
         };
     }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        return LAYERS_TO_SHAPE[state.getValue(LAYERS)];
+        return LAYERS_TO_SHAPE[getLayers(state)];
     }
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        return LAYERS_TO_SHAPE[state.getValue(LAYERS) - state.getValue(LAYERS)];
+        return Shapes.empty();
     }
 
     @Override
     public VoxelShape getBlockSupportShape(BlockState state, BlockGetter world, BlockPos pos) {
-        return LAYERS_TO_SHAPE[state.getValue(LAYERS)];
+        return LAYERS_TO_SHAPE[getLayers(state)];
     }
 
     @Override
     public VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        return LAYERS_TO_SHAPE[state.getValue(LAYERS)];
+        return LAYERS_TO_SHAPE[getLayers(state)];
     }
 
     @Override
@@ -131,10 +134,11 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-        BlockState blockState = world.getBlockState(pos.below());
-        if (!blockState.is(Blocks.BARRIER)) {
-            if (!blockState.is(Blocks.HONEY_BLOCK) && !blockState.is(Blocks.SOUL_SAND)) {
-                return Block.isFaceFull(blockState.getCollisionShape(world, pos.below()), Direction.UP) || blockState.is(this) && (Integer) blockState.getValue(LAYERS) == 8;
+        BlockState below = world.getBlockState(pos.below());
+        if (!below.is(Blocks.BARRIER)) {
+            if (!below.is(Blocks.HONEY_BLOCK) && !below.is(Blocks.SOUL_SAND) &&
+                    !(below.getFluidState().is(Fluids.WATER) && state.getValue(LAYERS) == 0)) {
+                return below.isFaceSturdy(world, pos.below(), Direction.UP) || below.is(this) && below.getValue(LAYERS) == 8;
             } else {
                 return true;
             }
@@ -151,7 +155,8 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
     @Override
     public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
         int i = state.getValue(LAYERS);
-        if (context.getItemInHand().is(this.asItem()) && i < 8) {
+        if (context.getItemInHand().is(this.asItem()) && i < 8 && i > 0) {
+
             if (context.replacingClickedOnBlock()) {
                 return context.getClickedFace() == Direction.UP;
             } else {
@@ -169,6 +174,12 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
             int i = blockState.getValue(LAYERS);
             return blockState.setValue(LAYERS, Math.min(8, i + 1));
         } else {
+            if (blockState.getFluidState().is(Fluids.WATER)) return null;
+            BlockState below = ctx.getLevel().getBlockState(ctx.getClickedPos().below());
+            if (below.getFluidState().is(Fluids.WATER)) {
+                if (!blockState.isAir()) return null;
+                return this.defaultBlockState().setValue(LAYERS, 0);
+            }
             return super.getStateForPlacement(ctx);
         }
     }

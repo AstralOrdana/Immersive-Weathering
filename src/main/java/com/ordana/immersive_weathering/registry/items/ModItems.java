@@ -26,18 +26,24 @@ public class ModItems {
         return ITEMS.register(blockSup.getId().getPath(), () -> new BlockItem(blockSup.get(), properties));
     }
 
+    private static RegistryObject<BlockItem> regLeafPile(RegistryObject<Block> blockSup, Item.Properties properties) {
+        return ITEMS.register(blockSup.getId().getPath(), () -> new LeafPileBlockItem(blockSup.get(), properties));
+    }
+
 
     public static final RegistryObject<BlockItem> ICICLE = regBlockItem(ModBlocks.ICICLE, new Item.Properties().food(ModFoods.ICICLE).tab(CreativeModeTab.TAB_DECORATIONS));
 
-    public static final RegistryObject<BlockItem> OAK_LEAF_PILE = regBlockItem(ModBlocks.OAK_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
-    public static final RegistryObject<BlockItem> SPRUCE_LEAF_PILE = regBlockItem(ModBlocks.SPRUCE_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
-    public static final RegistryObject<BlockItem> BIRCH_LEAF_PILE = regBlockItem(ModBlocks.BIRCH_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
-    public static final RegistryObject<BlockItem> JUNGLE_LEAF_PILE = regBlockItem(ModBlocks.JUNGLE_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
-    public static final RegistryObject<BlockItem> ACACIA_LEAF_PILE = regBlockItem(ModBlocks.ACACIA_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
-    public static final RegistryObject<BlockItem> DARK_OAK_LEAF_PILE = regBlockItem(ModBlocks.DARK_OAK_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
-    public static final RegistryObject<BlockItem> AZALEA_LEAF_PILE = regBlockItem(ModBlocks.AZALEA_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
-    public static final RegistryObject<BlockItem> FLOWERING_AZALEA_LEAF_PILE = regBlockItem(ModBlocks.FLOWERING_AZALEA_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
-    public static final RegistryObject<BlockItem> AZALEA_FLOWER_PILE = regBlockItem(ModBlocks.AZALEA_FLOWER_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
+    public static final RegistryObject<BlockItem> OAK_LEAF_PILE = regLeafPile(ModBlocks.OAK_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
+
+
+    public static final RegistryObject<BlockItem> SPRUCE_LEAF_PILE = regLeafPile(ModBlocks.SPRUCE_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
+    public static final RegistryObject<BlockItem> BIRCH_LEAF_PILE = regLeafPile(ModBlocks.BIRCH_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
+    public static final RegistryObject<BlockItem> JUNGLE_LEAF_PILE = regLeafPile(ModBlocks.JUNGLE_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
+    public static final RegistryObject<BlockItem> ACACIA_LEAF_PILE = regLeafPile(ModBlocks.ACACIA_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
+    public static final RegistryObject<BlockItem> DARK_OAK_LEAF_PILE = regLeafPile(ModBlocks.DARK_OAK_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
+    public static final RegistryObject<BlockItem> AZALEA_LEAF_PILE = regLeafPile(ModBlocks.AZALEA_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
+    public static final RegistryObject<BlockItem> FLOWERING_AZALEA_LEAF_PILE = regLeafPile(ModBlocks.FLOWERING_AZALEA_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
+    public static final RegistryObject<BlockItem> AZALEA_FLOWER_PILE = regLeafPile(ModBlocks.AZALEA_FLOWER_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
 
     public static final RegistryObject<BlockItem> WEEDS = regBlockItem(ModBlocks.WEEDS, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
     public static final RegistryObject<BlockItem> SOOT = regBlockItem(ModBlocks.SOOT, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));

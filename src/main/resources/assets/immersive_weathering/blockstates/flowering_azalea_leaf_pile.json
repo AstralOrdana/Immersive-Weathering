@@ -1,5 +1,8 @@
 {
   "variants": {
+    "layers=0": {
+      "model": "immersive_weathering:block/flowering_azalea_leaf_pile_height1"
+    },
     "layers=1": {
       "model": "immersive_weathering:block/flowering_azalea_leaf_pile_height2"
     },

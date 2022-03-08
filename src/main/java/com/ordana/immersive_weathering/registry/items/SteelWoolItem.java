@@ -32,7 +32,7 @@ public class SteelWoolItem extends Item {
 
         //TODO: add unwaxing
         var previous = Rustable.getDecreasedRustState(state).orElse(null);
-        if (previous != null) {
+        if (previous != null && state.getBlock() instanceof Rustable r && r.getAge()!= Rustable.RustLevel.RUSTED) {
             level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
 
             level.blockEvent(pos, previous.getBlock(), 1, 0);

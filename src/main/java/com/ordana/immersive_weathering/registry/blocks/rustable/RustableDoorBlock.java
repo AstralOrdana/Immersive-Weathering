@@ -30,59 +30,14 @@ public class RustableDoorBlock extends DoorBlock implements Rustable {
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
         DoubleBlockHalf doubleBlockHalf = state.getValue(HALF);
-        if (direction == Direction.UP && doubleBlockHalf == DoubleBlockHalf.LOWER) {
+        if ((direction == Direction.UP && doubleBlockHalf == DoubleBlockHalf.LOWER) ||
+                (direction == Direction.DOWN && doubleBlockHalf == DoubleBlockHalf.UPPER) ) {
             if (neighborState.is(Blocks.IRON_DOOR)) {
                 return Blocks.IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
-            /*
-            if (neighborState.is(ModBlocks.EXPOSED_IRON_DOOR)) {
-                return ModBlocks.EXPOSED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
+            if(neighborState.getBlock() == this){
+                return neighborState.getBlock().withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
             }
-            if (neighborState.is(ModBlocks.WEATHERED_IRON_DOOR)) {
-                return ModBlocks.WEATHERED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.RUSTED_IRON_DOOR)) {
-                return ModBlocks.RUSTED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WAXED_IRON_DOOR)) {
-                return ModBlocks.WAXED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WAXED_EXPOSED_IRON_DOOR)) {
-                return ModBlocks.WAXED_EXPOSED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WAXED_WEATHERED_IRON_DOOR)) {
-                return ModBlocks.WAXED_WEATHERED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WAXED_RUSTED_IRON_DOOR)) {
-                return ModBlocks.WAXED_RUSTED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }*/
-        }
-        if (direction == Direction.DOWN && doubleBlockHalf == DoubleBlockHalf.UPPER) {
-            if (neighborState.is(Blocks.IRON_DOOR)) {
-                return Blocks.IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            /*
-            if (neighborState.is(ModBlocks.EXPOSED_IRON_DOOR)) {
-                return ModBlocks.EXPOSED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WEATHERED_IRON_DOOR)) {
-                return ModBlocks.WEATHERED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.RUSTED_IRON_DOOR)) {
-                return ModBlocks.RUSTED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WAXED_IRON_DOOR)) {
-                return ModBlocks.WAXED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WAXED_EXPOSED_IRON_DOOR)) {
-                return ModBlocks.WAXED_EXPOSED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WAXED_WEATHERED_IRON_DOOR)) {
-                return ModBlocks.WAXED_WEATHERED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if (neighborState.is(ModBlocks.WAXED_RUSTED_IRON_DOOR)) {
-                return ModBlocks.WAXED_RUSTED_IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }*/
         }
         if (direction.getAxis() == Direction.Axis.Y && doubleBlockHalf == DoubleBlockHalf.LOWER == (direction == Direction.UP)) {
             return neighborState.is(this) && neighborState.getValue(HALF) != doubleBlockHalf ? state.setValue(FACING, neighborState.getValue(FACING)).setValue(OPEN, neighborState.getValue(OPEN)).setValue(HINGE, neighborState.getValue(HINGE)).setValue(POWERED, neighborState.getValue(POWERED)) : Blocks.AIR.defaultBlockState();
