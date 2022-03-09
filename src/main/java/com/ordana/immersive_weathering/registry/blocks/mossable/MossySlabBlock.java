@@ -1,29 +1,27 @@
 package com.ordana.immersive_weathering.registry.blocks.mossable;
 
-import com.ordana.immersive_weathering.registry.ModTags;
 import java.util.*;
 
-import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class MossySlabBlock extends SlabBlock implements Mossable,BonemealableBlock {
-    private final Mossable.MossLevel mossLevel;
+public class MossySlabBlock extends SlabBlock implements Mossable, BonemealableBlock {
 
-    private static final HashMap<Block, Block> CLEANED_BLOCKS = new HashMap<>();
-
-    public MossySlabBlock(Mossable.MossLevel mossLevel, BlockBehaviour.Properties settings) {
+    private final MossLevel mossLevel;
+    public MossySlabBlock(MossLevel mossLevel, BlockBehaviour.Properties settings) {
         super(settings);
         this.mossLevel = mossLevel;
+    }
+
+    @Override
+    public MossSpreader getMossSpreader() {
+        return MossSpreader.INSTANCE;
     }
 
     @Override
@@ -38,7 +36,7 @@ public class MossySlabBlock extends SlabBlock implements Mossable,BonemealableBl
 
     @Override
     public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state) {
-        Mossable.growNeighbors(world, random, pos);
+        MossSpreader.growNeighbors(world, random, pos);
     }
 
     @Override
@@ -52,7 +50,7 @@ public class MossySlabBlock extends SlabBlock implements Mossable,BonemealableBl
     }
 
     @Override
-    public MossLevel getAge() {
+    public MossLevel getMossLevel() {
         return mossLevel;
     }
 }

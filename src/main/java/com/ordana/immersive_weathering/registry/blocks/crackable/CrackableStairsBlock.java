@@ -40,7 +40,7 @@ public class CrackableStairsBlock extends CrackedStairsBlock {
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos neighbor, boolean isMoving) {
         super.onNeighborChange(state, level, pos, neighbor);
         if (level instanceof ServerLevel serverLevel) {
-            boolean weathering = this.shouldStartWeathering(state, pos, serverLevel);
+            boolean weathering = this.shouldWeather(state, pos, serverLevel);
             if (state.getValue(WEATHERABLE) != weathering) {
                 //update weathering state
                 serverLevel.setBlockAndUpdate(pos, state.setValue(WEATHERABLE, weathering));
@@ -52,7 +52,7 @@ public class CrackableStairsBlock extends CrackedStairsBlock {
     public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
         BlockState state = super.getStateForPlacement(placeContext);
         if (state != null) {
-            boolean weathering = this.shouldStartWeathering(state, placeContext.getClickedPos(), placeContext.getLevel());
+            boolean weathering = this.shouldWeather(state, placeContext.getClickedPos(), placeContext.getLevel());
             state.setValue(WEATHERABLE, weathering);
         }
         return state;
@@ -65,8 +65,9 @@ public class CrackableStairsBlock extends CrackedStairsBlock {
     public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
         float weatherChance = 0.1f;
         if (random.nextFloat() < weatherChance) {
-            var opt = this.getNext(state);
-            opt.ifPresent(b -> serverLevel.setBlockAndUpdate(pos, b));
+            var opt = this.getNextCracked(state);
+            BlockState newState = opt.orElse(state.setValue(WEATHERABLE,false));
+            serverLevel.setBlockAndUpdate(pos, newState);
         }
     }
 }

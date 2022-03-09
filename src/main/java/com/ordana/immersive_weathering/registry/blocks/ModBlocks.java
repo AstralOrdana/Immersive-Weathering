@@ -337,6 +337,8 @@ public class ModBlocks {
     public static final RegistryObject<Block> WAXED_RUSTED_IRON_BARS = reg("WAXED_RUSTED_IRON_BARS".toLowerCase(Locale.ROOT), () ->
             new RustableBarsBlock(Rustable.RustLevel.RUSTED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
 
+    public static final RegistryObject<Block> HANGING_ROOTS_WALL = reg("hanging_roots_wall", () ->
+            new WallRootsBlock(BlockBehaviour.Properties.copy(Blocks.HANGING_ROOTS)));
 
 
     //-----overrides------

@@ -4,6 +4,7 @@ import com.ordana.immersive_weathering.registry.*;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.blocks.Waxables;
 import com.ordana.immersive_weathering.registry.items.ModItems;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -29,6 +30,7 @@ public class ImmersiveWeathering {
         ModBlocks.BLOCKS.register(bus);
         ModBlocks.BLOCKS_OVERRIDE.register(bus);
         ModItems.ITEMS.register(bus);
+        ModItems.ITEMS_OVERRIDE.register(bus);
         ModParticles.PARTICLES.register(bus);
         ModFeatures.FEATURES.register(bus);
         MinecraftForge.EVENT_BUS.register(ModFeatures.class);
@@ -46,7 +48,7 @@ public class ImmersiveWeathering {
         //ModEvents.registerEvents();
 
         /*
-        FabricLoader.getInstance().getModContainer(ImmersiveWeathering.MOD_ID).ifPresent(modContainer -> {
+        FabricLoader.getMossSpreader().getModContainer(ImmersiveWeathering.MOD_ID).ifPresent(modContainer -> {
             ResourceManagerHelper.registerBuiltinResourcePack(new ResourceLocation("immersive_weathering:better_brick_items"), modContainer, ResourcePackActivationType.NORMAL);
             ResourceManagerHelper.registerBuiltinResourcePack(new ResourceLocation("immersive_weathering:better_brick_blocks"), modContainer, ResourcePackActivationType.NORMAL);
             ResourceManagerHelper.registerBuiltinResourcePack(new ResourceLocation("immersive_weathering:visual_waxed_iron_items"), modContainer, ResourcePackActivationType.NORMAL);

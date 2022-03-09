@@ -8,13 +8,18 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.function.Supplier;
 
 public class CrackedSlabBlock extends SlabBlock implements Crackable {
-    private final Crackable.CrackLevel crackLevel;
+    private final CrackLevel crackLevel;
     private final Supplier<Item> brickItem;
 
-    public CrackedSlabBlock(Crackable.CrackLevel crackLevel, Supplier<Item> brickItem, BlockBehaviour.Properties settings) {
+    public CrackedSlabBlock(CrackLevel crackLevel, Supplier<Item> brickItem, BlockBehaviour.Properties settings) {
         super(settings);
         this.crackLevel = crackLevel;
         this.brickItem = brickItem;
+    }
+
+    @Override
+    public CrackSpreader getCrackSpreader() {
+        return CrackSpreader.INSTANCE;
     }
 
     @Override
@@ -28,7 +33,7 @@ public class CrackedSlabBlock extends SlabBlock implements Crackable {
     }
 
     @Override
-    public CrackLevel getAge() {
+    public CrackLevel getCrackLevel() {
         return crackLevel;
     }
 

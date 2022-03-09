@@ -42,6 +42,7 @@ public class ModEvents {
         BlockPos pos = event.getPos();
         Level level = event.getWorld();
         BlockState state = level.getBlockState(pos);
+        Block b = state.getBlock();
         Player player = event.getPlayer();
 
         //shear azalea
@@ -50,8 +51,7 @@ public class ModEvents {
             if (newState != null) {
                 Block.popResourceFromFace(level, pos, event.getFace(), new ItemStack(ModItems.AZALEA_FLOWERS.get()));
                 level.playSound(player, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
-            }
-            if (newState != null) {
+            } else {
                 BlockState s = Mossable.getUnaffectedMossState(state);
                 if (s != state) {
                     newState = s;
@@ -99,16 +99,15 @@ public class ModEvents {
             }
         }
         //break crackable stuff
-        else if (i instanceof PickaxeItem) {
+        else if (i instanceof PickaxeItem && b instanceof Crackable crackable) {
 
-            Block newBlock = Crackable.getIncreasedCrackBlock(state.getBlock()).orElse(null);
-            if (newBlock != null && state.getBlock() instanceof Crackable crackable) {
+            BlockState newBlock = crackable.getNextCracked(state).orElse(null);
+            if (newBlock != null) {
                 Block.popResourceFromFace(level, pos, event.getFace(), crackable.getRepairItem(state).getDefaultInstance());
 
-                BlockState newState = newBlock.withPropertiesOf(state);
-                level.playSound(player, pos, newState.getSoundType().getHitSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
+                level.playSound(player, pos, newBlock.getSoundType().getHitSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
 
-                level.setBlockAndUpdate(pos, newState);
+                level.setBlockAndUpdate(pos, newBlock);
 
                 if (player != null) {
                     stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(event.getHand()));
@@ -140,14 +139,14 @@ public class ModEvents {
                     if (player instanceof ServerPlayer) {
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                     }
-                    //not cancelling so the block can get
+                    //not cancelling so the block can getMossSpreader
                     event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
                 }
             }
 
         }
         //rust stuff
-        else if (i == Items.WET_SPONGE && state.getBlock() instanceof Rustable rustable) {
+        else if (i == Items.WET_SPONGE && b instanceof Rustable rustable) {
             BlockState rusted = rustable.getNext(state).orElse(null);
             if (rusted != null) {
                 level.playSound(player, pos, SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -162,8 +161,8 @@ public class ModEvents {
             }
         }
         //mossify stuff
-        else if (i == ModItems.MOSS_CLUMP.get() && state.getBlock() instanceof Mossable mossable) {
-            BlockState mossy = mossable.getNext(state).orElse(null);
+        else if (i == ModItems.MOSS_CLUMP.get() && b instanceof Mossable mossable) {
+            BlockState mossy = mossable.getNextMossy(state).orElse(null);
             if (mossy != null) {
                 level.playSound(player, pos, SoundEvents.MOSS_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
 
@@ -200,12 +199,10 @@ public class ModEvents {
                 event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
             }
 
-        } else {
+        } else if (b instanceof Crackable crackable && crackable.getRepairItem(state) == i) {
             //Fix cracked stuff
-            BlockState fixedBlock = Crackable.getDecreasedCrackState(state).orElse(null);
-            if (fixedBlock != null && fixedBlock.getBlock() instanceof Crackable crackable &&
-                    crackable.getRepairItem(state) == i) {
-
+            BlockState fixedBlock = crackable.getPreviousCracked(state).orElse(null);
+            if (fixedBlock != null) {
 
                 SoundEvent placeSound = fixedBlock.getSoundType().getPlaceSound();
                 level.playSound(player, pos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -222,9 +219,8 @@ public class ModEvents {
 
                 event.setCanceled(true);
                 event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
-                return;
-
             }
+        } else {
             //fix logs
             Pair<Item, Block> fixedLog = WeatheringHelper.getBarkForStrippedLog(state).orElse(null);
             if (fixedLog != null && stack.getItem() == fixedLog.getFirst()) {
@@ -244,9 +240,7 @@ public class ModEvents {
 
                 event.setCanceled(true);
                 event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
-                return;
             }
-            //TODO: add honeycomb here
         }
     }
 }

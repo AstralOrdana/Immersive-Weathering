@@ -6,7 +6,6 @@
   "mixins": [
     "BlocksMixin",
     "CampfireMixin",
-    "WebMixin",
     "ComposterMixin",
     "CoralBlockMixin",
     "CropBlockMixin",
@@ -22,7 +21,8 @@
     "SnowyBlockMixin",
     "SpreadableBlockMixin",
     "TallGrassMixin",
-    "WaterMixin"
+    "WaterMixin",
+    "WebMixin"
   ],
   "client": [
   ],

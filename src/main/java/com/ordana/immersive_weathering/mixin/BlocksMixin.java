@@ -383,7 +383,7 @@ public abstract class BlocksMixin {
             )
     )
     private static Block bricks(BlockBehaviour.Properties settings) {
-        return new MossableBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new CrackableMossableBlock(Mossable.MossLevel.UNAFFECTED, Crackable.CrackLevel.UNCRACKED, () -> Items.BRICK, settings);
     }
 
     @Redirect(
@@ -401,7 +401,7 @@ public abstract class BlocksMixin {
             )
     )
     private static SlabBlock brickSlab(BlockBehaviour.Properties settings) {
-        return new MossableSlabBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new CrackableMossableSlabBlock(Mossable.MossLevel.UNAFFECTED, Crackable.CrackLevel.UNCRACKED, () -> Items.BRICK, settings);
     }
 
     @Shadow
@@ -423,7 +423,7 @@ public abstract class BlocksMixin {
             )
     )
     private static StairBlock brickStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, () -> BRICKS, settings);
+        return new CrackableMossableStairsBlock(Mossable.MossLevel.UNAFFECTED, Crackable.CrackLevel.UNCRACKED, () -> Items.BRICK, () -> BRICKS, settings);
     }
 
     @Redirect(
@@ -441,7 +441,7 @@ public abstract class BlocksMixin {
             )
     )
     private static WallBlock brickWall(BlockBehaviour.Properties settings) {
-        return new MossableWallBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new CrackableMossableWallBlock(Mossable.MossLevel.UNAFFECTED, Crackable.CrackLevel.UNCRACKED, () -> Items.BRICK, settings);
     }
 
 
@@ -460,7 +460,7 @@ public abstract class BlocksMixin {
             )
     )
     private static Block stoneBricks(BlockBehaviour.Properties settings) {
-        return new MossableBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new CrackableMossableBlock(Mossable.MossLevel.UNAFFECTED, Crackable.CrackLevel.UNCRACKED, () -> ModItems.STONE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -478,7 +478,7 @@ public abstract class BlocksMixin {
             )
     )
     private static SlabBlock stoneBrickSlab(BlockBehaviour.Properties settings) {
-        return new MossableSlabBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new CrackableMossableSlabBlock(Mossable.MossLevel.UNAFFECTED, Crackable.CrackLevel.UNCRACKED, () -> ModItems.STONE_BRICK.get(), settings);
     }
 
     @Shadow
@@ -500,7 +500,7 @@ public abstract class BlocksMixin {
             )
     )
     private static StairBlock stoneBricksStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, () -> STONE_BRICKS, settings);
+        return new CrackableMossableStairsBlock(Mossable.MossLevel.UNAFFECTED, Crackable.CrackLevel.UNCRACKED, () -> ModItems.STONE_BRICK.get(), () -> STONE_BRICKS, settings);
     }
 
     @Redirect(
@@ -518,7 +518,7 @@ public abstract class BlocksMixin {
             )
     )
     private static WallBlock stoneBrickWall(BlockBehaviour.Properties settings) {
-        return new MossableWallBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new CrackableMossableWallBlock(Mossable.MossLevel.UNAFFECTED, Crackable.CrackLevel.UNCRACKED, () -> ModItems.STONE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -805,6 +805,4 @@ public abstract class BlocksMixin {
     private static TrapDoorBlock ironTrapdoor(BlockBehaviour.Properties settings) {
         return new RustableTrapdoorBlock(Rustable.RustLevel.UNAFFECTED, settings);
     }
-
-
 }

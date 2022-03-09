@@ -9,13 +9,18 @@ import java.util.function.Supplier;
 
 public class CrackedWallBlock extends WallBlock implements Crackable {
 
-    private final Crackable.CrackLevel crackLevel;
+    private final CrackLevel crackLevel;
     private final Supplier<Item> brickItem;
 
-    public CrackedWallBlock(Crackable.CrackLevel crackLevel, Supplier<Item> brickItem, BlockBehaviour.Properties settings) {
+    public CrackedWallBlock(CrackLevel crackLevel, Supplier<Item> brickItem, BlockBehaviour.Properties settings) {
         super(settings);
         this.crackLevel = crackLevel;
         this.brickItem = brickItem;
+    }
+
+    @Override
+    public CrackSpreader getCrackSpreader() {
+        return CrackSpreader.INSTANCE;
     }
 
     @Override
@@ -29,7 +34,7 @@ public class CrackedWallBlock extends WallBlock implements Crackable {
     }
 
     @Override
-    public CrackLevel getAge() {
+    public CrackLevel getCrackLevel() {
         return crackLevel;
     }
 

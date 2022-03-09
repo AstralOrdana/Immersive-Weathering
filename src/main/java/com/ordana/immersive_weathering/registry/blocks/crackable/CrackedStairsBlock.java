@@ -8,16 +8,22 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CrackedStairsBlock extends ModStairBlock implements Crackable   {
+public class CrackedStairsBlock extends ModStairBlock implements Crackable {
 
-    private final Crackable.CrackLevel crackLevel;
+    private final CrackLevel crackLevel;
     private final Supplier<Item> brickItem;
 
-    public CrackedStairsBlock(Crackable.CrackLevel crackLevel, Supplier<Block> baseBlock, Supplier<Item> brickItem, BlockBehaviour.Properties settings) {
+    public CrackedStairsBlock(CrackLevel crackLevel, Supplier<Block> baseBlock, Supplier<Item> brickItem, BlockBehaviour.Properties settings) {
         super(baseBlock, settings);
         this.crackLevel = crackLevel;
         this.brickItem = brickItem;
     }
+
+    @Override
+    public CrackSpreader getCrackSpreader() {
+        return CrackSpreader.INSTANCE;
+    }
+
 
     @Override
     public boolean isRandomlyTicking(BlockState state) {
@@ -30,7 +36,7 @@ public class CrackedStairsBlock extends ModStairBlock implements Crackable   {
     }
 
     @Override
-    public CrackLevel getAge() {
+    public CrackLevel getCrackLevel() {
         return crackLevel;
     }
 

@@ -3,25 +3,19 @@ package com.ordana.immersive_weathering.registry.blocks.mossable;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
-import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
-import com.ordana.immersive_weathering.registry.blocks.SpreadingPatchBlock;
+import com.ordana.immersive_weathering.registry.blocks.Weatherable;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 import java.util.function.Supplier;
 
-public interface Mossable extends ChangeOverTimeBlock<Mossable.MossLevel>, SpreadingPatchBlock {
+public interface Mossable extends Weatherable {
+
     Supplier<BiMap<Block, Block>> MOSS_LEVEL_INCREASES = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
             .put(Blocks.STONE, ModBlocks.MOSSY_STONE.get())
             .put(Blocks.STONE_STAIRS, ModBlocks.MOSSY_STONE_STAIRS.get())
@@ -42,11 +36,7 @@ public interface Mossable extends ChangeOverTimeBlock<Mossable.MossLevel>, Sprea
 
     Supplier<BiMap<Block, Block>> MOSS_LEVEL_DECREASES = Suppliers.memoize(() -> MOSS_LEVEL_INCREASES.get().inverse());
 
-    static Optional<Block> getDecreasedMossBlock(Block block) {
-        return Optional.ofNullable(MOSS_LEVEL_DECREASES.get().get(block));
-    }
-
-    static Block getUnaffectedMossBlock(Block block) {
+    private static Block getUnaffectedMossBlock(Block block) {
         Block block2 = block;
         Block block3 = MOSS_LEVEL_DECREASES.get().get(block2);
         while (block3 != null) {
@@ -56,79 +46,43 @@ public interface Mossable extends ChangeOverTimeBlock<Mossable.MossLevel>, Sprea
         return block2;
     }
 
-    static Optional<BlockState> getDecreasedMossState(BlockState state) {
-        return Mossable.getDecreasedMossBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
+    private static Optional<Block> getDecreasedMossBlock(Block block) {
+        return Optional.ofNullable(MOSS_LEVEL_DECREASES.get().get(block));
     }
 
-    static Optional<Block> getIncreasedMossBlock(Block block) {
+    private static Optional<BlockState> getDecreasedMossState(BlockState state) {
+        return getDecreasedMossBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
+    }
+
+    private static Optional<Block> getIncreasedMossBlock(Block block) {
         return Optional.ofNullable(MOSS_LEVEL_INCREASES.get().get(block));
     }
 
-    static BlockState getUnaffectedMossState(BlockState state) {
-        return Mossable.getUnaffectedMossBlock(state.getBlock()).withPropertiesOf(state);
+    public static BlockState getUnaffectedMossState(BlockState state) {
+        return getUnaffectedMossBlock(state.getBlock()).withPropertiesOf(state);
     }
 
-    @Override
-    default Optional<BlockState> getNext(BlockState state) {
-        return Mossable.getIncreasedMossBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
+    default Optional<BlockState> getNextMossy(BlockState state) {
+        return getIncreasedMossBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
-    default float getChanceModifier() {
-        return 1.0f;
+    default Optional<BlockState> getPreviousMossy(BlockState state) {
+        return getDecreasedMossState(state);
     }
+
+
+    MossSpreader getMossSpreader();
+
+    default boolean shouldWeather(BlockState state, BlockPos pos, Level level) {
+        return this.getMossSpreader().canEventuallyWeather(state, pos, level);
+    }
+
+    MossLevel getMossLevel();
+
+    boolean isWeathering(BlockState state);
 
     enum MossLevel {
         UNAFFECTED,
         MOSSY;
-
-    }
-
-    @Override
-    default float getInterestForDirection(Level level, BlockPos pos) {
-        return 0.95f;
-    }
-
-    @Override
-    default float getDisjointGrowthChance(Level level, BlockPos pos) {
-        return 0.5f;
-    }
-
-    @Override
-    default float getUnWeatherableChance(Level level, BlockPos pos) {
-        return 0.15f;
-    }
-
-    @Override
-    default WeatheringAgent getWeatheringEffect(BlockState state, Level level, BlockPos pos) {
-        var fluidState = state.getFluidState();
-        if (fluidState.is(FluidTags.WATER) || state.is(ModTags.MOSSY)) return WeatheringAgent.WEATHER;
-        return WeatheringAgent.NONE;
-    }
-
-    @Override
-    default WeatheringAgent getHighInfluenceWeatheringEffect(BlockState state, Level level, BlockPos pos) {
-        var fluid = state.getFluidState();
-        if (fluid.is(FluidTags.LAVA)) return WeatheringAgent.PREVENT_WEATHERING;
-        if (state.is(ModTags.MOSS_SOURCE) || fluid.is(FluidTags.WATER)) return WeatheringAgent.WEATHER;
-        return WeatheringAgent.NONE;
-    }
-
-    @Override
-    default boolean needsAirToSpread(Level level, BlockPos pos) {
-        return true;
-    }
-
-    //utility to grow stuff
-    static void growNeighbors(ServerLevel world, Random random, BlockPos pos) {
-        for (var direction : Direction.values()) {
-            if (random.nextFloat() > 0.5f) {
-                var targetPos = pos.relative(direction);
-                BlockState targetBlock = world.getBlockState(targetPos);
-                if (targetBlock.getBlock() instanceof Mossable mossable) {
-                    var newState = mossable.getNext(targetBlock);
-                    newState.ifPresent(s -> world.setBlockAndUpdate(targetPos, s));
-                }
-            }
-        }
     }
 }

@@ -23,6 +23,7 @@ public class CeilingAndWallBlockItem extends BlockItem {
         this.wallBlock = wallBlock;
     }
 
+
     @Nullable
     protected BlockState getPlacementState(BlockPlaceContext context) {
         BlockState blockstate = this.wallBlock.getStateForPlacement(context);

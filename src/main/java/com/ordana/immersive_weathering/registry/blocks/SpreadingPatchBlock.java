@@ -13,8 +13,6 @@ import java.util.*;
 
 public interface SpreadingPatchBlock {
 
-    BooleanProperty WEATHERABLE = BooleanProperty.create("weathering");
-
     //how much the given face is influenced by other blocks
     enum Susceptibility {
         LOW(1), //ideally this should make so the block has no influence on this but can be used
@@ -38,7 +36,7 @@ public interface SpreadingPatchBlock {
      * @return determines if a certain block should gain the WEATHERING state
      * Should be called on block placement or to refresh the state
      */
-    default boolean shouldStartWeathering(BlockState state, BlockPos pos, Level level) {
+    default boolean canEventuallyWeather(BlockState state, BlockPos pos, Level level) {
         var directions = getInfluenceForDirections(pos, level);
         //list of weathering effects of surrounding blocks
         List<WeatheringAgent> weatheringAgents = new ArrayList<>();
@@ -170,7 +168,7 @@ public interface SpreadingPatchBlock {
     //TODO: this braeks for mossy crackable stuff
     default WeatheringAgent getLowInfluenceWeatheringEffect(BlockState state, Level level, BlockPos pos) {
         Block b = state.getBlock();
-        return (b instanceof SpreadingPatchBlock wt &&
+        return (b instanceof Weatherable wt &&
                 this instanceof ChangeOverTimeBlock t &&
                 b instanceof ChangeOverTimeBlock c &&
                 c.getAge().getClass() == t.getAge().getClass()
@@ -187,9 +185,6 @@ public interface SpreadingPatchBlock {
      */
     WeatheringAgent getWeatheringEffect(BlockState state, Level level, BlockPos pos);
 
-    //simply check for WEATHERING blockstate
-    boolean isWeathering(BlockState state);
-
     /**
      * Chance that this block will outright not be able to weather through LOW and MEDIUM influence blocks
      */
@@ -202,6 +197,5 @@ public interface SpreadingPatchBlock {
         return false;
     }
 
-    ;
 
 }

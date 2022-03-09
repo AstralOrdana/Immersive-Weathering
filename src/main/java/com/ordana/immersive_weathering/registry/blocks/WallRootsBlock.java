@@ -44,13 +44,13 @@ public class WallRootsBlock extends Block {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_49217_) {
-        p_49217_.add(FACING);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
     }
 
     @Override
-    public BlockState updateShape(BlockState p_49210_, Direction p_49211_, BlockState p_49212_, LevelAccessor p_49213_, BlockPos p_49214_, BlockPos p_49215_) {
-        return p_49211_.getOpposite() == p_49210_.getValue(FACING) && !p_49210_.canSurvive(p_49213_, p_49214_) ? Blocks.AIR.defaultBlockState() : p_49210_;
+    public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor levelAccessor, BlockPos pos, BlockPos pos1) {
+        return direction.getOpposite() == state.getValue(FACING) && !state.canSurvive(levelAccessor, pos) ? Blocks.AIR.defaultBlockState() : state;
     }
 
     @Override
@@ -63,11 +63,11 @@ public class WallRootsBlock extends Block {
     }
 
     @Nullable
-    public BlockState getStateForPlacement(BlockPlaceContext p_49198_) {
-        BlockState blockstate = super.getStateForPlacement(p_49198_);
-        LevelReader levelreader = p_49198_.getLevel();
-        BlockPos blockpos = p_49198_.getClickedPos();
-        Direction[] directions = p_49198_.getNearestLookingDirections();
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockState blockstate = super.getStateForPlacement(context);
+        LevelReader levelreader = context.getLevel();
+        BlockPos blockpos = context.getClickedPos();
+        Direction[] directions = context.getNearestLookingDirections();
 
         for (Direction direction : directions) {
             if (direction.getAxis().isHorizontal()) {

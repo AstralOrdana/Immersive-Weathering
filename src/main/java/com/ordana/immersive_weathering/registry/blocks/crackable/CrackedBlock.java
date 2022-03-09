@@ -2,7 +2,6 @@ package com.ordana.immersive_weathering.registry.blocks.crackable;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RedStoneWireBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -11,12 +10,17 @@ import java.util.function.Supplier;
 public class CrackedBlock extends Block implements Crackable {
 
     private final Supplier<Item> brickItem;
-    private final Crackable.CrackLevel crackLevel;
+    private final CrackLevel crackLevel;
 
-    public CrackedBlock(Crackable.CrackLevel crackLevel, Supplier<Item> brickItem, BlockBehaviour.Properties settings) {
+    public CrackedBlock(CrackLevel crackLevel, Supplier<Item> brickItem, BlockBehaviour.Properties settings) {
         super(settings);
         this.crackLevel = crackLevel;
         this.brickItem = brickItem;
+    }
+
+    @Override
+    public CrackSpreader getCrackSpreader() {
+        return CrackSpreader.INSTANCE;
     }
 
     @Override
@@ -30,7 +34,7 @@ public class CrackedBlock extends Block implements Crackable {
     }
 
     @Override
-    public CrackLevel getAge() {
+    public CrackLevel getCrackLevel() {
         return crackLevel;
     }
 
