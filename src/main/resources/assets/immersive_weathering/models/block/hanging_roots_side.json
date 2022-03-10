@@ -1,0 +1,39 @@
+{
+  "credit": "Made with Blockbench",
+  "texture_size": [32, 32],
+  "textures": {
+    "roots": "immersive_weathering:block/hanging_roots_side",
+    "particle": "immersive_weathering:block/hanging_roots_side"
+  },
+  "elements": [
+    {
+      "name": "roots1",
+      "from": [0, -1, 16],
+      "to": [16, 15, 16],
+      "shade": false,
+      "rotation": {"angle": 22.5, "axis": "x", "origin": [8, 15, 16]},
+      "faces": {
+        "north": {"uv": [0, 0, 8, 16], "texture": "#roots"},
+        "south": {"uv": [0, 0, 8, 16], "texture": "#roots"}
+      }
+    },
+    {
+      "name": "roots2",
+      "from": [0, -7, 16],
+      "to": [16, 9, 16],
+      "shade": false,
+      "rotation": {"angle": 22.5, "axis": "x", "origin": [8, 9, 16]},
+      "faces": {
+        "north": {"uv": [8, 0, 16, 16], "texture": "#roots"},
+        "south": {"uv": [8, 0, 16, 16], "texture": "#roots"}
+      }
+    }
+  ],
+  "groups": [
+    {
+      "name": "roots",
+      "origin": [8, 8, 16],
+      "children": [0, 1]
+    }
+  ]
+}
