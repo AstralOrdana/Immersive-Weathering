@@ -36,7 +36,7 @@ public class CrackableSlabBlock extends CrackedSlabBlock {
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos neighbor, boolean isMoving) {
         super.onNeighborChange(state, level, pos, neighbor);
         if (level instanceof ServerLevel serverLevel) {
-            boolean weathering = this.getCrackSpreader().canEventuallyWeather(state, pos, serverLevel);
+            boolean weathering = this.shouldWeather(state, pos, level);
             if (state.getValue(WEATHERABLE) != weathering) {
                 //update weathering state
                 serverLevel.setBlockAndUpdate(pos, state.setValue(WEATHERABLE, weathering));

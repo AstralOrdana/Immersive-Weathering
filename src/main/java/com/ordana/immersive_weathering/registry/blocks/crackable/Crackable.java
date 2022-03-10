@@ -4,6 +4,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
+import com.ordana.immersive_weathering.registry.blocks.SpreadingPatchBlock;
 import com.ordana.immersive_weathering.registry.blocks.Weatherable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.Item;
@@ -81,23 +82,34 @@ public interface Crackable extends Weatherable {
     }
 
 
-    default Optional<BlockState> getNextCracked(BlockState state){
+    default Optional<BlockState> getNextCracked(BlockState state) {
         return getIncreasedCrackBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
 
-    };
+    }
 
-    default Optional<BlockState> getPreviousCracked(BlockState state){
+    ;
+
+    default Optional<BlockState> getPreviousCracked(BlockState state) {
         return getIncreasedCrackBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
-
     }
 
     CrackSpreader getCrackSpreader();
-    
+
+    @Override
+    default <T extends Enum<?>> Optional<SpreadingPatchBlock<T>> getPatchSpreader(Class<T> weatheringClass) {
+        if (weatheringClass == CrackLevel.class) {
+            return Optional.of((SpreadingPatchBlock<T>) getCrackSpreader());
+        }
+        return Optional.empty();
+    }
+
+
     CrackLevel getCrackLevel();
 
-    default boolean shouldWeather(BlockState state, BlockPos pos, Level level){
-        return this.getCrackSpreader().canEventuallyWeather(state, pos, level);
+    default boolean shouldWeather(BlockState state, BlockPos pos, Level level) {
+        return this.getCrackSpreader().getWanderWeatheringState(false, pos, level);
     }
+
     Item getRepairItem(BlockState state);
 
     enum CrackLevel {

@@ -20,14 +20,18 @@ import org.checkerframework.checker.units.qual.C;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class CrackSpreader implements SpreadingPatchBlock {
+public class CrackSpreader implements SpreadingPatchBlock<Crackable.CrackLevel> {
 
     public static final CrackSpreader INSTANCE = new CrackSpreader();
 
+    @Override
+    public Class<Crackable.CrackLevel> getType() {
+        return Crackable.CrackLevel.class;
+    }
 
     @Override
     public float getInterestForDirection(Level level, BlockPos pos) {
-        return 0.7f;
+        return 0.35f;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class CrackSpreader implements SpreadingPatchBlock {
 
     @Override
     public float getUnWeatherableChance(Level level, BlockPos pos) {
-        return 0.2f;
+        return 0.18f;
     }
 
     @Override

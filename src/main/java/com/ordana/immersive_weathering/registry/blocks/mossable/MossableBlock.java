@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.registry.blocks.mossable;
 
+import java.util.Optional;
 import java.util.Random;
 
 import net.minecraft.core.BlockPos;
@@ -59,8 +60,11 @@ public class MossableBlock extends MossyBlock{
     public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
         float weatherChance = 0.1f;
         if (random.nextFloat() < weatherChance) {
-            var opt = this.getNextMossy(state);
-            BlockState newState = opt.orElse(state.setValue(WEATHERABLE,false));
+            Optional<BlockState> opt = Optional.empty();
+            if(this.getMossSpreader().getWanderWeatheringState(true, pos, serverLevel)) {
+                opt = this.getNextMossy(state);
+            }
+            BlockState newState = opt.orElse(state.setValue(WEATHERABLE, false));
             serverLevel.setBlockAndUpdate(pos, newState);
         }
     }

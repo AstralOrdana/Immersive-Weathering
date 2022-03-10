@@ -4,6 +4,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
+import com.ordana.immersive_weathering.registry.blocks.SpreadingPatchBlock;
 import com.ordana.immersive_weathering.registry.blocks.Weatherable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -73,8 +74,16 @@ public interface Mossable extends Weatherable {
 
     MossSpreader getMossSpreader();
 
+    @Override
+    default <T extends Enum<?>> Optional<SpreadingPatchBlock<T>> getPatchSpreader(Class<T> weatheringClass){
+        if (weatheringClass == MossLevel.class){
+            return Optional.of((SpreadingPatchBlock<T>) getMossSpreader());
+        }
+        return Optional.empty();
+    }
+
     default boolean shouldWeather(BlockState state, BlockPos pos, Level level) {
-        return this.getMossSpreader().canEventuallyWeather(state, pos, level);
+        return this.getMossSpreader().getWanderWeatheringState(false, pos, level);
     }
 
     MossLevel getMossLevel();

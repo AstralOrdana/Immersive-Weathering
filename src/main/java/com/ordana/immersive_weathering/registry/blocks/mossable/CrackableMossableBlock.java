@@ -1,13 +1,12 @@
 package com.ordana.immersive_weathering.registry.blocks.mossable;
 
+import com.ordana.immersive_weathering.registry.blocks.SpreadingPatchBlock;
 import com.ordana.immersive_weathering.registry.blocks.crackable.CrackSpreader;
 import com.ordana.immersive_weathering.registry.blocks.crackable.Crackable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -15,7 +14,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.Supplier;
 
-public class CrackableMossableBlock extends MossableBlock implements Crackable {
+public class CrackableMossableBlock extends MossableBlock implements CrackableMossable {
 
     private final Supplier<Item> brickItem;
     private final CrackLevel crackLevel;
@@ -35,11 +34,11 @@ public class CrackableMossableBlock extends MossableBlock implements Crackable {
     public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
         float weatherChance = 0.1f;
         if (random.nextFloat() < weatherChance) {
-            boolean isMoss = this.getMossSpreader().canEventuallyWeather(state, pos, serverLevel);
-            Optional<BlockState> opt;
+            boolean isMoss = this.getMossSpreader().getWanderWeatheringState(true, pos, serverLevel);
+            Optional<BlockState> opt = Optional.empty();
             if(isMoss) {
                 opt = this.getNextMossy(state);
-            } else {
+            } else if(this.getCrackSpreader().getWanderWeatheringState(true, pos, serverLevel)){
                 opt = this.getNextCracked(state);
             }
             BlockState newState = opt.orElse(state.setValue(WEATHERABLE,false));
@@ -59,8 +58,4 @@ public class CrackableMossableBlock extends MossableBlock implements Crackable {
         return crackLevel;
     }
 
-    @Override
-    public boolean shouldWeather(BlockState state, BlockPos pos, Level level) {
-       return super.shouldWeather(state, pos, level) || Crackable.super.shouldWeather(state, pos, level);
-    }
 }

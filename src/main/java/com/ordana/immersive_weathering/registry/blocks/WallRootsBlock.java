@@ -29,8 +29,8 @@ public class WallRootsBlock extends Block {
     }
 
     @Override
-    public VoxelShape getShape(BlockState p_49219_, BlockGetter p_49220_, BlockPos p_49221_, CollisionContext p_49222_) {
-        return SHAPES.get(p_49219_.getValue(FACING));
+    public VoxelShape getShape(BlockState state, BlockGetter p_49220_, BlockPos p_49221_, CollisionContext p_49222_) {
+        return SHAPES.get(state.getValue(FACING));
     }
 
     @Override
@@ -80,4 +80,6 @@ public class WallRootsBlock extends Block {
 
         return null;
     }
+
+
 }

@@ -5,13 +5,13 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 import java.util.*;
 
-public interface SpreadingPatchBlock {
+public interface SpreadingPatchBlock<T extends Enum<?>> {
+
+    Class<T> getType();
 
     //how much the given face is influenced by other blocks
     enum Susceptibility {
@@ -36,8 +36,10 @@ public interface SpreadingPatchBlock {
      * @return determines if a certain block should gain the WEATHERING state
      * Should be called on block placement or to refresh the state
      */
-    default boolean canEventuallyWeather(BlockState state, BlockPos pos, Level level) {
-        var directions = getInfluenceForDirections(pos, level);
+    default boolean getWanderWeatheringState(boolean hasTicked, BlockPos pos, Level level, int maxRecursion) {
+        Random posRandom = new Random(Mth.getSeed(pos));
+        var directions = getInfluenceForDirections(posRandom, pos, level);
+        if (hasTicked && posRandom.nextFloat() < this.getUnWeatherableChance(level, pos)) return false;
         //list of weathering effects of surrounding blocks
         List<WeatheringAgent> weatheringAgents = new ArrayList<>();
         boolean needsAir = this.needsAirToSpread(level, pos);
@@ -48,7 +50,7 @@ public interface SpreadingPatchBlock {
             if (!hasAir && needsAir) {
                 hasAir = !facingState.isRedstoneConductor(level, pos);
             }
-            weatheringAgents.add(this.getBlockWeatheringEffect(e.getValue(), facingState, level, facingPos));
+            weatheringAgents.add(this.getBlockWeatheringEffect(e.getValue(), facingState, level, facingPos, maxRecursion));
         }
         if (needsAir && !hasAir) return false;
         boolean oneSuccess = false;
@@ -57,6 +59,10 @@ public interface SpreadingPatchBlock {
             else if (w == WeatheringAgent.WEATHER) oneSuccess = true;
         }
         return oneSuccess;
+    }
+
+    default boolean getWanderWeatheringState(boolean hasTicked, BlockPos pos, Level level) {
+        return getWanderWeatheringState(hasTicked, pos, level, 2);
     }
 
     @Deprecated
@@ -74,12 +80,12 @@ public interface SpreadingPatchBlock {
         return directions;
     }
 
-    default Map<Direction, Susceptibility> getInfluenceForDirections(BlockPos pos, Level level) {
-        Random posRandom = new Random(Mth.getSeed(pos));
+    default Map<Direction, Susceptibility> getInfluenceForDirections(Random posRandom, BlockPos pos, Level level) {
+
         Map<Direction, Susceptibility> directions = new HashMap<>();
         float directionChance = this.getInterestForDirection(level, pos);
         float highInterestChance = this.getDisjointGrowthChance(level, pos);
-        int wantedDirs = (posRandom.nextFloat() < this.getUnWeatherableChance(level, pos)) ? 0 :
+        int wantedDirs = //(posRandom.nextFloat() < this.getUnWeatherableChance(level, pos)) ? 0 :
                 getDirectionCount(posRandom, directionChance);
         List<Direction> dirs = new ArrayList<>(List.of(Direction.values()));
         Collections.shuffle(dirs, posRandom);
@@ -106,7 +112,7 @@ public interface SpreadingPatchBlock {
             values[x] = (-1f / (n * (n + 1f))) * (x * (2 * n * a - 2 * a - 2 * n + 1) + x * x * (1 - 2 * a) + (2 * a * n - 2 * n));
         }
         float r = random.nextFloat();
-        for (int i = 0; i < values.length - 1; i++) {
+        for (int i = 0; i < values.length; i++) {
             if (r < values[i]) return i;
         }
         return 0;
@@ -132,11 +138,11 @@ public interface SpreadingPatchBlock {
      * @param pos   target position
      * @return weathering effect of the target block
      */
-    default WeatheringAgent getBlockWeatheringEffect(Susceptibility sus, BlockState state, Level level, BlockPos pos) {
+    default WeatheringAgent getBlockWeatheringEffect(Susceptibility sus, BlockState state, Level level, BlockPos pos, int maxRecursion) {
         //if high influence it can be affected by weathering blocks
         WeatheringAgent effect = WeatheringAgent.NONE;
         if (sus.value >= Susceptibility.HIGH.value) {
-            effect = getLowInfluenceWeatheringEffect(state, level, pos);
+            effect = getLowInfluenceWeatheringEffect(state, level, pos, maxRecursion);
         }
         if (effect == WeatheringAgent.NONE && sus.value >= Susceptibility.MEDIUM.value) {
             effect = getWeatheringEffect(state, level, pos);
@@ -165,14 +171,21 @@ public interface SpreadingPatchBlock {
      *
      * @return effect that this block has
      */
-    //TODO: this braeks for mossy crackable stuff
-    default WeatheringAgent getLowInfluenceWeatheringEffect(BlockState state, Level level, BlockPos pos) {
+    //this is horrible
+    default WeatheringAgent getLowInfluenceWeatheringEffect(BlockState state, Level level, BlockPos pos, int maxRecursion) {
         Block b = state.getBlock();
-        return (b instanceof Weatherable wt &&
-                this instanceof ChangeOverTimeBlock t &&
-                b instanceof ChangeOverTimeBlock c &&
-                c.getAge().getClass() == t.getAge().getClass()
-                && wt.isWeathering(state)) ? WeatheringAgent.WEATHER : WeatheringAgent.NONE;
+        if (maxRecursion > 0 && b instanceof Weatherable w && w.isWeathering(state)) {
+            var p = w.getPatchSpreader(this.getType()).orElse(null);
+            if (p != null) {
+                //could incur in infinite recursion here
+                //if I find another neighboring weathered state I ask it what kind it is so because I dont know
+                //if it's a crackable or mossable
+                if (p.getWanderWeatheringState(false, pos, level, maxRecursion - 1)) {
+                    return WeatheringAgent.WEATHER;
+                }
+            }
+        }
+        return WeatheringAgent.NONE;
     }
 
     /**

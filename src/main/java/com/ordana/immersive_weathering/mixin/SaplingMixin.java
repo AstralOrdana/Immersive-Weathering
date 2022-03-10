@@ -21,14 +21,17 @@ public abstract class SaplingMixin extends Block {
 
     @Inject(method = "randomTick", at = @At("TAIL"))
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
-        var biome = world.getBiome(pos);
-        if (biome.value().shouldSnowGolemBurn(pos)) {
-            if (world.random.nextFloat() < 0.08f) {
-                world.setBlockAndUpdate(pos, Blocks.DEAD_BUSH.defaultBlockState());
-            }
-        } else if (world.dimensionType().ultraWarm()) {
-            if (world.random.nextFloat() < 0.4f) {
-                world.setBlockAndUpdate(pos, Blocks.DEAD_BUSH.defaultBlockState());
+        //it could have already turned into a tree
+        if (world.getBlockState(pos).getBlock() instanceof SaplingBlock) {
+            var biome = world.getBiome(pos);
+            if (biome.value().shouldSnowGolemBurn(pos)) {
+                if (world.random.nextFloat() < 0.08f) {
+                    world.setBlockAndUpdate(pos, Blocks.DEAD_BUSH.defaultBlockState());
+                }
+            } else if (world.dimensionType().ultraWarm()) {
+                if (world.random.nextFloat() < 0.4f) {
+                    world.setBlockAndUpdate(pos, Blocks.DEAD_BUSH.defaultBlockState());
+                }
             }
         }
     }

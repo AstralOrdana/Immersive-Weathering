@@ -59,7 +59,7 @@ public class CrackableWallBlock extends CrackedWallBlock {
     public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
         BlockState state = super.getStateForPlacement(placeContext);
         if (state != null) {
-            boolean weathering = this.getCrackSpreader().canEventuallyWeather(state, placeContext.getClickedPos(), placeContext.getLevel());
+            boolean weathering = this.shouldWeather(state, placeContext.getClickedPos(), placeContext.getLevel());
             state.setValue(WEATHERABLE, weathering);
         }
         return state;

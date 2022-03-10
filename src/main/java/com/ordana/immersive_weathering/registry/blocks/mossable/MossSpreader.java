@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.blocks.SpreadingPatchBlock;
+import com.ordana.immersive_weathering.registry.blocks.crackable.Crackable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -20,14 +21,19 @@ import java.util.Random;
 import java.util.function.Supplier;
 
 //this class determines how moss patches spread
-public class MossSpreader implements SpreadingPatchBlock {
+public class MossSpreader implements SpreadingPatchBlock<Mossable.MossLevel> {
 
     public static MossSpreader INSTANCE = new MossSpreader();
 
+    @Override
+    public Class<Mossable.MossLevel> getType() {
+        return Mossable.MossLevel.class;
+    }
 
+    //basically how big those patches will be
     @Override
     public float getInterestForDirection(Level level, BlockPos pos) {
-        return 0.95f;
+        return 0.3f;
     }
 
     @Override
@@ -35,9 +41,10 @@ public class MossSpreader implements SpreadingPatchBlock {
         return 0.5f;
     }
 
+    //chance to have blocks that wont weather but still be able to make others weather if getDisjointGrowthChance is high enough
     @Override
     public float getUnWeatherableChance(Level level, BlockPos pos) {
-        return 0.15f;
+        return 0.4f;
     }
 
     @Override

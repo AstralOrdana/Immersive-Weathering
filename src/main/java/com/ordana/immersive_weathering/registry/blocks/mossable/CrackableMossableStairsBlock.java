@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.Supplier;
 
-public class CrackableMossableStairsBlock extends MossableStairsBlock implements Crackable {
+public class CrackableMossableStairsBlock extends MossableStairsBlock implements CrackableMossable {
 
     private final Supplier<Item> brickItem;
     private final CrackLevel crackLevel;
@@ -33,14 +33,14 @@ public class CrackableMossableStairsBlock extends MossableStairsBlock implements
     public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
         float weatherChance = 0.1f;
         if (random.nextFloat() < weatherChance) {
-            boolean isMoss = this.getMossSpreader().canEventuallyWeather(state, pos, serverLevel);
-            Optional<BlockState> opt;
-            if (isMoss) {
+            boolean isMoss = this.getMossSpreader().getWanderWeatheringState(true, pos, serverLevel);
+            Optional<BlockState> opt = Optional.empty();
+            if(isMoss) {
                 opt = this.getNextMossy(state);
-            } else {
+            } else if(this.getCrackSpreader().getWanderWeatheringState(true, pos, serverLevel)){
                 opt = this.getNextCracked(state);
             }
-            BlockState newState = opt.orElse(state.setValue(WEATHERABLE, false));
+            BlockState newState = opt.orElse(state.setValue(WEATHERABLE,false));
             serverLevel.setBlockAndUpdate(pos, newState);
         }
     }
@@ -56,8 +56,4 @@ public class CrackableMossableStairsBlock extends MossableStairsBlock implements
         return crackLevel;
     }
 
-    @Override
-    public boolean shouldWeather(BlockState state, BlockPos pos, Level level) {
-        return super.shouldWeather(state, pos, level) || Crackable.super.shouldWeather(state, pos, level);
-    }
 }
