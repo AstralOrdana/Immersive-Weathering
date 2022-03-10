@@ -1,0 +1,15 @@
+{
+  "type": "immersive_weathering:cinder_lichen",
+  "config": {
+    "can_place_on_wall": true,
+    "can_place_on_floor": true,
+    "can_place_on_ceiling": true,
+    "chance_of_spreading": 0.5,
+    "search_range": 20,
+    "can_be_placed_on": [
+      "minecraft:deepslate",
+      "minecraft:tuff",
+      "minecraft:gravel"
+    ]
+  }
+}

@@ -26,8 +26,6 @@ public class ModItems {
     public static final BlockItem FLOWERING_AZALEA_LEAF_PILE = new BlockItem(ModBlocks.FLOWERING_AZALEA_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem AZALEA_FLOWER_PILE = new BlockItem(ModBlocks.AZALEA_FLOWER_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
 
-    public static final Item STEEL_WOOL = new Item(new Item.Settings().maxDamage(128).group(ItemGroup.TOOLS));
-
     public static final BlockItem WEEDS = new BlockItem(ModBlocks.WEEDS, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem SOOT = new BlockItem(ModBlocks.SOOT, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem ASH_BLOCK = new BlockItem(ModBlocks.ASH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
@@ -45,6 +43,17 @@ public class ModItems {
     public static final BlockItem CRACKED_BRICK_STAIRS = new BlockItem(ModBlocks.CRACKED_BRICK_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_BRICK_SLAB = new BlockItem(ModBlocks.CRACKED_BRICK_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_BRICK_WALL, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+
+    public static final BlockItem CRACKED_PRISMARINE_BRICKS = new BlockItem(ModBlocks.CRACKED_PRISMARINE_BRICKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CRACKED_PRISMARINE_BRICK_STAIRS = new BlockItem(ModBlocks.CRACKED_PRISMARINE_BRICK_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CRACKED_PRISMARINE_BRICK_SLAB = new BlockItem(ModBlocks.CRACKED_PRISMARINE_BRICK_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CRACKED_PRISMARINE_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_PRISMARINE_BRICK_WALL, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem PRISMARINE_BRICK_WALL = new BlockItem(ModBlocks.PRISMARINE_BRICK_WALL, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+
+    public static final BlockItem CRACKED_END_STONE_BRICKS = new BlockItem(ModBlocks.CRACKED_END_STONE_BRICKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CRACKED_END_STONE_BRICK_STAIRS = new BlockItem(ModBlocks.CRACKED_END_STONE_BRICK_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CRACKED_END_STONE_BRICK_SLAB = new BlockItem(ModBlocks.CRACKED_END_STONE_BRICK_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CRACKED_END_STONE_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_END_STONE_BRICK_WALL, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
 
     public static final BlockItem CRACKED_STONE_BRICK_STAIRS = new BlockItem(ModBlocks.CRACKED_STONE_BRICK_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_STONE_BRICK_SLAB = new BlockItem(ModBlocks.CRACKED_STONE_BRICK_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
@@ -72,9 +81,11 @@ public class ModItems {
     public static final BlockItem NULCH = new BlockItem(ModBlocks.NULCH, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final Item STONE_BRICK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
-    public static final Item BLACKSTONE_BRICK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
+    public static final Item PRISMARINE_BRICK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item DEEPSLATE_BRICK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item DEEPSLATE_TILE = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
+    public static final Item BLACKSTONE_BRICK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
+    public static final Item END_STONE_BRICK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
 
     public static final Item AZALEA_FLOWERS = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item FLOWER_CROWN = new FlowerCrownItem(FlowerCrownMaterial.INSTANCE, EquipmentSlot.HEAD, new Item.Settings().group(ItemGroup.TOOLS));
@@ -90,6 +101,7 @@ public class ModItems {
     public static final Item CRIMSON_SCALES = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item WARPED_SCALES = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
 
+    public static final Item STEEL_WOOL = new Item(new Item.Settings().maxDamage(128).group(ItemGroup.TOOLS));
 
     //cut iron
     public static final BlockItem CUT_IRON = new BlockItem(ModBlocks.CUT_IRON, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
@@ -197,8 +209,6 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "flowering_azalea_leaf_pile"), FLOWERING_AZALEA_LEAF_PILE);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "azalea_flower_pile"), AZALEA_FLOWER_PILE);
 
-        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "steel_wool"), STEEL_WOOL);
-
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weeds"), WEEDS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "soot"), SOOT);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "ash_block"), ASH_BLOCK);
@@ -216,6 +226,12 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_brick_stairs"), CRACKED_BRICK_STAIRS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_brick_slab"), CRACKED_BRICK_SLAB);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_brick_wall"), CRACKED_BRICK_WALL);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_prismarine_bricks"), CRACKED_PRISMARINE_BRICKS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_prismarine_brick_stairs"), CRACKED_PRISMARINE_BRICK_STAIRS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_prismarine_brick_slab"), CRACKED_PRISMARINE_BRICK_SLAB);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_prismarine_brick_wall"), CRACKED_PRISMARINE_BRICK_WALL);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "prismarine_brick_wall"), PRISMARINE_BRICK_WALL);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_brick_stairs"), CRACKED_STONE_BRICK_STAIRS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_brick_slab"), CRACKED_STONE_BRICK_SLAB);
@@ -237,15 +253,22 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_deepslate_tile_slab"), CRACKED_DEEPSLATE_TILE_SLAB);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_deepslate_tile_wall"), CRACKED_DEEPSLATE_TILE_WALL);
 
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_end_stone_bricks"), CRACKED_END_STONE_BRICKS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_end_stone_brick_stairs"), CRACKED_END_STONE_BRICK_STAIRS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_end_stone_brick_slab"), CRACKED_END_STONE_BRICK_SLAB);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_end_stone_brick_wall"), CRACKED_END_STONE_BRICK_WALL);
+
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mulch_block"), MULCH_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "nulch_block"), NULCH_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mulch"), MULCH);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "nulch"), NULCH);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "stone_brick"), STONE_BRICK);
-        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "blackstone_brick"), BLACKSTONE_BRICK);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "prismarine_brick"), PRISMARINE_BRICK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "deepslate_brick"), DEEPSLATE_BRICK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "deepslate_tile"), DEEPSLATE_TILE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "blackstone_brick"), BLACKSTONE_BRICK);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "end_stone_brick"), END_STONE_BRICK);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "azalea_flowers"), AZALEA_FLOWERS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "flower_crown"), FLOWER_CROWN);
@@ -260,6 +283,8 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "dark_oak_bark"), DARK_OAK_BARK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "crimson_scales"), CRIMSON_SCALES);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "warped_scales"), WARPED_SCALES);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "steel_wool"), STEEL_WOOL);
 
         //plate iron
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "plate_iron"), PLATE_IRON);

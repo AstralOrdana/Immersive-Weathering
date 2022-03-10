@@ -4,6 +4,7 @@
   "package": "com.ordana.immersive_weathering.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "BlocksMixin",
     "CampfireMixin",
     "FireMixin",
     "MagmaBlockMixin",
@@ -12,7 +13,6 @@
     "SnowyBlockMixin",
     "FernBlockMixin",
     "RootedDirtBlockMixin",
-    "BlocksMixin",
     "FluidMixin",
     "SaplingMixin",
     "FarmlandMixin",

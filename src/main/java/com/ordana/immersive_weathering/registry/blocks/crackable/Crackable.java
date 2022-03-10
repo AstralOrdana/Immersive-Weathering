@@ -73,13 +73,16 @@ public interface Crackable extends Degradable<Crackable.CrackLevel>, Weatherable
 
     @Override
     default float getInterestForDirection() {
-        return 0.4f;
+        return 0.3f;
     }
 
     @Override
     default float getHighInterestChance() {
         return 0.5f;
     }
+
+    @Override
+    default float getUnWeatherableChance() {return 0.1f; }
 
     @Override
     default WeatheringAgent getWeatheringEffect(BlockState state, World world, BlockPos pos){

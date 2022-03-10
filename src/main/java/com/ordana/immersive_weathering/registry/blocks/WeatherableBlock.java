@@ -70,7 +70,8 @@ public interface WeatherableBlock {
         Map<Direction, Susceptibility> directions = new HashMap<>();
         float directionChance = this.getInterestForDirection();
         float highInterestChance = this.getHighInterestChance();
-        int wantedDirs = getDirectionCount(posRandom, directionChance);
+        int wantedDirs = (posRandom.nextFloat() < this.getUnWeatherableChance()) ? 0 :
+                getDirectionCount(posRandom, directionChance);
         List<Direction> dirs = new ArrayList<>(List.of(Direction.values()));
         Collections.shuffle(dirs, posRandom);
         var selected = dirs.subList(0, wantedDirs);
@@ -111,6 +112,11 @@ public interface WeatherableBlock {
      * @return The chance that this block will accept WEATHERING blocks instead of only fully weathered ones
      */
     float getHighInterestChance();
+
+    /**
+     * Chance that this block will outright not be able to weather through LOW and MEDIUM influence blocks
+     */
+    float getUnWeatherableChance();
 
     /**
      * gets the weathering effect that this block has on the current block. Override for more control

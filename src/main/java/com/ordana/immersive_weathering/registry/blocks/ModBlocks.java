@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableWallBlock;
 import com.ordana.immersive_weathering.registry.blocks.mossable.*;
 import com.ordana.immersive_weathering.registry.blocks.rustable.*;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -29,9 +30,9 @@ public class ModBlocks {
     public static final Block FLOWERING_AZALEA_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).breakInstantly().ticksRandomly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never));
     public static final Block AZALEA_FLOWER_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.FLOWERING_AZALEA).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never));
 
-    public static final Block ROCK_LICHEN = new RockLichenBlock(FabricBlockSettings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS));
-    public static final Block FOREST_LICHEN = new ForestLichenBlock(FabricBlockSettings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS));
-    public static final Block CINDER_LICHEN = new CinderLichenBlock(FabricBlockSettings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS));
+    public static final Block ROCK_LICHEN = new RockLichenBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT, MapColor.LICHEN_GREEN).noCollision().strength(0.2F).sounds(BlockSoundGroup.GLOW_LICHEN));
+    public static final Block FOREST_LICHEN = new ForestLichenBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT, MapColor.LICHEN_GREEN).noCollision().strength(0.2F).sounds(BlockSoundGroup.GLOW_LICHEN));
+    public static final Block CINDER_LICHEN = new CinderLichenBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT, MapColor.LICHEN_GREEN).noCollision().strength(0.2F).sounds(BlockSoundGroup.GLOW_LICHEN));
 
     public static final Block WEEDS = new WeedsBlock(FabricBlockSettings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS));
     public static final Block ASH_BLOCK = new AshBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).breakInstantly().sounds(BlockSoundGroup.SNOW).luminance(createLightLevelFromLitBlockState(6)).ticksRandomly());
@@ -50,6 +51,17 @@ public class ModBlocks {
     public static final Block CRACKED_BRICK_STAIRS = new ModStairs(CRACKED_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
     public static final Block CRACKED_BRICK_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
     public static final Block CRACKED_BRICK_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
+
+    public static final Block CRACKED_PRISMARINE_BRICKS = new  Block(FabricBlockSettings.of(Material.STONE, MapColor.DIAMOND_BLUE).requiresTool().strength(1.5F, 6.0F));
+    public static final Block CRACKED_PRISMARINE_BRICK_STAIRS = new ModStairs(CRACKED_PRISMARINE_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.DIAMOND_BLUE).requiresTool().strength(1.5f, 6f));
+    public static final Block CRACKED_PRISMARINE_BRICK_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.DIAMOND_BLUE).requiresTool().strength(1.5f, 6f));
+    public static final Block CRACKED_PRISMARINE_BRICK_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.DIAMOND_BLUE).requiresTool().strength(1.5f, 6f));
+    public static final Block PRISMARINE_BRICK_WALL = new CrackableWallBlock(FabricBlockSettings.of(Material.STONE, MapColor.DIAMOND_BLUE).requiresTool().strength(1.5f, 6f));
+
+    public static final Block CRACKED_END_STONE_BRICKS = new Block(FabricBlockSettings.of(Material.STONE, MapColor.PALE_YELLOW).requiresTool().strength(3.0F, 9.0F));
+    public static final Block CRACKED_END_STONE_BRICK_STAIRS = new ModStairs(CRACKED_END_STONE_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.PALE_YELLOW).requiresTool().strength(3f, 9f));
+    public static final Block CRACKED_END_STONE_BRICK_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.PALE_YELLOW).requiresTool().strength(3f, 9f));
+    public static final Block CRACKED_END_STONE_BRICK_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.PALE_YELLOW).requiresTool().strength(3f, 9f));
 
     public static final Block CRACKED_STONE_BRICK_STAIRS = new ModStairs(Blocks.CRACKED_STONE_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F));
     public static final Block CRACKED_STONE_BRICK_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE).requiresTool().strength(1.5F, 6.0F));
@@ -227,6 +239,17 @@ public class ModBlocks {
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_brick_stairs"), CRACKED_BRICK_STAIRS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_brick_slab"), CRACKED_BRICK_SLAB);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_brick_wall"), CRACKED_BRICK_WALL);
+
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_prismarine_bricks"), CRACKED_PRISMARINE_BRICKS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_prismarine_brick_stairs"), CRACKED_PRISMARINE_BRICK_STAIRS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_prismarine_brick_slab"), CRACKED_PRISMARINE_BRICK_SLAB);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_prismarine_brick_wall"), CRACKED_PRISMARINE_BRICK_WALL);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "prismarine_brick_wall"), PRISMARINE_BRICK_WALL);
+
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_end_stone_bricks"), CRACKED_END_STONE_BRICKS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_end_stone_brick_stairs"), CRACKED_END_STONE_BRICK_STAIRS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_end_stone_brick_slab"), CRACKED_END_STONE_BRICK_SLAB);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_end_stone_brick_wall"), CRACKED_END_STONE_BRICK_WALL);
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_brick_stairs"), CRACKED_STONE_BRICK_STAIRS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_brick_slab"), CRACKED_STONE_BRICK_SLAB);

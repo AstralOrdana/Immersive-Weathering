@@ -1,0 +1,32 @@
+{
+  "variants": {
+    "hanging=false,facing=east": {
+      "model": "immersive_weathering:block/hanging_roots_side",
+      "y": 90
+    },
+    "hanging=false,facing=south": {
+      "model": "immersive_weathering:block/hanging_roots_side",
+      "y": 180
+    },
+      "hanging=false,facing=west": {
+      "model": "immersive_weathering:block/hanging_roots_side",
+      "y": 270
+    },
+      "hanging=false,facing=north": {
+      "model": "immersive_weathering:block/hanging_roots_side",
+      "y": 0
+    },
+      "hanging=true,facing=north": {
+      "model": "minecraft:block/hanging_roots"
+    },
+    "hanging=true,facing=south": {
+      "model": "minecraft:block/hanging_roots"
+    },
+    "hanging=true,facing=east": {
+      "model": "minecraft:block/hanging_roots"
+    },
+    "hanging=true,facing=west": {
+      "model": "minecraft:block/hanging_roots"
+    }
+  }
+}

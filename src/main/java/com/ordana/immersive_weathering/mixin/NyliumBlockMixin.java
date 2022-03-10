@@ -54,7 +54,7 @@ public class NyliumBlockMixin {
                             world.setBlockState(targetPos, Blocks.CRIMSON_ROOTS.getDefaultState());
                         }
                         if (random.nextFloat() < 0.2f) {
-                            world.setBlockState(targetPos, Blocks.CRIMSON_ROOTS.getDefaultState());
+                            world.setBlockState(targetPos, Blocks.CRIMSON_FUNGUS.getDefaultState());
                         }
                     }
                 }

@@ -70,6 +70,19 @@ public interface Mossable extends Degradable<Mossable.MossLevel>, WeatherableBlo
         return WeatheringAgent.NONE;
     }
 
+    @Override
+    default float getInterestForDirection() {
+        return 0.3f;
+    }
+
+    @Override
+    default float getHighInterestChance() {
+        return 0.5f;
+    }
+
+    @Override
+    default float getUnWeatherableChance() {return 0.1f; }
+
     //utility to grow stuff
     static void growNeighbors(ServerWorld world, Random random, BlockPos pos) {
         for (var direction : Direction.values()) {

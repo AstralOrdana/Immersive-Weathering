@@ -37,9 +37,6 @@ public abstract class CropBlockMixin extends Block {
     protected abstract int getAge(BlockState state);
 
     @Shadow
-    public abstract IntProperty getAgeProperty();
-
-    @Shadow
     public abstract BlockState withAge(int age);
 
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)

@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.registry.blocks.ModHangingRootsBlock;
 import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableBlock;
 import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableSlabBlock;
 import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableStairsBlock;
@@ -19,6 +20,30 @@ import org.spongepowered.asm.mixin.injection.Slice;
 
 @Mixin(Blocks.class)
 public class BlocksMixin {
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/HangingRootsBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=hanging_roots"
+                                            )
+                            )
+            )
+    private static HangingRootsBlock hangingRoots(AbstractBlock.Settings settings)
+    {
+        return new ModHangingRootsBlock(settings);
+    }
+
+
     @Redirect
             (
                     method = "<clinit>",
@@ -109,6 +134,165 @@ public class BlocksMixin {
         return new CrackableWallBlock(settings);
     }
 
+
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/Block",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=prismarine_bricks"
+                                            )
+                            )
+            )
+    private static Block prismarineBricks(AbstractBlock.Settings settings)
+    {
+        return new CrackableBlock(settings);
+    }
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/SlabBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=prismarine_brick_slab"
+                                            )
+                            )
+            )
+    private static SlabBlock prismarineBrickSlab(AbstractBlock.Settings settings)
+    {
+        return new CrackableSlabBlock(settings);
+    }
+    @Shadow @Final public static Block PRISMARINE_BRICKS;
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/StairsBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=prismarine_brick_stairs"
+                                            )
+                            )
+            )
+    private static StairsBlock prismarineBricksStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
+    {
+        return new CrackableStairsBlock(PRISMARINE_BRICKS.getDefaultState(), settings);
+    }
+
+
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/Block",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=end_stone_bricks"
+                                            )
+                            )
+            )
+    private static Block endStoneBricks(AbstractBlock.Settings settings)
+    {
+        return new CrackableBlock(settings);
+    }
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/SlabBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=end_stone_brick_slab"
+                                            )
+                            )
+            )
+    private static SlabBlock endStoneBrickSlab(AbstractBlock.Settings settings)
+    {
+        return new CrackableSlabBlock(settings);
+    }
+    @Shadow @Final public static Block END_STONE_BRICKS;
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/StairsBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=end_stone_brick_stairs"
+                                            )
+                            )
+            )
+    private static StairsBlock endStoneBricksStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
+    {
+        return new CrackableStairsBlock(END_STONE_BRICKS.getDefaultState(), settings);
+    }
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/WallBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=end_stone_brick_wall"
+                                            )
+                            )
+            )
+    private static WallBlock endStoneBrickWall(AbstractBlock.Settings settings)
+    {
+        return new CrackableWallBlock(settings);
+    }
 
 
     @Redirect
@@ -796,6 +980,7 @@ public class BlocksMixin {
         return new MossySlabBlock(Mossable.MossLevel.MOSSY, settings);
     }
     @Shadow @Final public static Block MOSSY_COBBLESTONE;
+
     @Redirect
             (
                     method = "<clinit>",
