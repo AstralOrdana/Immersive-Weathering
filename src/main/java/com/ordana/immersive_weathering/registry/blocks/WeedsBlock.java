@@ -17,6 +17,7 @@ import net.minecraft.world.WorldView;
 import java.util.Random;
 
 public class WeedsBlock extends CropBlock {
+
     protected WeedsBlock(Settings settings) {
         super(settings);
     }
@@ -26,35 +27,35 @@ public class WeedsBlock extends CropBlock {
         int i = this.getAge(state);
         if (i < this.getMaxAge()) {
             float f = getAvailableMoisture(this, world, pos);
-            if (random.nextInt((int)(25.0F / f) + 1) == 0) {
+            if (random.nextInt((int) (25.0F / f) + 1) == 0) {
                 world.setBlockState(pos, this.withAge(i + 1), 2);
             }
         }
     }
 
+    @Override
     protected ItemConvertible getSeedsItem() {
         return ModItems.WEEDS;
     }
 
+    @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-        int a = this.getAge(state);
-        if (a == this.getMaxAge()) {
-            int i = pos.getX();
-            int j = pos.getY();
-            int k = pos.getZ();
-            double d = (double) i + random.nextDouble();
-            double e = (double) j + random.nextDouble();
-            double f = (double) k + random.nextDouble();
-            world.addParticle(ParticleTypes.WHITE_ASH, d, e + 0.5, f, 0.1D, 0.5D, 0.1D);
+        if (this.getAge(state) == this.getMaxAge() && random.nextInt(10)==0) {
+            double r = 0.3;
+            double x = (double) pos.getX() + 0.5 + (random.nextDouble() - 0.5) * r;
+            double y = (double) pos.getY() + 0.8 + (random.nextDouble() - 0.5) * r;
+            double z = (double) pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * r;
+            world.addParticle(ParticleTypes.WHITE_ASH, x, y, z, 0.1D, 0.5D, 0.1D);
         }
     }
 
     @Override
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        BlockPos blockPos = pos.down();
-        return this.canPlantOnTop(world.getBlockState(blockPos), world, blockPos);
+        BlockPos below = pos.down();
+        return this.canPlantOnTop(world.getBlockState(below), world, below);
     }
 
+    @Override
     protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
         return floor.isIn(ModTags.FERTILE_BLOCKS) || floor.isIn(BlockTags.DIRT);
     }

@@ -16,6 +16,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -27,9 +28,12 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class AshBlock extends FallingBlock {
+
+    public static final BooleanProperty LIT = Properties.LIT;
+
     public AshBlock(Settings settings) {
         super(settings);
-        this.setDefaultState((BlockState)this.getDefaultState().with(LIT, false));
+        this.setDefaultState(this.getDefaultState().with(LIT, false));
     }
 
     @Override
@@ -37,18 +41,17 @@ public class AshBlock extends FallingBlock {
         stateManager.add(LIT);
     }
 
-    public static final BooleanProperty LIT = BooleanProperty.of("lit");
-
+    @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (state.get(LIT)) {
-            world.setBlockState(pos, state.with(LIT, false), 2);
+            world.setBlockState(pos, state.with(LIT, false));
             world.playSound(player, pos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
             return ActionResult.success(world.isClient);
-        } else {
-            return ActionResult.PASS;
         }
+        return ActionResult.PASS;
     }
 
+    @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         if (state.get(LIT)) {
             int i = pos.getX();
@@ -61,6 +64,7 @@ public class AshBlock extends FallingBlock {
         }
     }
 
+    @Override
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
         if (state.get(LIT)) {
             if (!entity.isFireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
@@ -70,25 +74,27 @@ public class AshBlock extends FallingBlock {
         super.onSteppedOn(world, pos, state, entity);
     }
 
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random){
+    @Override
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        int temperature = 0;
         for (Direction direction : Direction.values()) {
             var targetPos = pos.offset(direction);
             BlockState neighborState = world.getBlockState(targetPos);
-            if (neighborState.isIn(ModTags.MAGMA_SOURCE)) {
-                if (world.hasRain(pos.offset(direction))) {
-                    return;
-                }
-                world.setBlockState(pos, state.with(LIT, true), 2);
-            }
+
             if (world.hasRain(pos.offset(direction)) || neighborState.getFluidState().getFluid() == Fluids.FLOWING_WATER || neighborState.getFluidState().getFluid() == Fluids.WATER) {
-                if (neighborState.isIn(ModTags.MAGMA_SOURCE)) {
-                    return;
-                }
-                world.setBlockState(pos, state.with(LIT, false), 2);
+                temperature--;
+            } else if (neighborState.isIn(ModTags.MAGMA_SOURCE)) {
+                temperature++;
             }
+        }
+        if (temperature > 0 && !state.get(LIT)) {
+            world.setBlockState(pos, state.with(LIT, true), 2);
+        } else if (temperature < 0 && state.get(LIT)) {
+            world.setBlockState(pos, state.with(LIT, false), 2);
         }
     }
 
+    @Override
     public int getColor(BlockState state, BlockView world, BlockPos pos) {
         return -1842206;
     }

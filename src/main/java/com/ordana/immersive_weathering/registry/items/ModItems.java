@@ -16,15 +16,15 @@ public class ModItems {
 
     public static final BlockItem ICICLE = new BlockItem(ModBlocks.ICICLE, new Item.Settings().food(ModFoods.ICICLE).group(ItemGroup.DECORATIONS));
 
-    public static final BlockItem OAK_LEAF_PILE = new BlockItem(ModBlocks.OAK_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem SPRUCE_LEAF_PILE = new BlockItem(ModBlocks.SPRUCE_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem BIRCH_LEAF_PILE = new BlockItem(ModBlocks.BIRCH_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem JUNGLE_LEAF_PILE = new BlockItem(ModBlocks.JUNGLE_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem ACACIA_LEAF_PILE = new BlockItem(ModBlocks.ACACIA_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem DARK_OAK_LEAF_PILE = new BlockItem(ModBlocks.DARK_OAK_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem AZALEA_LEAF_PILE = new BlockItem(ModBlocks.AZALEA_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem FLOWERING_AZALEA_LEAF_PILE = new BlockItem(ModBlocks.FLOWERING_AZALEA_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem AZALEA_FLOWER_PILE = new BlockItem(ModBlocks.AZALEA_FLOWER_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem OAK_LEAF_PILE = new LeafPileBlockItem(ModBlocks.OAK_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SPRUCE_LEAF_PILE = new LeafPileBlockItem(ModBlocks.SPRUCE_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem BIRCH_LEAF_PILE = new LeafPileBlockItem(ModBlocks.BIRCH_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem JUNGLE_LEAF_PILE = new LeafPileBlockItem(ModBlocks.JUNGLE_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem ACACIA_LEAF_PILE = new LeafPileBlockItem(ModBlocks.ACACIA_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem DARK_OAK_LEAF_PILE = new LeafPileBlockItem(ModBlocks.DARK_OAK_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem AZALEA_LEAF_PILE = new LeafPileBlockItem(ModBlocks.AZALEA_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem FLOWERING_AZALEA_LEAF_PILE = new LeafPileBlockItem(ModBlocks.FLOWERING_AZALEA_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem AZALEA_FLOWER_PILE = new LeafPileBlockItem(ModBlocks.AZALEA_FLOWER_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final BlockItem WEEDS = new BlockItem(ModBlocks.WEEDS, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem SOOT = new BlockItem(ModBlocks.SOOT, new Item.Settings().group(ItemGroup.DECORATIONS));

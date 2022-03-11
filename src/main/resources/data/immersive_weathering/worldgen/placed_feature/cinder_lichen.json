@@ -19,7 +19,7 @@
           "above_bottom": 1
         },
         "max_inclusive": {
-          "absolute": 16
+          "absolute": 60
         }
       }
     },
@@ -257,6 +257,237 @@
             ],
             "fluids": [
               "minecraft:lava"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              0,
+              -1,
+              0
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              0,
+              -2,
+              0
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              0,
+              -3,
+              0
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              0,
+              0,
+              -1
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              0,
+              0,
+              -2
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              0,
+              0,
+              -3
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              -1,
+              0,
+              0
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              -2,
+              0,
+              0
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              -3,
+              0,
+              0
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              -1,
+              -1,
+              -1
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              -2,
+              -2,
+              -2
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              -3,
+              -3,
+              -3
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              0,
+              0,
+              1
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              0,
+              0,
+              2
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              0,
+              0,
+              3
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              1,
+              0,
+              0
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              2,
+              0,
+              0
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              3,
+              0,
+              0
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              1,
+              -1,
+              1
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              2,
+              -2,
+              2
+            ],
+            "blocks": [
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              3,
+              -3,
+              3
+            ],
+            "blocks": [
+              "minecraft:magma_block"
             ]
           }
         ]

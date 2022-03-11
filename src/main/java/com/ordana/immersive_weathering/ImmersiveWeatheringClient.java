@@ -88,24 +88,12 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.CINDER_LICHEN, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ROCK_LICHEN, RenderLayer.getCutout());
 
-        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
-            return world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor();
-            }, ModBlocks.OAK_LEAF_PILE);
-        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
-            return world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor();
-            }, ModBlocks.SPRUCE_LEAF_PILE);
-        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
-            return world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor();
-            }, ModBlocks.BIRCH_LEAF_PILE);
-        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
-            return world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor();
-            }, ModBlocks.JUNGLE_LEAF_PILE);
-        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
-            return world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor();
-            }, ModBlocks.ACACIA_LEAF_PILE);
-        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
-            return world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor();
-            }, ModBlocks.DARK_OAK_LEAF_PILE);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.OAK_LEAF_PILE);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> FoliageColors.getSpruceColor(), ModBlocks.SPRUCE_LEAF_PILE);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> FoliageColors.getBirchColor(), ModBlocks.BIRCH_LEAF_PILE);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.JUNGLE_LEAF_PILE);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.ACACIA_LEAF_PILE);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.DARK_OAK_LEAF_PILE);
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             BlockState blockState = ((BlockItem)stack.getItem()).getBlock().getDefaultState();

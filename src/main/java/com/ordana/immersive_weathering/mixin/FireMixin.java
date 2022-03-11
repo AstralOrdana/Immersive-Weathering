@@ -1,53 +1,49 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.blocks.SootBlock;
+import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.GameRules;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.HashMap;
 import java.util.Random;
 
 @Mixin(FireBlock.class)
-public class FireMixin {
+public abstract class FireMixin {
 
-    private static final HashMap<Block, Block> CRACKED_BLOCKS = new HashMap<>();
 
-    @Inject(method = "scheduledTick", at = @At("HEAD"), cancellable = true)
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
+    @Inject(method = "scheduledTick", at = @At("HEAD"))
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         if (world.getGameRules().getBoolean(GameRules.DO_FIRE_TICK)) {
+
+            //if it's upwards only (normal fire) place soot next to it
             if (!state.get(FireBlock.UP) && !state.get(FireBlock.NORTH) && !state.get(FireBlock.SOUTH) && !state.get(FireBlock.EAST) && !state.get(FireBlock.WEST)) {
-                for (var direction : Direction.values()) {
-                    var targetPos = pos.offset(direction);
-                    BlockState below = world.getBlockState(targetPos.down());
-                    if (BlockPos.streamOutwards(pos, 2, 2, 2)
-                            .map(world::getBlockState)
-                            .map(BlockState::getBlock)
-                            .filter(ModBlocks.SOOT::equals)
-                            .toList().size() <= 8) {
-                        float f = 0.5f;
-                        if (random.nextFloat() > 0.8f) {
-                            if (world.getBlockState(targetPos).isAir()) {
-                                if (Block.isFaceFullSquare(below.getCollisionShape(world, targetPos.down()), Direction.UP)) {
-                                    world.setBlockState(targetPos, ModBlocks.SOOT.getDefaultState().with(Properties.DOWN, true), Block.NOTIFY_LISTENERS);
-                                }
+                if (random.nextFloat() > 0.8f) {
+                    if (!WeatheringHelper.hasEnoughBlocksAround(pos, 2, world, b -> b.isOf(ModBlocks.SOOT), 7)) {
+
+                        Direction dir = Direction.Type.HORIZONTAL.random(random);
+                        var targetPos = pos.offset(dir);
+                        if (world.getBlockState(targetPos).isAir()) {
+                            BlockPos belowPos = targetPos.down();
+                            BlockState below = world.getBlockState(belowPos); //Block.isFaceFull(below.getCollisionShape(world, targetPos.below()), Direction.UP)
+                            if (below.isSideSolidFullSquare(world, belowPos, Direction.UP)) {
+                                world.setBlockState(targetPos, ModBlocks.SOOT.getDefaultState()
+                                        .with(Properties.DOWN, true), Block.NOTIFY_LISTENERS);
                             }
                         }
                     }
                 }
             }
+            //TODO: see if this can be optimized
             int smokeHeight = 6;
             BlockPos sootPos = pos;
             for (int i = 0; i < smokeHeight; i++) {
@@ -55,9 +51,9 @@ public class FireMixin {
                 BlockState above = world.getBlockState(sootPos.up());
                 if (Block.isFaceFullSquare(above.getCollisionShape(world, sootPos.up()), Direction.DOWN)) {
                     if (world.getBlockState(sootPos).isAir()) {
-                        world.setBlockState(sootPos, ModBlocks.SOOT.getDefaultState().with(Properties.UP, true), Block.NOTIFY_LISTENERS);
+                        world.setBlockState(sootPos, ModBlocks.SOOT.getDefaultState().with(Properties.UP, true), 3);
                     }
-                    smokeHeight = i+1;
+                    smokeHeight = i + 1;
                 }
             }
             BlockState targetBlock = world.getBlockState(pos);
@@ -74,46 +70,6 @@ public class FireMixin {
                         world.setBlockState(pos, ModBlocks.ASH_BLOCK.getDefaultState().with(SootBlock.LIT, true), Block.NOTIFY_LISTENERS);
                     } else world.setBlockState(pos, ModBlocks.ASH_BLOCK.getDefaultState(), Block.NOTIFY_LISTENERS);
                 }
-            }
-        }
-
-        CRACKED_BLOCKS.put(Blocks.BRICKS, ModBlocks.CRACKED_BRICKS);
-        CRACKED_BLOCKS.put(Blocks.STONE_BRICKS, Blocks.CRACKED_STONE_BRICKS);
-        CRACKED_BLOCKS.put(Blocks.POLISHED_BLACKSTONE_BRICKS, Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS);
-        CRACKED_BLOCKS.put(Blocks.NETHER_BRICKS, Blocks.CRACKED_NETHER_BRICKS);
-        CRACKED_BLOCKS.put(Blocks.DEEPSLATE_BRICKS, Blocks.CRACKED_DEEPSLATE_BRICKS);
-        CRACKED_BLOCKS.put(Blocks.DEEPSLATE_TILES, Blocks.CRACKED_DEEPSLATE_TILES);
-
-        CRACKED_BLOCKS.put(Blocks.BRICK_SLAB, ModBlocks.CRACKED_BRICK_SLAB);
-        CRACKED_BLOCKS.put(Blocks.STONE_BRICK_SLAB, ModBlocks.CRACKED_STONE_BRICK_SLAB);
-        CRACKED_BLOCKS.put(Blocks.POLISHED_BLACKSTONE_BRICK_SLAB, ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB);
-        CRACKED_BLOCKS.put(Blocks.NETHER_BRICK_SLAB, ModBlocks.CRACKED_NETHER_BRICK_SLAB);
-        CRACKED_BLOCKS.put(Blocks.DEEPSLATE_BRICK_SLAB, ModBlocks.CRACKED_DEEPSLATE_BRICK_SLAB);
-        CRACKED_BLOCKS.put(Blocks.DEEPSLATE_TILE_SLAB, ModBlocks.CRACKED_DEEPSLATE_TILE_SLAB);
-
-        CRACKED_BLOCKS.put(Blocks.BRICK_STAIRS, ModBlocks.CRACKED_BRICK_STAIRS);
-        CRACKED_BLOCKS.put(Blocks.STONE_BRICK_STAIRS, ModBlocks.CRACKED_STONE_BRICK_STAIRS);
-        CRACKED_BLOCKS.put(Blocks.POLISHED_BLACKSTONE_BRICK_STAIRS, ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_STAIRS);
-        CRACKED_BLOCKS.put(Blocks.NETHER_BRICK_STAIRS, ModBlocks.CRACKED_NETHER_BRICK_STAIRS);
-        CRACKED_BLOCKS.put(Blocks.DEEPSLATE_BRICK_STAIRS, ModBlocks.CRACKED_DEEPSLATE_BRICK_STAIRS);
-        CRACKED_BLOCKS.put(Blocks.DEEPSLATE_TILE_STAIRS, ModBlocks.CRACKED_DEEPSLATE_TILE_STAIRS);
-
-        CRACKED_BLOCKS.put(Blocks.BRICK_WALL, ModBlocks.CRACKED_BRICK_WALL);
-        CRACKED_BLOCKS.put(Blocks.STONE_BRICK_WALL, ModBlocks.CRACKED_STONE_BRICK_WALL);
-        CRACKED_BLOCKS.put(Blocks.POLISHED_BLACKSTONE_BRICK_WALL, ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_WALL);
-        CRACKED_BLOCKS.put(Blocks.NETHER_BRICK_WALL, ModBlocks.CRACKED_NETHER_BRICK_WALL);
-        CRACKED_BLOCKS.put(Blocks.DEEPSLATE_BRICK_WALL, ModBlocks.CRACKED_DEEPSLATE_BRICK_WALL);
-        CRACKED_BLOCKS.put(Blocks.DEEPSLATE_TILE_WALL, ModBlocks.CRACKED_DEEPSLATE_TILE_WALL);
-
-        for (var direction : Direction.values()) {
-            var targetPos = pos.offset(direction);
-            BlockState targetBlock = world.getBlockState(targetPos);
-            if (random.nextFloat() < 0.01f) {
-                CRACKED_BLOCKS.forEach((solid, cracked) -> {
-                    if (targetBlock.isOf(solid)) {
-                        world.setBlockState(targetPos, cracked.getStateWithProperties(targetBlock));
-                    }
-                });
             }
         }
     }

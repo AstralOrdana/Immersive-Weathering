@@ -1,19 +1,18 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.registry.ModTags;
+import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
 import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.Random;
 
 @Mixin(CoralBlockBlock.class)
-public class CoralBlockMixin extends Block {
+public abstract class CoralBlockMixin extends Block {
 
     public CoralBlockMixin(Settings settings) {
         super(settings);
@@ -24,94 +23,35 @@ public class CoralBlockMixin extends Block {
         return true;
     }
 
+    @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        var targetPos = pos.up();
-        int rand = random.nextInt(4);
-        Direction coralDir = Direction.fromHorizontal(rand);
-        BlockPos coralPos = pos.offset(coralDir);
-        BlockState testBlock = world.getBlockState(coralPos);
-        RegistryEntry<Biome> j = world.getBiome(pos);
-        if (j.matchesKey(BiomeKeys.WARM_OCEAN)) {
-            if (random.nextFloat() < 0.01f) {
-                if (BlockPos.streamOutwards(pos, 2, 2, 2)
-                        .map(world::getBlockState)
-                        .filter(b->b.isIn(ModTags.CORALS))
-                        .toList().size() <= 8) {
-                    if (world.getBlockState(pos).isOf(Blocks.FIRE_CORAL_BLOCK)) {
+        if (random.nextFloat() < 0.01f) {
+            if (world.getBiome(pos).matchesKey(BiomeKeys.WARM_OCEAN)) {
+                if (!world.isChunkLoaded(pos)) return;
+                if (WeatheringHelper.hasEnoughBlocksAround(pos, 2, world, b -> b.isIn(ModTags.CORALS), 6)) {
+
+                    var coralGroup = WeatheringHelper.getCoralGrowth(state);
+                    coralGroup.ifPresent(c -> {
+
+                        int rand = random.nextInt(4);
+                        Direction coralDir = Direction.fromHorizontal(rand);
+                        var abovePos = pos.up();
+                        BlockPos sidePos = pos.offset(coralDir);
+
+                        BlockState sideBlock = world.getBlockState(sidePos);
+                        BlockState aboveBlock = world.getBlockState(abovePos);
+
                         if (random.nextFloat() < 0.5f) {
-                            if (random.nextFloat() < 0.5f) {
-                                if (world.getBlockState(targetPos).isOf(Blocks.WATER)) {
-                                    world.setBlockState(targetPos, Blocks.FIRE_CORAL.getDefaultState().with(CoralBlock.WATERLOGGED, Boolean.TRUE));
-                                }
+                            if (aboveBlock.isOf(Blocks.WATER)) {
+                                Block b = random.nextFloat() < 0.5f ? c.coral() : c.fan();
+                                world.setBlockState(abovePos, b.getDefaultState().with(CoralBlock.WATERLOGGED, true));
                             }
-                            else if (world.getBlockState(targetPos).isOf(Blocks.WATER)) {
-                                world.setBlockState(targetPos, Blocks.FIRE_CORAL_FAN.getDefaultState().with(CoralBlock.WATERLOGGED, Boolean.TRUE));
-                            }
+                        } else if (sideBlock.isOf(Blocks.WATER)) {
+                            world.setBlockState(sidePos, Blocks.FIRE_CORAL_WALL_FAN.getDefaultState()
+                                    .with(DeadCoralWallFanBlock.FACING, (coralDir))
+                                    .with(CoralWallFanBlock.WATERLOGGED, true));
                         }
-                        else if (testBlock.isOf(Blocks.WATER)) {
-                            world.setBlockState(coralPos, Blocks.FIRE_CORAL_WALL_FAN.getDefaultState().with(DeadCoralWallFanBlock.FACING, (coralDir)).with(CoralWallFanBlock.WATERLOGGED, Boolean.TRUE), Block.NOTIFY_LISTENERS);
-                        }
-                    }
-                    if (world.getBlockState(pos).isOf(Blocks.HORN_CORAL_BLOCK)) {
-                        if (random.nextFloat() < 0.5f) {
-                            if (random.nextFloat() < 0.5f) {
-                                if (world.getBlockState(targetPos).isOf(Blocks.WATER)) {
-                                    world.setBlockState(targetPos, Blocks.HORN_CORAL.getDefaultState().with(CoralBlock.WATERLOGGED, Boolean.TRUE));
-                                }
-                            }
-                            else if (world.getBlockState(targetPos).isOf(Blocks.WATER)) {
-                                world.setBlockState(targetPos, Blocks.HORN_CORAL_FAN.getDefaultState().with(CoralBlock.WATERLOGGED, Boolean.TRUE));
-                            }
-                        }
-                        else if (testBlock.isOf(Blocks.WATER)) {
-                            world.setBlockState(coralPos, Blocks.HORN_CORAL_WALL_FAN.getDefaultState().with(DeadCoralWallFanBlock.FACING, (coralDir)).with(CoralWallFanBlock.WATERLOGGED, Boolean.TRUE), Block.NOTIFY_LISTENERS);
-                        }
-                    }
-                    if (world.getBlockState(pos).isOf(Blocks.BRAIN_CORAL_BLOCK)) {
-                        if (random.nextFloat() < 0.5f) {
-                            if (random.nextFloat() < 0.5f) {
-                                if (world.getBlockState(targetPos).isOf(Blocks.WATER)) {
-                                    world.setBlockState(targetPos, Blocks.BRAIN_CORAL.getDefaultState().with(CoralBlock.WATERLOGGED, Boolean.TRUE));
-                                }
-                            }
-                            else if (world.getBlockState(targetPos).isOf(Blocks.WATER)) {
-                                world.setBlockState(targetPos, Blocks.BRAIN_CORAL_FAN.getDefaultState().with(CoralBlock.WATERLOGGED, Boolean.TRUE));
-                            }
-                        }
-                        else if (testBlock.isOf(Blocks.WATER)) {
-                            world.setBlockState(coralPos, Blocks.BRAIN_CORAL_WALL_FAN.getDefaultState().with(DeadCoralWallFanBlock.FACING, (coralDir)).with(CoralWallFanBlock.WATERLOGGED, Boolean.TRUE), Block.NOTIFY_LISTENERS);
-                        }
-                    }
-                    if (world.getBlockState(pos).isOf(Blocks.BUBBLE_CORAL_BLOCK)) {
-                        if (random.nextFloat() < 0.5f) {
-                            if (random.nextFloat() < 0.5f) {
-                                if (world.getBlockState(targetPos).isOf(Blocks.WATER)) {
-                                    world.setBlockState(targetPos, Blocks.BUBBLE_CORAL.getDefaultState().with(CoralBlock.WATERLOGGED, Boolean.TRUE));
-                                }
-                            }
-                            else if (world.getBlockState(targetPos).isOf(Blocks.WATER)) {
-                                world.setBlockState(targetPos, Blocks.BUBBLE_CORAL_FAN.getDefaultState().with(CoralBlock.WATERLOGGED, Boolean.TRUE));
-                            }
-                        }
-                        else if (testBlock.isOf(Blocks.WATER)) {
-                            world.setBlockState(coralPos, Blocks.BUBBLE_CORAL_WALL_FAN.getDefaultState().with(DeadCoralWallFanBlock.FACING, (coralDir)).with(CoralWallFanBlock.WATERLOGGED, Boolean.TRUE), Block.NOTIFY_LISTENERS);
-                        }
-                    }
-                    if (world.getBlockState(pos).isOf(Blocks.TUBE_CORAL_BLOCK)) {
-                        if (random.nextFloat() < 0.5f) {
-                            if (random.nextFloat() < 0.5f) {
-                                if (world.getBlockState(targetPos).isOf(Blocks.WATER)) {
-                                    world.setBlockState(targetPos, Blocks.TUBE_CORAL.getDefaultState().with(CoralBlock.WATERLOGGED, Boolean.TRUE));
-                                }
-                            }
-                            else if (world.getBlockState(targetPos).isOf(Blocks.WATER)) {
-                                world.setBlockState(targetPos, Blocks.TUBE_CORAL_FAN.getDefaultState().with(CoralBlock.WATERLOGGED, Boolean.TRUE));
-                            }
-                        }
-                        else if (testBlock.isOf(Blocks.WATER)) {
-                            world.setBlockState(coralPos, Blocks.TUBE_CORAL_WALL_FAN.getDefaultState().with(DeadCoralWallFanBlock.FACING, (coralDir)).with(CoralWallFanBlock.WATERLOGGED, Boolean.TRUE), Block.NOTIFY_LISTENERS);
-                        }
-                    }
+                    });
                 }
             }
         }

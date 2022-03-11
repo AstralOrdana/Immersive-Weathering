@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.MagmaBlock;
@@ -19,23 +20,12 @@ import java.util.Random;
 public class MagmaBlockMixin {
     @Inject(method = "randomTick", at = @At("TAIL"))
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
-        for (var direction : Direction.values()) {
-            var targetPos = pos.offset(direction);
-            if (BlockPos.streamOutwards(pos, 3, 3, 3)
-                    .map(world::getBlockState)
-                    .map(BlockState::getBlock)
-                    .anyMatch(Blocks.LAVA::equals)) {
-                if (BlockPos.streamOutwards(pos, 2, 2, 2)
-                        .map(world::getBlockState)
-                        .map(BlockState::getBlock)
-                        .filter(Blocks.MAGMA_BLOCK::equals)
-                        .toList().size() <= 8) {
-                    float f = 0.5f;
-                    if (random.nextFloat() > 0.5f) {
-                        if (world.getBlockState(targetPos).isOf(Blocks.NETHERRACK)) {
-                            world.setBlockState(targetPos, Blocks.MAGMA_BLOCK.getDefaultState());
-                        }
-                    }
+        if (random.nextFloat() > 0.5f) {
+            if (!world.isChunkLoaded(pos)) return;
+            if (WeatheringHelper.canMagmaSpread(pos, 3, world, 12)) {
+                var targetPos = pos.offset(Direction.random(random));
+                if (world.getBlockState(targetPos).isOf(Blocks.NETHERRACK)) {
+                    world.setBlockState(targetPos, Blocks.MAGMA_BLOCK.getDefaultState(), 3);
                 }
             }
         }

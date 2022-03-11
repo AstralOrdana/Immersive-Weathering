@@ -8,9 +8,14 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
@@ -25,213 +30,115 @@ import net.minecraft.world.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 public class LeafPileBlock extends Block implements Fertilizable {
-    public static final int MAX_LAYERS = 8;
-    public static final IntProperty LAYERS;
-    protected static final VoxelShape[] LAYERS_TO_SHAPE;
-    public static final int field_31248 = 5;
 
-    protected LeafPileBlock(Settings settings) {
+    public static final IntProperty LAYERS = IntProperty.of("layers", 0, 8);
+    ;
+    protected static final VoxelShape[] LAYERS_TO_SHAPE = new VoxelShape[]{Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
+    private static final float[] COLLISIONS = new float[]{0, 1.7f, 1.6f, 1.5f, 1.3f, 1.1f, 0.8f, 0.5f};
+
+    private final boolean hasFlowers; //if it can be boneMealed
+    private final boolean hasThorns; //if it can hurt
+    private final List<DefaultParticleType> particles;
+
+    protected LeafPileBlock(Settings settings, boolean hasFlowers, boolean hasThorns,
+                            List<DefaultParticleType> particles) {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(LAYERS, 1));
+        this.hasFlowers = hasFlowers;
+        this.hasThorns = hasThorns;
+        this.particles = particles;
     }
 
+    @Override
     public int getOpacity(BlockState state, BlockView world, BlockPos pos) {
         return 1;
     }
 
     protected int getLayers(BlockState state) {
-        return state.get(this.getLayersProperty());
+        return state.get(LAYERS);
     }
 
-    public IntProperty getLayersProperty() {
-        return LAYERS;
-    }
-
-    private boolean hasLeggingsOn(PlayerEntity player) {
-        ItemStack leggings = player.getInventory().getArmorStack(1);
-        return !leggings.isEmpty();
-    }
-
+    @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        int a = this.getLayers(state);
-        if (a == 2) {
-            if (entity instanceof LivingEntity && entity.getType() != EntityType.FOX && entity.getType() != EntityType.BEE) {
-                entity.slowMovement(state, new Vec3d(1.7D, 1.7D, 1.7D));
-            }
-        }
-        if (a == 3) {
-            if (entity instanceof LivingEntity && entity.getType() != EntityType.FOX && entity.getType() != EntityType.BEE) {
-                entity.slowMovement(state, new Vec3d(1.6D, 1.6D, 1.6D));
-            }
-        }
-        if (a == 4) {
-            if (entity instanceof LivingEntity && entity.getType() != EntityType.FOX && entity.getType() != EntityType.BEE) {
-                entity.slowMovement(state, new Vec3d(1.5D, 1.5D, 1.5D));
-            }
-        }
-        if (a == 5) {
-            if (entity instanceof LivingEntity && entity.getType() != EntityType.FOX && entity.getType() != EntityType.BEE) {
-                entity.slowMovement(state, new Vec3d(1.3D, 1.3D, 1.3D));
-            }
-        }
-        if (a == 6) {
-            if (entity instanceof LivingEntity && entity.getType() != EntityType.FOX && entity.getType() != EntityType.BEE) {
-                entity.slowMovement(state, new Vec3d(1.1D, 1.1D, 1.1D));
-                if (world.getBlockState(pos).isOf(ModBlocks.SPRUCE_LEAF_PILE)) {
-                    PlayerEntity player = (PlayerEntity)entity;
-                    if(!hasLeggingsOn(player)) {
-                        if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
-                            double d = Math.abs(entity.getX() - entity.lastRenderX);
-                            double e = Math.abs(entity.getZ() - entity.lastRenderZ);
-                            if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
-                                entity.damage(DamageSource.SWEET_BERRY_BUSH, 0.5F);
-                            }
+        int layers = this.getLayers(state);
+
+        if (layers > 1) {
+            if (entity instanceof LivingEntity && !(entity instanceof FoxEntity || entity instanceof BeeEntity)) {
+                float stuck = COLLISIONS[Math.max(0, layers - 1)];
+                entity.slowMovement(state, new Vec3d(stuck, stuck, stuck));
+
+                if (layers >= 6 && this.hasThorns) {
+                    if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
+                        double d = Math.abs(entity.getX() - entity.lastRenderX);
+                        double e = Math.abs(entity.getZ() - entity.lastRenderZ);
+                        if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
+                            entity.damage(DamageSource.SWEET_BERRY_BUSH, 0.5F * (layers - 5));
                         }
                     }
                 }
             }
         }
-        if (a == 7) {
-            if (entity instanceof LivingEntity && entity.getType() != EntityType.FOX && entity.getType() != EntityType.BEE) {
-                entity.slowMovement(state, new Vec3d(0.8D, 0.8D, 0.8D));
-                if (world.getBlockState(pos).isOf(ModBlocks.SPRUCE_LEAF_PILE)) {
-                    PlayerEntity player = (PlayerEntity)entity;
-                    if(!hasLeggingsOn(player)) {
-                        if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
-                            double d = Math.abs(entity.getX() - entity.lastRenderX);
-                            double e = Math.abs(entity.getZ() - entity.lastRenderZ);
-                            if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
-                                entity.damage(DamageSource.SWEET_BERRY_BUSH, 1F);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (a == 8) {
-            if (entity instanceof LivingEntity && entity.getType() != EntityType.FOX && entity.getType() != EntityType.BEE) {
-                entity.slowMovement(state, new Vec3d(0.5D, 0.5D, 0.5D));
-                if (world.getBlockState(pos).isOf(ModBlocks.SPRUCE_LEAF_PILE)) {
-                    PlayerEntity player = (PlayerEntity)entity;
-                    if(!hasLeggingsOn(player)) {
-                        if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
-                            double d = Math.abs(entity.getX() - entity.lastRenderX);
-                            double e = Math.abs(entity.getZ() - entity.lastRenderZ);
-                            if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
-                                entity.damage(DamageSource.SWEET_BERRY_BUSH, 1.5F);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (!(entity instanceof LivingEntity) || entity.getBlockStateAtPos().isOf(this)) {
-            if (world.isClient) {
-                Random random = world.getRandom();
-                boolean bl = entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ();
-                if (bl && random.nextBoolean()) {
-                    if (a < 5) {
-                        if (world.getBlockState(pos).isOf(ModBlocks.OAK_LEAF_PILE)) {
-                            world.addParticle(ModParticles.OAK_LEAF, entity.getX(), entity.getY() + 0.5, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                        if (world.getBlockState(pos).isOf(ModBlocks.BIRCH_LEAF_PILE)) {
-                            world.addParticle(ModParticles.BIRCH_LEAF, entity.getX(), entity.getY() + 0.5, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                        if (world.getBlockState(pos).isOf(ModBlocks.SPRUCE_LEAF_PILE)) {
-                            world.addParticle(ModParticles.SPRUCE_LEAF, entity.getX(), entity.getY() + 0.5, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                        if (world.getBlockState(pos).isOf(ModBlocks.JUNGLE_LEAF_PILE)) {
-                            world.addParticle(ModParticles.JUNGLE_LEAF, entity.getX(), entity.getY() + 0.5, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                        if (world.getBlockState(pos).isOf(ModBlocks.ACACIA_LEAF_PILE)) {
-                            world.addParticle(ModParticles.ACACIA_LEAF, entity.getX(), entity.getY() + 0.5, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                        if (world.getBlockState(pos).isOf(ModBlocks.DARK_OAK_LEAF_PILE)) {
-                            world.addParticle(ModParticles.DARK_OAK_LEAF, entity.getX(), entity.getY() + 0.5, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                        if (world.getBlockState(pos).isOf(ModBlocks.AZALEA_FLOWER_PILE)) {
-                            world.addParticle(ModParticles.AZALEA_FLOWER, entity.getX(), entity.getY() + 0.5, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                        if (world.getBlockState(pos).isOf(ModBlocks.AZALEA_LEAF_PILE)) {
-                            world.addParticle(ModParticles.AZALEA_LEAF, entity.getX(), entity.getY() + 0.5, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.0001F, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                        if (world.getBlockState(pos).isOf(ModBlocks.FLOWERING_AZALEA_LEAF_PILE)) {
-                            world.addParticle(ModParticles.AZALEA_LEAF, entity.getX(), entity.getY() + 0.5, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.0001F, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                            world.addParticle(ModParticles.AZALEA_FLOWER, entity.getX(), entity.getY() + 0.5, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.0001F, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                    }
-                    if (a > 4) {
-                        if (world.getBlockState(pos).isOf(ModBlocks.OAK_LEAF_PILE)) {
-                            world.addParticle(ModParticles.OAK_LEAF, entity.getX(), entity.getY() + 1, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                        if (world.getBlockState(pos).isOf(ModBlocks.BIRCH_LEAF_PILE)) {
-                            world.addParticle(ModParticles.BIRCH_LEAF, entity.getX(), entity.getY() + 1, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                        if (world.getBlockState(pos).isOf(ModBlocks.SPRUCE_LEAF_PILE)) {
-                            world.addParticle(ModParticles.SPRUCE_LEAF, entity.getX(), entity.getY() + 1, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                        if (world.getBlockState(pos).isOf(ModBlocks.JUNGLE_LEAF_PILE)) {
-                            world.addParticle(ModParticles.JUNGLE_LEAF, entity.getX(), entity.getY() + 1, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                        if (world.getBlockState(pos).isOf(ModBlocks.ACACIA_LEAF_PILE)) {
-                            world.addParticle(ModParticles.ACACIA_LEAF, entity.getX(), entity.getY() + 1, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                        if (world.getBlockState(pos).isOf(ModBlocks.DARK_OAK_LEAF_PILE)) {
-                            world.addParticle(ModParticles.DARK_OAK_LEAF, entity.getX(), entity.getY() + 1, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                        if (world.getBlockState(pos).isOf(ModBlocks.AZALEA_FLOWER_PILE)) {
-                            world.addParticle(ModParticles.AZALEA_FLOWER, entity.getX(), entity.getY() + 1, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                        if (world.getBlockState(pos).isOf(ModBlocks.AZALEA_LEAF_PILE)) {
-                            world.addParticle(ModParticles.AZALEA_LEAF, entity.getX(), entity.getY() + 1, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.0001F, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                        if (world.getBlockState(pos).isOf(ModBlocks.FLOWERING_AZALEA_LEAF_PILE)) {
-                            world.addParticle(ModParticles.AZALEA_LEAF, entity.getX(), entity.getY() + 1, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.0001F, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                            world.addParticle(ModParticles.AZALEA_FLOWER, entity.getX(), entity.getY() + 1, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.0001F, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                        }
-                    }
+
+        //particles
+        if (layers > 0 && world.isClient && (!(entity instanceof LivingEntity) || entity.getBlockStateAtPos().isOf(this))) {
+
+            Random random = world.getRandom();
+            boolean bl = entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ();
+            if (bl && random.nextBoolean()) {
+                double yOff = (layers < 5) ? 0.5 : 1;
+                for (var p : particles) {
+                    world.addParticle(p, entity.getX(), entity.getY() + yOff, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
                 }
             }
         }
     }
 
+    @Override
     public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
         return switch (type) {
-            case LAND -> (Integer) state.get(LAYERS) < 5;
-            case WATER -> false;
+            case LAND -> getLayers(state) < 5;
+            case WATER -> getLayers(state) == 0;
             case AIR -> false;
-            default -> false;
         };
     }
 
+    @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return LAYERS_TO_SHAPE[(Integer)state.get(LAYERS)];
+        return LAYERS_TO_SHAPE[getLayers(state)];
     }
 
+    @Override
     public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return LAYERS_TO_SHAPE[(Integer)state.get(LAYERS) - (Integer)state.get(LAYERS)];
+        return VoxelShapes.empty();
     }
 
+    @Override
     public VoxelShape getSidesShape(BlockState state, BlockView world, BlockPos pos) {
-        return LAYERS_TO_SHAPE[(Integer)state.get(LAYERS)];
+        return LAYERS_TO_SHAPE[getLayers(state)];
     }
 
+    @Override
     public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return LAYERS_TO_SHAPE[(Integer)state.get(LAYERS)];
+        return LAYERS_TO_SHAPE[getLayers(state)];
     }
 
+    @Override
     public boolean hasSidedTransparency(BlockState state) {
         return true;
     }
 
+    @Override
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        BlockState blockState = world.getBlockState(pos.down());
-        if (!blockState.isOf(Blocks.BARRIER)) {
-            if (!blockState.isOf(Blocks.HONEY_BLOCK) && !blockState.isOf(Blocks.SOUL_SAND)) {
-                return Block.isFaceFullSquare(blockState.getCollisionShape(world, pos.down()), Direction.UP) || blockState.isOf(this) && (Integer)blockState.get(LAYERS) == 8;
+        BlockState below = world.getBlockState(pos.down());
+        if (!below.isOf(Blocks.BARRIER)) {
+            if (!below.isOf(Blocks.HONEY_BLOCK) && !below.isOf(Blocks.SOUL_SAND) &&
+                    !(below.getFluidState().isOf(Fluids.WATER) && state.get(LAYERS) == 0)) {
+                return below.isSideSolidFullSquare(world, pos.down(), Direction.UP) || below.isOf(this) && below.get(LAYERS) == 8;
             } else {
                 return true;
             }
@@ -240,20 +147,22 @@ public class LeafPileBlock extends Block implements Fertilizable {
         }
     }
 
+    @Override
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         return !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }
 
+    @Override
     public boolean canReplace(BlockState state, ItemPlacementContext context) {
         int i = state.get(LAYERS);
-        if (context.getStack().isOf(this.asItem()) && i < 8) {
+        if (context.getStack().isOf(this.asItem()) && i < 8 && i > 0) {
+
             if (context.canReplaceExisting()) {
                 return context.getSide() == Direction.UP;
             } else {
                 return true;
             }
-        }
-        else {
+        } else {
             return i < 3;
         }
     }
@@ -265,56 +174,40 @@ public class LeafPileBlock extends Block implements Fertilizable {
             int i = blockState.get(LAYERS);
             return blockState.with(LAYERS, Math.min(8, i + 1));
         } else {
+            if (blockState.getFluidState().isOf(Fluids.WATER)) return null;
+            BlockState below = ctx.getWorld().getBlockState(ctx.getBlockPos().down());
+            if (below.getFluidState().isOf(Fluids.WATER)) {
+                if (!blockState.isAir()) return null;
+                return this.getDefaultState().with(LAYERS, 0);
+            }
             return super.getPlacementState(ctx);
         }
     }
 
+    @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(LAYERS);
     }
 
-    static {
-        LAYERS = Properties.LAYERS;
-        LAYERS_TO_SHAPE = new VoxelShape[]{VoxelShapes.empty(), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
-    }
-
     @Override
     public boolean isFertilizable(BlockView world, BlockPos pos, BlockState state, boolean isClient) {
-        if(state.isOf(ModBlocks.FLOWERING_AZALEA_LEAF_PILE) || state.isOf(ModBlocks.AZALEA_FLOWER_PILE)) {
-            return true;
-        }
-        else return false;
+        return this.hasFlowers;
     }
 
     @Override
     public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
-        if(state.isOf(ModBlocks.FLOWERING_AZALEA_LEAF_PILE) || state.isOf(ModBlocks.AZALEA_FLOWER_PILE)) {
-            return true;
-        }
-        else return false;
+        return this.hasFlowers;
     }
-
-    private static final HashMap<Block, Block> FLOWERY_BLOCKS = new HashMap<>();
 
     @Override
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
-
-        FLOWERY_BLOCKS.put(Blocks.FLOWERING_AZALEA, Blocks.AZALEA);
-        FLOWERY_BLOCKS.put(Blocks.FLOWERING_AZALEA_LEAVES, Blocks.AZALEA_LEAVES);
-        FLOWERY_BLOCKS.put(ModBlocks.FLOWERING_AZALEA_LEAF_PILE, ModBlocks.AZALEA_LEAF_PILE);
-
         for (var direction : Direction.values()) {
-            var targetPos = pos.offset(direction);
-            BlockState targetBlock = world.getBlockState(targetPos);
-            float f = 0.5f;
             if (random.nextFloat() > 0.5f) {
-                if (world.getBlockState(targetPos).isIn(ModTags.FLOWERABLE)) {
-                    FLOWERY_BLOCKS.forEach((flowery, shorn) -> {
-                        if (targetBlock.isOf(shorn)) {
-                            world.setBlockState(targetPos, flowery.getStateWithProperties(targetBlock));
-                        }
-                    });
-                }
+                var targetPos = pos.offset(direction);
+                BlockState targetBlock = world.getBlockState(targetPos);
+                WeatheringHelper.getAzaleaGrowth(targetBlock).ifPresent(s ->
+                        world.setBlockState(targetPos, s)
+                );
             }
         }
     }

@@ -1,5 +1,7 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.registry.ModTags;
+import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.server.world.ServerWorld;
@@ -25,12 +27,7 @@ public class FernBlockMixin extends Block {
         var targetPos = pos.up();
         if (world.getBlockState(pos).isOf(Blocks.GRASS)) {
             if (world.getBlockState(targetPos).isOf(Blocks.AIR)) {
-                if (BlockPos.streamOutwards(pos, 5, 5, 5)
-                        .map(world::getBlockState)
-                        .map(BlockState::getBlock)
-                        .filter(Blocks.TALL_GRASS::equals)
-                        .toList().size() <= 2) {
-                    float f = 0.5f;
+                if (!WeatheringHelper.hasEnoughBlocksAround(pos, 3, world, b -> b.isOf(Blocks.TALL_GRASS), 2)) {
                     if (random.nextFloat() < 0.001f) {
                         world.setBlockState(pos, Blocks.TALL_GRASS.getDefaultState());
                         world.setBlockState(targetPos, Blocks.TALL_GRASS.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER));
@@ -40,12 +37,7 @@ public class FernBlockMixin extends Block {
         }
         if (world.getBlockState(pos).isOf(Blocks.FERN)) {
             if (world.getBlockState(targetPos).isOf(Blocks.AIR)) {
-                if (BlockPos.streamOutwards(pos, 5, 5, 5)
-                        .map(world::getBlockState)
-                        .map(BlockState::getBlock)
-                        .filter(Blocks.LARGE_FERN::equals)
-                        .toList().size() <= 2) {
-                    float f = 0.5f;
+                if (!WeatheringHelper.hasEnoughBlocksAround(pos, 3, world, b -> b.isOf(Blocks.LARGE_FERN), 2)) {
                     if (random.nextFloat() < 0.001f) {
                         world.setBlockState(pos, Blocks.LARGE_FERN.getDefaultState());
                         world.setBlockState(targetPos, Blocks.LARGE_FERN.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER));

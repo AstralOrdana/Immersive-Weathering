@@ -23,12 +23,12 @@ import java.util.Random;
 
 public class MulchBlock extends Block {
 
+    public static final BooleanProperty SOAKED = BooleanProperty.of("soaked");
+
     public MulchBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.getDefaultState().with(SOAKED, false));
     }
-
-    public static final BooleanProperty SOAKED = BooleanProperty.of("soaked");
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
@@ -55,23 +55,34 @@ public class MulchBlock extends Block {
         return super.onUse(state, world, pos, player, hand, hit);
     }
 
+    @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+
+        // RandomEvent ran = new RandomEvent();
+
+        BlockState campfireState = world.getBlockState(pos.up());
+        if (campfireState.isOf(Blocks.CAMPFIRE)) {
+
+            if (random.nextFloat() < 0.2f) {
+                world.setBlockState(pos, state.with(SOAKED, false));
+                return;
+            }
+        }
+
+
         if (world.hasRain(pos.up())) {
             if (random.nextFloat() < 0.2f) {
                 world.setBlockState(pos, state.with(SOAKED, true));
+                return;
             }
         }
-        BlockState campfireState = world.getBlockState(pos.up());
-        if (campfireState.isOf(Blocks.CAMPFIRE)) {
-            if (random.nextFloat() < 0.2f) {
-                world.setBlockState(pos, state.with(SOAKED, false));
-            }
-        }
+
         for (Direction direction : Direction.values()) {
             var targetPos = pos.offset(direction);
             BlockState neighborState = world.getBlockState(targetPos);
             if (neighborState.isIn(ModTags.MAGMA_SOURCE)) {
                 world.setBlockState(pos, state.with(SOAKED, false), 2);
+                return;
             }
         }
         var biome = world.getBiome(pos);
@@ -79,19 +90,18 @@ public class MulchBlock extends Block {
             if (world.random.nextFloat() < 0.07f) {
                 world.setBlockState(pos, state.with(SOAKED, false));
             }
-        }
-        else if (biome.isIn(ModTags.WET)) {
+        } else if (biome.isIn(ModTags.WET)) {
             if (world.random.nextFloat() < 0.4f) {
                 world.setBlockState(pos, state.with(SOAKED, true));
             }
-        }
-        else if (world.getRegistryKey() == World.NETHER) {
+        } else if (world.getRegistryKey() == World.NETHER) {
             if (world.random.nextFloat() < 0.1f) {
                 world.setBlockState(pos, state.with(SOAKED, false));
             }
         }
     }
 
+    @Override
     public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         entity.handleFallDamage(fallDistance, 0.2F, DamageSource.FALL);
     }

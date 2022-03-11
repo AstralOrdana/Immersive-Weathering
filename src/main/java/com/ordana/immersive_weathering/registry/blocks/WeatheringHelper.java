@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.registry.blocks;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMap;
+import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -78,6 +79,15 @@ public class WeatheringHelper {
             .put(Blocks.FLOWERING_AZALEA_LEAVES, ModBlocks.FLOWERING_AZALEA_LEAF_PILE)
             .build());
 
+    public static final DataPool<Direction> ROOT_DIRECTIONS =
+            DataPool.<Direction>builder()
+                    .add(Direction.NORTH, 5)
+                    .add(Direction.SOUTH, 5)
+                    .add(Direction.WEST, 5)
+                    .add(Direction.EAST, 5)
+                    .add(Direction.UP, 1)
+                    .add(Direction.DOWN, 20)
+                    .build();
 
     public static Optional<CoralFamily> getCoralGrowth(BlockState baseBlock) {
         return Optional.ofNullable(CORALS.get().get(baseBlock.getBlock()));
@@ -126,8 +136,7 @@ public class WeatheringHelper {
      * @param requiredAmount maximum amount of blocks that we want around this
      * @return true if blocks around that match the given predicate exceed(inclusive) the maximum size given
      */
-    public static boolean hasEnoughBlocksAround(BlockPos centerPos, int radiusX, int radiusY, int radiusZ, World world,
-                                                Predicate<BlockState> blockPredicate, int requiredAmount) {
+    public static boolean hasEnoughBlocksAround(BlockPos centerPos, int radiusX, int radiusY, int radiusZ, World world, Predicate<BlockState> blockPredicate, int requiredAmount) {
 
         var lis = grabBlocksAroundRandomly(centerPos, radiusX, radiusY, radiusZ);
 
@@ -178,6 +187,21 @@ public class WeatheringHelper {
             if (count >= maximumSize) return false;
         }
         return hasLava;
+    }
+
+    public static boolean canRootsSpread(BlockPos centerPos, int height, int width, World world, int maximumSize) {
+        int count = 0;
+        boolean hasRoots = false;
+        var list = grabBlocksAroundRandomly(centerPos.up(height/2), width, height, width);
+        for (BlockPos pos : list) {
+            BlockState state = world.getBlockState(pos);
+            if (state.isOf(Blocks.ROOTED_DIRT)) count += 1;
+            else {
+                if (!hasRoots && state.isIn(ModTags.RAW_LOGS)) hasRoots = true;
+            }
+            if (count >= maximumSize) return false;
+        }
+        return hasRoots;
     }
 
 }

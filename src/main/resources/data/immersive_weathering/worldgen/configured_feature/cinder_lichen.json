@@ -9,7 +9,9 @@
     "can_be_placed_on": [
       "minecraft:deepslate",
       "minecraft:tuff",
-      "minecraft:gravel"
+      "minecraft:gravel",
+      "minecraft:stone",
+      "minecraft:obsidian"
     ]
   }
 }

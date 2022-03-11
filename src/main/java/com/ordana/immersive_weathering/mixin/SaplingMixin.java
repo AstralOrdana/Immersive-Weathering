@@ -13,22 +13,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Random;
 
 @Mixin(SaplingBlock.class)
-public class SaplingMixin extends Block {
+public abstract class SaplingMixin extends Block {
     public SaplingMixin(Settings settings) {
         super(settings);
     }
 
     @Inject(method = "randomTick", at = @At("TAIL"))
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
-        var biome = world.getBiome(pos);
-        if (biome.isIn(ModTags.HOT)) {
-            if (world.random.nextFloat() < 0.08f) {
-                world.setBlockState(pos, Blocks.DEAD_BUSH.getDefaultState());
-            }
-        }
-        else if (world.getRegistryKey() == World.NETHER) {
-            if (world.random.nextFloat() < 0.4f) {
-                world.setBlockState(pos, Blocks.DEAD_BUSH.getDefaultState());
+        //it could have already turned into a tree
+        if (world.getBlockState(pos).getBlock() instanceof SaplingBlock) {
+            var biome = world.getBiome(pos);
+            if (biome.value().isHot(pos)) {
+                if (world.random.nextFloat() < 0.08f) {
+                    world.setBlockState(pos, Blocks.DEAD_BUSH.getDefaultState());
+                }
+            } else if (world.getDimension().isUltrawarm()) {
+                if (world.random.nextFloat() < 0.4f) {
+                    world.setBlockState(pos, Blocks.DEAD_BUSH.getDefaultState());
+                }
             }
         }
     }
