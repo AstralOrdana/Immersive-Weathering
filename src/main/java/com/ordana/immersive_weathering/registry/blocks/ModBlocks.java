@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.ModParticles;
+import com.ordana.immersive_weathering.registry.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableWallBlock;
 import com.ordana.immersive_weathering.registry.blocks.mossable.*;
 import com.ordana.immersive_weathering.registry.blocks.rustable.*;
@@ -59,7 +60,7 @@ public class ModBlocks {
     public static final Block CRACKED_PRISMARINE_BRICK_STAIRS = new ModStairs(CRACKED_PRISMARINE_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.DIAMOND_BLUE).requiresTool().strength(1.5f, 6f));
     public static final Block CRACKED_PRISMARINE_BRICK_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.DIAMOND_BLUE).requiresTool().strength(1.5f, 6f));
     public static final Block CRACKED_PRISMARINE_BRICK_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.DIAMOND_BLUE).requiresTool().strength(1.5f, 6f));
-    public static final Block PRISMARINE_BRICK_WALL = new CrackableWallBlock(FabricBlockSettings.of(Material.STONE, MapColor.DIAMOND_BLUE).requiresTool().strength(1.5f, 6f));
+    public static final Block PRISMARINE_BRICK_WALL = new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, FabricBlockSettings.of(Material.STONE, MapColor.DIAMOND_BLUE).requiresTool().strength(1.5f, 6f));
 
     public static final Block CRACKED_END_STONE_BRICKS = new Block(FabricBlockSettings.of(Material.STONE, MapColor.PALE_YELLOW).requiresTool().strength(3.0F, 9.0F));
     public static final Block CRACKED_END_STONE_BRICK_STAIRS = new ModStairs(CRACKED_END_STONE_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.PALE_YELLOW).requiresTool().strength(3f, 9f));

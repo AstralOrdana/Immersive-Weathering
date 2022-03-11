@@ -9,7 +9,7 @@ import net.minecraft.item.Item;
 public class CrackedSlabBlock extends SlabBlock implements Crackable {
     private final CrackLevel crackLevel;
 
-    public CrackedSlabBlock(CrackLevel crackLevel, Supplier<Item> brickItem, Settings settings) {
+    public CrackedSlabBlock(CrackLevel crackLevel, Settings settings) {
         super(settings);
         this.crackLevel = crackLevel;
     }
