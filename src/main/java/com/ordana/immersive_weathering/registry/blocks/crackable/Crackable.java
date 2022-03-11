@@ -3,21 +3,19 @@ package com.ordana.immersive_weathering.registry.blocks.crackable;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
-import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
-import com.ordana.immersive_weathering.registry.blocks.WeatherableBlock;
+import com.ordana.immersive_weathering.registry.blocks.SpreadingPatchBlock;
+import com.ordana.immersive_weathering.registry.blocks.Weatherable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.Degradable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public interface Crackable extends Degradable<Crackable.CrackLevel>, WeatherableBlock {
+public interface Crackable extends Weatherable {
 
     Supplier<BiMap<Block, Block>> CRACK_LEVEL_INCREASES = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
 
@@ -51,41 +49,65 @@ public interface Crackable extends Degradable<Crackable.CrackLevel>, Weatherable
             .build());
 
     //reverse map for reverse access in descending order
-    Supplier<BiMap<Block, Block>> CRACK_LEVEL_DECREASES = Suppliers.memoize(() -> Objects.requireNonNull(CRACK_LEVEL_INCREASES.get()).inverse());
+    Supplier<BiMap<Block, Block>> CRACK_LEVEL_DECREASES = Suppliers.memoize(() -> CRACK_LEVEL_INCREASES.get().inverse());
 
-    static Optional<Block> getIncreasedCrackBlock(Block block) {
+
+    //these can be removed if you want
+
+    private static Optional<Block> getDecreasedCrackBlock(Block block) {
+        return Optional.ofNullable(CRACK_LEVEL_DECREASES.get().get(block));
+    }
+
+    private static Block getUncrackedCrackBlock(Block block) {
+        Block block2 = block;
+        Block block3 = CRACK_LEVEL_DECREASES.get().get(block2);
+        while (block3 != null) {
+            block2 = block3;
+            block3 = CRACK_LEVEL_DECREASES.get().get(block2);
+        }
+        return block2;
+    }
+
+    private static Optional<BlockState> getDecreasedCrackState(BlockState state) {
+        return getDecreasedCrackBlock(state.getBlock()).map(block -> block.getStateWithProperties(state));
+    }
+
+    private static BlockState getUncrackedCrackState(BlockState state) {
+        return getUncrackedCrackBlock(state.getBlock()).getStateWithProperties(state);
+    }
+
+    private static Optional<Block> getIncreasedCrackBlock(Block block) {
         return Optional.ofNullable(CRACK_LEVEL_INCREASES.get().get(block));
     }
 
-    @Override
-    default Optional<BlockState> getDegradationResult(BlockState state) {
-        return Crackable.getIncreasedCrackBlock(state.getBlock()).map(block -> block.getStateWithProperties(state));
+
+    default Optional<BlockState> getNextCracked(BlockState state) {
+        return getIncreasedCrackBlock(state.getBlock()).map(block -> block.getStateWithProperties(state));
     }
 
-    default float getChance() {
-        return 1.0f;
+    default Optional<BlockState> getPreviousCracked(BlockState state) {
+        return getIncreasedCrackBlock(state.getBlock()).map(block -> block.getStateWithProperties(state));
+    }
+
+    CrackSpreader getCrackSpreader();
+
+    @Override
+    default <T extends Enum<?>> Optional<SpreadingPatchBlock<T>> getPatchSpreader(Class<T> weatheringClass) {
+        if (weatheringClass == CrackLevel.class) {
+            return Optional.of((SpreadingPatchBlock<T>) getCrackSpreader());
+        }
+        return Optional.empty();
+    }
+
+
+    CrackLevel getCrackLevel();
+
+    default boolean shouldWeather(BlockState state, BlockPos pos, World level) {
+        return this.getCrackSpreader().getWanderWeatheringState(false, pos, level);
     }
 
     enum CrackLevel {
         UNCRACKED,
         CRACKED;
-    }
-
-    @Override
-    default float getInterestForDirection() {
-        return 0.3f;
-    }
-
-    @Override
-    default float getHighInterestChance() {
-        return 0.5f;
-    }
-
-    @Override
-    default float getUnWeatherableChance() {return 0.1f; }
-
-    @Override
-    default WeatheringAgent getWeatheringEffect(BlockState state, World world, BlockPos pos){
-        return state.isOf(Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS) || state.isIn(ModTags.CRACKED) ? WeatheringAgent.WEATHER : WeatheringAgent.NONE;
     }
 }

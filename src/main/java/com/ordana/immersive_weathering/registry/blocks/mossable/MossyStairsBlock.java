@@ -1,46 +1,29 @@
 package com.ordana.immersive_weathering.registry.blocks.mossable;
 
-import net.minecraft.block.*;
+import java.util.Random;
+import java.util.function.Supplier;
+
+import com.ordana.immersive_weathering.registry.blocks.ModStairs;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Fertilizable;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-import java.util.Random;
+public class MossyStairsBlock extends ModStairs implements Mossable, Fertilizable {
 
+    private final MossLevel mossLevel;
 
-public class MossyStairsBlock extends StairsBlock implements Mossable, Fertilizable {
-    protected final Mossable.MossLevel mossLevel;
-
-    public MossyStairsBlock(Mossable.MossLevel mossLevel, BlockState baseBlockState, Settings settings) {
-        super(baseBlockState, settings);
+    public MossyStairsBlock(MossLevel mossLevel, Supplier<Block> state, Settings properties) {
+        super((BlockState) state,properties);
         this.mossLevel = mossLevel;
     }
 
-
     @Override
-    public float getInterestForDirection() {
-        return 0;
-    }
-
-    @Override
-    public float getHighInterestChance() {
-        return 0;
-    }
-
-    @Override
-    public boolean isWeatherable(BlockState state) {
-        return false;
-    }
-
-    @Override
-    public float getDegradationChanceMultiplier() {
-        return 0;
-    }
-
-    @Override
-    public MossLevel getDegradationLevel() {
-        return mossLevel;
+    public MossSpreader getMossSpreader() {
+        return MossSpreader.INSTANCE;
     }
 
     @Override
@@ -55,11 +38,23 @@ public class MossyStairsBlock extends StairsBlock implements Mossable, Fertiliza
 
     @Override
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
-        Mossable.growNeighbors(world, random, pos);
+        MossSpreader.growNeighbors(world, random, pos);
     }
 
     @Override
     public boolean hasRandomTicks(BlockState state) {
-        return isWeatherable(state);
+        return isWeathering(state);
     }
+
+
+    @Override
+    public boolean isWeathering(BlockState state) {
+        return false;
+    }
+
+    @Override
+    public MossLevel getMossLevel() {
+        return mossLevel;
+    }
+
 }

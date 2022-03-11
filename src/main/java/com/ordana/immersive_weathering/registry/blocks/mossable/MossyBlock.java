@@ -1,5 +1,7 @@
 package com.ordana.immersive_weathering.registry.blocks.mossable;
 
+import java.util.Random;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Fertilizable;
@@ -8,39 +10,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-import java.util.*;
-
 public class MossyBlock extends Block implements Mossable, Fertilizable {
-    protected final Mossable.MossLevel mossLevel;
+    protected final MossLevel mossLevel;
 
-    public MossyBlock(Mossable.MossLevel mossLevel, Settings settings) {
+    public MossyBlock(MossLevel mossLevel, Settings settings) {
         super(settings);
         this.mossLevel = mossLevel;
     }
 
     @Override
-    public float getInterestForDirection() {
-        return 0;
-    }
-
-    @Override
-    public float getHighInterestChance() {
-        return 0;
-    }
-
-    @Override
-    public boolean isWeatherable(BlockState state) {
-        return false;
-    }
-
-    @Override
-    public float getDegradationChanceMultiplier() {
-        return 0;
-    }
-
-    @Override
-    public MossLevel getDegradationLevel() {
-        return mossLevel;
+    public MossSpreader getMossSpreader() {
+        return MossSpreader.INSTANCE;
     }
 
     @Override
@@ -55,11 +35,21 @@ public class MossyBlock extends Block implements Mossable, Fertilizable {
 
     @Override
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
-        Mossable.growNeighbors(world, random, pos);
+        MossSpreader.growNeighbors(world, random, pos);
     }
 
     @Override
     public boolean hasRandomTicks(BlockState state) {
-        return isWeatherable(state);
+        return isWeathering(state);
+    }
+
+    @Override
+    public boolean isWeathering(BlockState state) {
+        return false;
+    }
+
+    public MossLevel getMossLevel() {
+        return mossLevel;
     }
 }
+

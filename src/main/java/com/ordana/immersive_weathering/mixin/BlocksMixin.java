@@ -1,10 +1,7 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.registry.blocks.ModHangingRootsBlock;
-import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableBlock;
-import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableSlabBlock;
-import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableStairsBlock;
-import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableWallBlock;
+import com.ordana.immersive_weathering.registry.blocks.crackable.*;
 import com.ordana.immersive_weathering.registry.blocks.mossable.*;
 import com.ordana.immersive_weathering.registry.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.registry.blocks.rustable.RustableBarsBlock;
@@ -64,7 +61,7 @@ public class BlocksMixin {
             )
     private static Block polishedBlackstoneBricks(AbstractBlock.Settings settings)
     {
-        return new CrackableBlock(settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED,settings);
     }
     @Redirect
             (
