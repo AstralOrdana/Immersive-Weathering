@@ -2,11 +2,15 @@ package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.registry.ModDamageSource;
 import com.ordana.immersive_weathering.registry.ModTags;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -43,29 +47,29 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+    public BlockState updateShape(BlockState state, Direction dir, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED)) {
-            world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
 
-        if (direction != Direction.UP && direction != Direction.DOWN) {
+        if (dir != Direction.UP && dir != Direction.DOWN) {
             return state;
         } else {
-            Direction direction2 = state.getValue(TIP_DIRECTION);
-            if (direction2 == Direction.DOWN && world.getBlockTicks().hasScheduledTick(pos, this)) {
+            Direction direction = state.getValue(TIP_DIRECTION);
+            if (direction == Direction.DOWN && level.getBlockTicks().hasScheduledTick(pos, this)) {
                 return state;
-            } else if (direction == direction2.getOpposite() && !this.canSurvive(state, world, pos)) {
-                if (direction2 == Direction.DOWN) {
-                    this.scheduleFall(state, world, pos);
+            } else if (dir == direction.getOpposite() && !this.canSurvive(state, level, pos)) {
+                if (direction == Direction.DOWN) {
+                    level.scheduleTick(pos, this, 2);
                 } else {
-                    world.scheduleTick(pos, this, 1);
+                    level.scheduleTick(pos, this, 1);
                 }
 
                 return state;
             } else {
-                boolean bl = state.getValue(THICKNESS) == DripstoneThickness.TIP_MERGE;
-                DripstoneThickness thickness = calculateIcicleThickness(world, pos, direction2, bl);
-                return state.setValue(THICKNESS, thickness);
+                boolean flag = state.getValue(THICKNESS) == DripstoneThickness.TIP_MERGE;
+                DripstoneThickness dripstonethickness = calculateIcicleThickness(level, pos, direction, flag);
+                return state.setValue(THICKNESS, dripstonethickness);
             }
         }
     }
@@ -97,7 +101,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
         if (isStalagmite(state) && !this.canSurvive(state, world, pos)) {
             world.destroyBlock(pos, true);
         } else {
-            spawnFallingStalactite(state, world, pos);
+           spawnFallingIcicle(state, world, pos);
         }
     }
 
@@ -159,10 +163,8 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
     @Override
     public void onBrokenAfterFall(Level world, BlockPos pos, FallingBlockEntity fallingBlockEntity) {
         if (!fallingBlockEntity.isSilent()) {
-            //TODO: add glass shatter sound here
-            world.levelEvent(1045, pos, 0);
+            world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS,1,world.random.nextFloat() * 0.1F + 0.9F);
         }
-
     }
 
     @Override
@@ -170,40 +172,19 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
         return ModDamageSource.FALLING_ICICLE;
     }
 
-    private void scheduleFall(BlockState state, LevelAccessor world, BlockPos pos) {
-        BlockPos blockPos = findTip(state, world, pos, 2147483647, true);
-        if (blockPos != null) {
-            BlockPos.MutableBlockPos mutable = blockPos.mutable();
-            mutable.move(Direction.DOWN);
-            BlockState blockState = world.getBlockState(mutable);
-            if (blockState.getCollisionShape(world, mutable, CollisionContext.empty()).max(Direction.Axis.Y) >= 1.0D || blockState.is(Blocks.POWDER_SNOW)) {
-                world.destroyBlock(blockPos, true);
-                mutable.move(Direction.UP);
-            }
-
-            mutable.move(Direction.UP);
-
-            while (isStalactite(world.getBlockState(mutable))) {
-                world.scheduleTick(mutable, this, 2);
-                mutable.move(Direction.UP);
-            }
-
-        }
-    }
-
-    private static void spawnFallingStalactite(BlockState state, ServerLevel world, BlockPos pos) {
+    private static void spawnFallingIcicle(BlockState state, ServerLevel world, BlockPos pos) {
         BlockPos.MutableBlockPos mutable = pos.mutable();
-        BlockState blockState = state;
-        while (isStalactite(blockState)) {
-            FallingBlockEntity fallingBlockEntity = FallingBlockEntity.fall(world, mutable, blockState);
-            if (isTip(blockState, true)) {
+
+        for(BlockState blockstate = state; isIcicle(blockstate); blockstate = world.getBlockState(mutable)) {
+            FallingBlockEntity fallingblockentity = FallingBlockEntity.fall(world, mutable, blockstate);
+            if (isTip(blockstate, true)) {
                 int i = Math.max(1 + pos.getY() - mutable.getY(), 6);
                 float f = (float) i;
-                fallingBlockEntity.setHurtsEntities(f, 40);
+                fallingblockentity.setHurtsEntities(f, 40);
                 break;
             }
+
             mutable.move(Direction.DOWN);
-            blockState = world.getBlockState(mutable);
         }
     }
 
@@ -284,8 +265,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
         double e = (double) pos.getX() + 0.5D + vec3d.x;
         double f = (double) ((float) (pos.getY() + 1) - 0.6875F) - 0.0625D;
         double g = (double) pos.getZ() + 0.5D + vec3d.z;
-        Fluid fluid2 = getDripFluid(world, fluid);
-        ParticleOptions particleEffect = fluid2.is(FluidTags.LAVA) ? ParticleTypes.DRIPPING_DRIPSTONE_LAVA : ParticleTypes.DRIPPING_DRIPSTONE_WATER;
+        ParticleOptions particleEffect = ParticleTypes.DRIPPING_DRIPSTONE_WATER;
         world.addParticle(particleEffect, e, f, g, 0.0D, 0.0D, 0.0D);
     }
 
@@ -335,7 +315,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
     }
 
     public static boolean canDrip(BlockState state) {
-        return isStalactite(state) && state.getValue(THICKNESS) == DripstoneThickness.TIP && !(Boolean) state.getValue(WATERLOGGED);
+        return isIcicle(state) && state.getValue(THICKNESS) == DripstoneThickness.TIP && !(Boolean) state.getValue(WATERLOGGED);
     }
 
     private static boolean canTipGrow(BlockState state, ServerLevel world, BlockPos pos) {
@@ -374,7 +354,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
         return isTip(state, false) && state.getValue(TIP_DIRECTION) == direction;
     }
 
-    private static boolean isStalactite(BlockState state) {
+    private static boolean isIcicle(BlockState state) {
         return isIcicleFacingDirection(state, Direction.DOWN);
     }
 
@@ -383,7 +363,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
     }
 
     private static boolean isHeldByIcicle(BlockState state, LevelReader world, BlockPos pos) {
-        return isStalactite(state) && !world.getBlockState(pos.above()).is(ModBlocks.ICICLE.get());
+        return isIcicle(state) && !world.getBlockState(pos.above()).is(ModBlocks.ICICLE.get());
     }
 
     private static boolean isIcicleFacingDirection(BlockState state, Direction direction) {
@@ -401,23 +381,15 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
     }
 
     private static Optional<Fluid> getFluidAboveStalactite(Level world, BlockPos pos, BlockState state) {
-        return !isStalactite(state) ? Optional.empty() : getSupportingPos(world, pos, state).map((posx) -> world.getFluidState(posx.above()).getType());
+        return !isIcicle(state) ? Optional.empty() : getSupportingPos(world, pos, state).map((posx) -> world.getFluidState(posx.above()).getType());
     }
 
     private static boolean canFillCauldron(Fluid fluid) {
-        return fluid == Fluids.LAVA || fluid == Fluids.WATER;
+        return  fluid == Fluids.WATER;
     }
 
     private static boolean canGrow(BlockState iceBlockState, BlockState waterState) {
         return ((iceBlockState.is(ModTags.ICE)) && (waterState.is(Blocks.WATER)));
-    }
-
-    private static Fluid getDripFluid(Level world, Fluid fluid) {
-        if (fluid.isSame(Fluids.EMPTY)) {
-            return world.dimensionType().ultraWarm() ? Fluids.LAVA : Fluids.WATER;
-        } else {
-            return fluid;
-        }
     }
 
     private static Optional<BlockPos> searchInDirection(LevelAccessor world, BlockPos pos, Direction.AxisDirection direction, Predicate<BlockState> continuePredicate, Predicate<BlockState> stopPredicate, int range) {

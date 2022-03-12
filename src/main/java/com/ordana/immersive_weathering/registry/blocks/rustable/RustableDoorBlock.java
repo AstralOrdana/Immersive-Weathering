@@ -2,6 +2,8 @@ package com.ordana.immersive_weathering.registry.blocks.rustable;
 
 import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.ModTags;
+import com.ordana.immersive_weathering.registry.blocks.IcicleBlock;
+import net.minecraft.client.renderer.entity.FallingBlockRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -13,6 +15,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.PointedDripstoneBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -32,17 +35,14 @@ public class RustableDoorBlock extends DoorBlock implements Rustable {
         DoubleBlockHalf doubleBlockHalf = state.getValue(HALF);
         if ((direction == Direction.UP && doubleBlockHalf == DoubleBlockHalf.LOWER) ||
                 (direction == Direction.DOWN && doubleBlockHalf == DoubleBlockHalf.UPPER) ) {
-            if (neighborState.is(Blocks.IRON_DOOR)) {
-                return Blocks.IRON_DOOR.withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
-            }
-            if(neighborState.getBlock() == this){
-                return neighborState.getBlock().withPropertiesOf(state).setValue(OPEN, neighborState.getValue(OPEN));
+            if (neighborState.getBlock() instanceof RustableDoorBlock) {
+                state = neighborState.getBlock().withPropertiesOf(state);
             }
         }
         if (direction.getAxis() == Direction.Axis.Y && doubleBlockHalf == DoubleBlockHalf.LOWER == (direction == Direction.UP)) {
-            return neighborState.is(this) && neighborState.getValue(HALF) != doubleBlockHalf ? state.setValue(FACING, neighborState.getValue(FACING)).setValue(OPEN, neighborState.getValue(OPEN)).setValue(HINGE, neighborState.getValue(HINGE)).setValue(POWERED, neighborState.getValue(POWERED)) : Blocks.AIR.defaultBlockState();
+            return neighborState.is(state.getBlock()) && neighborState.getValue(HALF) != doubleBlockHalf ? state.setValue(FACING, neighborState.getValue(FACING)).setValue(OPEN, neighborState.getValue(OPEN)).setValue(HINGE, neighborState.getValue(HINGE)).setValue(POWERED, neighborState.getValue(POWERED)) : Blocks.AIR.defaultBlockState();
         } else {
-            return doubleBlockHalf == DoubleBlockHalf.LOWER && direction == Direction.DOWN && !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+            return doubleBlockHalf == DoubleBlockHalf.LOWER && direction == Direction.DOWN && !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : state;
         }
     }
 
@@ -180,6 +180,7 @@ public class RustableDoorBlock extends DoorBlock implements Rustable {
             }
             return true;
         }
+
         return super.triggerEvent(state, level, pos, i, i1);
     }
 }

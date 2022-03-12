@@ -23,7 +23,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
 mixin {
-    add sourceSets.main, "${project.mod_id}+.refmap.json"
+    add sourceSets.main, "${project.mod_id}.refmap.json"
 }
 
 
@@ -104,7 +104,7 @@ jar {
                 "Implementation-Title": project.name,
                 "Implementation-Version": "${version}",
                 'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs": "${projectDir}.mixins.json"
+                "MixinConfigs": "${project.mod_id}.mixins.json"
         ])
     }
 }

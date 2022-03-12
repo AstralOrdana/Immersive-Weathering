@@ -55,11 +55,8 @@ public interface Crackable extends Weatherable {
 
     //these can be removed if you want
 
-    private static Optional<Block> getDecreasedCrackBlock(Block block) {
-        return Optional.ofNullable(CRACK_LEVEL_DECREASES.get().get(block));
-    }
 
-    private static Block getUncrackedCrackBlock(Block block) {
+    static Block getUncrackedCrackBlock(Block block) {
         Block block2 = block;
         Block block3 = CRACK_LEVEL_DECREASES.get().get(block2);
         while (block3 != null) {
@@ -69,15 +66,11 @@ public interface Crackable extends Weatherable {
         return block2;
     }
 
-    private static Optional<BlockState> getDecreasedCrackState(BlockState state) {
-        return getDecreasedCrackBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
+    static Optional<Block> getDecreasedCrackBlock(Block block) {
+        return Optional.ofNullable(CRACK_LEVEL_DECREASES.get().get(block));
     }
 
-    private static BlockState getUncrackedCrackState(BlockState state) {
-        return getUncrackedCrackBlock(state.getBlock()).withPropertiesOf(state);
-    }
-
-    private static Optional<Block> getIncreasedCrackBlock(Block block) {
+    static Optional<Block> getIncreasedCrackBlock(Block block) {
         return Optional.ofNullable(CRACK_LEVEL_INCREASES.get().get(block));
     }
 
@@ -90,7 +83,7 @@ public interface Crackable extends Weatherable {
     ;
 
     default Optional<BlockState> getPreviousCracked(BlockState state) {
-        return getIncreasedCrackBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
+        return getDecreasedCrackBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
     CrackSpreader getCrackSpreader();

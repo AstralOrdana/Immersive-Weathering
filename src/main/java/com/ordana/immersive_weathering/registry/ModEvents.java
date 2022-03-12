@@ -107,7 +107,7 @@ public class ModEvents {
 
                 level.playSound(player, pos, newBlock.getSoundType().getHitSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
 
-                level.setBlockAndUpdate(pos, newBlock);
+                level.setBlockAndUpdate(pos, Block.updateFromNeighbourShapes(newBlock, level, pos));
 
                 if (player != null) {
                     stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(event.getHand()));

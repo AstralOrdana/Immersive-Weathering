@@ -7,9 +7,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.animal.Fox;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -74,10 +76,13 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
 
                 if (layers >= 6 && this.hasThorns) {
                     if (!world.isClientSide && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
-                        double d = Math.abs(entity.getX() - entity.xOld);
-                        double e = Math.abs(entity.getZ() - entity.zOld);
-                        if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
-                            entity.hurt(DamageSource.SWEET_BERRY_BUSH, 0.5F * (layers - 5));
+                        if(!(entity instanceof Player player) || player.getItemBySlot(EquipmentSlot.LEGS).isEmpty()) {
+
+                            double d = Math.abs(entity.getX() - entity.xOld);
+                            double e = Math.abs(entity.getZ() - entity.zOld);
+                            if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
+                                entity.hurt(DamageSource.SWEET_BERRY_BUSH, 0.5F * (layers - 5));
+                            }
                         }
                     }
                 }

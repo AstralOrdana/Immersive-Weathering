@@ -37,7 +37,7 @@ public interface Mossable extends Weatherable {
 
     Supplier<BiMap<Block, Block>> MOSS_LEVEL_DECREASES = Suppliers.memoize(() -> MOSS_LEVEL_INCREASES.get().inverse());
 
-    private static Block getUnaffectedMossBlock(Block block) {
+    static Block getUnaffectedMossBlock(Block block) {
         Block block2 = block;
         Block block3 = MOSS_LEVEL_DECREASES.get().get(block2);
         while (block3 != null) {
@@ -47,19 +47,15 @@ public interface Mossable extends Weatherable {
         return block2;
     }
 
-    private static Optional<Block> getDecreasedMossBlock(Block block) {
+    static Optional<Block> getDecreasedMossBlock(Block block) {
         return Optional.ofNullable(MOSS_LEVEL_DECREASES.get().get(block));
     }
 
-    private static Optional<BlockState> getDecreasedMossState(BlockState state) {
-        return getDecreasedMossBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
-    }
-
-    private static Optional<Block> getIncreasedMossBlock(Block block) {
+    static Optional<Block> getIncreasedMossBlock(Block block) {
         return Optional.ofNullable(MOSS_LEVEL_INCREASES.get().get(block));
     }
 
-    public static BlockState getUnaffectedMossState(BlockState state) {
+    static BlockState getUnaffectedMossState(BlockState state) {
         return getUnaffectedMossBlock(state.getBlock()).withPropertiesOf(state);
     }
 
@@ -68,7 +64,7 @@ public interface Mossable extends Weatherable {
     }
 
     default Optional<BlockState> getPreviousMossy(BlockState state) {
-        return getDecreasedMossState(state);
+        return getDecreasedMossBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
 

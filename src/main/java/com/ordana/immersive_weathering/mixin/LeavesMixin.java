@@ -66,7 +66,8 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
                                 if (!isOnLeaf && neighbor.getBlock() instanceof LeafPileBlock) {
                                     pileHeight = 1;
                                 } else if (neighbor.is(BlockTags.LOGS) && (!neighbor.hasProperty(RotatedPillarBlock.AXIS) ||
-                                        neighbor.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y)) { //TODO: replace with mod tag
+                                        neighbor.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y) &&
+                                        !neighbor.getBlock().getRegistryName().getPath().contains("stripped")) {
                                     pileHeight = isOnLeaf ? 2 : 1;
                                     break;
                                 }

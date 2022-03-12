@@ -34,7 +34,7 @@ public abstract class RootedDirtBlockMixin extends Block {
             BlockPos targetPos = pos.relative(dir);
             BlockState targetState = world.getBlockState(targetPos);
             BlockState newState = dir == Direction.DOWN ? Blocks.HANGING_ROOTS.defaultBlockState() :
-                    ModBlocks.HANGING_ROOTS_WALL.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, dir.getOpposite());
+                    ModBlocks.HANGING_ROOTS_WALL.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, dir);
             if (targetState.is(Blocks.WATER)) {
                 newState = newState.setValue(BlockStateProperties.WATERLOGGED, true);
             } else if (!targetState.isAir()) {

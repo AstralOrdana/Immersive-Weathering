@@ -23,6 +23,7 @@ public class RustableBlock extends Block implements Rustable{
         this.rustLevel = rustLevel;
     }
 
+    //TODO: redo this
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random){
         if (world.getBlockState(pos).is(ModTags.CLEAN_IRON)) {

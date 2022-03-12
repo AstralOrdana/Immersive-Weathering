@@ -43,7 +43,7 @@ public class WeatheringHelper {
                     .add(Blocks.BLUE_ORCHID, 50)
                     .build())
             .build());
-
+    
     private static final Supplier<Map<Block, SimpleWeightedRandomList<Block>>> NETHER_VEGETATION = Suppliers.memoize(() -> ImmutableMap.<Block, SimpleWeightedRandomList<Block>>builder()
             .put(Blocks.CRIMSON_NYLIUM, SimpleWeightedRandomList.<Block>builder()
                     .add(Blocks.CRIMSON_ROOTS, 20)
@@ -209,7 +209,7 @@ public class WeatheringHelper {
                 if (!hasLava && fluid.is(FluidTags.LAVA)) hasLava = true;
                 else if (fluid.is(FluidTags.WATER)) return false;
             }
-            if (count >= maximumSize) return false;
+            if (count >= 12) return false;
         }
         return hasLava;
     }

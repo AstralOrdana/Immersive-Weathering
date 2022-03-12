@@ -21,9 +21,9 @@ public abstract class MagmaBlockMixin {
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
         if (random.nextFloat() > 0.5f) {
             if (!world.isAreaLoaded(pos, 2)) return;
-            if (WeatheringHelper.canMagmaSpread(pos, 2, world, 6)) {
-                var targetPos = pos.relative(Direction.getRandom(random));
-                if (world.getBlockState(targetPos).is(Blocks.NETHERRACK)) {
+            var targetPos = pos.relative(Direction.getRandom(random));
+            if (world.getBlockState(targetPos).is(Blocks.NETHERRACK)) {
+                if (WeatheringHelper.canMagmaSpread(pos, 3, world, 8)) {
                     world.setBlockAndUpdate(targetPos, Blocks.MAGMA_BLOCK.defaultBlockState());
                 }
             }
