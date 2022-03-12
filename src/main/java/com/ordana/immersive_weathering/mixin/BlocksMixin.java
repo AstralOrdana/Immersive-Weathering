@@ -15,6 +15,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
 
+import java.util.function.Supplier;
+
 @Mixin(Blocks.class)
 public class BlocksMixin {
     @Redirect
@@ -61,7 +63,7 @@ public class BlocksMixin {
             )
     private static Block polishedBlackstoneBricks(AbstractBlock.Settings settings)
     {
-        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED,settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, settings);
     }
     @Redirect
             (
@@ -83,7 +85,7 @@ public class BlocksMixin {
             )
     private static SlabBlock polishedBlackstoneBrickSlab(AbstractBlock.Settings settings)
     {
-        return new CrackableSlabBlock(settings);
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED, settings);
     }
     @Shadow @Final public static Block POLISHED_BLACKSTONE_BRICKS;
     @Redirect
@@ -106,7 +108,7 @@ public class BlocksMixin {
             )
     private static StairsBlock polishedBlackstoneBricksStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
     {
-        return new CrackableStairsBlock(POLISHED_BLACKSTONE_BRICKS.getDefaultState(), settings);
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, POLISHED_BLACKSTONE_BRICKS.getDefaultState(), settings);
     }
     @Redirect
             (
@@ -128,7 +130,7 @@ public class BlocksMixin {
             )
     private static WallBlock polishedBlackstoneBrickWall(AbstractBlock.Settings settings)
     {
-        return new CrackableWallBlock(settings);
+        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED,settings);
     }
 
 
@@ -152,7 +154,7 @@ public class BlocksMixin {
             )
     private static Block prismarineBricks(AbstractBlock.Settings settings)
     {
-        return new CrackableBlock(settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED,settings);
     }
     @Redirect
             (
@@ -174,7 +176,7 @@ public class BlocksMixin {
             )
     private static SlabBlock prismarineBrickSlab(AbstractBlock.Settings settings)
     {
-        return new CrackableSlabBlock(settings);
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED,settings);
     }
     @Shadow @Final public static Block PRISMARINE_BRICKS;
     @Redirect
@@ -197,7 +199,7 @@ public class BlocksMixin {
             )
     private static StairsBlock prismarineBricksStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
     {
-        return new CrackableStairsBlock(PRISMARINE_BRICKS.getDefaultState(), settings);
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, PRISMARINE_BRICKS.getDefaultState(), settings);
     }
 
 
@@ -221,7 +223,7 @@ public class BlocksMixin {
             )
     private static Block endStoneBricks(AbstractBlock.Settings settings)
     {
-        return new CrackableBlock(settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED,settings);
     }
     @Redirect
             (
@@ -243,7 +245,7 @@ public class BlocksMixin {
             )
     private static SlabBlock endStoneBrickSlab(AbstractBlock.Settings settings)
     {
-        return new CrackableSlabBlock(settings);
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED,settings);
     }
     @Shadow @Final public static Block END_STONE_BRICKS;
     @Redirect
@@ -266,7 +268,7 @@ public class BlocksMixin {
             )
     private static StairsBlock endStoneBricksStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
     {
-        return new CrackableStairsBlock(END_STONE_BRICKS.getDefaultState(), settings);
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, END_STONE_BRICKS.getDefaultState(), settings);
     }
     @Redirect
             (
@@ -288,7 +290,7 @@ public class BlocksMixin {
             )
     private static WallBlock endStoneBrickWall(AbstractBlock.Settings settings)
     {
-        return new CrackableWallBlock(settings);
+        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED,settings);
     }
 
 
@@ -312,7 +314,7 @@ public class BlocksMixin {
             )
     private static Block deepslateBricks(AbstractBlock.Settings settings)
     {
-        return new CrackableBlock(settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED,settings);
     }
     @Redirect
             (
@@ -334,7 +336,7 @@ public class BlocksMixin {
             )
     private static SlabBlock deepslateBrickSlab(AbstractBlock.Settings settings)
     {
-        return new CrackableSlabBlock(settings);
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED,settings);
     }
     @Shadow @Final public static Block DEEPSLATE_BRICKS;
     @Redirect
@@ -357,7 +359,7 @@ public class BlocksMixin {
             )
     private static StairsBlock deepslateBrickStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
     {
-        return new CrackableStairsBlock(DEEPSLATE_BRICKS.getDefaultState(), settings);
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, DEEPSLATE_BRICKS.getDefaultState(), settings);
     }
     @Redirect
             (
@@ -379,7 +381,7 @@ public class BlocksMixin {
             )
     private static WallBlock deepslateBrickWall(AbstractBlock.Settings settings)
     {
-        return new CrackableWallBlock(settings);
+        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED,settings);
     }
 
 
@@ -404,7 +406,7 @@ public class BlocksMixin {
             )
     private static Block deepslateTiles(AbstractBlock.Settings settings)
     {
-        return new CrackableBlock(settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED,settings);
     }
     @Redirect
             (
@@ -426,7 +428,7 @@ public class BlocksMixin {
             )
     private static SlabBlock deepslateTileSlab(AbstractBlock.Settings settings)
     {
-        return new CrackableSlabBlock(settings);
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED,settings);
     }
     @Shadow @Final public static Block DEEPSLATE_TILES;
     @Redirect
@@ -449,7 +451,7 @@ public class BlocksMixin {
             )
     private static StairsBlock deepslateTileStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
     {
-        return new CrackableStairsBlock(DEEPSLATE_TILES.getDefaultState(), settings);
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, DEEPSLATE_TILES.getDefaultState(), settings);
     }
     @Redirect
             (
@@ -471,7 +473,7 @@ public class BlocksMixin {
             )
     private static WallBlock deepslateTileWall(AbstractBlock.Settings settings)
     {
-        return new CrackableWallBlock(settings);
+        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED,settings);
     }
 
 
@@ -496,7 +498,7 @@ public class BlocksMixin {
             )
     private static Block netherBricks(AbstractBlock.Settings settings)
     {
-        return new CrackableBlock(settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED,settings);
     }
     @Redirect
             (
@@ -518,7 +520,7 @@ public class BlocksMixin {
             )
     private static SlabBlock netherBrickSlab(AbstractBlock.Settings settings)
     {
-        return new CrackableSlabBlock(settings);
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED,settings);
     }
     @Shadow @Final public static Block NETHER_BRICKS;
     @Redirect
@@ -541,7 +543,7 @@ public class BlocksMixin {
             )
     private static StairsBlock netherBrickStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
     {
-        return new CrackableStairsBlock(NETHER_BRICKS.getDefaultState(), settings);
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, NETHER_BRICKS.getDefaultState(), settings);
     }
     @Redirect
             (
@@ -563,7 +565,7 @@ public class BlocksMixin {
             )
     private static WallBlock netherBrickWall(AbstractBlock.Settings settings)
     {
-        return new CrackableWallBlock(settings);
+        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED,settings);
     }
 
 
@@ -587,7 +589,7 @@ public class BlocksMixin {
             )
     private static Block bricks(AbstractBlock.Settings settings)
     {
-        return new MossableBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new CrackableMossableBlock(Mossable.MossLevel.MOSSABLE, Crackable.CrackLevel.UNCRACKED, settings);
     }
     @Redirect
             (
@@ -609,7 +611,7 @@ public class BlocksMixin {
             )
     private static SlabBlock brickSlab(AbstractBlock.Settings settings)
     {
-        return new MossableSlabBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new CrackableMossableSlabBlock(Mossable.MossLevel.MOSSABLE, Crackable.CrackLevel.UNCRACKED, settings);
     }
     @Shadow
     @Final
@@ -634,7 +636,7 @@ public class BlocksMixin {
             )
     private static StairsBlock brickStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
     {
-        return new MossableStairsBlock(BRICKS.getDefaultState(), settings);
+        return new CrackableMossableStairsBlock(Mossable.MossLevel.MOSSABLE, Crackable.CrackLevel.UNCRACKED, BRICKS.getDefaultState(), settings);
     }
     @Redirect
             (
@@ -656,7 +658,7 @@ public class BlocksMixin {
             )
     private static WallBlock brickWall(AbstractBlock.Settings settings)
     {
-        return new MossableWallBlock(settings);
+        return new CrackableMossableWallBlock(Mossable.MossLevel.MOSSABLE, Crackable.CrackLevel.UNCRACKED,settings);
     }
 
 
@@ -680,7 +682,7 @@ public class BlocksMixin {
             )
     private static Block stoneBricks(AbstractBlock.Settings settings)
     {
-        return new MossableBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new CrackableMossableBlock(Mossable.MossLevel.MOSSABLE, Crackable.CrackLevel.UNCRACKED, settings);
     }
     @Redirect
             (
@@ -702,7 +704,7 @@ public class BlocksMixin {
             )
     private static SlabBlock stoneBrickSlab(AbstractBlock.Settings settings)
     {
-        return new MossableSlabBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new CrackableMossableSlabBlock(Mossable.MossLevel.MOSSABLE, Crackable.CrackLevel.UNCRACKED, settings);
     }
     @Shadow @Final public static Block STONE_BRICKS;
     @Redirect
@@ -725,7 +727,7 @@ public class BlocksMixin {
             )
     private static StairsBlock stoneBricksStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
     {
-        return new MossableStairsBlock(STONE_BRICKS.getDefaultState(), settings);
+        return new CrackableMossableStairsBlock(Mossable.MossLevel.MOSSABLE, Crackable.CrackLevel.UNCRACKED, STONE_BRICKS.getDefaultState(), settings);
     }
     @Redirect
             (
@@ -747,7 +749,7 @@ public class BlocksMixin {
             )
     private static WallBlock stoneBrickWall(AbstractBlock.Settings settings)
     {
-        return new MossableWallBlock(settings);
+        return new CrackableMossableWallBlock(Mossable.MossLevel.MOSSABLE, Crackable.CrackLevel.UNCRACKED,settings);
     }
 
 
@@ -863,7 +865,7 @@ public class BlocksMixin {
             )
     private static Block cobblestone(AbstractBlock.Settings settings)
     {
-        return new MossableBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new MossableBlock(Mossable.MossLevel.MOSSABLE, settings);
     }
     @Redirect
             (
@@ -885,7 +887,7 @@ public class BlocksMixin {
             )
     private static SlabBlock cobblestoneSlab(AbstractBlock.Settings settings)
     {
-        return new MossableSlabBlock(Mossable.MossLevel.UNAFFECTED, settings);
+        return new MossableSlabBlock(Mossable.MossLevel.MOSSABLE, settings);
     }
     @Shadow @Final public static Block COBBLESTONE;
     @Redirect
@@ -908,7 +910,7 @@ public class BlocksMixin {
             )
     private static StairsBlock cobblestoneStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
     {
-        return new MossableStairsBlock(COBBLESTONE.getDefaultState(), settings);
+        return new MossableStairsBlock(Mossable.MossLevel.MOSSABLE, COBBLESTONE.getDefaultState(), settings);
     }
     @Redirect
             (
@@ -930,7 +932,7 @@ public class BlocksMixin {
             )
     private static WallBlock cobblestoneWall(AbstractBlock.Settings settings)
     {
-        return new MossableWallBlock(settings);
+        return new MossableWallBlock(Mossable.MossLevel.MOSSABLE, settings);
     }
     @Redirect
             (

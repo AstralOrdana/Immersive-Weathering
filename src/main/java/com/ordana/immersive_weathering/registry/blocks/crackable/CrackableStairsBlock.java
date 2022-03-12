@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 public class CrackableStairsBlock extends CrackedStairsBlock {
 
-    public CrackableStairsBlock(CrackLevel crackLevel, Supplier<Block> baseBlockState, AbstractBlock.Settings settings) {
+    public CrackableStairsBlock(CrackLevel crackLevel, BlockState baseBlockState, AbstractBlock.Settings settings) {
         super(crackLevel, baseBlockState, settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(WEATHERABLE, false));
     }

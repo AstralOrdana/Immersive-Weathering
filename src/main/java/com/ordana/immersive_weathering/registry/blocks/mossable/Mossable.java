@@ -90,7 +90,7 @@ public interface Mossable extends Weatherable {
     boolean isWeathering(BlockState state);
 
     enum MossLevel {
-        UNAFFECTED,
+        MOSSABLE,
         MOSSY;
     }
 }

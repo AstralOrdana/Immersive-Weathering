@@ -12,13 +12,11 @@ import net.minecraft.util.math.BlockPos;
 
 public class CrackableMossableBlock extends MossableBlock implements CrackableMossable {
 
-    private final Supplier<Item> brickItem;
     private final CrackLevel crackLevel;
 
-    public CrackableMossableBlock(MossLevel mossLevel, CrackLevel crackLevel, Supplier<Item> brickItem, Settings settings) {
+    public CrackableMossableBlock(MossLevel mossLevel, CrackLevel crackLevel, Settings settings) {
         super(mossLevel, settings);
         this.crackLevel = crackLevel;
-        this.brickItem = brickItem;
     }
 
     @Override
@@ -40,13 +38,6 @@ public class CrackableMossableBlock extends MossableBlock implements CrackableMo
             BlockState newState = opt.orElse(state.with(WEATHERABLE,false));
             serverLevel.setBlockState(pos, newState);
         }
-    }
-
-
-
-    @Override
-    public Item getRepairItem(BlockState state) {
-        return brickItem.get();
     }
 
     @Override

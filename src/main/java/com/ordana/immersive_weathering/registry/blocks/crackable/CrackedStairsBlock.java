@@ -12,8 +12,8 @@ public class CrackedStairsBlock extends ModStairs implements Crackable {
 
     private final CrackLevel crackLevel;
 
-    public CrackedStairsBlock(CrackLevel crackLevel, Supplier<Block> baseBlock, AbstractBlock.Settings settings) {
-        super((BlockState) baseBlock, settings);
+    public CrackedStairsBlock(CrackLevel crackLevel, BlockState baseBlock, AbstractBlock.Settings settings) {
+        super(baseBlock, settings);
         this.crackLevel = crackLevel;
     }
 

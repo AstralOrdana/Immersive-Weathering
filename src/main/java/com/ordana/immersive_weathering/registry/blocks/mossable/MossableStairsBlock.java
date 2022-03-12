@@ -13,8 +13,8 @@ import net.minecraft.world.World;
 
 public class MossableStairsBlock extends MossyStairsBlock {
 
-    public MossableStairsBlock(MossLevel mossLevel, Supplier<Block> baseBlockState, AbstractBlock.Settings settings) {
-        super(mossLevel,baseBlockState, settings);
+    public MossableStairsBlock(MossLevel mossLevel, BlockState baseBlockState, AbstractBlock.Settings settings) {
+        super(mossLevel, baseBlockState, settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(WEATHERABLE, false));
     }
 

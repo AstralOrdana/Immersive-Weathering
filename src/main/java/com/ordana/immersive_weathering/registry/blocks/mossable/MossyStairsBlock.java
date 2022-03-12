@@ -16,8 +16,8 @@ public class MossyStairsBlock extends ModStairs implements Mossable, Fertilizabl
 
     private final MossLevel mossLevel;
 
-    public MossyStairsBlock(MossLevel mossLevel, Supplier<Block> state, Settings properties) {
-        super((BlockState) state,properties);
+    public MossyStairsBlock(MossLevel mossLevel, BlockState state, Settings properties) {
+        super(state,properties);
         this.mossLevel = mossLevel;
     }
 

@@ -15,8 +15,8 @@ import net.minecraft.world.World;
 
 public class CrackableBlock extends CrackedBlock {
 
-    public CrackableBlock(Settings settings) {
-        super(settings);
+    public CrackableBlock(CrackLevel crackLevel, Settings settings) {
+        super(crackLevel, settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(WEATHERABLE, false));
     }
 
