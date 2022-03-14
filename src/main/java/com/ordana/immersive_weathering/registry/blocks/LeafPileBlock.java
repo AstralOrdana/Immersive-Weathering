@@ -5,6 +5,7 @@ import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.damage.DamageSource;
@@ -74,10 +75,12 @@ public class LeafPileBlock extends Block implements Fertilizable {
 
                 if (layers >= 6 && this.hasThorns) {
                     if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
-                        double d = Math.abs(entity.getX() - entity.lastRenderX);
-                        double e = Math.abs(entity.getZ() - entity.lastRenderZ);
-                        if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
-                            entity.damage(DamageSource.SWEET_BERRY_BUSH, 0.5F * (layers - 5));
+                        if(!(entity instanceof PlayerEntity player) || player.getEquippedStack(EquipmentSlot.LEGS).isEmpty()) {
+                            double d = Math.abs(entity.getX() - entity.lastRenderX);
+                            double e = Math.abs(entity.getZ() - entity.lastRenderZ);
+                            if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
+                                entity.damage(DamageSource.SWEET_BERRY_BUSH, 0.5F * (layers - 5));
+                            }
                         }
                     }
                 }

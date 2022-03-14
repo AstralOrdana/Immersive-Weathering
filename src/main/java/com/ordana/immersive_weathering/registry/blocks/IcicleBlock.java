@@ -1,33 +1,24 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.ordana.immersive_weathering.registry.ModDamageSource;
 import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.Thickness;
-import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.FallingBlockEntity;
-import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.*;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.*;
 import org.jetbrains.annotations.Nullable;
 
@@ -49,28 +40,29 @@ public class IcicleBlock extends PointedDripstoneBlock implements LandingBlock, 
     }
 
     @Override
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction dir, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         if (state.get(WATERLOGGED)) {
             world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 
-        if (direction != Direction.UP && direction != Direction.DOWN) {
+        if (dir != Direction.UP && dir != Direction.DOWN) {
             return state;
         } else {
-            Direction direction2 = state.get(VERTICAL_DIRECTION);
-            if (direction2 == Direction.DOWN && world.getBlockTickScheduler().isQueued(pos, this)) {
+            Direction direction = state.get(VERTICAL_DIRECTION);
+            if (direction == Direction.DOWN && world.getBlockTickScheduler().isQueued(pos, this)) {
                 return state;
-            } else if (direction == direction2.getOpposite() && !this.canPlaceAt(state, world, pos)) {
-                if (direction2 == Direction.DOWN) {
-                    this.scheduleFall(state, world, pos);
-                } else {
+            } else if (dir == direction.getOpposite() && !this.canPlaceAt(state, world, pos)) {
+                if (direction == Direction.DOWN) {
+                    world.createAndScheduleBlockTick(pos, this, 2);
+                }
+                else {
                     world.createAndScheduleBlockTick(pos, this, 1);
                 }
 
                 return state;
             } else {
                 boolean bl = state.get(THICKNESS) == Thickness.TIP_MERGE;
-                Thickness thickness = calculateIcicleThickness(world, pos, direction2, bl);
+                Thickness thickness = calculateIcicleThickness(world, pos, direction, bl);
                 return state.with(THICKNESS, thickness);
             }
         }
@@ -83,6 +75,14 @@ public class IcicleBlock extends PointedDripstoneBlock implements LandingBlock, 
             entity.setFrozenTicks(300);
         } else {
             entity.handleFallDamage(fallDistance, 1.0F, DamageSource.FALL);
+        }
+    }
+
+    @Override
+    public void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
+        BlockPos blockPos = hit.getBlockPos();
+        if (!world.isClient && projectile.canModifyAt(world, blockPos) && projectile.getVelocity().length() > 0.6D) {
+            world.breakBlock(blockPos, false);
         }
     }
 
@@ -168,7 +168,6 @@ public class IcicleBlock extends PointedDripstoneBlock implements LandingBlock, 
             //TODO: add glass shatter sound here
             world.syncWorldEvent(1045, pos, 0);
         }
-
     }
 
     @Override

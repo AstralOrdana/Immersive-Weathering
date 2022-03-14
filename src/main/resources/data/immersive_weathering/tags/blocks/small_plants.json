@@ -3,8 +3,6 @@
   "values": [
     "#minecraft:flowers",
     "minecraft:grass",
-    "minecraft:tall_grass",
-    "minecraft:fern",
-    "minecraft:large_fern"
+    "minecraft:fern"
   ]
 }

@@ -10,10 +10,21 @@
       "upper_size": 1
     },
     "dirt_provider": {
-      "type": "minecraft:simple_state_provider",
-      "state": {
-        "Name": "minecraft:rooted_dirt"
-      }
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 1,
+          "data": {
+            "Name": "minecraft:dirt"
+          }
+        },
+        {
+          "weight": 1,
+          "data": {
+            "Name": "minecraft:rooted_dirt"
+          }
+        }
+      ]
     },
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",

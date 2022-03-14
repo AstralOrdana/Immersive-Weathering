@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "immersive_weathering:blackstone_bricks_from_brick"
+      "immersive_weathering:prismarine_bricks_from_brick"
     ]
   },
   "criteria": {
@@ -12,7 +12,7 @@
         "items": [
           {
             "items": [
-              "immersive_weathering:blackstone_brick"
+              "immersive_weathering:prismarine_brick"
             ]
           }
         ]
@@ -21,7 +21,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "immersive_weathering:blackstone_bricks_repair"
+        "recipe": "immersive_weathering:prismarine_bricks_repair"
       }
     }
   },

@@ -24,7 +24,8 @@
     "LightningEntityMixin",
     "LeavesMixin",
     "IceMixin",
-    "ComposterMixin"
+    "ComposterMixin",
+    "SweetBerryBushMixin"
   ],
   "client": [
   ],

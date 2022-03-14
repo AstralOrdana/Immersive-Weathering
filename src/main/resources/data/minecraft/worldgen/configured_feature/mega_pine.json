@@ -1,14 +1,12 @@
 {
   "type": "minecraft:tree",
   "config": {
-    "ignore_vines": true,
+    "ignore_vines": false,
     "force_dirt": true,
     "minimum_size": {
-      "type": "minecraft:three_layers_feature_size",
+      "type": "minecraft:two_layers_feature_size",
       "limit": 1,
-      "upper_limit": 1,
-      "lower_size": 0,
-      "middle_size": 1,
+      "lower_size": 1,
       "upper_size": 2
     },
     "dirt_provider": {
@@ -31,7 +29,7 @@
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "minecraft:dark_oak_log",
+        "Name": "minecraft:spruce_log",
         "Properties": {
           "axis": "y"
         }
@@ -40,7 +38,7 @@
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "minecraft:dark_oak_leaves",
+        "Name": "minecraft:spruce_leaves",
         "Properties": {
           "persistent": "false",
           "distance": "7"
@@ -48,16 +46,36 @@
       }
     },
     "trunk_placer": {
-      "type": "minecraft:dark_oak_trunk_placer",
-      "base_height": 6,
+      "type": "minecraft:giant_trunk_placer",
+      "base_height": 13,
       "height_rand_a": 2,
-      "height_rand_b": 1
+      "height_rand_b": 14
     },
     "foliage_placer": {
-      "type": "minecraft:dark_oak_foliage_placer",
+      "type": "minecraft:mega_pine_foliage_placer",
       "radius": 0,
-      "offset": 0
+      "offset": 0,
+      "crown_height": {
+        "type": "minecraft:uniform",
+        "value": {
+          "min_inclusive": 3,
+          "max_inclusive": 7
+        }
+      }
     },
-    "decorators": []
+    "decorators": [
+      {
+        "type": "minecraft:alter_ground",
+        "provider": {
+          "type": "minecraft:simple_state_provider",
+          "state": {
+            "Name": "minecraft:podzol",
+            "Properties": {
+              "snowy": "false"
+            }
+          }
+        }
+      }
+    ]
   }
 }

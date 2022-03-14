@@ -7,6 +7,8 @@ import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.PillarBlock;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.collection.DataPool;
 import net.minecraft.util.math.BlockPos;
@@ -189,6 +191,12 @@ public class WeatheringHelper {
         return hasLava;
     }
 
+    public static boolean isLog(BlockState neighbor) {
+        return neighbor.isIn(BlockTags.LOGS) && (!neighbor.contains(PillarBlock.AXIS) ||
+                neighbor.get(PillarBlock.AXIS) == Direction.Axis.Y) &&
+                !neighbor.getBlock().getName().getString().contains("stripped");
+    }
+
     public static boolean canRootsSpread(BlockPos centerPos, int height, int width, World world, int maximumSize) {
         int count = 0;
         boolean hasRoots = false;
@@ -197,7 +205,7 @@ public class WeatheringHelper {
             BlockState state = world.getBlockState(pos);
             if (state.isOf(Blocks.ROOTED_DIRT)) count += 1;
             else {
-                if (!hasRoots && state.isIn(ModTags.RAW_LOGS)) hasRoots = true;
+                if (!hasRoots && isLog(state)) hasRoots = true;
             }
             if (count >= maximumSize) return false;
         }

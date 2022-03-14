@@ -7,7 +7,7 @@ import net.minecraft.state.property.BooleanProperty;
 //a block that can weather
 public interface Weatherable {
 
-    BooleanProperty WEATHERABLE = BooleanProperty.of("weathering");
+    BooleanProperty WEATHERABLE = BooleanProperty.of("weatherable");
 
     boolean isWeathering(BlockState state);
 

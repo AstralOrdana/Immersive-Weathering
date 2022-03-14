@@ -6,13 +6,18 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.Oxidizable;
+import net.minecraft.client.util.ParticleUtil;
 import net.minecraft.item.*;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -30,6 +35,8 @@ public class ModEvents {
     private static final HashMap<Item, Block> UNSTRIP_LOG = new HashMap<>();
     private static final HashMap<Item, Block> UNSTRIP_WOOD = new HashMap<>();
     private static final HashMap<Block, Block> RUSTED_BLOCKS = new HashMap<>();
+    private static final HashMap<Block, Block> UNRUSTED_BLOCKS = new HashMap<>();
+    private static final HashMap<Block, Block> UNWAXED_BLOCKS = new HashMap<>();
     private static final HashMap<Block, Block> FLOWERY_BLOCKS = new HashMap<>();
 
     static {
@@ -208,6 +215,62 @@ public class ModEvents {
         UNSTRIP_WOOD.put(ModItems.WARPED_SCALES, Blocks.WARPED_HYPHAE);
         UNSTRIP_WOOD.put(ModItems.CRIMSON_SCALES, Blocks.CRIMSON_HYPHAE);
 
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_CUT_IRON, ModBlocks.CUT_IRON);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_EXPOSED_CUT_IRON, ModBlocks.EXPOSED_CUT_IRON);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_WEATHERED_CUT_IRON, ModBlocks.WEATHERED_CUT_IRON);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_RUSTED_CUT_IRON, ModBlocks.RUSTED_CUT_IRON);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_CUT_IRON_STAIRS, ModBlocks.CUT_IRON_STAIRS);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_EXPOSED_CUT_IRON_STAIRS, ModBlocks.EXPOSED_CUT_IRON_STAIRS);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_WEATHERED_CUT_IRON_STAIRS, ModBlocks.WEATHERED_CUT_IRON_STAIRS);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_RUSTED_CUT_IRON_STAIRS, ModBlocks.RUSTED_CUT_IRON_STAIRS);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_CUT_IRON_SLAB, ModBlocks.CUT_IRON_SLAB);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_EXPOSED_CUT_IRON_SLAB, ModBlocks.EXPOSED_CUT_IRON_SLAB);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_WEATHERED_CUT_IRON_SLAB, ModBlocks.WEATHERED_CUT_IRON_SLAB);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_RUSTED_CUT_IRON_SLAB, ModBlocks.RUSTED_CUT_IRON_SLAB);
+
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_PLATE_IRON, ModBlocks.PLATE_IRON);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_EXPOSED_PLATE_IRON, ModBlocks.EXPOSED_PLATE_IRON);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_WEATHERED_PLATE_IRON, ModBlocks.WEATHERED_PLATE_IRON);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_RUSTED_PLATE_IRON, ModBlocks.RUSTED_PLATE_IRON);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_PLATE_IRON_STAIRS, ModBlocks.PLATE_IRON_STAIRS);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_EXPOSED_PLATE_IRON_STAIRS, ModBlocks.EXPOSED_PLATE_IRON_STAIRS);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_WEATHERED_PLATE_IRON_STAIRS, ModBlocks.WEATHERED_PLATE_IRON_STAIRS);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_RUSTED_PLATE_IRON_STAIRS, ModBlocks.RUSTED_PLATE_IRON_STAIRS);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_PLATE_IRON_SLAB, ModBlocks.PLATE_IRON_SLAB);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_EXPOSED_PLATE_IRON_SLAB, ModBlocks.EXPOSED_PLATE_IRON_SLAB);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_WEATHERED_PLATE_IRON_SLAB, ModBlocks.WEATHERED_PLATE_IRON_SLAB);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_RUSTED_PLATE_IRON_SLAB, ModBlocks.RUSTED_PLATE_IRON_SLAB);
+
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_IRON_DOOR, Blocks.IRON_DOOR);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_EXPOSED_IRON_DOOR, ModBlocks.EXPOSED_IRON_DOOR);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_WEATHERED_IRON_DOOR, ModBlocks.WEATHERED_IRON_DOOR);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_RUSTED_IRON_DOOR, ModBlocks.RUSTED_IRON_DOOR);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_IRON_TRAPDOOR, Blocks.IRON_TRAPDOOR);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_EXPOSED_IRON_TRAPDOOR, ModBlocks.EXPOSED_IRON_TRAPDOOR);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_WEATHERED_IRON_TRAPDOOR, ModBlocks.WEATHERED_IRON_TRAPDOOR);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_RUSTED_IRON_TRAPDOOR, ModBlocks.RUSTED_IRON_TRAPDOOR);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_IRON_BARS, Blocks.IRON_BARS);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_EXPOSED_IRON_BARS, ModBlocks.EXPOSED_IRON_BARS);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_WEATHERED_IRON_BARS, ModBlocks.WEATHERED_IRON_BARS);
+        UNWAXED_BLOCKS.put(ModBlocks.WAXED_RUSTED_IRON_BARS, ModBlocks.RUSTED_IRON_BARS);
+
+        UNWAXED_BLOCKS.put(Blocks.WAXED_COPPER_BLOCK, Blocks.COPPER_BLOCK);
+        UNWAXED_BLOCKS.put(Blocks.WAXED_EXPOSED_COPPER, Blocks.EXPOSED_COPPER);
+        UNWAXED_BLOCKS.put(Blocks.WAXED_WEATHERED_COPPER, Blocks.WEATHERED_COPPER);
+        UNWAXED_BLOCKS.put(Blocks.WAXED_OXIDIZED_COPPER, Blocks.OXIDIZED_COPPER);
+        UNWAXED_BLOCKS.put(Blocks.WAXED_CUT_COPPER, Blocks.CUT_COPPER);
+        UNWAXED_BLOCKS.put(Blocks.WAXED_EXPOSED_CUT_COPPER, Blocks.EXPOSED_CUT_COPPER);
+        UNWAXED_BLOCKS.put(Blocks.WAXED_WEATHERED_CUT_COPPER, Blocks.WEATHERED_CUT_COPPER);
+        UNWAXED_BLOCKS.put(Blocks.WAXED_OXIDIZED_CUT_COPPER, Blocks.OXIDIZED_CUT_COPPER);
+        UNWAXED_BLOCKS.put(Blocks.WAXED_CUT_COPPER_SLAB, Blocks.CUT_COPPER_SLAB);
+        UNWAXED_BLOCKS.put(Blocks.WAXED_EXPOSED_CUT_COPPER_SLAB, Blocks.EXPOSED_CUT_COPPER_SLAB);
+        UNWAXED_BLOCKS.put(Blocks.WAXED_WEATHERED_CUT_COPPER_SLAB, Blocks.WEATHERED_CUT_COPPER_SLAB);
+        UNWAXED_BLOCKS.put(Blocks.WAXED_OXIDIZED_CUT_COPPER_SLAB, Blocks.OXIDIZED_CUT_COPPER_SLAB);
+        UNWAXED_BLOCKS.put(Blocks.WAXED_CUT_COPPER_STAIRS, Blocks.CUT_COPPER_STAIRS);
+        UNWAXED_BLOCKS.put(Blocks.WAXED_EXPOSED_CUT_COPPER_STAIRS, Blocks.EXPOSED_CUT_COPPER_STAIRS);
+        UNWAXED_BLOCKS.put(Blocks.WAXED_WEATHERED_CUT_COPPER_STAIRS, Blocks.WEATHERED_CUT_COPPER_STAIRS);
+        UNWAXED_BLOCKS.put(Blocks.WAXED_OXIDIZED_CUT_COPPER_STAIRS, Blocks.OXIDIZED_CUT_COPPER_STAIRS);
+
         RUSTED_BLOCKS.put(ModBlocks.CUT_IRON, ModBlocks.EXPOSED_CUT_IRON);
         RUSTED_BLOCKS.put(ModBlocks.EXPOSED_CUT_IRON, ModBlocks.WEATHERED_CUT_IRON);
         RUSTED_BLOCKS.put(ModBlocks.WEATHERED_CUT_IRON, ModBlocks.RUSTED_CUT_IRON);
@@ -336,6 +399,7 @@ public class ModEvents {
             if (heldItem.getItem() == Items.WET_SPONGE) {
                 if(targetBlock.isIn(ModTags.RUSTABLE)) {
                     world.playSound(player, targetPos, SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ModParticles.SCRAPE_RUST, UniformIntProvider.create(3,5));
                     if(player != null) {
                         RUSTED_BLOCKS.forEach((clean, rusty) -> {
                             if (targetBlock.isOf(clean)) {
@@ -347,13 +411,38 @@ public class ModEvents {
                 }
             }
             if (heldItem.getItem() == ModItems.STEEL_WOOL) {
+                if(targetBlock.isIn(ModTags.COPPER)) {
+                    world.playSound(player, targetPos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SCRAPE, UniformIntProvider.create(3,5));
+                    if(player != null) {
+                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        Oxidizable.getDecreasedOxidationState(targetBlock).ifPresent(o-> {
+                            world.setBlockState(targetPos, o);
+                        });
+                    }
+                    return ActionResult.SUCCESS;
+                }
                 if(targetBlock.isIn(ModTags.EXPOSED_IRON)) {
                     world.playSound(player, targetPos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ModParticles.SCRAPE_RUST, UniformIntProvider.create(3,5));
                     if(player != null) {
                         if(!player.isCreative())heldItem.damage(1, new Random(), null);
                         RUSTED_BLOCKS.forEach((clean, rusty) -> {
                             if (targetBlock.isOf(rusty)) {
                                 world.setBlockState(targetPos, clean.getStateWithProperties(targetBlock));
+                            }
+                        });
+                    }
+                    return ActionResult.SUCCESS;
+                }
+                if(targetBlock.isIn(ModTags.WAXED_BLOCKS)) {
+                    world.playSound(player, targetPos, SoundEvents.ITEM_AXE_WAX_OFF, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.WAX_OFF, UniformIntProvider.create(3,5));
+                    if(player != null) {
+                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        UNWAXED_BLOCKS.forEach((waxed, unwaxed) -> {
+                            if (targetBlock.isOf(waxed)) {
+                                world.setBlockState(targetPos, unwaxed.getStateWithProperties(targetBlock));
                             }
                         });
                     }
@@ -424,6 +513,19 @@ public class ModEvents {
                         STRIPPED_BLOCKS.forEach((raw, stripped) -> {
                             if (targetBlock.isOf(raw)) {
                                 world.setBlockState(targetPos, stripped .getStateWithProperties(targetBlock));
+                            }
+                        });
+                    }
+                    return ActionResult.SUCCESS;
+                }
+                if(targetBlock.isIn(ModTags.EXPOSED_IRON)) {
+                    world.playSound(player, targetPos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ModParticles.SCRAPE_RUST, UniformIntProvider.create(3,5));
+                    if(player != null) {
+                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        RUSTED_BLOCKS.forEach((clean, rusty) -> {
+                            if (targetBlock.isOf(rusty)) {
+                                world.setBlockState(targetPos, clean.getStateWithProperties(targetBlock));
                             }
                         });
                     }

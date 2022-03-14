@@ -34,10 +34,6 @@ public class ModBlocks {
     public static final Block FLOWERING_AZALEA_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).breakInstantly().ticksRandomly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), true, false, List.of(ModParticles.AZALEA_LEAF, ModParticles.AZALEA_FLOWER));
     public static final Block AZALEA_FLOWER_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.FLOWERING_AZALEA).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), true, false, List.of(ModParticles.AZALEA_FLOWER));
 
-    public static final Block ROCK_LICHEN = new RockLichenBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT, MapColor.LICHEN_GREEN).noCollision().strength(0.2F).sounds(BlockSoundGroup.GLOW_LICHEN));
-    public static final Block FOREST_LICHEN = new ForestLichenBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT, MapColor.LICHEN_GREEN).noCollision().strength(0.2F).sounds(BlockSoundGroup.GLOW_LICHEN));
-    public static final Block CINDER_LICHEN = new CinderLichenBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT, MapColor.LICHEN_GREEN).noCollision().strength(0.2F).sounds(BlockSoundGroup.GLOW_LICHEN));
-
     public static final Block WEEDS = new WeedsBlock(FabricBlockSettings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS));
     public static final Block ASH_BLOCK = new AshBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).breakInstantly().sounds(BlockSoundGroup.SNOW).luminance(createLightLevelFromLitBlockState(6)).ticksRandomly());
     public static final Block SOOT = new SootBlock(FabricBlockSettings.of(Material.REPLACEABLE_UNDERWATER_PLANT, MapColor.BLACK).noCollision().breakInstantly().sounds(BlockSoundGroup.SNOW).luminance(createLightLevelFromLitBlockState(5)).ticksRandomly());
@@ -202,10 +198,6 @@ public class ModBlocks {
     }
 
     public static void registerBlocks() {
-
-        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "rock_lichen"), ROCK_LICHEN);
-        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "forest_lichen"), FOREST_LICHEN);
-        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cinder_lichen"), CINDER_LICHEN);
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "icicle"), ICICLE);
 

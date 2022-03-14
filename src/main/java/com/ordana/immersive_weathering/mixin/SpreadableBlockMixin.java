@@ -8,12 +8,16 @@ import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.BlockTags;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.WorldView;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
+import net.minecraft.world.chunk.light.ChunkLightProvider;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -26,10 +30,40 @@ public abstract class SpreadableBlockMixin extends Block {
         super(settings);
     }
 
+    @Shadow
+    private static boolean canSurvive(BlockState state, WorldView world, BlockPos pos) {
+        BlockPos blockPos = pos.up();
+        BlockState blockState = world.getBlockState(blockPos);
+        if (blockState.isOf(Blocks.SNOW) && (Integer)blockState.get(SnowBlock.LAYERS) == 1) {
+            return true;
+        } else if (blockState.getFluidState().getLevel() == 8) {
+            return false;
+        } else {
+            int i = ChunkLightProvider.getRealisticOpacity(world, state, pos, blockState, blockPos, Direction.UP, blockState.getOpacity(world, blockPos));
+            return i < world.getMaxLightLevel();
+        }
+    }
+
+    @Shadow
+    private static boolean canSpread(BlockState state, WorldView world, BlockPos pos) {
+        BlockPos blockPos = pos.up();
+        return canSurvive(state, world, pos) && !world.getFluidState(blockPos).isIn(FluidTags.WATER);
+    }
+
     @Inject(method = "randomTick", at = @At("TAIL"))
     public void randomTick(BlockState state, ServerWorld level, BlockPos pos, Random random, CallbackInfo ci) {
         //fire turns this to dirt
         //gets the block again because we are injecting at tail and it could already be dirt
+        if ((level.getLightLevel(pos.up()) >= 9) && (level.getBlockState(pos.up()).isOf(Blocks.AIR))) {
+            BlockState blockState = this.getDefaultState();
+
+            for(int i = 0; i < 4; ++i) {
+                BlockPos blockPos = pos.add(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
+                if ((level.getBlockState(blockPos).isOf(Blocks.DIRT) || level.getBlockState(blockPos).isOf(Blocks.GRASS_BLOCK) || level.getBlockState(blockPos).isOf(Blocks.MYCELIUM)) && canSpread(blockState, level, blockPos)) {
+                    level.setBlockState(blockPos, (BlockState)blockState.with(SpreadableBlock.SNOWY, level.getBlockState(blockPos.up()).isOf(Blocks.SNOW)));
+                }
+            }
+        }
         state = level.getBlockState(pos);
         if (state.isOf(Blocks.DIRT)) return;
         if (level.random.nextFloat() < 0.1f) {
@@ -350,13 +384,12 @@ public abstract class SpreadableBlockMixin extends Block {
                     }
                 }
             }
-        } else if (state.isOf(Blocks.MYCELIUM)) {
+        }
+        else if (state.isOf(Blocks.MYCELIUM)) {
             BlockPos targetPos = pos.up();
             if (random.nextFloat() < 0.001f && level.getBlockState(targetPos).isAir()) {
                 if (!level.isChunkLoaded(pos)) return;
-                if (WeatheringHelper.hasEnoughBlocksAround(pos, 4, 3, 3, level,
-                        b -> b.isIn(ModTags.SMALL_MUSHROOMS), 2)) {
-
+                if (!WeatheringHelper.hasEnoughBlocksAround(pos, 2, level, b->b.isIn(ModTags.SMALL_MUSHROOMS),2)) {
                     level.setBlockState(targetPos, (random.nextFloat() > 0.5f ?
                             Blocks.RED_MUSHROOM : Blocks.BROWN_MUSHROOM).getDefaultState());
 

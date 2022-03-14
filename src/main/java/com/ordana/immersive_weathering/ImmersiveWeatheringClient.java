@@ -13,18 +13,38 @@ import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
-import net.minecraft.client.particle.AnimatedParticle;
-import net.minecraft.client.particle.BlockFallingDustParticle;
-import net.minecraft.client.particle.FlameParticle;
-import net.minecraft.client.particle.WaterSuspendParticle;
+import net.minecraft.client.particle.*;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.BlockItem;
+import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 
 public class ImmersiveWeatheringClient implements ClientModInitializer {
+
+    public static class ScrapeRustFactory extends GlowParticle.ScrapeFactory {
+
+        public ScrapeRustFactory(SpriteProvider spriteSet) {
+            super(spriteSet);
+        }
+
+        @Override
+        public Particle createParticle(DefaultParticleType particleType, ClientWorld level, double p_172207_, double p_172208_, double p_172209_, double p_172210_, double p_172211_, double p_172212_) {
+            Particle p = super.createParticle(particleType, level, p_172207_, p_172208_, p_172209_, p_172210_, p_172211_, p_172212_);
+            if(p!=null) {
+                if (level.random.nextBoolean()) {
+                    p.setColor(196/255f, 118/255f, 73/255f);
+                } else {
+                    p.setColor(176/255f, 63/255f, 40/255f);
+                }
+            }
+            return p;
+        }
+    }
+
     @Override
     public void onInitializeClient() {
 
@@ -71,6 +91,9 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(ModParticles.MULCH, LeafParticle.LeafFactory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.NULCH, LeafParticle.LeafFactory::new);
 
+        ParticleFactoryRegistry.getInstance().register(ModParticles.SCRAPE_RUST, ScrapeRustFactory::new);
+
+
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ICICLE, RenderLayer.getCutout());
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.OAK_LEAF_PILE, RenderLayer.getCutout());
@@ -84,9 +107,6 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.AZALEA_FLOWER_PILE, RenderLayer.getCutout());
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WEEDS, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FOREST_LICHEN, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.CINDER_LICHEN, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ROCK_LICHEN, RenderLayer.getCutout());
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.OAK_LEAF_PILE);
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> FoliageColors.getSpruceColor(), ModBlocks.SPRUCE_LEAF_PILE);
