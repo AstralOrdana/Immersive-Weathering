@@ -1,11 +1,9 @@
 {
   "replace": false,
   "values": [
-    "minecraft:air",
-    "minecraft:cave_air",
-    "minecraft:void_air",
-    "immersive_weathering:soot",
     "immersive_weathering:ash_block",
-    {"id":"supplementaries:ash","required":false}
+    "immersive_weathering:soot",
+    "#immersive_weathering:leaf_piles",
+    "minecraft:air"
   ]
 }

@@ -2,7 +2,6 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "immersive_weathering:blackstone_bricks_repair",
       "immersive_weathering:blackstone_bricks_from_brick"
     ]
   },
