@@ -26,6 +26,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.BlockPileConfig
 import net.minecraft.world.level.levelgen.feature.configurations.DripstoneClusterConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.DeferredRegister;
@@ -112,10 +113,13 @@ public class ModFeatures {
         ResourceKey<Biome> key = ResourceKey.create(ForgeRegistries.Keys.BIOMES, event.getName());
         Holder<Biome> holder = BuiltinRegistries.BIOME.getHolderOrThrow(key);
 
-        if (holder.is(ModTags.ICY)) {
+        Biome.BiomeCategory category= event.getCategory();
+
+        if (BiomeDictionary.hasType(key, BiomeDictionary.Type.SNOWY) || category == Biome.BiomeCategory.ICY) {
             addFeature(event, ICICLES, GenerationStep.Decoration.TOP_LAYER_MODIFICATION);
-        } else if (holder.is(ModTags.ICE_CAVES)) {
-            addFeature(event, CAVE_ICICLES, GenerationStep.Decoration.UNDERGROUND_DECORATION);
+            if(category == Biome.BiomeCategory.UNDERGROUND){
+                addFeature(event, CAVE_ICICLES, GenerationStep.Decoration.UNDERGROUND_DECORATION);
+            }
         } else if (key == Biomes.FOREST || key == Biomes.WINDSWEPT_FOREST || key == Biomes.FLOWER_FOREST) {
             addFeature(event, "oak_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
         } else if (key == Biomes.DARK_FOREST) {

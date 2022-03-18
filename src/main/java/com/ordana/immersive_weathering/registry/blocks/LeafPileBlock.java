@@ -49,7 +49,7 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D),
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D),
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
-    private static final float[] COLLISIONS = new float[]{1, 0.95f, 0.90f, 0.85f, 0.80f, 0.75f, 0.70f, 0.65f};
+    private static final float[] COLLISIONS = new float[]{1, 0.999f, 0.998f, 0.997f, 0.996f, 0.994f, 0.993f, 0.992f};
 
     private final boolean hasFlowers; //if it can be boneMealed
     private final boolean hasThorns; //if it can hurt
