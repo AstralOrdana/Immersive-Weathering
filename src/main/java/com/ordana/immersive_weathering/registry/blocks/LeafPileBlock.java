@@ -68,7 +68,7 @@ public class LeafPileBlock extends Block implements Fertilizable {
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         int layers = this.getLayers(state);
 
-        if (layers > 1) {
+        if (layers > 2) {
             if (entity instanceof LivingEntity && !(entity instanceof FoxEntity || entity instanceof BeeEntity)) {
                 float stuck = COLLISIONS[Math.max(0, layers - 1)];
                 entity.slowMovement(state, new Vec3d(stuck, stuck, stuck));
