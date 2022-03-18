@@ -17,7 +17,7 @@ public class FlowerCrownItem extends ArmorItem {
     private static final Map<ArmorMaterial, StatusEffectInstance> MATERIAL_TO_EFFECT_MAP =
             (new ImmutableMap.Builder<ArmorMaterial, StatusEffectInstance>())
                     .put(FlowerCrownMaterial.INSTANCE,
-                            new StatusEffectInstance(StatusEffects.REGENERATION, 400, 1, true, false)).build();
+                            new StatusEffectInstance(StatusEffects.REGENERATION, 400, 0, true, false, true)).build();
 
     public FlowerCrownItem(ArmorMaterial material, EquipmentSlot slot, Settings settings) {
         super(material, slot, settings);

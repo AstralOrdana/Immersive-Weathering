@@ -25,6 +25,7 @@ public class ModCompostable {
         CompostingChanceRegistry.INSTANCE.add(ModItems.ACACIA_LEAF_PILE, 0.3f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.DARK_OAK_LEAF_PILE, 0.3f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.AZALEA_LEAF_PILE, 0.3f);
+        CompostingChanceRegistry.INSTANCE.add(ModItems.AZALEA_FLOWER_PILE, 0.3f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.FLOWERING_AZALEA_LEAF_PILE, 0.3f);
     }
 }
