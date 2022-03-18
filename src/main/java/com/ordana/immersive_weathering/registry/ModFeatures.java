@@ -49,10 +49,10 @@ public class ModFeatures {
 
         PlacementUtils.register("immersive_weathering:"+name+"_leaf_pile", OAK,
                 PlacementUtils.HEIGHTMAP_TOP_SOLID,
-                RarityFilter.onAverageOnceEvery(3),
+                NoiseBasedCountPlacement.of(2, 50, 0.7),
+                NoiseThresholdCountPlacement.of(0.3, 1, 5),
                 InSquarePlacement.spread(),
                 BiomeFilter.biome());
-
 
     }
 
@@ -81,13 +81,17 @@ public class ModFeatures {
                         8));
 
         ICICLES = PlacementUtils.register("immersive_weathering:icicles", icicles,
-                CountOnEveryLayerPlacement.of(UniformInt.of(48, 96)),
-                HeightRangePlacement.uniform(VerticalAnchor.absolute(92),VerticalAnchor.absolute(256)),
+                NoiseBasedCountPlacement.of(10, 50, 0.1),
+                NoiseThresholdCountPlacement.of(0.3, 1, 10),
+                CountOnEveryLayerPlacement.of(3),
+                HeightRangePlacement.uniform(VerticalAnchor.absolute(92), VerticalAnchor.belowTop(1)),
                 BiomeFilter.biome());
 
         CAVE_ICICLES = PlacementUtils.register("immersive_weathering:icicles_ice_caves", icicles,
-                CountOnEveryLayerPlacement.of(UniformInt.of(48, 96)),
-                PlacementUtils.FULL_RANGE,
+                NoiseBasedCountPlacement.of(10, 50, 0.1),
+                NoiseThresholdCountPlacement.of(0.3, 1, 10),
+                CountOnEveryLayerPlacement.of(3),
+                HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(1), VerticalAnchor.belowTop(1)),
                 BiomeFilter.biome());
 
     }
@@ -111,7 +115,7 @@ public class ModFeatures {
     public static void addFeaturesToBiomes(BiomeLoadingEvent event) {
 
         ResourceKey<Biome> key = ResourceKey.create(ForgeRegistries.Keys.BIOMES, event.getName());
-        Holder<Biome> holder = BuiltinRegistries.BIOME.getHolderOrThrow(key);
+        //Holder<Biome> holder = BuiltinRegistries.BIOME.getHolderOrThrow(key);
 
         Biome.BiomeCategory category= event.getCategory();
 

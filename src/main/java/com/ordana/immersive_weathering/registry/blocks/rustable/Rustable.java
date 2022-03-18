@@ -69,7 +69,7 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
         return block2;
     }
 
-    static Optional<BlockState> getDecreasedRustState(BlockState state) {
+    default Optional<BlockState> getPrevious(BlockState state) {
         return Rustable.getDecreasedRustBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 

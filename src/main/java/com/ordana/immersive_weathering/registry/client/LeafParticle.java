@@ -1,9 +1,12 @@
 package com.ordana.immersive_weathering.registry.client;
 
+import com.mojang.blaze3d.platform.NativeImage;
+import com.ordana.immersive_weathering.registry.ModParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.FastColor;
+import net.minecraft.world.level.FoliageColor;
 
 public class LeafParticle extends TextureSheetParticle {
     private final float rotationSpeed;
@@ -47,10 +50,22 @@ public class LeafParticle extends TextureSheetParticle {
     public record LeafFactory(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
 
         @Override
-        public Particle createParticle(SimpleParticleType defaultParticleType, ClientLevel clientWorld, double x, double y, double z, double g, double color, double i) {
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double g, double color, double i) {
             //TODO: idk why the given speeds arent used
             var p = new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D);
-            p.setColor(FastColor.ARGB32.red((int) color), FastColor.ARGB32.green((int) color), FastColor.ARGB32.blue((int) color));
+
+
+            if (particleType == ModParticles.BIRCH_LEAF.get()) {
+                color = FoliageColor.getBirchColor();
+            } else if (particleType == ModParticles.SPRUCE_LEAF.get()) {
+                color = FoliageColor.getEvergreenColor();
+            }else if(particleType == ModParticles.AZALEA_FLOWER.get() || particleType == ModParticles.AZALEA_LEAF.get()){
+                color = -1;
+            }
+
+            p.setColor(NativeImage.getB((int) color)/255f,
+                    NativeImage.getG((int) color)/255f,
+                    NativeImage.getR((int) color)/255f);
             return p;
         }
     }

@@ -8,6 +8,8 @@ import com.ordana.immersive_weathering.registry.blocks.rustable.*;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -39,6 +41,12 @@ public class ModBlocks {
 
     public static RegistryObject<Block> reg(String name, Supplier<Block> supplier) {
         return BLOCKS.register(name, supplier);
+    }
+
+    public static RegistryObject<Block> regWithItem(String name, Supplier<Block> supplier) {
+        var b = BLOCKS.register(name, supplier);
+        ModItems.regBlockItem(b,new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS));
+        return b;
     }
 
     public static RegistryObject<Block> regOverride(Block original, Function<BlockBehaviour.Properties, Block> factory) {
@@ -104,16 +112,16 @@ public class ModBlocks {
             new MossySlabBlock(Mossable.MossLevel.MOSSY, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).requiresCorrectToolForDrops().strength(1.5f, 6f)));
 
     public static final RegistryObject<Block> CRACKED_BRICKS = reg("cracked_bricks", () ->
-            new CrackedBlock(Crackable.CrackLevel.CRACKED,  ()->Items.BRICK,
+            new CrackedBlock(Crackable.CrackLevel.CRACKED, () -> Items.BRICK,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
     public static final RegistryObject<Block> CRACKED_BRICK_STAIRS = reg("CRACKED_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, CRACKED_BRICKS, ()->Items.BRICK,
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, CRACKED_BRICKS, () -> Items.BRICK,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
     public static final RegistryObject<Block> CRACKED_BRICK_SLAB = reg("CRACKED_BRICK_SLAB".toLowerCase(Locale.ROOT), () ->
-            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, ()->Items.BRICK,
+            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, () -> Items.BRICK,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
     public static final RegistryObject<Block> CRACKED_BRICK_WALL = reg("CRACKED_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
-            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, ()->Items.BRICK,
+            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, () -> Items.BRICK,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
 
     public static final RegistryObject<Block> CRACKED_STONE_BRICK_STAIRS = reg("CRACKED_STONE_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
@@ -123,47 +131,47 @@ public class ModBlocks {
             new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, ModItems.STONE_BRICK,
                     BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
     public static final RegistryObject<Block> CRACKED_STONE_BRICK_WALL = reg("CRACKED_STONE_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
-            new CrackedWallBlock(Crackable.CrackLevel.CRACKED,ModItems.STONE_BRICK,
+            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, ModItems.STONE_BRICK,
                     BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
 
     public static final RegistryObject<Block> CRACKED_POLISHED_BLACKSTONE_BRICK_STAIRS = reg("CRACKED_POLISHED_BLACKSTONE_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS,ModItems.BLACKSTONE_BRICK,
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS, ModItems.BLACKSTONE_BRICK,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
     public static final RegistryObject<Block> CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB = reg("CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB".toLowerCase(Locale.ROOT), () ->
-            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED,ModItems.BLACKSTONE_BRICK,
+            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, ModItems.BLACKSTONE_BRICK,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
     public static final RegistryObject<Block> CRACKED_POLISHED_BLACKSTONE_BRICK_WALL = reg("CRACKED_POLISHED_BLACKSTONE_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
-            new CrackedWallBlock(Crackable.CrackLevel.CRACKED,ModItems.BLACKSTONE_BRICK,
+            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, ModItems.BLACKSTONE_BRICK,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
 
     public static final RegistryObject<Block> CRACKED_NETHER_BRICK_STAIRS = reg("CRACKED_NETHER_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_NETHER_BRICKS, ()->Items.NETHER_BRICK,
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_NETHER_BRICKS, () -> Items.NETHER_BRICK,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS)));
     public static final RegistryObject<Block> CRACKED_NETHER_BRICK_SLAB = reg("CRACKED_NETHER_BRICK_SLAB".toLowerCase(Locale.ROOT), () ->
-            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED,()->Items.NETHER_BRICK,
+            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, () -> Items.NETHER_BRICK,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS)));
     public static final RegistryObject<Block> CRACKED_NETHER_BRICK_WALL = reg("CRACKED_NETHER_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
-            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, ()->Items.NETHER_BRICK,
+            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, () -> Items.NETHER_BRICK,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS)));
 
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_BRICK_STAIRS = reg("CRACKED_DEEPSLATE_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_DEEPSLATE_BRICKS,ModItems.DEEPSLATE_BRICK,
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_DEEPSLATE_BRICKS, ModItems.DEEPSLATE_BRICK,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS)));
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_BRICK_SLAB = reg("CRACKED_DEEPSLATE_BRICK_SLAB".toLowerCase(Locale.ROOT), () ->
-            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED,ModItems.DEEPSLATE_BRICK,
+            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, ModItems.DEEPSLATE_BRICK,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS)));
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_BRICK_WALL = reg("CRACKED_DEEPSLATE_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
-            new CrackedWallBlock(Crackable.CrackLevel.CRACKED,ModItems.DEEPSLATE_BRICK,
+            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, ModItems.DEEPSLATE_BRICK,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS)));
 
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_TILE_STAIRS = reg("CRACKED_DEEPSLATE_TILE_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_DEEPSLATE_TILES,ModItems.DEEPSLATE_BRICK,
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, () -> Blocks.CRACKED_DEEPSLATE_TILES, ModItems.DEEPSLATE_BRICK,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_TILES)));
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_TILE_SLAB = reg("CRACKED_DEEPSLATE_TILE_SLAB".toLowerCase(Locale.ROOT), () ->
             new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, ModItems.DEEPSLATE_BRICK,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_TILES)));
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_TILE_WALL = reg("CRACKED_DEEPSLATE_TILE_WALL".toLowerCase(Locale.ROOT), () ->
-            new CrackedWallBlock(Crackable.CrackLevel.CRACKED,ModItems.DEEPSLATE_BRICK,
+            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, ModItems.DEEPSLATE_BRICK,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_TILES)));
 
     public static final RegistryObject<Block> MULCH_BLOCK = reg("MULCH_BLOCK".toLowerCase(Locale.ROOT), () ->
@@ -311,34 +319,56 @@ public class ModBlocks {
 
 
     public static final RegistryObject<Block> WAXED_IRON_DOOR = reg("WAXED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
-            new RustableDoorBlock(Rustable.RustLevel.UNAFFECTED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableDoorBlock(Rustable.RustLevel.UNAFFECTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_EXPOSED_IRON_DOOR = reg("WAXED_EXPOSED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
-            new RustableDoorBlock(Rustable.RustLevel.EXPOSED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableDoorBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_WEATHERED_IRON_DOOR = reg("WAXED_WEATHERED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
-            new RustableDoorBlock(Rustable.RustLevel.WEATHERED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableDoorBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_RUSTED_IRON_DOOR = reg("WAXED_RUSTED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
-            new RustableDoorBlock(Rustable.RustLevel.RUSTED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableDoorBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
 
     public static final RegistryObject<Block> WAXED_IRON_TRAPDOOR = reg("WAXED_IRON_TRAPDOOR".toLowerCase(Locale.ROOT), () ->
-            new RustableTrapdoorBlock(Rustable.RustLevel.UNAFFECTED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableTrapdoorBlock(Rustable.RustLevel.UNAFFECTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_EXPOSED_IRON_TRAPDOOR = reg("WAXED_EXPOSED_IRON_TRAPDOOR".toLowerCase(Locale.ROOT), () ->
-            new RustableTrapdoorBlock(Rustable.RustLevel.EXPOSED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableTrapdoorBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_WEATHERED_IRON_TRAPDOOR = reg("WAXED_WEATHERED_IRON_TRAPDOOR".toLowerCase(Locale.ROOT), () ->
-            new RustableTrapdoorBlock(Rustable.RustLevel.WEATHERED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableTrapdoorBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_RUSTED_IRON_TRAPDOOR = reg("WAXED_RUSTED_IRON_TRAPDOOR".toLowerCase(Locale.ROOT), () ->
-            new RustableTrapdoorBlock(Rustable.RustLevel.RUSTED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableTrapdoorBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
 
     public static final RegistryObject<Block> WAXED_IRON_BARS = reg("WAXED_IRON_BARS".toLowerCase(Locale.ROOT), () ->
-            new RustableBarsBlock(Rustable.RustLevel.UNAFFECTED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableBarsBlock(Rustable.RustLevel.UNAFFECTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_EXPOSED_IRON_BARS = reg("WAXED_EXPOSED_IRON_BARS".toLowerCase(Locale.ROOT), () ->
-            new RustableBarsBlock(Rustable.RustLevel.EXPOSED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableBarsBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_WEATHERED_IRON_BARS = reg("WAXED_WEATHERED_IRON_BARS".toLowerCase(Locale.ROOT), () ->
-            new RustableBarsBlock(Rustable.RustLevel.WEATHERED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableBarsBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WAXED_RUSTED_IRON_BARS = reg("WAXED_RUSTED_IRON_BARS".toLowerCase(Locale.ROOT), () ->
-            new RustableBarsBlock(Rustable.RustLevel.RUSTED,BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableBarsBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
 
     public static final RegistryObject<Block> HANGING_ROOTS_WALL = reg("hanging_roots_wall", () ->
             new WallRootsBlock(BlockBehaviour.Properties.copy(Blocks.HANGING_ROOTS)));
+
+
+    public static final RegistryObject<Block> CRACKED_END_STONE_BRICKS = regWithItem("CRACKED_END_STONE_BRICKS".toLowerCase(Locale.ROOT), () ->
+            new CrackedBlock(Crackable.CrackLevel.CRACKED, ModItems.END_STONE_BRICK, BlockBehaviour.Properties.copy(Blocks.END_STONE)));
+    public static final RegistryObject<Block> CRACKED_END_STONE_BRICK_STAIRS = regWithItem("CRACKED_END_STONE_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, CRACKED_END_STONE_BRICKS, ModItems.END_STONE_BRICK, BlockBehaviour.Properties.copy(Blocks.END_STONE)));
+    public static final RegistryObject<Block> CRACKED_END_STONE_BRICK_SLAB = regWithItem("CRACKED_END_STONE_BRICK_SLAB".toLowerCase(Locale.ROOT), () ->
+            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, ModItems.END_STONE_BRICK, BlockBehaviour.Properties.copy(Blocks.END_STONE)));
+    public static final RegistryObject<Block> CRACKED_END_STONE_BRICK_WALL = regWithItem("CRACKED_END_STONE_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
+            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, ModItems.END_STONE_BRICK, BlockBehaviour.Properties.copy(Blocks.END_STONE)));
+
+    public static final RegistryObject<Block> CRACKED_PRISMARINE_BRICKS = regWithItem("CRACKED_PRISMARINE_BRICKS".toLowerCase(Locale.ROOT), () ->
+            new CrackedBlock(Crackable.CrackLevel.CRACKED, ModItems.PRISMARINE_BRICK, BlockBehaviour.Properties.copy(Blocks.PRISMARINE)));
+    public static final RegistryObject<Block> CRACKED_PRISMARINE_BRICK_STAIRS = regWithItem("CRACKED_PRISMARINE_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
+            new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, CRACKED_END_STONE_BRICKS, ModItems.PRISMARINE_BRICK, BlockBehaviour.Properties.copy(Blocks.PRISMARINE)));
+    public static final RegistryObject<Block> CRACKED_PRISMARINE_BRICK_SLAB = regWithItem("CRACKED_PRISMARINE_BRICK_SLAB".toLowerCase(Locale.ROOT), () ->
+            new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, ModItems.PRISMARINE_BRICK, BlockBehaviour.Properties.copy(Blocks.PRISMARINE)));
+    public static final RegistryObject<Block> CRACKED_PRISMARINE_BRICK_WALL = regWithItem("CRACKED_PRISMARINE_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
+            new CrackedWallBlock(Crackable.CrackLevel.CRACKED, ModItems.PRISMARINE_BRICK, BlockBehaviour.Properties.copy(Blocks.PRISMARINE)));
+
+    public static final RegistryObject<Block> PRISMARINE_BRICK_WALL = regWithItem("PRISMARINE_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
+            new CrackedWallBlock(Crackable.CrackLevel.UNCRACKED, ModItems.PRISMARINE_BRICK, BlockBehaviour.Properties.copy(Blocks.PRISMARINE)));
 
 
     //-----overrides------

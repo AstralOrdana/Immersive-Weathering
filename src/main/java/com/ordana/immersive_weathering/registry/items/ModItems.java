@@ -99,6 +99,8 @@ public class ModItems {
     public static final RegistryObject<BlockItem> NULCH = regBlockItem(ModBlocks.NULCH, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
 
     public static final RegistryObject<Item> STONE_BRICK = ITEMS.register("stone_brick", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
+    public static final RegistryObject<Item> PRISMARINE_BRICK = ITEMS.register("prismarine_brick", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
+    public static final RegistryObject<Item> END_STONE_BRICK = ITEMS.register("end_stone_brick", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
     public static final RegistryObject<Item> BLACKSTONE_BRICK = ITEMS.register("blackstone_brick", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
     public static final RegistryObject<Item> DEEPSLATE_BRICK = ITEMS.register("deepslate_brick", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
     public static final RegistryObject<Item> DEEPSLATE_TILE = ITEMS.register("deepslate_tile", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));

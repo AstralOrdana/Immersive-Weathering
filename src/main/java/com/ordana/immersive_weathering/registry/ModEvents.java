@@ -36,16 +36,17 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = ImmersiveWeathering.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
 
+    /*
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onToolUse(BlockEvent.BlockToolInteractEvent event) {
         if (event.getToolAction() == ToolActions.AXE_WAX_OFF) {
             BlockState state = event.getFinalState();
-            BlockState newState = Rustable.getUnaffectedRustState(event.getFinalState());
-            if (state != newState) {
-                event.setFinalState(state);
+            BlockState newState = Waxables.getUnWaxedState(state).orElse(null);
+            if ( newState!=null) {
+                event.setFinalState(newState);
             }
         }
-    }
+    }*/
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
@@ -157,21 +158,25 @@ public class ModEvents {
                     return;
                 }
             }
-            var unRusted = Rustable.getDecreasedRustState(state).orElse(null);
-            if(unRusted != null){
 
-                level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
+            if(state instanceof Rustable r && r.getAge() != Rustable.RustLevel.RUSTED){
+                var unRusted = r.getPrevious(state).orElse(null);
+                if(unRusted != null) {
 
-                if (player != null) {
-                    stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(event.getHand()));
+                    level.setBlockAndUpdate(pos, unRusted);
+                    level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
+                    level.blockEvent(pos, unRusted.getBlock(), 1, 0);
+                    if (player != null) {
+                        stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(event.getHand()));
+                    }
+
+                    if (player instanceof ServerPlayer) {
+                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    }
+                    event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+                    event.setCanceled(true);
+                    return;
                 }
-
-                if (player instanceof ServerPlayer) {
-                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                }
-                //not cancelling so the block can getMossSpreader
-                event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
-                return;
             }
 
         }

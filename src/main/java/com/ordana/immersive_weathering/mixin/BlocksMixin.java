@@ -831,4 +831,140 @@ public abstract class BlocksMixin {
     private static TrapDoorBlock ironTrapdoor(BlockBehaviour.Properties settings) {
         return new RustableTrapdoorBlock(Rustable.RustLevel.UNAFFECTED, settings);
     }
+
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/Block",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=prismarine_bricks"
+                    )
+            )
+    )
+    private static Block prismarineBricks(BlockBehaviour.Properties settings) {
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.PRISMARINE_BRICK.get(), settings);
+    }
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/SlabBlock",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=prismarine_brick_slab"
+                    )
+            )
+    )
+    private static SlabBlock prismarineBrickSlab(BlockBehaviour.Properties settings) {
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.PRISMARINE_BRICK.get(), settings);
+    }
+
+    @Shadow
+    @Final
+    public static Block PRISMARINE_BRICKS;
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/StairBlock",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=prismarine_brick_stairs"
+                    )
+            )
+    )
+    private static StairBlock prismarineBricksStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> PRISMARINE_BRICKS, () -> ModItems.PRISMARINE_BRICK.get(), settings);
+    }
+
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/Block",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=end_stone_bricks"
+                    )
+            )
+    )
+    private static Block endStoneBricks(BlockBehaviour.Properties settings) {
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.END_STONE_BRICK.get(), settings);
+    }
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/SlabBlock",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=end_stone_brick_slab"
+                    )
+            )
+    )
+    private static SlabBlock endStoneBrickSlab(BlockBehaviour.Properties settings) {
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.END_STONE_BRICK.get(), settings);
+    }
+
+    @Shadow
+    @Final
+    public static Block END_STONE_BRICKS;
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/StairBlock",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=end_stone_brick_stairs"
+                    )
+            )
+    )
+    private static StairBlock endStoneBricksStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> END_STONE_BRICKS, () -> ModItems.END_STONE_BRICK.get(), settings);
+    }
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/WallBlock",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=end_stone_brick_wall"
+                    )
+            )
+    )
+    private static WallBlock endStoneBrickWall(BlockBehaviour.Properties settings) {
+        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.END_STONE_BRICK.get(), settings);
+    }
 }

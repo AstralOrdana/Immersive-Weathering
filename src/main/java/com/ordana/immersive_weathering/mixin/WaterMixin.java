@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.google.common.collect.ImmutableList;
+import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
@@ -37,19 +38,81 @@ public abstract class WaterMixin extends Block implements BucketPickup {
         super(settings);
     }
 
-    @Inject(method = "shouldSpreadLiquid", at = @At("TAIL"), cancellable = true)
+    @Inject(method = "shouldSpreadLiquid", at = @At("HEAD"), cancellable = true)
     public void shouldSpreadLiquid(Level world, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
         if (this.fluid.is(FluidTags.LAVA)) {
-            boolean bl = world.getBlockState(pos.below()).is(Blocks.NETHERRACK);
+            boolean hasWater = false;
+            boolean blueIceDown = false;
+            boolean blueIceUp = false;
+            boolean hasBlueIce = false;
+            boolean hasQuartz = false;
+            boolean hasDiorite = false;
+            boolean hasAsh = false;
+            boolean hasMagma = false;
+            boolean hasBubbles = false;
+            boolean hasSoulfire = false;
+
+            BlockState downState = world.getBlockState(pos.below());
+
+            if (downState.is(Blocks.BLUE_ICE)) {
+                blueIceDown = true;
+            } else if (downState.is(Blocks.BUBBLE_COLUMN)) {
+                hasBubbles = true;
+            }
+
+            if (world.getBlockState(pos.above()).is(Blocks.BLUE_ICE)) {
+                blueIceUp = true;
+            }
+
             for (Direction direction : POSSIBLE_FLOW_DIRECTIONS) {
                 BlockPos blockPos = pos.relative(direction.getOpposite());
-                if (bl && world.getBlockState(blockPos).is(Blocks.PACKED_ICE)) {
-                    world.setBlockAndUpdate(pos, Blocks.MAGMA_BLOCK.defaultBlockState());
+                BlockState currentState = world.getBlockState(blockPos);
+
+                if (currentState.getFluidState().is(FluidTags.WATER)) {
+                    hasWater = true;
+                }
+                if (currentState.is(Blocks.SMOOTH_QUARTZ)) {
+                    hasQuartz = true;
+                } else if (currentState.is(Blocks.DIORITE)) {
+                    hasDiorite = true;
+                } else if (currentState.is(ModBlocks.ASH_BLOCK.get())) {
+                    hasAsh = true;
+                } else if (currentState.is(Blocks.BLUE_ICE)) {
+                    hasBlueIce = true;
+                } else if (currentState.is(Blocks.MAGMA_BLOCK)) {
+                    hasMagma = true;
+                } else if (currentState.is(Blocks.SOUL_FIRE)) {
+                    hasSoulfire = true;
+                }
+
+
+                BlockState newState = null;
+
+                if (hasWater && hasQuartz && hasDiorite) {
+                    newState = Blocks.GRANITE.defaultBlockState();
+                } else if (blueIceDown && blueIceUp) {
+                    newState = Blocks.DEEPSLATE.defaultBlockState();
+                } else if (hasWater && hasQuartz) {
+                    newState = Blocks.DIORITE.defaultBlockState();
+                } else if (hasWater && hasDiorite) {
+                    newState = Blocks.ANDESITE.defaultBlockState();
+                } else if (hasWater && hasAsh) {
+                    newState = Blocks.TUFF.defaultBlockState();
+                } else if (hasMagma && hasBlueIce) {
+                    newState = Blocks.BLACKSTONE.defaultBlockState();
+                } else if (hasBubbles) {
+                    newState = Blocks.MAGMA_BLOCK.defaultBlockState();
+                } else if (hasSoulfire) {
+                    newState = Blocks.CRYING_OBSIDIAN.defaultBlockState();
+                }
+
+                if (newState != null) {
+                    world.setBlockAndUpdate(pos, newState);
                     this.fizz(world, pos);
                     cir.setReturnValue(false);
+                    return;
                 }
             }
         }
-        cir.setReturnValue(true);
     }
 }

@@ -80,7 +80,7 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
         if (layers > 1) {
             if (entity instanceof LivingEntity && !(entity instanceof Fox || entity instanceof Bee)) {
                 float stuck = COLLISIONS[Math.max(0, layers - 1)];
-                entity.makeStuckInBlock(state, new Vec3(stuck, stuck, stuck));
+                entity.makeStuckInBlock(state, new Vec3(stuck, 1, stuck));
 
                 if (layers >= 6 && this.hasThorns) {
                     if (!level.isClientSide && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
