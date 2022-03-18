@@ -117,7 +117,7 @@ public class ModItems {
     public static final RegistryObject<Item> CRIMSON_SCALES = ITEMS.register("crimson_scales", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
     public static final RegistryObject<Item> WARPED_SCALES = ITEMS.register("warped_scales", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
 
-    public static final RegistryObject<Item> STEEL_WOOL = ITEMS.register("steel_wool", () -> new SteelWoolItem(new Item.Properties().durability(128).tab(CreativeModeTab.TAB_TOOLS)));
+    // public static final RegistryObject<Item> STEEL_WOOL = ITEMS.register("steel_wool", () -> new SteelWoolItem(new Item.Properties().durability(128).tab(CreativeModeTab.TAB_TOOLS)));
 
 
     //cut iron

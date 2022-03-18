@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.registry.client;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.FastColor;
 
 public class LeafParticle extends TextureSheetParticle {
     private final float rotationSpeed;
@@ -45,8 +46,12 @@ public class LeafParticle extends TextureSheetParticle {
 
     public record LeafFactory(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
 
-        public Particle createParticle(SimpleParticleType defaultParticleType, ClientLevel clientWorld, double d, double e, double f, double g, double h, double i) {
-            return new LeafParticle(clientWorld, this.spriteProvider, d, e, f, 0.0D, -1.0D, 0.0D);
+        @Override
+        public Particle createParticle(SimpleParticleType defaultParticleType, ClientLevel clientWorld, double x, double y, double z, double g, double color, double i) {
+            //TODO: idk why the given speeds arent used
+            var p = new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D);
+            p.setColor(FastColor.ARGB32.red((int) color), FastColor.ARGB32.green((int) color), FastColor.ARGB32.blue((int) color));
+            return p;
         }
     }
 }

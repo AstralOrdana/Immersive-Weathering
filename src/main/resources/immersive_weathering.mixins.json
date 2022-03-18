@@ -20,6 +20,7 @@
     "SaplingMixin",
     "SnowyBlockMixin",
     "SpreadableBlockMixin",
+    "SweetBerryBushMixin",
     "TallGrassMixin",
     "WaterMixin",
     "WebMixin"

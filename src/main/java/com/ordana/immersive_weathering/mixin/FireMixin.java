@@ -23,6 +23,7 @@ import java.util.Random;
 public abstract class FireMixin {
 
 
+    //TODO: supp ash
     @Inject(method = "tick", at = @At("HEAD"))
     public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
         if (world.getGameRules().getBoolean(GameRules.RULE_DOFIRETICK)) {

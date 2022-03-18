@@ -9,6 +9,7 @@ import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.random.SimpleWeightedRandomList;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.NetherFortressFeature;
 
@@ -213,5 +215,27 @@ public class WeatheringHelper {
         }
         return hasLava;
     }
+
+    public static boolean canRootsSpread(BlockPos centerPos, int height, int width, Level world, int maximumSize) {
+        int count = 0;
+        boolean hasRoots = false;
+        var list = grabBlocksAroundRandomly(centerPos.above(height/2), width, height, width);
+        for (BlockPos pos : list) {
+            BlockState state = world.getBlockState(pos);
+            if (state.is(Blocks.ROOTED_DIRT)) count += 1;
+            else {
+                if (!hasRoots && isLog(state)) hasRoots = true;
+            }
+            if (count >= maximumSize) return false;
+        }
+        return hasRoots;
+    }
+
+    public static boolean isLog(BlockState neighbor) {
+        return neighbor.is(BlockTags.LOGS) && (!neighbor.hasProperty(RotatedPillarBlock.AXIS) ||
+                neighbor.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y) &&
+                !neighbor.getBlock().getRegistryName().getPath().contains("stripped");
+    }
+
 
 }

@@ -39,9 +39,17 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
 
     public static final IntegerProperty LAYERS = IntegerProperty.create("layers", 0, 8);
     ;
-    protected static final VoxelShape[] LAYERS_TO_SHAPE = new VoxelShape[]{Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
-    private static final float[] COLLISIONS = new float[]{0, 1.7f, 1.6f, 1.5f, 1.3f, 1.1f, 0.8f, 0.5f};
+    protected static final VoxelShape[] LAYERS_TO_SHAPE = new VoxelShape[]{
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
+    private static final float[] COLLISIONS = new float[]{1, 0.95f, 0.90f, 0.85f, 0.80f, 0.75f, 0.70f, 0.65f};
 
     private final boolean hasFlowers; //if it can be boneMealed
     private final boolean hasThorns; //if it can hurt
@@ -66,7 +74,7 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
     }
 
     @Override
-    public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
+    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         int layers = this.getLayers(state);
 
         if (layers > 1) {
@@ -75,8 +83,8 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
                 entity.makeStuckInBlock(state, new Vec3(stuck, stuck, stuck));
 
                 if (layers >= 6 && this.hasThorns) {
-                    if (!world.isClientSide && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
-                        if(!(entity instanceof Player player) || player.getItemBySlot(EquipmentSlot.LEGS).isEmpty()) {
+                    if (!level.isClientSide && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
+                        if (!(entity instanceof Player player) || player.getItemBySlot(EquipmentSlot.LEGS).isEmpty()) {
 
                             double d = Math.abs(entity.getX() - entity.xOld);
                             double e = Math.abs(entity.getZ() - entity.zOld);
@@ -90,14 +98,20 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
         }
 
         //particles
-        if (layers > 0 && world.isClientSide && (!(entity instanceof LivingEntity) || entity.getFeetBlockState().is(this))) {
+        if (layers > 0 && level.isClientSide && (!(entity instanceof LivingEntity) || entity.getFeetBlockState().is(this))) {
 
-            Random random = world.getRandom();
+            Random random = level.getRandom();
             boolean bl = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
             if (bl && random.nextBoolean()) {
-                double yOff = (layers < 5) ? 0.5 : 1;
+                //double yOff = (layers < 5) ? 0.5 : 1;
+                double y = pos.getY() + LAYERS_TO_SHAPE[layers].max(Direction.Axis.Y) + 0.0625;
+                int color = level.getBiome(pos).value().getFoliageColor();
                 for (var p : particles) {
-                    world.addParticle(p.get(), entity.getX(), entity.getY() + yOff, entity.getZ(), Mth.randomBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, Mth.randomBetween(random, -1.0F, 1.0F) * 0.001f);
+                    level.addParticle(p.get(), entity.getX(), y, entity.getZ(),
+                            0,
+                            color,
+                            0);
+                    //Mth.randomBetween(random, -1.0F, 1.0F) * 0.001f)
                 }
             }
         }

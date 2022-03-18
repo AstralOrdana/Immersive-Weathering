@@ -37,7 +37,7 @@ public class ImmersiveWeathering {
         bus.addListener(ImmersiveWeathering::init);
 
         //TDODO: smarted farmers remove weeds
-    //TODO: fix icicles falling
+        //TODO: leaves heightmap fix
 
     }
 

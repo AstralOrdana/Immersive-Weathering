@@ -8,21 +8,24 @@ import com.ordana.immersive_weathering.registry.features.IcicleClusterFeatureCon
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.data.worldgen.features.CaveFeatures;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.valueproviders.ClampedNormalFloat;
+import net.minecraft.util.valueproviders.UniformFloat;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockPileConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.DripstoneClusterConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
-import net.minecraft.world.level.levelgen.placement.BiomeFilter;
-import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.placement.RarityFilter;
+import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.DeferredRegister;
@@ -48,6 +51,8 @@ public class ModFeatures {
                 RarityFilter.onAverageOnceEvery(3),
                 InSquarePlacement.spread(),
                 BiomeFilter.biome());
+
+
     }
 
     public static void init(){
@@ -55,24 +60,62 @@ public class ModFeatures {
         registerLeafPile("dark_oak");
         registerLeafPile("birch");
         registerLeafPile("spruce");
+
+
+        //same as dripstone
+        //TODO: make unique
+        Holder<ConfiguredFeature<IcicleClusterFeatureConfig, ?>> icicles = FeatureUtils.register(
+                "immersive_weathering:icicles", ICICLE_CLUSTER.get(),
+                new IcicleClusterFeatureConfig(
+                        12,
+                        UniformInt.of(3, 6),
+                        UniformInt.of(2, 8),
+                        1,
+                        3,
+                        UniformInt.of(2, 4),
+                        UniformFloat.of(0.3F, 0.7F),
+                        ClampedNormalFloat.of(0.1F, 0.3F, 0.1F, 0.9F),
+                        0.1F,
+                        3,
+                        8));
+
+        ICICLES = PlacementUtils.register("immersive_weathering:icicles", icicles,
+                CountOnEveryLayerPlacement.of(UniformInt.of(48, 96)),
+                HeightRangePlacement.uniform(VerticalAnchor.absolute(92),VerticalAnchor.absolute(256)),
+                BiomeFilter.biome());
+
+        CAVE_ICICLES = PlacementUtils.register("immersive_weathering:icicles_ice_caves", icicles,
+                CountOnEveryLayerPlacement.of(UniformInt.of(48, 96)),
+                PlacementUtils.FULL_RANGE,
+                BiomeFilter.biome());
+
     }
+
+    private static Holder<PlacedFeature> ICICLES;
+    private static Holder<PlacedFeature> CAVE_ICICLES;
+
 
     private static void addFeature(BiomeLoadingEvent event, String name, GenerationStep.Decoration step) {
         ResourceKey<PlacedFeature> key = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
                 ImmersiveWeathering.res(name));
         var feature = BuiltinRegistries.PLACED_FEATURE.getHolderOrThrow(key);
+        addFeature(event, feature, step);
+    }
+
+    private static void addFeature(BiomeLoadingEvent event, Holder<PlacedFeature> feature, GenerationStep.Decoration step) {
         event.getGeneration().addFeature(step, feature);
     }
 
     @SubscribeEvent
     public static void addFeaturesToBiomes(BiomeLoadingEvent event) {
+
         ResourceKey<Biome> key = ResourceKey.create(ForgeRegistries.Keys.BIOMES, event.getName());
         Holder<Biome> holder = BuiltinRegistries.BIOME.getHolderOrThrow(key);
 
-        if (holder.is(ModTags.ICY) || holder.is(ModTags.ICE_CAVES)) {
-            addFeature(event, "icicles", GenerationStep.Decoration.TOP_LAYER_MODIFICATION);
+        if (holder.is(ModTags.ICY)) {
+            addFeature(event, ICICLES, GenerationStep.Decoration.TOP_LAYER_MODIFICATION);
         } else if (holder.is(ModTags.ICE_CAVES)) {
-            addFeature(event, "icicles_ice_cave", GenerationStep.Decoration.UNDERGROUND_DECORATION);
+            addFeature(event, CAVE_ICICLES, GenerationStep.Decoration.UNDERGROUND_DECORATION);
         } else if (key == Biomes.FOREST || key == Biomes.WINDSWEPT_FOREST || key == Biomes.FLOWER_FOREST) {
             addFeature(event, "oak_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
         } else if (key == Biomes.DARK_FOREST) {

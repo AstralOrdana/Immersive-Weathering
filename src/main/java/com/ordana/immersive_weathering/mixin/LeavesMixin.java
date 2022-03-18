@@ -65,9 +65,7 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
                                 BlockState neighbor = world.getBlockState(targetPos.relative(direction));
                                 if (!isOnLeaf && neighbor.getBlock() instanceof LeafPileBlock) {
                                     pileHeight = 1;
-                                } else if (neighbor.is(BlockTags.LOGS) && (!neighbor.hasProperty(RotatedPillarBlock.AXIS) ||
-                                        neighbor.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y) &&
-                                        !neighbor.getBlock().getRegistryName().getPath().contains("stripped")) {
+                                } else if (WeatheringHelper.isLog(neighbor)) {
                                     pileHeight = isOnLeaf ? 2 : 1;
                                     break;
                                 }
@@ -83,6 +81,7 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
             }
         }
     }
+
 
     @Override
     public boolean isValidBonemealTarget(BlockGetter world, BlockPos pos, BlockState state, boolean isClient) {

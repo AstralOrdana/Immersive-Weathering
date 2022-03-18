@@ -355,12 +355,11 @@ public abstract class SpreadableBlockMixin extends Block {
             BlockPos targetPos = pos.above();
             if (random.nextFloat() < 0.001f && level.getBlockState(targetPos).isAir()) {
                 if (!level.isAreaLoaded(pos, 4)) return;
-                if (WeatheringHelper.hasEnoughBlocksAround(pos, 4, 3, 3, level,
+                if (!WeatheringHelper.hasEnoughBlocksAround(pos, 2, level,
                         b -> b.is(ModTags.SMALL_MUSHROOMS), 2)) {
 
                     level.setBlockAndUpdate(targetPos, (random.nextFloat() > 0.5f ?
                             Blocks.RED_MUSHROOM : Blocks.BROWN_MUSHROOM).defaultBlockState());
-
                 }
             }
         }

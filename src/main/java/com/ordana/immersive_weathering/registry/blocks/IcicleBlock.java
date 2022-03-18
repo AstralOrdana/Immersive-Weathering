@@ -15,6 +15,8 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -25,6 +27,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DripstoneThickness;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import org.jetbrains.annotations.Nullable;
@@ -39,6 +42,14 @@ public class IcicleBlock extends PointedDripstoneBlock implements Fallable, Simp
         super(settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(TIP_DIRECTION, Direction.UP)
                 .setValue(THICKNESS, DripstoneThickness.TIP).setValue(WATERLOGGED, false));
+    }
+
+    @Override
+    public void onProjectileHit(Level level, BlockState state, BlockHitResult hitResult, Projectile projectile) {
+        BlockPos blockpos = hitResult.getBlockPos();
+        if (!level.isClientSide && projectile.mayInteract(level, blockpos) && projectile.getDeltaMovement().length() > 0.6D) {
+            level.destroyBlock(blockpos, true);
+        }
     }
 
     @Override
