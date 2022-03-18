@@ -1,6 +1,5 @@
 package com.ordana.immersive_weathering.registry;
 
-import com.mojang.serialization.Decoder;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.features.IcicleClusterFeature;
@@ -8,7 +7,6 @@ import com.ordana.immersive_weathering.registry.features.IcicleClusterFeatureCon
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
-import net.minecraft.data.worldgen.features.CaveFeatures;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
@@ -17,13 +15,11 @@ import net.minecraft.util.valueproviders.UniformFloat;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockPileConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.DripstoneClusterConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraftforge.common.BiomeDictionary;
@@ -42,12 +38,12 @@ public class ModFeatures {
             "icicle_cluster", () -> new IcicleClusterFeature(IcicleClusterFeatureConfig.CODEC));
 
     //in code because the json defined one dont want to work....
-    private static void registerLeafPile(String name){
+    private static void registerLeafPile(String name) {
         final Holder<ConfiguredFeature<BlockPileConfiguration, ?>> OAK =
-                FeatureUtils.register("immersive_weathering:"+name+"_leaf_pile", Feature.BLOCK_PILE,
+                FeatureUtils.register("immersive_weathering:" + name + "_leaf_pile", Feature.BLOCK_PILE,
                         new BlockPileConfiguration(BlockStateProvider.simple(ModBlocks.OAK_LEAF_PILE.get())));
 
-        PlacementUtils.register("immersive_weathering:"+name+"_leaf_pile", OAK,
+        PlacementUtils.register("immersive_weathering:" + name + "_leaf_pile", OAK,
                 PlacementUtils.HEIGHTMAP_TOP_SOLID,
                 NoiseBasedCountPlacement.of(2, 50, 0.7),
                 NoiseThresholdCountPlacement.of(0.3, 1, 5),
@@ -56,7 +52,7 @@ public class ModFeatures {
 
     }
 
-    public static void init(){
+    public static void init() {
         registerLeafPile("oak");
         registerLeafPile("dark_oak");
         registerLeafPile("birch");
@@ -117,11 +113,11 @@ public class ModFeatures {
         ResourceKey<Biome> key = ResourceKey.create(ForgeRegistries.Keys.BIOMES, event.getName());
         //Holder<Biome> holder = BuiltinRegistries.BIOME.getHolderOrThrow(key);
 
-        Biome.BiomeCategory category= event.getCategory();
+        Biome.BiomeCategory category = event.getCategory();
 
         if (BiomeDictionary.hasType(key, BiomeDictionary.Type.SNOWY) || category == Biome.BiomeCategory.ICY) {
             addFeature(event, ICICLES, GenerationStep.Decoration.TOP_LAYER_MODIFICATION);
-            if(category == Biome.BiomeCategory.UNDERGROUND){
+            if (category == Biome.BiomeCategory.UNDERGROUND) {
                 addFeature(event, CAVE_ICICLES, GenerationStep.Decoration.UNDERGROUND_DECORATION);
             }
         } else if (key == Biomes.FOREST || key == Biomes.WINDSWEPT_FOREST || key == Biomes.FLOWER_FOREST) {

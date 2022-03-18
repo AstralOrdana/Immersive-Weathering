@@ -82,17 +82,17 @@ public class ImmersiveWeatheringClient {
         ParticleEngine particleEngine = Minecraft.getInstance().particleEngine;
 
         particleEngine.register(ModParticles.EMBER.get(), EmberParticle.EmberFactory::new);
-        particleEngine.register(ModParticles.SOOT.get(), LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.OAK_LEAF.get(), LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.SPRUCE_LEAF.get(), LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.BIRCH_LEAF.get(), LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.JUNGLE_LEAF.get(), LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.ACACIA_LEAF.get(), LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.DARK_OAK_LEAF.get(), LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.AZALEA_LEAF.get(), LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.AZALEA_FLOWER.get(), LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.MULCH.get(), LeafParticle.LeafFactory::new);
-        particleEngine.register(ModParticles.NULCH.get(), LeafParticle.LeafFactory::new);
+        particleEngine.register(ModParticles.SOOT.get(), LeafParticle.SimpleLeafParticle::new);
+        particleEngine.register(ModParticles.OAK_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
+        particleEngine.register(ModParticles.SPRUCE_LEAF.get(), LeafParticle.SpruceLeafParticle::new);
+        particleEngine.register(ModParticles.BIRCH_LEAF.get(), LeafParticle.BirchLeafParticle::new);
+        particleEngine.register(ModParticles.JUNGLE_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
+        particleEngine.register(ModParticles.ACACIA_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
+        particleEngine.register(ModParticles.DARK_OAK_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
+        particleEngine.register(ModParticles.AZALEA_LEAF.get(), LeafParticle.SimpleLeafParticle::new);
+        particleEngine.register(ModParticles.AZALEA_FLOWER.get(), LeafParticle.SimpleLeafParticle::new);
+        particleEngine.register(ModParticles.MULCH.get(), LeafParticle.SimpleLeafParticle::new);
+        particleEngine.register(ModParticles.NULCH.get(), LeafParticle.SimpleLeafParticle::new);
 
         particleEngine.register(ModParticles.SCRAPE_RUST.get(), ScrapeRustFactory::new);
     }

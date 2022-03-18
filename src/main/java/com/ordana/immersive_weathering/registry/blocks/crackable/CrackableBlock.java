@@ -25,7 +25,7 @@ public class CrackableBlock extends CrackedBlock {
 
     @Override
     public boolean isWeathering(BlockState state) {
-        return state.getValue(WEATHERABLE);
+        return state.hasProperty(WEATHERABLE) && state.getValue(WEATHERABLE);
     }
 
     @Override

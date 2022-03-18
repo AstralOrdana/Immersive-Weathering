@@ -1,17 +1,16 @@
 package com.ordana.immersive_weathering.registry.client;
 
 import com.mojang.blaze3d.platform.NativeImage;
-import com.ordana.immersive_weathering.registry.ModParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.FastColor;
 import net.minecraft.world.level.FoliageColor;
 
 public class LeafParticle extends TextureSheetParticle {
     private final float rotationSpeed;
 
-    LeafParticle(ClientLevel world, SpriteSet spriteProvider, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
+    LeafParticle(ClientLevel world, SpriteSet spriteProvider, double x, double y, double z, double velocityX, double velocityY, double velocityZ,
+                 int color) {
         super(world, x, y, z, velocityX, velocityY, velocityZ);
         this.setSize(0.001F, 0.001F);
         this.pickSprite(spriteProvider);
@@ -21,6 +20,9 @@ public class LeafParticle extends TextureSheetParticle {
         this.friction = 1.0F;
         this.gravity = 1.0F;
         this.rotationSpeed = ((float) Math.random() - 0.5F) * 0.1F;
+        this.setColor(NativeImage.getB((int) color) / 255f,
+                NativeImage.getG((int) color) / 255f,
+                NativeImage.getR((int) color) / 255f);
     }
 
     public void tick() {
@@ -46,27 +48,42 @@ public class LeafParticle extends TextureSheetParticle {
         return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 
-
-    public record LeafFactory(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
+    public record ColoredLeafParticle(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
 
         @Override
         public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double g, double color, double i) {
-            //TODO: idk why the given speeds arent used
-            var p = new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D);
 
+            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+                    (int) color);
+        }
+    }
 
-            if (particleType == ModParticles.BIRCH_LEAF.get()) {
-                color = FoliageColor.getBirchColor();
-            } else if (particleType == ModParticles.SPRUCE_LEAF.get()) {
-                color = FoliageColor.getEvergreenColor();
-            }else if(particleType == ModParticles.AZALEA_FLOWER.get() || particleType == ModParticles.AZALEA_LEAF.get()){
-                color = -1;
-            }
+    public record SpruceLeafParticle(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
 
-            p.setColor(NativeImage.getB((int) color)/255f,
-                    NativeImage.getG((int) color)/255f,
-                    NativeImage.getR((int) color)/255f);
-            return p;
+        @Override
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double g, double color, double i) {
+
+            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+                    FoliageColor.getEvergreenColor());
+        }
+    }
+
+    public record BirchLeafParticle(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
+
+        @Override
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double g, double color, double i) {
+            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+                    FoliageColor.getBirchColor());
+        }
+    }
+
+    public record SimpleLeafParticle(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
+
+        @Override
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double g, double color, double i) {
+
+            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+                    -1);
         }
     }
 }

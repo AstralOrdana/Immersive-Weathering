@@ -26,5 +26,6 @@ public class ModCompostable {
         ComposterBlock.COMPOSTABLES.put(ModItems.DARK_OAK_LEAF_PILE.get(), 0.3f);
         ComposterBlock.COMPOSTABLES.put(ModItems.AZALEA_LEAF_PILE.get(), 0.3f);
         ComposterBlock.COMPOSTABLES.put(ModItems.FLOWERING_AZALEA_LEAF_PILE.get(), 0.3f);
+        ComposterBlock.COMPOSTABLES.put(ModItems.FLOWER_CROWN.get(), 0.3f);
     }
 }

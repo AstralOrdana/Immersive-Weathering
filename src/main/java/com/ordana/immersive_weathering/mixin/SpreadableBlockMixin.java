@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.*;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -23,16 +25,36 @@ import java.util.Random;
 
 @Mixin(SpreadingSnowyDirtBlock.class)
 public abstract class SpreadableBlockMixin extends Block {
+
+    @Shadow
+    private static boolean canPropagate(BlockState p_56828_, LevelReader p_56829_, BlockPos p_56830_) {
+        return false;
+    }
+
     public SpreadableBlockMixin(Properties settings) {
         super(settings);
     }
 
     @Inject(method = "randomTick", at = @At("TAIL"))
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random, CallbackInfo ci) {
-        //fire turns this to dirt
-        //gets the block again because we are injecting at tail and it could already be dirt
+
         state = level.getBlockState(pos);
         if (state.is(Blocks.DIRT)) return;
+
+        if ((level.getLightEmission(pos.above()) >= 9) && (level.getBlockState(pos.above()).is(Blocks.AIR))) {
+            BlockState blockState = this.defaultBlockState();
+            for(int i = 0; i < 4; ++i) {
+                BlockPos blockPos = pos.offset(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
+                if (level.getBlockState(blockPos).is(Blocks.GRASS_BLOCK) || level.getBlockState(blockPos).is(Blocks.MYCELIUM) && canPropagate(blockState, level, blockPos)) {
+                    level.setBlockAndUpdate(blockPos, blockState.setValue(SpreadingSnowyDirtBlock.SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)));
+                    return;
+                }
+            }
+        }
+
+        //fire turns this to dirt
+        //gets the block again because we are injecting at tail and it could already be dirt
+
         if (level.random.nextFloat() < 0.1f) {
             if (!level.isAreaLoaded(pos, 1)) return;
             if (WeatheringHelper.hasEnoughBlocksFacingMe(pos, level, b -> b.is(BlockTags.FIRE), 1)) {
@@ -40,6 +62,10 @@ public abstract class SpreadableBlockMixin extends Block {
                 return;
             }
         }
+
+
+
+
         if (state.is(Blocks.GRASS_BLOCK) && random.nextFloat() < 0.001f) {
             if (!level.isAreaLoaded(pos, 4)) return;
             if (!WeatheringHelper.hasEnoughBlocksAround(pos, 4, 3, 4, level,
@@ -364,4 +390,6 @@ public abstract class SpreadableBlockMixin extends Block {
             }
         }
     }
+
+
 }
