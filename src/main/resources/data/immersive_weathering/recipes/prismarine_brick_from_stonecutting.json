@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "minecraft:prismarine"
+  },
+  "result": "immersive_weathering:prismarine_brick",
+  "count": 4
+}

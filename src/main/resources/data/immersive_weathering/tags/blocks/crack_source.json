@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "minecraft:lava",
-    "minecraft:fire"
+    "minecraft:fire",
+    "#immersive_weathering:cracked"
   ]
 }

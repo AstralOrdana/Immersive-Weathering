@@ -5,7 +5,6 @@
   "advancements.immersive_weathering.icicle.title": "Monch",
   "advancements.immersive_weathering.icicle.description": "Cronch Cronch Cronch",
 
-
   "death.attack.icicle": "%1$s was impaled on an icicle",
   "death.attack.icicle.player": "%1$s was impaled on an icicle whilst fighting %2$s",
   "death.attack.fallingIcicle": "%1$s was skewered by a falling icicle",
@@ -33,6 +32,17 @@
   "block.immersive_weathering.cracked_brick_slab": "Cracked Brick Slab",
   "block.immersive_weathering.cracked_brick_wall": "Cracked Brick Wall",
 
+  "block.immersive_weathering.cracked_prismarine_bricks": "Cracked Prismarine Bricks",
+  "block.immersive_weathering.cracked_prismarine_brick_stairs": "Cracked Prismarine Brick Stairs",
+  "block.immersive_weathering.cracked_prismarine_brick_slab": "Cracked Prismarine Brick Slab",
+  "block.immersive_weathering.cracked_prismarine_brick_wall": "Cracked Prismarine Brick Wall",
+  "block.immersive_weathering.prismarine_brick_wall": "Prismarine Brick Wall",
+
+  "block.immersive_weathering.cracked_end_stone_bricks": "Cracked End Stone Bricks",
+  "block.immersive_weathering.cracked_end_stone_brick_stairs": "Cracked End Stone Brick Stairs",
+  "block.immersive_weathering.cracked_end_stone_brick_slab": "Cracked End Stone Brick Slab",
+  "block.immersive_weathering.cracked_end_stone_brick_wall": "Cracked End Stone Brick Wall",
+
   "block.immersive_weathering.cracked_stone_brick_stairs": "Cracked Stone Brick Stairs",
   "block.immersive_weathering.cracked_stone_brick_slab": "Cracked Stone Brick Slab",
   "block.immersive_weathering.cracked_stone_brick_wall": "Cracked Stone Brick Wall",
@@ -57,6 +67,8 @@
   "item.immersive_weathering.blackstone_brick": "Blackstone Brick",
   "item.immersive_weathering.deepslate_brick": "Deepslate Brick",
   "item.immersive_weathering.deepslate_tile": "Deepslate Tile",
+  "item.immersive_weathering.end_stone_brick": "End Stone Brick",
+  "item.immersive_weathering.prismarine_brick": "Prismarine Brick",
 
   "item.immersive_weathering.azalea_flowers": "Azalea Flowers",
   "item.immersive_weathering.flower_crown": "Flower Crown",

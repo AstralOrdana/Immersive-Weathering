@@ -31,7 +31,7 @@ public class CrackSpreader implements SpreadingPatchBlock<Crackable.CrackLevel> 
 
     @Override
     public float getInterestForDirection(Level level, BlockPos pos) {
-        return 0.1f;
+        return 0.6f;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CrackSpreader implements SpreadingPatchBlock<Crackable.CrackLevel> 
 
     @Override
     public float getUnWeatherableChance(Level level, BlockPos pos) {
-        return 0.4f;
+        return 0.5f;
     }
 
     @Override
