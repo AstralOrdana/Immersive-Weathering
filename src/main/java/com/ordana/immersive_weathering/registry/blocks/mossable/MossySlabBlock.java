@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.registry.blocks.mossable;
 
 import java.util.Random;
-import net.minecraft.block.AbstractBlock;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Fertilizable;
 import net.minecraft.block.SlabBlock;
@@ -40,11 +40,11 @@ public class MossySlabBlock extends SlabBlock implements Mossable, Fertilizable 
 
     @Override
     public boolean hasRandomTicks(BlockState state) {
-        return isWeathering(state);
+        return this.isWeatherable(state);
     }
 
     @Override
-    public boolean isWeathering(BlockState state) {
+    public boolean isWeatherable(BlockState state) {
         return false;
     }
 

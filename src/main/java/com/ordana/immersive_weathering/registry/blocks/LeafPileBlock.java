@@ -65,6 +65,25 @@ public class LeafPileBlock extends Block implements Fertilizable {
     }
 
     @Override
+    public boolean hasRandomTicks(BlockState state) {
+        int layers = this.getLayers(state);
+        if (layers > 1 && this.hasThorns) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        int layers = this.getLayers(state);
+        if (layers > 1 && this.hasThorns) {
+            if (world.getBlockState(pos.down()).isOf(Blocks.GRASS_BLOCK) || world.getBlockState(pos.down()).isOf(Blocks.DIRT) || world.getBlockState(pos.down()).isOf(Blocks.COARSE_DIRT) || world.getBlockState(pos.down()).isOf(Blocks.ROOTED_DIRT)) {
+                world.setBlockState(pos.down(), Blocks.PODZOL.getDefaultState(), 2);
+            }
+        }
+    }
+
+    @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         int layers = this.getLayers(state);
 
@@ -93,9 +112,15 @@ public class LeafPileBlock extends Block implements Fertilizable {
             Random random = world.getRandom();
             boolean bl = entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ();
             if (bl && random.nextBoolean()) {
-                double yOff = (layers < 5) ? 0.5 : 1;
+                //double yOff = (layers < 5) ? 0.5 : 1;
+                double y = pos.getY() + LAYERS_TO_SHAPE[layers].getMax(Direction.Axis.Y) + 0.0625;
+                int color = world.getBiome(pos).value().getFoliageColor();
                 for (var p : particles) {
-                    world.addParticle(p, entity.getX(), entity.getY() + yOff, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
+                    world.addParticle(p, entity.getX(), y, entity.getZ(),
+                            0,
+                            color,
+                            0);
+                    //Mth.randomBetween(random, -1.0F, 1.0F) * 0.001f)
                 }
             }
         }

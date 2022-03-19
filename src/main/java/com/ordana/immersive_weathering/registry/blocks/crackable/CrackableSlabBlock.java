@@ -1,8 +1,10 @@
 package com.ordana.immersive_weathering.registry.blocks.crackable;
 
+import java.util.Optional;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
@@ -13,18 +15,26 @@ public class CrackableSlabBlock extends CrackedSlabBlock {
 
     public CrackableSlabBlock(CrackLevel crackLevel, Settings settings) {
         super(crackLevel, settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(WEATHERABLE, false));
+        this.setDefaultState(this.stateManager.getDefaultState().with(WEATHERABLE, false).with(STABLE, false).with(WATERLOGGED, false));
     }
 
     @Override
-    public boolean isWeathering(BlockState state) {
-        return state.get(WEATHERABLE);
+    public boolean hasRandomTicks(BlockState state) {
+        return isWeatherable(state);
+    }
+
+    //-----weathereable-start---
+
+    @Override
+    public boolean isWeatherable(BlockState state) {
+        return state.contains(WEATHERABLE) && state.get(WEATHERABLE) && state.contains(STABLE) && !state.get(STABLE);
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> stateBuilder) {
         super.appendProperties(stateBuilder);
         stateBuilder.add(WEATHERABLE);
+        stateBuilder.add(STABLE);
     }
 
     @Override
@@ -44,7 +54,7 @@ public class CrackableSlabBlock extends CrackedSlabBlock {
         BlockState state = super.getPlacementState(placeContext);
         if (state != null) {
             boolean weathering = this.shouldWeather(state, placeContext.getBlockPos(), placeContext.getWorld());
-            state.with(WEATHERABLE, weathering);
+            state = state.with(WEATHERABLE, weathering);
         }
         return state;
     }
@@ -54,12 +64,16 @@ public class CrackableSlabBlock extends CrackedSlabBlock {
 
     @Override
     public void randomTick(BlockState state, ServerWorld serverLevel, BlockPos pos, Random random) {
-        float weatherChance = 0.1f;
+        float weatherChance = 0.5f;
         if (random.nextFloat() < weatherChance) {
-            var opt = this.getNextCracked(state);
-            BlockState newState = opt.orElse(state.with(WEATHERABLE,false));
+            Optional<BlockState> opt = Optional.empty();
+            if(this.getCrackSpreader().getWanderWeatheringState(true, pos, serverLevel)) {
+                opt = this.getNextCracked(state);
+            }
+            BlockState newState = opt.orElse(state.with(WEATHERABLE, false));
             serverLevel.setBlockState(pos, newState);
         }
     }
 
 }
+

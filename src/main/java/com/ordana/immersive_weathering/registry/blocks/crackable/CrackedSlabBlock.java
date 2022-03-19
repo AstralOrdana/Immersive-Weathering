@@ -1,10 +1,7 @@
 package com.ordana.immersive_weathering.registry.blocks.crackable;
 
-import java.util.function.Supplier;
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
-import net.minecraft.item.Item;
 
 public class CrackedSlabBlock extends SlabBlock implements Crackable {
     private final CrackLevel crackLevel;
@@ -21,11 +18,11 @@ public class CrackedSlabBlock extends SlabBlock implements Crackable {
 
     @Override
     public boolean hasRandomTicks(BlockState state) {
-        return isWeathering(state);
+        return isWeatherable(state);
     }
 
     @Override
-    public boolean isWeathering(BlockState state) {
+    public boolean isWeatherable(BlockState state) {
         return false;
     }
 

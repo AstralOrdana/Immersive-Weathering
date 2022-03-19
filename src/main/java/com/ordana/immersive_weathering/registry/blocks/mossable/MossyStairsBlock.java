@@ -1,10 +1,8 @@
 package com.ordana.immersive_weathering.registry.blocks.mossable;
 
 import java.util.Random;
-import java.util.function.Supplier;
 
 import com.ordana.immersive_weathering.registry.blocks.ModStairs;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Fertilizable;
 import net.minecraft.server.world.ServerWorld;
@@ -43,12 +41,12 @@ public class MossyStairsBlock extends ModStairs implements Mossable, Fertilizabl
 
     @Override
     public boolean hasRandomTicks(BlockState state) {
-        return isWeathering(state);
+        return isWeatherable(state);
     }
 
 
     @Override
-    public boolean isWeathering(BlockState state) {
+    public boolean isWeatherable(BlockState state) {
         return false;
     }
 

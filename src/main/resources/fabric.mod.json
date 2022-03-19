@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Immersive Weathering",
-  "description": "A Mod that many natural weathering systems and QOL changes.",
+  "description": "A Mod that adds many natural weathering systems and QOL changes.",
   "authors": [
     "Ordana",
     "keybounce",

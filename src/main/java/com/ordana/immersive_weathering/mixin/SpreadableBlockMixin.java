@@ -54,18 +54,17 @@ public abstract class SpreadableBlockMixin extends Block {
     public void randomTick(BlockState state, ServerWorld level, BlockPos pos, Random random, CallbackInfo ci) {
         //fire turns this to dirt
         //gets the block again because we are injecting at tail and it could already be dirt
+        state = level.getBlockState(pos);
+        if (state.isOf(Blocks.DIRT)) return;
         if ((level.getLightLevel(pos.up()) >= 9) && (level.getBlockState(pos.up()).isOf(Blocks.AIR))) {
             BlockState blockState = this.getDefaultState();
-
             for(int i = 0; i < 4; ++i) {
                 BlockPos blockPos = pos.add(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
-                if ((level.getBlockState(blockPos).isOf(Blocks.DIRT) || level.getBlockState(blockPos).isOf(Blocks.GRASS_BLOCK) || level.getBlockState(blockPos).isOf(Blocks.MYCELIUM)) && canSpread(blockState, level, blockPos)) {
+                if ((level.getBlockState(blockPos).isOf(Blocks.GRASS_BLOCK) || level.getBlockState(blockPos).isOf(Blocks.MYCELIUM)) && canSpread(blockState, level, blockPos)) {
                     level.setBlockState(blockPos, (BlockState)blockState.with(SpreadableBlock.SNOWY, level.getBlockState(blockPos.up()).isOf(Blocks.SNOW)));
                 }
             }
         }
-        state = level.getBlockState(pos);
-        if (state.isOf(Blocks.DIRT)) return;
         if (level.random.nextFloat() < 0.1f) {
             if (!level.isChunkLoaded(pos)) return;
             if (WeatheringHelper.hasEnoughBlocksFacingMe(pos, level, b -> b.isIn(BlockTags.FIRE), 1)) {

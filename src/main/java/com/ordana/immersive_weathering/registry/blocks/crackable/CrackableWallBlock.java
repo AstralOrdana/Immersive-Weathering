@@ -19,28 +19,36 @@ public class CrackableWallBlock extends CrackedWallBlock {
 
     public CrackableWallBlock(CrackLevel crackLevel, Settings settings) {
         super(crackLevel, settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(WEATHERABLE, false));
+        this.setDefaultState(this.stateManager.getDefaultState().with(WEATHERABLE, false).with(STABLE, false).with(WATERLOGGED, false));
     }
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView getter, BlockPos pos, ShapeContext context) {
-        return super.getOutlineShape(state.with(WEATHERABLE, true), getter, pos, context);
+        return super.getOutlineShape(state.with(WEATHERABLE, true).with(STABLE, true), getter, pos, context);
     }
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockView getter, BlockPos pos, ShapeContext context) {
-        return super.getCollisionShape(state.with(WEATHERABLE, true), getter, pos, context);
+        return super.getCollisionShape(state.with(WEATHERABLE, true).with(STABLE, true), getter, pos, context);
     }
 
     @Override
-    public boolean isWeathering(BlockState state) {
-        return state.get(WEATHERABLE);
+    public boolean hasRandomTicks(BlockState state) {
+        return isWeatherable(state);
+    }
+
+    //-----weathereable-start---
+
+    @Override
+    public boolean isWeatherable(BlockState state) {
+        return state.contains(WEATHERABLE) && state.get(WEATHERABLE) && state.contains(STABLE) &&!state.get(STABLE);
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> stateBuilder) {
         super.appendProperties(stateBuilder);
         stateBuilder.add(WEATHERABLE);
+        stateBuilder.add(STABLE);
     }
 
     @Override
@@ -60,7 +68,7 @@ public class CrackableWallBlock extends CrackedWallBlock {
         BlockState state = super.getPlacementState(placeContext);
         if (state != null) {
             boolean weathering = this.shouldWeather(state, placeContext.getBlockPos(), placeContext.getWorld());
-            state.with(WEATHERABLE, weathering);
+            state = state.with(WEATHERABLE, weathering);
         }
         return state;
     }
@@ -70,11 +78,15 @@ public class CrackableWallBlock extends CrackedWallBlock {
 
     @Override
     public void randomTick(BlockState state, ServerWorld serverLevel, BlockPos pos, Random random) {
-        float weatherChance = 0.1f;
+        float weatherChance = 0.5f;
         if (random.nextFloat() < weatherChance) {
-            var opt = this.getNextCracked(state);
-            BlockState newState = opt.orElse(state.with(WEATHERABLE,false));
+            Optional<BlockState> opt = Optional.empty();
+            if(this.getCrackSpreader().getWanderWeatheringState(true, pos, serverLevel)) {
+                opt = this.getNextCracked(state);
+            }
+            BlockState newState = opt.orElse(state.with(WEATHERABLE, false));
             serverLevel.setBlockState(pos, newState);
         }
     }
+
 }

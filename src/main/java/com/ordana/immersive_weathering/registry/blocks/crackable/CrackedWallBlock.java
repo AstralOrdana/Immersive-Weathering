@@ -1,10 +1,7 @@
 package com.ordana.immersive_weathering.registry.blocks.crackable;
 
-import java.util.function.Supplier;
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.WallBlock;
-import net.minecraft.item.Item;
 
 public class CrackedWallBlock extends WallBlock implements Crackable {
 
@@ -22,11 +19,11 @@ public class CrackedWallBlock extends WallBlock implements Crackable {
 
     @Override
     public boolean hasRandomTicks(BlockState state) {
-        return isWeathering(state);
+        return isWeatherable(state);
     }
 
     @Override
-    public boolean isWeathering(BlockState state) {
+    public boolean isWeatherable(BlockState state) {
         return false;
     }
 

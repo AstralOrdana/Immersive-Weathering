@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.LeafPileBlock;
+import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.*;
 import net.minecraft.server.world.ServerWorld;
@@ -27,7 +28,7 @@ public abstract class LeavesMixin extends Block implements Fertilizable {
 
     @Override
     public boolean hasRandomTicks(BlockState state) {
-        return true;
+        return !(Boolean)state.get(LeavesBlock.PERSISTENT);
     }
 
     @Inject(method = "randomTick", at = @At("HEAD"))
@@ -42,7 +43,17 @@ public abstract class LeavesMixin extends Block implements Fertilizable {
                 BlockPos targetPos = world.getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos);
                 int maxFallenLeavesReach = 16;
                 int dist = pos.getY() - targetPos.getY();
-                if (dist < maxFallenLeavesReach && dist>0) {
+                if (dist < 0) {
+                    targetPos = pos;
+                    do {
+                        targetPos = targetPos.down();
+                        dist = pos.getY() - targetPos.getY();
+                    } while (world.getBlockState(targetPos).getMaterial().isReplaceable() &&
+                            dist < maxFallenLeavesReach);
+                    targetPos = targetPos.up();
+
+                }
+                if (dist < maxFallenLeavesReach) {
 
                     BlockState replaceState = world.getBlockState(targetPos);
 

@@ -19,11 +19,11 @@ public class CrackedBlock extends Block implements Crackable {
 
     @Override
     public boolean hasRandomTicks(BlockState state) {
-        return isWeathering(state);
+        return isWeatherable(state);
     }
 
     @Override
-    public boolean isWeathering(BlockState state) {
+    public boolean isWeatherable(BlockState state) {
         return false;
     }
 

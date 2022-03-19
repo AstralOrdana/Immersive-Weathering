@@ -14,20 +14,20 @@ public class MossableSlabBlock extends MossySlabBlock {
 
     public MossableSlabBlock(MossLevel mossLevel, Settings settings) {
         super(mossLevel,settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(WEATHERABLE, false));
+        this.setDefaultState(this.stateManager.getDefaultState().with(WEATHERABLE, false).with(STABLE, false).with(WATERLOGGED, false));
     }
 
     //-----weathereable-start---
 
     @Override
-    public boolean isWeathering(BlockState state) {
-        return state.get(WEATHERABLE);
+    public boolean isWeatherable(BlockState state) {
+        return state.contains(WEATHERABLE) && state.get(WEATHERABLE) && state.contains(STABLE) &&!state.get(STABLE);
     }
-
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> stateBuilder) {
         super.appendProperties(stateBuilder);
         stateBuilder.add(WEATHERABLE);
+        stateBuilder.add(STABLE);
     }
 
     @Override

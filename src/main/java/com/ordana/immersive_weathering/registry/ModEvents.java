@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.registry;
 
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
+import com.ordana.immersive_weathering.registry.blocks.Weatherable;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.Block;
@@ -470,7 +471,7 @@ public class ModEvents {
                 world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
                 if(player != null) {
                     if(!player.isCreative())heldItem.decrement(1);
-                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock));
+                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock).with(Weatherable.STABLE, true));
                 }
                 return ActionResult.SUCCESS;
             }
@@ -480,7 +481,7 @@ public class ModEvents {
                 world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
                 if(player != null) {
                     if(!player.isCreative())heldItem.decrement(1);
-                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock));
+                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock).with(Weatherable.STABLE, true));
                 }
                 return ActionResult.SUCCESS;
             }
@@ -490,7 +491,7 @@ public class ModEvents {
                 world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
                 if(player != null) {
                     if(!player.isCreative())heldItem.decrement(1);
-                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock));
+                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock).with(Weatherable.STABLE, true));
                 }
                 return ActionResult.SUCCESS;
             }
@@ -500,7 +501,7 @@ public class ModEvents {
                 world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
                 if(player != null) {
                     if(!player.isCreative())heldItem.decrement(1);
-                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock));
+                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock).with(Weatherable.STABLE, true));
                 }
                 return ActionResult.SUCCESS;
             }

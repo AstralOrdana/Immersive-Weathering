@@ -8,8 +8,9 @@ import net.minecraft.state.property.BooleanProperty;
 public interface Weatherable {
 
     BooleanProperty WEATHERABLE = BooleanProperty.of("weatherable");
+    BooleanProperty STABLE = BooleanProperty.of("stable");
 
-    boolean isWeathering(BlockState state);
+    boolean isWeatherable(BlockState state);
 
     <T extends Enum<?>> Optional<SpreadingPatchBlock<T>> getPatchSpreader(Class<T> weatheringClass);
 }

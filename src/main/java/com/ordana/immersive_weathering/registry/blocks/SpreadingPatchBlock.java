@@ -174,7 +174,7 @@ public interface SpreadingPatchBlock<T extends Enum<?>> {
     //this is horrible
     default WeatheringAgent getLowInfluenceWeatheringEffect(BlockState state, World level, BlockPos pos, int maxRecursion) {
         Block b = state.getBlock();
-        if (maxRecursion > 0 && b instanceof Weatherable w && w.isWeathering(state)) {
+        if (maxRecursion > 0 && b instanceof Weatherable w && w.isWeatherable(state)) {
             var p = w.getPatchSpreader(this.getType()).orElse(null);
             if (p != null) {
                 //could incur in infinite recursion here
