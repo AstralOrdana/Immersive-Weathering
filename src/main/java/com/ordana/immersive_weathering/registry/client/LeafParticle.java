@@ -80,9 +80,9 @@ public class LeafParticle extends TextureSheetParticle {
     public record SimpleLeafParticle(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
 
         @Override
-        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double g, double color, double i) {
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double vel, double color, double i) {
 
-            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, vel, 0.0D,
                     -1);
         }
     }

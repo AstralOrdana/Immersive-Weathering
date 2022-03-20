@@ -17,7 +17,7 @@ public class CrackableStairsBlock extends CrackedStairsBlock {
 
     public CrackableStairsBlock(CrackLevel crackLevel, Supplier<Block> baseBlockState, Supplier<Item> brickItem, BlockBehaviour.Properties settings) {
         super(crackLevel, baseBlockState, brickItem, settings);
-        this.registerDefaultState(this.stateDefinition.any().setValue(WEATHERABLE, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(WEATHERABLE, false));
     }
 
     @Override
@@ -40,7 +40,7 @@ public class CrackableStairsBlock extends CrackedStairsBlock {
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos neighbor, boolean isMoving) {
         super.onNeighborChange(state, level, pos, neighbor);
         if (level instanceof ServerLevel serverLevel) {
-            boolean weathering = this.shouldWeather(state, pos, serverLevel);
+            boolean weathering = this.getWantedWeatheringState(state, pos, serverLevel);
             if (state.getValue(WEATHERABLE) != weathering) {
                 //update weathering state
                 serverLevel.setBlockAndUpdate(pos, state.setValue(WEATHERABLE, weathering));
@@ -52,7 +52,7 @@ public class CrackableStairsBlock extends CrackedStairsBlock {
     public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
         BlockState state = super.getStateForPlacement(placeContext);
         if (state != null) {
-            boolean weathering = this.shouldWeather(state, placeContext.getClickedPos(), placeContext.getLevel());
+            boolean weathering = this.getWantedWeatheringState(state, placeContext.getClickedPos(), placeContext.getLevel());
             state.setValue(WEATHERABLE, weathering);
         }
         return state;

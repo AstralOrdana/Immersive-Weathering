@@ -18,7 +18,7 @@ public class MossableWallBlock extends MossyWallBlock {
 
     public MossableWallBlock(MossLevel mossLevel, BlockBehaviour.Properties settings) {
         super(mossLevel, settings);
-        this.registerDefaultState(this.stateDefinition.any().setValue(WEATHERABLE, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(WEATHERABLE, false));
     }
 
     @Override

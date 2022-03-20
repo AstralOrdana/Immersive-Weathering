@@ -107,8 +107,11 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
                 double y = pos.getY() + LAYERS_TO_SHAPE[layers].max(Direction.Axis.Y) + 0.0625;
                 int color = level.getBiome(pos).value().getFoliageColor();
                 for (var p : particles) {
-                    level.addParticle(p.get(), entity.getX(), y, entity.getZ(),
-                            0,
+                    level.addParticle(p.get(),
+                            entity.getX() +Mth.randomBetween(random,-0.2f,0.2f),
+                            y,
+                            entity.getZ() +Mth.randomBetween(random,-0.2f,0.2f),
+                            Mth.randomBetween(random,-0.75f,-1),
                             color,
                             0);
                     //Mth.randomBetween(random, -1.0F, 1.0F) * 0.001f)
