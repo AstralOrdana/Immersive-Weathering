@@ -54,15 +54,9 @@ public class MossableSlabBlock extends MossySlabBlock {
 
     //-----weathereable-end---
 
-    //TODO: add cracking
     @Override
     public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random){
-        float weatherChance = 0.5f;
-        if (random.nextFloat() < weatherChance) {
-            var opt = this.getNextMossy(state);
-            BlockState newState = opt.orElse(state.setValue(WEATHERABLE,false));
-            serverLevel.setBlockAndUpdate(pos, newState);
-        }
+        this.tryWeather(state, serverLevel, pos, random);
     }
 
 }

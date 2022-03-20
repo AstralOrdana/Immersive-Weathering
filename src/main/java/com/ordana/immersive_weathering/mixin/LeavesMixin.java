@@ -71,7 +71,7 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
                     //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
                     if (isOnLeaf ||
                             (replaceState.getMaterial().isReplaceable() && baseLeaf.canSurvive(world, targetPos)
-                                    && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 1, 2,
+                                    && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 2, 2,
                                     world, b -> b.getBlock() instanceof LeafPileBlock, 6))) {
 
 

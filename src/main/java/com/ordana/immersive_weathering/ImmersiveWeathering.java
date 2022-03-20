@@ -36,8 +36,7 @@ public class ImmersiveWeathering {
         MinecraftForge.EVENT_BUS.register(ModFeatures.class);
         bus.addListener(ImmersiveWeathering::init);
 
-        //TDODO: smarted farmers remove weeds
-        //TODO: leaves heightmap fix
+        //TODO: smarter farmers remove weeds
 
     }
 

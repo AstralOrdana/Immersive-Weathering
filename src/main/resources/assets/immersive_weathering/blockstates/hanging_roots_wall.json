@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "hanging=false,facing=east": {
+      "model": "immersive_weathering:block/hanging_roots_side",
+      "y": 90
+    },
+    "hanging=false,facing=south": {
+      "model": "immersive_weathering:block/hanging_roots_side",
+      "y": 180
+    },
+    "hanging=false,facing=west": {
+      "model": "immersive_weathering:block/hanging_roots_side",
+      "y": 270
+    },
+    "hanging=false,facing=north": {
+      "model": "immersive_weathering:block/hanging_roots_side",
+      "y": 0
+    }
+  }
+}

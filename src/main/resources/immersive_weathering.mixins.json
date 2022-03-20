@@ -1,8 +1,9 @@
 {
   "required": true,
   "minVersion": "0.8",
+  "refmap": "immersive_weathering.refmap.json",
   "package": "com.ordana.immersive_weathering.mixin",
-  "compatibilityLevel": "JAVA_16",
+  "compatibilityLevel": "JAVA_8",
   "mixins": [
     "BlocksMixin",
     "CampfireMixin",
@@ -16,10 +17,10 @@
     "LightningEntityMixin",
     "MagmaBlockMixin",
     "NyliumBlockMixin",
-    "RootedDirtBlockMixin",
+    "RootedDIrtMixin",
     "SaplingMixin",
     "SnowyBlockMixin",
-    "SpreadableBlockMixin",
+    "SpreadableDirtBlockMixin",
     "SweetBerryBushMixin",
     "TallGrassMixin",
     "WaterMixin",

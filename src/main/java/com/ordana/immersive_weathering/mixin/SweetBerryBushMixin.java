@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(SweetBerryBushBlock.class)
-public class SweetBerryBushMixin {
+public abstract class SweetBerryBushMixin {
 
     @Redirect(method = "entityInside",
             at = @At(value = "INVOKE",

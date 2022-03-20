@@ -28,7 +28,7 @@ mixin {
 
 
 archivesBaseName = project.mod_id
-version = "${project.mc_update_version}-${project.mod_version}".toString()
+version = "${project.minecraft_version}-${project.mod_version}".toString()
 group = "${project.maven_group}.${archivesBaseName}".toString()
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '17' // Need this here so eclipse task generates correctly.

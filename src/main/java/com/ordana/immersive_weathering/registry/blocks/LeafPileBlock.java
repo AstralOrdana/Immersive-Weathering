@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
+import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -29,6 +31,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
 
@@ -242,5 +245,24 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
     @Override
     public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         return 60;
+    }
+
+    @Override
+    public boolean isRandomlyTicking(BlockState state) {
+        int layers = this.getLayers(state);
+        return layers > 1 && this.hasThorns;
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+        int layers = this.getLayers(state);
+        if (layers > 1 && this.hasThorns) {
+            if(world.getBiome(pos).is(ModTags.OLD_GROWTH)) {
+                BlockState below = world.getBlockState(pos.below());
+                if (below.is(Blocks.GRASS_BLOCK) || below.is(Blocks.DIRT) || below.is(Blocks.COARSE_DIRT) || below.is(Blocks.ROOTED_DIRT)) {
+                    world.setBlock(pos.below(), Blocks.PODZOL.defaultBlockState(), 2);
+                }
+            }
+        }
     }
 }

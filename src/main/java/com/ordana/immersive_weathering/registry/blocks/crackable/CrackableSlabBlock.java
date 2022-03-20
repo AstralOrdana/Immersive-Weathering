@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 
+import java.util.Optional;
 import java.util.Random;
 import java.util.function.Supplier;
 
@@ -64,12 +65,7 @@ public class CrackableSlabBlock extends CrackedSlabBlock {
 
     @Override
     public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
-        float weatherChance = 0.1f;
-        if (random.nextFloat() < weatherChance) {
-            var opt = this.getNextCracked(state);
-            BlockState newState = opt.orElse(state.setValue(WEATHERABLE,false));
-            serverLevel.setBlockAndUpdate(pos, newState);
-        }
+        this.tryWeather(state, serverLevel, pos, random);
     }
 
 }

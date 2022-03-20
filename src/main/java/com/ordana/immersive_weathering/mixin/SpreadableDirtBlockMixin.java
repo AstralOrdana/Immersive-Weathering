@@ -24,18 +24,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Random;
 
 @Mixin(SpreadingSnowyDirtBlock.class)
-public abstract class SpreadableBlockMixin extends Block {
+public abstract class SpreadableDirtBlockMixin extends Block {
 
     @Shadow
     private static boolean canPropagate(BlockState p_56828_, LevelReader p_56829_, BlockPos p_56830_) {
         return false;
     }
 
-    public SpreadableBlockMixin(Properties settings) {
+    public SpreadableDirtBlockMixin(Properties settings) {
         super(settings);
     }
 
-    @Inject(method = "randomTick", at = @At("TAIL"))
+    @Inject(method = "randomTick(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Ljava/util/Random;)V", at = @At("TAIL"))
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random, CallbackInfo ci) {
 
         state = level.getBlockState(pos);

@@ -58,15 +58,7 @@ public class MossableBlock extends MossyBlock{
 
     @Override
     public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
-        float weatherChance = 0.1f;
-        if (random.nextFloat() < weatherChance) {
-            Optional<BlockState> opt = Optional.empty();
-            if(this.getMossSpreader().getWanderWeatheringState(true, pos, serverLevel)) {
-                opt = this.getNextMossy(state);
-            }
-            BlockState newState = opt.orElse(state.setValue(WEATHERABLE, false));
-            serverLevel.setBlockAndUpdate(pos, newState);
-        }
+        this.tryWeather(state, serverLevel, pos, random);
     }
 
 }

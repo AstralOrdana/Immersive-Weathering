@@ -70,11 +70,6 @@ public class CrackableWallBlock extends CrackedWallBlock {
 
     @Override
     public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
-        float weatherChance = 0.1f;
-        if (random.nextFloat() < weatherChance) {
-            var opt = this.getNextCracked(state);
-            BlockState newState = opt.orElse(state.setValue(WEATHERABLE,false));
-            serverLevel.setBlockAndUpdate(pos, newState);
-        }
+        this.tryWeather(state, serverLevel, pos, random);
     }
 }

@@ -30,21 +30,8 @@ public class CrackableMossableSlabBlock extends MossableSlabBlock implements Cra
 
     @Override
     public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
-        float weatherChance = 0.1f;
-        if (random.nextFloat() < weatherChance) {
-            boolean isMoss = this.getMossSpreader().getWanderWeatheringState(true, pos, serverLevel);
-            Optional<BlockState> opt = Optional.empty();
-            if(isMoss) {
-                opt = this.getNextMossy(state);
-            } else if(this.getCrackSpreader().getWanderWeatheringState(true, pos, serverLevel)){
-                opt = this.getNextCracked(state);
-            }
-            BlockState newState = opt.orElse(state.setValue(WEATHERABLE,false));
-            serverLevel.setBlockAndUpdate(pos, newState);
-        }
+        this.tryWeather(state,serverLevel,pos,random);
     }
-
-
 
     @Override
     public Item getRepairItem(BlockState state) {

@@ -7,6 +7,7 @@ import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.blocks.SpreadingPatchBlock;
 import com.ordana.immersive_weathering.registry.blocks.Weatherable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Supplier;
 
 public interface Crackable extends Weatherable {
@@ -117,5 +119,17 @@ public interface Crackable extends Weatherable {
     enum CrackLevel {
         UNCRACKED,
         CRACKED;
+    }
+
+    @Override
+    default void tryWeather(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
+        if (random.nextFloat() < this.getWeatherChanceSpeed()) {
+            Optional<BlockState> opt = Optional.empty();
+            if(this.getCrackSpreader().getWanderWeatheringState(true, pos, serverLevel)) {
+                opt = this.getNextCracked(state);
+            }
+            BlockState newState = opt.orElse(state.setValue(WEATHERABLE, false));
+            serverLevel.setBlockAndUpdate(pos, newState);
+        }
     }
 }

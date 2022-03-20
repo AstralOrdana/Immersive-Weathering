@@ -19,7 +19,9 @@ credits="MehVahdJukaar" #optional
 
 authors="Ordana, Keybounce, Paperfish, Mehvahdjukaar" #optional
 
-itemIcon="minecraft:copper_ore" #catalogue icon
+itemIcon="immersive_weathering:cracked_bricks" #catalogue icon
+
+configuredBackground= "immersive_weathering:textures/block/exposed_cut_iron.png"
 
 description='''
 A Mod that many natural weathering systems and QOL changes.

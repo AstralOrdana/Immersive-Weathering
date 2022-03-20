@@ -71,11 +71,6 @@ public class MossableWallBlock extends MossyWallBlock {
 
     @Override
     public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
-        float weatherChance = 0.1f;
-        if (random.nextFloat() < weatherChance) {
-            var opt = this.getNextMossy(state);
-            BlockState newState = opt.orElse(state.setValue(WEATHERABLE,false));
-            serverLevel.setBlockAndUpdate(pos, newState);
-        }
+        this.tryWeather(state, serverLevel, pos, random);
     }
 }

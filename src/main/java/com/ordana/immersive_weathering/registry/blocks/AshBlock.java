@@ -19,6 +19,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -107,4 +108,6 @@ public class AshBlock extends FallingBlock {
     public int getDustColor(BlockState state, BlockGetter world, BlockPos pos) {
         return -1842206;
     }
+
+
 }
