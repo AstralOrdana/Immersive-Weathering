@@ -14,7 +14,7 @@ public class MossableSlabBlock extends MossySlabBlock {
 
     public MossableSlabBlock(MossLevel mossLevel, Settings settings) {
         super(mossLevel,settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(WEATHERABLE, false).with(STABLE, false).with(WATERLOGGED, false));
+        this.setDefaultState(this.getDefaultState().with(WEATHERABLE, false).with(STABLE, false).with(WATERLOGGED, false));
     }
 
     //-----weathereable-start---

@@ -16,7 +16,7 @@ public class CrackableStairsBlock extends CrackedStairsBlock {
 
     public CrackableStairsBlock(CrackLevel crackLevel, BlockState baseBlockState, AbstractBlock.Settings settings) {
         super(crackLevel, baseBlockState, settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(WEATHERABLE, false).with(STABLE, false).with(WATERLOGGED, false));
+        this.setDefaultState(this.getDefaultState().with(WEATHERABLE, false).with(STABLE, false).with(WATERLOGGED, false));
     }
 
     @Override
@@ -42,7 +42,7 @@ public class CrackableStairsBlock extends CrackedStairsBlock {
     public void neighborUpdate(BlockState state, World level, BlockPos pos, Block block, BlockPos neighbor, boolean isMoving) {
         super.neighborUpdate(state, level, pos, block, neighbor,true);
         if (level instanceof ServerWorld serverLevel) {
-            boolean weathering = this.shouldWeather(state, pos, serverLevel);
+            var weathering = this.getWantedWeatheringState(state, pos, serverLevel);
             if (state.get(WEATHERABLE) != weathering) {
                 //update weathering state
                 serverLevel.setBlockState(pos, state.with(WEATHERABLE, weathering));
@@ -54,7 +54,7 @@ public class CrackableStairsBlock extends CrackedStairsBlock {
     public BlockState getPlacementState(ItemPlacementContext placeContext) {
         BlockState state = super.getPlacementState(placeContext);
         if (state != null) {
-            boolean weathering = this.shouldWeather(state, placeContext.getBlockPos(), placeContext.getWorld());
+            boolean weathering = this.getWantedWeatheringState(state, placeContext.getBlockPos(), placeContext.getWorld());
             state = state.with(WEATHERABLE, weathering);
         }
         return state;

@@ -15,7 +15,7 @@ public class MossableStairsBlock extends MossyStairsBlock {
 
     public MossableStairsBlock(MossLevel mossLevel, BlockState baseBlockState, AbstractBlock.Settings settings) {
         super(mossLevel, baseBlockState, settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(WEATHERABLE, false).with(STABLE, false).with(WATERLOGGED, false));
+        this.setDefaultState(this.getDefaultState().with(WEATHERABLE, false).with(STABLE, false).with(WATERLOGGED, false));
     }
 
     //-----weathereable-start---

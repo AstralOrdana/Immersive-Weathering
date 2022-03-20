@@ -1,11 +1,9 @@
 package com.ordana.immersive_weathering.registry.client;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.particle.*;
-import com.ordana.immersive_weathering.registry.ModParticles;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
@@ -14,16 +12,20 @@ import net.minecraft.particle.DefaultParticleType;
 public class LeafParticle extends SpriteBillboardParticle {
     private final float rotationSpeed;
 
-        LeafParticle(ClientWorld world, SpriteProvider spriteProvider, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
+    LeafParticle(ClientWorld world, SpriteProvider spriteProvider, double x, double y, double z, double velocityX, double velocityY, double velocityZ,
+                 int color) {
         super(world, x, y, z, velocityX, velocityY, velocityZ);
-        this.setBoundingBoxSpacing(0.01F, 0.01F);
         this.setSprite(spriteProvider);
-        this.scale *= this.random.nextFloat() * 0.6F + 0.4F;
+        this.getSize(0.0F);
+        this.scale *= this.random.nextFloat() * 0.2F + 1F;
         this.maxAge = (int)(16.0D / (Math.random() * 0.8D - 0.2D));
         this.collidesWithWorld = true;
-        this.velocityMultiplier = 0.1F;
+        this.velocityMultiplier = 1.0F;
         this.gravityStrength = 1.0F;
         this.rotationSpeed = ((float)Math.random() - 0.5F) * 0.1F;
+        this.setColor(NativeImage.getBlue((int) color) / 255f,
+                NativeImage.getGreen((int) color) / 255f,
+                NativeImage.getRed((int) color) / 255f);
     }
 
     public void tick() {
@@ -40,7 +42,7 @@ public class LeafParticle extends SpriteBillboardParticle {
             }
 
             this.move(this.velocityX, this.velocityY, this.velocityZ);
-            this.velocityY -= 0.09D;
+            this.velocityY -= 0.003000000026077032D;
             this.velocityY = Math.max(this.velocityY, -0.14000000059604645D);
         }
     }
@@ -49,29 +51,37 @@ public class LeafParticle extends SpriteBillboardParticle {
         return ParticleTextureSheet.PARTICLE_SHEET_OPAQUE;
     }
 
-    @Environment(EnvType.CLIENT)
-    public record LeafFactory(
-            SpriteProvider spriteProvider) implements ParticleFactory<DefaultParticleType> {
+    public record ColoredLeafParticle(SpriteProvider spriteProvider) implements ParticleFactory<DefaultParticleType> {
+        @Override
+        public Particle createParticle(DefaultParticleType particleType, ClientWorld clientWorld, double x, double y, double z, double g, double color, double i) {
+            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+                    (int) color);
+        }
+    }
+
+    public record SpruceLeafParticle(SpriteProvider spriteProvider) implements ParticleFactory<DefaultParticleType> {
+        @Override
+        public Particle createParticle(DefaultParticleType particleType, ClientWorld clientWorld, double x, double y, double z, double g, double color, double i) {
+            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+                    FoliageColors.getSpruceColor());
+        }
+    }
+
+    public record BirchLeafParticle(SpriteProvider spriteProvider) implements ParticleFactory<DefaultParticleType> {
+        @Override
+        public Particle createParticle(DefaultParticleType particleType, ClientWorld clientWorld, double x, double y, double z, double g, double color, double i) {
+            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+                    FoliageColors.getBirchColor());
+        }
+    }
+
+    public record SimpleLeafParticle(SpriteProvider spriteProvider) implements ParticleFactory<DefaultParticleType> {
 
         @Override
         public Particle createParticle(DefaultParticleType particleType, ClientWorld clientWorld, double x, double y, double z, double g, double color, double i) {
-            //TODO: idk why the given speeds arent used
-            var p = new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, 0.1D, 0.0D);
 
-
-            if (particleType == ModParticles.BIRCH_LEAF) {
-                color = FoliageColors.getBirchColor();
-            } else if (particleType == ModParticles.SPRUCE_LEAF) {
-                color = FoliageColors.getSpruceColor();
-            }else if(particleType == ModParticles.AZALEA_FLOWER || particleType == ModParticles.AZALEA_LEAF || particleType == ModParticles.MULCH || particleType == ModParticles.NULCH || particleType == ModParticles.SOOT){
-                color = -1;
-            }
-
-            p.setColor(NativeImage.getBlue((int) color)/255f,
-                    NativeImage.getGreen((int) color)/255f,
-                    NativeImage.getRed((int) color)/255f);
-            return p;
+            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+                    -1);
         }
     }
 }
-

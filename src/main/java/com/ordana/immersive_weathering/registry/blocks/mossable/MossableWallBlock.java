@@ -18,7 +18,7 @@ public class MossableWallBlock extends MossyWallBlock {
 
     public MossableWallBlock(MossLevel mossLevel, Settings settings) {
         super(mossLevel, settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(WEATHERABLE, false).with(STABLE, false).with(WATERLOGGED, false));
+        this.setDefaultState(this.getDefaultState().with(WEATHERABLE, false).with(STABLE, false).with(WATERLOGGED, false));
     }
 
     @Override

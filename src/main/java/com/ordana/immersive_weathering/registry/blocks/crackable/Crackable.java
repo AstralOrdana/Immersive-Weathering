@@ -110,7 +110,7 @@ public interface Crackable extends Weatherable {
 
     CrackLevel getCrackLevel();
 
-    default boolean shouldWeather(BlockState state, BlockPos pos, World level) {
+    default boolean getWantedWeatheringState(BlockState state, BlockPos pos, World level) {
         return this.getCrackSpreader().getWanderWeatheringState(false, pos, level);
     }
 

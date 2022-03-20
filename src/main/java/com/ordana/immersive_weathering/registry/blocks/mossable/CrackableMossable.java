@@ -20,9 +20,9 @@ public interface CrackableMossable extends Mossable, Crackable {
     }
 
     @Override
-    default boolean shouldWeather(BlockState state, BlockPos pos, World level) {
+    default boolean getWantedWeatheringState(BlockState state, BlockPos pos, World level) {
         return Mossable.super.shouldWeather(state, pos, level) ||
-                Crackable.super.shouldWeather(state, pos, level);
+                Crackable.super.getWantedWeatheringState(state, pos, level);
     }
 
 }

@@ -41,7 +41,8 @@ public abstract class LeavesMixin extends Block implements Fertilizable {
             if (leafPile != null && world.getBlockState(pos.down()).isIn(ModTags.LEAF_PILE_REPLACEABLE)) {
                 if (!world.isChunkLoaded(pos)) return;
                 BlockPos targetPos = world.getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos);
-                int maxFallenLeavesReach = 16;
+                int maxFallenLeavesReach = 12;
+                int maxPileHeight = 3;
                 int dist = pos.getY() - targetPos.getY();
                 if (dist < 0) {
                     targetPos = pos;
@@ -59,33 +60,49 @@ public abstract class LeavesMixin extends Block implements Fertilizable {
 
                     boolean isOnLeaf = replaceState.getBlock() instanceof LeafPileBlock;
 
-                    BlockState baseLeaf = leafPile.getDefaultState().with(LeafPileBlock.LAYERS,0);
+                    int pileHeight = 1;
+                    if (isOnLeaf) {
+                        pileHeight = replaceState.get(LeafPileBlock.LAYERS);
+                        if (pileHeight == 0 || pileHeight >= maxPileHeight) return;
+                    }
+
+                    BlockState baseLeaf = leafPile.getDefaultState().with(LeafPileBlock.LAYERS, 0);
                     //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
                     if (isOnLeaf ||
-                            (replaceState.isIn(ModTags.LEAF_PILE_REPLACEABLE) && baseLeaf.canPlaceAt(world,targetPos)
+                            (replaceState.getMaterial().isReplaceable() && baseLeaf.canPlaceAt(world, targetPos)
                                     && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 1, 2,
                                     world, b -> b.getBlock() instanceof LeafPileBlock, 6))) {
 
 
-                        int pileHeight = 0;
-                        if(world.getBlockState(targetPos.down()).isOf(Blocks.WATER)){
+                        if (world.getBlockState(targetPos.down()).isOf(Blocks.WATER)) {
                             world.setBlockState(targetPos, baseLeaf.with(LeafPileBlock.LAYERS, 0), 2);
-                        }
-                        else {
-                            for (Direction direction : Direction.Type.HORIZONTAL) {
-                                BlockState neighbor = world.getBlockState(targetPos.offset(direction));
-                                if (!isOnLeaf && neighbor.getBlock() instanceof LeafPileBlock) {
-                                    pileHeight = 1;
+                        } else {
+                            if (isOnLeaf) {
+                                int original = pileHeight;
+                                boolean hasLog = false;
+                                BlockState[] neighbors = new BlockState[4];
+                                for (Direction direction : Direction.Type.HORIZONTAL) {
+                                    neighbors[direction.getHorizontal()] = world.getBlockState(targetPos.offset(direction));
                                 }
-                                else if (WeatheringHelper.isLog(neighbor)) {
-                                    pileHeight = isOnLeaf ? 2 : 1;
-                                    break;
+                                for (var neighbor : neighbors) {
+                                    if (WeatheringHelper.isLog(neighbor)) {
+                                        hasLog = true;
+                                        break;
+                                    }
                                 }
-
+                                for (var neighbor : neighbors) {
+                                    if (neighbor.getBlock() instanceof LeafPileBlock) {
+                                        int i = hasLog ? maxPileHeight :
+                                                Math.min(neighbor.get(LeafPileBlock.LAYERS) -1, maxPileHeight);
+                                        if (i > pileHeight) {
+                                            pileHeight = Math.min(pileHeight + 1, i);
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (pileHeight == original) return;
                             }
-                            if (pileHeight > 0) {
-                                world.setBlockState(targetPos, baseLeaf.with(LeafPileBlock.LAYERS, pileHeight), 2);
-                            }
+                            world.setBlockState(targetPos, baseLeaf.with(LeafPileBlock.LAYERS, pileHeight), 2);
                         }
                     }
 

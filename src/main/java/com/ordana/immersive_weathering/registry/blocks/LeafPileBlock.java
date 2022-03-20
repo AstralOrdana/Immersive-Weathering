@@ -1,10 +1,7 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import com.ordana.immersive_weathering.registry.ModParticles;
-import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
@@ -14,13 +11,10 @@ import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
 import net.minecraft.particle.DefaultParticleType;
-import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
@@ -30,7 +24,6 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.*;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -116,8 +109,11 @@ public class LeafPileBlock extends Block implements Fertilizable {
                 double y = pos.getY() + LAYERS_TO_SHAPE[layers].getMax(Direction.Axis.Y) + 0.0625;
                 int color = world.getBiome(pos).value().getFoliageColor();
                 for (var p : particles) {
-                    world.addParticle(p, entity.getX(), y, entity.getZ(),
-                            0,
+                    world.addParticle(p,
+                            entity.getX() +MathHelper.nextBetween(random,-0.2f,0.2f),
+                            y,
+                            entity.getZ() +MathHelper.nextBetween(random,-0.2f,0.2f),
+                            MathHelper.nextBetween(random,-0.75f,-1),
                             color,
                             0);
                     //Mth.randomBetween(random, -1.0F, 1.0F) * 0.001f)

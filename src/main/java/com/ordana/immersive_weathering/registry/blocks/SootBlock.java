@@ -92,8 +92,14 @@ public class SootBlock extends AbstractLichenBlock {
                 Random random = world.getRandom();
                 boolean bl = entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ();
                 if (bl && random.nextBoolean()) {
-                    if (!state.get(LIT)) {
-                        world.addParticle(ModParticles.SOOT, entity.getX(), entity.getY() + 0.5, entity.getZ(), MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f, 0.05D, MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
+                    if (state.get(LIT)) {
+                        world.addParticle(ModParticles.SOOT,
+                                entity.getX() +MathHelper.nextBetween(random,-0.2f,0.2f),
+                                entity.getY() + 0.125,
+                                entity.getZ() +MathHelper.nextBetween(random,-0.2f,0.2f),
+                                MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f,
+                                0.05D,
+                                MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
                     }
                 }
             }

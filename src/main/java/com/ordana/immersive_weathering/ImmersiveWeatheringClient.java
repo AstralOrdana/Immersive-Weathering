@@ -77,19 +77,19 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
             registry.register(new Identifier("immersive_weathering", "particle/nulch_1"));
         }));
         ParticleFactoryRegistry.getInstance().register(ModParticles.EMBER, EmberParticle.EmberFactory::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.SOOT, LeafParticle.LeafFactory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.SOOT, LeafParticle.SimpleLeafParticle::new);
 
-        ParticleFactoryRegistry.getInstance().register(ModParticles.OAK_LEAF, LeafParticle.LeafFactory::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.SPRUCE_LEAF, LeafParticle.LeafFactory::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.BIRCH_LEAF, LeafParticle.LeafFactory::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.JUNGLE_LEAF, LeafParticle.LeafFactory::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.ACACIA_LEAF, LeafParticle.LeafFactory::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.DARK_OAK_LEAF, LeafParticle.LeafFactory::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.AZALEA_LEAF, LeafParticle.LeafFactory::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.AZALEA_FLOWER, LeafParticle.LeafFactory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.OAK_LEAF, LeafParticle.ColoredLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.SPRUCE_LEAF, LeafParticle.SpruceLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.BIRCH_LEAF, LeafParticle.BirchLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.JUNGLE_LEAF, LeafParticle.ColoredLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.ACACIA_LEAF, LeafParticle.ColoredLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.DARK_OAK_LEAF, LeafParticle.ColoredLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.AZALEA_LEAF, LeafParticle.SimpleLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.AZALEA_FLOWER, LeafParticle.SimpleLeafParticle::new);
 
-        ParticleFactoryRegistry.getInstance().register(ModParticles.MULCH, LeafParticle.LeafFactory::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.NULCH, LeafParticle.LeafFactory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.MULCH, LeafParticle.SimpleLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.NULCH, LeafParticle.SimpleLeafParticle::new);
 
         ParticleFactoryRegistry.getInstance().register(ModParticles.SCRAPE_RUST, ScrapeRustFactory::new);
 
