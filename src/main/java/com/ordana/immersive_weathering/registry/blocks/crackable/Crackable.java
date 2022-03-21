@@ -13,7 +13,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fml.common.Mod;
 
 import java.util.Optional;
 import java.util.Random;
@@ -110,7 +109,7 @@ public interface Crackable extends Weatherable {
 
     CrackLevel getCrackLevel();
 
-    default boolean getWantedWeatheringState(BlockState state, BlockPos pos, Level level) {
+    default boolean shouldWeather(BlockState state, BlockPos pos, Level level) {
         return this.getCrackSpreader().getWanderWeatheringState(false, pos, level);
     }
 
@@ -125,11 +124,17 @@ public interface Crackable extends Weatherable {
     default void tryWeather(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
         if (random.nextFloat() < this.getWeatherChanceSpeed()) {
             Optional<BlockState> opt = Optional.empty();
-            if(this.getCrackSpreader().getWanderWeatheringState(true, pos, serverLevel)) {
+            if (this.getCrackSpreader().getWanderWeatheringState(true, pos, serverLevel)) {
                 opt = this.getNextCracked(state);
             }
-            BlockState newState = opt.orElse(state.setValue(WEATHERABLE, false));
-            serverLevel.setBlockAndUpdate(pos, newState);
+            BlockState newState = opt.orElse(state.setValue(WEATHERABLE, WeatheringState.FALSE));
+            if(newState != state) {
+                serverLevel.setBlock(pos, newState, 2);
+                //schedule block event in 1 tick
+                if (!newState.hasProperty(WEATHERABLE)) {
+                    serverLevel.scheduleTick(pos, state.getBlock(), 1);
+                }
+            }
         }
     }
 }

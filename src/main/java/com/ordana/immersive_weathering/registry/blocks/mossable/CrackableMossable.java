@@ -23,9 +23,9 @@ public interface CrackableMossable extends Mossable, Crackable {
     }
 
     @Override
-    default boolean getWantedWeatheringState(BlockState state, BlockPos pos, Level level) {
+    default boolean shouldWeather(BlockState state, BlockPos pos, Level level) {
         return Mossable.super.shouldWeather(state, pos, level) ||
-                Crackable.super.getWantedWeatheringState(state, pos, level);
+                Crackable.super.shouldWeather(state, pos, level);
     }
 
     @Override
@@ -33,13 +33,19 @@ public interface CrackableMossable extends Mossable, Crackable {
         if (random.nextFloat() < this.getWeatherChanceSpeed()) {
             boolean isMoss = this.getMossSpreader().getWanderWeatheringState(true, pos, serverLevel);
             Optional<BlockState> opt = Optional.empty();
-            if(isMoss) {
+            if (isMoss) {
                 opt = this.getNextMossy(state);
-            } else if(this.getCrackSpreader().getWanderWeatheringState(true, pos, serverLevel)){
+            } else if (this.getCrackSpreader().getWanderWeatheringState(true, pos, serverLevel)) {
                 opt = this.getNextCracked(state);
             }
-            BlockState newState = opt.orElse(state.setValue(WEATHERABLE,false));
-            serverLevel.setBlockAndUpdate(pos, newState);
+            BlockState newState = opt.orElse(state.setValue(WEATHERABLE, WeatheringState.FALSE));
+            if(newState != state) {
+                serverLevel.setBlock(pos, newState, 2);
+                //schedule block event in 1 tick
+                if (!newState.hasProperty(WEATHERABLE)) {
+                    serverLevel.scheduleTick(pos, state.getBlock(), 1);
+                }
+            }
         }
     }
 }

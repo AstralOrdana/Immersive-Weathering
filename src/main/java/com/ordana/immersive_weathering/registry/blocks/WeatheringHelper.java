@@ -237,5 +237,14 @@ public class WeatheringHelper {
                 !neighbor.getBlock().getRegistryName().getPath().contains("stripped");
     }
 
+    public static final SimpleWeightedRandomList<Direction> ROOT_DIRECTIONS =
+            SimpleWeightedRandomList.<Direction>builder()
+                    .add(Direction.NORTH, 5)
+                    .add(Direction.SOUTH, 5)
+                    .add(Direction.WEST, 5)
+                    .add(Direction.EAST, 5)
+                    .add(Direction.UP, 1)
+                    .add(Direction.DOWN, 20)
+                    .build();
 
 }

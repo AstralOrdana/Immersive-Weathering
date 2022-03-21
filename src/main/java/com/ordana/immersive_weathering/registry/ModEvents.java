@@ -4,6 +4,7 @@ package com.ordana.immersive_weathering.registry;
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.blocks.Waxables;
+import com.ordana.immersive_weathering.registry.blocks.Weatherable;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import com.ordana.immersive_weathering.registry.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.registry.blocks.mossable.Mossable;
@@ -12,10 +13,13 @@ import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -36,17 +40,6 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = ImmersiveWeathering.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
 
-    /*
-    @SubscribeEvent(priority = EventPriority.LOW)
-    public static void onToolUse(BlockEvent.BlockToolInteractEvent event) {
-        if (event.getToolAction() == ToolActions.AXE_WAX_OFF) {
-            BlockState state = event.getFinalState();
-            BlockState newState = Waxables.getUnWaxedState(state).orElse(null);
-            if ( newState!=null) {
-                event.setFinalState(newState);
-            }
-        }
-    }*/
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
@@ -67,6 +60,7 @@ public class ModEvents {
             } else {
                 BlockState s = Mossable.getUnaffectedMossState(state);
                 if (s != state) {
+                    s = Weatherable.setStable(s);
                     newState = s;
                     Block.popResourceFromFace(level, pos, event.getFace(), new ItemStack(ModItems.MOSS_CLUMP.get()));
                     level.playSound(player, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -88,12 +82,39 @@ public class ModEvents {
                 event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
             }
         }
+        else if(i instanceof FlintAndSteelItem){
+            if(b instanceof Mossable){
+                BlockState s = Mossable.getUnaffectedMossState(state);
+                if (s != state) {
+                    s = Weatherable.setStable(s);
+
+                    if(level.isClientSide){
+                        ModParticles.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.FLAME, UniformInt.of(3, 5));
+                    }
+                    //fixing stuff prevents them from weathering
+
+                    level.setBlockAndUpdate(pos, s);
+                    level.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
+
+                    if (player != null) {
+                        stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(event.getHand()));
+                    }
+
+                    if (player instanceof ServerPlayer) {
+                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    }
+
+                    event.setCanceled(true);
+                    event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+                }
+            }
+        }
         //spawn ash
         else if (i instanceof ShovelItem) {
-            if (state.getBlock() instanceof CampfireBlock && state.getValue(BlockStateProperties.LIT)) {
+            if (b instanceof CampfireBlock && state.getValue(BlockStateProperties.LIT)) {
                 Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModItems.SOOT.get()));
             }
-            if (state.getBlock() instanceof FireBlock) {
+            if (b instanceof FireBlock) {
                 Block.popResource(level, pos, new ItemStack(ModItems.SOOT.get()));
                 level.playSound(player, pos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0f, 1.0f);
 
@@ -238,6 +259,9 @@ public class ModEvents {
             //Fix cracked stuff
             BlockState fixedBlock = crackable.getPreviousCracked(state).orElse(null);
             if (fixedBlock != null) {
+
+                //fixing stuff prevents them from weathering
+                fixedBlock = Weatherable.setStable(fixedBlock);
 
                 SoundEvent placeSound = fixedBlock.getSoundType().getPlaceSound();
                 level.playSound(player, pos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);

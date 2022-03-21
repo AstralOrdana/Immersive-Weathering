@@ -124,12 +124,12 @@ public abstract class BlocksMixin {
                             from = @At
                                     (
                                             value = "CONSTANT",
-                                            args = "stringValue=cracked_bricks"
+                                            args = "stringValue=cracked_stone_bricks"
                                     )
                     )
     )
-    private static Block crackedBricks(BlockBehaviour.Properties settings) {
-        return new CrackedBlock(Crackable.CrackLevel.CRACKED, () -> ModItems.BLACKSTONE_BRICK.get(), settings);
+    private static Block crackedStoneBricks(BlockBehaviour.Properties settings) {
+        return new CrackedBlock(Crackable.CrackLevel.CRACKED, () -> ModItems.STONE_BRICK.get(), settings);
     }
 
     @Redirect(
@@ -410,7 +410,7 @@ public abstract class BlocksMixin {
                     )
     )
     private static Block crackedNetherBricks(BlockBehaviour.Properties settings) {
-        return new CrackedBlock(Crackable.CrackLevel.CRACKED, () -> Items.BRICK, settings);
+        return new CrackedBlock(Crackable.CrackLevel.CRACKED, () -> Items.NETHER_BRICK, settings);
     }
 
 

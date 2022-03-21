@@ -1,70 +1,49 @@
 package com.ordana.immersive_weathering.registry.items;
 
-import com.google.common.collect.ImmutableMap;
-import java.util.Map;
+import com.ordana.immersive_weathering.registry.ModParticles;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class FlowerCrownItem extends ArmorItem {
-    private static final Map<ArmorMaterial, MobEffectInstance> MATERIAL_TO_EFFECT_MAP =
-            (new ImmutableMap.Builder<ArmorMaterial, MobEffectInstance>())
-                    .put(FlowerCrownMaterial.INSTANCE,
-                            new MobEffectInstance(MobEffects.REGENERATION, 400, 1, true, false)).build();
 
     public FlowerCrownItem(ArmorMaterial material, EquipmentSlot slot, Properties settings) {
         super(material, slot, settings);
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
-        if(!world.isClientSide()) {
-            if(entity instanceof Player player) {
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
+        if (level.isClientSide) {
+            if (level.random.nextFloat() < 0.05) {
+                if (entity instanceof LivingEntity livingEntity) {
+                    if (livingEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == this) {
 
-                if(hasHelmetOn(player)) {
-                    evaluateArmorEffects(player);
+
+                        Vec3 v = entity.getViewVector(1).scale(-0.125f);
+                        level.addParticle(ModParticles.AZALEA_FLOWER.get(),
+                                v.x + entity.getRandomX(0.675D),
+                                v.y + entity.getY() + entity.getEyeHeight() + 0.15D,
+                                v.z + entity.getRandomZ(0.675D),
+                                -3, -1, 0);
+                    }
+                }
+            }
+        } else if (level.random.nextFloat() < 0.001) {
+            if (entity instanceof LivingEntity livingEntity) {
+                if (livingEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == this) {
+                    if (!livingEntity.hasEffect(MobEffects.REGENERATION)) {
+                        livingEntity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 0, false, false, false));
+                    }
                 }
             }
         }
-
-        super.inventoryTick(stack, world, entity, slot, selected);
-    }
-
-    private void evaluateArmorEffects(Player player) {
-        for (Map.Entry<ArmorMaterial, MobEffectInstance> entry : MATERIAL_TO_EFFECT_MAP.entrySet()) {
-            ArmorMaterial mapArmorMaterial = entry.getKey();
-            MobEffectInstance mapStatusEffect = entry.getValue();
-
-            if(hasCorrectArmorOn(mapArmorMaterial, player)) {
-                addStatusEffectForMaterial(player, mapArmorMaterial, mapStatusEffect);
-            }
-        }
-    }
-
-    private void addStatusEffectForMaterial(Player player, ArmorMaterial mapArmorMaterial, MobEffectInstance mapStatusEffect) {
-        boolean hasPlayerEffect = player.hasEffect(mapStatusEffect.getEffect());
-
-        if(hasCorrectArmorOn(mapArmorMaterial, player) && !hasPlayerEffect) {
-            player.addEffect(new MobEffectInstance(mapStatusEffect.getEffect(),
-                    mapStatusEffect.getDuration(), mapStatusEffect.getAmplifier()));
-        }
-    }
-
-    private boolean hasHelmetOn(Player player) {
-        ItemStack helmet = player.getInventory().getArmor(3);
-
-        return !helmet.isEmpty();
-    }
-
-    private boolean hasCorrectArmorOn(ArmorMaterial material, Player player) {
-        ArmorItem helmet = ((ArmorItem)player.getInventory().getArmor(3).getItem());
-
-        return helmet.getMaterial() == material;
+        super.inventoryTick(stack, level, entity, slot, selected);
     }
 }

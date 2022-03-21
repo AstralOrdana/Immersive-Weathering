@@ -17,7 +17,7 @@
     "LightningEntityMixin",
     "MagmaBlockMixin",
     "NyliumBlockMixin",
-    "RootedDIrtMixin",
+    "RootedDirtMixin",
     "SaplingMixin",
     "SnowyBlockMixin",
     "SpreadableDirtBlockMixin",

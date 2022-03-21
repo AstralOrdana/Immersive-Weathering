@@ -36,7 +36,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
 
-public class IcicleBlock extends PointedDripstoneBlock implements Fallable, SimpleWaterloggedBlock {
+public class IcicleBlock extends PointedDripstoneBlock {
 
     public IcicleBlock(Properties settings) {
         super(settings);

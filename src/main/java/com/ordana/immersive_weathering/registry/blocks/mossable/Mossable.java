@@ -73,8 +73,8 @@ public interface Mossable extends Weatherable {
     MossSpreader getMossSpreader();
 
     @Override
-    default <T extends Enum<?>> Optional<SpreadingPatchBlock<T>> getPatchSpreader(Class<T> weatheringClass){
-        if (weatheringClass == MossLevel.class){
+    default <T extends Enum<?>> Optional<SpreadingPatchBlock<T>> getPatchSpreader(Class<T> weatheringClass) {
+        if (weatheringClass == MossLevel.class) {
             return Optional.of((SpreadingPatchBlock<T>) getMossSpreader());
         }
         return Optional.empty();
@@ -97,11 +97,17 @@ public interface Mossable extends Weatherable {
     default void tryWeather(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
         if (random.nextFloat() < this.getWeatherChanceSpeed()) {
             Optional<BlockState> opt = Optional.empty();
-            if(this.getMossSpreader().getWanderWeatheringState(true, pos, serverLevel)) {
+            if (this.getMossSpreader().getWanderWeatheringState(true, pos, serverLevel)) {
                 opt = this.getNextMossy(state);
             }
-            BlockState newState = opt.orElse(state.setValue(WEATHERABLE, false));
-            serverLevel.setBlockAndUpdate(pos, newState);
+            BlockState newState = opt.orElse(state.setValue(WEATHERABLE, WeatheringState.FALSE));
+            if(newState != state) {
+                serverLevel.setBlock(pos, newState, 2);
+                //schedule block event in 1 tick
+                if (!newState.hasProperty(WEATHERABLE)) {
+                    serverLevel.scheduleTick(pos, state.getBlock(), 1);
+                }
+            }
         }
     }
 }

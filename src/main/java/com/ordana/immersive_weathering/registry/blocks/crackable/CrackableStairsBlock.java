@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 
-import java.util.Optional;
 import java.util.Random;
 import java.util.function.Supplier;
 
@@ -18,7 +17,7 @@ public class CrackableStairsBlock extends CrackedStairsBlock {
 
     public CrackableStairsBlock(CrackLevel crackLevel, Supplier<Block> baseBlockState, Supplier<Item> brickItem, BlockBehaviour.Properties settings) {
         super(crackLevel, baseBlockState, brickItem, settings);
-        this.registerDefaultState(this.defaultBlockState().setValue(WEATHERABLE, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(WEATHERABLE, WeatheringState.FALSE));
     }
 
     @Override
@@ -28,7 +27,7 @@ public class CrackableStairsBlock extends CrackedStairsBlock {
 
     @Override
     public boolean isWeathering(BlockState state) {
-        return state.getValue(WEATHERABLE);
+        return state.getValue(WEATHERABLE).isWeathering();
     }
 
     @Override
@@ -40,30 +39,22 @@ public class CrackableStairsBlock extends CrackedStairsBlock {
     @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos neighbor, boolean isMoving) {
         super.onNeighborChange(state, level, pos, neighbor);
-        if (level instanceof ServerLevel serverLevel) {
-            boolean weathering = this.getWantedWeatheringState(state, pos, serverLevel);
-            if (state.getValue(WEATHERABLE) != weathering) {
-                //update weathering state
-                serverLevel.setBlockAndUpdate(pos, state.setValue(WEATHERABLE, weathering));
-            }
-        }
+        this.updateWeatheredStateOnNeighborChanged(state, level, pos);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
         BlockState state = super.getStateForPlacement(placeContext);
-        if (state != null) {
-            boolean weathering = this.getWantedWeatheringState(state, placeContext.getClickedPos(), placeContext.getLevel());
-            state.setValue(WEATHERABLE, weathering);
-        }
-        return state;
+        return getWeatheredStateForPlacement(state, placeContext.getClickedPos(), placeContext.getLevel());
     }
-
-    //-----weathereable-end---
-
 
     @Override
     public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
         this.tryWeather(state, serverLevel, pos, random);
+    }
+
+    @Override
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+        level.updateNeighborsAt(pos, this);
     }
 }

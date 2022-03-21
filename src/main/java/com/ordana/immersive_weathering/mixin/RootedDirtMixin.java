@@ -18,9 +18,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import java.util.Random;
 
 @Mixin(RootedDirtBlock.class)
-public abstract class RootedDIrtMixin extends Block implements BonemealableBlock {
+public abstract class RootedDirtMixin extends Block implements BonemealableBlock {
 
-    public RootedDIrtMixin(Properties settings) {
+    public RootedDirtMixin(Properties settings) {
         super(settings);
     }
 
@@ -31,8 +31,20 @@ public abstract class RootedDIrtMixin extends Block implements BonemealableBlock
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
-        if (random.nextFloat() < 0.008f) {
+        if (random.nextFloat() < 0.1f) {
             if (!world.isAreaLoaded(pos, 4)) return;
+
+            //spread roots downwards
+            if (WeatheringHelper.canRootsSpread(pos, 5, 2, world, 15)) {
+                Direction rootDirection = WeatheringHelper.ROOT_DIRECTIONS.getRandomValue(random).get();
+                var targetPos = pos.relative(rootDirection);
+                if (world.getBlockState(targetPos).is(Blocks.DIRT)) {
+                    world.setBlock(targetPos, Blocks.ROOTED_DIRT.defaultBlockState(), 3);
+                }
+            }
+
+
+            //spawn hanging roots
             Direction dir = Direction.values()[1 + random.nextInt(5)].getOpposite();
             BlockPos targetPos = pos.relative(dir);
             BlockState targetState = world.getBlockState(targetPos);

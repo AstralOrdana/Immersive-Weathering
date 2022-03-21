@@ -17,7 +17,7 @@ class FlowerCrownMaterial implements ArmorMaterial {
 
     @Override
     public int getDefenseForSlot(EquipmentSlot slot) {
-        return 1;
+        return 0;
     }
 
     @Override

@@ -41,7 +41,8 @@ public class ModItems {
     }
 
 
-    public static final RegistryObject<BlockItem> ICICLE = regBlockItem(ModBlocks.ICICLE, new Item.Properties().food(ModFoods.ICICLE).tab(CreativeModeTab.TAB_DECORATIONS));
+    public static final RegistryObject<BlockItem> ICICLE = ITEMS.register("icicle",()->new IcicleItem(
+            ModBlocks.ICICLE.get(), new Item.Properties().food(ModFoods.ICICLE).tab(CreativeModeTab.TAB_DECORATIONS)));
 
     public static final RegistryObject<BlockItem> OAK_LEAF_PILE = regLeafPile(ModBlocks.OAK_LEAF_PILE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
 

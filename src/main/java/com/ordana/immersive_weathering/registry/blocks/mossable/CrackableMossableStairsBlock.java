@@ -30,11 +30,6 @@ public class CrackableMossableStairsBlock extends MossableStairsBlock implements
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
-        this.tryWeather(state,serverLevel,pos,random);
-    }
-
-    @Override
     public Item getRepairItem(BlockState state) {
         return brickItem.get();
     }
