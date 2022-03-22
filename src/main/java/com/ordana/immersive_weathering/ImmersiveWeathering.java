@@ -4,6 +4,7 @@ import com.ordana.immersive_weathering.common.*;
 import com.ordana.immersive_weathering.common.blocks.ModBlocks;
 import com.ordana.immersive_weathering.common.items.ModItems;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -33,6 +34,7 @@ public class ImmersiveWeathering {
         ModFeatures.FEATURES.register(bus);
         MinecraftForge.EVENT_BUS.register(ModFeatures.class);
         bus.addListener(ImmersiveWeathering::init);
+
 
         //TODO: smarter farmers remove weeds
 

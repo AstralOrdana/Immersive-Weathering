@@ -34,7 +34,7 @@ public class CrackableWallBlock extends CrackedWallBlock {
 
     @Override
     public boolean isWeathering(BlockState state) {
-        return state.getValue(WEATHERABLE).isWeathering();
+        return state.hasProperty(WEATHERABLE) && state.getValue(WEATHERABLE).isWeathering();
     }
 
     @Override

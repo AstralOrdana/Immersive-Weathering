@@ -9,6 +9,7 @@ import com.ordana.immersive_weathering.common.blocks.WeatheringHelper;
 import com.ordana.immersive_weathering.common.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.common.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.common.blocks.rustable.Rustable;
+import com.ordana.immersive_weathering.common.entity.FollowLeafCrownGoal;
 import com.ordana.immersive_weathering.common.items.ModItems;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -20,6 +21,10 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
@@ -30,6 +35,7 @@ import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.common.ToolActions;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -37,6 +43,17 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = ImmersiveWeathering.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
+
+
+    @SubscribeEvent
+    public static void onEntityJoin(EntityJoinWorldEvent event) {
+
+        Entity entity = event.getEntity();
+        if (entity instanceof Bee bee) {
+                bee.goalSelector.addGoal(3,
+                        new FollowLeafCrownGoal(bee, 1D, false));
+        }
+    }
 
 
     @SubscribeEvent(priority = EventPriority.LOW)
@@ -63,7 +80,6 @@ public class ModEvents {
             } else {
                 BlockState s = Mossable.getUnaffectedMossState(state);
                 if (s != state) {
-                    s = Weatherable.setStable(s);
                     newState = s;
                     if(!level.isClientSide){
                         Block.popResourceFromFace(level, pos, event.getFace(), new ItemStack(ModItems.MOSS_CLUMP.get()));

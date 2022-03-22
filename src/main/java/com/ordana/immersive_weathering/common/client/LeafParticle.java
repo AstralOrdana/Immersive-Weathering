@@ -15,14 +15,14 @@ public class LeafParticle extends TextureSheetParticle {
         this.setSize(0.001F, 0.001F);
         this.pickSprite(spriteProvider);
         this.quadSize *= this.random.nextFloat() * 0.6F + 0.4F;
-        this.lifetime = (int) (16.0D / (Math.random() * 0.8D - 0.2D));
+        this.lifetime = (int) (16.0D / (Math.random() * 0.8D + 0.2D));
         this.hasPhysics = true;
         this.friction = 1.0F;
         this.gravity = 1.0F;
         this.rotationSpeed = ((float) Math.random() - 0.5F) * 0.1F;
-        this.setColor(NativeImage.getB((int) color) / 255f,
-                NativeImage.getG((int) color) / 255f,
-                NativeImage.getR((int) color) / 255f);
+        this.setColor(NativeImage.getB(color) / 255f,
+                NativeImage.getG(color) / 255f,
+                NativeImage.getR(color) / 255f);
     }
 
     public void tick() {

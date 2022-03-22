@@ -21,7 +21,7 @@ public class MossableStairsBlock extends MossyStairsBlock {
 
     @Override
     public boolean isWeathering(BlockState state) {
-        return state.getValue(WEATHERABLE).isWeathering();
+        return state.hasProperty(WEATHERABLE) && state.getValue(WEATHERABLE).isWeathering();
     }
 
     @Override
