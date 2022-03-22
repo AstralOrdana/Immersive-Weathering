@@ -1,10 +1,11 @@
 package com.ordana.immersive_weathering;
 
-import com.ordana.immersive_weathering.registry.ModParticles;
-import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
-import com.ordana.immersive_weathering.registry.client.EmberParticle;
-import com.ordana.immersive_weathering.registry.client.LeafParticle;
-import com.ordana.immersive_weathering.registry.items.ModItems;
+import com.ordana.immersive_weathering.integration.QuarkPlugin;
+import com.ordana.immersive_weathering.common.ModParticles;
+import com.ordana.immersive_weathering.common.blocks.ModBlocks;
+import com.ordana.immersive_weathering.common.client.EmberParticle;
+import com.ordana.immersive_weathering.common.client.LeafParticle;
+import com.ordana.immersive_weathering.common.items.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.block.BlockColors;
@@ -14,16 +15,15 @@ import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.level.FoliageColor;
-import net.minecraft.world.level.GrassColor;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
@@ -74,6 +74,8 @@ public class ImmersiveWeatheringClient {
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.WAXED_RUSTED_IRON_BARS.get(), RenderType.cutout());
 
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.HANGING_ROOTS_WALL.get(), RenderType.cutout());
+
+
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -84,8 +86,8 @@ public class ImmersiveWeatheringClient {
         particleEngine.register(ModParticles.EMBER.get(), EmberParticle.EmberFactory::new);
         particleEngine.register(ModParticles.SOOT.get(), LeafParticle.SimpleLeafParticle::new);
         particleEngine.register(ModParticles.OAK_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
-        particleEngine.register(ModParticles.SPRUCE_LEAF.get(), LeafParticle.SpruceLeafParticle::new);
-        particleEngine.register(ModParticles.BIRCH_LEAF.get(), LeafParticle.BirchLeafParticle::new);
+        particleEngine.register(ModParticles.SPRUCE_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
+        particleEngine.register(ModParticles.BIRCH_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
         particleEngine.register(ModParticles.JUNGLE_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
         particleEngine.register(ModParticles.ACACIA_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
         particleEngine.register(ModParticles.DARK_OAK_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
@@ -139,5 +141,22 @@ public class ImmersiveWeatheringClient {
         colors.register((s, t) -> FoliageColor.getBirchColor(), ModItems.BIRCH_LEAF_PILE.get());
         colors.register((s, t) -> FoliageColor.getEvergreenColor(), ModItems.SPRUCE_LEAF_PILE.get());
     }
+
+    @Mod.EventBusSubscriber(modid = ImmersiveWeathering.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    public static class ClientTicker{
+
+        private static boolean clientTicked = false;
+
+        @SubscribeEvent
+        public static void firstClientTick(TickEvent.ClientTickEvent event) {
+            if (!clientTicked && event.phase == TickEvent.Phase.END) {
+                if(ModList.get().isLoaded("quark")) QuarkPlugin.onFirstClientTick();
+                clientTicked = true;
+            }
+
+        }
+    }
+
+
 
 }

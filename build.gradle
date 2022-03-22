@@ -134,6 +134,8 @@ dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
 
 
+    implementation fg.deobf("curse.maven:quark-243121:3687633")
+    implementation fg.deobf("curse.maven:autoreglib-250363:3642382")
     implementation fg.deobf("curse.maven:the-one-probe-245211:3671753")
 
     annotationProcessor "org.spongepowered:mixin:${project.mixin_version}:processor"

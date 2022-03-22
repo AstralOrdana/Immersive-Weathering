@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.google.common.collect.ImmutableList;
-import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
+import com.ordana.immersive_weathering.common.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
@@ -25,14 +25,13 @@ public abstract class WaterMixin extends Block implements BucketPickup {
 
     @Shadow
     @Final
-    private FlowingFluid fluid;
-
-    @Shadow
-    @Final
     public static ImmutableList<Direction> POSSIBLE_FLOW_DIRECTIONS;
 
     @Shadow
     protected abstract void fizz(LevelAccessor p_54701_, BlockPos p_54702_);
+
+    @Shadow
+    public abstract FlowingFluid getFluid();
 
     public WaterMixin(Properties settings, FlowingFluid fluid) {
         super(settings);
@@ -40,7 +39,8 @@ public abstract class WaterMixin extends Block implements BucketPickup {
 
     @Inject(method = "shouldSpreadLiquid", at = @At("HEAD"), cancellable = true)
     public void shouldSpreadLiquid(Level world, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
-        if (this.fluid.is(FluidTags.LAVA)) {
+        var fluid = this.getFluid();
+        if (fluid != null && fluid.is(FluidTags.LAVA)) {
             boolean hasWater = false;
             boolean blueIceDown = false;
             boolean blueIceUp = false;

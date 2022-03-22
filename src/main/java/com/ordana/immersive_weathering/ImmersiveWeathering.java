@@ -1,10 +1,8 @@
 package com.ordana.immersive_weathering;
 
-import com.ordana.immersive_weathering.registry.*;
-import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
-import com.ordana.immersive_weathering.registry.blocks.Waxables;
-import com.ordana.immersive_weathering.registry.items.ModItems;
-import net.minecraft.core.Registry;
+import com.ordana.immersive_weathering.common.*;
+import com.ordana.immersive_weathering.common.blocks.ModBlocks;
+import com.ordana.immersive_weathering.common.items.ModItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;

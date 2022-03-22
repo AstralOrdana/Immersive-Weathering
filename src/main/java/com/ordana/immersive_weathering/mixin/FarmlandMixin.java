@@ -1,9 +1,8 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
-import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
+import com.ordana.immersive_weathering.common.blocks.ModBlocks;
+import com.ordana.immersive_weathering.common.blocks.WeatheringHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
