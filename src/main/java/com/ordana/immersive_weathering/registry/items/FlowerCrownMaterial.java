@@ -8,23 +8,21 @@ import net.minecraft.sound.SoundEvents;
 
 class FlowerCrownMaterial implements ArmorMaterial {
 
-    private static final int[] DURABILITY = {256, 256, 256, 256};
-    private static final int[] PROTECTION = {1, 1, 1, 1};
     public static final FlowerCrownMaterial INSTANCE = new FlowerCrownMaterial();
 
     @Override
     public int getDurability(EquipmentSlot slot) {
-        return DURABILITY[slot.getEntitySlotId()];
+        return 256;
     }
 
     @Override
     public int getProtectionAmount(EquipmentSlot slot) {
-        return PROTECTION[slot.getEntitySlotId()];
+        return 1;
     }
 
     @Override
     public int getEnchantability() {
-        return 60;
+        return 64;
     }
 
     @Override

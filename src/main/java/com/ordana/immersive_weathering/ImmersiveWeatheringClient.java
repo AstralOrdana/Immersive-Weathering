@@ -80,8 +80,8 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(ModParticles.SOOT, LeafParticle.SimpleLeafParticle::new);
 
         ParticleFactoryRegistry.getInstance().register(ModParticles.OAK_LEAF, LeafParticle.ColoredLeafParticle::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.SPRUCE_LEAF, LeafParticle.SpruceLeafParticle::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.BIRCH_LEAF, LeafParticle.BirchLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.SPRUCE_LEAF, LeafParticle.ColoredLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.BIRCH_LEAF, LeafParticle.ColoredLeafParticle::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.JUNGLE_LEAF, LeafParticle.ColoredLeafParticle::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.ACACIA_LEAF, LeafParticle.ColoredLeafParticle::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.DARK_OAK_LEAF, LeafParticle.ColoredLeafParticle::new);

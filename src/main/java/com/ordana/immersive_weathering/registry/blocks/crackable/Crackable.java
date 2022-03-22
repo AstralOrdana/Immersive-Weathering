@@ -9,10 +9,12 @@ import com.ordana.immersive_weathering.registry.blocks.Weatherable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Supplier;
 
 public interface Crackable extends Weatherable {
@@ -110,12 +112,30 @@ public interface Crackable extends Weatherable {
 
     CrackLevel getCrackLevel();
 
-    default boolean getWantedWeatheringState(BlockState state, BlockPos pos, World level) {
+    default boolean shouldWeather(BlockState state, BlockPos pos, World level) {
         return this.getCrackSpreader().getWanderWeatheringState(false, pos, level);
     }
 
     enum CrackLevel {
         UNCRACKED,
         CRACKED;
+    }
+
+    @Override
+    default void tryWeather(BlockState state, ServerWorld serverWorld, BlockPos pos, Random random) {
+        if (random.nextFloat() < this.getWeatherChanceSpeed()) {
+            Optional<BlockState> opt = Optional.empty();
+            if (this.getCrackSpreader().getWanderWeatheringState(true, pos, serverWorld)) {
+                opt = this.getNextCracked(state);
+            }
+            BlockState newState = opt.orElse(state.with(WEATHERABLE, WeatheringState.FALSE));
+            if(newState != state) {
+                serverWorld.setBlockState(pos, newState, 2);
+                //schedule block event in 1 tick
+                if (!newState.contains(WEATHERABLE)) {
+                    serverWorld.createAndScheduleBlockTick(pos, state.getBlock(), 1);
+                }
+            }
+        }
     }
 }

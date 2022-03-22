@@ -7,10 +7,12 @@ import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.blocks.SpreadingPatchBlock;
 import com.ordana.immersive_weathering.registry.blocks.Weatherable;
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Supplier;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -92,5 +94,23 @@ public interface Mossable extends Weatherable {
     enum MossLevel {
         MOSSABLE,
         MOSSY;
+    }
+
+    @Override
+    default void tryWeather(BlockState state, ServerWorld serverWorld, BlockPos pos, Random random) {
+        if (random.nextFloat() < this.getWeatherChanceSpeed()) {
+            Optional<BlockState> opt = Optional.empty();
+            if (this.getMossSpreader().getWanderWeatheringState(true, pos, serverWorld)) {
+                opt = this.getNextMossy(state);
+            }
+            BlockState newState = opt.orElse(state.with(WEATHERABLE, WeatheringState.FALSE));
+            if(newState != state) {
+                serverWorld.setBlockState(pos, newState, 2);
+                //schedule block event in 1 tick
+                if (!newState.contains(WEATHERABLE)) {
+                    serverWorld.createAndScheduleBlockTick(pos, state.getBlock(), 1);
+                }
+            }
+        }
     }
 }

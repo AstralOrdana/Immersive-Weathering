@@ -7,6 +7,7 @@ import net.minecraft.client.particle.*;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
 public class LeafParticle extends SpriteBillboardParticle {
@@ -18,7 +19,7 @@ public class LeafParticle extends SpriteBillboardParticle {
         this.setSprite(spriteProvider);
         this.getSize(0.0F);
         this.scale *= this.random.nextFloat() * 0.2F + 1F;
-        this.maxAge = (int)(16.0D / (Math.random() * 0.8D - 0.2D));
+        this.maxAge = (int)(16.0D / (Math.random() * 0.8D + 0.2D));
         this.collidesWithWorld = true;
         this.velocityMultiplier = 1.0F;
         this.gravityStrength = 1.0F;
@@ -56,22 +57,6 @@ public class LeafParticle extends SpriteBillboardParticle {
         public Particle createParticle(DefaultParticleType particleType, ClientWorld clientWorld, double x, double y, double z, double g, double color, double i) {
             return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
                     (int) color);
-        }
-    }
-
-    public record SpruceLeafParticle(SpriteProvider spriteProvider) implements ParticleFactory<DefaultParticleType> {
-        @Override
-        public Particle createParticle(DefaultParticleType particleType, ClientWorld clientWorld, double x, double y, double z, double g, double color, double i) {
-            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
-                    FoliageColors.getSpruceColor());
-        }
-    }
-
-    public record BirchLeafParticle(SpriteProvider spriteProvider) implements ParticleFactory<DefaultParticleType> {
-        @Override
-        public Particle createParticle(DefaultParticleType particleType, ClientWorld clientWorld, double x, double y, double z, double g, double color, double i) {
-            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
-                    FoliageColors.getBirchColor());
         }
     }
 

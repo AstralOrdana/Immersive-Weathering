@@ -25,22 +25,6 @@ public class CrackableMossableBlock extends MossableBlock implements CrackableMo
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld serverLevel, BlockPos pos, Random random) {
-        float weatherChance = 0.1f;
-        if (random.nextFloat() < weatherChance) {
-            boolean isMoss = this.getMossSpreader().getWanderWeatheringState(true, pos, serverLevel);
-            Optional<BlockState> opt = Optional.empty();
-            if(isMoss) {
-                opt = this.getNextMossy(state);
-            } else if(this.getCrackSpreader().getWanderWeatheringState(true, pos, serverLevel)){
-                opt = this.getNextCracked(state);
-            }
-            BlockState newState = opt.orElse(state.with(WEATHERABLE,false));
-            serverLevel.setBlockState(pos, newState);
-        }
-    }
-
-    @Override
     public CrackLevel getCrackLevel() {
         return crackLevel;
     }

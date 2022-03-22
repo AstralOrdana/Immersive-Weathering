@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.registry.blocks.mossable;
 
 import java.util.Random;
-import java.util.function.Supplier;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -15,56 +14,49 @@ public class MossableStairsBlock extends MossyStairsBlock {
 
     public MossableStairsBlock(MossLevel mossLevel, BlockState baseBlockState, AbstractBlock.Settings settings) {
         super(mossLevel, baseBlockState, settings);
-        this.setDefaultState(this.getDefaultState().with(WEATHERABLE, false).with(STABLE, false).with(WATERLOGGED, false));
+        this.setDefaultState(this.getDefaultState().with(WEATHERABLE, WeatheringState.FALSE));
+    }
+
+    @Override
+    public boolean hasRandomTicks(BlockState state) {
+        return isWeatherable(state);
     }
 
     //-----weathereable-start---
 
     @Override
     public boolean isWeatherable(BlockState state) {
-        return state.contains(WEATHERABLE) && state.get(WEATHERABLE) && state.contains(STABLE) &&!state.get(STABLE);
+        return state.contains(WEATHERABLE) && state.get(WEATHERABLE).isWeatherable();
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> stateBuilder) {
         super.appendProperties(stateBuilder);
         stateBuilder.add(WEATHERABLE);
-        stateBuilder.add(STABLE);
     }
 
     @Override
-    public void neighborUpdate(BlockState state, World level, BlockPos pos, Block block, BlockPos neighbor, boolean isMoving) {
-        super.neighborUpdate(state, level, pos, block, neighbor, true);
-        if (level instanceof ServerWorld serverLevel) {
-            boolean weathering = this.shouldWeather(state, pos, level);
-            if (state.get(WEATHERABLE) != weathering) {
-                //update weathering state
-                serverLevel.setBlockState(pos, state.with(WEATHERABLE, weathering));
-            }
-        }
+    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos neighbor, boolean isMoving) {
+        super.neighborUpdate(state, world, pos, block, neighbor,true);
+        this.updateWeatheredStateOnNeighborChanged(state, world, pos);
     }
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext placeContext) {
         BlockState state = super.getPlacementState(placeContext);
-        if (state != null) {
-            boolean weathering = this.shouldWeather(state, placeContext.getBlockPos(), placeContext.getWorld());
-            state.with(WEATHERABLE, weathering);
-        }
-        return state;
+        return getWeatheredStateForPlacement(state, placeContext.getBlockPos(), placeContext.getWorld());
     }
 
     //-----weathereable-end---
 
 
     @Override
-    public void randomTick(BlockState state, ServerWorld serverLevel, BlockPos pos, Random random){
-        float weatherChance = 0.5f;
-        if (random.nextFloat() < weatherChance) {
-            var opt = this.getNextMossy(state);
-            BlockState newState = opt.orElse(state.with(WEATHERABLE,false));
-            serverLevel.setBlockState(pos, newState);
-        }
+    public void randomTick(BlockState state, ServerWorld serverWorld, BlockPos pos, Random random) {
+        this.tryWeather(state, serverWorld, pos, random);
     }
 
+    @Override
+    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        world.updateNeighbors(pos, this);
+    }
 }

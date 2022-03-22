@@ -1,6 +1,8 @@
 package com.ordana.immersive_weathering.registry;
 
+import com.ordana.immersive_weathering.registry.blocks.AshBlock;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
+import com.ordana.immersive_weathering.registry.blocks.SootBlock;
 import com.ordana.immersive_weathering.registry.blocks.Weatherable;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -10,6 +12,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.Oxidizable;
 import net.minecraft.client.util.ParticleUtil;
 import net.minecraft.item.*;
+import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
@@ -317,6 +320,7 @@ public class ModEvents {
                 if(targetBlock.isIn(ModTags.FLOWERY)) {
                     Block.dropStack(world, fixedPos, new ItemStack(ModItems.AZALEA_FLOWERS));
                     world.playSound(player, targetPos, SoundEvents.BLOCK_GROWING_PLANT_CROP, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ModParticles.AZALEA_FLOWER, UniformIntProvider.create(3,5));
                     if(player != null) {
                         if(!player.isCreative())heldItem.damage(1, new Random(), null);
                         FLOWERY_BLOCKS.forEach((flowery, shorn) -> {
@@ -344,16 +348,19 @@ public class ModEvents {
             if (heldItem.getItem() instanceof ShovelItem) {
                 if(targetBlock.isOf(Blocks.CAMPFIRE) && targetBlock.get(Properties.LIT)) {
                     Block.dropStack(world, fixedPos , new ItemStack(ModItems.SOOT));
+                    ParticleUtil.spawnParticle(world, targetPos, ModParticles.SOOT, UniformIntProvider.create(3,5));
                 }
                 else if(targetBlock.isOf(Blocks.FIRE)) {
                     Block.dropStack(world, fixedPos, new ItemStack(ModItems.SOOT));
                     world.playSound(player, targetPos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ModParticles.SOOT, UniformIntProvider.create(3,5));
                     world.setBlockState(targetPos, Blocks.AIR.getDefaultState());
                 }
             }
             if (heldItem.getItem() == ModItems.AZALEA_FLOWERS) {
                 if(targetBlock.isIn(ModTags.FLOWERABLE)) {
                     world.playSound(player, targetPos, SoundEvents.BLOCK_FLOWERING_AZALEA_PLACE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ModParticles.AZALEA_FLOWER, UniformIntProvider.create(3,5));
                     if(player != null) {
                         if(!player.isCreative())heldItem.decrement(1);
                         FLOWERY_BLOCKS.forEach((flowery, shorn) -> {
@@ -380,19 +387,35 @@ public class ModEvents {
                 }
             }
             if (heldItem.getItem() == Items.FLINT_AND_STEEL) {
-                if(targetBlock.isOf(ModBlocks.SOOT)) {
+                if((targetBlock.isOf(ModBlocks.SOOT)) && (!targetBlock.get(SootBlock.LIT))) {
                     world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                    if(player != null) {
-                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                    ParticleUtil.spawnParticle(world, targetPos, ModParticles.EMBER, UniformIntProvider.create(3, 5));
+                    if (player != null) {
+                        if (!player.isCreative()) heldItem.damage(1, new Random(), null);
                         world.setBlockState(targetPos, ModBlocks.SOOT.getStateWithProperties(targetBlock).with(Properties.LIT, true));
                     }
                     return ActionResult.SUCCESS;
                 }
-                if(targetBlock.isOf(ModBlocks.ASH_BLOCK)) {
+                else if((targetBlock.isOf(ModBlocks.ASH_BLOCK)) && (!targetBlock.get(AshBlock.LIT))) {
                     world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ModParticles.EMBER, UniformIntProvider.create(3,5));
                     if(player != null) {
                         if(!player.isCreative())heldItem.damage(1, new Random(), null);
                         world.setBlockState(targetPos, ModBlocks.ASH_BLOCK.getStateWithProperties(targetBlock).with(Properties.LIT, true));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+                else if(targetBlock.isIn(ModTags.MOSSY)) {
+                    world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMALL_FLAME, UniformIntProvider.create(3, 5));
+                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMOKE, UniformIntProvider.create(3, 5));
+                    if(player != null) {
+                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        CLEANED_BLOCKS.forEach((mossy, clean) -> {
+                            if (targetBlock.isOf(mossy)) {
+                                world.setBlockState(targetPos, clean.getStateWithProperties(targetBlock).with(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
+                            }
+                        });
                     }
                     return ActionResult.SUCCESS;
                 }
@@ -471,7 +494,7 @@ public class ModEvents {
                 world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
                 if(player != null) {
                     if(!player.isCreative())heldItem.decrement(1);
-                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock).with(Weatherable.STABLE, true));
+                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock).with(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
                 }
                 return ActionResult.SUCCESS;
             }
@@ -481,7 +504,7 @@ public class ModEvents {
                 world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
                 if(player != null) {
                     if(!player.isCreative())heldItem.decrement(1);
-                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock).with(Weatherable.STABLE, true));
+                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock).with(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
                 }
                 return ActionResult.SUCCESS;
             }
@@ -491,7 +514,7 @@ public class ModEvents {
                 world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
                 if(player != null) {
                     if(!player.isCreative())heldItem.decrement(1);
-                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock).with(Weatherable.STABLE, true));
+                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock).with(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
                 }
                 return ActionResult.SUCCESS;
             }
@@ -501,7 +524,7 @@ public class ModEvents {
                 world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
                 if(player != null) {
                     if(!player.isCreative())heldItem.decrement(1);
-                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock).with(Weatherable.STABLE, true));
+                    world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock).with(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
                 }
                 return ActionResult.SUCCESS;
             }

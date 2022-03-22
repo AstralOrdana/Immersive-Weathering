@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.registry.blocks;
 import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.*;
+import net.minecraft.client.util.ParticleUtil;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -22,6 +23,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -46,6 +48,7 @@ public class SootBlock extends AbstractLichenBlock {
         if (state.get(LIT)) {
             world.setBlockState(pos, state.with(LIT, false), 2);
             world.playSound(player, pos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+            ParticleUtil.spawnParticle(world, pos, ModParticles.SOOT, UniformIntProvider.create(3,5));
             return ActionResult.success(world.isClient);
         }
         return ActionResult.PASS;
