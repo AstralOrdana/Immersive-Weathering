@@ -5,7 +5,6 @@
     },
     "title": {
       "translate": "advancements.immersive_weathering.icicle.title",
-      "color": "white",
       "bold": false
     },
     "description": {

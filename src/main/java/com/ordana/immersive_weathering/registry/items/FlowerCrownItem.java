@@ -30,20 +30,13 @@ public class FlowerCrownItem extends ArmorItem {
                     if (livingEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == this) {
 
 
-                        Vec3d v = entity.getRotationVector().multiply(-0.125f);
+
+                        Vec3d v = entity.getRotationVector().multiply(entity.isSwimming() ? 1.5 : -0.125f);
                         world.addParticle(ModParticles.AZALEA_FLOWER,
                                 v.x + entity.getParticleX(0.675D),
-                                v.y + entity.getY() + entity.getEyeHeight(EntityPose.STANDING) + 0.15D,
+                                v.y + entity.getY() + entity.getStandingEyeHeight() + 0.15D,
                                 v.z + entity.getParticleZ(0.675D),
                                 -3, -1, 0);
-                    }
-                }
-            }
-        } else if (world.random.nextFloat() < 0.1) {
-            if (entity instanceof LivingEntity livingEntity) {
-                if (livingEntity.getEquippedStack(EquipmentSlot.HEAD).getItem() == this) {
-                    if (!livingEntity.hasStatusEffect(StatusEffects.HEALTH_BOOST)) {
-                        livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 250, 0, false, false, true));
                     }
                 }
             }
