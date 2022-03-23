@@ -5,7 +5,7 @@
         "up": "true"
       },
       "apply": {
-        "model": "immersive_weathering:block/cracked_brick_wall_post"
+        "model": "immersive_weathering:block/cracked_prismarine_brick_wall_post"
       }
     },
     {

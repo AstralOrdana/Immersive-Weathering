@@ -22,8 +22,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -47,11 +45,9 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onEntityJoin(EntityJoinWorldEvent event) {
-
         Entity entity = event.getEntity();
         if (entity instanceof Bee bee) {
-                bee.goalSelector.addGoal(3,
-                        new FollowLeafCrownGoal(bee, 1D, false));
+            bee.goalSelector.addGoal(3, new FollowLeafCrownGoal(bee, 1D, false));
         }
     }
 
@@ -70,18 +66,18 @@ public class ModEvents {
         if (i instanceof ShearsItem) {
             var newState = WeatheringHelper.getAzaleaSheared(state).orElse(null);
             if (newState != null) {
-                if(level.isClientSide){
-                    ModParticles.spawnParticlesOnBlockFaces(level, pos, ModParticles.AZALEA_FLOWER.get(),UniformInt.of(4,6));
-                }else{
+                if (level.isClientSide) {
+                    ModParticles.spawnParticlesOnBlockFaces(level, pos, ModParticles.AZALEA_FLOWER.get(), UniformInt.of(4, 6));
+                } else {
                     Block.popResourceFromFace(level, pos, event.getFace(), new ItemStack(ModItems.AZALEA_FLOWERS.get()));
                 }
-               level.playSound(player, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
+                level.playSound(player, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
 
             } else {
                 BlockState s = Mossable.getUnaffectedMossState(state);
                 if (s != state) {
                     newState = s;
-                    if(!level.isClientSide){
+                    if (!level.isClientSide) {
                         Block.popResourceFromFace(level, pos, event.getFace(), new ItemStack(ModItems.MOSS_CLUMP.get()));
                     }
                     level.playSound(player, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -102,14 +98,13 @@ public class ModEvents {
                 event.setCanceled(true);
                 event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
             }
-        }
-        else if(i instanceof FlintAndSteelItem){
-            if(b instanceof Mossable){
+        } else if (i instanceof FlintAndSteelItem) {
+            if (b instanceof Mossable) {
                 BlockState s = Mossable.getUnaffectedMossState(state);
                 if (s != state) {
                     s = Weatherable.setStable(s);
 
-                    if(level.isClientSide){
+                    if (level.isClientSide) {
                         ModParticles.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.FLAME, UniformInt.of(3, 5));
                     }
                     //fixing stuff prevents them from weathering
@@ -201,9 +196,9 @@ public class ModEvents {
                 }
             }
 
-            if(state instanceof Rustable r && r.getAge() != Rustable.RustLevel.RUSTED){
+            if (state instanceof Rustable r && r.getAge() != Rustable.RustLevel.RUSTED) {
                 var unRusted = r.getPrevious(state).orElse(null);
-                if(unRusted != null) {
+                if (unRusted != null) {
 
                     level.setBlockAndUpdate(pos, unRusted);
                     level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);

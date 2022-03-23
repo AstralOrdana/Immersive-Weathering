@@ -26,7 +26,7 @@ public class FlowerCrownItem extends ArmorItem {
                     if (livingEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == this) {
 
 
-                        Vec3 v = entity.getViewVector(1).scale(-0.125f);
+                        Vec3 v = entity.getViewVector(1).scale(entity.isSwimming() ? 1.8 : -0.15f);
                         level.addParticle(ModParticles.AZALEA_FLOWER.get(),
                                 v.x + entity.getRandomX(0.675D),
                                 v.y + entity.getY() + entity.getEyeHeight() + 0.15D,
@@ -35,7 +35,7 @@ public class FlowerCrownItem extends ArmorItem {
                     }
                 }
             }
-        } else if (level.random.nextFloat() < 0.001) {
+        }/* else if (level.random.nextFloat() < 0.001) {
             if (entity instanceof LivingEntity livingEntity) {
                 if (livingEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == this) {
                     if (!livingEntity.hasEffect(MobEffects.REGENERATION)) {
@@ -43,7 +43,7 @@ public class FlowerCrownItem extends ArmorItem {
                     }
                 }
             }
-        }
+        }*/
         super.inventoryTick(stack, level, entity, slot, selected);
     }
 }

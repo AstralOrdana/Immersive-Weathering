@@ -169,7 +169,7 @@ public abstract class BlocksMixin {
                     )
     )
     private static Block crackedDeepslateTiles(BlockBehaviour.Properties settings) {
-        return new CrackedBlock(Crackable.CrackLevel.CRACKED, () -> ModItems.DEEPSLATE_BRICK.get(), settings);
+        return new CrackedBlock(Crackable.CrackLevel.CRACKED, () -> ModItems.DEEPSLATE_TILE.get(), settings);
     }
 
 
@@ -261,7 +261,7 @@ public abstract class BlocksMixin {
             )
     )
     private static Block deepslateTiles(BlockBehaviour.Properties settings) {
-        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.DEEPSLATE_BRICK.get(), settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.DEEPSLATE_TILE.get(), settings);
     }
 
     @Redirect(
@@ -279,7 +279,7 @@ public abstract class BlocksMixin {
             )
     )
     private static SlabBlock deepslateTileSlab(BlockBehaviour.Properties settings) {
-        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.DEEPSLATE_BRICK.get(), settings);
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.DEEPSLATE_TILE.get(), settings);
     }
 
     @Redirect(
@@ -297,7 +297,7 @@ public abstract class BlocksMixin {
             )
     )
     private static StairBlock deepslateTileStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> Blocks.DEEPSLATE_TILES, () -> ModItems.DEEPSLATE_BRICK.get(), settings);
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> Blocks.DEEPSLATE_TILES, () -> ModItems.DEEPSLATE_TILE.get(), settings);
     }
 
     @Redirect(
@@ -315,7 +315,7 @@ public abstract class BlocksMixin {
             )
     )
     private static WallBlock deepslateTileWall(BlockBehaviour.Properties settings) {
-        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.DEEPSLATE_BRICK.get(), settings);
+        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.DEEPSLATE_TILE.get(), settings);
     }
 
     @Redirect
@@ -334,7 +334,7 @@ public abstract class BlocksMixin {
                     )
             )
     private static Block netherBricks(BlockBehaviour.Properties settings) {
-        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, () -> Items.BRICK, settings);
+        return new CrackableBlock(Crackable.CrackLevel.UNCRACKED, () -> Items.NETHER_BRICK, settings);
     }
 
     @Redirect(
@@ -352,7 +352,7 @@ public abstract class BlocksMixin {
             )
     )
     private static SlabBlock netherBrickSlab(BlockBehaviour.Properties settings) {
-        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED, () -> Items.BRICK, settings);
+        return new CrackableSlabBlock(Crackable.CrackLevel.UNCRACKED, () -> Items.NETHER_BRICK, settings);
     }
 
     @Redirect(
@@ -372,7 +372,7 @@ public abstract class BlocksMixin {
                     )
     )
     private static StairBlock netherBrickStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> Blocks.NETHER_BRICKS, () -> Items.BRICK, settings);
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> Blocks.NETHER_BRICKS, () -> Items.NETHER_BRICK, settings);
     }
 
     @Redirect(
@@ -390,7 +390,7 @@ public abstract class BlocksMixin {
             )
     )
     private static WallBlock netherBrickWall(BlockBehaviour.Properties settings) {
-        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, () -> Items.BRICK, settings);
+        return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, () -> Items.NETHER_BRICK, settings);
     }
 
 
