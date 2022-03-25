@@ -1,16 +1,15 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.common.blocks.LeafPileBlock;
+import com.ordana.immersive_weathering.common.blocks.ModBlocks;
 import com.ordana.immersive_weathering.common.blocks.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import org.spongepowered.asm.mixin.Mixin;
@@ -36,10 +35,17 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
 
         //Drastically reduced this chance to help lag
-        if (!state.getValue(LeavesBlock.PERSISTENT) && random.nextFloat() < 0.1f) {
+        if (!state.getValue(LeavesBlock.PERSISTENT) && random.nextFloat() < 0.03f) {
 
             var leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
             if (leafPile != null && world.getBlockState(pos.below()).isAir()) {
+
+                Random posRandom = new Random(Mth.getSeed(pos));
+                if (posRandom.nextInt(12) == 0 && world.getBiome(pos).value().coldEnoughToSnow(pos)) {
+                    world.setBlock(pos.below(), ModBlocks.ICICLE.get().defaultBlockState()
+                            .setValue(PointedDripstoneBlock.TIP_DIRECTION, Direction.DOWN), 2);
+                }
+
                 if (!world.isAreaLoaded(pos, 2)) return;
                 BlockPos targetPos = world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos);
                 int maxFallenLeavesReach = 12;
@@ -94,7 +100,7 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
                                 for (var neighbor : neighbors) {
                                     if (neighbor.getBlock() instanceof LeafPileBlock) {
                                         int i = hasLog ? maxPileHeight :
-                                                Math.min(neighbor.getValue(LeafPileBlock.LAYERS) -1, maxPileHeight);
+                                                Math.min(neighbor.getValue(LeafPileBlock.LAYERS) - 1, maxPileHeight);
                                         if (i > pileHeight) {
                                             pileHeight = Math.min(pileHeight + 1, i);
                                             break;

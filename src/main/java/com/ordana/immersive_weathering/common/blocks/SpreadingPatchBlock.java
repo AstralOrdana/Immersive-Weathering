@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.common.blocks;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -39,20 +40,27 @@ public interface SpreadingPatchBlock<T extends Enum<?>> {
     default boolean getWanderWeatheringState(boolean hasTicked, BlockPos pos, Level level, int maxRecursion) {
         Random posRandom = new Random(Mth.getSeed(pos));
         var directions = getInfluenceForDirections(posRandom, pos, level);
-        if (hasTicked && posRandom.nextFloat() < this.getUnWeatherableChance(level, pos)) return false;
+
         //list of weathering effects of surrounding blocks
         List<WeatheringAgent> weatheringAgents = new ArrayList<>();
         boolean needsAir = this.needsAirToSpread(level, pos);
         boolean hasAir = false;
+        boolean shouldAlwaysWeather = false;
         for (var e : directions.entrySet()) {
             BlockPos facingPos = pos.relative(e.getKey());
             BlockState facingState = level.getBlockState(facingPos);
             if (!hasAir && needsAir) {
                 hasAir = !facingState.isRedstoneConductor(level, pos);
             }
-            weatheringAgents.add(this.getBlockWeatheringEffect(e.getValue(), facingState, level, facingPos, maxRecursion));
+            var pair = this.getBlockWeatheringEffect(e.getValue(), facingState, level, facingPos, maxRecursion);
+            weatheringAgents.add(pair.getFirst());
+            if(pair.getSecond())shouldAlwaysWeather=true;
         }
         if (needsAir && !hasAir) return false;
+        //if it has ticked and weathering isn't caused by high weathering effect & it's unweatherable we dont weather
+        if (!shouldAlwaysWeather && hasTicked && posRandom.nextFloat() < this.getUnWeatherableChance(level, pos)){
+            return false;
+        }
         boolean oneSuccess = false;
         for (var w : weatheringAgents) {
             if (w == WeatheringAgent.PREVENT_WEATHERING) return false;
@@ -136,11 +144,12 @@ public interface SpreadingPatchBlock<T extends Enum<?>> {
      * @param state target blockState
      * @param level world
      * @param pos   target position
-     * @return weathering effect of the target block
+     * @return weathering effect of the target block, boolean if it was caused by high influence
      */
-    default WeatheringAgent getBlockWeatheringEffect(Susceptibility sus, BlockState state, Level level, BlockPos pos, int maxRecursion) {
+    default Pair<WeatheringAgent,Boolean> getBlockWeatheringEffect(Susceptibility sus, BlockState state, Level level, BlockPos pos, int maxRecursion) {
         //if high influence it can be affected by weathering blocks
         WeatheringAgent effect = WeatheringAgent.NONE;
+        boolean alwaysWeather = false;
         if (sus.value >= Susceptibility.HIGH.value) {
             effect = getLowInfluenceWeatheringEffect(state, level, pos, maxRecursion);
         }
@@ -149,9 +158,10 @@ public interface SpreadingPatchBlock<T extends Enum<?>> {
         }
         if (effect == WeatheringAgent.NONE && sus.value >= Susceptibility.LOW.value) {
             effect = getHighInfluenceWeatheringEffect(state, level, pos);
+            if(effect == WeatheringAgent.WEATHER) alwaysWeather = true;
         }
 
-        return effect;
+        return Pair.of(effect,alwaysWeather);
     }
 
     /**

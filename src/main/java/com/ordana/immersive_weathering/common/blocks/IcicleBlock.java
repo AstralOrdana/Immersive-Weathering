@@ -9,6 +9,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
@@ -95,9 +96,12 @@ public class IcicleBlock extends PointedDripstoneBlock {
         if (canDrip(state)) {
             float f = random.nextFloat();
             if (!(f > 0.12F)) {
-                getFluidAboveStalactite(world, pos, state).filter((fluid) -> f < 0.02F || canFillCauldron(fluid)).ifPresent((fluid) ->
+                var optional = getFluidAboveStalactite(world, pos, state);
+                if(optional.filter(fluid-> (isValidDripFluid(fluid) ||
+                        (!world.getBiome(pos).value().coldEnoughToSnow(pos) && f < 0.02f))).isPresent()){
                         //TODO: make lava above melt icicle and remove particle
-                        spawnDripParticle(world, pos, state, fluid));
+                        spawnDripParticle(world, pos, state, optional.get());
+                }
             }
         }
     }
@@ -107,14 +111,14 @@ public class IcicleBlock extends PointedDripstoneBlock {
         if (isStalagmite(state) && !this.canSurvive(state, world, pos)) {
             world.destroyBlock(pos, true);
         } else {
-           spawnFallingIcicle(state, world, pos);
+            spawnFallingIcicle(state, world, pos);
         }
     }
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         maybeFillCauldron(state, world, pos, random.nextFloat());
-        if (random.nextFloat() < 0.2F && isHeldByIcicle(state, world, pos)) {
+        if (random.nextFloat() < 0.2F && isIcicleTip(state, world, pos)) {
             growStalactiteOrStalagmiteIfPossible(state, world, pos, random);
         }
         var biome = world.getBiome(pos);
@@ -125,7 +129,7 @@ public class IcicleBlock extends PointedDripstoneBlock {
 
     public static void maybeFillCauldron(BlockState state, ServerLevel world, BlockPos pos, float dripChance) {
         if (!(dripChance > 0.2F)) {
-            if (isHeldByIcicle(state, world, pos) && world.isDay() && !world.isRaining() && !world.isThundering()) {
+            if (isIcicleTip(state, world, pos) && world.isDay() && !world.isRaining() && !world.isThundering()) {
                 Fluid fluid = getCauldronFillFluidType(world, pos);
                 float f;
                 if (fluid == Fluids.WATER) {
@@ -169,7 +173,7 @@ public class IcicleBlock extends PointedDripstoneBlock {
     @Override
     public void onBrokenAfterFall(Level world, BlockPos pos, FallingBlockEntity fallingBlockEntity) {
         if (!fallingBlockEntity.isSilent()) {
-            world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS,1,world.random.nextFloat() * 0.1F + 0.9F);
+            world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1, world.random.nextFloat() * 0.1F + 0.9F);
         }
     }
 
@@ -181,7 +185,7 @@ public class IcicleBlock extends PointedDripstoneBlock {
     private static void spawnFallingIcicle(BlockState state, ServerLevel world, BlockPos pos) {
         BlockPos.MutableBlockPos mutable = pos.mutable();
 
-        for(BlockState blockstate = state; isIcicle(blockstate); blockstate = world.getBlockState(mutable)) {
+        for (BlockState blockstate = state; isIcicle(blockstate); blockstate = world.getBlockState(mutable)) {
             FallingBlockEntity fallingblockentity = FallingBlockEntity.fall(world, mutable, blockstate);
             if (isTip(blockstate, true)) {
                 int i = Math.max(1 + pos.getY() - mutable.getY(), 6);
@@ -268,9 +272,9 @@ public class IcicleBlock extends PointedDripstoneBlock {
 
     private static void spawnDripParticle(Level world, BlockPos pos, BlockState state, Fluid fluid) {
         Vec3 vec3d = state.getOffset(world, pos);
-        double e = (double) pos.getX() + 0.5D + vec3d.x;
-        double f = (double) ((float) (pos.getY() + 1) - 0.6875F) - 0.0625D;
-        double g = (double) pos.getZ() + 0.5D + vec3d.z;
+        double e = pos.getX() + 0.5D + vec3d.x;
+        double f = pos.getY() + 0;
+        double g = pos.getZ() + 0.5D + vec3d.z;
         ParticleOptions particleEffect = ParticleTypes.DRIPPING_DRIPSTONE_WATER;
         world.addParticle(particleEffect, e, f, g, 0.0D, 0.0D, 0.0D);
     }
@@ -344,7 +348,7 @@ public class IcicleBlock extends PointedDripstoneBlock {
     private static boolean isValidIciclePlacement(LevelReader world, BlockPos pos, Direction direction) {
         BlockPos blockPos = pos.relative(direction.getOpposite());
         BlockState blockState = world.getBlockState(blockPos);
-        return blockState.isFaceSturdy(world, blockPos, direction) || isIcicleFacingDirection(blockState, direction);
+        return (blockState.is(BlockTags.LEAVES) || blockState.isFaceSturdy(world, blockPos, direction)) || isIcicleFacingDirection(blockState, direction);
     }
 
     private static boolean isTip(BlockState state, boolean allowMerged) {
@@ -368,7 +372,7 @@ public class IcicleBlock extends PointedDripstoneBlock {
         return isIcicleFacingDirection(state, Direction.UP);
     }
 
-    private static boolean isHeldByIcicle(BlockState state, LevelReader world, BlockPos pos) {
+    private static boolean isIcicleTip(BlockState state, LevelReader world, BlockPos pos) {
         return isIcicle(state) && !world.getBlockState(pos.above()).is(ModBlocks.ICICLE.get());
     }
 
@@ -383,15 +387,15 @@ public class IcicleBlock extends PointedDripstoneBlock {
     }
 
     public static Fluid getCauldronFillFluidType(Level world, BlockPos pos) {
-        return getFluidAboveStalactite(world, pos, world.getBlockState(pos)).filter(IcicleBlock::canFillCauldron).orElse(Fluids.EMPTY);
+        return getFluidAboveStalactite(world, pos, world.getBlockState(pos)).filter(IcicleBlock::isValidDripFluid).orElse(Fluids.EMPTY);
     }
 
     private static Optional<Fluid> getFluidAboveStalactite(Level world, BlockPos pos, BlockState state) {
         return !isIcicle(state) ? Optional.empty() : getSupportingPos(world, pos, state).map((posx) -> world.getFluidState(posx.above()).getType());
     }
 
-    private static boolean canFillCauldron(Fluid fluid) {
-        return  fluid == Fluids.WATER;
+    private static boolean isValidDripFluid(Fluid fluid) {
+        return fluid == Fluids.WATER;
     }
 
     private static boolean canGrow(BlockState iceBlockState, BlockState waterState) {
