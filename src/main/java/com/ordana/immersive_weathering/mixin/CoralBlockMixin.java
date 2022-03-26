@@ -29,8 +29,9 @@ public abstract class CoralBlockMixin extends Block {
         if (random.nextFloat() < 0.01f) {
             if (world.getBiome(pos).is(Biomes.WARM_OCEAN)) {
                 if (!world.isAreaLoaded(pos, 2)) return;
-                if (WeatheringHelper.hasEnoughBlocksAround(pos, 2, world, b -> b.is(ModTags.CORALS), 6)) {
+                if (!WeatheringHelper.hasEnoughBlocksAround(pos, 2, world, b -> b.is(ModTags.CORALS), 6)) {
 
+                    //TODO: fix something here
                     var coralGroup = WeatheringHelper.getCoralGrowth(state);
                     coralGroup.ifPresent(c -> {
 

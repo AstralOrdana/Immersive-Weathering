@@ -13,13 +13,13 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class FallingIcicleBlockEntity extends FallingBlockEntity {
+public class FallingIcicleEntity extends FallingBlockEntity {
 
-    public FallingIcicleBlockEntity(EntityType<? extends FallingBlockEntity> type, Level level) {
+    public FallingIcicleEntity(EntityType<? extends FallingBlockEntity> type, Level level) {
         super(type, level);
     }
 
-    public FallingIcicleBlockEntity(Level level, double x, double y, double z, BlockState state) {
+    public FallingIcicleEntity(Level level, double x, double y, double z, BlockState state) {
         this(ModEntities.FALLING_ICICLE.get(), level);
         this.setBlockState(state);
         this.blocksBuilding = true;
@@ -43,7 +43,7 @@ public class FallingIcicleBlockEntity extends FallingBlockEntity {
     }
 
     public static FallingBlockEntity fall(Level level, BlockPos pos, BlockState state) {
-        FallingBlockEntity fallingblockentity = new FallingIcicleBlockEntity(level,
+        FallingBlockEntity fallingblockentity = new FallingIcicleEntity(level,
                 pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
                 state.hasProperty(BlockStateProperties.WATERLOGGED) ? state.setValue(BlockStateProperties.WATERLOGGED, false) : state);
         level.setBlock(pos, state.getFluidState().createLegacyBlock(), 3);

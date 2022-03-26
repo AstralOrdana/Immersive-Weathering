@@ -23,13 +23,14 @@ public class IcicleBlockEntity extends BlockEntity implements GameEventListener 
     protected final PositionSource listenerSource;
     public static final Object2IntMap<GameEvent> VOLUME_FOR_EVENT = Object2IntMaps.unmodifiable(Util.make(new Object2IntOpenHashMap<>(), (map) -> {
         map.put(GameEvent.HIT_GROUND, 2);
+        map.put(GameEvent.BLOCK_DESTROY, 1);
         map.put(GameEvent.MINECART_MOVING, 2);
         map.put(GameEvent.RING_BELL, 8);
         map.put(GameEvent.BLOCK_CHANGE, 1);
         map.put(GameEvent.RAVAGER_ROAR, 8);
-        map.put(GameEvent.BLOCK_CLOSE, 7);
-        map.put(GameEvent.BLOCK_OPEN, 7);
-        map.put(GameEvent.CONTAINER_CLOSE, 4);
+        map.put(GameEvent.BLOCK_CLOSE, 6);
+        map.put(GameEvent.BLOCK_OPEN, 6);
+        map.put(GameEvent.CONTAINER_CLOSE, 3);
         map.put(GameEvent.CONTAINER_OPEN, 3);
         map.put(GameEvent.PISTON_CONTRACT, 3);
         map.put(GameEvent.SHULKER_CLOSE, 3);
@@ -51,17 +52,18 @@ public class IcicleBlockEntity extends BlockEntity implements GameEventListener 
 
     @Override
     public int getListenerRadius() {
-        return 8;
+        return 15;
     }
 
     @Override
     public boolean handleGameEvent(Level level, GameEvent gameEvent, @Nullable Entity entity, BlockPos pos) {
         if(pos != this.worldPosition) {
             int volume = VOLUME_FOR_EVENT.getInt(gameEvent);
-            double distanceSqr = this.worldPosition.distToCenterSqr(pos.getX(), pos.getY(), pos.getZ());
+            double distanceSqr = this.worldPosition.distToLowCornerSqr(pos.getX(), pos.getY(), pos.getZ());
             if (volume * volume > distanceSqr) {
-                float distScaling = 1;
-                int delay =  Math.max(1, (int) Mth.sqrt((float) (distScaling*distanceSqr))) + level.getRandom().nextInt(3)-1;
+                float distScaling = 2f;
+                int o = level.getRandom().nextInt(3)-1;
+                int delay =  Math.max(0, (int) (Mth.sqrt((float) (distScaling*distanceSqr)))) + o;
                 level.scheduleTick(this.worldPosition, this.getBlockState().getBlock(),delay);
             }
         }

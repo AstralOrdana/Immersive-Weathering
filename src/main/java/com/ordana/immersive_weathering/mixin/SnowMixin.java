@@ -10,6 +10,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,9 +25,10 @@ public abstract class SnowMixin {
     public void tickChunk(Block instance, BlockState state, Level level, BlockPos pos, Biome.Precipitation precipitation) {
         if (precipitation == Biome.Precipitation.SNOW && WeatheringHelper.isIciclePos(pos)) {
             BlockPos p = pos.below();
-            if (level.getBlockState(p).isAir() && state.isFaceSturdy(level, pos, Direction.DOWN)) {
+            BlockState placement =  ModBlocks.ICICLE.get().defaultBlockState().setValue(IcicleBlock.TIP_DIRECTION, Direction.DOWN);
+            if (level.getBlockState(p).isAir() && placement.canSurvive(level, p)) {
                 if (Direction.Plane.HORIZONTAL.stream().anyMatch(d -> level.canSeeSky(p.relative(d)))) {
-                    level.setBlockAndUpdate(p, ModBlocks.ICICLE.get().defaultBlockState().setValue(IcicleBlock.TIP_DIRECTION, Direction.DOWN));
+                    level.setBlockAndUpdate(p,placement);
                 }
             }
         }

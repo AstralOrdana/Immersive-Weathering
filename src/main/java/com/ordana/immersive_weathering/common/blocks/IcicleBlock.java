@@ -2,7 +2,7 @@ package com.ordana.immersive_weathering.common.blocks;
 
 import com.ordana.immersive_weathering.common.ModDamageSource;
 import com.ordana.immersive_weathering.common.ModTags;
-import com.ordana.immersive_weathering.common.entity.FallingIcicleBlockEntity;
+import com.ordana.immersive_weathering.common.entity.FallingIcicleEntity;
 import com.ordana.immersive_weathering.common.entity.IcicleBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -198,13 +198,14 @@ public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
         return ModDamageSource.FALLING_ICICLE;
     }
 
-    private static void spawnFallingIcicle(BlockState state, ServerLevel world, BlockPos pos) {
+    private void spawnFallingIcicle(BlockState state, ServerLevel level, BlockPos pos) {
         BlockPos.MutableBlockPos mutable = pos.mutable();
 
         //check if it can fall first
-        for (BlockState blockstate = state; isIcicle(blockstate); blockstate = world.getBlockState(mutable)) {
+        for (BlockState blockstate = state; isIcicle(blockstate); blockstate = level.getBlockState(mutable)) {
+            if(!this.canSurvive(blockstate, level, mutable))break;
             if (isTip(blockstate, true)) {
-                if (!FallingBlock.isFree(world.getBlockState(mutable.below()))) return;
+                if (!FallingBlock.isFree(level.getBlockState(mutable.below()))) return;
                 break;
             }
             mutable.move(Direction.DOWN);
@@ -212,8 +213,8 @@ public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
 
         mutable = pos.mutable();
 
-        for (BlockState blockstate = state; isIcicle(blockstate); blockstate = world.getBlockState(mutable)) {
-            FallingBlockEntity fallingblockentity = FallingIcicleBlockEntity.fall(world, mutable, blockstate);
+        for (BlockState blockstate = state; isIcicle(blockstate); blockstate = level.getBlockState(mutable)) {
+            FallingBlockEntity fallingblockentity = FallingIcicleEntity.fall(level, mutable, blockstate);
             if (isTip(blockstate, true)) {
                 int i = Math.max(1 + pos.getY() - mutable.getY(), 6);
                 float f = (float) i;
