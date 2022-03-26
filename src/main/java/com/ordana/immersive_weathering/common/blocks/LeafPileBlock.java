@@ -79,7 +79,7 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         int layers = this.getLayers(state);
 
-        if (layers > 1) {
+        if (layers > 3) {
             if (entity instanceof LivingEntity && !(entity instanceof Fox || entity instanceof Bee)) {
                 float stuck = COLLISIONS[Math.max(0, layers - 1)];
                 entity.makeStuckInBlock(state, new Vec3(stuck, 1, stuck));

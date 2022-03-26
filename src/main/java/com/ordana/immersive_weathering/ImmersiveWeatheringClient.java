@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering;
 
+import com.ordana.immersive_weathering.common.entity.ModEntities;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import com.ordana.immersive_weathering.common.ModParticles;
 import com.ordana.immersive_weathering.common.blocks.ModBlocks;
@@ -15,10 +16,12 @@ import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.FallingBlockRenderer;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -75,7 +78,11 @@ public class ImmersiveWeatheringClient {
 
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.HANGING_ROOTS_WALL.get(), RenderType.cutout());
 
+    }
 
+    @SubscribeEvent
+    public static void entityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(ModEntities.FALLING_ICICLE.get(), FallingBlockRenderer::new);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

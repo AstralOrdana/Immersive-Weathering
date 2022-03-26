@@ -5,9 +5,13 @@ import com.ordana.immersive_weathering.common.ModParticles;
 import com.ordana.immersive_weathering.common.blocks.crackable.*;
 import com.ordana.immersive_weathering.common.blocks.mossable.*;
 import com.ordana.immersive_weathering.common.blocks.rustable.*;
+import com.ordana.immersive_weathering.common.entity.FallingIcicleBlockEntity;
 import com.ordana.immersive_weathering.common.items.ModItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -16,6 +20,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -39,6 +44,7 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ImmersiveWeathering.MOD_ID);
     public static final DeferredRegister<Block> BLOCKS_OVERRIDE = DeferredRegister.create(ForgeRegistries.BLOCKS, "minecraft");
 
+
     public static RegistryObject<Block> reg(String name, Supplier<Block> supplier) {
         return BLOCKS.register(name, supplier);
     }
@@ -57,11 +63,12 @@ public class ModBlocks {
         return BLOCKS_OVERRIDE.register(original.getRegistryName().getPath(), supplier);
     }
 
-    public static final RegistryObject<Block> ICICLE = reg("ICICLE".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<Block> ICICLE = reg("icicle", () ->
             new IcicleBlock(BlockBehaviour.Properties.of(Material.ICE).randomTicks().instabreak().sound(SoundType.GLASS).noOcclusion().dynamicShape()));
 
     public static final RegistryObject<Block> OAK_LEAF_PILE = reg("OAK_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).randomTicks().instabreak().sound(SoundType.GRASS).noOcclusion().isValidSpawn(ModBlocks::canSpawnOnLeaves).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never),
+            new LeafPileBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).randomTicks().instabreak().sound(SoundType.GRASS).noOcclusion().isValidSpawn(ModBlocks::canSpawnOnLeaves)
+                    .isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never),
                     false, false, List.of(ModParticles.OAK_LEAF)));
 
     public static final RegistryObject<Block> BIRCH_LEAF_PILE = reg("BIRCH_LEAF_PILE".toLowerCase(Locale.ROOT), () ->

@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering;
 
 import com.ordana.immersive_weathering.common.*;
 import com.ordana.immersive_weathering.common.blocks.ModBlocks;
+import com.ordana.immersive_weathering.common.entity.ModEntities;
 import com.ordana.immersive_weathering.common.items.ModItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.animal.Bee;
@@ -28,6 +29,8 @@ public class ImmersiveWeathering {
 
         ModBlocks.BLOCKS.register(bus);
         ModBlocks.BLOCKS_OVERRIDE.register(bus);
+        ModEntities.BLOCK_ENTITIES.register(bus);
+        ModEntities.ENTITIES.register(bus);
         ModItems.ITEMS.register(bus);
         ModItems.ITEMS_OVERRIDE.register(bus);
         ModParticles.PARTICLES.register(bus);
