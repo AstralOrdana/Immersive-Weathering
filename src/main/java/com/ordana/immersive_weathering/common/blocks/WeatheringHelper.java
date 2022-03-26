@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.common.items.ModItems;
+import com.ordana.immersive_weathering.mixin.LeavesMixin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
@@ -59,6 +60,7 @@ public class WeatheringHelper {
                     .add(Blocks.NETHER_SPROUTS, 10)
                     .build())
             .build());
+
 
     public record CoralFamily(Block coral, Block fan, Block wallFan) {
     }
@@ -266,4 +268,9 @@ public class WeatheringHelper {
                     .add(Direction.DOWN, 20)
                     .build();
 
+
+    public static boolean isIciclePos(BlockPos pos) {
+        Random posRandom = new Random(Mth.getSeed(pos));
+        return posRandom.nextInt(12) == 0;
+    }
 }

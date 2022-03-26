@@ -19,6 +19,7 @@
     "NyliumBlockMixin",
     "RootedDirtMixin",
     "SaplingMixin",
+    "SnowMixin",
     "SnowyBlockMixin",
     "SpreadableDirtBlockMixin",
     "SweetBerryBushMixin",

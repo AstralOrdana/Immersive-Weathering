@@ -32,22 +32,22 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
     }
 
     @Inject(method = "randomTick", at = @At("HEAD"))
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random, CallbackInfo ci) {
 
         //Drastically reduced this chance to help lag
         if (!state.getValue(LeavesBlock.PERSISTENT) && random.nextFloat() < 0.03f) {
 
             var leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
-            if (leafPile != null && world.getBlockState(pos.below()).isAir()) {
+            if (leafPile != null && level.getBlockState(pos.below()).isAir()) {
 
-                Random posRandom = new Random(Mth.getSeed(pos));
-                if (posRandom.nextInt(12) == 0 && world.getBiome(pos).value().coldEnoughToSnow(pos)) {
-                    world.setBlock(pos.below(), ModBlocks.ICICLE.get().defaultBlockState()
+
+                if (WeatheringHelper.isIciclePos(pos) && level.getBiome(pos).value().coldEnoughToSnow(pos)) {
+                    level.setBlock(pos.below(), ModBlocks.ICICLE.get().defaultBlockState()
                             .setValue(PointedDripstoneBlock.TIP_DIRECTION, Direction.DOWN), 2);
                 }
 
-                if (!world.isAreaLoaded(pos, 2)) return;
-                BlockPos targetPos = world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos);
+                if (!level.isAreaLoaded(pos, 2)) return;
+                BlockPos targetPos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos);
                 int maxFallenLeavesReach = 12;
                 int maxPileHeight = 3;
                 int dist = pos.getY() - targetPos.getY();
@@ -57,14 +57,14 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
                     do {
                         targetPos = targetPos.below();
                         dist = pos.getY() - targetPos.getY();
-                    } while (world.getBlockState(targetPos).getMaterial().isReplaceable() &&
+                    } while (level.getBlockState(targetPos).getMaterial().isReplaceable() &&
                             dist < maxFallenLeavesReach);
                     targetPos = targetPos.above();
 
                 }
                 if (dist < maxFallenLeavesReach) {
 
-                    BlockState replaceState = world.getBlockState(targetPos);
+                    BlockState replaceState = level.getBlockState(targetPos);
 
                     boolean isOnLeaf = replaceState.getBlock() instanceof LeafPileBlock;
                     int pileHeight = 1;
@@ -76,20 +76,20 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
                     BlockState baseLeaf = leafPile.defaultBlockState().setValue(LeafPileBlock.LAYERS, 0);
                     //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
                     if (isOnLeaf ||
-                            (replaceState.getMaterial().isReplaceable() && baseLeaf.canSurvive(world, targetPos)
+                            (replaceState.getMaterial().isReplaceable() && baseLeaf.canSurvive(level, targetPos)
                                     && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 2, 2,
-                                    world, b -> b.getBlock() instanceof LeafPileBlock, 6))) {
+                                    level, b -> b.getBlock() instanceof LeafPileBlock, 6))) {
 
 
-                        if (world.getBlockState(targetPos.below()).is(Blocks.WATER)) {
-                            world.setBlock(targetPos, baseLeaf.setValue(LeafPileBlock.LAYERS, 0), 2);
+                        if (level.getBlockState(targetPos.below()).is(Blocks.WATER)) {
+                            level.setBlock(targetPos, baseLeaf.setValue(LeafPileBlock.LAYERS, 0), 2);
                         } else {
                             if (isOnLeaf) {
                                 int original = pileHeight;
                                 boolean hasLog = false;
                                 BlockState[] neighbors = new BlockState[4];
                                 for (Direction direction : Direction.Plane.HORIZONTAL) {
-                                    neighbors[direction.get2DDataValue()] = world.getBlockState(targetPos.relative(direction));
+                                    neighbors[direction.get2DDataValue()] = level.getBlockState(targetPos.relative(direction));
                                 }
                                 for (var neighbor : neighbors) {
                                     if (WeatheringHelper.isLog(neighbor)) {
@@ -109,7 +109,7 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
                                 }
                                 if (pileHeight == original) return;
                             }
-                            world.setBlock(targetPos, baseLeaf.setValue(LeafPileBlock.LAYERS, pileHeight), 2);
+                            level.setBlock(targetPos, baseLeaf.setValue(LeafPileBlock.LAYERS, pileHeight), 2);
                         }
                     }
 
