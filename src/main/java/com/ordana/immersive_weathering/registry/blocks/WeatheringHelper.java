@@ -91,11 +91,6 @@ public class WeatheringHelper {
                     .add(Direction.DOWN, 20)
                     .build();
 
-    public static boolean isIciclePos(BlockPos pos) {
-        Random posRandom = new Random(MathHelper.hashCode(pos));
-        return posRandom.nextInt(12) == 0;
-    }
-
     public static Optional<CoralFamily> getCoralGrowth(BlockState baseBlock) {
         return Optional.ofNullable(CORALS.get().get(baseBlock.getBlock()));
     }
@@ -217,4 +212,8 @@ public class WeatheringHelper {
         return hasRoots;
     }
 
+    public static boolean isIciclePos(BlockPos pos) {
+        Random posRandom = new Random(MathHelper.hashCode(pos));
+        return posRandom.nextInt(12) == 0;
+    }
 }

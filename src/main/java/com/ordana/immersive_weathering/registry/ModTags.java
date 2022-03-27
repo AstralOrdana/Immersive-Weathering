@@ -35,6 +35,7 @@ public final class ModTags {
     public static final TagKey<Block> RUSTABLE = registerBlockTag("rustable");
     public static final TagKey<Block> WAXED_BLOCKS = registerBlockTag("waxed_blocks");
     public static final TagKey<Block> COPPER = registerBlockTag("copper");
+    public static final TagKey<Block> BARS = registerBlockTag("bars");
 
     public static final TagKey<Block> FLOWERY = registerBlockTag("flowery");
     public static final TagKey<Block> FLOWERABLE = registerBlockTag("flowerable");
