@@ -60,6 +60,22 @@ public class LeafParticle extends SpriteBillboardParticle {
         }
     }
 
+    public record SpruceLeafParticle(SpriteProvider spriteProvider) implements ParticleFactory<DefaultParticleType> {
+        @Override
+        public Particle createParticle(DefaultParticleType particleType, ClientWorld clientWorld, double x, double y, double z, double g, double color, double i) {
+            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+                    FoliageColors.getSpruceColor());
+        }
+    }
+
+    public record BirchLeafParticle(SpriteProvider spriteProvider) implements ParticleFactory<DefaultParticleType> {
+        @Override
+        public Particle createParticle(DefaultParticleType particleType, ClientWorld clientWorld, double x, double y, double z, double g, double color, double i) {
+            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+                    FoliageColors.getBirchColor());
+        }
+    }
+
     public record SimpleLeafParticle(SpriteProvider spriteProvider) implements ParticleFactory<DefaultParticleType> {
 
         @Override

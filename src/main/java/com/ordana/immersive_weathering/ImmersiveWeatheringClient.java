@@ -4,17 +4,20 @@ import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.client.EmberParticle;
 import com.ordana.immersive_weathering.registry.client.LeafParticle;
+import com.ordana.immersive_weathering.registry.entity.ModEntities;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.FallingBlockEntityRenderer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.BlockItem;
 import net.minecraft.particle.DefaultParticleType;
@@ -48,6 +51,8 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
 
+        EntityRendererRegistry.register(ModEntities.FALLING_ICICLE, FallingBlockEntityRenderer::new);
+
         ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((atlasTexture, registry) -> {
             registry.register(new Identifier("immersive_weathering", "particle/ember_0"));
             registry.register(new Identifier("immersive_weathering", "particle/soot_0"));
@@ -75,13 +80,18 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
             registry.register(new Identifier("immersive_weathering", "particle/nulch_0"));
             registry.register(new Identifier("immersive_weathering", "particle/mulch_1"));
             registry.register(new Identifier("immersive_weathering", "particle/nulch_1"));
+
+            //flower crowns
+            registry.register(new Identifier("immersive_weathering", "particle/bee_0"));
+            registry.register(new Identifier("immersive_weathering", "particle/bee_1"));
+
         }));
         ParticleFactoryRegistry.getInstance().register(ModParticles.EMBER, EmberParticle.EmberFactory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.SOOT, LeafParticle.SimpleLeafParticle::new);
 
         ParticleFactoryRegistry.getInstance().register(ModParticles.OAK_LEAF, LeafParticle.ColoredLeafParticle::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.SPRUCE_LEAF, LeafParticle.ColoredLeafParticle::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.BIRCH_LEAF, LeafParticle.ColoredLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.SPRUCE_LEAF, LeafParticle.SpruceLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.BIRCH_LEAF, LeafParticle.BirchLeafParticle::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.JUNGLE_LEAF, LeafParticle.ColoredLeafParticle::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.ACACIA_LEAF, LeafParticle.ColoredLeafParticle::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.DARK_OAK_LEAF, LeafParticle.ColoredLeafParticle::new);
@@ -92,6 +102,9 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(ModParticles.NULCH, LeafParticle.SimpleLeafParticle::new);
 
         ParticleFactoryRegistry.getInstance().register(ModParticles.SCRAPE_RUST, ScrapeRustFactory::new);
+
+        //flower crowns
+        ParticleFactoryRegistry.getInstance().register(ModParticles.CROWN_BEE, LeafParticle.SimpleLeafParticle::new);
 
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ICICLE, RenderLayer.getCutout());
@@ -116,27 +129,21 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.DARK_OAK_LEAF_PILE);
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            BlockState blockState = ((BlockItem)stack.getItem()).getBlock().getDefaultState();
             return FoliageColors.getDefaultColor();
         }, ModItems.OAK_LEAF_PILE);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            BlockState blockState = ((BlockItem)stack.getItem()).getBlock().getDefaultState();
             return FoliageColors.getSpruceColor();
         }, ModItems.SPRUCE_LEAF_PILE);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            BlockState blockState = ((BlockItem)stack.getItem()).getBlock().getDefaultState();
             return FoliageColors.getBirchColor();
         }, ModItems.BIRCH_LEAF_PILE);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            BlockState blockState = ((BlockItem)stack.getItem()).getBlock().getDefaultState();
             return FoliageColors.getDefaultColor();
         }, ModItems.JUNGLE_LEAF_PILE);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            BlockState blockState = ((BlockItem)stack.getItem()).getBlock().getDefaultState();
             return FoliageColors.getDefaultColor();
         }, ModItems.ACACIA_LEAF_PILE);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            BlockState blockState = ((BlockItem)stack.getItem()).getBlock().getDefaultState();
             return FoliageColors.getDefaultColor();
         }, ModItems.DARK_OAK_LEAF_PILE);
 

@@ -8,9 +8,7 @@
     "CampfireMixin",
     "FireMixin",
     "MagmaBlockMixin",
-    "SpreadableBlockMixin",
     "NyliumBlockMixin",
-    "SnowyBlockMixin",
     "FernBlockMixin",
     "RootedDirtBlockMixin",
     "FluidMixin",
@@ -26,7 +24,8 @@
     "IceMixin",
     "ComposterMixin",
     "SweetBerryBushMixin",
-    "BeeMixin"
+    "BeeMixin",
+    "RabbitMixin"
   ],
   "client": [
   ],

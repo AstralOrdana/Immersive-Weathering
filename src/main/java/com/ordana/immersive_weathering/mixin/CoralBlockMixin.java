@@ -28,7 +28,7 @@ public abstract class CoralBlockMixin extends Block {
         if (random.nextFloat() < 0.01f) {
             if (world.getBiome(pos).matchesKey(BiomeKeys.WARM_OCEAN)) {
                 if (!world.isChunkLoaded(pos)) return;
-                if (WeatheringHelper.hasEnoughBlocksAround(pos, 2, world, b -> b.isIn(ModTags.CORALS), 6)) {
+                if (!WeatheringHelper.hasEnoughBlocksAround(pos, 2, world, b -> b.isIn(ModTags.CORALS), 6)) {
 
                     var coralGroup = WeatheringHelper.getCoralGrowth(state);
                     coralGroup.ifPresent(c -> {
@@ -43,13 +43,24 @@ public abstract class CoralBlockMixin extends Block {
 
                         if (random.nextFloat() < 0.5f) {
                             if (aboveBlock.isOf(Blocks.WATER)) {
-                                Block b = random.nextFloat() < 0.5f ? c.coral() : c.fan();
-                                world.setBlockState(abovePos, b.getDefaultState().with(CoralBlock.WATERLOGGED, true));
+                                if (random.nextFloat() > 0.05f) {
+                                    Block b = random.nextFloat() < 0.5f ? c.coral() : c.fan();
+                                    world.setBlockState(abovePos, b.getDefaultState().with(CoralBlock.WATERLOGGED, true));
+                                }
+                                else {
+                                    world.setBlockState(abovePos, Blocks.WET_SPONGE.getDefaultState());
+                                }
                             }
-                        } else if (sideBlock.isOf(Blocks.WATER)) {
-                            world.setBlockState(sidePos, Blocks.FIRE_CORAL_WALL_FAN.getDefaultState()
-                                    .with(DeadCoralWallFanBlock.FACING, (coralDir))
-                                    .with(CoralWallFanBlock.WATERLOGGED, true));
+                        }
+                        else if (sideBlock.isOf(Blocks.WATER)) {
+                            if (random.nextFloat() > 0.05f) {
+                                world.setBlockState(sidePos, c.wallFan().getDefaultState()
+                                        .with(DeadCoralWallFanBlock.FACING, (coralDir))
+                                        .with(CoralWallFanBlock.WATERLOGGED, true));
+                            }
+                            else {
+                                world.setBlockState(abovePos, Blocks.WET_SPONGE.getDefaultState());
+                            }
                         }
                     });
                 }

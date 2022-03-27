@@ -9,6 +9,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
@@ -35,10 +36,17 @@ public abstract class LeavesMixin extends Block implements Fertilizable {
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
 
         //Drastically reduced this chance to help lag
-        if (!state.get(LeavesBlock.PERSISTENT) && random.nextFloat() < 0.1f) {
+        if (!state.get(LeavesBlock.PERSISTENT) && random.nextFloat() < 0.03f) {
 
             var leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
             if (leafPile != null && world.getBlockState(pos.down()).isIn(ModTags.LEAF_PILE_REPLACEABLE)) {
+
+
+                if (WeatheringHelper.isIciclePos(pos) && world.getBiome(pos).value().isCold(pos)) {
+                    world.setBlockState(pos.down(), ModBlocks.ICICLE.getDefaultState()
+                            .with(PointedDripstoneBlock.VERTICAL_DIRECTION, Direction.DOWN), 2);
+                }
+
                 if (!world.isChunkLoaded(pos)) return;
                 BlockPos targetPos = world.getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos);
                 int maxFallenLeavesReach = 12;

@@ -23,7 +23,7 @@ public class BeeMixin extends AnimalEntity {
 
     @Inject(method = "initGoals", at = @At("TAIL"))
     protected void initGoals(CallbackInfo ci) {
-        this.stuff(this);
+        this.beeGoalHelper(this);
     }
 
     @Nullable
@@ -32,7 +32,7 @@ public class BeeMixin extends AnimalEntity {
         return null;
     }
 
-    private void stuff(AnimalEntity animal){
-        this.goalSelector.add(3, new FollowFlowerCrownGoal(((BeeEntity)animal), 1D, null, false));
+    private void beeGoalHelper(AnimalEntity animal){
+        this.goalSelector.add(3, new FollowFlowerCrownGoal(animal, 1D, null, false));
     }
 }

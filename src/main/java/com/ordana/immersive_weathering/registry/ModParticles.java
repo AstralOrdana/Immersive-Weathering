@@ -32,6 +32,9 @@ public class ModParticles {
 
     public static final DefaultParticleType SCRAPE_RUST = FabricParticleTypes.simple();
 
+    //custom flower crowns
+    public static final DefaultParticleType CROWN_BEE = FabricParticleTypes.simple();
+
     public static void spawnParticlesOnBlockFaces(World world, BlockPos pos, ParticleEffect particleEffect, UniformIntProvider uniformInt) {
         for(Direction direction : Direction.values()) {
             int i = uniformInt.get(world.random);
@@ -71,5 +74,8 @@ public class ModParticles {
         Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "nulch"), NULCH);
 
         Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "scrape_rust"), SCRAPE_RUST);
+
+        //flower crowns
+        Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "bee"), CROWN_BEE);
     }
 }

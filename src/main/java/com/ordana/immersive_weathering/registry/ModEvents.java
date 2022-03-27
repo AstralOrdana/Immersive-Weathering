@@ -1,19 +1,11 @@
 package com.ordana.immersive_weathering.registry;
 
-import com.ordana.immersive_weathering.registry.blocks.AshBlock;
-import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
-import com.ordana.immersive_weathering.registry.blocks.SootBlock;
-import com.ordana.immersive_weathering.registry.blocks.Weatherable;
+import com.ordana.immersive_weathering.registry.blocks.*;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.Oxidizable;
+import net.minecraft.block.*;
 import net.minecraft.client.util.ParticleUtil;
 import net.minecraft.item.*;
-import net.minecraft.particle.BlockStateParticleEffect;
-import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -316,8 +308,17 @@ public class ModEvents {
             BlockState targetBlock = world.getBlockState(targetPos);
             ItemStack heldItem = player.getStackInHand(hand);
 
+
             if (heldItem.getItem() instanceof ShearsItem) {
-                if(targetBlock.isIn(ModTags.FLOWERY)) {
+                if (targetBlock.contains(ModGrassBlock.FERTILE) && targetBlock.get(ModGrassBlock.FERTILE) && targetBlock.contains(SnowyBlock.SNOWY) && !targetBlock.get(SnowyBlock.SNOWY)) {
+                    world.playSound(player, targetPos, SoundEvents.BLOCK_GROWING_PLANT_CROP, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    if(player != null) {
+                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                            world.setBlockState(targetPos, targetBlock.getBlock().getDefaultState().with(ModGrassBlock.FERTILE, false));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+                else if (targetBlock.isIn(ModTags.FLOWERY)) {
                     Block.dropStack(world, fixedPos, new ItemStack(ModItems.AZALEA_FLOWERS));
                     world.playSound(player, targetPos, SoundEvents.BLOCK_GROWING_PLANT_CROP, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ModParticles.AZALEA_FLOWER, UniformIntProvider.create(3,5));
@@ -331,7 +332,7 @@ public class ModEvents {
                     }
                     return ActionResult.SUCCESS;
                 }
-                else if(targetBlock.isIn(ModTags.MOSSY)) {
+                else if (targetBlock.isIn(ModTags.MOSSY)) {
                     Block.dropStack(world, fixedPos, new ItemStack(ModItems.MOSS_CLUMP));
                     world.playSound(player, targetPos, SoundEvents.BLOCK_GROWING_PLANT_CROP, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     if(player != null) {

@@ -60,7 +60,7 @@ public class LeafPileBlock extends Block implements Fertilizable {
     @Override
     public boolean hasRandomTicks(BlockState state) {
         int layers = this.getLayers(state);
-        if (layers > 1 && this.hasThorns) {
+        if (layers > 1  ) {
             return true;
         }
         return false;
@@ -69,9 +69,14 @@ public class LeafPileBlock extends Block implements Fertilizable {
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int layers = this.getLayers(state);
-        if (layers > 1 && this.hasThorns) {
-            if (world.getBlockState(pos.down()).isOf(Blocks.GRASS_BLOCK) || world.getBlockState(pos.down()).isOf(Blocks.DIRT) || world.getBlockState(pos.down()).isOf(Blocks.COARSE_DIRT) || world.getBlockState(pos.down()).isOf(Blocks.ROOTED_DIRT)) {
-                world.setBlockState(pos.down(), Blocks.PODZOL.getDefaultState(), 2);
+        if (layers > 1) {
+            if (this.hasThorns) {
+                if (world.getBlockState(pos.down()).isOf(Blocks.GRASS_BLOCK) || world.getBlockState(pos.down()).isOf(Blocks.DIRT) || world.getBlockState(pos.down()).isOf(Blocks.COARSE_DIRT) || world.getBlockState(pos.down()).isOf(Blocks.ROOTED_DIRT)) {
+                    world.setBlockState(pos.down(), Blocks.PODZOL.getDefaultState(), 2);
+                }
+            }
+            else if (world.getBlockState(pos.down()).isOf(Blocks.GRASS_BLOCK) || world.getBlockState(pos.down()).isOf(Blocks.DIRT) || world.getBlockState(pos.down()).isOf(Blocks.COARSE_DIRT) || world.getBlockState(pos.down()).isOf(Blocks.ROOTED_DIRT)) {
+                world.setBlockState(pos.down(), ModBlocks.MULCH_BLOCK.getDefaultState(), 2);
             }
         }
     }

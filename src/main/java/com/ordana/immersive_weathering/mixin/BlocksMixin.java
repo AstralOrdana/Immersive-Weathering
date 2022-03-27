@@ -1,6 +1,9 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.registry.blocks.ModGrassBlock;
 import com.ordana.immersive_weathering.registry.blocks.ModHangingRootsBlock;
+import com.ordana.immersive_weathering.registry.blocks.ModMyceliumBlock;
+import com.ordana.immersive_weathering.registry.blocks.ModPodzolBlock;
 import com.ordana.immersive_weathering.registry.blocks.crackable.*;
 import com.ordana.immersive_weathering.registry.blocks.mossable.*;
 import com.ordana.immersive_weathering.registry.blocks.rustable.Rustable;
@@ -42,6 +45,74 @@ public class BlocksMixin {
         return new ModHangingRootsBlock(settings);
     }
 
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/GrassBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=grass_block"
+                                            )
+                            )
+            )
+    private static GrassBlock grassBlock(AbstractBlock.Settings settings)
+    {
+        return new ModGrassBlock(settings);
+    }
+
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/SnowyBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=podzol"
+                                            )
+                            )
+            )
+    private static SnowyBlock podzol(AbstractBlock.Settings settings)
+    {
+        return new ModPodzolBlock (settings);
+    }
+
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/MyceliumBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=mycelium"
+                                            )
+                            )
+            )
+    private static MyceliumBlock mycelium(AbstractBlock.Settings settings)
+    {
+        return new ModMyceliumBlock (settings);
+    }
 
     @Redirect
             (
