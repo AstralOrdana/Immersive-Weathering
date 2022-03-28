@@ -9,8 +9,8 @@ import net.minecraft.world.level.FoliageColor;
 public class LeafParticle extends TextureSheetParticle {
     private final float rotationSpeed;
 
-    LeafParticle(ClientLevel world, SpriteSet spriteProvider, double x, double y, double z, double velocityX, double velocityY, double velocityZ,
-                 int color) {
+    LeafParticle(ClientLevel world, SpriteSet spriteProvider, double x, double y, double z,
+                 double velocityX, double velocityY, double velocityZ, int color) {
         super(world, x, y, z, velocityX, velocityY, velocityZ);
         this.setSize(0.001F, 0.001F);
         this.pickSprite(spriteProvider);
@@ -62,7 +62,7 @@ public class LeafParticle extends TextureSheetParticle {
 
         @Override
         public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double vel, double color, double i) {
-
+            if(vel == 0)vel = -3;
             return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, vel, 0.0D,
                     -1);
         }

@@ -54,11 +54,14 @@ public interface SpreadingPatchBlock<T extends Enum<?>> {
             }
             var pair = this.getBlockWeatheringEffect(e.getValue(), facingState, level, facingPos, maxRecursion);
             weatheringAgents.add(pair.getFirst());
-            if(pair.getSecond())shouldAlwaysWeather=true;
+            if (pair.getSecond()) {
+                shouldAlwaysWeather = true;
+                needsAir = false;
+            }
         }
         if (needsAir && !hasAir) return false;
         //if it has ticked and weathering isn't caused by high weathering effect & it's unweatherable we dont weather
-        if (!shouldAlwaysWeather && hasTicked && posRandom.nextFloat() < this.getUnWeatherableChance(level, pos)){
+        if (!shouldAlwaysWeather && hasTicked && posRandom.nextFloat() < this.getUnWeatherableChance(level, pos)) {
             return false;
         }
         boolean oneSuccess = false;
@@ -146,7 +149,7 @@ public interface SpreadingPatchBlock<T extends Enum<?>> {
      * @param pos   target position
      * @return weathering effect of the target block, boolean if it was caused by high influence
      */
-    default Pair<WeatheringAgent,Boolean> getBlockWeatheringEffect(Susceptibility sus, BlockState state, Level level, BlockPos pos, int maxRecursion) {
+    default Pair<WeatheringAgent, Boolean> getBlockWeatheringEffect(Susceptibility sus, BlockState state, Level level, BlockPos pos, int maxRecursion) {
         //if high influence it can be affected by weathering blocks
         WeatheringAgent effect = WeatheringAgent.NONE;
         boolean alwaysWeather = false;
@@ -158,10 +161,10 @@ public interface SpreadingPatchBlock<T extends Enum<?>> {
         }
         if (effect == WeatheringAgent.NONE && sus.value >= Susceptibility.LOW.value) {
             effect = getHighInfluenceWeatheringEffect(state, level, pos);
-            if(effect == WeatheringAgent.WEATHER) alwaysWeather = true;
+            if (effect == WeatheringAgent.WEATHER) alwaysWeather = true;
         }
 
-        return Pair.of(effect,alwaysWeather);
+        return Pair.of(effect, alwaysWeather);
     }
 
     /**

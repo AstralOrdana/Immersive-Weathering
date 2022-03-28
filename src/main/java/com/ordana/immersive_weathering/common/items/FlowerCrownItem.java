@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.common.items;
 
 import com.ordana.immersive_weathering.common.ModParticles;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -20,18 +21,21 @@ public class FlowerCrownItem extends ArmorItem {
 
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
-        if (level.isClientSide) {
+        if (level instanceof ServerLevel serverLevel) {
             if (level.random.nextFloat() < 0.05) {
                 if (entity instanceof LivingEntity livingEntity) {
                     if (livingEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == this) {
 
 
                         Vec3 v = entity.getViewVector(1).scale(entity.isSwimming() ? 1.8 : -0.15f);
-                        level.addParticle(ModParticles.AZALEA_FLOWER.get(),
+
+                        //TODO: fix particles
+                        serverLevel.sendParticles(ModParticles.AZALEA_FLOWER.get(),
                                 v.x + entity.getRandomX(0.675D),
                                 v.y + entity.getY() + entity.getEyeHeight() + 0.15D,
                                 v.z + entity.getRandomZ(0.675D),
-                                -3, -1, 0);
+                                1,
+                                0, 0, 0,0);
                     }
                 }
             }

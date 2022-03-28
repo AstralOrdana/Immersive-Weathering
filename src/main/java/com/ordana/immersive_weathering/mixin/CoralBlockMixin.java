@@ -5,6 +5,7 @@ import com.ordana.immersive_weathering.common.blocks.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -27,9 +28,10 @@ public abstract class CoralBlockMixin extends Block {
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         if (random.nextFloat() < 0.01f) {
-            if (world.getBiome(pos).is(Biomes.WARM_OCEAN)) {
+            if (world.getBiome(pos).value().getBaseTemperature()>0.45) {
                 if (!world.isAreaLoaded(pos, 2)) return;
-                if (!WeatheringHelper.hasEnoughBlocksAround(pos, 2, world, b -> b.is(ModTags.CORALS), 6)) {
+
+                if (!WeatheringHelper.hasEnoughBlocksAround(pos, 2, world, b -> b.is(BlockTags.CORALS), 6)) {
 
                     //TODO: fix something here
                     var coralGroup = WeatheringHelper.getCoralGrowth(state);
@@ -49,7 +51,7 @@ public abstract class CoralBlockMixin extends Block {
                                 world.setBlockAndUpdate(abovePos, b.defaultBlockState().setValue(CoralPlantBlock.WATERLOGGED, true));
                             }
                         } else if (sideBlock.is(Blocks.WATER)) {
-                            world.setBlockAndUpdate(sidePos, Blocks.FIRE_CORAL_WALL_FAN.defaultBlockState()
+                            world.setBlockAndUpdate(sidePos, c.wallFan().defaultBlockState()
                                     .setValue(BaseCoralWallFanBlock.FACING, (coralDir))
                                     .setValue(CoralWallFanBlock.WATERLOGGED, true));
                         }
