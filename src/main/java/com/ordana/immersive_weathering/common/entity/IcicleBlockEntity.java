@@ -1,15 +1,15 @@
 package com.ordana.immersive_weathering.common.entity;
 
-import com.ordana.immersive_weathering.common.entity.ModEntities;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.PointedDripstoneBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.BlockPositionSource;
@@ -38,6 +38,8 @@ public class IcicleBlockEntity extends BlockEntity implements GameEventListener 
         map.put(GameEvent.PISTON_EXTEND, 3);
         map.put(GameEvent.EXPLODE, 15);
         map.put(GameEvent.LIGHTNING_STRIKE, 15);
+        Registry.GAME_EVENT.getOptional(new ResourceLocation("moyai", "moyai_boom"))
+                .ifPresent(e -> map.put(e, 7));
     }));
 
     public IcicleBlockEntity(BlockPos pos, BlockState state) {
@@ -57,14 +59,14 @@ public class IcicleBlockEntity extends BlockEntity implements GameEventListener 
 
     @Override
     public boolean handleGameEvent(Level level, GameEvent gameEvent, @Nullable Entity entity, BlockPos pos) {
-        if(pos != this.worldPosition) {
+        if (pos != this.worldPosition) {
             int volume = VOLUME_FOR_EVENT.getInt(gameEvent);
             double distanceSqr = this.worldPosition.distToLowCornerSqr(pos.getX(), pos.getY(), pos.getZ());
-            if (volume * volume > distanceSqr) {
+            if (volume * volume > distanceSqr * 0.5 + level.random.nextFloat() * distanceSqr) {
                 float distScaling = 2f;
-                int o = level.getRandom().nextInt(3)-1;
-                int delay =  Math.max(0, (int) (Mth.sqrt((float) (distScaling*distanceSqr)))) + o;
-                level.scheduleTick(this.worldPosition, this.getBlockState().getBlock(),delay);
+                int o = level.getRandom().nextInt(3) - 1;
+                int delay = Math.max(0, (int) (Mth.sqrt((float) (distScaling * distanceSqr)))) + o;
+                level.scheduleTick(this.worldPosition, this.getBlockState().getBlock(), delay);
             }
         }
         return false;

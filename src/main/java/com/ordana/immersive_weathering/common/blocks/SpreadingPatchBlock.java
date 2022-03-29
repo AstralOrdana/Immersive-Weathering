@@ -59,7 +59,10 @@ public interface SpreadingPatchBlock<T extends Enum<?>> {
                 needsAir = false;
             }
         }
-        if (needsAir && !hasAir) return false;
+
+        if (needsAir && !hasAir){
+            return false;
+        }
         //if it has ticked and weathering isn't caused by high weathering effect & it's unweatherable we dont weather
         if (!shouldAlwaysWeather && hasTicked && posRandom.nextFloat() < this.getUnWeatherableChance(level, pos)) {
             return false;

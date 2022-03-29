@@ -25,7 +25,8 @@
     "SweetBerryBushMixin",
     "TallGrassMixin",
     "WaterMixin",
-    "WebMixin"
+    "WebMixin",
+    "snowrealmagic.SnowMixin"
   ],
   "client": [
   ],

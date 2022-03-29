@@ -40,8 +40,7 @@ public class MossSpreader implements SpreadingPatchBlock<Mossable.MossLevel> {
 
     @Override
     public WeatheringAgent getWeatheringEffect(BlockState state, Level level, BlockPos pos) {
-        var fluidState = state.getFluidState();
-        if (fluidState.is(FluidTags.WATER) || state.is(ModTags.MOSSY)) return WeatheringAgent.WEATHER;
+        if (state.is(ModTags.MOSSY)) return WeatheringAgent.WEATHER;
         return WeatheringAgent.NONE;
     }
 

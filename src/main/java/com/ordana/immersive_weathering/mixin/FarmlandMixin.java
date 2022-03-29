@@ -4,6 +4,7 @@ import com.ordana.immersive_weathering.common.blocks.ModBlocks;
 import com.ordana.immersive_weathering.common.blocks.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.FarmBlock;
@@ -26,29 +27,29 @@ public abstract class FarmlandMixin extends Block {
     @Inject(method = "randomTick", at = @At("TAIL"))
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
         var targetPos = pos.above();
-        if (world.getBlockState(targetPos).isAir()) {
-            //checks if it doesn't have at least 9 weeds around
-            if (!world.isAreaLoaded(pos, 3)) return;
-            List<BlockPos> neighbors = WeatheringHelper.grabBlocksAroundRandomly(pos, 3,3,3);
-            boolean hasFullyGrownWeedNearby = false;
-            int weedsNearby = 0;
-            for(BlockPos p : neighbors){
-                if (weedsNearby > 9) return;
-                BlockState s = world.getBlockState(p);
-                if (s.is(ModBlocks.WEEDS.get())) {
-                    weedsNearby = weedsNearby + 1;
-                    if (!hasFullyGrownWeedNearby && s.getValue(CropBlock.AGE) == BlockStateProperties.MAX_AGE_7) {
-                        hasFullyGrownWeedNearby = true;
+        float f = random.nextFloat();
+        if (f < 0.035f) {
+            BlockState target = world.getBlockState(targetPos);
+            if (target.isAir() || (target.is(BlockTags.CROPS) && f < 0.0001)) {
+                //checks if it doesn't have at least 9 weeds around
+                if (!world.isAreaLoaded(pos, 3)) return;
+                List<BlockPos> neighbors = WeatheringHelper.grabBlocksAroundRandomly(pos, 3, 3, 3);
+                boolean hasFullyGrownWeedNearby = false;
+                int weedsNearby = 0;
+                for (BlockPos p : neighbors) {
+                    if (weedsNearby > 9) return;
+                    BlockState s = world.getBlockState(p);
+                    if (s.is(ModBlocks.WEEDS.get())) {
+                        weedsNearby = weedsNearby + 1;
+                        if (!hasFullyGrownWeedNearby && s.getValue(CropBlock.AGE) == BlockStateProperties.MAX_AGE_7) {
+                            hasFullyGrownWeedNearby = true;
+                        }
                     }
                 }
-            }
-            //almost identical to the old one
-            if (random.nextFloat() < 0.035f) {
-                if (hasFullyGrownWeedNearby) {
+                if (hasFullyGrownWeedNearby || f < 0.0002) {
+                    if (target.is(BlockTags.CROPS)) world.destroyBlock(targetPos, true);
                     world.setBlockAndUpdate(targetPos, ModBlocks.WEEDS.get().defaultBlockState());
                 }
-            } else if (random.nextFloat() < 0.0002f) {
-                world.setBlockAndUpdate(targetPos, ModBlocks.WEEDS.get().defaultBlockState());
             }
         }
     }
