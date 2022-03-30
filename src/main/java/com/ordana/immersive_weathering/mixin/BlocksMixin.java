@@ -3,7 +3,7 @@ package com.ordana.immersive_weathering.mixin;
 import com.ordana.immersive_weathering.registry.blocks.ModGrassBlock;
 import com.ordana.immersive_weathering.registry.blocks.ModHangingRootsBlock;
 import com.ordana.immersive_weathering.registry.blocks.ModMyceliumBlock;
-import com.ordana.immersive_weathering.registry.blocks.ModPodzolBlock;
+import com.ordana.immersive_weathering.registry.blocks.SoilBlock;
 import com.ordana.immersive_weathering.registry.blocks.crackable.*;
 import com.ordana.immersive_weathering.registry.blocks.mossable.*;
 import com.ordana.immersive_weathering.registry.blocks.rustable.Rustable;
@@ -17,8 +17,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
-
-import java.util.function.Supplier;
 
 @Mixin(Blocks.class)
 public class BlocksMixin {
@@ -67,7 +65,6 @@ public class BlocksMixin {
     {
         return new ModGrassBlock(settings);
     }
-
     @Redirect
             (
                     method = "<clinit>",
@@ -88,9 +85,8 @@ public class BlocksMixin {
             )
     private static SnowyBlock podzol(AbstractBlock.Settings settings)
     {
-        return new ModPodzolBlock (settings);
+        return new SoilBlock(settings);
     }
-
     @Redirect
             (
                     method = "<clinit>",
@@ -271,6 +267,75 @@ public class BlocksMixin {
     private static StairsBlock prismarineBricksStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
     {
         return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, PRISMARINE_BRICKS.getDefaultState(), settings);
+    }
+
+
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/Block",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=stone"
+                                            )
+                            )
+            )
+    private static Block stone(AbstractBlock.Settings settings)
+    {
+        return new MossableBlock(Mossable.MossLevel.MOSSABLE, settings);
+    }
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/SlabBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=stone_slab"
+                                            )
+                            )
+            )
+    private static SlabBlock stoneSlab(AbstractBlock.Settings settings)
+    {
+        return new MossableSlabBlock(Mossable.MossLevel.MOSSABLE, settings);
+    }
+    @Shadow @Final public static Block STONE;
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/StairsBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=stone_stairs"
+                                            )
+                            )
+            )
+    private static StairsBlock stoneStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
+    {
+        return new MossableStairsBlock(Mossable.MossLevel.MOSSABLE, STONE.getDefaultState(), settings);
     }
 
 

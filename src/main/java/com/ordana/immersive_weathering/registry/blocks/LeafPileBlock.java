@@ -36,15 +36,17 @@ public class LeafPileBlock extends Block implements Fertilizable {
     private static final float[] COLLISIONS = new float[]{0, 1.7f, 1.6f, 1.5f, 1.3f, 1.1f, 0.8f, 0.5f};
 
     private final boolean hasFlowers; //if it can be boneMealed
-    private final boolean hasThorns; //if it can hurt
+    private final boolean hasThorns; //if it can hurt & make podzol
+    private final boolean isLeafy; //if it can make humus
     private final List<DefaultParticleType> particles;
 
-    protected LeafPileBlock(Settings settings, boolean hasFlowers, boolean hasThorns,
+    protected LeafPileBlock(Settings settings, boolean hasFlowers, boolean hasThorns, boolean isLeafy,
                             List<DefaultParticleType> particles) {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(LAYERS, 1));
         this.hasFlowers = hasFlowers;
         this.hasThorns = hasThorns;
+        this.isLeafy = isLeafy;
         this.particles = particles;
     }
 
@@ -72,11 +74,13 @@ public class LeafPileBlock extends Block implements Fertilizable {
         if (layers > 1) {
             if (this.hasThorns) {
                 if (world.getBlockState(pos.down()).isOf(Blocks.GRASS_BLOCK) || world.getBlockState(pos.down()).isOf(Blocks.DIRT) || world.getBlockState(pos.down()).isOf(Blocks.COARSE_DIRT) || world.getBlockState(pos.down()).isOf(Blocks.ROOTED_DIRT)) {
-                    world.setBlockState(pos.down(), Blocks.PODZOL.getDefaultState(), 2);
+                    world.setBlockState(pos.down(), Blocks.PODZOL.getDefaultState(), 3);
                 }
             }
-            else if (world.getBlockState(pos.down()).isOf(Blocks.GRASS_BLOCK) || world.getBlockState(pos.down()).isOf(Blocks.DIRT) || world.getBlockState(pos.down()).isOf(Blocks.COARSE_DIRT) || world.getBlockState(pos.down()).isOf(Blocks.ROOTED_DIRT)) {
-                world.setBlockState(pos.down(), ModBlocks.MULCH_BLOCK.getDefaultState(), 2);
+            else if (this.isLeafy) {
+                if (world.getBlockState(pos.down()).isOf(Blocks.GRASS_BLOCK) || world.getBlockState(pos.down()).isOf(Blocks.DIRT) || world.getBlockState(pos.down()).isOf(Blocks.COARSE_DIRT) || world.getBlockState(pos.down()).isOf(Blocks.ROOTED_DIRT)) {
+                    world.setBlockState(pos.down(), ModBlocks.HUMUS.getDefaultState(), 3);
+                }
             }
         }
     }

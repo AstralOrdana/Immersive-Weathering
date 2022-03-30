@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -52,7 +53,9 @@ public class FluidMixin extends Block implements FluidDrainable {
             boolean hasMagma = false;
             boolean hasBubbles = false;
             boolean hasSoulfire = false;
-            for (Direction direction : FLOW_DIRECTIONS) {
+            boolean hasClay = false;
+            boolean hasSand = false;
+            for (Direction direction : DIRECTIONS) {
                 BlockPos blockPos = pos.offset(direction.getOpposite());
                 if (world.getFluidState(blockPos).isIn(FluidTags.WATER)) {
                     hasWater = true;
@@ -83,6 +86,12 @@ public class FluidMixin extends Block implements FluidDrainable {
                 }
                 if (world.getBlockState(blockPos).isOf(Blocks.SOUL_FIRE)) {
                     hasSoulfire = true;
+                }
+                if (world.getBlockState(blockPos).isOf(Blocks.CLAY)) {
+                    hasClay = true;
+                }
+                if (world.getBlockState(blockPos).isIn(BlockTags.SAND)) {
+                    hasSand = true;
                 }
                 if (blueIceDown && blueIceUp) {
                     world.setBlockState(pos, Blocks.DEEPSLATE.getDefaultState());
@@ -123,6 +132,20 @@ public class FluidMixin extends Block implements FluidDrainable {
                     world.setBlockState(pos, Blocks.CRYING_OBSIDIAN.getDefaultState());
                     this.playExtinguishSound(world, pos);
                     cir.setReturnValue(false);
+                }
+                if (hasClay) {
+                    if (world.getBlockState(blockPos).isOf(Blocks.CLAY)) {
+                        world.setBlockState(blockPos, Blocks.TERRACOTTA.getDefaultState());
+                        this.playExtinguishSound(world, pos);
+                        cir.setReturnValue(false);
+                    }
+                }
+                if (hasSand) {
+                    if (world.getBlockState(blockPos).isIn(BlockTags.SAND)) {
+                        world.setBlockState(blockPos, ModBlocks.VITRIFIED_SAND.getDefaultState());
+                        this.playExtinguishSound(world, pos);
+                        cir.setReturnValue(false);
+                    }
                 }
             }
         }

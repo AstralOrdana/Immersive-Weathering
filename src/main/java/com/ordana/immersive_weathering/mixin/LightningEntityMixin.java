@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -42,21 +43,21 @@ public abstract class LightningEntityMixin extends Entity {
             BlockState eastState = world.getBlockState(eastPos);
             BlockState westState = world.getBlockState(westPos);
 
-            world.setBlockState(blockPos, Blocks.GLASS.getDefaultState());
+            world.setBlockState(blockPos, ModBlocks.VITRIFIED_SAND.getDefaultState());
             if (downState.isIn(BlockTags.SAND)) {
-                world.setBlockState(downPos, Blocks.GLASS.getDefaultState());
+                world.setBlockState(downPos, ModBlocks.VITRIFIED_SAND.getDefaultState());
             }
             if (world.random.nextFloat() < 0.5f && northState.isIn(BlockTags.SAND)) {
-                world.setBlockState(northPos, Blocks.GLASS.getDefaultState());
+                world.setBlockState(northPos, ModBlocks.VITRIFIED_SAND.getDefaultState());
             }
             if (world.random.nextFloat() < 0.5f && southState.isIn(BlockTags.SAND)) {
-                world.setBlockState(southPos, Blocks.GLASS.getDefaultState());
+                world.setBlockState(southPos, ModBlocks.VITRIFIED_SAND.getDefaultState());
             }
             if (world.random.nextFloat() < 0.5f && eastState.isIn(BlockTags.SAND)) {
-                world.setBlockState(eastPos, Blocks.GLASS.getDefaultState());
+                world.setBlockState(eastPos, ModBlocks.VITRIFIED_SAND.getDefaultState());
             }
             if (world.random.nextFloat() < 0.5f && westState.isIn(BlockTags.SAND)) {
-                world.setBlockState(westPos, Blocks.GLASS.getDefaultState());
+                world.setBlockState(westPos, ModBlocks.VITRIFIED_SAND.getDefaultState());
             }
         }
     }

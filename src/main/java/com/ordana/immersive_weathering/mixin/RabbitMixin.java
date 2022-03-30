@@ -42,7 +42,6 @@ public class RabbitMixin extends AnimalEntity {
     }
 
     @Nullable
-    @Shadow
     public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
         return null;
     }

@@ -25,24 +25,23 @@ public class MossSpreader implements SpreadingPatchBlock<Mossable.MossLevel> {
     //basically how big those patches will be
     @Override
     public float getInterestForDirection(World level, BlockPos pos) {
-        return 0.3f;
+        return 0.65f;
     }
 
     @Override
     public float getDisjointGrowthChance(World level, BlockPos pos) {
-        return 0.5f;
+        return 0.65f;
     }
 
     //chance to have blocks that wont weather but still be able to make others weather if getDisjointGrowthChance is high enough
     @Override
     public float getUnWeatherableChance(World level, BlockPos pos) {
-        return 0.4f;
+        return 0.3f;
     }
 
     @Override
     public WeatheringAgent getWeatheringEffect(BlockState state, World level, BlockPos pos) {
-        var fluidState = state.getFluidState();
-        if (fluidState.isIn(FluidTags.WATER) || state.isIn(ModTags.MOSSY)) return WeatheringAgent.WEATHER;
+        if (state.isIn(ModTags.MOSSY)) return WeatheringAgent.WEATHER;
         return WeatheringAgent.NONE;
     }
 

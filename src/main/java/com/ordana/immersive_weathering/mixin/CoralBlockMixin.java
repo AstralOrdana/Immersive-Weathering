@@ -4,6 +4,7 @@ import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.*;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.biome.BiomeKeys;
@@ -28,7 +29,7 @@ public abstract class CoralBlockMixin extends Block {
         if (random.nextFloat() < 0.01f) {
             if (world.getBiome(pos).matchesKey(BiomeKeys.WARM_OCEAN)) {
                 if (!world.isChunkLoaded(pos)) return;
-                if (!WeatheringHelper.hasEnoughBlocksAround(pos, 2, world, b -> b.isIn(ModTags.CORALS), 6)) {
+                if ((!WeatheringHelper.hasEnoughBlocksAround(pos, 2, world, b -> b.isIn(BlockTags.CORALS), 6)) || (!WeatheringHelper.hasEnoughBlocksAround(pos, 2, world, b -> b.isOf(Blocks.WET_SPONGE), 6))) {
 
                     var coralGroup = WeatheringHelper.getCoralGrowth(state);
                     coralGroup.ifPresent(c -> {
@@ -59,7 +60,7 @@ public abstract class CoralBlockMixin extends Block {
                                         .with(CoralWallFanBlock.WATERLOGGED, true));
                             }
                             else {
-                                world.setBlockState(abovePos, Blocks.WET_SPONGE.getDefaultState());
+                                world.setBlockState(sidePos, Blocks.WET_SPONGE.getDefaultState());
                             }
                         }
                     });

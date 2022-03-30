@@ -147,6 +147,7 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
             return FoliageColors.getDefaultColor();
         }, ModItems.DARK_OAK_LEAF_PILE);
 
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.VITRIFIED_SAND, RenderLayer.getTranslucent());
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.EXPOSED_IRON_DOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WEATHERED_IRON_DOOR, RenderLayer.getCutout());
