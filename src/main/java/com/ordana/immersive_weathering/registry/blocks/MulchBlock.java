@@ -12,12 +12,14 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Random;
 
@@ -58,6 +60,16 @@ public class MulchBlock extends Block {
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 
+        BlockState cropState = world.getBlockState(pos.up());
+        if (state.isOf(ModBlocks.MULCH) && state.get(MulchBlock.SOAKED)) {
+            if (world.getBaseLightLevel(pos.up(), 0) >= 9) {
+                int i = cropState.get(CropBlock.AGE);
+                if (i < 7) {
+                    world.setBlockState(pos.up(), cropState.getBlock().getStateWithProperties(cropState).with(CropBlock.AGE, i + 1), 3);
+                }
+            }
+        }
+
         // RandomEvent ran = new RandomEvent();
 
         BlockState campfireState = world.getBlockState(pos.up());
@@ -68,7 +80,6 @@ public class MulchBlock extends Block {
                 return;
             }
         }
-
 
         if (world.hasRain(pos.up())) {
             if (random.nextFloat() < 0.2f) {
@@ -85,6 +96,7 @@ public class MulchBlock extends Block {
                 return;
             }
         }
+
         var biome = world.getBiome(pos);
         if (biome.isIn(ModTags.HOT)) {
             if (world.random.nextFloat() < 0.07f) {

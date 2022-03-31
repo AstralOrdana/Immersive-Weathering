@@ -309,6 +309,17 @@ public class ModEvents {
             ItemStack heldItem = player.getStackInHand(hand);
 
 
+            if (heldItem.getItem() == Items.SLIME_BALL) {
+                if(targetBlock.isOf(Blocks.PISTON) && !targetBlock.get(PistonBlock.EXTENDED)) {
+                    world.playSound(player, targetPos, SoundEvents.ENTITY_SLIME_SQUISH, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.ITEM_SLIME, UniformIntProvider.create(3,5));
+                    if(player != null) {
+                        if(!player.isCreative())heldItem.decrement(1);
+                        world.setBlockState(targetPos, Blocks.STICKY_PISTON.getStateWithProperties(targetBlock));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+            }
             if (heldItem.getItem() instanceof ShearsItem) {
                 if (targetBlock.contains(ModGrassBlock.FERTILE) && targetBlock.get(ModGrassBlock.FERTILE) && targetBlock.contains(SnowyBlock.SNOWY) && !targetBlock.get(SnowyBlock.SNOWY)) {
                     world.playSound(player, targetPos, SoundEvents.BLOCK_GROWING_PLANT_CROP, SoundCategory.BLOCKS, 1.0f, 1.0f);
@@ -342,6 +353,16 @@ public class ModEvents {
                                 world.setBlockState(targetPos, clean.getStateWithProperties(targetBlock));
                             }
                         });
+                    }
+                    return ActionResult.SUCCESS;
+                }
+                else if(targetBlock.isOf(Blocks.STICKY_PISTON) && !targetBlock.get(PistonBlock.EXTENDED)) {
+                    world.playSound(player, targetPos, SoundEvents.ENTITY_SLIME_SQUISH, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.ITEM_SLIME, UniformIntProvider.create(3,5));
+                    Block.dropStack(world, fixedPos, new ItemStack(Items.SLIME_BALL));
+                    if(player != null) {
+                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        world.setBlockState(targetPos, Blocks.PISTON.getStateWithProperties(targetBlock));
                     }
                     return ActionResult.SUCCESS;
                 }

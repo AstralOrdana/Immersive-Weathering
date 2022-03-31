@@ -10,6 +10,7 @@ import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -60,7 +61,7 @@ public abstract class FireMixin {
             if (random.nextFloat() < 0.3f) {
                 var targetPos = pos.down();
                 BlockState neighborState = world.getBlockState(targetPos);
-                if (!neighborState.isIn(BlockTags.INFINIBURN_OVERWORLD)) {
+                if ((world.getRegistryKey() == World.OVERWORLD) && (!neighborState.isIn(BlockTags.INFINIBURN_OVERWORLD)) || ((world.getRegistryKey() == World.END) && (!neighborState.isIn(BlockTags.INFINIBURN_END))) || ((world.getRegistryKey() == World.NETHER) && (!neighborState.isIn(BlockTags.INFINIBURN_NETHER)))) {
                     if (random.nextFloat() > 0.4f) {
                         if (!state.get(FireBlock.UP) && !state.get(FireBlock.NORTH) && !state.get(FireBlock.SOUTH) && !state.get(FireBlock.EAST) && !state.get(FireBlock.WEST)) {
                             world.setBlockState(pos, ModBlocks.SOOT.getDefaultState().with(SootBlock.LIT, true).with(Properties.DOWN, true), Block.NOTIFY_LISTENERS);
