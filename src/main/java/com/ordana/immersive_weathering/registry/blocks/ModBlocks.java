@@ -21,8 +21,9 @@ import java.util.function.ToIntFunction;
 
 public class ModBlocks {
 
-    public static final Block ICICLE = new IcicleBlock(FabricBlockSettings.of(Material.ICE).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GLASS).nonOpaque().dynamicBounds().requiresTool());
+    public static final Block RUSTY_DEBRIS = new Block(FabricBlockSettings.of(Material.METAL, MapColor.BLACK).requiresTool().strength(30.0F, 1200.0F).sounds(BlockSoundGroup.ANCIENT_DEBRIS));
 
+    public static final Block ICICLE = new IcicleBlock(FabricBlockSettings.of(Material.ICE).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GLASS).nonOpaque().dynamicBounds().requiresTool());
     public static final Block VITRIFIED_SAND = new GlassBlock(FabricBlockSettings.of(Material.GLASS, MapColor.PALE_YELLOW).strength(2f, 6f).sounds(BlockSoundGroup.TUFF).nonOpaque().requiresTool());
 
     public static final Block OAK_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), false, false, true, List.of(ModParticles.OAK_LEAF));
@@ -201,8 +202,9 @@ public class ModBlocks {
 
     public static void registerBlocks() {
 
-        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "icicle"), ICICLE);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "rusty_debris"), RUSTY_DEBRIS);
 
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "icicle"), ICICLE);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "vitrified_sand"), VITRIFIED_SAND);
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "oak_leaf_pile"), OAK_LEAF_PILE);

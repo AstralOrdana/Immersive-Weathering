@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "immersive_weathering:weatherite_scrap"
+    },
+    {
+      "item": "immersive_weathering:weatherite_scrap"
+    },
+    {
+      "item": "immersive_weathering:weatherite_scrap"
+    },
+    {
+      "item": "immersive_weathering:weatherite_scrap"
+    }
+  ],
+  "result": {
+    "item": "immersive_weathering:weatherite_ingot"
+  }
+}

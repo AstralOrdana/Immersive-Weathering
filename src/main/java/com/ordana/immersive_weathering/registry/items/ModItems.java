@@ -11,9 +11,24 @@ import net.minecraft.util.registry.Registry;
 
 public class ModItems {
 
+    public static final ToolItem WEATHERITE_SHOVEL = new ShovelItem(WeatheriteToolMaterial.INSTANCE, 67f, 2.9f, new Item.Settings().group(ItemGroup.COMBAT));
+    public static final ToolItem WEATHERITE_SWORD = new SwordItem(WeatheriteToolMaterial.INSTANCE, 418, 2.9f, new Item.Settings().group(ItemGroup.COMBAT));
+    public static final ToolItem WEATHERITE_AXE = new WeatheriteAxe(WeatheriteToolMaterial.INSTANCE, 67, 2.9f, new Item.Settings().group(ItemGroup.TOOLS));
+    public static final ToolItem WEATHERITE_PICKAXE = new WeatheritePickaxe(WeatheriteToolMaterial.INSTANCE, 67, 2.9f, new Item.Settings().group(ItemGroup.TOOLS));
+    public static final ToolItem WEATHERITE_HOE = new WeatheriteHoe(WeatheriteToolMaterial.INSTANCE, 67, 2.9f, new Item.Settings().group(ItemGroup.TOOLS));
+
+    public static final ArmorItem WEATHERITE_HELMET = new ArmorItem(WeatheriteArmorMaterial.INSTANCE, EquipmentSlot.HEAD, new Item.Settings().group(ItemGroup.COMBAT));
+    public static final ArmorItem WEATHERITE_CHESTPLATE = new ArmorItem(WeatheriteArmorMaterial.INSTANCE, EquipmentSlot.CHEST, new Item.Settings().group(ItemGroup.COMBAT));
+    public static final ArmorItem WEATHERITE_LEGGINGS = new ArmorItem(WeatheriteArmorMaterial.INSTANCE, EquipmentSlot.LEGS, new Item.Settings().group(ItemGroup.COMBAT));
+    public static final ArmorItem WEATHERITE_BOOTS = new ArmorItem(WeatheriteArmorMaterial.INSTANCE, EquipmentSlot.FEET, new Item.Settings().group(ItemGroup.COMBAT));
+
+    public static final Item WEATHERITE_SCRAP = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
+    public static final Item WEATHERITE_INGOT = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
+
+    public static final BlockItem RUSTY_DEBRIS = new BlockItem(ModBlocks.RUSTY_DEBRIS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+
     public static final BlockItem ICICLE = new BlockItem(ModBlocks.ICICLE, new Item.Settings().food(ModFoods.ICICLE).group(ItemGroup.DECORATIONS));
     public static final Item ICE_SICKLE = new SwordItem(IcicleToolMaterial.INSTANCE, 5, -1f, new Item.Settings().food(ModFoods.ICICLE).group(ItemGroup.COMBAT));
-
     public static final BlockItem VITRIFIED_SAND = new BlockItem(ModBlocks.VITRIFIED_SAND, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final Item AZALEA_FLOWERS = new Item(new Item.Settings().group(ItemGroup.MATERIALS).food(ModFoods.AZALEA_FLOWER));
@@ -195,6 +210,21 @@ public class ModItems {
     public static final BlockItem WAXED_RUSTED_IRON_BARS = new BlockItem(ModBlocks.WAXED_RUSTED_IRON_BARS, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static void registerItems() {
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weatherite_sword"), WEATHERITE_SWORD);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weatherite_shovel"), WEATHERITE_SHOVEL);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weatherite_pickaxe"), WEATHERITE_PICKAXE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weatherite_axe"), WEATHERITE_AXE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weatherite_hoe"), WEATHERITE_HOE);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weatherite_helmet"), WEATHERITE_HELMET);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weatherite_chestplate"), WEATHERITE_CHESTPLATE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weatherite_leggings"), WEATHERITE_LEGGINGS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weatherite_boots"), WEATHERITE_BOOTS);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weatherite_ingot"), WEATHERITE_INGOT);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weatherite_scrap"), WEATHERITE_SCRAP);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "rusty_debris"), RUSTY_DEBRIS);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "icicle"), ICICLE);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "ice_sickle"), ICE_SICKLE);

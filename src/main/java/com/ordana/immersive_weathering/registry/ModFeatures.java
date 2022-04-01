@@ -44,5 +44,9 @@ public class ModFeatures {
         BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.OLD_GROWTH_PINE_TAIGA), GenerationStep.Feature.VEGETAL_DECORATION, spruce_leaf_pile);
         BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.TAIGA), GenerationStep.Feature.VEGETAL_DECORATION, spruce_leaf_pile);
 
+        RegistryKey<PlacedFeature> rusty_debris = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                new Identifier("immersive_weathering", "rusty_debris"));
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, rusty_debris);
+
     }
 }

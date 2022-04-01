@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "immersive_weathering:weatherite_sword",
+      "immersive_weathering:weatherite_pickaxe",
+      "immersive_weathering:weatherite_axe",
+      "immersive_weathering:weatherite_shovel",
+      "immersive_weathering:weatherite_hoe",
+      "immersive_weathering:weatherite_helmet",
+      "immersive_weathering:weatherite_chestplate",
+      "immersive_weathering:weatherite_leggings",
+      "immersive_weathering:weatherite_boots"
+    ]
+  },
+  "criteria": {
+    "has_copper_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:weatherite_ingot"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "immersive_weathering:weatherite_sword"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_copper_block",
+      "has_the_recipe"
+    ]
+  ]
+}

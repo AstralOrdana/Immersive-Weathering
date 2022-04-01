@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "immersive_weathering:rusty_debris"
+  },
+  "result": "immersive_weathering:weatherite_scrap",
+  "experience": 420,
+  "cookingtime": 69
+}
