@@ -246,8 +246,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements BlockEntityPro
 
     public static void tryGrow(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         BlockState blockState = world.getBlockState(pos.up(1));
-        BlockState blockState2 = world.getBlockState(pos.up(2));
-        if (canGrow(blockState, blockState2) && world.isDay() && !world.isRaining() && !world.isThundering()) {
+        if (blockState.isIn(ModTags.ICE) && world.isDay() && !world.isRaining() && !world.isThundering()) {
             BlockPos blockPos = getTipPos(state, world, pos, 7, false);
             if (blockPos != null) {
                 BlockState blockState3 = world.getBlockState(blockPos);

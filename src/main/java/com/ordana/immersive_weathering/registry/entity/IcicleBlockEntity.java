@@ -23,10 +23,10 @@ public class IcicleBlockEntity extends BlockEntity implements GameEventListener 
     protected final PositionSource listenerSource;
     public static final Object2IntMap<GameEvent> VOLUME_FOR_EVENT = Object2IntMaps.unmodifiable(Util.make(new Object2IntOpenHashMap<>(), (map) -> {
         map.put(GameEvent.PROJECTILE_LAND, 1);
+        map.put(GameEvent.BLOCK_DESTROY, 2);
         map.put(GameEvent.HIT_GROUND, 2);
         map.put(GameEvent.PISTON_CONTRACT, 3);
         map.put(GameEvent.PISTON_EXTEND, 3);
-        map.put(GameEvent.BLOCK_DESTROY, 3);
         map.put(GameEvent.MINECART_MOVING, 4);
         map.put(GameEvent.BLOCK_OPEN, 6);
         map.put(GameEvent.BLOCK_CLOSE, 7);
@@ -58,7 +58,7 @@ public class IcicleBlockEntity extends BlockEntity implements GameEventListener 
         if(pos != this.pos) {
             int volume = VOLUME_FOR_EVENT.getInt(gameEvent);
             double distanceSqr = this.pos.getSquaredDistanceFromCenter(pos.getX(), pos.getY(), pos.getZ());
-            if (volume * volume > distanceSqr * 0.5 + level.random.nextFloat() * distanceSqr) {
+            if (volume * volume > distanceSqr * 0.9 + level.random.nextFloat() * distanceSqr) {
                 float distScaling = 2f;
                 int o = level.getRandom().nextInt(3)-1;
                 int delay =  Math.max(0, (int) (MathHelper.sqrt((float) (distScaling*distanceSqr)))) + o;

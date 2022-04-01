@@ -11,7 +11,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -21,6 +23,9 @@ import java.util.Random;
 @Mixin(FireBlock.class)
 public abstract class FireMixin {
 
+
+    @Shadow
+    public abstract boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos);
 
     @Inject(method = "scheduledTick", at = @At("HEAD"))
     public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
@@ -63,13 +68,19 @@ public abstract class FireMixin {
                 BlockState neighborState = world.getBlockState(targetPos);
                 if ((world.getRegistryKey() == World.OVERWORLD) && (!neighborState.isIn(BlockTags.INFINIBURN_OVERWORLD)) || ((world.getRegistryKey() == World.END) && (!neighborState.isIn(BlockTags.INFINIBURN_END))) || ((world.getRegistryKey() == World.NETHER) && (!neighborState.isIn(BlockTags.INFINIBURN_NETHER)))) {
                     if (random.nextFloat() > 0.4f) {
-                        if (!state.get(FireBlock.UP) && !state.get(FireBlock.NORTH) && !state.get(FireBlock.SOUTH) && !state.get(FireBlock.EAST) && !state.get(FireBlock.WEST)) {
+                        BlockState placementState = ModBlocks.SOOT.getDefaultState().with(SootBlock.LIT, true).with(Properties.DOWN, true);
+                        BlockState placementState2 = ModBlocks.SOOT.getStateWithProperties(targetBlock).with(SootBlock.LIT, true);
+                        if (!state.get(FireBlock.UP) && !state.get(FireBlock.NORTH) && !state.get(FireBlock.SOUTH) && !state.get(FireBlock.EAST) && !state.get(FireBlock.WEST) && placementState.canPlaceAt(world, pos)) {
                             world.setBlockState(pos, ModBlocks.SOOT.getDefaultState().with(SootBlock.LIT, true).with(Properties.DOWN, true), Block.NOTIFY_LISTENERS);
-                        } else
+                        }
+                        else if (placementState2.canPlaceAt(world, pos)) {
                             world.setBlockState(pos, ModBlocks.SOOT.getStateWithProperties(targetBlock).with(SootBlock.LIT, true), Block.NOTIFY_LISTENERS);
-                    } else if (random.nextFloat() > 0.5f) {
-                        world.setBlockState(pos, ModBlocks.ASH_BLOCK.getDefaultState().with(SootBlock.LIT, true), Block.NOTIFY_LISTENERS);
-                    } else world.setBlockState(pos, ModBlocks.ASH_BLOCK.getDefaultState(), Block.NOTIFY_LISTENERS);
+                        }
+                        else if (random.nextFloat() > 0.5f) {
+                            world.setBlockState(pos, ModBlocks.ASH_BLOCK.getDefaultState().with(SootBlock.LIT, true), Block.NOTIFY_LISTENERS);
+                        }
+                        else world.setBlockState(pos, ModBlocks.ASH_BLOCK.getDefaultState(), Block.NOTIFY_LISTENERS);
+                    }
                 }
             }
         }

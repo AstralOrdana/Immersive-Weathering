@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
+    "immersive_weathering:icicle",
+
     "immersive_weathering:cut_iron",
     "immersive_weathering:exposed_cut_iron",
     "immersive_weathering:weathered_cut_iron",

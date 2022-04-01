@@ -33,21 +33,20 @@ abstract public class IceMixin extends Block {
 
     @Inject(method = "randomTick", at = @At("HEAD"))
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
-        BlockPos icePos = pos.down();
+        BlockPos iciclePos = pos.down();
         var biome = world.getBiome(pos).value();
         if (random.nextFloat() < 0.01f) {
-            if (world.getBlockState(icePos).isOf(Blocks.AIR)) {
+            if (world.getBlockState(iciclePos).isOf(Blocks.AIR)) {
 
                 //to form we need hot weather in a cold biome or water above & cold biome
-                if (biome.isCold(pos)) {
-                    if (world.getFluidState(pos.up()).isIn(FluidTags.WATER) || (world.isDay() && !world.isRaining() && !world.isThundering())) {
-                        world.setBlockState(icePos, ModBlocks.ICICLE.getDefaultState()
-                                .with(Properties.VERTICAL_DIRECTION, Direction.DOWN)
-                                .with(IcicleBlock.THICKNESS, Thickness.TIP));
-                    }
+                if (world.getFluidState(pos.up()).isIn(FluidTags.WATER) || (world.isDay() && !world.isRaining() && !world.isThundering())) {
+                    world.setBlockState(iciclePos, ModBlocks.ICICLE.getDefaultState()
+                            .with(Properties.VERTICAL_DIRECTION, Direction.DOWN)
+                            .with(IcicleBlock.THICKNESS, Thickness.TIP));
                 }
             }
         }
+
 
         if (world.getDimension().isUltrawarm()) {
             world.playSound(null, pos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 0.3F, 2.9F + (random.nextFloat() - random.nextFloat()) * 0.6F);
@@ -72,7 +71,7 @@ abstract public class IceMixin extends Block {
     @Override
     public void randomDisplayTick(BlockState state, World level, BlockPos pos, Random random) {
         if (random.nextInt(25) == 1) {
-            if (this.canMelt(state, level, pos)) {
+            if (this.canMelt(state, level, pos) || level.isDay()) {
 
                 BlockPos blockpos = pos.down();
                 BlockState blockstate = level.getBlockState(blockpos);

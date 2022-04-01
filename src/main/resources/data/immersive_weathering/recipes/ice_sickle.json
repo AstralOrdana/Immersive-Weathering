@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "  #",
+    " I "
+  ],
+  "key": {
+    "#": {
+      "item": "immersive_weathering:icicle"
+    },
+    "I": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "immersive_weathering:ice_sickle"
+  }
+}
