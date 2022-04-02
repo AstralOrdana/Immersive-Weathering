@@ -4,6 +4,7 @@ import com.ordana.immersive_weathering.registry.blocks.ModHangingRootsBlock;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.*;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.collection.DataPool;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -57,7 +58,7 @@ public abstract class RootedDirtBlockMixin extends Block implements Fertilizable
             if (WeatheringHelper.canRootsSpread(pos, 5, 2, world, 16)) {
                 Direction rootDirection = WeatheringHelper.ROOT_DIRECTIONS.getDataOrEmpty(random).get();
                 var targetPos = pos.offset(rootDirection);
-                if (world.getBlockState(targetPos).isOf(Blocks.DIRT)) {
+                if (world.getBlockState(targetPos).isIn(BlockTags.DIRT)) {
                     world.setBlockState(targetPos, Blocks.ROOTED_DIRT.getDefaultState(), 3);
                 }
             }

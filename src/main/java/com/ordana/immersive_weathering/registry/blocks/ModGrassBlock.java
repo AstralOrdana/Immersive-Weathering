@@ -194,6 +194,16 @@ public class ModGrassBlock extends GrassBlock implements Fertilizable {
                             } else if (random.nextFloat() < 0.1f) {
                                 world.setBlockState(targetPos, Blocks.SWEET_BERRY_BUSH.getDefaultState());
                             }
+                        } else if (biome.matchesKey(BiomeKeys.SNOWY_TAIGA)) {
+                            if (random.nextFloat() > 0.4f) {
+                                world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
+                            } else if (random.nextFloat() < 0.4f) {
+                                world.setBlockState(targetPos, Blocks.FERN.getDefaultState());
+                            } else if (random.nextFloat() < 0.3f) {
+                                world.setBlockState(targetPos, Blocks.SPRUCE_SAPLING.getDefaultState());
+                            } else if (random.nextFloat() < 0.1f) {
+                                world.setBlockState(targetPos, Blocks.SWEET_BERRY_BUSH.getDefaultState());
+                            }
                         } else if (biome.matchesKey(BiomeKeys.OLD_GROWTH_PINE_TAIGA)) {
                             if (random.nextFloat() > 0.4f) {
                                 world.setBlockState(targetPos, Blocks.GRASS.getDefaultState());
@@ -295,6 +305,8 @@ public class ModGrassBlock extends GrassBlock implements Fertilizable {
                                 world.setBlockState(targetPos, Blocks.BROWN_MUSHROOM.getDefaultState());
                             } else if (random.nextFloat() < 0.01f) {
                                 world.setBlockState(targetPos, Blocks.CORNFLOWER.getDefaultState());
+                            } else if (random.nextFloat() < 0.01f) {
+                                world.setBlockState(targetPos, Blocks.LILY_OF_THE_VALLEY.getDefaultState());
                             } else if (random.nextFloat() < 0.2f) {
                                 world.setBlockState(targetPos, Blocks.BIRCH_SAPLING.getDefaultState());
                             } else if (world.getBlockState(tallPos).isOf(Blocks.AIR)) {
@@ -314,6 +326,8 @@ public class ModGrassBlock extends GrassBlock implements Fertilizable {
                                 world.setBlockState(targetPos, Blocks.BROWN_MUSHROOM.getDefaultState());
                             } else if (random.nextFloat() < 0.01f) {
                                 world.setBlockState(targetPos, Blocks.CORNFLOWER.getDefaultState());
+                            } else if (random.nextFloat() < 0.01f) {
+                                world.setBlockState(targetPos, Blocks.LILY_OF_THE_VALLEY.getDefaultState());
                             } else if (world.getBlockState(tallPos).isOf(Blocks.AIR)) {
                                 if (random.nextFloat() < 0.01f) {
                                     world.setBlockState(targetPos, Blocks.LILAC.getDefaultState());

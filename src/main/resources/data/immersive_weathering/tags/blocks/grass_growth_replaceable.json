@@ -4,6 +4,7 @@
     "immersive_weathering:ash_block",
     "immersive_weathering:soot",
     "#immersive_weathering:leaf_piles",
+    "minecraft:snow",
     "minecraft:air"
   ]
 }
