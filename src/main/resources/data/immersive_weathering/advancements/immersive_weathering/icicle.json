@@ -34,6 +34,9 @@
     ]
   ],
   "rewards": {
+    "recipes": [
+      "immersive_weathering:ice_sickle"
+    ],
     "experience": 100
   }
 }

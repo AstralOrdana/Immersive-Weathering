@@ -378,7 +378,7 @@ public class ModEvents {
                     ParticleUtil.spawnParticle(world, targetPos, ModParticles.SOOT, UniformIntProvider.create(3,5));
                     world.setBlockState(targetPos, Blocks.AIR.getDefaultState());
                 }
-                else if (targetBlock.isOf(ModBlocks.HUMUS) && targetBlock.get(Properties.SNOWY)) {
+                else if (targetBlock.isOf(ModBlocks.HUMUS) && !targetBlock.get(Properties.SNOWY)) {
                     world.playSound(player, targetPos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     if(player != null) {
                         if(!player.isCreative())heldItem.damage(1, new Random(), null);

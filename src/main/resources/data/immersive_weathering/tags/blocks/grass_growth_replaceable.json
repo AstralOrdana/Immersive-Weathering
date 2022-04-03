@@ -3,8 +3,16 @@
   "values": [
     "immersive_weathering:ash_block",
     "immersive_weathering:soot",
-    "#immersive_weathering:leaf_piles",
+    "immersive_weathering:oak_leaf_pile",
     "minecraft:snow",
-    "minecraft:air"
+    "minecraft:air",
+    "immersive_weathering:oak_leaf_pile",
+    "immersive_weathering:birch_leaf_pile",
+    "immersive_weathering:spruce_leaf_pile",
+    "immersive_weathering:jungle_leaf_pile",
+    "immersive_weathering:acacia_leaf_pile",
+    "immersive_weathering:dark_oak_leaf_pile",
+    "immersive_weathering:azalea_leaf_pile",
+    "immersive_weathering:flowering_azalea_leaf_pile"
   ]
 }

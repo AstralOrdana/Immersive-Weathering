@@ -1,13 +1,19 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.minecraft.block.*;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.WorldAccess;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 @Mixin(CampfireBlock.class)
@@ -20,6 +26,27 @@ public abstract class CampfireMixin extends Block {
     @Override
     public boolean hasRandomTicks(BlockState state) {
         return true;
+    }
+
+    private boolean doesBlockCauseSignalFire(BlockState state) {
+        return state.isIn(ModTags.SMOKEY_BLOCKS);
+    }
+
+    @Nullable
+    @Shadow
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        WorldAccess worldAccess = ctx.getWorld();
+        BlockPos blockPos = ctx.getBlockPos();
+        boolean bl = worldAccess.getFluidState(blockPos).getFluid() == Fluids.WATER;
+        return (BlockState)((BlockState)((BlockState)((BlockState)this.getDefaultState().with(CampfireBlock.WATERLOGGED, bl)).with(CampfireBlock.SIGNAL_FIRE, this.doesBlockCauseSignalFire(worldAccess.getBlockState(blockPos.down())))).with(CampfireBlock.LIT, !bl)).with(CampfireBlock.FACING, ctx.getPlayerFacing());
+    }
+
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        if ((Boolean)state.get(CampfireBlock.WATERLOGGED)) {
+            world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        }
+
+        return direction == Direction.DOWN ? (BlockState)state.with(CampfireBlock.SIGNAL_FIRE, this.doesBlockCauseSignalFire(neighborState)) : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }
 
     @Override

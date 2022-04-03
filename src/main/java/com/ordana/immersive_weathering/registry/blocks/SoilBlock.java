@@ -81,5 +81,7 @@ public class SoilBlock extends SnowyBlock implements Fertilizable {
     @Override
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
         world.setBlockState(pos, Blocks.PODZOL.getDefaultState().with(FERTILE, true));
+        world.setBlockState(pos, state.getBlock().getDefaultState().with(FERTILE, true));
+
     }
 }

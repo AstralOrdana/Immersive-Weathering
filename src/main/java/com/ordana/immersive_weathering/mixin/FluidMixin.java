@@ -5,6 +5,7 @@ import com.google.common.collect.UnmodifiableIterator;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.minecraft.block.*;
 import net.minecraft.fluid.FlowableFluid;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.state.property.IntProperty;
@@ -42,6 +43,7 @@ public class FluidMixin extends Block implements FluidDrainable {
 
     @Inject(method = "receiveNeighborFluids", at = @At("HEAD"), cancellable = true)
     public void receiveNeighborFluids(World world, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
+        FluidState fluidState = world.getFluidState(pos);
         if (this.fluid.isIn(FluidTags.LAVA)) {
             boolean hasWater = false;
             boolean blueIceDown = false;
@@ -143,6 +145,22 @@ public class FluidMixin extends Block implements FluidDrainable {
                 if (hasSand) {
                     if (world.getBlockState(blockPos).isIn(BlockTags.SAND)) {
                         world.setBlockState(blockPos, ModBlocks.VITRIFIED_SAND.getDefaultState());
+                        this.playExtinguishSound(world, pos);
+                        cir.setReturnValue(false);
+                    }
+                }
+            }
+        }
+        else if (this.fluid.isIn(FluidTags.WATER) && !this.fluid.isStill(fluidState)) {
+            boolean hasSandstone = false;
+            for (Direction direction : FLOW_DIRECTIONS) {
+                BlockPos blockPos = pos.offset(direction.getOpposite());
+                if (world.getBlockState(blockPos).isOf(Blocks.SANDSTONE)) {
+                    hasSandstone = true;
+                }
+                if (hasSandstone) {
+                    if (world.getBlockState(pos.down()).isOf(Blocks.AIR)) {
+                        world.setBlockState(pos.down(), Blocks.SAND.getDefaultState());
                         this.playExtinguishSound(world, pos);
                         cir.setReturnValue(false);
                     }
