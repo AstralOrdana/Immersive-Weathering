@@ -1,9 +1,12 @@
 {
   "advancements.immersive_weathering.moss.title": "延续生命的循环？",
-  "advancements.immersive_weathering.moss.description": "吃下了苔藓，...尝起来像苔藓，生命值成了苔藓",
+  "advancements.immersive_weathering.moss.description": "你吃下了苔藓，尝起来……藓藓的，你的生命值被藓翻了",
 
   "advancements.immersive_weathering.icicle.title": "咔哧",
   "advancements.immersive_weathering.icicle.description": "咔哧咔哧咔哧 ",
+  
+  "advancements.immersive_weathering.ice_sickle.title": "冷静下来",
+  "advancements.immersive_weathering.ice_sickle.description": "用烈焰人最大的恐惧——冰镰杀死它",
 
   "death.attack.icicle": "%1$s被冰锥刺穿了",
   "death.attack.icicle.player": "%1$s在与%2$s战斗的时候中被冰锥刺穿",
@@ -13,24 +16,27 @@
   "subtitles.block.icicle.land": "冰凌坠落",
 
   "block.immersive_weathering.icicle": "冰凌",
+  "item.immersive_weathering.ice_sickle": "冰镰",
+  
+  "block.immersive_weathering.vitrified_sand": "玻化沙",
 
   "block.immersive_weathering.weeds": "野草",
   "block.immersive_weathering.soot": "灰烬",
   "block.immersive_weathering.ash_block": "灰烬块",
 
-  "block.immersive_weathering.mossy_bricks": "苔砖",
-  "block.immersive_weathering.mossy_brick_stairs": "覆苔砖楼梯",
-  "block.immersive_weathering.mossy_brick_slab": "覆苔砖台阶",
-  "block.immersive_weathering.mossy_brick_wall": "覆苔砖墙",
+  "block.immersive_weathering.mossy_bricks": "苔砖块",
+  "block.immersive_weathering.mossy_brick_stairs": "覆苔砖块楼梯",
+  "block.immersive_weathering.mossy_brick_slab": "覆苔砖块台阶",
+  "block.immersive_weathering.mossy_brick_wall": "覆苔砖块墙",
 
-  "block.immersive_weathering.mossy_stone": "覆苔圆石",
-  "block.immersive_weathering.mossy_stone_stairs": "覆苔圆石楼梯",
-  "block.immersive_weathering.mossy_stone_slab": "覆苔圆石台阶",
+  "block.immersive_weathering.mossy_stone": "覆苔石头",
+  "block.immersive_weathering.mossy_stone_stairs": "覆苔石头楼梯",
+  "block.immersive_weathering.mossy_stone_slab": "覆苔石头台阶",
 
   "block.immersive_weathering.cracked_bricks": "裂纹砖块",
-  "block.immersive_weathering.cracked_brick_stairs": "裂纹砖楼梯",
-  "block.immersive_weathering.cracked_brick_slab": "裂纹砖台阶",
-  "block.immersive_weathering.cracked_brick_wall": "裂纹砖墙",
+  "block.immersive_weathering.cracked_brick_stairs": "裂纹砖块楼梯",
+  "block.immersive_weathering.cracked_brick_slab": "裂纹砖块台阶",
+  "block.immersive_weathering.cracked_brick_wall": "裂纹砖块墙",
 
   "block.immersive_weathering.cracked_prismarine_bricks": "裂纹海晶石砖",
   "block.immersive_weathering.cracked_prismarine_brick_stairs": "裂纹海晶石砖楼梯",
@@ -47,9 +53,9 @@
   "block.immersive_weathering.cracked_stone_brick_slab": "裂纹石砖台阶",
   "block.immersive_weathering.cracked_stone_brick_wall": "裂纹石砖墙",
 
-  "block.immersive_weathering.cracked_nether_brick_stairs": "裂纹地狱砖楼梯",
-  "block.immersive_weathering.cracked_nether_brick_slab": "裂纹地狱砖台阶",
-  "block.immersive_weathering.cracked_nether_brick_wall": "裂纹地狱砖墙",
+  "block.immersive_weathering.cracked_nether_brick_stairs": "裂纹下界砖楼梯",
+  "block.immersive_weathering.cracked_nether_brick_slab": "裂纹下界砖台阶",
+  "block.immersive_weathering.cracked_nether_brick_wall": "裂纹下界砖墙",
 
   "block.immersive_weathering.cracked_deepslate_brick_stairs": "裂纹深板岩砖楼梯",
   "block.immersive_weathering.cracked_deepslate_brick_slab": "裂纹深板岩砖台阶",
@@ -72,8 +78,9 @@
 
   "item.immersive_weathering.azalea_flowers": "杜鹃花",
   "item.immersive_weathering.flower_crown": "花冠",
-  "item.immersive_weathering.moss_clump": "苔藓",
-  "item.immersive_weathering.golden_moss_clump": "金苔藓",
+  "item.immersive_weathering.moss_clump": "苔藓丛",
+  "item.immersive_weathering.golden_moss_clump": "金苔藓丛",
+  "item.immersive_weathering.enchanted_golden_moss_clump": "附魔金苔藓丛",
 
   "item.immersive_weathering.oak_bark": "橡树皮",
   "item.immersive_weathering.spruce_bark": "云杉树皮",
@@ -90,12 +97,13 @@
   "block.immersive_weathering.jungle_leaf_pile": "丛林树叶堆",
   "block.immersive_weathering.acacia_leaf_pile": "金合欢树叶堆",
   "block.immersive_weathering.dark_oak_leaf_pile": "深色橡树叶堆",
-  "block.immersive_weathering.azalea_leaf_pile": "杜鹃叶堆",
-  "block.immersive_weathering.flowering_azalea_leaf_pile": "杜鹃花叶堆",
+  "block.immersive_weathering.azalea_leaf_pile": "杜鹃树叶堆",
+  "block.immersive_weathering.flowering_azalea_leaf_pile": "盛开的杜鹃树叶堆",
   "block.immersive_weathering.azalea_flower_pile": "杜鹃花堆",
 
-  "block.immersive_weathering.mulch_block": "腐殖土",
-  "block.immersive_weathering.nulch_block": "下界腐殖土",
+  "block.immersive_weathering.humus": "腐殖土",
+  "block.immersive_weathering.mulch_block": "沃土",
+  "block.immersive_weathering.nulch_block": "下界沃土",
   "block.immersive_weathering.mulch": "腐殖质",
   "block.immersive_weathering.nulch": "下界腐殖质",
 
