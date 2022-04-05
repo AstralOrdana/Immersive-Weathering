@@ -18,7 +18,10 @@ import com.ordana.immersive_weathering.data.GenericResourceReloadListener;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -48,6 +51,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -81,9 +85,10 @@ public class ModEvents {
             }
             var randomBlockList  = new BlockGrowthConfiguration.RandomBlockList(
                     Optional.of(Direction.SOUTH),Optional.of(6),b.build());
-            var ac = new AreaCondition.AreaCheck(3,4,5,8,Optional.of(2));
+            var ac = new AreaCondition.AreaCheck(3,4,3,12,Optional.empty(),
+                    Optional.of(new BlockMatchTest(Blocks.LAVA)),Optional.of(new BlockMatchTest(Blocks.WATER)));
            var r = new BlockGrowthConfiguration( new BlockMatchTest(Blocks.NETHERRACK), ac,
-                   List.of(randomBlockList),Blocks.GRASS, Optional.empty());
+                   List.of(randomBlockList),Blocks.MAGMA_BLOCK, Optional.of(BuiltinRegistries.BIOME.getOrCreateTag(BiomeTags.IS_NETHER)));
             try (FileWriter writer = new FileWriter(exportPath)) {
                 aa.writeToFile(r,writer);
             }

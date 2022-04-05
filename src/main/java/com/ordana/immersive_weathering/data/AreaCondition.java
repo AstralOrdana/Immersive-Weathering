@@ -45,16 +45,18 @@ public interface AreaCondition {
 
     //implementations
 
-    public record AreaCheck(int rX, int rY, int rZ, int requiredAmount,
-                            Optional<Integer> yOffset) implements AreaCondition {
+    public record AreaCheck(int rX, int rY, int rZ, int requiredAmount, Optional<Integer> yOffset,
+                            Optional<RuleTest> mustHavePredicate, Optional<RuleTest> mustNotHavePredicate) implements AreaCondition {
 
-        public static final String NAME = "not_enough_blocks_around";
+        public static final String NAME = "generate_if_not_enough";
         public static final Codec<AreaCheck> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 Codec.INT.fieldOf("radiusX").forGetter(AreaCheck::rX),
                 Codec.INT.fieldOf("radiusY").forGetter(AreaCheck::rY),
                 Codec.INT.fieldOf("radiusZ").forGetter(AreaCheck::rZ),
                 Codec.INT.fieldOf("requiredAmount").forGetter(AreaCheck::requiredAmount),
-                Codec.INT.optionalFieldOf("yOffset").forGetter(AreaCheck::yOffset)
+                Codec.INT.optionalFieldOf("yOffset").forGetter(AreaCheck::yOffset),
+                RuleTest.CODEC.optionalFieldOf("must_have").forGetter(AreaCheck::mustHavePredicate),
+                RuleTest.CODEC.optionalFieldOf("must_not_have").forGetter(AreaCheck::mustNotHavePredicate)
         ).apply(instance, AreaCheck::new));
         static final AreaConditionType<AreaCheck> TYPE = new AreaConditionType<>(AreaCheck.CODEC, AreaCheck.NAME);
 
@@ -80,7 +82,7 @@ public interface AreaCondition {
                                 Optional<Integer> requiredAmount) implements AreaCondition {
 
 
-        public static final String NAME = "neighbor_check";
+        public static final String NAME = "neighbor_based_generation";
         public static final Codec<NeighborCheck> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 RuleTest.CODEC.fieldOf("must_have").forGetter(NeighborCheck::mustHavePredicate),
                 RuleTest.CODEC.optionalFieldOf("must_not_have").forGetter(NeighborCheck::mustNotHavePredicate),
