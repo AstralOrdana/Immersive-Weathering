@@ -13,13 +13,11 @@ import com.ordana.immersive_weathering.common.entity.FollowLeafCrownGoal;
 import com.ordana.immersive_weathering.common.items.ModItems;
 import com.ordana.immersive_weathering.data.AreaCondition;
 import com.ordana.immersive_weathering.data.BlockGrowthConfiguration;
+import com.ordana.immersive_weathering.data.BlockGrowthManager;
 import com.ordana.immersive_weathering.data.BlockPair;
-import com.ordana.immersive_weathering.data.GenericResourceReloadListener;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.server.level.ServerPlayer;
@@ -43,6 +41,7 @@ import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RandomBlockMatchTest;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -51,7 +50,6 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -62,14 +60,13 @@ import java.util.Optional;
 @Mod.EventBusSubscriber(modid = ImmersiveWeathering.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
 
-    static GenericResourceReloadListener<BlockGrowthConfiguration> aa = new GenericResourceReloadListener<>(
-            "test", BlockGrowthConfiguration.class, BlockGrowthConfiguration.CODEC);
+    static BlockGrowthManager manager = new BlockGrowthManager();
 
     @SubscribeEvent
     public static void onAddReloadListeners(final AddReloadListenerEvent event) {
-        event.addListener(aa);
+        event.addListener(manager);
 
-
+if(true)return;
         File folder = FMLPaths.GAMEDIR.get().resolve("recorded_songs").toFile();
 
         if (!folder.exists()) {
@@ -80,17 +77,17 @@ public class ModEvents {
 
         try {
             var b = new SimpleWeightedRandomList.Builder<BlockPair>();
-            for(var l : WeatheringHelper.BIOME_FLOWERS.get().get(Biomes.PLAINS).unwrap()){
-                b.add(BlockPair.of(l.getData().defaultBlockState(),l.getData().defaultBlockState()), l.getWeight().asInt());
+            for (var l : WeatheringHelper.BIOME_FLOWERS.get().get(Biomes.PLAINS).unwrap()) {
+                b.add(BlockPair.of(l.getData()), l.getWeight().asInt());
             }
-            var randomBlockList  = new BlockGrowthConfiguration.RandomBlockList(
-                    Optional.of(Direction.SOUTH),Optional.of(6),b.build());
-            var ac = new AreaCondition.AreaCheck(3,3,3,12,Optional.empty(),
-                    Optional.of(new BlockMatchTest(Blocks.LAVA)),Optional.of(new BlockMatchTest(Blocks.WATER)));
-           var r = new BlockGrowthConfiguration( new BlockMatchTest(Blocks.NETHERRACK), ac,
-                   List.of(randomBlockList),Blocks.MAGMA_BLOCK, Optional.of(BuiltinRegistries.BIOME.getOrCreateTag(BiomeTags.IS_NETHER)));
+            var randomBlockList = new BlockGrowthConfiguration.JsonReadyRandomBlockList(
+                    Optional.empty(), Optional.empty(), b.build());
+            var ac = new AreaCondition.AreaCheck(3, 3, 3, 12, Optional.empty(),
+                    Optional.of(new RandomBlockMatchTest(Blocks.LAVA, 0.9f)), Optional.of(new BlockMatchTest(Blocks.WATER)));
+            var r = new BlockGrowthConfiguration(new BlockMatchTest(Blocks.NETHERRACK), ac,
+                    List.of(randomBlockList), Blocks.MAGMA_BLOCK, Optional.of(BuiltinRegistries.BIOME.getOrCreateTag(BiomeTags.IS_NETHER)));
             try (FileWriter writer = new FileWriter(exportPath)) {
-                aa.writeToFile(r,writer);
+                manager.writeToFile(r, writer);
             }
         } catch (IOException e) {
             e.printStackTrace();

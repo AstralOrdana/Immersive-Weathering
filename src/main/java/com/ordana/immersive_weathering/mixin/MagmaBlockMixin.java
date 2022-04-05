@@ -1,10 +1,8 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.common.blocks.WeatheringHelper;
+import com.ordana.immersive_weathering.data.BlockGrowthManager;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.MagmaBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,13 +18,7 @@ public abstract class MagmaBlockMixin {
     @Inject(method = "randomTick", at = @At("TAIL"))
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
         if (random.nextFloat() > 0.5f) {
-            if (!world.isAreaLoaded(pos, 2)) return;
-            var targetPos = pos.relative(Direction.getRandom(random));
-            if (world.getBlockState(targetPos).is(Blocks.NETHERRACK)) {
-                if (WeatheringHelper.canMagmaSpread(pos, 3, world, 12)) {
-                    world.setBlockAndUpdate(targetPos, Blocks.MAGMA_BLOCK.defaultBlockState());
-                }
-            }
+            BlockGrowthManager.performGrowth(state, world, pos);
         }
     }
 }

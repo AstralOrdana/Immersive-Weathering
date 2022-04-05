@@ -46,9 +46,10 @@ public interface AreaCondition {
     //implementations
 
     public record AreaCheck(int rX, int rY, int rZ, int requiredAmount, Optional<Integer> yOffset,
-                            Optional<RuleTest> mustHavePredicate, Optional<RuleTest> mustNotHavePredicate) implements AreaCondition {
+                            Optional<RuleTest> mustHavePredicate,
+                            Optional<RuleTest> mustNotHavePredicate) implements AreaCondition {
 
-        public static final String NAME = "generate_if_not_enough";
+        public static final String NAME = "generate_if_not_too_many";
         public static final Codec<AreaCheck> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 Codec.INT.fieldOf("radiusX").forGetter(AreaCheck::rX),
                 Codec.INT.fieldOf("radiusY").forGetter(AreaCheck::rY),
@@ -68,8 +69,23 @@ public interface AreaCondition {
         @Override
         public boolean isValid(BlockPos pos, Level level, BlockGrowthConfiguration config) {
             if (yOffset.isPresent()) pos = pos.above(yOffset.get());
-            return !WeatheringHelper.hasEnoughBlocksAround(pos, rX, rY, rZ, level,
-                    b -> config.getPossibleBlocks().contains(b.getBlock()), requiredAmount);
+            int count = 0;
+            Random random = new Random(Mth.getSeed(pos));
+            boolean hasRequirement = this.mustHavePredicate.isEmpty();
+            //shuffling. provides way better result that iterating through it conventionally
+            var list = WeatheringHelper.grabBlocksAroundRandomly(pos, rX, rY, rZ);
+            for (BlockPos p : list) {
+                BlockState state = level.getBlockState(p);
+                if (config.getPossibleBlocks().contains(state.getBlock())) count += 1;
+                else {
+                    var fluid = state.getFluidState();
+                    if (!hasRequirement && mustHavePredicate.get().test(state, random)) hasRequirement = true;
+                    else if (mustNotHavePredicate.isPresent() && mustNotHavePredicate.get().test(state, random))
+                        return false;
+                }
+                if (count >= requiredAmount) return false;
+            }
+            return hasRequirement;
         }
 
         public int getMaxRange() {

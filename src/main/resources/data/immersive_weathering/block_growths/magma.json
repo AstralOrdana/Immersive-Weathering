@@ -1,0 +1,37 @@
+{
+  "area_condition": {
+    "must_have": {
+      "fluid": "minecraft:lava",
+      "predicate_type": "immersive_weathering:fluid_match"
+    },
+    "must_not_have": {
+      "fluid": "minecraft:water",
+      "predicate_type": "immersive_weathering:fluid_match"
+    },
+    "radiusX": 3,
+    "radiusY": 3,
+    "radiusZ": 3,
+    "requiredAmount": 12,
+    "type": "generate_if_not_too_many"
+  },
+  "biomes": "#minecraft:is_nether",
+  "growth_for_face": [
+    {
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:magma_block"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owner": "minecraft:magma_block",
+  "replacing_target": {
+    "block": "minecraft:netherrack",
+    "predicate_type": "minecraft:block_match"
+  }
+}
