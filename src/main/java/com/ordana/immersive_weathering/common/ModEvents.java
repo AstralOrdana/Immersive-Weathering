@@ -85,7 +85,7 @@ public class ModEvents {
             }
             var randomBlockList  = new BlockGrowthConfiguration.RandomBlockList(
                     Optional.of(Direction.SOUTH),Optional.of(6),b.build());
-            var ac = new AreaCondition.AreaCheck(3,4,3,12,Optional.empty(),
+            var ac = new AreaCondition.AreaCheck(3,3,3,12,Optional.empty(),
                     Optional.of(new BlockMatchTest(Blocks.LAVA)),Optional.of(new BlockMatchTest(Blocks.WATER)));
            var r = new BlockGrowthConfiguration( new BlockMatchTest(Blocks.NETHERRACK), ac,
                    List.of(randomBlockList),Blocks.MAGMA_BLOCK, Optional.of(BuiltinRegistries.BIOME.getOrCreateTag(BiomeTags.IS_NETHER)));
