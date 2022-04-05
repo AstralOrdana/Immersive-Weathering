@@ -11,6 +11,10 @@ import com.ordana.immersive_weathering.common.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.common.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.common.entity.FollowLeafCrownGoal;
 import com.ordana.immersive_weathering.common.items.ModItems;
+import com.ordana.immersive_weathering.data.AreaCondition;
+import com.ordana.immersive_weathering.data.BlockGrowthConfiguration;
+import com.ordana.immersive_weathering.data.BlockPair;
+import com.ordana.immersive_weathering.data.GenericResourceReloadListener;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -19,6 +23,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -26,22 +32,66 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraftforge.common.ToolActions;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLPaths;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = ImmersiveWeathering.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
 
+    static GenericResourceReloadListener<BlockGrowthConfiguration> aa = new GenericResourceReloadListener<>(
+            "test", BlockGrowthConfiguration.class, BlockGrowthConfiguration.CODEC);
+
+    @SubscribeEvent
+    public static void onAddReloadListeners(final AddReloadListenerEvent event) {
+        event.addListener(aa);
+
+
+        File folder = FMLPaths.GAMEDIR.get().resolve("recorded_songs").toFile();
+
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+
+        File exportPath = new File(folder, "bb.json");
+
+        try {
+            var b = new SimpleWeightedRandomList.Builder<BlockPair>();
+            for(var l : WeatheringHelper.BIOME_FLOWERS.get().get(Biomes.PLAINS).unwrap()){
+                b.add(BlockPair.of(l.getData().defaultBlockState(),l.getData().defaultBlockState()), l.getWeight().asInt());
+            }
+            var randomBlockList  = new BlockGrowthConfiguration.RandomBlockList(
+                    Optional.of(Direction.SOUTH),Optional.of(6),b.build());
+            var ac = new AreaCondition.AreaCheck(3,4,5,8,Optional.of(2));
+           var r = new BlockGrowthConfiguration( new BlockMatchTest(Blocks.NETHERRACK), ac,
+                   List.of(randomBlockList),Blocks.GRASS, Optional.empty());
+            try (FileWriter writer = new FileWriter(exportPath)) {
+                aa.writeToFile(r,writer);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     @SubscribeEvent
     public static void onEntityJoin(EntityJoinWorldEvent event) {

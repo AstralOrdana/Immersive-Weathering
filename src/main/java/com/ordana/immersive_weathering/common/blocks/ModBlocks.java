@@ -12,10 +12,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -46,7 +43,7 @@ public class ModBlocks {
 
     public static RegistryObject<Block> regWithItem(String name, Supplier<Block> supplier) {
         var b = BLOCKS.register(name, supplier);
-        ModItems.regBlockItem(b,new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS));
+        ModItems.regBlockItem(b, new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS));
         return b;
     }
 
@@ -64,31 +61,39 @@ public class ModBlocks {
     public static final RegistryObject<Block> OAK_LEAF_PILE = reg("OAK_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
             new LeafPileBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).randomTicks().instabreak().sound(SoundType.GRASS).noOcclusion().isValidSpawn(ModBlocks::canSpawnOnLeaves)
                     .isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never),
-                    false, false, List.of(ModParticles.OAK_LEAF)));
+                    false, false, true, List.of(ModParticles.OAK_LEAF)));
 
     public static final RegistryObject<Block> BIRCH_LEAF_PILE = reg("BIRCH_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, false, List.of(ModParticles.BIRCH_LEAF)));
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, false, true,
+                    List.of(ModParticles.BIRCH_LEAF)));
 
     public static final RegistryObject<Block> SPRUCE_LEAF_PILE = reg("SPRUCE_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, true, List.of(ModParticles.SPRUCE_LEAF)));
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, true, false,
+                    List.of(ModParticles.SPRUCE_LEAF)));
 
     public static final RegistryObject<Block> JUNGLE_LEAF_PILE = reg("JUNGLE_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, false, List.of(ModParticles.JUNGLE_LEAF)));
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, false, true,
+                    List.of(ModParticles.JUNGLE_LEAF)));
 
     public static final RegistryObject<Block> ACACIA_LEAF_PILE = reg("ACACIA_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, false, List.of(ModParticles.ACACIA_LEAF)));
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, false, false,
+                    List.of(ModParticles.ACACIA_LEAF)));
 
     public static final RegistryObject<Block> DARK_OAK_LEAF_PILE = reg("DARK_OAK_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, false, List.of(ModParticles.DARK_OAK_LEAF)));
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, false, true,
+                    List.of(ModParticles.DARK_OAK_LEAF)));
 
     public static final RegistryObject<Block> AZALEA_LEAF_PILE = reg("AZALEA_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()).sound(SoundType.AZALEA_LEAVES), false, false, List.of(ModParticles.AZALEA_LEAF)));
+            new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()).sound(SoundType.AZALEA_LEAVES), false, false, false,
+                    List.of(ModParticles.AZALEA_LEAF)));
 
     public static final RegistryObject<Block> FLOWERING_AZALEA_LEAF_PILE = reg("FLOWERING_AZALEA_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.copy(AZALEA_LEAF_PILE.get()), true, false, List.of(ModParticles.AZALEA_LEAF, ModParticles.AZALEA_FLOWER)));
+            new LeafPileBlock(BlockBehaviour.Properties.copy(AZALEA_LEAF_PILE.get()), true, false, false,
+                    List.of(ModParticles.AZALEA_LEAF, ModParticles.AZALEA_FLOWER)));
 
     public static final RegistryObject<Block> AZALEA_FLOWER_PILE = reg("AZALEA_FLOWER_PILE".toLowerCase(Locale.ROOT), () ->
-            new LeafPileBlock(BlockBehaviour.Properties.copy(AZALEA_LEAF_PILE.get()), true, false, List.of(ModParticles.AZALEA_FLOWER)));
+            new LeafPileBlock(BlockBehaviour.Properties.copy(AZALEA_LEAF_PILE.get()), true, false, false,
+                    List.of(ModParticles.AZALEA_FLOWER)));
 
     public static final RegistryObject<Block> WEEDS = reg("WEEDS".toLowerCase(Locale.ROOT), () ->
             new WeedsBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
@@ -176,14 +181,16 @@ public class ModBlocks {
             new CrackedWallBlock(Crackable.CrackLevel.CRACKED, ModItems.DEEPSLATE_TILE,
                     BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE_TILES)));
 
-    public static final RegistryObject<Block> MULCH_BLOCK = reg("MULCH_BLOCK".toLowerCase(Locale.ROOT), () ->
-            new MulchBlock(BlockBehaviour.Properties.of(Material.WOOD).strength(1f, 1f).sound(SoundType.WOOD).randomTicks()));
-    public static final RegistryObject<Block> NULCH_BLOCK = reg("NULCH_BLOCK".toLowerCase(Locale.ROOT), () ->
-            new NulchBlock(BlockBehaviour.Properties.of(Material.NETHER_WOOD).strength(1f, 1f).sound(SoundType.STEM).lightLevel(createLightLevelFromMoltenBlockState(10)).randomTicks()));
-    public static final RegistryObject<Block> MULCH = reg("MULCH".toLowerCase(Locale.ROOT), () ->
-            new MulchCarpetBlock(BlockBehaviour.Properties.of(Material.WOOD).strength(1f, 1f).sound(SoundType.WOOD), ModParticles.MULCH));
-    public static final RegistryObject<Block> NULCH = reg("NULCH".toLowerCase(Locale.ROOT), () ->
-            new MulchCarpetBlock(BlockBehaviour.Properties.of(Material.NETHER_WOOD).strength(1f, 1f).sound(SoundType.STEM), ModParticles.NULCH));
+    public static final RegistryObject<Block> MULCH_BLOCK = reg("mulch_block", () ->
+            new MulchBlock(BlockBehaviour.Properties.of(Material.WOOD).strength(1f, 1f)
+                    .sound(SoundType.ROOTED_DIRT).randomTicks()));
+    public static final RegistryObject<Block> NULCH_BLOCK = reg("nulch_block", () ->
+            new NulchBlock(BlockBehaviour.Properties.of(Material.NETHER_WOOD).strength(1f, 1f)
+                    .sound(SoundType.NETHER_WART).lightLevel(createLightLevelFromMoltenBlockState(10)).randomTicks()));
+    public static final RegistryObject<Block> MULCH = reg("mulch", () ->
+            new MulchCarpetBlock(BlockBehaviour.Properties.copy(MULCH_BLOCK.get()).strength(0.25f,0.25f), ModParticles.MULCH));
+    public static final RegistryObject<Block> NULCH = reg("nulch", () ->
+            new MulchCarpetBlock(BlockBehaviour.Properties.copy(NULCH_BLOCK.get()).strength(0.25f,0.25f).lightLevel(s->0), ModParticles.NULCH));
 
 
     //cut iron
@@ -372,6 +379,14 @@ public class ModBlocks {
     public static final RegistryObject<Block> PRISMARINE_BRICK_WALL = regWithItem("PRISMARINE_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
             new CrackedWallBlock(Crackable.CrackLevel.UNCRACKED, ModItems.PRISMARINE_BRICK, BlockBehaviour.Properties.copy(Blocks.PRISMARINE)));
 
+
+    public static final RegistryObject<Block> VITRIFIED_SAND = regWithItem("vitrified_sand", () ->
+            new GlassBlock( BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.TERRACOTTA_YELLOW).strength(2f, 6f)
+                    .sound(SoundType.TUFF).requiresCorrectToolForDrops().noOcclusion()));
+
+    public static final RegistryObject<Block> HUMUS = regWithItem("humus", () ->
+            new SoilBlock(BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.TERRACOTTA_GREEN).strength(0.5f)
+                    .sound(SoundType.GRAVEL),null));
 
     //-----overrides------
     /*

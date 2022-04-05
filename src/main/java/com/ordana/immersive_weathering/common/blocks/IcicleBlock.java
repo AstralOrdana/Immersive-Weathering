@@ -188,7 +188,6 @@ public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
     @Override
     public void onBrokenAfterFall(Level world, BlockPos pos, FallingBlockEntity fallingBlockEntity) {
         if (!fallingBlockEntity.isSilent()) {
-            //world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1, world.random.nextFloat() * 0.1F + 0.9F);
             world.levelEvent(LevelEvent.PARTICLES_DESTROY_BLOCK,pos, Block.getId(this.defaultBlockState()));
         }
     }
@@ -210,6 +209,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
             }
             mutable.move(Direction.DOWN);
         }
+        //TODO: maybe make it so it always fall as a whole because here sometimes if lower part gets ticked it just falls as is
 
         mutable = pos.mutable();
 

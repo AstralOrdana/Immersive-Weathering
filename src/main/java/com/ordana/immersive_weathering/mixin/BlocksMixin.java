@@ -967,4 +967,60 @@ public abstract class BlocksMixin {
     private static WallBlock endStoneBrickWall(BlockBehaviour.Properties settings) {
         return new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, () -> ModItems.END_STONE_BRICK.get(), settings);
     }
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/Block",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=stone"
+                    )
+            )
+    )
+    private static Block stone(BlockBehaviour.Properties settings) {
+        return new MossableBlock(Mossable.MossLevel.UNAFFECTED, settings);
+    }
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/SlabBlock",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=stone_slab"
+                    )
+            )
+    )
+    private static SlabBlock stoneSlab(BlockBehaviour.Properties settings) {
+        return new MossableSlabBlock(Mossable.MossLevel.UNAFFECTED, settings);
+    }
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/StairBlock",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=stone_stairs"
+                    )
+            )
+    )
+    private static StairBlock stoneStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
+        return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, () -> Blocks.STONE, settings);
+    }
+
+
 }

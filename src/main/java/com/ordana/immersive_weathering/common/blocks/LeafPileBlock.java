@@ -19,6 +19,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -54,16 +55,18 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
     private static final float[] COLLISIONS = new float[]{1, 0.999f, 0.998f, 0.997f, 0.996f, 0.994f, 0.993f, 0.992f};
 
     private final boolean hasFlowers; //if it can be boneMealed
-    private final boolean hasThorns; //if it can hurt
+    private final boolean hasThorns; //if it can hurt & make podzol
+    private final boolean isLeafy; //if it can make humus
     private final List<RegistryObject<SimpleParticleType>> particles;
 
-    protected LeafPileBlock(Properties settings, boolean hasFlowers, boolean hasThorns,
+    protected LeafPileBlock(Properties settings, boolean hasFlowers, boolean hasThorns, boolean isLeafy,
                             List<RegistryObject<SimpleParticleType>> particles) {
         super(settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, 1));
         this.hasFlowers = hasFlowers;
         this.hasThorns = hasThorns;
         this.particles = particles;
+        this.isLeafy = isLeafy;
     }
 
     @Override
@@ -255,11 +258,12 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         int layers = this.getLayers(state);
-        if (layers > 1 && this.hasThorns) {
-            if(world.getBiome(pos).is(ModTags.OLD_GROWTH)) {
+        if (layers > 1) {
+            //TODO: something (biome)
+            if(this.isLeafy || this.hasThorns) {
                 BlockState below = world.getBlockState(pos.below());
                 if (below.is(Blocks.GRASS_BLOCK) || below.is(Blocks.DIRT) || below.is(Blocks.COARSE_DIRT) || below.is(Blocks.ROOTED_DIRT)) {
-                    world.setBlock(pos.below(), Blocks.PODZOL.defaultBlockState(), 2);
+                    world.setBlock(pos.below(), (isLeafy ? ModBlocks.HUMUS.get() : Blocks.PODZOL).defaultBlockState(), 2);
                 }
             }
         }

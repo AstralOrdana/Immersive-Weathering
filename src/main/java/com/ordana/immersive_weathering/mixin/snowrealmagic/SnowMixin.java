@@ -36,4 +36,5 @@ public abstract class SnowMixin {
 
         instance.handlePrecipitation(state, level, pos, precipitation);
     }
+
 }

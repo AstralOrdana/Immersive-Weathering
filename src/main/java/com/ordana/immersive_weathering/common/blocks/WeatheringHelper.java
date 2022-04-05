@@ -6,7 +6,6 @@ import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.common.items.ModItems;
-import com.ordana.immersive_weathering.mixin.LeavesMixin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
@@ -35,7 +34,7 @@ public class WeatheringHelper {
 
 
     //TODO: maybe finish this
-    private static final Supplier<Map<ResourceKey<Biome>, SimpleWeightedRandomList<Block>>> BIOME_FLOWERS = Suppliers.memoize(() -> ImmutableMap.<ResourceKey<Biome>, SimpleWeightedRandomList<Block>>builder()
+    public static final Supplier<Map<ResourceKey<Biome>, SimpleWeightedRandomList<Block>>> BIOME_FLOWERS = Suppliers.memoize(() -> ImmutableMap.<ResourceKey<Biome>, SimpleWeightedRandomList<Block>>builder()
             .put(Biomes.PLAINS, SimpleWeightedRandomList.<Block>builder()
                     .add(Blocks.GRASS, 300)
                     .add(Blocks.DANDELION, 50)
@@ -232,7 +231,7 @@ public class WeatheringHelper {
                 if (!hasLava && fluid.is(FluidTags.LAVA)) hasLava = true;
                 else if (fluid.is(FluidTags.WATER)) return false;
             }
-            if (count >= 12) return false;
+            if (count >= maximumSize) return false;
         }
         return hasLava;
     }
@@ -266,6 +265,15 @@ public class WeatheringHelper {
                     .add(Direction.EAST, 5)
                     .add(Direction.UP, 1)
                     .add(Direction.DOWN, 20)
+                    .build();
+
+    public static final SimpleWeightedRandomList<Direction> CORAL_DIRECTIONS =
+            SimpleWeightedRandomList.<Direction>builder()
+                    .add(Direction.NORTH, 1)
+                    .add(Direction.SOUTH, 1)
+                    .add(Direction.WEST, 1)
+                    .add(Direction.EAST, 1)
+                    .add(Direction.UP, 5)
                     .build();
 
 
