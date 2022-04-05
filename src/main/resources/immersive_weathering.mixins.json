@@ -24,7 +24,7 @@
     "SpreadableDirtBlockMixin",
     "SweetBerryBushMixin",
     "TallGrassMixin",
-    "WaterMixin",
+    "LiquidBlockMixin",
     "WebMixin",
     "snowrealmagic.SnowMixin"
   ],

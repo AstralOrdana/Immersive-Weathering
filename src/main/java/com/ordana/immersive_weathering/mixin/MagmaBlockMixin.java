@@ -23,7 +23,7 @@ public abstract class MagmaBlockMixin {
             if (!world.isAreaLoaded(pos, 2)) return;
             var targetPos = pos.relative(Direction.getRandom(random));
             if (world.getBlockState(targetPos).is(Blocks.NETHERRACK)) {
-                if (WeatheringHelper.canMagmaSpread(pos, 3, world, 8)) {
+                if (WeatheringHelper.canMagmaSpread(pos, 3, world, 12)) {
                     world.setBlockAndUpdate(targetPos, Blocks.MAGMA_BLOCK.defaultBlockState());
                 }
             }

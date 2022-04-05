@@ -41,7 +41,7 @@ public interface SpreadingPatchBlock<T extends Enum<?>> {
         Random posRandom = new Random(Mth.getSeed(pos));
         var directions = getInfluenceForDirections(posRandom, pos, level);
 
-        //list of weathering effects of surrounding blocks
+        //randomList of weathering effects of surrounding blocks
         List<WeatheringAgent> weatheringAgents = new ArrayList<>();
         boolean needsAir = this.needsAirToSpread(level, pos);
         boolean hasAir = false;

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.ordana.immersive_weathering.common.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -21,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LiquidBlock.class)
-public abstract class WaterMixin extends Block implements BucketPickup {
+public abstract class LiquidBlockMixin extends Block implements BucketPickup {
 
     @Shadow
     @Final
@@ -33,7 +34,7 @@ public abstract class WaterMixin extends Block implements BucketPickup {
     @Shadow
     public abstract FlowingFluid getFluid();
 
-    public WaterMixin(Properties settings, FlowingFluid fluid) {
+    public LiquidBlockMixin(Properties settings, FlowingFluid fluid) {
         super(settings);
     }
 
@@ -51,6 +52,8 @@ public abstract class WaterMixin extends Block implements BucketPickup {
             boolean hasMagma = false;
             boolean hasBubbles = false;
             boolean hasSoulfire = false;
+            boolean hasClay = false;
+            boolean hasSand = false;
 
             BlockState downState = world.getBlockState(pos.below());
 
@@ -83,6 +86,10 @@ public abstract class WaterMixin extends Block implements BucketPickup {
                     hasMagma = true;
                 } else if (currentState.is(Blocks.SOUL_FIRE)) {
                     hasSoulfire = true;
+                }else if(currentState.is(Blocks.CLAY)){
+                    hasClay = true;
+                }else if(currentState.is(BlockTags.SAND)){
+                    hasSand = true;
                 }
 
 
@@ -104,6 +111,10 @@ public abstract class WaterMixin extends Block implements BucketPickup {
                     newState = Blocks.MAGMA_BLOCK.defaultBlockState();
                 } else if (hasSoulfire) {
                     newState = Blocks.CRYING_OBSIDIAN.defaultBlockState();
+                }else if(hasClay){
+                    newState = Blocks.TERRACOTTA.defaultBlockState();
+                }else if(hasSand){
+                    newState = ModBlocks.VITRIFIED_SAND.get().defaultBlockState();
                 }
 
                 if (newState != null) {
