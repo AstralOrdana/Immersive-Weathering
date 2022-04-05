@@ -43,7 +43,6 @@ public class FluidMixin extends Block implements FluidDrainable {
 
     @Inject(method = "receiveNeighborFluids", at = @At("HEAD"), cancellable = true)
     public void receiveNeighborFluids(World world, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
-        FluidState fluidState = world.getFluidState(pos);
         if (this.fluid.isIn(FluidTags.LAVA)) {
             boolean hasWater = false;
             boolean blueIceDown = false;
@@ -53,10 +52,15 @@ public class FluidMixin extends Block implements FluidDrainable {
             boolean hasDiorite = false;
             boolean hasAsh = false;
             boolean hasMagma = false;
+            boolean magmaDown = false;
             boolean hasBubbles = false;
             boolean hasSoulfire = false;
             boolean hasClay = false;
             boolean hasSand = false;
+            boolean hasRedSand = false;
+            boolean hasRawGold = false;
+            boolean hasRawIron = false;
+            boolean hasRawCopper = false;
             for (Direction direction : DIRECTIONS) {
                 BlockPos blockPos = pos.offset(direction.getOpposite());
                 if (world.getFluidState(blockPos).isIn(FluidTags.WATER)) {
@@ -68,6 +72,15 @@ public class FluidMixin extends Block implements FluidDrainable {
                 if (world.getBlockState(pos.up()).isOf(Blocks.BLUE_ICE)) {
                     blueIceUp = true;
                 }
+                if (world.getBlockState(blockPos).isOf(Blocks.BLUE_ICE)) {
+                    hasBlueIce = true;
+                }
+                if (world.getBlockState(pos.down()).isOf(Blocks.MAGMA_BLOCK)) {
+                    magmaDown = true;
+                }
+                if (world.getBlockState(blockPos).isOf(Blocks.MAGMA_BLOCK)) {
+                    hasMagma = true;
+                }
                 if (world.getBlockState(blockPos).isOf(Blocks.SMOOTH_QUARTZ)) {
                     hasQuartz = true;
                 }
@@ -76,12 +89,6 @@ public class FluidMixin extends Block implements FluidDrainable {
                 }
                 if (world.getBlockState(blockPos).isOf(ModBlocks.ASH_BLOCK)) {
                     hasAsh = true;
-                }
-                if (world.getBlockState(blockPos).isOf(Blocks.BLUE_ICE)) {
-                    hasBlueIce = true;
-                }
-                if (world.getBlockState(blockPos).isOf(Blocks.MAGMA_BLOCK)) {
-                    hasMagma = true;
                 }
                 if (world.getBlockState(pos.down()).isOf(Blocks.BUBBLE_COLUMN)) {
                     hasBubbles = true;
@@ -92,8 +99,20 @@ public class FluidMixin extends Block implements FluidDrainable {
                 if (world.getBlockState(blockPos).isOf(Blocks.CLAY)) {
                     hasClay = true;
                 }
-                if (world.getBlockState(blockPos).isIn(BlockTags.SAND)) {
+                if (world.getBlockState(blockPos).isOf(Blocks.SAND)) {
                     hasSand = true;
+                }
+                if (world.getBlockState(blockPos).isOf(Blocks.RED_SAND)) {
+                    hasRedSand = true;
+                }
+                if (world.getBlockState(blockPos).isOf(Blocks.RAW_GOLD_BLOCK)) {
+                    hasRawGold = true;
+                }
+                if (world.getBlockState(blockPos).isOf(Blocks.RAW_IRON_BLOCK)) {
+                    hasRawIron = true;
+                }
+                if (world.getBlockState(blockPos).isOf(Blocks.RAW_COPPER_BLOCK)) {
+                    hasRawCopper = true;
                 }
                 if (blueIceDown && blueIceUp) {
                     world.setBlockState(pos, Blocks.DEEPSLATE.getDefaultState());
@@ -130,7 +149,7 @@ public class FluidMixin extends Block implements FluidDrainable {
                     this.playExtinguishSound(world, pos);
                     cir.setReturnValue(false);
                 }
-                if (hasSoulfire) {
+                if (hasWater && hasSoulfire) {
                     world.setBlockState(pos, Blocks.CRYING_OBSIDIAN.getDefaultState());
                     this.playExtinguishSound(world, pos);
                     cir.setReturnValue(false);
@@ -142,28 +161,41 @@ public class FluidMixin extends Block implements FluidDrainable {
                         cir.setReturnValue(false);
                     }
                 }
-                if (hasSand) {
+                if (hasSand || hasRedSand) {
                     if (world.getBlockState(blockPos).isIn(BlockTags.SAND)) {
                         world.setBlockState(blockPos, ModBlocks.VITRIFIED_SAND.getDefaultState());
                         this.playExtinguishSound(world, pos);
                         cir.setReturnValue(false);
                     }
                 }
+                if (magmaDown && blueIceUp && hasRawGold) {
+                    world.setBlockState(pos, Blocks.SANDSTONE.getDefaultState());
+                    this.playExtinguishSound(world, pos);
+                    cir.setReturnValue(false);
+                }
+                if (magmaDown && blueIceUp && hasRawIron) {
+                    world.setBlockState(pos, Blocks.RED_SANDSTONE.getDefaultState());
+                    this.playExtinguishSound(world, pos);
+                    cir.setReturnValue(false);
+                }
+                if (magmaDown && blueIceUp && hasRawCopper) {
+                    world.setBlockState(pos, Blocks.PRISMARINE.getDefaultState());
+                    this.playExtinguishSound(world, pos);
+                    cir.setReturnValue(false);
+                }
             }
         }
-        else if (this.fluid.isIn(FluidTags.WATER) && !this.fluid.isStill(fluidState)) {
-            boolean hasSandstone = false;
-            for (Direction direction : FLOW_DIRECTIONS) {
+        else if (this.fluid.isIn(FluidTags.WATER)) {
+            boolean hasBlueIce = false;
+            for (Direction direction : DIRECTIONS) {
                 BlockPos blockPos = pos.offset(direction.getOpposite());
-                if (world.getBlockState(blockPos).isOf(Blocks.SANDSTONE)) {
-                    hasSandstone = true;
+                if (world.getBlockState(blockPos).isOf(Blocks.BLUE_ICE)) {
+                    hasBlueIce = true;
                 }
-                if (hasSandstone) {
-                    if (world.getBlockState(pos.down()).isOf(Blocks.AIR)) {
-                        world.setBlockState(pos.down(), Blocks.SAND.getDefaultState());
-                        this.playExtinguishSound(world, pos);
-                        cir.setReturnValue(false);
-                    }
+                if (hasBlueIce) {
+                    world.setBlockState(pos, Blocks.ICE.getDefaultState());
+                    this.playExtinguishSound(world, pos);
+                    cir.setReturnValue(false);
                 }
             }
         }
