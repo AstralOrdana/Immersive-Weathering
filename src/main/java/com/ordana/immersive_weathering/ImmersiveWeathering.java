@@ -4,7 +4,9 @@ import com.ordana.immersive_weathering.common.*;
 import com.ordana.immersive_weathering.common.blocks.ModBlocks;
 import com.ordana.immersive_weathering.common.entity.ModEntities;
 import com.ordana.immersive_weathering.common.items.ModItems;
+import com.ordana.immersive_weathering.data.BlockSetMatchTest;
 import com.ordana.immersive_weathering.data.FluidMatchTest;
+import com.ordana.immersive_weathering.data.LogMatchTest;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -50,7 +52,10 @@ public class ImmersiveWeathering {
     public static void init(final FMLCommonSetupEvent event) {
         ModCompostable.registerCompostable();
         ModFeatures.init();
+
         FluidMatchTest.init();
+        LogMatchTest.init();
+        BlockSetMatchTest.init();
         //ModEvents.registerEvents();
 
         /*

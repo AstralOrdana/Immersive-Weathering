@@ -37,7 +37,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RandomBlockMatchTest;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -113,7 +112,7 @@ public class ModEvents {
 
             var ac = new AreaCondition.AreaCheck(2, 2, 2, 6, Optional.empty(), Optional.empty(),Optional.empty());
             var r = new BlockGrowthConfiguration(1,new RandomBlockMatchTest(Blocks.WATER, 0.8f), ac,
-                    list, Blocks.BRAIN_CORAL, Optional.of(List.of(new BiomeRuleTest.BiomeSetMatchTest(
+                    list, Blocks.BRAIN_CORAL, Optional.of(List.of(new PositionRuleTest.BiomeSetMatchTest(
                             BuiltinRegistries.BIOME.getOrCreateTag(BiomeTags.IS_NETHER)))));
             try (FileWriter writer = new FileWriter(exportPath)) {
                 GROWTH_MANAGER.writeToFile(r, writer);

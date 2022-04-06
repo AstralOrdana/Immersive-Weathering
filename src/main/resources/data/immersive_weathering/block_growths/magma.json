@@ -15,7 +15,12 @@
     "requiredAmount": 12,
     "type": "generate_if_not_too_many"
   },
-  "biomes": "#minecraft:has_structure/igloo",
+  "position_predicates": [
+    {
+      "biomes":"#minecraft:is_nether",
+      "predicate_type": "biome_match"
+    }
+  ],
   "growth_for_face": [
     {
       "growth": [

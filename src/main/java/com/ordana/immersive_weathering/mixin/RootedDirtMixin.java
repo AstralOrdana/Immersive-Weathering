@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.common.blocks.ModBlocks;
 import com.ordana.immersive_weathering.common.blocks.WeatheringHelper;
+import com.ordana.immersive_weathering.data.BlockGrowthManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -30,36 +31,8 @@ public abstract class RootedDirtMixin extends Block implements BonemealableBlock
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
-        if (random.nextFloat() < 0.1f) {
-            if (!world.isAreaLoaded(pos, 4)) return;
-
-            //spread roots downwards
-            if (WeatheringHelper.canRootsSpread(pos, 5, 2, world, 15)) {
-                Direction rootDirection = WeatheringHelper.ROOT_DIRECTIONS.getRandomValue(random).get();
-                var targetPos = pos.relative(rootDirection);
-                if (world.getBlockState(targetPos).is(Blocks.DIRT)) {
-                    world.setBlock(targetPos, Blocks.ROOTED_DIRT.defaultBlockState(), 3);
-                }
-            }
-
-
-            //spawn hanging roots
-            Direction dir = Direction.values()[1 + random.nextInt(5)].getOpposite();
-            BlockPos targetPos = pos.relative(dir);
-            BlockState targetState = world.getBlockState(targetPos);
-            BlockState newState = dir == Direction.DOWN ? Blocks.HANGING_ROOTS.defaultBlockState() :
-                    ModBlocks.HANGING_ROOTS_WALL.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, dir);
-            if (targetState.is(Blocks.WATER)) {
-                newState = newState.setValue(BlockStateProperties.WATERLOGGED, true);
-            } else if (!targetState.isAir()) {
-                return;
-            }
-            if (!WeatheringHelper.hasEnoughBlocksAround(pos, 4, world, b -> b.is(Blocks.HANGING_ROOTS), 8)) {
-                world.setBlockAndUpdate(targetPos, newState);
-            }
-        }
-
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+        BlockGrowthManager.execute(state, level, pos);
     }
 
     @Override

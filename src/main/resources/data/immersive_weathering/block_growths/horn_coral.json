@@ -25,7 +25,7 @@
                 "waterlogged": "true",
                 "facing": "north"
               },
-              "Name": "minecraft:brain_coral_wall_fan"
+              "Name": "minecraft:horn_coral_wall_fan"
             }
           },
           "weight": 50
@@ -51,7 +51,7 @@
                 "waterlogged": "true",
                 "facing": "east"
               },
-              "Name": "minecraft:brain_coral_wall_fan"
+              "Name": "minecraft:horn_coral_wall_fan"
             }
           },
           "weight": 50
@@ -77,7 +77,7 @@
                 "waterlogged": "true",
                 "facing": "south"
               },
-              "Name": "minecraft:brain_coral_wall_fan"
+              "Name": "minecraft:horn_coral_wall_fan"
             }
           },
           "weight": 50
@@ -103,7 +103,7 @@
                 "waterlogged": "true",
                 "facing": "west"
               },
-              "Name": "minecraft:brain_coral_wall_fan"
+              "Name": "minecraft:horn_coral_wall_fan"
             }
           },
           "weight": 50
@@ -128,7 +128,7 @@
               "Properties": {
                 "waterlogged": "true"
               },
-              "Name": "minecraft:brain_coral_fan"
+              "Name": "minecraft:horn_coral_fan"
             }
           },
           "weight": 25
@@ -139,7 +139,7 @@
               "Properties": {
                 "waterlogged": "true"
               },
-              "Name": "minecraft:brain_coral"
+              "Name": "minecraft:horn_coral"
             }
           },
           "weight": 25
@@ -155,7 +155,7 @@
       ]
     }
   ],
-  "owner": "minecraft:brain_coral_block",
+  "owner": "minecraft:horn_coral_block",
   "replacing_target": {
     "block": "minecraft:water",
     "predicate_type": "minecraft:random_block_match",
