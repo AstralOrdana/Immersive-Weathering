@@ -6,6 +6,8 @@ import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.level.FoliageColor;
 
+import java.awt.*;
+
 public class LeafParticle extends TextureSheetParticle {
     private final float rotationSpeed;
 

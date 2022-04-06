@@ -110,7 +110,7 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
             if (bl && random.nextBoolean()) {
                 //double yOff = (layers < 5) ? 0.5 : 1;
                 double y = pos.getY() + LAYERS_TO_SHAPE[layers].max(Direction.Axis.Y) + 0.0625;
-                int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos);
+                int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos,0);
                 for (var p : particles) {
                     level.addParticle(p.get(),
                             entity.getX() +Mth.randomBetween(random,-0.2f,0.2f),
@@ -252,7 +252,7 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
     @Override
     public boolean isRandomlyTicking(BlockState state) {
         int layers = this.getLayers(state);
-        return layers > 1 && this.hasThorns;
+        return layers > 1 && (this.isLeafy || this.hasThorns);
     }
 
     @Override

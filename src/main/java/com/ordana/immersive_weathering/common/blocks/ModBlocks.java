@@ -386,7 +386,7 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> HUMUS = regWithItem("humus", () ->
             new SoilBlock(BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.TERRACOTTA_GREEN).strength(0.5f)
-                    .sound(SoundType.GRAVEL),null));
+                    .sound(SoundType.GRAVEL)));
 
     //-----overrides------
     /*

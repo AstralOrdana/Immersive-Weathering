@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.common.blocks;
 
 
 import com.ordana.immersive_weathering.data.BlockGrowthConfiguration;
+import com.ordana.immersive_weathering.data.BlockGrowthManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
@@ -19,12 +20,9 @@ public class SoilBlock extends SnowyDirtBlock implements BonemealableBlock {
 
     public static final BooleanProperty FERTILE = BooleanProperty.create("fertile");
 
-    private final BlockGrowthConfiguration growth;
-
-    public SoilBlock(Properties settings, BlockGrowthConfiguration growth) {
+    public SoilBlock(Properties settings) {
         super(settings);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FERTILE, true).setValue(SNOWY, false));
-        this.growth = growth;
+        this.registerDefaultState(this.defaultBlockState().setValue(FERTILE, true));
     }
 
     @Override
@@ -39,31 +37,25 @@ public class SoilBlock extends SnowyDirtBlock implements BonemealableBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+        super.randomTick(state, level, pos, random);
         if (state.getValue(FERTILE)) {
-            var targetPos = pos.above();
-            if (random.nextFloat() < 0.001f && world.getBlockState(targetPos).isAir() && growth != null) {
-                if (!world.isAreaLoaded(pos, 4)) return;
-               // if (!WeatheringHelper.hasEnoughBlocksAround(pos, 4, 3, 4, world,
-                //        growth::contains, 8)) {
-                //    world.setBlock(targetPos, growth.sample(random).getFirst(), 2);
-               // }
-            }
+            BlockGrowthManager.execute(state, level, pos);
         }
     }
 
     @Override
-    public boolean isValidBonemealTarget(BlockGetter getter, BlockPos pos, BlockState state, boolean b) {
-        return getter.getBlockState(pos.above()).isAir();
+    public boolean isValidBonemealTarget(BlockGetter level, BlockPos pos, BlockState state, boolean isClient) {
+        return !state.getValue(FERTILE) && level.getBlockState(pos.above()).isAir();
     }
 
     @Override
     public boolean isBonemealSuccess(Level p_50901_, Random p_50902_, BlockPos p_50903_, BlockState p_50904_) {
-        return true;
+        return false;
     }
 
     @Override
     public void performBonemeal(ServerLevel level, Random random, BlockPos pos, BlockState state) {
-        level.setBlockAndUpdate(pos, state.setValue(FERTILE,true));
+        level.setBlock(pos, state.setValue(FERTILE, true), 2);
     }
 }

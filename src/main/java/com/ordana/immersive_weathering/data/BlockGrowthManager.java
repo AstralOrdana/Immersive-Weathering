@@ -23,10 +23,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.io.FileWriter;
 import java.util.*;
 
+import static com.ordana.immersive_weathering.data.BlockGrowthConfiguration.CODEC;
+
 public class BlockGrowthManager extends SimpleJsonResourceReloadListener {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create(); //json object that will write stuff
-    private static final Codec<BlockGrowthConfiguration> CODEC = BlockGrowthConfiguration.CODEC;
 
     private static final Map<Block, Set<BlockGrowthConfiguration>> GROWTH_FOR_BLOCK = new HashMap<>();
 

@@ -1,5 +1,8 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.common.blocks.ModGrassBlock;
+import com.ordana.immersive_weathering.common.blocks.ModMyceliumBlock;
+import com.ordana.immersive_weathering.common.blocks.SoilBlock;
 import com.ordana.immersive_weathering.common.blocks.crackable.*;
 import com.ordana.immersive_weathering.common.blocks.mossable.*;
 import com.ordana.immersive_weathering.common.blocks.rustable.Rustable;
@@ -1022,5 +1025,59 @@ public abstract class BlocksMixin {
         return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, () -> Blocks.STONE, settings);
     }
 
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/GrassBlock",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=grass_block"
+                    )
+            )
+    )
+    private static GrassBlock grassBlock(BlockBehaviour.Properties settings) {
+        return new ModGrassBlock(settings);
+    }
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/SnowyDirtBlock",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=podzol"
+                    )
+            )
+    )
+    private static SnowyDirtBlock podzol(BlockBehaviour.Properties settings) {
+        return new SoilBlock(settings);
+    }
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
+                    target = "net/minecraft/world/level/block/MyceliumBlock",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=mycelium"
+                    )
+            )
+    )
+    private static MyceliumBlock mycelium(BlockBehaviour.Properties settings) {
+        return new ModMyceliumBlock(settings);
+    }
 
 }

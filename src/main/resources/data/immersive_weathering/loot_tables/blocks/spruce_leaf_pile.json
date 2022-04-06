@@ -9,56 +9,71 @@
           "type": "minecraft:alternatives",
           "children": [
             {
-              "type": "minecraft:item",
-              "name": "minecraft:stick",
-              "functions": [
-                {
-                  "function": "minecraft:set_count",
-                  "count": {
-                    "min": 0,
-                    "max": 2
-                  }
-                }
-              ],
-              "conditions": [
-                {
-                  "condition": "minecraft:inverted",
-                  "term": {
-                    "condition": "minecraft:alternative",
-                    "terms": [
-                      {
-                        "condition": "minecraft:match_tool",
-                        "predicate": {
-                          "enchantments": [
-                            {
-                              "enchantment": "minecraft:silk_touch",
-                              "levels": {
-                                "min": 1
-                              }
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "condition": "minecraft:match_tool",
-                        "predicate": {
-                          "items": [
-                            "minecraft:shears"
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                }
-              ]
-            },
-            {
               "type": "minecraft:alternatives",
               "children": [
                 {
                   "type": "minecraft:item",
                   "name": "immersive_weathering:spruce_leaf_pile",
                   "conditions": [
+                    {
+                      "condition": "minecraft:alternative",
+                      "terms": [
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "enchantments": [
+                              {
+                                "enchantment": "minecraft:silk_touch"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "items": [
+                              "minecraft:shears"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "immersive_weathering:spruce_leaf_pile",
+                      "properties": {
+                        "layers": "0"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "immersive_weathering:spruce_leaf_pile",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:alternative",
+                      "terms": [
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "enchantments": [
+                              {
+                                "enchantment": "minecraft:silk_touch"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "items": [
+                              "minecraft:shears"
+                            ]
+                          }
+                        }
+                      ]
+                    },
                     {
                       "condition": "minecraft:block_state_property",
                       "block": "immersive_weathering:spruce_leaf_pile",
@@ -80,6 +95,29 @@
                   ],
                   "conditions": [
                     {
+                      "condition": "minecraft:alternative",
+                      "terms": [
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "enchantments": [
+                              {
+                                "enchantment": "minecraft:silk_touch"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "items": [
+                              "minecraft:shears"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
                       "condition": "minecraft:block_state_property",
                       "block": "immersive_weathering:spruce_leaf_pile",
                       "properties": {
@@ -99,6 +137,29 @@
                     }
                   ],
                   "conditions": [
+                    {
+                      "condition": "minecraft:alternative",
+                      "terms": [
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "enchantments": [
+                              {
+                                "enchantment": "minecraft:silk_touch"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "items": [
+                              "minecraft:shears"
+                            ]
+                          }
+                        }
+                      ]
+                    },
                     {
                       "condition": "minecraft:block_state_property",
                       "block": "immersive_weathering:spruce_leaf_pile",
@@ -120,6 +181,29 @@
                   ],
                   "conditions": [
                     {
+                      "condition": "minecraft:alternative",
+                      "terms": [
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "enchantments": [
+                              {
+                                "enchantment": "minecraft:silk_touch"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "items": [
+                              "minecraft:shears"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
                       "condition": "minecraft:block_state_property",
                       "block": "immersive_weathering:spruce_leaf_pile",
                       "properties": {
@@ -139,6 +223,29 @@
                     }
                   ],
                   "conditions": [
+                    {
+                      "condition": "minecraft:alternative",
+                      "terms": [
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "enchantments": [
+                              {
+                                "enchantment": "minecraft:silk_touch"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "items": [
+                              "minecraft:shears"
+                            ]
+                          }
+                        }
+                      ]
+                    },
                     {
                       "condition": "minecraft:block_state_property",
                       "block": "immersive_weathering:spruce_leaf_pile",
@@ -160,6 +267,29 @@
                   ],
                   "conditions": [
                     {
+                      "condition": "minecraft:alternative",
+                      "terms": [
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "enchantments": [
+                              {
+                                "enchantment": "minecraft:silk_touch"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "items": [
+                              "minecraft:shears"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
                       "condition": "minecraft:block_state_property",
                       "block": "immersive_weathering:spruce_leaf_pile",
                       "properties": {
@@ -180,6 +310,29 @@
                   ],
                   "conditions": [
                     {
+                      "condition": "minecraft:alternative",
+                      "terms": [
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "enchantments": [
+                              {
+                                "enchantment": "minecraft:silk_touch"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "items": [
+                              "minecraft:shears"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
                       "condition": "minecraft:block_state_property",
                       "block": "immersive_weathering:spruce_leaf_pile",
                       "properties": {
@@ -190,7 +343,49 @@
                 },
                 {
                   "type": "minecraft:item",
-                  "name": "minecraft:spruce_leaves"
+                  "name": "minecraft:acacia_leaves",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:alternative",
+                      "terms": [
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "enchantments": [
+                              {
+                                "enchantment": "minecraft:silk_touch"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "condition": "minecraft:match_tool",
+                          "predicate": {
+                            "items": [
+                              "minecraft:shears"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "immersive_weathering:spruce_leaf_pile",
+                      "properties": {
+                        "layers": "8"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "minecraft:stick",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:random_chance",
+                      "chance": 0.125
+                    }
+                  ]
                 }
               ]
             }

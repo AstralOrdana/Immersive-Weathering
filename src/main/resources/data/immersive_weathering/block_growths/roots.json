@@ -3,7 +3,7 @@
     "radiusX": 3,
     "radiusY": 3,
     "radiusZ": 3,
-    "requiredAmount": 4,
+    "requiredAmount": 6,
     "type": "generate_if_not_too_many"
   },
   "growth_chance": 0.4,
@@ -94,7 +94,7 @@
   "owner": "minecraft:rooted_dirt",
   "replacing_target": {
     "blocks": [
-      "minecraft:dirt",
+      "minecraft:air",
       "minecraft:water"
     ],
     "predicate_type": "immersive_weathering:block_set_match",

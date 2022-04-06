@@ -4,10 +4,7 @@ import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.common.ModFoods;
 import com.ordana.immersive_weathering.common.blocks.ModBlocks;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.DeferredRegister;
@@ -215,6 +212,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> HANGING_ROOTS_ITEM = regOverride(Items.HANGING_ROOTS, () ->
             new CeilingAndWallBlockItem(Blocks.HANGING_ROOTS, ModBlocks.HANGING_ROOTS_WALL.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
+
+    public static final RegistryObject<Item> ICE_SICKLE = ITEMS.register("ice_sickle", ()->
+            new IceSickleItem(IcicleToolMaterial.INSTANCE, 5, -1f, new Item.Properties().food(ModFoods.ICICLE).tab(CreativeModeTab.TAB_COMBAT)));
 
 
 }

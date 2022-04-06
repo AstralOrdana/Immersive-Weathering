@@ -1,0 +1,192 @@
+{
+  "advancements.immersive_weathering.moss.title": "Увековечить цикл существования?",
+  "advancements.immersive_weathering.moss.description": "(Вы съели мох.), (Вкус... мшистый.), (Ваше здоровье было покрыто мхом.)",
+
+  "advancements.immersive_weathering.icicle.title": "Монч",
+  "advancements.immersive_weathering.icicle.description": "Кронк Кронк Кронк",
+
+  "death.attack.icicle": "%1$s был проткнут сосулькой",
+  "death.attack.icicle.player": "%1$s был проткнут сосулькой во время боя с %2$s",
+  "death.attack.fallingIcicle": "%1$s был проткнут падающей сосулькой",
+  "death.attack.fallingIcicle.player": "%1$s был проткнут падающей сосулькой во время боя с %2$s",
+
+  "subtitles.block.icicle.land": "Сосулька падает",
+
+  "block.immersive_weathering.icicle": "Сосулька",
+  "item.immersive_weathering.ice_sickle": "Ледяной серп",
+
+  "item.immersive_weathering.azalea_flowers": "Цветы азалии",
+  "item.immersive_weathering.flower_crown": "Венок",
+  "item.immersive_weathering.moss_clump": "Комок мха",
+  "item.immersive_weathering.golden_moss_clump": "Комок золотого мха",
+  "item.immersive_weathering.enchanted_golden_moss_clump": "Зачарованный золотой комок мха",
+
+  "block.immersive_weathering.oak_leaf_pile": "Куча дубовых листьев",
+  "block.immersive_weathering.spruce_leaf_pile": "Куча еловых листьев",
+  "block.immersive_weathering.birch_leaf_pile": "Куча берёзовых листьев",
+  "block.immersive_weathering.jungle_leaf_pile": "Куча листьев тропического дерева",
+  "block.immersive_weathering.acacia_leaf_pile": "Куча листьев акации",
+  "block.immersive_weathering.dark_oak_leaf_pile": "Куча листьев тёмного дуба",
+  "block.immersive_weathering.azalea_leaf_pile": "Куча листьев азалии",
+  "block.immersive_weathering.flowering_azalea_leaf_pile": "Куча листьев цветущей азалии",
+  "block.immersive_weathering.azalea_flower_pile": "Куча цветов азалии",
+
+  "item.immersive_weathering.oak_bark": "Кора дуба",
+  "item.immersive_weathering.spruce_bark": "Кора ели",
+  "item.immersive_weathering.birch_bark": "Кора берёзы",
+  "item.immersive_weathering.jungle_bark": "Кора тропического дерева",
+  "item.immersive_weathering.acacia_bark": "Кора акации",
+  "item.immersive_weathering.dark_oak_bark": "Кора тёмного дуба",
+  "item.immersive_weathering.crimson_scales": "Багровые чешуйки",
+  "item.immersive_weathering.warped_scales": "Искажённые чешуйки",
+
+  "block.immersive_weathering.weeds": "Сорняки",
+  "block.immersive_weathering.soot": "Сажа",
+  "block.immersive_weathering.ash_block": "Блок золы",
+
+  "block.immersive_weathering.mossy_bricks": "Замшелые кирпичи",
+  "block.immersive_weathering.mossy_brick_stairs": "Ступеньки из замшелого кирпича",
+  "block.immersive_weathering.mossy_brick_slab": "Плита из замшелого кирпича",
+  "block.immersive_weathering.mossy_brick_wall": "Стена из замшелого кирпича",
+
+  "block.immersive_weathering.mossy_stone": "Замшелый камень",
+  "block.immersive_weathering.mossy_stone_stairs": "Ступеньки из замшелого камня",
+  "block.immersive_weathering.mossy_stone_slab": "Плита из замшелого камня",
+
+  "block.immersive_weathering.cracked_bricks": "Треснувшие кирпичи",
+  "block.immersive_weathering.cracked_brick_stairs": "Ступеньки из треснувшего кирпича",
+  "block.immersive_weathering.cracked_brick_slab": "Плита из треснувшего кирпича",
+  "block.immersive_weathering.cracked_brick_wall": "Стена из треснувшего кирпича",
+
+  "block.immersive_weathering.cracked_prismarine_bricks": "Треснувшие призмариновые кирпичи",
+  "block.immersive_weathering.cracked_prismarine_brick_stairs": "Ступеньки из треснувшего призмаринового кирпича",
+  "block.immersive_weathering.cracked_prismarine_brick_slab": "Плита из треснувшего призмаринового кирпича",
+  "block.immersive_weathering.cracked_prismarine_brick_wall": "Стена из треснувшего призмаринового кирпича",
+  "block.immersive_weathering.prismarine_brick_wall": "Стена из призмаринового кирпича",
+
+  "block.immersive_weathering.cracked_end_stone_bricks": "Треснувшие каменные кирпичи Края",
+  "block.immersive_weathering.cracked_end_stone_brick_stairs": "Ступеньки из треснувшего кирпича Края",
+  "block.immersive_weathering.cracked_end_stone_brick_slab": "Плита из треснувшего кирпича Края",
+  "block.immersive_weathering.cracked_end_stone_brick_wall": "Стена из треснувшего кирпича Края",
+
+  "block.immersive_weathering.cracked_stone_brick_stairs": "Ступеньки из треснувшего каменного кирпича",
+  "block.immersive_weathering.cracked_stone_brick_slab": "Плита из треснувшего каменного кирпича",
+  "block.immersive_weathering.cracked_stone_brick_wall": "Стена из треснувшего каменного кирпича",
+
+  "block.immersive_weathering.cracked_nether_brick_stairs": "Ступеньки из треснувшего кирпича Нижнего мира",
+  "block.immersive_weathering.cracked_nether_brick_slab": "Плита из треснувшего кирпича Нижнего мира",
+  "block.immersive_weathering.cracked_nether_brick_wall": "Стена из треснувшего кирпича Нижнего мира",
+
+  "block.immersive_weathering.cracked_deepslate_brick_stairs": "Ступеньки из треснувшего кирпича глубинного сланца",
+  "block.immersive_weathering.cracked_deepslate_brick_slab": "Плита из треснувшего кирпича глубинного сланца",
+  "block.immersive_weathering.cracked_deepslate_brick_wall": "Стена из треснувшего кирпича глубинного сланца",
+
+  "block.immersive_weathering.cracked_deepslate_tile_stairs": "Ступеньки из треснувшей плиты глубинного сланца",
+  "block.immersive_weathering.cracked_deepslate_tile_slab": "Плита из треснувшей плиты глубинного сланца",
+  "block.immersive_weathering.cracked_deepslate_tile_wall": "Стена из треснувшей плиты глубинного сланца",
+
+  "block.immersive_weathering.cracked_polished_blackstone_brick_stairs": "Ступеньки из полированного кирпича базальта",
+  "block.immersive_weathering.cracked_polished_blackstone_brick_slab": "Плита из полированного кирпича базальта",
+  "block.immersive_weathering.cracked_polished_blackstone_brick_wall": "Стена из полированного кирпича базальта",
+
+  "item.immersive_weathering.stone_brick": "Каменный кирпич",
+  "item.immersive_weathering.blackstone_brick": "Базальтовый кирпич",
+  "item.immersive_weathering.deepslate_brick": "Глубинный сланцевый кирпич",
+  "item.immersive_weathering.deepslate_tile": "Плитка глубинного сланца",
+  "item.immersive_weathering.end_stone_brick": "Каменный кирпич Края",
+  "item.immersive_weathering.prismarine_brick": "Призмариновый кирпич",
+
+  "block.immersive_weathering.mulch_block": "Блок мульчи",
+  "block.immersive_weathering.nulch_block": "Блок нульчи",
+  "block.immersive_weathering.mulch": "Мульча",
+  "block.immersive_weathering.nulch": "Нульча",
+
+  "item.immersive_weathering.steel_wool": "Стальная шерсть",
+
+  "block.immersive_weathering.cut_iron": "Огранённое железо",
+  "block.immersive_weathering.exposed_cut_iron": "Раскрытое огранённое железо",
+  "block.immersive_weathering.weathered_cut_iron": "Выветренное огранённое железо",
+  "block.immersive_weathering.rusted_cut_iron": "Ржавое огранённое железо",
+
+  "block.immersive_weathering.cut_iron_stairs": "Ступеньки из огранённого железа",
+  "block.immersive_weathering.exposed_cut_iron_stairs": "Ступеньки из раскрытого огранённого железа",
+  "block.immersive_weathering.weathered_cut_iron_stairs": "Ступеньки из выветренного огранённого железа",
+  "block.immersive_weathering.rusted_cut_iron_stairs": "Ступеньки из ржавого огранённого железа",
+
+  "block.immersive_weathering.cut_iron_slab": "Плита из огранённого железа",
+  "block.immersive_weathering.exposed_cut_iron_slab": "Плита из раскрытого огранённого железа",
+  "block.immersive_weathering.weathered_cut_iron_slab": "Плита из выветренного огранённого железа",
+  "block.immersive_weathering.rusted_cut_iron_slab": "Плита из ржавого огранённого железа",
+
+  "block.immersive_weathering.waxed_cut_iron": "Огранённое железо покрытое воском",
+  "block.immersive_weathering.waxed_exposed_cut_iron": "Раскрытое огранённое железо покрытое воском",
+  "block.immersive_weathering.waxed_weathered_cut_iron": "Выветренное огранённое железо покрытое воском",
+  "block.immersive_weathering.waxed_rusted_cut_iron": "Ржавое огранённое железо покрытое воском",
+
+  "block.immersive_weathering.waxed_cut_iron_stairs": "Ступеньки из огранённого железа покрытого воском",
+  "block.immersive_weathering.waxed_exposed_cut_iron_stairs": "Ступеньки из раскрытого огранённого железа покрытого воском",
+  "block.immersive_weathering.waxed_weathered_cut_iron_stairs": "Ступеньки из выветренного огранённого железа покрытого воском",
+  "block.immersive_weathering.waxed_rusted_cut_iron_stairs": "Ступеньки из ржавого огранённого железа покрытого воском",
+
+  "block.immersive_weathering.waxed_cut_iron_slab": "Плита из огранённого железа покрытого воском",
+  "block.immersive_weathering.waxed_exposed_cut_iron_slab": "Плита из раскрытого огранённого железа покрытого воском",
+  "block.immersive_weathering.waxed_weathered_cut_iron_slab": "Плита из выветренного огранённого железа покрытого воском",
+  "block.immersive_weathering.waxed_rusted_cut_iron_slab": "Плита из ржавого огранённого железа покрытого воском",
+
+  "block.immersive_weathering.plate_iron": "Железная пластина",
+  "block.immersive_weathering.exposed_plate_iron": "Раскрытая железная пластина",
+  "block.immersive_weathering.weathered_plate_iron": "Выветренная железная пластина",
+  "block.immersive_weathering.rusted_plate_iron": "Ржавая железная пластина",
+
+  "block.immersive_weathering.plate_iron_stairs": "Ступеньки из железной пластины",
+  "block.immersive_weathering.exposed_plate_iron_stairs": "Ступеньки из раскрытой железной пластины",
+  "block.immersive_weathering.weathered_plate_iron_stairs": "Ступеньки из выветренной железной пластины",
+  "block.immersive_weathering.rusted_plate_iron_stairs": "Ступеньки из ржавой железной пластины",
+
+  "block.immersive_weathering.plate_iron_slab": "Плита из железной пластины",
+  "block.immersive_weathering.exposed_plate_iron_slab": "Плита из раскрытой железной пластины",
+  "block.immersive_weathering.weathered_plate_iron_slab": "Плита из выветренной железной пластины",
+  "block.immersive_weathering.rusted_plate_iron_slab": "Плита из ржавой железной пластины",
+
+  "block.immersive_weathering.waxed_plate_iron": "Железная пластина покрытая воском",
+  "block.immersive_weathering.waxed_exposed_plate_iron": "Раскрытая железная пластина покрытая воском",
+  "block.immersive_weathering.waxed_weathered_plate_iron": "Выветренная железная пластина покрытая воском",
+  "block.immersive_weathering.waxed_rusted_plate_iron": "Ржавая железная пластина покрытая воском",
+
+  "block.immersive_weathering.waxed_plate_iron_stairs": "Ступеньки из железной пластины покрытой воском",
+  "block.immersive_weathering.waxed_exposed_plate_iron_stairs": "Ступеньки из раскрытой железной пластины покрытой воском",
+  "block.immersive_weathering.waxed_weathered_plate_iron_stairs": "Ступеньки из выветренной железной пластины покрытой воском",
+  "block.immersive_weathering.waxed_rusted_plate_iron_stairs": "Ступеньки из  ржавой железной пластины покрытой воском",
+
+  "block.immersive_weathering.waxed_plate_iron_slab": "Плита из железной пластины покрытой воском",
+  "block.immersive_weathering.waxed_exposed_plate_iron_slab": "Плита из раскрытой железной пластины покрытой воском",
+  "block.immersive_weathering.waxed_weathered_plate_iron_slab": "Плита из выветренной железной пластины покрытой воском",
+  "block.immersive_weathering.waxed_rusted_plate_iron_slab": "Плита из ржавой железной пластины покрытой воском",
+
+  "block.immersive_weathering.exposed_iron_door": "Раскрытая железная дверь",
+  "block.immersive_weathering.weathered_iron_door": "Выветренная железная дверь",
+  "block.immersive_weathering.rusted_iron_door": "Ржавая железная дверь",
+
+  "block.immersive_weathering.exposed_iron_trapdoor": "Раскрытые железный люк",
+  "block.immersive_weathering.weathered_iron_trapdoor": "Выветренный железный люк",
+  "block.immersive_weathering.rusted_iron_trapdoor": "Ржавый железный люк",
+
+  "block.immersive_weathering.exposed_iron_bars": "Раскрытые железные прутья",
+  "block.immersive_weathering.weathered_iron_bars": "Выветренные железные прутья",
+  "block.immersive_weathering.rusted_iron_bars": "Ржавые железные прутья",
+
+  "block.immersive_weathering.waxed_iron_door": "Железная дверь покрытая воском",
+  "block.immersive_weathering.waxed_exposed_iron_door": "Раскрытая железная дверь покрытая воском",
+  "block.immersive_weathering.waxed_weathered_iron_door": "Выветренная железная дверь покрытая воском",
+  "block.immersive_weathering.waxed_rusted_iron_door": "Ржавая железная дверь покрытая воском",
+
+  "block.immersive_weathering.waxed_iron_trapdoor": "Железный люк покрытый воском",
+  "block.immersive_weathering.waxed_exposed_iron_trapdoor": "Раскрытый железный люк покрытый воском",
+  "block.immersive_weathering.waxed_weathered_iron_trapdoor": "Выветренный железный люк покрытый воском",
+  "block.immersive_weathering.waxed_rusted_iron_trapdoor": "Ржавый железный люк покрытый воском",
+
+  "block.immersive_weathering.waxed_iron_bars": "Железные прутья покрытые воском",
+  "block.immersive_weathering.waxed_exposed_iron_bars": "Раскрытые железные прутья покрытые воском",
+  "block.immersive_weathering.waxed_weathered_iron_bars": "Выветренные железные прутья покрытые воском",
+  "block.immersive_weathering.waxed_rusted_iron_bars": "Ржавые железные прутья покрытые воском"
+}

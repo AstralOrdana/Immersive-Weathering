@@ -376,7 +376,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
     private static boolean isValidIciclePlacement(LevelReader world, BlockPos pos, Direction direction) {
         BlockPos blockPos = pos.relative(direction.getOpposite());
         BlockState blockState = world.getBlockState(blockPos);
-        return (blockState.is(BlockTags.LEAVES) || blockState.isFaceSturdy(world, blockPos, direction)) || isIcicleFacingDirection(blockState, direction);
+        return (blockState.is(BlockTags.LEAVES) || canSupportCenter(world, blockPos, direction)) || isIcicleFacingDirection(blockState, direction);
     }
 
     private static boolean isTip(BlockState state, boolean allowMerged) {

@@ -60,8 +60,8 @@ public class BlockPair extends Pair<BlockState, BlockState> {
 
     public static class BlockStateAccessor extends BlockState {
 
-        public BlockStateAccessor(Block p_61042_, ImmutableMap<Property<?>, Comparable<?>> p_61043_, MapCodec<BlockState> p_61044_) {
-            super(p_61042_, p_61043_, p_61044_);
+        public BlockStateAccessor(Block block, ImmutableMap<Property<?>, Comparable<?>> map, MapCodec<BlockState> mapCodec) {
+            super(block, map, mapCodec);
         }
 
         public static Codec<BlockState> getCodec(Codec<Block> oCodec, Function<Block, BlockState> osFunction) {
