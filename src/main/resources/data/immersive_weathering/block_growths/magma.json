@@ -1,4 +1,5 @@
 {
+  "growth_chance": 0.5,
   "area_condition": {
     "must_have": {
       "fluid": "minecraft:lava",
@@ -14,7 +15,7 @@
     "requiredAmount": 12,
     "type": "generate_if_not_too_many"
   },
-  "biomes": "#minecraft:is_nether",
+  "biomes": "#minecraft:has_structure/igloo",
   "growth_for_face": [
     {
       "growth": [

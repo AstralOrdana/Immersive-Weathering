@@ -17,8 +17,6 @@ public abstract class MagmaBlockMixin {
 
     @Inject(method = "randomTick", at = @At("TAIL"))
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
-        if (random.nextFloat() > 0.5f) {
-            BlockGrowthManager.performGrowth(state, world, pos);
-        }
+        BlockGrowthManager.execute(state, world, pos);
     }
 }

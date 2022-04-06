@@ -5,14 +5,19 @@ import com.google.common.collect.ImmutableSet;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.random.WeightedEntry;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.structure.templatesystem.AlwaysTrueTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -20,32 +25,38 @@ import java.util.*;
  * Author: MehVahdJukaar
  */
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-public class BlockGrowthConfiguration {
+public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowthConfiguration> {
+
+    public static final BlockGrowthConfiguration EMPTY = new BlockGrowthConfiguration(1,
+            AlwaysTrueTest.INSTANCE, AreaCondition.EMPTY, List.of(), Blocks.AIR, Optional.empty());
 
     public static final Codec<BlockGrowthConfiguration> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.FLOAT.fieldOf("growth_chance").forGetter(BlockGrowthConfiguration::getGrowthChance),
             RuleTest.CODEC.fieldOf("replacing_target").forGetter(BlockGrowthConfiguration::getTargetPredicate),
             AreaCondition.CODEC.fieldOf("area_condition").forGetter(BlockGrowthConfiguration::getAreaCondition),
-            JsonReadyRandomBlockList.CODEC.listOf().fieldOf("growth_for_face").forGetter(BlockGrowthConfiguration::encodeRandomLists),
+            DirectionalList.CODEC.listOf().fieldOf("growth_for_face").forGetter(BlockGrowthConfiguration::encodeRandomLists),
             Registry.BLOCK.byNameCodec().fieldOf("owner").forGetter(BlockGrowthConfiguration::getOwner),
-            RegistryCodecs.homogeneousList(Registry.BIOME_REGISTRY).optionalFieldOf("biomes").forGetter(BlockGrowthConfiguration::biomes)
+            BiomeRuleTest.CODEC.listOf().optionalFieldOf("biome_predicates").forGetter(BlockGrowthConfiguration::getBiomePredicates)
     ).apply(instance, BlockGrowthConfiguration::new));
 
 
+    private final float growthChance;
     private final Block owner;
     private final RuleTest targetPredicate;
     private final SimpleWeightedRandomList<Direction> growthForDirection;
     private final Map<Direction, SimpleWeightedRandomList<BlockPair>> blockGrowths;
     private final Set<Block> possibleBlocks;
-    private final Optional<HolderSet<Biome>> biomes;
+    private final List<BiomeRuleTest> biomePredicates;
 
     private final int maxRange;
     private final AreaCondition areaCondition;
 
-    public BlockGrowthConfiguration(RuleTest targetPredicate, AreaCondition areaCheck,
-                                    List<JsonReadyRandomBlockList> growthForDirection,
-                                    Block owner, Optional<HolderSet<Biome>> biomes) {
+    public BlockGrowthConfiguration(float growthChance, RuleTest targetPredicate, AreaCondition areaCheck,
+                                    List<DirectionalList> growthForDirection,
+                                    Block owner, Optional<List<BiomeRuleTest>> biomePredicates) {
+        this.growthChance = growthChance;
         this.owner = owner;
-        this.biomes = biomes;
+        this.biomePredicates = biomePredicates.orElse(List.of());
         this.targetPredicate = targetPredicate;
 
         SimpleWeightedRandomList.Builder<Direction> dirBuilder = SimpleWeightedRandomList.builder();
@@ -53,21 +64,21 @@ public class BlockGrowthConfiguration {
         ImmutableSet.Builder<Block> blockBuilder = new ImmutableSet.Builder<>();
         for (var randomBlockList : growthForDirection) {
             //if direction is null it means if is for all directions
-            if(randomBlockList.direction.isEmpty()){//hackery
+            if (randomBlockList.direction.isEmpty()) {//hackery
                 //clearing builders since only 1 exist no
                 dirBuilder = SimpleWeightedRandomList.builder();
                 growthBuilder = new ImmutableMap.Builder<>();
                 blockBuilder = new ImmutableSet.Builder<>();
                 decodeRandomList(Direction.UP, dirBuilder, growthBuilder, blockBuilder, randomBlockList);
-                for(Direction d: Direction.values()){
-                    if(d != Direction.UP) {
+                for (Direction d : Direction.values()) {
+                    if (d != Direction.UP) {
                         growthBuilder.put(d, randomBlockList.randomList);
                         dirBuilder.add(d, 1);
                     }
                 }
 
                 break;
-            }else{
+            } else {
                 decodeRandomList(randomBlockList.direction.get(), dirBuilder, growthBuilder, blockBuilder, randomBlockList);
             }
         }
@@ -80,7 +91,7 @@ public class BlockGrowthConfiguration {
     }
 
     private void decodeRandomList(Direction direction, SimpleWeightedRandomList.Builder<Direction> dirBuilder, ImmutableMap.Builder<Direction,
-            SimpleWeightedRandomList<BlockPair>> growthBuilder, ImmutableSet.Builder<Block> blockBuilder, JsonReadyRandomBlockList v) {
+            SimpleWeightedRandomList<BlockPair>> growthBuilder, ImmutableSet.Builder<Block> blockBuilder, DirectionalList v) {
         int weight = v.weight.orElse(1);
         dirBuilder.add(direction, weight);
         growthBuilder.put(direction, v.randomList);
@@ -92,19 +103,19 @@ public class BlockGrowthConfiguration {
         });
     }
 
-    public List<JsonReadyRandomBlockList> encodeRandomLists() {
-        List<JsonReadyRandomBlockList> list = new ArrayList<>();
-        for(var e: growthForDirection.unwrap() ){
+    public List<DirectionalList> encodeRandomLists() {
+        List<DirectionalList> list = new ArrayList<>();
+        for (var e : growthForDirection.unwrap()) {
             Optional<Direction> dir;
             Optional<Integer> weight;
-            if(growthForDirection.unwrap().size()==1){
+            if (growthForDirection.unwrap().size() == 1) {
                 dir = Optional.empty();
                 weight = Optional.empty();
-            }else{
+            } else {
                 dir = Optional.of(e.getData());
                 weight = Optional.of(e.getWeight().asInt());
             }
-            list.add(new JsonReadyRandomBlockList(dir, weight,blockGrowths.get(e.getData())));
+            list.add(new DirectionalList(dir, weight, blockGrowths.get(e.getData())));
         }
         return list;
     }
@@ -125,13 +136,28 @@ public class BlockGrowthConfiguration {
         return this.owner;
     }
 
-    public Optional<HolderSet<Biome>> biomes() {
-        return this.biomes;
+    public Optional<List<BiomeRuleTest>> getBiomePredicates() {
+        return this.biomePredicates.isEmpty() ? Optional.empty() : Optional.of(this.biomePredicates);
     }
 
-    public boolean grow(BlockPos pos, Level level) {
+    public boolean isEmpty() {
+        return this.possibleBlocks.isEmpty();
+    }
 
-        if (level.isAreaLoaded(pos, maxRange)) {
+    private boolean canGrow(BlockPos pos, Level level, Holder<Biome> biome) {
+        for(BiomeRuleTest biomeTest : this.biomePredicates){
+            if(!biomeTest.test(biome, pos))return false;
+        }
+        return level.isAreaLoaded(pos, maxRange) && level.random.nextFloat() < this.growthChance;
+    }
+
+    public float getGrowthChance() {
+        return growthChance;
+    }
+
+    public boolean tryGrowing(BlockPos pos, Level level, Holder<Biome> biome) {
+
+        if (this.canGrow(pos, level, biome)) {
             Direction dir = this.growthForDirection.getRandomValue(level.random).orElse(Direction.UP);
 
             Random seed = new Random(Mth.getSeed(pos));
@@ -140,21 +166,21 @@ public class BlockGrowthConfiguration {
 
             if (targetPredicate.test(target, seed)) {
 
-                if (areaCondition.isValid(pos, level, this)) {
+                if (areaCondition.test(pos, level, this)) {
 
                     var l = blockGrowths.get(dir);
                     if (l != null) {
                         var toPlace = l.getRandomValue(level.random).orElse(null);
-                        if(toPlace != null){
+                        if (toPlace != null) {
                             if (toPlace.isDouble()) {
                                 BlockPos targetPos2 = targetPos.relative(dir);
                                 BlockState target2 = level.getBlockState(targetPos2);
                                 if (targetPredicate.test(target2, seed)) {
-                                    level.setBlock(targetPos, toPlace.getFirst(),2);
-                                    level.setBlock(targetPos2, toPlace.getSecond(),2);
+                                    level.setBlock(targetPos, toPlace.getFirst(), 2);
+                                    level.setBlock(targetPos2, toPlace.getSecond(), 2);
                                 }
                             } else {
-                                level.setBlock(targetPos, toPlace.getFirst(),2);
+                                level.setBlock(targetPos, toPlace.getFirst(), 2);
                             }
                             return true;
                         }
@@ -165,15 +191,30 @@ public class BlockGrowthConfiguration {
         return false;
     }
 
+    @Override
+    public BlockGrowthConfiguration setRegistryName(ResourceLocation name) {
+        return null;
+    }
 
-    public record JsonReadyRandomBlockList(Optional<Direction> direction, Optional<Integer> weight,
-                                           SimpleWeightedRandomList<BlockPair> randomList) {
+    @Nullable
+    @Override
+    public ResourceLocation getRegistryName() {
+        return null;
+    }
 
-        public static final Codec<JsonReadyRandomBlockList> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                Direction.CODEC.optionalFieldOf("direction").forGetter(JsonReadyRandomBlockList::direction),
-                Codec.INT.optionalFieldOf("weight").forGetter(JsonReadyRandomBlockList::weight),
-                SimpleWeightedRandomList.wrappedCodec(BlockPair.CODEC).fieldOf("growth").forGetter(JsonReadyRandomBlockList::randomList)
-        ).apply(instance, JsonReadyRandomBlockList::new));
+    @Override
+    public Class<BlockGrowthConfiguration> getRegistryType() {
+        return null;
+    }
+
+    public record DirectionalList(Optional<Direction> direction, Optional<Integer> weight,
+                                  SimpleWeightedRandomList<BlockPair> randomList) {
+
+        public static final Codec<DirectionalList> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                Direction.CODEC.optionalFieldOf("direction").forGetter(DirectionalList::direction),
+                Codec.INT.optionalFieldOf("weight").forGetter(DirectionalList::weight),
+                SimpleWeightedRandomList.wrappedCodec(BlockPair.CODEC).fieldOf("growth").forGetter(DirectionalList::randomList)
+        ).apply(instance, DirectionalList::new));
     }
 
 }

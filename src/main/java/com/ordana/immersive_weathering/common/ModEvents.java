@@ -1,6 +1,8 @@
 package com.ordana.immersive_weathering.common;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.common.blocks.Waxables;
@@ -11,13 +13,11 @@ import com.ordana.immersive_weathering.common.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.common.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.common.entity.FollowLeafCrownGoal;
 import com.ordana.immersive_weathering.common.items.ModItems;
-import com.ordana.immersive_weathering.data.AreaCondition;
-import com.ordana.immersive_weathering.data.BlockGrowthConfiguration;
-import com.ordana.immersive_weathering.data.BlockGrowthManager;
-import com.ordana.immersive_weathering.data.BlockPair;
+import com.ordana.immersive_weathering.data.*;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,6 +25,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.TagManager;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionResult;
@@ -33,61 +34,94 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CampfireBlock;
-import net.minecraft.world.level.block.FireBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RandomBlockMatchTest;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = ImmersiveWeathering.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
 
-    static BlockGrowthManager manager = new BlockGrowthManager();
+    private static final BlockGrowthManager GROWTH_MANAGER = new BlockGrowthManager();
+
+    @SubscribeEvent
+    public static void onTagUpdated(TagsUpdatedEvent event) {
+        //manager.registryAccess = event.getTagManager();
+    }
+
+    //hackies shit ever but that's the best I can do if I dont get given a registry access in that reload listener
+    //Without it, it wont load tags
+    //use this until forge approves that datapack registries PR (will take some time)
+    static Field field = ObfuscationReflectionHelper.findField(TagManager.class, "registryAccess");
 
     @SubscribeEvent
     public static void onAddReloadListeners(final AddReloadListenerEvent event) {
-        event.addListener(manager);
+        try {
+            TagManager t = ((TagManager) event.getServerResources().listeners().get(0));
+            GROWTH_MANAGER.registryAccess = (RegistryAccess) field.get(t);
+            event.addListener(GROWTH_MANAGER);
+        } catch (Exception ignored) {
+        }
+        ;
 
-if(true)return;
+
+      //  if (true) return;
         File folder = FMLPaths.GAMEDIR.get().resolve("recorded_songs").toFile();
 
         if (!folder.exists()) {
             folder.mkdir();
         }
 
-        File exportPath = new File(folder, "bb.json");
+        File exportPath = new File(folder, "brain_coral.json");
+
 
         try {
-            var b = new SimpleWeightedRandomList.Builder<BlockPair>();
-            for (var l : WeatheringHelper.BIOME_FLOWERS.get().get(Biomes.PLAINS).unwrap()) {
-                b.add(BlockPair.of(l.getData()), l.getWeight().asInt());
+
+            List<BlockGrowthConfiguration.DirectionalList> list = new ArrayList<>();
+            for(Direction d : Direction.Plane.HORIZONTAL){
+                var blocks = new SimpleWeightedRandomList.Builder<BlockPair>();
+                blocks.add(BlockPair.of(Blocks.BRAIN_CORAL_WALL_FAN.defaultBlockState().setValue(CoralWallFanBlock.FACING,d)),1);
+                list.add(new BlockGrowthConfiguration.DirectionalList(Optional.of(d),
+                        Optional.of(1),blocks.build()));
             }
-            var randomBlockList = new BlockGrowthConfiguration.JsonReadyRandomBlockList(
-                    Optional.empty(), Optional.empty(), b.build());
-            var ac = new AreaCondition.AreaCheck(3, 3, 3, 12, Optional.empty(),
-                    Optional.of(new RandomBlockMatchTest(Blocks.LAVA, 0.9f)), Optional.of(new BlockMatchTest(Blocks.WATER)));
-            var r = new BlockGrowthConfiguration(new BlockMatchTest(Blocks.NETHERRACK), ac,
-                    List.of(randomBlockList), Blocks.MAGMA_BLOCK, Optional.of(BuiltinRegistries.BIOME.getOrCreateTag(BiomeTags.IS_NETHER)));
+
+            var blocks = new SimpleWeightedRandomList.Builder<BlockPair>();
+            blocks.add(BlockPair.of(Blocks.BRAIN_CORAL_FAN),1);
+            blocks.add(BlockPair.of(Blocks.BRAIN_CORAL),1);
+            list.add(new BlockGrowthConfiguration.DirectionalList(Optional.of(Direction.UP),
+                    Optional.of(1),blocks.build()));
+
+
+            var ac = new AreaCondition.AreaCheck(2, 2, 2, 6, Optional.empty(), Optional.empty(),Optional.empty());
+            var r = new BlockGrowthConfiguration(1,new RandomBlockMatchTest(Blocks.WATER, 0.8f), ac,
+                    list, Blocks.BRAIN_CORAL, Optional.of(List.of(new BiomeRuleTest.BiomeSetMatchTest(
+                            BuiltinRegistries.BIOME.getOrCreateTag(BiomeTags.IS_NETHER)))));
             try (FileWriter writer = new FileWriter(exportPath)) {
-                manager.writeToFile(r, writer);
+                GROWTH_MANAGER.writeToFile(r, writer);
+
+                Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create(); //json object that will write stuff
+
+                // var aa =ConfiguredStructureFeature.CODEC.encodeStart(JsonOps.INSTANCE, StructureFeatures.IGLOO);
+                //aa.result().ifPresent(a -> GSON.toJson(a.getAsJsonObject(), writer));
             }
         } catch (IOException e) {
             e.printStackTrace();

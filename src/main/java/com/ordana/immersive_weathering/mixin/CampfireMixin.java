@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.common.ModTags;
 import com.ordana.immersive_weathering.common.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -10,6 +11,9 @@ import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Random;
 
@@ -18,6 +22,11 @@ public abstract class CampfireMixin extends Block {
 
     protected CampfireMixin(Properties settings) {
         super(settings);
+    }
+
+    @Inject(method = "isSmokeSource", at = @At("HEAD"), cancellable = true)
+    public void isSmokeSource(BlockState state, CallbackInfoReturnable<Boolean> cir) {
+        if (state.is(ModTags.SMOKEY_BLOCKS)) cir.setReturnValue(true);
     }
 
     @Override
