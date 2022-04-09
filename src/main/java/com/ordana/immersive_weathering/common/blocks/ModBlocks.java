@@ -97,7 +97,7 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> WEEDS = reg("WEEDS".toLowerCase(Locale.ROOT), () ->
             new WeedsBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
-    public static final RegistryObject<Block> ASH_BLOCK = reg("ASH_BLOCK".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<Block> ASH_BLOCK = reg("SOOT_BLOCK".toLowerCase(Locale.ROOT), () ->
             new AshBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).instabreak().sound(SoundType.SNOW).lightLevel(createLightLevelFromLitBlockState(6)).randomTicks()));
     public static final RegistryObject<Block> SOOT = reg("SOOT".toLowerCase(Locale.ROOT), () ->
             new SootBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.COLOR_BLACK).noCollission().instabreak().sound(SoundType.SNOW).lightLevel(createLightLevelFromLitBlockState(5)).randomTicks()));

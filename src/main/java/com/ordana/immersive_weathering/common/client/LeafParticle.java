@@ -4,9 +4,6 @@ import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.world.level.FoliageColor;
-
-import java.awt.*;
 
 public class LeafParticle extends TextureSheetParticle {
     private final float rotationSpeed;
@@ -64,7 +61,7 @@ public class LeafParticle extends TextureSheetParticle {
 
         @Override
         public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double vel, double color, double i) {
-            if(vel == 0)vel = -3;
+            if (vel == 0) vel = -3;
             return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, vel, 0.0D,
                     -1);
         }

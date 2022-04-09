@@ -3,17 +3,24 @@ package com.ordana.immersive_weathering.common.blocks.rustable;
 import com.ordana.immersive_weathering.common.ModParticles;
 import com.ordana.immersive_weathering.common.ModTags;
 import java.util.Random;
+
+import com.ordana.immersive_weathering.common.blocks.Waxables;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
+import org.jetbrains.annotations.Nullable;
 
 public class RustableBlock extends Block implements Rustable{
     private final Rustable.RustLevel rustLevel;
@@ -103,5 +110,20 @@ public class RustableBlock extends Block implements Rustable{
             return true;
         }
         return super.triggerEvent(state, level, pos, i, i1);
+    }
+
+    @Nullable
+    @Override
+    public BlockState getToolModifiedState(BlockState state, Level level, BlockPos pos, Player player, ItemStack stack, ToolAction toolAction) {
+        if(this.getAge() != RustLevel.RUSTED && ToolActions.AXE_SCRAPE.equals(toolAction)){
+            return this.getPrevious(state).orElse(null);
+        }
+        else if(ToolActions.AXE_WAX_OFF.equals(toolAction)){
+            var v = Waxables.getUnWaxedState(state);
+            if(v.isPresent()){
+                return v.get();
+            }
+        }
+        return super.getToolModifiedState(state, level, pos, player, stack, toolAction);
     }
 }

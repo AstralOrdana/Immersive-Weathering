@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.data.BlockGrowthManager;
+import com.ordana.immersive_weathering.data.BlockGrowthHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.MagmaBlock;
@@ -17,6 +17,6 @@ public abstract class MagmaBlockMixin {
 
     @Inject(method = "randomTick", at = @At("TAIL"))
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
-        BlockGrowthManager.execute(state, world, pos);
+        BlockGrowthHandler.execute(state, world, pos);
     }
 }

@@ -8,13 +8,22 @@ import com.ordana.immersive_weathering.data.BlockSetMatchTest;
 import com.ordana.immersive_weathering.data.FluidMatchTest;
 import com.ordana.immersive_weathering.data.LogMatchTest;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Author: Ordana, Keybounce, MehVahdJukaar
@@ -44,7 +53,6 @@ public class ImmersiveWeathering {
         MinecraftForge.EVENT_BUS.register(ModFeatures.class);
         bus.addListener(ImmersiveWeathering::init);
 
-
         //TODO: smarter farmers remove weeds
 
     }
@@ -66,5 +74,6 @@ public class ImmersiveWeathering {
         });
         */
     }
+
 
 }

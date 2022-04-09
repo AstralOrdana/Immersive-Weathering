@@ -13,10 +13,11 @@
   "subtitles.block.icicle.land": "Icicle crashes down",
 
   "block.immersive_weathering.icicle": "Icicle",
+  "block.immersive_weathering.humus": "Humus",
 
   "block.immersive_weathering.weeds": "Weeds",
   "block.immersive_weathering.soot": "Soot",
-  "block.immersive_weathering.ash_block": "Ash Block",
+  "block.immersive_weathering.soot_block": "Soot Block",
 
   "block.immersive_weathering.mossy_bricks": "Mossy Bricks",
   "block.immersive_weathering.mossy_brick_stairs": "Mossy Brick Stairs",
@@ -100,6 +101,8 @@
   "block.immersive_weathering.nulch_block": "Block of Nulch",
   "block.immersive_weathering.mulch": "Mulch",
   "block.immersive_weathering.nulch": "Nulch",
+
+  "block.immersive_weathering.vitrified_sand": "Vitrified Sand",
 
   "item.immersive_weathering.steel_wool": "Steel Wool",
 

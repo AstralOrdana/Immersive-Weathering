@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.data.BlockGrowthManager;
+import com.ordana.immersive_weathering.data.BlockGrowthHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
@@ -24,6 +24,6 @@ public abstract class CoralBlockMixin extends Block {
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
-        BlockGrowthManager.execute(state, world, pos);
+        BlockGrowthHandler.execute(state, world, pos);
     }
 }

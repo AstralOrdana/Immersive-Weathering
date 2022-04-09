@@ -20,6 +20,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -40,6 +41,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RandomBlockMatchTest;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -48,19 +50,18 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Mod.EventBusSubscriber(modid = ImmersiveWeathering.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
 
-    private static final BlockGrowthManager GROWTH_MANAGER = new BlockGrowthManager();
+    private static final BlockGrowthHandler GROWTH_MANAGER = new BlockGrowthHandler();
 
     @SubscribeEvent
     public static void onTagUpdated(TagsUpdatedEvent event) {
@@ -80,9 +81,9 @@ public class ModEvents {
             event.addListener(GROWTH_MANAGER);
         } catch (Exception ignored) {
         }
-        ;
 
 
+        if(true)return;
       //  if (true) return;
         File folder = FMLPaths.GAMEDIR.get().resolve("recorded_songs").toFile();
 
@@ -281,7 +282,7 @@ public class ModEvents {
                 }
             }
 
-            if (state instanceof Rustable r && r.getAge() != Rustable.RustLevel.RUSTED) {
+            if (state.getBlock() instanceof Rustable r && r.getAge() != Rustable.RustLevel.RUSTED) {
                 var unRusted = r.getPrevious(state).orElse(null);
                 if (unRusted != null) {
 
@@ -400,6 +401,45 @@ public class ModEvents {
 
                 event.setCanceled(true);
                 event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+            }
+        }
+    }
+
+
+
+
+    private static final Map<String, ResourceLocation> fullReMap = new HashMap<>(){{
+        put("ash_block",ImmersiveWeathering.res("soot_block"));
+    }};
+
+    @SubscribeEvent
+    public static void onRemapBlocks(RegistryEvent.MissingMappings<Block> event) {
+        for (RegistryEvent.MissingMappings.Mapping<Block> mapping : event.getMappings(ImmersiveWeathering.MOD_ID)) {
+            String k = mapping.key.getPath();
+            if (fullReMap.containsKey(k)) {
+                var i = fullReMap.get(k);
+                try {
+                    ImmersiveWeathering.LOGGER.warn("Remapping block '{}' to '{}'", mapping.key, i);
+                    mapping.remap(ForgeRegistries.BLOCKS.getValue(i));
+                } catch (Throwable t) {
+                    ImmersiveWeathering.LOGGER.warn("Remapping block '{}' to '{}' failed: {}", mapping.key, i, t);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRemapItems(RegistryEvent.MissingMappings<Item> event) {
+        for (RegistryEvent.MissingMappings.Mapping<Item> mapping : event.getMappings(ImmersiveWeathering.MOD_ID)) {
+            String k = mapping.key.getPath();
+            if (fullReMap.containsKey(k)) {
+                var i = fullReMap.get(k);
+                try {
+                    ImmersiveWeathering.LOGGER.warn("Remapping item '{}' to '{}'", mapping.key, i);
+                    mapping.remap(ForgeRegistries.ITEMS.getValue(i));
+                } catch (Throwable t) {
+                    ImmersiveWeathering.LOGGER.warn("Remapping item '{}' to '{}' failed: {}", mapping.key, i, t);
+                }
             }
         }
     }

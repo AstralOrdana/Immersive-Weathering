@@ -281,4 +281,19 @@ public class WeatheringHelper {
         Random posRandom = new Random(Mth.getSeed(pos));
         return posRandom.nextInt(12) == 0;
     }
+
+    public static void tryPlacingIcicle(BlockState state, Level level, BlockPos pos, Biome.Precipitation precipitation) {
+        if (precipitation == Biome.Precipitation.SNOW && WeatheringHelper.isIciclePos(pos)) {
+            BlockPos p = pos.below(state.is(BlockTags.SNOW) ? 2 : 1);
+            BlockState placement = ModBlocks.ICICLE.get().defaultBlockState().setValue(IcicleBlock.TIP_DIRECTION, Direction.DOWN);
+            if (level.getBlockState(p).isAir() && placement.canSurvive(level, p)) {
+                if (Direction.Plane.HORIZONTAL.stream().anyMatch(d -> {
+                    BlockPos rel = p.relative(d);
+                    return level.canSeeSky(rel) && level.getBlockState(rel).isAir();
+                })) {
+                    level.setBlockAndUpdate(p, placement);
+                }
+            }
+        }
+    }
 }

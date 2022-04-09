@@ -25,7 +25,7 @@ import java.util.*;
 
 import static com.ordana.immersive_weathering.data.BlockGrowthConfiguration.CODEC;
 
-public class BlockGrowthManager extends SimpleJsonResourceReloadListener {
+public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create(); //json object that will write stuff
 
@@ -33,7 +33,7 @@ public class BlockGrowthManager extends SimpleJsonResourceReloadListener {
 
     public RegistryAccess registryAccess;
 
-    public BlockGrowthManager() {
+    public BlockGrowthHandler() {
         super(GSON, "block_growths");
     }
 

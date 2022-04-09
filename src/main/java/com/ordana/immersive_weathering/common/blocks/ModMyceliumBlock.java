@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.common.blocks;
 
-import com.ordana.immersive_weathering.data.BlockGrowthManager;
+import com.ordana.immersive_weathering.data.BlockGrowthHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
@@ -37,7 +37,7 @@ public class ModMyceliumBlock extends MyceliumBlock implements BonemealableBlock
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
         super.randomTick(state, level, pos, random);
         if (state.getValue(FERTILE)) {
-            BlockGrowthManager.execute(state, level, pos);
+            BlockGrowthHandler.execute(state, level, pos);
         }
     }
 

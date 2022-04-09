@@ -1,14 +1,11 @@
 package com.ordana.immersive_weathering.common.blocks;
 
-import com.ordana.immersive_weathering.data.BlockGrowthManager;
+import com.ordana.immersive_weathering.data.BlockGrowthHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.GrassBlock;
-import net.minecraft.world.level.block.MyceliumBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -38,7 +35,7 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock {
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
         super.randomTick(state, level, pos, random);
         if (state.getValue(FERTILE)) {
-            BlockGrowthManager.execute(state, level, pos);
+            BlockGrowthHandler.execute(state, level, pos);
         }
     }
 

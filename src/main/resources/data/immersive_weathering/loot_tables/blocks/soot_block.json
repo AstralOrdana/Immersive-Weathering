@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "immersive_weathering:ash_block"
+          "name": "immersive_weathering:soot_block"
         }
       ],
       "conditions": [
