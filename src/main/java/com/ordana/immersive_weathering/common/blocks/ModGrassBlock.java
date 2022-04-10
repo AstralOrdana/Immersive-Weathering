@@ -35,7 +35,7 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock {
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
         super.randomTick(state, level, pos, random);
         if (state.getValue(FERTILE)) {
-            BlockGrowthHandler.execute(state, level, pos);
+            BlockGrowthHandler.tickBlock(state, level, pos);
         }
     }
 

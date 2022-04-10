@@ -71,15 +71,14 @@ public class ModEvents {
     //hackies shit ever but that's the best I can do if I dont get given a registry access in that reload listener
     //Without it, it wont load tags
     //use this until forge approves that datapack registries PR (will take some time)
-    static Field field = ObfuscationReflectionHelper.findField(TagManager.class, "registryAccess");
-
     @SubscribeEvent
     public static void onAddReloadListeners(final AddReloadListenerEvent event) {
         try {
             TagManager t = ((TagManager) event.getServerResources().listeners().get(0));
-            GROWTH_MANAGER.registryAccess = (RegistryAccess) field.get(t);
+            GROWTH_MANAGER.registryAccess = t.registryAccess;
             event.addListener(GROWTH_MANAGER);
         } catch (Exception ignored) {
+            ImmersiveWeathering.LOGGER.error("Failed to register Growth Manager. This means many weathering features wont work");
         }
 
 
@@ -114,7 +113,7 @@ public class ModEvents {
             var ac = new AreaCondition.AreaCheck(2, 2, 2, 6, Optional.empty(), Optional.empty(),Optional.empty());
             var r = new BlockGrowthConfiguration(1,new RandomBlockMatchTest(Blocks.WATER, 0.8f), ac,
                     list, Blocks.BRAIN_CORAL, Optional.of(List.of(new PositionRuleTest.BiomeSetMatchTest(
-                            BuiltinRegistries.BIOME.getOrCreateTag(BiomeTags.IS_NETHER)))));
+                            BuiltinRegistries.BIOME.getOrCreateTag(BiomeTags.IS_NETHER)))), Optional.empty());
             try (FileWriter writer = new FileWriter(exportPath)) {
                 GROWTH_MANAGER.writeToFile(r, writer);
 

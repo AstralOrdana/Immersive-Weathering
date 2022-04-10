@@ -31,7 +31,7 @@ public abstract class RootedDirtMixin extends Block implements BonemealableBlock
 
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
-        BlockGrowthHandler.execute(state, level, pos);
+        BlockGrowthHandler.tickBlock(state, level, pos);
     }
 
     @Override

@@ -24,6 +24,6 @@ public abstract class CoralBlockMixin extends Block {
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
-        BlockGrowthHandler.execute(state, world, pos);
+        BlockGrowthHandler.tickBlock(state, world, pos);
     }
 }

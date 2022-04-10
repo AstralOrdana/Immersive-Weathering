@@ -33,7 +33,7 @@ import java.util.*;
 public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowthConfiguration> {
 
     public static final BlockGrowthConfiguration EMPTY = new BlockGrowthConfiguration(1,
-            AlwaysTrueTest.INSTANCE, AreaCondition.EMPTY, List.of(), Blocks.AIR, Optional.empty());
+            AlwaysTrueTest.INSTANCE, AreaCondition.EMPTY, List.of(), Blocks.AIR, Optional.empty(), Optional.empty());
 
     public static final Codec<BlockGrowthConfiguration> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.FLOAT.fieldOf("growth_chance").forGetter(BlockGrowthConfiguration::getGrowthChance),
@@ -41,8 +41,10 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
             AreaCondition.CODEC.fieldOf("area_condition").forGetter(BlockGrowthConfiguration::getAreaCondition),
             DirectionalList.CODEC.listOf().fieldOf("growth_for_face").forGetter(BlockGrowthConfiguration::encodeRandomLists),
             Registry.BLOCK.byNameCodec().fieldOf("owner").forGetter(BlockGrowthConfiguration::getOwner),
-            PositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates").forGetter(BlockGrowthConfiguration::getBiomePredicates)
+            PositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates").forGetter(BlockGrowthConfiguration::getBiomePredicates),
+            Codec.BOOL.optionalFieldOf("target_self").forGetter(b->b.targetSelf() ? Optional.of(Boolean.TRUE) : Optional.empty())
     ).apply(instance, BlockGrowthConfiguration::new));
+
 
 
     private final float growthChance;
@@ -52,13 +54,15 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
     private final Map<Direction, SimpleWeightedRandomList<BlockPair>> blockGrowths;
     private final Set<Block> possibleBlocks;
     private final List<PositionRuleTest> biomePredicates;
+    private final boolean targetSelf;
 
     private final int maxRange;
     private final AreaCondition areaCondition;
 
     public BlockGrowthConfiguration(float growthChance, RuleTest targetPredicate, AreaCondition areaCheck,
                                     List<DirectionalList> growthForDirection,
-                                    Block owner, Optional<List<PositionRuleTest>> biomePredicates) {
+                                    Block owner, Optional<List<PositionRuleTest>> biomePredicates,
+                                    Optional<Boolean> targetSelf) {
         this.growthChance = growthChance;
         this.owner = owner;
         this.biomePredicates = biomePredicates.orElse(List.of());
@@ -93,6 +97,7 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
 
         this.areaCondition = areaCheck;
         this.maxRange = areaCheck.getMaxRange();
+        this.targetSelf = targetSelf.orElse(false);
     }
 
     private void decodeRandomList(Direction direction, SimpleWeightedRandomList.Builder<Direction> dirBuilder, ImmutableMap.Builder<Direction,
@@ -141,6 +146,10 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
         return this.owner;
     }
 
+    public boolean targetSelf() {
+        return targetSelf;
+    }
+
     public Optional<List<PositionRuleTest>> getBiomePredicates() {
         return this.biomePredicates.isEmpty() ? Optional.empty() : Optional.of(this.biomePredicates);
     }
@@ -166,10 +175,10 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
             Direction dir = this.growthForDirection.getRandomValue(level.random).orElse(Direction.UP);
 
             Random seed = new Random(Mth.getSeed(pos));
-            BlockPos targetPos = pos.relative(dir);
-            BlockState target = level.getBlockState(targetPos);
+            BlockPos targetPos = targetSelf ? pos : pos.relative(dir);
+            BlockState target =  level.getBlockState(targetPos);
 
-            if (targetPredicate.test(target, seed)) {
+            if (targetSelf || targetPredicate.test(target, seed)) {
 
                 if (areaCondition.test(pos, level, this)) {
 

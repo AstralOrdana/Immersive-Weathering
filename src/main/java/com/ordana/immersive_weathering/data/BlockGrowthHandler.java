@@ -41,7 +41,7 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
         return Optional.ofNullable(GROWTH_FOR_BLOCK.get(block));
     }
 
-    public static void execute(BlockState state, ServerLevel level, BlockPos pos) {
+    public static void tickBlock(BlockState state, ServerLevel level, BlockPos pos) {
         getBlockGrowthConfig(state.getBlock()).ifPresent(l -> {
             Holder<Biome> biome = level.getBiome(pos);
             for (var config : l) {

@@ -114,6 +114,7 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
                 }else if(hasClay){
                     newState = Blocks.TERRACOTTA.defaultBlockState();
                 }else if(hasSand){
+                    pos = pos.relative(direction.getOpposite());
                     newState = ModBlocks.VITRIFIED_SAND.get().defaultBlockState();
                 }
 
