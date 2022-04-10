@@ -61,17 +61,6 @@ public class WeatheringHelper {
             .build());
 
 
-    public record CoralFamily(Block coral, Block fan, Block wallFan) {
-    }
-
-    private static final Supplier<Map<Block, CoralFamily>> CORALS = Suppliers.memoize(() -> ImmutableMap.<Block, CoralFamily>builder()
-            .put(Blocks.BRAIN_CORAL_BLOCK, new CoralFamily(Blocks.BRAIN_CORAL, Blocks.BRAIN_CORAL_FAN, Blocks.BRAIN_CORAL_WALL_FAN))
-            .put(Blocks.BUBBLE_CORAL_BLOCK, new CoralFamily(Blocks.BUBBLE_CORAL, Blocks.BUBBLE_CORAL_FAN, Blocks.BUBBLE_CORAL_WALL_FAN))
-            .put(Blocks.FIRE_CORAL_BLOCK, new CoralFamily(Blocks.FIRE_CORAL, Blocks.FIRE_CORAL_FAN, Blocks.FIRE_CORAL_WALL_FAN))
-            .put(Blocks.TUBE_CORAL_BLOCK, new CoralFamily(Blocks.TUBE_CORAL, Blocks.TUBE_CORAL_FAN, Blocks.TUBE_CORAL_WALL_FAN))
-            .put(Blocks.HORN_CORAL_BLOCK, new CoralFamily(Blocks.HORN_CORAL, Blocks.HORN_CORAL_FAN, Blocks.HORN_CORAL_WALL_FAN))
-            .build());
-
     public static final Supplier<BiMap<Block, Block>> FLOWERY_BLOCKS = Suppliers.memoize(() -> {
         var builder = ImmutableBiMap.<Block, Block>builder()
                 .put(Blocks.FLOWERING_AZALEA, Blocks.AZALEA)
@@ -125,10 +114,6 @@ public class WeatheringHelper {
             .put(Blocks.STRIPPED_WARPED_HYPHAE, Pair.of(ModItems.WARPED_SCALES.get(), Blocks.WARPED_HYPHAE))
             .build());
 
-
-    public static Optional<CoralFamily> getCoralGrowth(BlockState baseBlock) {
-        return Optional.ofNullable(CORALS.get().get(baseBlock.getBlock()));
-    }
 
     public static Optional<BlockState> getAzaleaGrowth(BlockState state) {
         return Optional.ofNullable(FLOWERY_BLOCKS.get().inverse().get(state.getBlock()))
@@ -292,6 +277,29 @@ public class WeatheringHelper {
                     return level.canSeeSky(rel) && level.getBlockState(rel).isAir();
                 })) {
                     level.setBlockAndUpdate(p, placement);
+                }
+            }
+        }
+    }
+
+    public static void onLightningHit(BlockPos centerPos, Level level, int rec) {
+        BlockState vitrified = ModBlocks.VITRIFIED_SAND.get().defaultBlockState();
+        level.setBlockAndUpdate(centerPos, vitrified);
+        if (rec >= 5) return;
+
+        rec++;
+        float decrement = 0.7f;
+        double p = Math.pow(decrement, rec);
+        if (rec == 0 || level.random.nextFloat() < 1 * p) {
+            BlockPos downPos = centerPos.below();
+            if (level.getBlockState(downPos).is(BlockTags.SAND)) {
+                onLightningHit(downPos, level, rec);
+            }
+        }
+        for (BlockPos target : BlockPos.withinManhattan(centerPos, 1, 0, 1)) {
+            if (level.random.nextFloat() < 0.3 * p && target != centerPos) {
+                if (level.getBlockState(target).is(BlockTags.SAND)) {
+                    onLightningHit(target, level, rec);
                 }
             }
         }

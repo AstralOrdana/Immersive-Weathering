@@ -112,6 +112,7 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
                 } else if (hasSoulfire) {
                     newState = Blocks.CRYING_OBSIDIAN.defaultBlockState();
                 }else if(hasClay){
+                    pos = pos.relative(direction.getOpposite());
                     newState = Blocks.TERRACOTTA.defaultBlockState();
                 }else if(hasSand){
                     pos = pos.relative(direction.getOpposite());

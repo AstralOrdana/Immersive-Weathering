@@ -25,6 +25,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagManager;
 import net.minecraft.util.random.SimpleWeightedRandomList;
@@ -38,6 +39,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RandomBlockMatchTest;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -178,6 +180,8 @@ public class ModEvents {
 
                 if (player instanceof ServerPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    level.gameEvent(player, GameEvent.SHEAR, pos);
+                    player.awardStat(Stats.ITEM_USED.get(i));
                 }
 
                 event.setCanceled(true);
@@ -203,6 +207,7 @@ public class ModEvents {
 
                     if (player instanceof ServerPlayer) {
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                        player.awardStat(Stats.ITEM_USED.get(i));
                     }
 
                     event.setCanceled(true);
@@ -227,6 +232,7 @@ public class ModEvents {
 
                 if (player instanceof ServerPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    player.awardStat(Stats.ITEM_USED.get(i));
                 }
 
                 event.setCanceled(true);
@@ -251,6 +257,7 @@ public class ModEvents {
 
                 if (player instanceof ServerPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    player.awardStat(Stats.ITEM_USED.get(i));
                 }
 
                 event.setCanceled(true);
@@ -274,6 +281,7 @@ public class ModEvents {
 
                     if (player instanceof ServerPlayer) {
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                        player.awardStat(Stats.ITEM_USED.get(i));
                     }
                     //not cancelling so the block can getMossSpreader
                     event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
@@ -294,6 +302,7 @@ public class ModEvents {
 
                     if (player instanceof ServerPlayer) {
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                        player.awardStat(Stats.ITEM_USED.get(i));
                     }
                     event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
                     event.setCanceled(true);
@@ -312,6 +321,7 @@ public class ModEvents {
 
                 if (player instanceof ServerPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    player.awardStat(Stats.ITEM_USED.get(i));
                 }
                 event.setCanceled(true);
                 event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
@@ -331,6 +341,7 @@ public class ModEvents {
 
                 if (player instanceof ServerPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    player.awardStat(Stats.ITEM_USED.get(i));
                 }
                 event.setCanceled(true);
                 event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
@@ -351,6 +362,7 @@ public class ModEvents {
 
                 if (player instanceof ServerPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    player.awardStat(Stats.ITEM_USED.get(i));
                 }
                 event.setCanceled(true);
                 event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
@@ -375,6 +387,7 @@ public class ModEvents {
 
                 if (player instanceof ServerPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    player.awardStat(Stats.ITEM_USED.get(i));
                 }
 
                 event.setCanceled(true);
@@ -394,6 +407,7 @@ public class ModEvents {
 
                 if (player instanceof ServerPlayer serverPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
+                    player.awardStat(Stats.ITEM_USED.get(i));
                 }
 
                 level.setBlockAndUpdate(pos, fixedState);
