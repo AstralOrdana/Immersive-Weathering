@@ -10,16 +10,21 @@ import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.ClampedNormalFloat;
+import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformFloat;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockPileConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.VegetationPatchConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraftforge.common.BiomeDictionary;
@@ -52,11 +57,35 @@ public class ModFeatures {
 
     }
 
+    private static void registerHumusPatches(String name) {
+        final Holder<ConfiguredFeature<VegetationPatchConfiguration, ?>> PATCH =
+                FeatureUtils.register("immersive_weathering:" + name, Feature.VEGETATION_PATCH,
+                        new VegetationPatchConfiguration(
+                                BlockTags.DIRT,
+                                BlockStateProvider.simple(ModBlocks.HUMUS.get()),
+                                PlacementUtils.inlinePlaced(FeatureUtils.register("immersive_weathering:no_op", Feature.NO_OP)),
+                                CaveSurface.FLOOR,
+                                ConstantInt.of(1),
+                                0.0F,
+                                5,
+                                0.8F,
+                                UniformInt.of(2, 6),
+                                0.5F));
+
+        PlacementUtils.register("immersive_weathering:" + name, PATCH,
+                PlacementUtils.HEIGHTMAP_TOP_SOLID,
+                NoiseBasedCountPlacement.of(15, 50, -0.1),
+                InSquarePlacement.spread(),
+                BiomeFilter.biome());
+
+    }
+
     public static void init() {
         registerLeafPile("oak");
         registerLeafPile("dark_oak");
         registerLeafPile("birch");
         registerLeafPile("spruce");
+        registerHumusPatches("humus_patches");
 
 
         //same as dripstone
@@ -124,10 +153,13 @@ public class ModFeatures {
             addFeature(event, "oak_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
         } else if (key == Biomes.DARK_FOREST) {
             addFeature(event, "dark_oak_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
+            addFeature(event, "humus_patches", GenerationStep.Decoration.LOCAL_MODIFICATIONS);
         } else if (key == Biomes.BIRCH_FOREST || key == Biomes.OLD_GROWTH_BIRCH_FOREST) {
             addFeature(event, "birch_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
         } else if (key == Biomes.OLD_GROWTH_SPRUCE_TAIGA || key == Biomes.OLD_GROWTH_PINE_TAIGA || key == Biomes.TAIGA) {
             addFeature(event, "spruce_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
         }
+
+
     }
 }

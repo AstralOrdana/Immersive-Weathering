@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.*;
 
-public interface SpreadingPatchBlock<T extends Enum<?>> {
+public interface PatchSpreader<T extends Enum<?>> {
 
     Class<T> getType();
 

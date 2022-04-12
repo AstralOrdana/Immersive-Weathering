@@ -1,14 +1,14 @@
 package com.ordana.immersive_weathering.common.blocks.crackable;
 
 import com.ordana.immersive_weathering.common.ModTags;
-import com.ordana.immersive_weathering.common.blocks.SpreadingPatchBlock;
+import com.ordana.immersive_weathering.common.blocks.PatchSpreader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CrackSpreader implements SpreadingPatchBlock<Crackable.CrackLevel> {
+public class CrackSpreader implements PatchSpreader<Crackable.CrackLevel> {
 
     public static final CrackSpreader INSTANCE = new CrackSpreader();
 

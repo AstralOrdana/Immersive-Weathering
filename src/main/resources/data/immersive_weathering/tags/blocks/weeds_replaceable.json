@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:crops",
+    "minecraft:air",
+    "immersive_weathering:soot",
+    "#immersive_weathering:leaf_piles"
+  ]
+}

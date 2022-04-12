@@ -26,10 +26,12 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Random;
 
 public class SootBlock extends MultifaceBlock {
@@ -135,13 +137,19 @@ public class SootBlock extends MultifaceBlock {
         return null;
     }
 
-
-
     public static boolean convertToSoot(Level level, BlockPos pos, BlockState fireState) {
-        if(level.random.nextFloat()<0.4f) {
-            level.setBlock(pos, ModBlocks.SOOT.get().withPropertiesOf(fireState).setValue(LIT,true), 2);
+        if (level.random.nextFloat() < 0.4f) {
+            level.setBlock(pos, ModBlocks.SOOT.get().withPropertiesOf(fireState).setValue(LIT, true), 2);
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<ItemStack> getDrops(BlockState p_60537_, LootContext.Builder builder) {
+        if (builder.getOptionalParameter(LootContextParams.THIS_ENTITY) != null) {
+            return super.getDrops(p_60537_, builder);
+        }
+        return List.of();
     }
 }

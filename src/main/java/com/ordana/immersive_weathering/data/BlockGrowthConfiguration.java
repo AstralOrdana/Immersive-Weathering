@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.AlwaysTrueTest;
-import net.minecraft.world.level.levelgen.structure.templatesystem.BlockStateMatchTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.jetbrains.annotations.Nullable;
@@ -31,7 +30,8 @@ import java.util.*;
 public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowthConfiguration> {
 
     public static final BlockGrowthConfiguration EMPTY = new BlockGrowthConfiguration(1,
-            AlwaysTrueTest.INSTANCE, AreaCondition.EMPTY, List.of(), HolderSet.direct(Holder.direct(Blocks.AIR)), Optional.empty(), Optional.empty());
+            AlwaysTrueTest.INSTANCE, AreaCondition.EMPTY, List.of(), HolderSet.direct(Holder.direct(Blocks.AIR)),
+            Optional.empty(), Optional.empty(), Optional.empty());
 
     public static final Codec<BlockGrowthConfiguration> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.FLOAT.fieldOf("growth_chance").forGetter(BlockGrowthConfiguration::getGrowthChance),
@@ -40,7 +40,8 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
             DirectionalList.CODEC.listOf().fieldOf("growth_for_face").forGetter(BlockGrowthConfiguration::encodeRandomLists),
             RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).fieldOf("owners").forGetter(BlockGrowthConfiguration::getOwners),
             PositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates").forGetter(BlockGrowthConfiguration::getBiomePredicates),
-            Codec.BOOL.optionalFieldOf("target_self").forGetter(b -> b.targetSelf() ? Optional.of(Boolean.TRUE) : Optional.empty())
+            Codec.BOOL.optionalFieldOf("target_self").forGetter(b -> b.targetSelf() ? Optional.of(Boolean.TRUE) : Optional.empty()),
+            Codec.BOOL.optionalFieldOf("destroy_target").forGetter(b -> b.destroyTarget() ? Optional.of(Boolean.TRUE) : Optional.empty())
     ).apply(instance, BlockGrowthConfiguration::new));
 
 
@@ -52,6 +53,7 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
     private final Set<Block> possibleBlocks;
     private final List<PositionRuleTest> biomePredicates;
     private final boolean targetSelf;
+    private final boolean destroyTarget;
 
     private final int maxRange;
     private final AreaCondition areaCondition;
@@ -59,7 +61,7 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
     public BlockGrowthConfiguration(float growthChance, RuleTest targetPredicate, AreaCondition areaCheck,
                                     List<DirectionalList> growthForDirection,
                                     HolderSet<Block> owners, Optional<List<PositionRuleTest>> biomePredicates,
-                                    Optional<Boolean> targetSelf) {
+                                    Optional<Boolean> targetSelf, Optional<Boolean> destroyTarget) {
         this.growthChance = growthChance;
         this.owners = owners;
         this.biomePredicates = biomePredicates.orElse(List.of());
@@ -82,7 +84,6 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
                         dirBuilder.add(d, 1);
                     }
                 }
-
                 break;
             } else {
                 decodeRandomList(randomBlockList.direction.get(), dirBuilder, growthBuilder, blockBuilder, randomBlockList);
@@ -95,6 +96,7 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
         this.areaCondition = areaCheck;
         this.maxRange = areaCheck.getMaxRange();
         this.targetSelf = targetSelf.orElse(false);
+        this.destroyTarget = destroyTarget.orElse(false);
     }
 
     private void decodeRandomList(Direction direction, SimpleWeightedRandomList.Builder<Direction> dirBuilder, ImmutableMap.Builder<Direction,
@@ -147,6 +149,10 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
         return targetSelf;
     }
 
+    public boolean destroyTarget() {
+        return destroyTarget;
+    }
+
     public Optional<List<PositionRuleTest>> getBiomePredicates() {
         return this.biomePredicates.isEmpty() ? Optional.empty() : Optional.of(this.biomePredicates);
     }
@@ -156,10 +162,12 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
     }
 
     private boolean canGrow(BlockPos pos, Level level, Holder<Biome> biome) {
-        for (PositionRuleTest biomeTest : this.biomePredicates) {
-            if (!biomeTest.test(biome, pos, level)) return false;
-        }
-        return level.isAreaLoaded(pos, maxRange) && level.random.nextFloat() < this.growthChance;
+        if(level.random.nextFloat() < this.growthChance) {
+            for (PositionRuleTest biomeTest : this.biomePredicates) {
+                if (!biomeTest.test(biome, pos, level)) return false;
+            }
+            return level.isAreaLoaded(pos, maxRange);
+        }return false;
     }
 
     public float getGrowthChance() {
@@ -194,8 +202,10 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
 
                         if (areaCondition.test(pos, level, this)) {
                             if (db) {
+                                if (destroyTarget) level.destroyBlock(targetPos2, true);
                                 level.setBlock(targetPos2, setWaterIfNeeded(toPlace.getSecond(), target2), 2);
                             }
+                            if (destroyTarget) level.destroyBlock(targetPos, true);
                             level.setBlock(targetPos, setWaterIfNeeded(toPlace.getFirst(), target), 2);
                             return true;
                         }

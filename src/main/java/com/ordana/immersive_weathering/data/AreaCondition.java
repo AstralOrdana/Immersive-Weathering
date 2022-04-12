@@ -95,8 +95,11 @@ public interface AreaCondition {
                 BlockState state = level.getBlockState(p);
                 if (config.getPossibleBlocks().contains(state.getBlock())) count += 1;
                 else {
-                    var fluid = state.getFluidState();
-                    if (!hasRequirement && mustHavePredicate.get().test(state, random)) hasRequirement = true;
+                    if (!hasRequirement && mustHavePredicate.get().test(state, random)){
+                        hasRequirement = true;
+                        // if -1 means it can accept any number so we exit early
+                        if(requiredAmount==-1)break;
+                    }
                     else if (mustNotHavePredicate.isPresent() && mustNotHavePredicate.get().test(state, random))
                         return false;
                 }

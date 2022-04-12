@@ -115,7 +115,7 @@ public class ModEvents {
             var ac = new AreaCondition.AreaCheck(2, 2, 2, 6, Optional.empty(), Optional.empty(), Optional.empty());
             var r = new BlockGrowthConfiguration(1, new RandomBlockMatchTest(Blocks.WATER, 0.8f), ac,
                     list, HolderSet.direct(Holder.direct(Blocks.BRAIN_CORAL)), Optional.of(List.of(new PositionRuleTest.BiomeSetMatchTest(
-                    BuiltinRegistries.BIOME.getOrCreateTag(BiomeTags.IS_NETHER)))), Optional.empty());
+                    BuiltinRegistries.BIOME.getOrCreateTag(BiomeTags.IS_NETHER)))), Optional.empty(), Optional.empty());
             try (FileWriter writer = new FileWriter(exportPath)) {
                 GROWTH_MANAGER.writeToFile(r, writer);
 
@@ -241,7 +241,7 @@ public class ModEvents {
             }
         }
         //break crackable stuff
-        else if (i instanceof PickaxeItem && b instanceof Crackable crackable) {
+        else if (i instanceof PickaxeItem && b instanceof Crackable crackable && player.isSecondaryUseActive()) {
 
             BlockState newBlock = crackable.getNextCracked(state).orElse(null);
             if (newBlock != null) {

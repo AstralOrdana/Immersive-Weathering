@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.common.blocks.mossable;
 
 import com.ordana.immersive_weathering.common.ModTags;
-import com.ordana.immersive_weathering.common.blocks.SpreadingPatchBlock;
+import com.ordana.immersive_weathering.common.blocks.PatchSpreader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.Random;
 
 //this class determines how moss patches spread
-public class MossSpreader implements SpreadingPatchBlock<Mossable.MossLevel> {
+public class MossSpreader implements PatchSpreader<Mossable.MossLevel> {
 
     public static MossSpreader INSTANCE = new MossSpreader();
 

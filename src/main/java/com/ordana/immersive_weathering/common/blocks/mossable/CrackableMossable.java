@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.common.blocks.mossable;
 
-import com.ordana.immersive_weathering.common.blocks.SpreadingPatchBlock;
+import com.ordana.immersive_weathering.common.blocks.PatchSpreader;
 import com.ordana.immersive_weathering.common.blocks.crackable.Crackable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -13,11 +13,11 @@ import java.util.Random;
 public interface CrackableMossable extends Mossable, Crackable {
 
     @Override
-    default <T extends Enum<?>> Optional<SpreadingPatchBlock<T>> getPatchSpreader(Class<T> weatheringClass) {
+    default <T extends Enum<?>> Optional<PatchSpreader<T>> getPatchSpreader(Class<T> weatheringClass) {
         if (weatheringClass == MossLevel.class) {
-            return Optional.of((SpreadingPatchBlock<T>) getMossSpreader());
+            return Optional.of((PatchSpreader<T>) getMossSpreader());
         } else if (weatheringClass == CrackLevel.class) {
-            return Optional.of((SpreadingPatchBlock<T>) getCrackSpreader());
+            return Optional.of((PatchSpreader<T>) getCrackSpreader());
         }
         return Optional.empty();
     }

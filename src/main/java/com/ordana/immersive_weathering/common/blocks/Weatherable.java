@@ -41,7 +41,7 @@ public interface Weatherable {
 
     boolean isWeathering(BlockState state);
 
-    <T extends Enum<?>> Optional<SpreadingPatchBlock<T>> getPatchSpreader(Class<T> weatheringClass);
+    <T extends Enum<?>> Optional<PatchSpreader<T>> getPatchSpreader(Class<T> weatheringClass);
 
     default float getWeatherChanceSpeed(){
         return 0.1f;

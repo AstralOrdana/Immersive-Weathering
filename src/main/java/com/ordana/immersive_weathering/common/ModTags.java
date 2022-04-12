@@ -24,6 +24,7 @@ public final class ModTags {
     public static final TagKey<Block> CRACK_SOURCE = registerBlockTag("crack_source");
     public static final TagKey<Block> ICICLE_REPLACEABLE_BLOCKS = registerBlockTag("icicle_replaceable_blocks");
     public static final TagKey<Block> GRASS_GROWTH_REPLACEABLE = registerBlockTag("grass_growth_replaceable");
+    public static final TagKey<Block> WEED_REPLACEABLE = registerBlockTag("weeds_replaceable");
 
     public static final TagKey<Block> CLEAN_IRON = registerBlockTag("clean_iron");
     public static final TagKey<Block> EXPOSED_IRON = registerBlockTag("exposed_iron");
@@ -31,6 +32,7 @@ public final class ModTags {
     public static final TagKey<Block> RUSTED_IRON = registerBlockTag("rusted_iron");
     public static final TagKey<Block> RUSTABLE = registerBlockTag("rustable");
     public static final TagKey<Block> WAXED_BLOCKS = registerBlockTag("waxed_blocks");
+
 
     public static final TagKey<Block> FLOWERY = registerBlockTag("flowery");
     public static final TagKey<Block> FLOWERABLE = registerBlockTag("flowerable");

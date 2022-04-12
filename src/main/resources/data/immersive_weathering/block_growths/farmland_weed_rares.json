@@ -1,0 +1,29 @@
+{
+  "growth_chance": 0.0001,
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:weeds",
+              "Properties": {
+                "age": "1"
+              }
+            },
+            "weight": 1
+          }
+        }
+      ]
+    }
+  ],
+  "replace_target": true,
+  "owners": [ "minecraft:farmland"],
+  "replacing_target": {
+    "blocks": "#minecraft:weeds_replaceable",
+    "predicate_type": "immersive_weathering:block-set_match",
+    "probability": 0.7
+  }
+}

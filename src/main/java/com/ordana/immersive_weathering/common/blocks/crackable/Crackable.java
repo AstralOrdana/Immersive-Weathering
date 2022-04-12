@@ -4,7 +4,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.common.blocks.ModBlocks;
-import com.ordana.immersive_weathering.common.blocks.SpreadingPatchBlock;
+import com.ordana.immersive_weathering.common.blocks.PatchSpreader;
 import com.ordana.immersive_weathering.common.blocks.Weatherable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -99,9 +99,9 @@ public interface Crackable extends Weatherable {
     CrackSpreader getCrackSpreader();
 
     @Override
-    default <T extends Enum<?>> Optional<SpreadingPatchBlock<T>> getPatchSpreader(Class<T> weatheringClass) {
+    default <T extends Enum<?>> Optional<PatchSpreader<T>> getPatchSpreader(Class<T> weatheringClass) {
         if (weatheringClass == CrackLevel.class) {
-            return Optional.of((SpreadingPatchBlock<T>) getCrackSpreader());
+            return Optional.of((PatchSpreader<T>) getCrackSpreader());
         }
         return Optional.empty();
     }
