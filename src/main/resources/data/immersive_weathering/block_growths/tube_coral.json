@@ -155,7 +155,7 @@
       ]
     }
   ],
-  "owner": "minecraft:tube_coral_block",
+  "owners": ["minecraft:tube_coral_block"],
   "replacing_target": {
     "block": "minecraft:water",
     "predicate_type": "minecraft:random_block_match",

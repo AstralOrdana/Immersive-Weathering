@@ -12,9 +12,11 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ShearsItem;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -42,7 +44,7 @@ public class SoilBlock extends SnowyDirtBlock implements BonemealableBlock {
 
     @Override
     public boolean isRandomlyTicking(BlockState state) {
-        return state.getValue(FERTILE);
+        return state.hasProperty(FERTILE) && state.getValue(FERTILE) && super.isRandomlyTicking(state);
     }
 
     @Override
@@ -74,21 +76,23 @@ public class SoilBlock extends SnowyDirtBlock implements BonemealableBlock {
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if(state.getValue(FERTILE)) {
             ItemStack itemstack = player.getItemInHand(hand);
+            if (itemstack.getItem() instanceof ShearsItem) {
+                if (!level.isClientSide) {
+                    level.playSound(null, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    level.setBlock(pos, state.setValue(FERTILE, false), 11);
 
-            if (!level.isClientSide) {
-                level.playSound(null, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0F, 1.0F);
-                level.setBlock(pos, state.setValue(FERTILE, false), 11);
+                    itemstack.hurtAndBreak(1, player, (player1) -> player1.broadcastBreakEvent(hand));
+                    level.gameEvent(player, GameEvent.SHEAR, pos);
+                    player.awardStat(Stats.ITEM_USED.get(Items.SHEARS));
+                } else {
+                    level.addDestroyBlockEffect(pos, Blocks.GRASS.defaultBlockState());
+                    // int p = level.random.nextInt(3)+3;
 
-                itemstack.hurtAndBreak(1, player, (player1) -> player1.broadcastBreakEvent(hand));
-                level.gameEvent(player, GameEvent.SHEAR, pos);
-                player.awardStat(Stats.ITEM_USED.get(Items.SHEARS));
-            } else {
-                level.addDestroyBlockEffect(pos, state);
-                // int p = level.random.nextInt(3)+3;
-
-                //  ModParticles.spawnParticleOnFace(level, pos,Direction.UP, BlockParticleOption.);
+                    //  ModParticles.spawnParticleOnFace(level, pos,Direction.UP, BlockParticleOption.);
+                }
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide);
-        }return super.use(state,level,pos,player,hand,hitResult);
+        }
+        return super.use(state,level,pos,player,hand,hitResult);
     }
 }

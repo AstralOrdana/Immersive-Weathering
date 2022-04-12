@@ -4,10 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
+import net.minecraft.core.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -20,6 +17,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.AlwaysTrueTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockStateMatchTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.jetbrains.annotations.Nullable;
@@ -33,22 +31,21 @@ import java.util.*;
 public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowthConfiguration> {
 
     public static final BlockGrowthConfiguration EMPTY = new BlockGrowthConfiguration(1,
-            AlwaysTrueTest.INSTANCE, AreaCondition.EMPTY, List.of(), Blocks.AIR, Optional.empty(), Optional.empty());
+            AlwaysTrueTest.INSTANCE, AreaCondition.EMPTY, List.of(), HolderSet.direct(Holder.direct(Blocks.AIR)), Optional.empty(), Optional.empty());
 
     public static final Codec<BlockGrowthConfiguration> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.FLOAT.fieldOf("growth_chance").forGetter(BlockGrowthConfiguration::getGrowthChance),
             RuleTest.CODEC.fieldOf("replacing_target").forGetter(BlockGrowthConfiguration::getTargetPredicate),
             AreaCondition.CODEC.fieldOf("area_condition").forGetter(BlockGrowthConfiguration::getAreaCondition),
             DirectionalList.CODEC.listOf().fieldOf("growth_for_face").forGetter(BlockGrowthConfiguration::encodeRandomLists),
-            Registry.BLOCK.byNameCodec().fieldOf("owner").forGetter(BlockGrowthConfiguration::getOwner),
+            RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).fieldOf("owners").forGetter(BlockGrowthConfiguration::getOwners),
             PositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates").forGetter(BlockGrowthConfiguration::getBiomePredicates),
-            Codec.BOOL.optionalFieldOf("target_self").forGetter(b->b.targetSelf() ? Optional.of(Boolean.TRUE) : Optional.empty())
+            Codec.BOOL.optionalFieldOf("target_self").forGetter(b -> b.targetSelf() ? Optional.of(Boolean.TRUE) : Optional.empty())
     ).apply(instance, BlockGrowthConfiguration::new));
 
 
-
     private final float growthChance;
-    private final Block owner;
+    private final HolderSet<Block> owners;
     private final RuleTest targetPredicate;
     private final SimpleWeightedRandomList<Direction> growthForDirection;
     private final Map<Direction, SimpleWeightedRandomList<BlockPair>> blockGrowths;
@@ -61,10 +58,10 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
 
     public BlockGrowthConfiguration(float growthChance, RuleTest targetPredicate, AreaCondition areaCheck,
                                     List<DirectionalList> growthForDirection,
-                                    Block owner, Optional<List<PositionRuleTest>> biomePredicates,
+                                    HolderSet<Block> owners, Optional<List<PositionRuleTest>> biomePredicates,
                                     Optional<Boolean> targetSelf) {
         this.growthChance = growthChance;
-        this.owner = owner;
+        this.owners = owners;
         this.biomePredicates = biomePredicates.orElse(List.of());
         this.targetPredicate = targetPredicate;
 
@@ -142,8 +139,8 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
         return this.possibleBlocks;
     }
 
-    public Block getOwner() {
-        return this.owner;
+    public HolderSet<Block> getOwners() {
+        return this.owners;
     }
 
     public boolean targetSelf() {
@@ -176,26 +173,30 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
 
             Random seed = new Random(Mth.getSeed(pos));
             BlockPos targetPos = targetSelf ? pos : pos.relative(dir);
-            BlockState target =  level.getBlockState(targetPos);
+            BlockState target = level.getBlockState(targetPos);
 
             if (targetSelf || targetPredicate.test(target, seed)) {
 
-                if (areaCondition.test(pos, level, this)) {
-
-                    var l = blockGrowths.get(dir);
-                    if (l != null) {
-                        var toPlace = l.getRandomValue(level.random).orElse(null);
-                        if (toPlace != null) {
-                            if (toPlace.isDouble()) {
-                                BlockPos targetPos2 = targetPos.relative(dir);
-                                BlockState target2 = level.getBlockState(targetPos2);
-                                if (targetPredicate.test(target2, seed)) {
-                                    level.setBlock(targetPos, setWaterIfNeeded(toPlace.getFirst(), target), 2);
-                                    level.setBlock(targetPos2, setWaterIfNeeded(toPlace.getSecond(), target2), 2);
-                                }
-                            } else {
-                                level.setBlock(targetPos, setWaterIfNeeded(toPlace.getFirst(), target), 2);
+                var l = blockGrowths.get(dir);
+                if (l != null) {
+                    var toPlace = l.getRandomValue(level.random).orElse(null);
+                    if (toPlace != null && toPlace.getFirst().canSurvive(level, targetPos)) {
+                        BlockPos targetPos2 = null;
+                        BlockState target2 = null;
+                        boolean db = toPlace.isDouble();
+                        if (db) {
+                            targetPos2 = targetPos.relative(dir);
+                            target2 = level.getBlockState(targetPos2);
+                            if (!targetPredicate.test(target2, seed) || !toPlace.getSecond().canSurvive(level, targetPos2)) {
+                                return false;
                             }
+                        }
+
+                        if (areaCondition.test(pos, level, this)) {
+                            if (db) {
+                                level.setBlock(targetPos2, setWaterIfNeeded(toPlace.getSecond(), target2), 2);
+                            }
+                            level.setBlock(targetPos, setWaterIfNeeded(toPlace.getFirst(), target), 2);
                             return true;
                         }
                     }

@@ -7,6 +7,7 @@
     "requiredAmount": 2,
     "type": "generate_if_not_too_many"
   },
+  "target_self": true,
   "growth_for_face": [
     {
       "direction": "up",
@@ -32,9 +33,10 @@
       ]
     }
   ],
-  "owner": "minecraft:fern",
+  "owners": ["minecraft:fern"],
   "replacing_target": {
     "block": "minecraft:air",
-    "predicate_type": "minecraft:block_match"
+    "predicate_type": "minecraft:random_block_match",
+    "probability": 0.3
   }
 }

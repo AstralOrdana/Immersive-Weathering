@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.fml.ModList;
 
 import java.util.Random;
 
@@ -106,6 +107,27 @@ public class AshBlock extends FallingBlock {
     @Override
     public int getDustColor(BlockState state, BlockGetter world, BlockPos pos) {
         return -1842206;
+    }
+
+    private static final boolean HAS_ASH = !ModList.get().isLoaded("supplementaries");
+
+    public static boolean convertToAsh(Level level, BlockPos pos) {
+        if (level.random.nextFloat() < 0.5) {
+
+            if (level.random.nextFloat() < 0.65) {
+                /*
+                BlockState toPlace = getMaximumAttachmentState(ModBlocks.SOOT.get(), pos, level);
+                if (toPlace != null) {
+                    level.setBlock(pos, toPlace.setValue(SootBlock.LIT, true), Block.UPDATE_CLIENTS);
+                    return true;
+                }*/
+            } else if (HAS_ASH) {
+                level.setBlock(pos, ModBlocks.ASH_BLOCK.get().defaultBlockState()
+                        .setValue(SootBlock.LIT, level.random.nextBoolean()), Block.UPDATE_CLIENTS);
+                return true;
+            }
+        }
+        return false;
     }
 
 

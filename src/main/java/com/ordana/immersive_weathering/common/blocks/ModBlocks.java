@@ -37,7 +37,7 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS_OVERRIDE = DeferredRegister.create(ForgeRegistries.BLOCKS, "minecraft");
 
 
-    public static RegistryObject<Block> reg(String name, Supplier<Block> supplier) {
+    public static <T extends Block> RegistryObject<T> reg(String name, Supplier<T> supplier) {
         return BLOCKS.register(name, supplier);
     }
 
@@ -98,9 +98,11 @@ public class ModBlocks {
     public static final RegistryObject<Block> WEEDS = reg("WEEDS".toLowerCase(Locale.ROOT), () ->
             new WeedsBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
     public static final RegistryObject<Block> ASH_BLOCK = reg("SOOT_BLOCK".toLowerCase(Locale.ROOT), () ->
-            new AshBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).instabreak().sound(SoundType.SNOW).lightLevel(createLightLevelFromLitBlockState(6)).randomTicks()));
-    public static final RegistryObject<Block> SOOT = reg("SOOT".toLowerCase(Locale.ROOT), () ->
-            new SootBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.COLOR_BLACK).noCollission().instabreak().sound(SoundType.SNOW).lightLevel(createLightLevelFromLitBlockState(5)).randomTicks()));
+            new AshBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).strength(0.5f)
+                    .sound(SoundType.SNOW).lightLevel(createLightLevelFromLitBlockState(6)).randomTicks()));
+    public static final RegistryObject<SootBlock> SOOT = reg("SOOT".toLowerCase(Locale.ROOT), () ->
+            new SootBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.COLOR_BLACK).noCollission()
+                    .requiresCorrectToolForDrops().instabreak().sound(SoundType.SNOW).lightLevel(createLightLevelFromLitBlockState(5)).randomTicks()));
 
     public static final RegistryObject<Block> MOSSY_BRICKS = reg("MOSSY_BRICKS".toLowerCase(Locale.ROOT), () ->
             new MossyBlock(Mossable.MossLevel.MOSSY, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));

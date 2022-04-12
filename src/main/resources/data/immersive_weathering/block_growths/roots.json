@@ -91,7 +91,7 @@
       ]
     }
   ],
-  "owner": "minecraft:rooted_dirt",
+  "owners": [ "minecraft:rooted_dirt"],
   "replacing_target": {
     "blocks": [
       "minecraft:air",

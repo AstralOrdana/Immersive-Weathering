@@ -35,7 +35,7 @@
       ]
     }
   ],
-  "owner": "minecraft:magma_block",
+  "owners": [ "minecraft:magma_block"],
   "replacing_target": {
     "block": "minecraft:netherrack",
     "predicate_type": "minecraft:block_match"

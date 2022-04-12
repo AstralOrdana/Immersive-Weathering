@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.FlintAndSteelItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.MultifaceBlock;
@@ -26,7 +27,9 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.fml.ModList;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class SootBlock extends MultifaceBlock {
@@ -50,7 +53,7 @@ public class SootBlock extends MultifaceBlock {
             world.setBlock(pos, state.setValue(LIT, false), 2);
             world.playSound(player, pos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0f, 1.0f);
             return InteractionResult.sidedSuccess(world.isClientSide);
-        } else if(player.getItemInHand(hand).getItem() instanceof FlintAndSteelItem) {
+        } else if (player.getItemInHand(hand).getItem() instanceof FlintAndSteelItem) {
             world.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
             ItemStack stack = (player.getItemInHand(hand));
             stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
@@ -112,5 +115,33 @@ public class SootBlock extends MultifaceBlock {
                 }
             }
         }
+    }
+
+    private static boolean canAttachTo(BlockGetter getter, Direction direction, BlockPos pos, BlockState state) {
+        return Block.isFaceFull(state.getCollisionShape(getter, pos), direction.getOpposite());
+    }
+
+    @Nullable
+    public static BlockState getMaximumAttachmentState(MultifaceBlock block, BlockPos pos, Level level) {
+        BlockState state = block.defaultBlockState();
+        boolean hasFace = false;
+        for (Direction dir : Direction.values()) {
+            BlockPos relative = pos.relative(dir);
+            boolean canAttach = canAttachTo(level, dir, relative, level.getBlockState(relative));
+            if (canAttach) hasFace = true;
+            state.setValue(getFaceProperty(dir), canAttach);
+        }
+        if (hasFace) return state;
+        return null;
+    }
+
+
+
+    public static boolean convertToSoot(Level level, BlockPos pos, BlockState fireState) {
+        if(level.random.nextFloat()<0.4f) {
+            level.setBlock(pos, ModBlocks.SOOT.get().withPropertiesOf(fireState).setValue(LIT,true), 2);
+            return true;
+        }
+        return false;
     }
 }

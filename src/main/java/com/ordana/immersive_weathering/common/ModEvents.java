@@ -17,7 +17,8 @@ import com.ordana.immersive_weathering.data.*;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -51,13 +52,11 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.*;
 
 @Mod.EventBusSubscriber(modid = ImmersiveWeathering.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -67,8 +66,9 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onTagUpdated(TagsUpdatedEvent event) {
-        //manager.registryAccess = event.getTagManager();
+        GROWTH_MANAGER.rebuild();
     }
+
 
     //hackies shit ever but that's the best I can do if I dont get given a registry access in that reload listener
     //Without it, it wont load tags
@@ -84,8 +84,8 @@ public class ModEvents {
         }
 
 
-        if(true)return;
-      //  if (true) return;
+        if (true) return;
+        //  if (true) return;
         File folder = FMLPaths.GAMEDIR.get().resolve("recorded_songs").toFile();
 
         if (!folder.exists()) {
@@ -98,24 +98,24 @@ public class ModEvents {
         try {
 
             List<BlockGrowthConfiguration.DirectionalList> list = new ArrayList<>();
-            for(Direction d : Direction.Plane.HORIZONTAL){
+            for (Direction d : Direction.Plane.HORIZONTAL) {
                 var blocks = new SimpleWeightedRandomList.Builder<BlockPair>();
-                blocks.add(BlockPair.of(Blocks.BRAIN_CORAL_WALL_FAN.defaultBlockState().setValue(CoralWallFanBlock.FACING,d)),1);
+                blocks.add(BlockPair.of(Blocks.BRAIN_CORAL_WALL_FAN.defaultBlockState().setValue(CoralWallFanBlock.FACING, d)), 1);
                 list.add(new BlockGrowthConfiguration.DirectionalList(Optional.of(d),
-                        Optional.of(1),blocks.build()));
+                        Optional.of(1), blocks.build()));
             }
 
             var blocks = new SimpleWeightedRandomList.Builder<BlockPair>();
-            blocks.add(BlockPair.of(Blocks.BRAIN_CORAL_FAN),1);
-            blocks.add(BlockPair.of(Blocks.BRAIN_CORAL),1);
+            blocks.add(BlockPair.of(Blocks.BRAIN_CORAL_FAN), 1);
+            blocks.add(BlockPair.of(Blocks.BRAIN_CORAL), 1);
             list.add(new BlockGrowthConfiguration.DirectionalList(Optional.of(Direction.UP),
-                    Optional.of(1),blocks.build()));
+                    Optional.of(1), blocks.build()));
 
 
-            var ac = new AreaCondition.AreaCheck(2, 2, 2, 6, Optional.empty(), Optional.empty(),Optional.empty());
-            var r = new BlockGrowthConfiguration(1,new RandomBlockMatchTest(Blocks.WATER, 0.8f), ac,
-                    list, Blocks.BRAIN_CORAL, Optional.of(List.of(new PositionRuleTest.BiomeSetMatchTest(
-                            BuiltinRegistries.BIOME.getOrCreateTag(BiomeTags.IS_NETHER)))), Optional.empty());
+            var ac = new AreaCondition.AreaCheck(2, 2, 2, 6, Optional.empty(), Optional.empty(), Optional.empty());
+            var r = new BlockGrowthConfiguration(1, new RandomBlockMatchTest(Blocks.WATER, 0.8f), ac,
+                    list, HolderSet.direct(Holder.direct(Blocks.BRAIN_CORAL)), Optional.of(List.of(new PositionRuleTest.BiomeSetMatchTest(
+                    BuiltinRegistries.BIOME.getOrCreateTag(BiomeTags.IS_NETHER)))), Optional.empty());
             try (FileWriter writer = new FileWriter(exportPath)) {
                 GROWTH_MANAGER.writeToFile(r, writer);
 
@@ -129,6 +129,7 @@ public class ModEvents {
         }
 
     }
+
 
     @SubscribeEvent
     public static void onEntityJoin(EntityJoinWorldEvent event) {
@@ -419,10 +420,8 @@ public class ModEvents {
     }
 
 
-
-
-    private static final Map<String, ResourceLocation> fullReMap = new HashMap<>(){{
-        put("ash_block",ImmersiveWeathering.res("soot_block"));
+    private static final Map<String, ResourceLocation> fullReMap = new HashMap<>() {{
+        put("ash_block", ImmersiveWeathering.res("soot_block"));
     }};
 
     @SubscribeEvent

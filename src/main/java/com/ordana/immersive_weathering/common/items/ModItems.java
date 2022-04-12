@@ -29,7 +29,7 @@ public class ModItems {
         return ITEMS.register(blockSup.getId().getPath(), () -> new BurnableBlockItem(blockSup.get(), properties, burnTIme));
     }
 
-    public static RegistryObject<BlockItem> regBlockItem(RegistryObject<Block> blockSup, Item.Properties properties) {
+    public static RegistryObject<BlockItem> regBlockItem(RegistryObject<? extends Block> blockSup, Item.Properties properties) {
         return ITEMS.register(blockSup.getId().getPath(), () -> new BlockItem(blockSup.get(), properties));
     }
 

@@ -97,7 +97,7 @@
       ]
     }
   ],
-  "owner": "minecraft:rooted_dirt",
+  "owners": [ "minecraft:rooted_dirt"],
   "replacing_target": {
     "block": "minecraft:dirt",
     "predicate_type": "minecraft:random_block_match",

@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "immersive_weathering:ash_block",
+    "immersive_weathering:soot_block",
     "immersive_weathering:soot",
     "#immersive_weathering:small_plants",
     "minecraft:air"
