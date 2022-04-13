@@ -1,0 +1,103 @@
+{
+  "area_condition": {
+    "radiusX": 3,
+    "radiusY": 3,
+    "radiusZ": 3,
+    "requiredAmount": 6,
+    "type": "generate_if_not_too_many"
+  },
+  "growth_chance": 0.4,
+  "growth_for_face": [
+    {
+      "direction": "north",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:hanging_roots_wall",
+              "Properties": {
+                "facing": "north"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "east",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:hanging_roots_wall",
+              "Properties": {
+                "facing": "east"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "south",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:hanging_roots_wall",
+              "Properties": {
+                "facing": "south"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "west",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:hanging_roots_wall",
+              "Properties": {
+                "facing": "west"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "down",
+      "weight": 2,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:hanging_roots"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": [ "minecraft:rooted_dirt"],
+  "replacing_target": {
+    "blocks": [
+      "minecraft:air",
+      "minecraft:water"
+    ],
+    "predicate_type": "immersive_weathering:block_set_match",
+    "probability": 0.8
+  }
+}

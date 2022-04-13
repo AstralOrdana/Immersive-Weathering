@@ -27,7 +27,7 @@ public class WeatheringHelper {
 
 
     //TODO: maybe finish this
-    private static final Supplier<Map<RegistryKey<Biome>, DataPool<Block>>> BIOME_FLOWERS = Suppliers.memoize(() -> ImmutableMap.<RegistryKey<Biome>, DataPool<Block>>builder()
+    public static final Supplier<Map<RegistryKey<Biome>, DataPool<Block>>> BIOME_FLOWERS = Suppliers.memoize(() -> ImmutableMap.<RegistryKey<Biome>, DataPool<Block>>builder()
             .put(BiomeKeys.PLAINS, DataPool.<Block>builder()
                     .add(Blocks.GRASS, 300)
                     .add(Blocks.DANDELION, 50)
@@ -89,6 +89,15 @@ public class WeatheringHelper {
                     .add(Direction.EAST, 5)
                     .add(Direction.UP, 1)
                     .add(Direction.DOWN, 20)
+                    .build();
+
+    public static final DataPool<Direction> CORAL_DIRECTIONS =
+            DataPool.<Direction>builder()
+                    .add(Direction.NORTH, 1)
+                    .add(Direction.SOUTH, 1)
+                    .add(Direction.WEST, 1)
+                    .add(Direction.EAST, 1)
+                    .add(Direction.UP, 5)
                     .build();
 
     public static Optional<CoralFamily> getCoralGrowth(BlockState baseBlock) {
@@ -215,5 +224,43 @@ public class WeatheringHelper {
     public static boolean isIciclePos(BlockPos pos) {
         Random posRandom = new Random(MathHelper.hashCode(pos));
         return posRandom.nextInt(12) == 0;
+    }
+
+    public static void tryPlacingIcicle(BlockState state, World world, BlockPos pos, Biome.Precipitation precipitation) {
+        if (precipitation == Biome.Precipitation.SNOW && WeatheringHelper.isIciclePos(pos)) {
+            BlockPos p = pos.down(state.isIn(BlockTags.SNOW) ? 2 : 1);
+            BlockState placement = ModBlocks.ICICLE.getDefaultState().with(IcicleBlock.VERTICAL_DIRECTION, Direction.DOWN);
+            if (world.getBlockState(p).isAir() && placement.canPlaceAt(world, p)) {
+                if (Direction.Type.HORIZONTAL.stream().anyMatch(d -> {
+                    BlockPos rel = p.offset(d);
+                    return world.isSkyVisible(rel) && world.getBlockState(rel).isAir();
+                })) {
+                    world.setBlockState(p, placement, 3);
+                }
+            }
+        }
+    }
+
+    public static void onLightningHit(BlockPos centerPos, World world, int rec) {
+        BlockState vitrified = ModBlocks.VITRIFIED_SAND.getDefaultState();
+        world.setBlockState(centerPos, vitrified, 3);
+        if (rec >= 5) return;
+
+        rec++;
+        float decrement = 0.7f;
+        double p = Math.pow(decrement, rec);
+        if (rec == 0 || world.random.nextFloat() < 1 * p) {
+            BlockPos downPos = centerPos.down();
+            if (world.getBlockState(downPos).isIn(BlockTags.SAND)) {
+                onLightningHit(downPos, world, rec);
+            }
+        }
+        for (BlockPos target : BlockPos.iterateOutwards(centerPos, 1, 0, 1)) {
+            if (world.random.nextFloat() < 0.3 * p && target != centerPos) {
+                if (world.getBlockState(target).isIn(BlockTags.SAND)) {
+                    onLightningHit(target, world, rec);
+                }
+            }
+        }
     }
 }

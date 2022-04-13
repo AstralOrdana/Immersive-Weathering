@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
+import com.ordana.immersive_weathering.data.BlockGrowthHandler;
 import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.*;
 import net.minecraft.server.world.ServerWorld;
@@ -70,17 +71,7 @@ public class ModMyceliumBlock extends MyceliumBlock implements Fertilizable {
             }
         }
         if (state.get(FERTILE)) {
-            if (state.isOf(Blocks.MYCELIUM)) {
-                BlockPos targetPos = pos.up();
-                if (random.nextFloat() < 0.001f && world.getBlockState(targetPos).isAir()) {
-                    if (!world.isChunkLoaded(pos)) return;
-                    if (!WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, world, b -> b.isIn(ModTags.SMALL_MUSHROOMS), 2)) {
-                        world.setBlockState(targetPos, (random.nextFloat() > 0.5f ?
-                                Blocks.RED_MUSHROOM : Blocks.BROWN_MUSHROOM).getDefaultState(), 2);
-
-                    }
-                }
-            }
+            BlockGrowthHandler.tickBlock(state, world, pos);
         }
     }
 

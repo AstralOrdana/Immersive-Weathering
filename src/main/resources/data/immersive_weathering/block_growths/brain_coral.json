@@ -1,0 +1,164 @@
+{
+  "area_condition": {
+    "radiusX": 2,
+    "radiusY": 2,
+    "radiusZ": 2,
+    "requiredAmount": 6,
+    "type": "generate_if_not_too_many"
+  },
+  "position_predicates": [
+    {
+      "biomes": ["minecraft:warm_ocean"],
+      "predicate_type": "biome_match"
+    }
+  ],
+  "growth_chance": 0.1,
+  "growth_for_face": [
+    {
+      "direction": "north",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Properties": {
+                "waterlogged": "true",
+                "facing": "north"
+              },
+              "Name": "minecraft:brain_coral_wall_fan"
+            }
+          },
+          "weight": 50
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:wet_sponge"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "east",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Properties": {
+                "waterlogged": "true",
+                "facing": "east"
+              },
+              "Name": "minecraft:brain_coral_wall_fan"
+            }
+          },
+          "weight": 50
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:wet_sponge"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "south",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Properties": {
+                "waterlogged": "true",
+                "facing": "south"
+              },
+              "Name": "minecraft:brain_coral_wall_fan"
+            }
+          },
+          "weight": 50
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:wet_sponge"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "west",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Properties": {
+                "waterlogged": "true",
+                "facing": "west"
+              },
+              "Name": "minecraft:brain_coral_wall_fan"
+            }
+          },
+          "weight": 50
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:wet_sponge"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "up",
+      "weight": 3,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Properties": {
+                "waterlogged": "true"
+              },
+              "Name": "minecraft:brain_coral_fan"
+            }
+          },
+          "weight": 25
+        },
+        {
+          "data": {
+            "block": {
+              "Properties": {
+                "waterlogged": "true"
+              },
+              "Name": "minecraft:brain_coral"
+            }
+          },
+          "weight": 25
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:wet_sponge"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": ["minecraft:brain_coral_block"],
+  "replacing_target": {
+    "block": "minecraft:water",
+    "predicate_type": "minecraft:random_block_match",
+    "probability": 0.8
+  }
+}

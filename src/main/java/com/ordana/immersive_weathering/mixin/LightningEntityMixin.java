@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
+import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -13,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -24,6 +26,8 @@ public abstract class LightningEntityMixin extends Entity {
         super(type, world);
     }
 
+    @Shadow
+    protected abstract BlockPos getAffectedBlockPos();
 
     @Inject(method = "powerLightningRod", at = @At("HEAD"))
     private void powerLightningRod(CallbackInfo ci) {
@@ -31,39 +35,7 @@ public abstract class LightningEntityMixin extends Entity {
 
         BlockState blockState = this.world.getBlockState(blockPos);
         if (blockState.isIn(BlockTags.SAND)) {
-
-            BlockPos downPos = blockPos.down();
-            BlockPos northPos = blockPos.north();
-            BlockPos southPos = blockPos.south();
-            BlockPos eastPos = blockPos.east();
-            BlockPos westPos = blockPos.west();
-            BlockState downState = world.getBlockState(downPos);
-            BlockState northState = world.getBlockState(northPos);
-            BlockState southState = world.getBlockState(southPos);
-            BlockState eastState = world.getBlockState(eastPos);
-            BlockState westState = world.getBlockState(westPos);
-
-            world.setBlockState(blockPos, ModBlocks.VITRIFIED_SAND.getDefaultState());
-            if (downState.isIn(BlockTags.SAND)) {
-                world.setBlockState(downPos, ModBlocks.VITRIFIED_SAND.getDefaultState());
-            }
-            if (world.random.nextFloat() < 0.5f && northState.isIn(BlockTags.SAND)) {
-                world.setBlockState(northPos, ModBlocks.VITRIFIED_SAND.getDefaultState());
-            }
-            if (world.random.nextFloat() < 0.5f && southState.isIn(BlockTags.SAND)) {
-                world.setBlockState(southPos, ModBlocks.VITRIFIED_SAND.getDefaultState());
-            }
-            if (world.random.nextFloat() < 0.5f && eastState.isIn(BlockTags.SAND)) {
-                world.setBlockState(eastPos, ModBlocks.VITRIFIED_SAND.getDefaultState());
-            }
-            if (world.random.nextFloat() < 0.5f && westState.isIn(BlockTags.SAND)) {
-                world.setBlockState(westPos, ModBlocks.VITRIFIED_SAND.getDefaultState());
-            }
+            WeatheringHelper.onLightningHit(blockPos, world, 0);
         }
-    }
-
-    public BlockPos getAffectedBlockPos() {
-        Vec3d vec3d = this.getPos();
-        return new BlockPos(vec3d.x, vec3d.y - 1.0E-6D, vec3d.z);
     }
 }

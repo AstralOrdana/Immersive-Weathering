@@ -54,7 +54,7 @@ public class WeedEatGoal extends MoveToTargetPosGoal {
                     world.setBlockState(blockPos, Blocks.AIR.getDefaultState(), 2);
                     world.breakBlock(blockPos, true, this.rabbit);
                 } else {
-                    world.setBlockState(blockPos, blockState.with(WeedsBlock.AGE, 2), 2);
+                    world.breakBlock(blockPos, true, this.rabbit);
                     world.syncWorldEvent(2001, blockPos, Block.getRawIdFromState(blockState));
                 }
 

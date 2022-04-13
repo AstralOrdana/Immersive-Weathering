@@ -394,7 +394,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements BlockEntityPro
     private static boolean isValidIciclePlacement(WorldView world, BlockPos pos, Direction direction) {
         BlockPos blockPos = pos.offset(direction.getOpposite());
         BlockState blockState = world.getBlockState(blockPos);
-        return (blockState.isOf(Blocks.CHAIN) || blockState.isOf(Blocks.LIGHTNING_ROD) || blockState.isOf(Blocks.END_ROD) ||blockState.isOf(Blocks.HOPPER) || blockState.isIn(BlockTags.WALLS) || blockState.isIn(ModTags.BARS) || blockState.isIn(BlockTags.FENCES) || blockState.isIn(BlockTags.LEAVES) || blockState.isSideSolidFullSquare(world, blockPos, direction)) || isIcicleFacingDirection(blockState, direction);
+        return (blockState.isOf(Blocks.CHAIN) || blockState.isOf(Blocks.LIGHTNING_ROD) || blockState.isOf(Blocks.END_ROD) ||blockState.isOf(Blocks.HOPPER) || blockState.isIn(BlockTags.WALLS) || blockState.isIn(ModTags.BARS) || blockState.isIn(BlockTags.FENCES) || blockState.isIn(BlockTags.LEAVES) || Block.sideCoversSmallSquare(world, blockPos, direction)) || isIcicleFacingDirection(blockState, direction);
     }
 
     private static boolean isTip(BlockState state, boolean allowMerged) {

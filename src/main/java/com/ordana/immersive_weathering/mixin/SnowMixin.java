@@ -22,15 +22,7 @@ public abstract class SnowMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/block/Block;precipitationTick(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/world/biome/Biome$Precipitation;)V"))
             public void tickChunk(Block instance, BlockState state, World world, BlockPos pos, Biome.Precipitation precipitation) {
-        if (precipitation == Biome.Precipitation.SNOW && WeatheringHelper.isIciclePos(pos)) {
-            BlockPos p = pos.down(state.isIn(BlockTags.SNOW) ? 2 : 1);
-            BlockState placement =  ModBlocks.ICICLE.getDefaultState().with(IcicleBlock.VERTICAL_DIRECTION, Direction.DOWN);
-            if (world.getBlockState(p).isAir() && placement.canPlaceAt(world, p)) {
-                if (Direction.Type.HORIZONTAL.stream().anyMatch(d -> world.isSkyVisible(p.offset(d)))) {
-                    world.setBlockState(p, placement, 3);
-                }
-            }
-        }
+        WeatheringHelper.tryPlacingIcicle(state, world, pos, precipitation);
         instance.precipitationTick(state, world, pos, precipitation);
     }
 }

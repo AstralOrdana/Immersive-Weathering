@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.mixin;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.UnmodifiableIterator;
+import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.minecraft.block.*;
 import net.minecraft.fluid.FlowableFluid;
@@ -58,9 +59,8 @@ public class FluidMixin extends Block implements FluidDrainable {
             boolean hasClay = false;
             boolean hasSand = false;
             boolean hasRedSand = false;
-            boolean hasRawGold = false;
-            boolean hasRawIron = false;
-            boolean hasRawCopper = false;
+            boolean hasVitrifiedSand = false;
+            boolean hasRustyBlock = false;
             for (Direction direction : DIRECTIONS) {
                 BlockPos blockPos = pos.offset(direction.getOpposite());
                 if (world.getFluidState(blockPos).isIn(FluidTags.WATER)) {
@@ -105,14 +105,11 @@ public class FluidMixin extends Block implements FluidDrainable {
                 if (world.getBlockState(blockPos).isOf(Blocks.RED_SAND)) {
                     hasRedSand = true;
                 }
-                if (world.getBlockState(blockPos).isOf(Blocks.RAW_GOLD_BLOCK)) {
-                    hasRawGold = true;
+                if (world.getBlockState(blockPos).isOf(ModBlocks.VITRIFIED_SAND)) {
+                    hasVitrifiedSand = true;
                 }
-                if (world.getBlockState(blockPos).isOf(Blocks.RAW_IRON_BLOCK)) {
-                    hasRawIron = true;
-                }
-                if (world.getBlockState(blockPos).isOf(Blocks.RAW_COPPER_BLOCK)) {
-                    hasRawCopper = true;
+                if (world.getBlockState(blockPos).isIn(ModTags.RUSTED_IRON)) {
+                    hasRustyBlock = true;
                 }
                 if (blueIceDown && blueIceUp) {
                     world.setBlockState(pos, Blocks.DEEPSLATE.getDefaultState());
@@ -168,18 +165,13 @@ public class FluidMixin extends Block implements FluidDrainable {
                         cir.setReturnValue(false);
                     }
                 }
-                if (magmaDown && blueIceUp && hasRawGold) {
+                if (magmaDown && blueIceUp && hasVitrifiedSand) {
                     world.setBlockState(pos, Blocks.SANDSTONE.getDefaultState());
                     this.playExtinguishSound(world, pos);
                     cir.setReturnValue(false);
                 }
-                if (magmaDown && blueIceUp && hasRawIron) {
+                if (magmaDown && blueIceUp && hasRustyBlock) {
                     world.setBlockState(pos, Blocks.RED_SANDSTONE.getDefaultState());
-                    this.playExtinguishSound(world, pos);
-                    cir.setReturnValue(false);
-                }
-                if (magmaDown && blueIceUp && hasRawCopper) {
-                    world.setBlockState(pos, Blocks.PRISMARINE.getDefaultState());
                     this.playExtinguishSound(world, pos);
                     cir.setReturnValue(false);
                 }

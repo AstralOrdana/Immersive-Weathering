@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.data.BlockGrowthHandler;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -20,14 +21,6 @@ import java.util.Random;
 public class MagmaBlockMixin {
     @Inject(method = "randomTick", at = @At("TAIL"))
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
-        if (random.nextFloat() > 0.5f) {
-            if (!world.isChunkLoaded(pos)) return;
-            if (WeatheringHelper.canMagmaSpread(pos, 3, world, 12)) {
-                var targetPos = pos.offset(Direction.random(random));
-                if (world.getBlockState(targetPos).isOf(Blocks.NETHERRACK)) {
-                    world.setBlockState(targetPos, Blocks.MAGMA_BLOCK.getDefaultState(), 3);
-                }
-            }
-        }
+        BlockGrowthHandler.tickBlock(state, world, pos);
     }
 }
