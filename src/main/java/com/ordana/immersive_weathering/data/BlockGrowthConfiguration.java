@@ -7,6 +7,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.StairsBlock;
 import net.minecraft.state.property.Properties;
 import net.minecraft.structure.rule.AlwaysTrueRuleTest;
 import net.minecraft.structure.rule.RuleTest;
@@ -33,21 +34,21 @@ import java.util.*;
 public class BlockGrowthConfiguration {
 
     public static final BlockGrowthConfiguration EMPTY = new BlockGrowthConfiguration(1,
-            AlwaysTrueRuleTest.INSTANCE, AreaCondition.EMPTY, List.of(), List.of(Blocks.AIR), Optional.empty(), Optional.empty());
+            AlwaysTrueRuleTest.INSTANCE, AreaCondition.EMPTY, List.of(), RegistryEntryList.of(RegistryEntry.of(Blocks.AIR)), Optional.empty(), Optional.empty());
 
     public static final Codec<BlockGrowthConfiguration> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.FLOAT.fieldOf("growth_chance").forGetter(BlockGrowthConfiguration::getGrowthChance),
             RuleTest.TYPE_CODEC.fieldOf("replacing_target").forGetter(BlockGrowthConfiguration::getTargetPredicate),
             AreaCondition.CODEC.fieldOf("area_condition").forGetter(BlockGrowthConfiguration::getAreaCondition),
             DirectionalList.CODEC.listOf().fieldOf("growth_for_face").forGetter(BlockGrowthConfiguration::encodeRandomLists),
-            Registry.BLOCK.getCodec().listOf().fieldOf("owners").forGetter(BlockGrowthConfiguration::getOwners),
+            RegistryCodecs.entryList(Registry.BLOCK_KEY).fieldOf("owners").forGetter(BlockGrowthConfiguration::getOwners),
             PositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates").forGetter(BlockGrowthConfiguration::getBiomePredicates),
             Codec.BOOL.optionalFieldOf("target_self").forGetter(b->b.targetSelf() ? Optional.of(Boolean.TRUE) : Optional.empty())
     ).apply(instance, BlockGrowthConfiguration::new));
 
 
     private final float growthChance;
-    private final List<Block> owners;
+    private final RegistryEntryList<Block> owners;
     private final RuleTest targetPredicate;
     private final DataPool<Direction> growthForDirection;
     private final Map<Direction, DataPool<BlockPair>> blockGrowths;
@@ -61,7 +62,7 @@ public class BlockGrowthConfiguration {
 
     public BlockGrowthConfiguration(float growthChance, RuleTest targetPredicate, AreaCondition areaCheck,
                                     List<DirectionalList> growthForDirection,
-                                    List<Block> owners, Optional<List<PositionRuleTest>> biomePredicates,
+                                    RegistryEntryList<Block> owners, Optional<List<PositionRuleTest>> biomePredicates,
                                     Optional<Boolean> targetSelf) {
         this.growthChance = growthChance;
         this.owners = owners;
@@ -144,7 +145,7 @@ public class BlockGrowthConfiguration {
         return this.possibleBlocks;
     }
 
-    public List<Block> getOwners() {
+    public RegistryEntryList<Block> getOwners() {
         return this.owners;
     }
 

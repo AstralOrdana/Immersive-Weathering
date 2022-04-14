@@ -14,11 +14,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.dynamic.RegistryOps;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.profiler.Profiler;
+import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryEntryList;
 import net.minecraft.world.biome.Biome;
@@ -33,7 +35,7 @@ public class BlockGrowthHandler extends JsonDataLoader implements IdentifiableRe
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create(); //json object that will write stuff
 
     private static final Map<Block, Set<BlockGrowthConfiguration>> GROWTH_FOR_BLOCK = new HashMap<>();
-    private static final List<BlockGrowthConfiguration> GROWTHS = new ArrayList<>();
+    private static final Map<Identifier, JsonElement> PENDING_JSONS = new HashMap<>();
 
     public BlockGrowthHandler() {
         super(GSON, "block_growths");
@@ -80,19 +82,27 @@ public class BlockGrowthHandler extends JsonDataLoader implements IdentifiableRe
 
     @Override
     protected void apply(Map<Identifier, JsonElement> jsons, ResourceManager manager, Profiler profile) {
-        GROWTHS.clear();
+        PENDING_JSONS.clear();
         for (var e : jsons.entrySet()) {
-            var result = CODEC.parse(JsonOps.INSTANCE,e.getValue());
-            var o = result.resultOrPartial(error -> ImmersiveWeathering.LOGGER.error("Failed to read block growth JSON object for {} : {}", e.getKey(), error));
-            o.ifPresent(GROWTHS::add);
+            PENDING_JSONS.put(e.getKey(),e.getValue().deepCopy());
         }
-        GROWTH_FOR_BLOCK.clear();
-        for (var config : GROWTHS) {
-            List<Block> owners = config.getOwners();
-            owners.forEach(b -> GROWTH_FOR_BLOCK.computeIfAbsent(b, k -> new HashSet<>()).add(config));
-        }
-        GROWTHS.clear();
     }
+
+
+    public static void rebuild(DynamicRegistryManager registryAccess) {
+        for(var e : PENDING_JSONS.entrySet()){
+            var result = CODEC.parse(RegistryOps.of(JsonOps.INSTANCE, registryAccess),
+                    e.getValue());
+            var o = result.resultOrPartial(error -> ImmersiveWeathering.LOGGER.error("Failed to read block growth JSON object for {} : {}", e.getKey(), error));
+            if(o.isPresent()) {
+                BlockGrowthConfiguration config = o.get();
+                RegistryEntryList<Block> owners = config.getOwners();
+                owners.forEach(b -> GROWTH_FOR_BLOCK.computeIfAbsent(b.value(), k -> new HashSet<>()).add(config));
+            }
+        }
+        PENDING_JSONS.clear();
+    }
+
 
 
     @Override

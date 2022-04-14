@@ -58,6 +58,11 @@ public class ModGrassBlock extends GrassBlock implements Fertilizable {
     }
 
     @Override
+    public boolean hasRandomTicks(BlockState state) {
+        return state.contains(FERTILE) && state.get(FERTILE) && super.hasRandomTicks(state);
+    }
+
+    @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (!canSurvive(state, world, pos)) {
             world.setBlockState(pos, Blocks.DIRT.getDefaultState());

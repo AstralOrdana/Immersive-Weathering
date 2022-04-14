@@ -18,22 +18,22 @@ import java.util.Random;
 public class BlockSetMatchTest extends RuleTest {
 
     public static final Codec<BlockSetMatchTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Registry.BLOCK.getCodec().listOf().fieldOf("blocks").forGetter(b -> b.blocks),
+            RegistryCodecs.entryList(Registry.BLOCK_KEY).fieldOf("blocks").forGetter(b -> b.blocks),
             Codec.FLOAT.optionalFieldOf("probability").forGetter(b -> Optional.of(b.probability))
     ).apply(instance, BlockSetMatchTest::new));
 
     public static final RuleTestType<BlockSetMatchTest> TYPE = RuleTestType.register("immersive_weathering:block_set_match", CODEC);
 
-    private final List<Block> blocks;
+    private final RegistryEntryList<Block> blocks;
     private final float probability;
 
-    public BlockSetMatchTest(List<Block> blocks, Optional<Float> chance) {
+    public BlockSetMatchTest(RegistryEntryList<Block> blocks, Optional<Float> chance) {
         this.blocks = blocks;
         this.probability = chance.orElse(1f);
     }
 
     public boolean test(BlockState state, Random random) {
-        return blocks.contains(state.getBlock()) && random.nextFloat() < this.probability;
+        return state.isIn(blocks) && random.nextFloat() < this.probability;
     }
 
     protected RuleTestType<BlockSetMatchTest> getType() {
