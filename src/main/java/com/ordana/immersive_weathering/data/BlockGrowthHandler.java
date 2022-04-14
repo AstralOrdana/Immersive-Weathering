@@ -88,8 +88,8 @@ public class BlockGrowthHandler extends JsonDataLoader implements IdentifiableRe
         }
         GROWTH_FOR_BLOCK.clear();
         for (var config : GROWTHS) {
-            RegistryEntryList<Block> owners = config.getOwners();
-            owners.forEach(b -> GROWTH_FOR_BLOCK.computeIfAbsent(b.value(), k -> new HashSet<>()).add(config));
+            List<Block> owners = config.getOwners();
+            owners.forEach(b -> GROWTH_FOR_BLOCK.computeIfAbsent(b, k -> new HashSet<>()).add(config));
         }
         GROWTHS.clear();
     }
