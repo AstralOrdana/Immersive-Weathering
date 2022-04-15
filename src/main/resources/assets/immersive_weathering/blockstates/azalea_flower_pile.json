@@ -1,31 +1,31 @@
 {
   "variants": {
     "layers=0": {
-      "model": "immersive_weathering:block/azalea_flower_pile_height1"
+      "model": "immersive_weathering:block/leaf_piles/azalea_flower_pile_height1"
     },
     "layers=1": {
-      "model": "immersive_weathering:block/azalea_flower_pile_height2"
+      "model": "immersive_weathering:block/leaf_piles/azalea_flower_pile_height2"
     },
     "layers=2": {
-      "model": "immersive_weathering:block/azalea_flower_pile_height4"
+      "model": "immersive_weathering:block/leaf_piles/azalea_flower_pile_height4"
     },
     "layers=3": {
-      "model": "immersive_weathering:block/azalea_flower_pile_height6"
+      "model": "immersive_weathering:block/leaf_piles/azalea_flower_pile_height6"
     },
     "layers=4": {
-      "model": "immersive_weathering:block/azalea_flower_pile_height8"
+      "model": "immersive_weathering:block/leaf_piles/azalea_flower_pile_height8"
     },
     "layers=5": {
-      "model": "immersive_weathering:block/azalea_flower_pile_height10"
+      "model": "immersive_weathering:block/leaf_piles/azalea_flower_pile_height10"
     },
     "layers=6": {
-      "model": "immersive_weathering:block/azalea_flower_pile_height12"
+      "model": "immersive_weathering:block/leaf_piles/azalea_flower_pile_height12"
     },
     "layers=7": {
-      "model": "immersive_weathering:block/azalea_flower_pile_height14"
+      "model": "immersive_weathering:block/leaf_piles/azalea_flower_pile_height14"
     },
     "layers=8": {
-      "model": "immersive_weathering:block/azalea_flower_pile_height16"
+      "model": "immersive_weathering:block/leaf_piles/azalea_flower_pile_height16"
     }
   }
 }

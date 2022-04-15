@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering;
 
 import com.ordana.immersive_weathering.common.*;
+import com.ordana.immersive_weathering.common.blocks.LeafPilesRegistry;
 import com.ordana.immersive_weathering.common.blocks.ModBlocks;
 import com.ordana.immersive_weathering.common.entity.ModEntities;
 import com.ordana.immersive_weathering.common.items.ModItems;
@@ -11,10 +12,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -51,7 +54,9 @@ public class ImmersiveWeathering {
         ModParticles.PARTICLES.register(bus);
         ModFeatures.FEATURES.register(bus);
         MinecraftForge.EVENT_BUS.register(ModFeatures.class);
+        LeafPilesRegistry.registerBus(bus);
         bus.addListener(ImmersiveWeathering::init);
+
 
         //TODO: smarter farmers remove weeds
 

@@ -36,6 +36,10 @@ public class SoilBlock extends SnowyDirtBlock implements BonemealableBlock {
         this.registerDefaultState(this.defaultBlockState().setValue(FERTILE, true));
     }
 
+    public static boolean isFertile(BlockState state){
+        return state.hasProperty(FERTILE) && state.getValue(FERTILE);
+    }
+
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
@@ -44,20 +48,20 @@ public class SoilBlock extends SnowyDirtBlock implements BonemealableBlock {
 
     @Override
     public boolean isRandomlyTicking(BlockState state) {
-        return state.hasProperty(FERTILE) && state.getValue(FERTILE) && super.isRandomlyTicking(state);
+        return isFertile(state) && super.isRandomlyTicking(state);
     }
 
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
         super.randomTick(state, level, pos, random);
-        if (state.getValue(FERTILE)) {
+        if (isFertile(state)) {
             BlockGrowthHandler.tickBlock(state, level, pos);
         }
     }
 
     @Override
     public boolean isValidBonemealTarget(BlockGetter level, BlockPos pos, BlockState state, boolean isClient) {
-        return !state.getValue(FERTILE) && level.getBlockState(pos.above()).isAir();
+        return !isFertile(state) && level.getBlockState(pos.above()).isAir();
     }
 
     @Override
@@ -67,14 +71,14 @@ public class SoilBlock extends SnowyDirtBlock implements BonemealableBlock {
 
     @Override
     public void performBonemeal(ServerLevel level, Random random, BlockPos pos, BlockState state) {
-        if(!state.getValue(FERTILE)) {
+        if(!isFertile(state)) {
             level.setBlock(pos, state.setValue(FERTILE, true), 3);
         }
     }
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if(state.getValue(FERTILE)) {
+        if(isFertile(state)) {
             ItemStack itemstack = player.getItemInHand(hand);
             if (itemstack.getItem() instanceof ShearsItem) {
                 if (!level.isClientSide) {

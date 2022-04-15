@@ -85,7 +85,7 @@ public class ModEvents {
 
 
         if (true) return;
-        //  if (true) return;
+
         File folder = FMLPaths.GAMEDIR.get().resolve("recorded_songs").toFile();
 
         if (!folder.exists()) {

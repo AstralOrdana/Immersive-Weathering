@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.common.items;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.common.ModFoods;
+import com.ordana.immersive_weathering.common.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.common.blocks.ModBlocks;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
@@ -33,7 +34,7 @@ public class ModItems {
         return ITEMS.register(blockSup.getId().getPath(), () -> new BlockItem(blockSup.get(), properties));
     }
 
-    private static RegistryObject<BlockItem> regLeafPile(RegistryObject<Block> blockSup, Item.Properties properties) {
+    private static RegistryObject<BlockItem> regLeafPile(RegistryObject<LeafPileBlock> blockSup, Item.Properties properties) {
         return ITEMS.register(blockSup.getId().getPath(), () -> new LeafPileBlockItem(blockSup.get(), properties));
     }
 

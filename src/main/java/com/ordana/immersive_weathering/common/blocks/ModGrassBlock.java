@@ -41,13 +41,13 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock {
 
     @Override
     public boolean isRandomlyTicking(BlockState state) {
-        return state.hasProperty(FERTILE) && state.getValue(FERTILE) && super.isRandomlyTicking(state);
+        return SoilBlock.isFertile(state) && super.isRandomlyTicking(state);
     }
 
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
         super.randomTick(state, level, pos, random);
-        if (state.getValue(FERTILE)) {
+        if (SoilBlock.isFertile(state)) {
             BlockGrowthHandler.tickBlock(state, level, pos);
         }
     }
@@ -55,17 +55,17 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock {
 
     @Override
     public void performBonemeal(ServerLevel level, Random random, BlockPos pos, BlockState state) {
-        if(!state.getValue(FERTILE)) {
+        if (!SoilBlock.isFertile(state)) {
             state = state.setValue(FERTILE, true);
             level.setBlock(pos, state, 3);
-        }else {
+        } else {
             super.performBonemeal(level, random, pos, state);
         }
     }
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if(state.getValue(FERTILE)) {
+        if (SoilBlock.isFertile(state)) {
             ItemStack itemstack = player.getItemInHand(hand);
             if (itemstack.getItem() instanceof ShearsItem) {
                 if (!level.isClientSide) {
@@ -84,7 +84,7 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock {
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
-        return super.use(state,level,pos,player,hand,hitResult);
+        return super.use(state, level, pos, player, hand, hitResult);
     }
 
 }

@@ -32,35 +32,6 @@ import java.util.stream.Collectors;
 
 public class WeatheringHelper {
 
-
-    //TODO: maybe finish this
-    public static final Supplier<Map<ResourceKey<Biome>, SimpleWeightedRandomList<Block>>> BIOME_FLOWERS = Suppliers.memoize(() -> ImmutableMap.<ResourceKey<Biome>, SimpleWeightedRandomList<Block>>builder()
-            .put(Biomes.PLAINS, SimpleWeightedRandomList.<Block>builder()
-                    .add(Blocks.GRASS, 300)
-                    .add(Blocks.DANDELION, 50)
-                    .add(ModBlocks.WEEDS.get(), 50)
-                    .add(Blocks.AZURE_BLUET, 50)
-                    .add(Blocks.PUMPKIN, 1)
-                    .build())
-            .put(Biomes.SWAMP, SimpleWeightedRandomList.<Block>builder()
-                    .add(Blocks.GRASS, 100)
-                    .add(Blocks.BLUE_ORCHID, 50)
-                    .build())
-            .build());
-
-    private static final Supplier<Map<Block, SimpleWeightedRandomList<Block>>> NETHER_VEGETATION = Suppliers.memoize(() -> ImmutableMap.<Block, SimpleWeightedRandomList<Block>>builder()
-            .put(Blocks.CRIMSON_NYLIUM, SimpleWeightedRandomList.<Block>builder()
-                    .add(Blocks.CRIMSON_ROOTS, 20)
-                    .add(Blocks.CRIMSON_FUNGUS, 15)
-                    .build())
-            .put(Blocks.WARPED_NYLIUM, SimpleWeightedRandomList.<Block>builder()
-                    .add(Blocks.WARPED_ROOTS, 20)
-                    .add(Blocks.WARPED_FUNGUS, 15)
-                    .add(Blocks.NETHER_SPROUTS, 10)
-                    .build())
-            .build());
-
-
     public static final Supplier<BiMap<Block, Block>> FLOWERY_BLOCKS = Suppliers.memoize(() -> {
         var builder = ImmutableBiMap.<Block, Block>builder()
                 .put(Blocks.FLOWERING_AZALEA, Blocks.AZALEA)
@@ -81,19 +52,7 @@ public class WeatheringHelper {
         return builder.build();
     });
 
-    public static final Supplier<Map<Block, Block>> LEAF_PILES = Suppliers.memoize(() ->
-            ImmutableMap.<Block, Block>builder()
-                    .put(Blocks.OAK_LEAVES, ModBlocks.OAK_LEAF_PILE.get())
-                    .put(Blocks.DARK_OAK_LEAVES, ModBlocks.DARK_OAK_LEAF_PILE.get())
-                    .put(Blocks.SPRUCE_LEAVES, ModBlocks.SPRUCE_LEAF_PILE.get())
-                    .put(Blocks.BIRCH_LEAVES, ModBlocks.BIRCH_LEAF_PILE.get())
-                    .put(Blocks.JUNGLE_LEAVES, ModBlocks.JUNGLE_LEAF_PILE.get())
-                    .put(Blocks.ACACIA_LEAVES, ModBlocks.ACACIA_LEAF_PILE.get())
-                    .put(Blocks.AZALEA_LEAVES, ModBlocks.AZALEA_LEAF_PILE.get())
-                    .put(Blocks.FLOWERING_AZALEA_LEAVES, ModBlocks.FLOWERING_AZALEA_LEAF_PILE.get())
 
-                    .build()
-    );
 
     public static final Supplier<Map<Block, Pair<Item, Block>>> STRIPPED_TO_BARK = Suppliers.memoize(() -> ImmutableMap.<Block, Pair<Item, Block>>builder()
             .put(Blocks.STRIPPED_OAK_LOG, Pair.of(ModItems.OAK_BARK.get(), Blocks.OAK_LOG))
@@ -126,19 +85,7 @@ public class WeatheringHelper {
     }
 
     public static Optional<Block> getFallenLeafPile(BlockState state) {
-        return Optional.ofNullable(LEAF_PILES.get().get(state.getBlock()));
-    }
-
-    public static Optional<Block> getGrassGrowthForBiome(ResourceKey<Biome> biome, Random random) {
-        var list = BIOME_FLOWERS.get().get(biome);
-        if (list != null) return list.getRandomValue(random);
-        return Optional.empty();
-    }
-
-    public static Optional<Block> getNyliumGrowth(BlockState state, Random random) {
-        var list = NETHER_VEGETATION.get().get(state.getBlock());
-        if (list != null) return list.getRandomValue(random);
-        return Optional.empty();
+        return Optional.ofNullable(LeafPilesRegistry.LEAF_PILES.get().get(state.getBlock()));
     }
 
     public static Optional<Pair<Item, Block>> getBarkForStrippedLog(BlockState log) {

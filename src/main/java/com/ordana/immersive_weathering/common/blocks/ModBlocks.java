@@ -58,40 +58,40 @@ public class ModBlocks {
     public static final RegistryObject<Block> ICICLE = reg("icicle", () ->
             new IcicleBlock(BlockBehaviour.Properties.of(Material.ICE).randomTicks().instabreak().sound(SoundType.GLASS).noOcclusion().dynamicShape()));
 
-    public static final RegistryObject<Block> OAK_LEAF_PILE = reg("OAK_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<LeafPileBlock> OAK_LEAF_PILE = reg("OAK_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
             new LeafPileBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).randomTicks().instabreak().sound(SoundType.GRASS).noOcclusion().isValidSpawn(ModBlocks::canSpawnOnLeaves)
                     .isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never),
                     false, false, true, List.of(ModParticles.OAK_LEAF)));
 
-    public static final RegistryObject<Block> BIRCH_LEAF_PILE = reg("BIRCH_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<LeafPileBlock> BIRCH_LEAF_PILE = reg("BIRCH_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
             new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, false, true,
                     List.of(ModParticles.BIRCH_LEAF)));
 
-    public static final RegistryObject<Block> SPRUCE_LEAF_PILE = reg("SPRUCE_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<LeafPileBlock> SPRUCE_LEAF_PILE = reg("SPRUCE_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
             new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, true, false,
                     List.of(ModParticles.SPRUCE_LEAF)));
 
-    public static final RegistryObject<Block> JUNGLE_LEAF_PILE = reg("JUNGLE_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<LeafPileBlock> JUNGLE_LEAF_PILE = reg("JUNGLE_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
             new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, false, true,
                     List.of(ModParticles.JUNGLE_LEAF)));
 
-    public static final RegistryObject<Block> ACACIA_LEAF_PILE = reg("ACACIA_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<LeafPileBlock> ACACIA_LEAF_PILE = reg("ACACIA_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
             new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, false, false,
                     List.of(ModParticles.ACACIA_LEAF)));
 
-    public static final RegistryObject<Block> DARK_OAK_LEAF_PILE = reg("DARK_OAK_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<LeafPileBlock> DARK_OAK_LEAF_PILE = reg("DARK_OAK_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
             new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()), false, false, true,
                     List.of(ModParticles.DARK_OAK_LEAF)));
 
-    public static final RegistryObject<Block> AZALEA_LEAF_PILE = reg("AZALEA_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<LeafPileBlock> AZALEA_LEAF_PILE = reg("AZALEA_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
             new LeafPileBlock(BlockBehaviour.Properties.copy(OAK_LEAF_PILE.get()).sound(SoundType.AZALEA_LEAVES), false, false, false,
                     List.of(ModParticles.AZALEA_LEAF)));
 
-    public static final RegistryObject<Block> FLOWERING_AZALEA_LEAF_PILE = reg("FLOWERING_AZALEA_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<LeafPileBlock> FLOWERING_AZALEA_LEAF_PILE = reg("FLOWERING_AZALEA_LEAF_PILE".toLowerCase(Locale.ROOT), () ->
             new LeafPileBlock(BlockBehaviour.Properties.copy(AZALEA_LEAF_PILE.get()), true, false, false,
                     List.of(ModParticles.AZALEA_LEAF, ModParticles.AZALEA_FLOWER)));
 
-    public static final RegistryObject<Block> AZALEA_FLOWER_PILE = reg("AZALEA_FLOWER_PILE".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<LeafPileBlock> AZALEA_FLOWER_PILE = reg("AZALEA_FLOWER_PILE".toLowerCase(Locale.ROOT), () ->
             new LeafPileBlock(BlockBehaviour.Properties.copy(AZALEA_LEAF_PILE.get()), true, false, false,
                     List.of(ModParticles.AZALEA_FLOWER)));
 

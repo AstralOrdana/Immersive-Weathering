@@ -58,7 +58,7 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
     private final boolean isLeafy; //if it can make humus
     private final List<RegistryObject<SimpleParticleType>> particles;
 
-    protected LeafPileBlock(Properties settings, boolean hasFlowers, boolean hasThorns, boolean isLeafy,
+    public LeafPileBlock(Properties settings, boolean hasFlowers, boolean hasThorns, boolean isLeafy,
                             List<RegistryObject<SimpleParticleType>> particles) {
         super(settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, 1));
