@@ -3,20 +3,13 @@ package com.ordana.immersive_weathering.common.blocks.rustable;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
-import com.ordana.immersive_weathering.common.blocks.ModBlocks;
-import com.ordana.immersive_weathering.common.blocks.Waxables;
+import com.ordana.immersive_weathering.common.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.Random;
@@ -52,6 +45,14 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
             .put(Blocks.IRON_BARS, ModBlocks.EXPOSED_IRON_BARS.get())
             .put(ModBlocks.EXPOSED_IRON_BARS.get(), ModBlocks.WEATHERED_IRON_BARS.get())
             .put(ModBlocks.WEATHERED_IRON_BARS.get(), ModBlocks.RUSTED_IRON_BARS.get())
+
+            .put(ModBlocks.CUT_IRON_VERTICAL_SLAB.get(), ModBlocks.EXPOSED_CUT_IRON_VERTICAL_SLAB.get())
+            .put(ModBlocks.EXPOSED_CUT_IRON_VERTICAL_SLAB.get(), ModBlocks.WEATHERED_CUT_IRON_VERTICAL_SLAB.get())
+            .put(ModBlocks.WEATHERED_CUT_IRON_VERTICAL_SLAB.get(), ModBlocks.RUSTED_CUT_IRON_VERTICAL_SLAB.get())
+
+            .put(ModBlocks.PLATE_IRON_VERTICAL_SLAB.get(), ModBlocks.EXPOSED_PLATE_IRON_VERTICAL_SLAB.get())
+            .put(ModBlocks.EXPOSED_PLATE_IRON_VERTICAL_SLAB.get(), ModBlocks.WEATHERED_PLATE_IRON_VERTICAL_SLAB.get())
+            .put(ModBlocks.WEATHERED_PLATE_IRON_VERTICAL_SLAB.get(), ModBlocks.RUSTED_PLATE_IRON_VERTICAL_SLAB.get())
 
             .build());
 

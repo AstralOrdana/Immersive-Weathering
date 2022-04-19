@@ -31,6 +31,8 @@
     "snowrealmagic.SnowMixin"
   ],
   "client": [
+    "BlockColorAccessor",
+    "ItemColorAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

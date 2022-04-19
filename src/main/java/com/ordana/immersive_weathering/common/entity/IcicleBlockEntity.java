@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.common.entity;
 
+import com.ordana.immersive_weathering.common.ModEntities;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;

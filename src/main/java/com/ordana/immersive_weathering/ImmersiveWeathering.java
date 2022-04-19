@@ -2,31 +2,23 @@ package com.ordana.immersive_weathering;
 
 import com.ordana.immersive_weathering.common.*;
 import com.ordana.immersive_weathering.common.blocks.LeafPilesRegistry;
-import com.ordana.immersive_weathering.common.blocks.ModBlocks;
-import com.ordana.immersive_weathering.common.entity.ModEntities;
+import com.ordana.immersive_weathering.common.ModBlocks;
+import com.ordana.immersive_weathering.common.ModEntities;
 import com.ordana.immersive_weathering.common.items.ModItems;
+import com.ordana.immersive_weathering.configs.ServerConfigs;
 import com.ordana.immersive_weathering.data.BlockSetMatchTest;
 import com.ordana.immersive_weathering.data.FluidMatchTest;
 import com.ordana.immersive_weathering.data.LogMatchTest;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Author: Ordana, Keybounce, MehVahdJukaar
@@ -54,9 +46,14 @@ public class ImmersiveWeathering {
         ModParticles.PARTICLES.register(bus);
         ModFeatures.FEATURES.register(bus);
         MinecraftForge.EVENT_BUS.register(ModFeatures.class);
+
         LeafPilesRegistry.registerBus(bus);
+
+
+
         bus.addListener(ImmersiveWeathering::init);
 
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ServerConfigs.SERVER_SPEC);
 
         //TODO: smarter farmers remove weeds
 
@@ -69,6 +66,8 @@ public class ImmersiveWeathering {
         FluidMatchTest.init();
         LogMatchTest.init();
         BlockSetMatchTest.init();
+
+
         //ModEvents.registerEvents();
 
         /*

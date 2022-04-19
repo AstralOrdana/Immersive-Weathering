@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.common.client;
+package com.ordana.immersive_weathering.common.particles;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;

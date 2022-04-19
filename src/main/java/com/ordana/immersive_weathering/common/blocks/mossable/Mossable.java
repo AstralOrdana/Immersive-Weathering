@@ -3,7 +3,7 @@ package com.ordana.immersive_weathering.common.blocks.mossable;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
-import com.ordana.immersive_weathering.common.blocks.ModBlocks;
+import com.ordana.immersive_weathering.common.ModBlocks;
 import com.ordana.immersive_weathering.common.blocks.PatchSpreader;
 import com.ordana.immersive_weathering.common.blocks.Weatherable;
 import net.minecraft.core.BlockPos;
@@ -81,7 +81,7 @@ public interface Mossable extends Weatherable {
     }
 
     default boolean shouldWeather(BlockState state, BlockPos pos, Level level) {
-        return this.getMossSpreader().getWanderWeatheringState(false, pos, level);
+        return this.getMossSpreader().getWantedWeatheringState(false, pos, level);
     }
 
     MossLevel getMossLevel();
@@ -97,7 +97,7 @@ public interface Mossable extends Weatherable {
     default void tryWeather(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
         if (random.nextFloat() < this.getWeatherChanceSpeed()) {
             Optional<BlockState> opt = Optional.empty();
-            if (this.getMossSpreader().getWanderWeatheringState(true, pos, serverLevel)) {
+            if (this.getMossSpreader().getWantedWeatheringState(true, pos, serverLevel)) {
                 opt = this.getNextMossy(state);
             }
             BlockState newState = opt.orElse(state.setValue(WEATHERABLE, WeatheringState.FALSE));

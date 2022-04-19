@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.common.entity;
 
+import com.ordana.immersive_weathering.common.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;

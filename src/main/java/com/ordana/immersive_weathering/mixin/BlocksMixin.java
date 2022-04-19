@@ -814,7 +814,7 @@ public abstract class BlocksMixin {
     )
 
     private static DoorBlock ironDoor(BlockBehaviour.Properties settings) {
-        return new RustableDoorBlock(Rustable.RustLevel.UNAFFECTED, settings);
+        return new RustableDoorBlock(Rustable.RustLevel.UNAFFECTED, settings.sound(SoundType.COPPER));
     }
 
     @Redirect(
@@ -832,7 +832,7 @@ public abstract class BlocksMixin {
             )
     )
     private static TrapDoorBlock ironTrapdoor(BlockBehaviour.Properties settings) {
-        return new RustableTrapdoorBlock(Rustable.RustLevel.UNAFFECTED, settings);
+        return new RustableTrapdoorBlock(Rustable.RustLevel.UNAFFECTED, settings.sound(SoundType.COPPER));
     }
 
 

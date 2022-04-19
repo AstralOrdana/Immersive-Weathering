@@ -343,7 +343,7 @@
                 },
                 {
                   "type": "minecraft:item",
-                  "name": "minecraft:acacia_leaves",
+                  "name": "minecraft:oak_leaves",
                   "conditions": [
                     {
                       "condition": "minecraft:alternative",

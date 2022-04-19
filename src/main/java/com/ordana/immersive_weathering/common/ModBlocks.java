@@ -1,7 +1,7 @@
-package com.ordana.immersive_weathering.common.blocks;
+package com.ordana.immersive_weathering.common;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.common.ModParticles;
+import com.ordana.immersive_weathering.common.blocks.*;
 import com.ordana.immersive_weathering.common.blocks.crackable.*;
 import com.ordana.immersive_weathering.common.blocks.mossable.*;
 import com.ordana.immersive_weathering.common.blocks.rustable.*;
@@ -199,112 +199,112 @@ public class ModBlocks {
     public static final RegistryObject<Block> CUT_IRON = reg("CUT_IRON".toLowerCase(Locale.ROOT), () ->
             new RustableBlock(Rustable.RustLevel.UNAFFECTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
     public static final RegistryObject<Block> EXPOSED_CUT_IRON = reg("EXPOSED_CUT_IRON".toLowerCase(Locale.ROOT), () ->
-            new RustableBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WEATHERED_CUT_IRON = reg("WEATHERED_CUT_IRON".toLowerCase(Locale.ROOT), () ->
-            new RustableBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> RUSTED_CUT_IRON = reg("RUSTED_CUT_IRON".toLowerCase(Locale.ROOT), () ->
-            new RustableBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
 
     public static final RegistryObject<Block> CUT_IRON_STAIRS = reg("CUT_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new RustableStairsBlock(Rustable.RustLevel.UNAFFECTED, CUT_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableStairsBlock(Rustable.RustLevel.UNAFFECTED, CUT_IRON, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> EXPOSED_CUT_IRON_STAIRS = reg("EXPOSED_CUT_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new RustableStairsBlock(Rustable.RustLevel.EXPOSED, EXPOSED_CUT_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableStairsBlock(Rustable.RustLevel.EXPOSED, EXPOSED_CUT_IRON, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WEATHERED_CUT_IRON_STAIRS = reg("WEATHERED_CUT_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new RustableStairsBlock(Rustable.RustLevel.WEATHERED, WEATHERED_CUT_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableStairsBlock(Rustable.RustLevel.WEATHERED, WEATHERED_CUT_IRON, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> RUSTED_CUT_IRON_STAIRS = reg("RUSTED_CUT_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new RustableStairsBlock(Rustable.RustLevel.RUSTED, RUSTED_CUT_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableStairsBlock(Rustable.RustLevel.RUSTED, RUSTED_CUT_IRON, BlockBehaviour.Properties.copy(CUT_IRON.get())));
 
     public static final RegistryObject<Block> CUT_IRON_SLAB = reg("CUT_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
-            new RustableSlabBlock(Rustable.RustLevel.UNAFFECTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableSlabBlock(Rustable.RustLevel.UNAFFECTED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> EXPOSED_CUT_IRON_SLAB = reg("EXPOSED_CUT_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
-            new RustableSlabBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableSlabBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WEATHERED_CUT_IRON_SLAB = reg("WEATHERED_CUT_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
-            new RustableSlabBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableSlabBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> RUSTED_CUT_IRON_SLAB = reg("RUSTED_CUT_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
-            new RustableSlabBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableSlabBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
 
     public static final RegistryObject<Block> WAXED_CUT_IRON = reg("WAXED_CUT_IRON".toLowerCase(Locale.ROOT), () ->
-            new Block(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new Block(BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_EXPOSED_CUT_IRON = reg("WAXED_EXPOSED_CUT_IRON".toLowerCase(Locale.ROOT), () ->
-            new Block(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new Block(BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_WEATHERED_CUT_IRON = reg("WAXED_WEATHERED_CUT_IRON".toLowerCase(Locale.ROOT), () ->
-            new Block(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new Block(BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_RUSTED_CUT_IRON = reg("WAXED_RUSTED_CUT_IRON".toLowerCase(Locale.ROOT), () ->
-            new Block(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new Block(BlockBehaviour.Properties.copy(CUT_IRON.get())));
 
     public static final RegistryObject<Block> WAXED_CUT_IRON_STAIRS = reg("WAXED_CUT_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new ModStairBlock(WAXED_CUT_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new ModStairBlock(WAXED_CUT_IRON, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_EXPOSED_CUT_IRON_STAIRS = reg("WAXED_EXPOSED_CUT_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new ModStairBlock(WAXED_EXPOSED_CUT_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new ModStairBlock(WAXED_EXPOSED_CUT_IRON, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_WEATHERED_CUT_IRON_STAIRS = reg("WAXED_WEATHERED_CUT_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new ModStairBlock(WAXED_WEATHERED_CUT_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new ModStairBlock(WAXED_WEATHERED_CUT_IRON, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_RUSTED_CUT_IRON_STAIRS = reg("WAXED_RUSTED_CUT_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new ModStairBlock(WAXED_RUSTED_CUT_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new ModStairBlock(WAXED_RUSTED_CUT_IRON, BlockBehaviour.Properties.copy(CUT_IRON.get())));
 
     public static final RegistryObject<Block> WAXED_CUT_IRON_SLAB = reg("WAXED_CUT_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
-            new SlabBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new SlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_EXPOSED_CUT_IRON_SLAB = reg("WAXED_EXPOSED_CUT_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
-            new SlabBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new SlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_WEATHERED_CUT_IRON_SLAB = reg("WAXED_WEATHERED_CUT_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
-            new SlabBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new SlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_RUSTED_CUT_IRON_SLAB = reg("WAXED_RUSTED_CUT_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
-            new SlabBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new SlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
 
 
     //plate iron
     public static final RegistryObject<Block> PLATE_IRON = reg("PLATE_IRON".toLowerCase(Locale.ROOT), () ->
-            new RustableBlock(Rustable.RustLevel.UNAFFECTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableBlock(Rustable.RustLevel.UNAFFECTED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> EXPOSED_PLATE_IRON = reg("EXPOSED_PLATE_IRON".toLowerCase(Locale.ROOT), () ->
-            new RustableBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WEATHERED_PLATE_IRON = reg("WEATHERED_PLATE_IRON".toLowerCase(Locale.ROOT), () ->
-            new RustableBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> RUSTED_PLATE_IRON = reg("RUSTED_PLATE_IRON".toLowerCase(Locale.ROOT), () ->
-            new RustableBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
 
     public static final RegistryObject<Block> PLATE_IRON_STAIRS = reg("PLATE_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new RustableStairsBlock(Rustable.RustLevel.UNAFFECTED, PLATE_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableStairsBlock(Rustable.RustLevel.UNAFFECTED, PLATE_IRON, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> EXPOSED_PLATE_IRON_STAIRS = reg("EXPOSED_PLATE_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new RustableStairsBlock(Rustable.RustLevel.EXPOSED, EXPOSED_PLATE_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableStairsBlock(Rustable.RustLevel.EXPOSED, EXPOSED_PLATE_IRON, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WEATHERED_PLATE_IRON_STAIRS = reg("WEATHERED_PLATE_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new RustableStairsBlock(Rustable.RustLevel.WEATHERED, WEATHERED_PLATE_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableStairsBlock(Rustable.RustLevel.WEATHERED, WEATHERED_PLATE_IRON, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> RUSTED_PLATE_IRON_STAIRS = reg("RUSTED_PLATE_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new RustableStairsBlock(Rustable.RustLevel.RUSTED, RUSTED_PLATE_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableStairsBlock(Rustable.RustLevel.RUSTED, RUSTED_PLATE_IRON, BlockBehaviour.Properties.copy(CUT_IRON.get())));
 
     public static final RegistryObject<Block> PLATE_IRON_SLAB = reg("PLATE_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
-            new RustableSlabBlock(Rustable.RustLevel.UNAFFECTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableSlabBlock(Rustable.RustLevel.UNAFFECTED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> EXPOSED_PLATE_IRON_SLAB = reg("EXPOSED_PLATE_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
-            new RustableSlabBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableSlabBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WEATHERED_PLATE_IRON_SLAB = reg("WEATHERED_PLATE_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
-            new RustableSlabBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableSlabBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> RUSTED_PLATE_IRON_SLAB = reg("RUSTED_PLATE_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
-            new RustableSlabBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new RustableSlabBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
 
     public static final RegistryObject<Block> WAXED_PLATE_IRON = reg("WAXED_PLATE_IRON".toLowerCase(Locale.ROOT), () ->
-            new Block(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new Block(BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_EXPOSED_PLATE_IRON = reg("WAXED_EXPOSED_PLATE_IRON".toLowerCase(Locale.ROOT), () ->
-            new Block(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new Block(BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_WEATHERED_PLATE_IRON = reg("WAXED_WEATHERED_PLATE_IRON".toLowerCase(Locale.ROOT), () ->
-            new Block(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new Block(BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_RUSTED_PLATE_IRON = reg("WAXED_RUSTED_PLATE_IRON".toLowerCase(Locale.ROOT), () ->
-            new Block(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new Block(BlockBehaviour.Properties.copy(CUT_IRON.get())));
 
     public static final RegistryObject<Block> WAXED_PLATE_IRON_STAIRS = reg("WAXED_PLATE_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new ModStairBlock(WAXED_PLATE_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new ModStairBlock(WAXED_PLATE_IRON, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_EXPOSED_PLATE_IRON_STAIRS = reg("WAXED_EXPOSED_PLATE_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new ModStairBlock(WAXED_EXPOSED_PLATE_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new ModStairBlock(WAXED_EXPOSED_PLATE_IRON, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_WEATHERED_PLATE_IRON_STAIRS = reg("WAXED_WEATHERED_PLATE_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new ModStairBlock(WAXED_WEATHERED_PLATE_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new ModStairBlock(WAXED_WEATHERED_PLATE_IRON, BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_RUSTED_PLATE_IRON_STAIRS = reg("WAXED_RUSTED_PLATE_IRON_STAIRS".toLowerCase(Locale.ROOT), () ->
-            new ModStairBlock(WAXED_RUSTED_PLATE_IRON, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new ModStairBlock(WAXED_RUSTED_PLATE_IRON, BlockBehaviour.Properties.copy(CUT_IRON.get())));
 
     public static final RegistryObject<Block> WAXED_PLATE_IRON_SLAB = reg("WAXED_PLATE_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
-            new SlabBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new SlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_EXPOSED_PLATE_IRON_SLAB = reg("WAXED_EXPOSED_PLATE_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
-            new SlabBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new SlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_WEATHERED_PLATE_IRON_SLAB = reg("WAXED_WEATHERED_PLATE_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
-            new SlabBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new SlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
     public static final RegistryObject<Block> WAXED_RUSTED_PLATE_IRON_SLAB = reg("WAXED_RUSTED_PLATE_IRON_SLAB".toLowerCase(Locale.ROOT), () ->
-            new SlabBlock(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER)));
+            new SlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
 
 
     public static final RegistryObject<Block> EXPOSED_IRON_DOOR = reg("EXPOSED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
@@ -383,12 +383,51 @@ public class ModBlocks {
 
 
     public static final RegistryObject<Block> VITRIFIED_SAND = regWithItem("vitrified_sand", () ->
-            new GlassBlock( BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.TERRACOTTA_YELLOW).strength(2f, 6f)
-                    .sound(SoundType.TUFF).requiresCorrectToolForDrops().noOcclusion()));
+            new GlassBlock( BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.TERRACOTTA_YELLOW)
+                    .strength(2f, 6f).sound(SoundType.TUFF).requiresCorrectToolForDrops().noOcclusion()));
 
     public static final RegistryObject<Block> HUMUS = regWithItem("humus", () ->
-            new SoilBlock(BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.TERRACOTTA_GREEN).strength(0.5f)
-                    .sound(SoundType.GRAVEL)));
+            new SoilBlock(BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.TERRACOTTA_GREEN)
+                    .strength(0.5f).sound(SoundType.GRAVEL)));
+
+    //vertical slab
+
+    public static final RegistryObject<Block> CUT_IRON_VERTICAL_SLAB = regWithItem("cut_iron_vertical_slab", () ->
+            new RustableVerticalSlabBlock(Rustable.RustLevel.UNAFFECTED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
+    public static final RegistryObject<Block> EXPOSED_CUT_IRON_VERTICAL_SLAB = regWithItem("exposed_cut_iron_vertical_slab", () ->
+            new RustableVerticalSlabBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
+    public static final RegistryObject<Block> WEATHERED_CUT_IRON_VERTICAL_SLAB = regWithItem("weathered_cut_iron_vertical_slab", () ->
+            new RustableVerticalSlabBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
+    public static final RegistryObject<Block> RUSTED_CUT_IRON_VERTICAL_SLAB = regWithItem("rusted_cut_iron_vertical_slab", () ->
+            new RustableVerticalSlabBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
+
+    public static final RegistryObject<Block> WAXED_CUT_IRON_VERTICAL_SLAB = regWithItem("waxed_cut_iron_vertical_slab", () ->
+            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
+    public static final RegistryObject<Block> WAXED_EXPOSED_CUT_IRON_VERTICAL_SLAB = regWithItem("waxed_exposed_cut_iron_vertical_slab", () ->
+            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
+    public static final RegistryObject<Block> WAXED_WEATHERED_CUT_IRON_VERTICAL_SLAB = regWithItem("waxed_weathered_cut_iron_vertical_slab", () ->
+            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
+    public static final RegistryObject<Block> WAXED_RUSTED_CUT_IRON_VERTICAL_SLAB = regWithItem("waxed_rusted_cut_iron_vertical_slab", () ->
+            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
+
+    public static final RegistryObject<Block> PLATE_IRON_VERTICAL_SLAB = regWithItem("plate_iron_vertical_slab", () ->
+            new RustableVerticalSlabBlock(Rustable.RustLevel.UNAFFECTED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
+    public static final RegistryObject<Block> EXPOSED_PLATE_IRON_VERTICAL_SLAB = regWithItem("exposed_plate_iron_vertical_slab", () ->
+            new RustableVerticalSlabBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
+    public static final RegistryObject<Block> WEATHERED_PLATE_IRON_VERTICAL_SLAB = regWithItem("weathered_plate_iron_vertical_slab", () ->
+            new RustableVerticalSlabBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
+    public static final RegistryObject<Block> RUSTED_PLATE_IRON_VERTICAL_SLAB = regWithItem("rusted_plate_iron_vertical_slab", () ->
+            new RustableVerticalSlabBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
+
+    public static final RegistryObject<Block> WAXED_PLATE_IRON_VERTICAL_SLAB = regWithItem("waxed_plate_iron_vertical_slab", () ->
+            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
+    public static final RegistryObject<Block> WAXED_EXPOSED_PLATE_IRON_VERTICAL_SLAB = regWithItem("waxed_exposed_plate_iron_vertical_slab", () ->
+            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
+    public static final RegistryObject<Block> WAXED_WEATHERED_PLATE_IRON_VERTICAL_SLAB = regWithItem("waxed_weathered_plate_iron_vertical_slab", () ->
+            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
+    public static final RegistryObject<Block> WAXED_RUSTED_PLATE_IRON_VERTICAL_SLAB = regWithItem("waxed_rusted_plate_iron_vertical_slab", () ->
+            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
+
 
     //-----overrides------
     /*

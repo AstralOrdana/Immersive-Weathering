@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.common.blocks;
 
+import com.ordana.immersive_weathering.common.ModBlocks;
 import com.ordana.immersive_weathering.common.ModParticles;
 import com.ordana.immersive_weathering.common.ModTags;
 import net.minecraft.core.BlockPos;

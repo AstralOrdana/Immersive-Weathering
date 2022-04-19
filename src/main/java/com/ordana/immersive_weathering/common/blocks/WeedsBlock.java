@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class WeedsBlock extends CropBlock {
 
-    protected WeedsBlock(Properties settings) {
+    public WeedsBlock(Properties settings) {
         super(settings);
     }
 

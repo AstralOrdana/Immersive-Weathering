@@ -15,7 +15,7 @@
       }
     }
   },
-  "growth_chance": 0.035,
+  "growth_chance": 0.025,
   "growth_for_face": [
     {
       "direction": "up",
@@ -38,8 +38,8 @@
   "replace_target": true,
   "owners": [ "minecraft:farmland"],
   "replacing_target": {
-    "blocks": "#minecraft:weeds_replaceable",
-    "predicate_type": "immersive_weathering:block-set_match",
-    "probability": 0.7
+    "blocks": "#immersive_weathering:weeds_replaceable",
+    "predicate_type": "immersive_weathering:block_set_match",
+    "probability": 0.65
   }
 }

@@ -2,13 +2,11 @@ package com.ordana.immersive_weathering.common.blocks;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMap;
-import com.ordana.immersive_weathering.integration.dynamic_stuff.ClientDynamicResourcesHandler;
+import com.ordana.immersive_weathering.common.ModBlocks;
 import com.ordana.immersive_weathering.integration.dynamic_stuff.ModDynamicRegistry;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 
 import java.util.Map;
@@ -38,11 +36,8 @@ public class LeafPilesRegistry {
 
     public static void registerBus(IEventBus bus){
         if(isDynamic){
-            ModDynamicRegistry.init();
-            DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
-                ClientDynamicResourcesHandler.registerBus(bus);
-                bus.addListener(ModDynamicRegistry::initClient);
-            });
+            ModDynamicRegistry.init(bus);
         }
     }
+
 }

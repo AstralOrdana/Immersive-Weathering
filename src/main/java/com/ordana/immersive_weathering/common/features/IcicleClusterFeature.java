@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.common.features;
 
 import com.mojang.serialization.Codec;
-import com.ordana.immersive_weathering.common.blocks.ModBlocks;
+import com.ordana.immersive_weathering.common.ModBlocks;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.OptionalInt;

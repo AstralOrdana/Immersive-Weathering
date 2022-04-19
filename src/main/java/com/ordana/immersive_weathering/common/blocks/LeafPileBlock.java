@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.common.blocks;
 
-import com.ordana.immersive_weathering.common.ModTags;
+import com.ordana.immersive_weathering.common.ModBlocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -19,7 +19,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -31,11 +30,13 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.common.util.Lazy;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Random;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class LeafPileBlock extends Block implements BonemealableBlock {
 
@@ -56,15 +57,15 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
     private final boolean hasFlowers; //if it can be boneMealed
     private final boolean hasThorns; //if it can hurt & make podzol
     private final boolean isLeafy; //if it can make humus
-    private final List<RegistryObject<SimpleParticleType>> particles;
+    private final List<Lazy<SimpleParticleType>> particles;
 
     public LeafPileBlock(Properties settings, boolean hasFlowers, boolean hasThorns, boolean isLeafy,
-                            List<RegistryObject<SimpleParticleType>> particles) {
+                            List<Supplier<SimpleParticleType>> particles) {
         super(settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, 1));
         this.hasFlowers = hasFlowers;
         this.hasThorns = hasThorns;
-        this.particles = particles;
+        this.particles = particles.stream().map(Lazy::of).collect(Collectors.toList());
         this.isLeafy = isLeafy;
     }
 

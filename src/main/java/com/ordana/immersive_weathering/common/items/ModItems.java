@@ -3,7 +3,7 @@ package com.ordana.immersive_weathering.common.items;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.common.ModFoods;
 import com.ordana.immersive_weathering.common.blocks.LeafPileBlock;
-import com.ordana.immersive_weathering.common.blocks.ModBlocks;
+import com.ordana.immersive_weathering.common.ModBlocks;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;

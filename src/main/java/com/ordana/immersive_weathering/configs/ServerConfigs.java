@@ -10,12 +10,12 @@ public class ServerConfigs {
     public static ForgeConfigSpec.DoubleValue MOSS_INTEREST_FOR_FACE;
     public static ForgeConfigSpec.DoubleValue MOSS_DISJOINT_GROWTH;
     public static ForgeConfigSpec.DoubleValue MOSS_UN_WEATHERABLE_CHANCE;
-    public static ForgeConfigSpec.BooleanValue MOSS_NEEDS_WATER;
+    public static ForgeConfigSpec.BooleanValue MOSS_NEEDS_AIR;
 
     public static ForgeConfigSpec.DoubleValue CRACK_INTEREST_FOR_FACE;
     public static ForgeConfigSpec.DoubleValue CRACK_DISJOINT_GROWTH;
     public static ForgeConfigSpec.DoubleValue CRACK_UN_WEATHERABLE_CHANCE;
-    public static ForgeConfigSpec.BooleanValue CRACK_NEEDS_WATER;
+    public static ForgeConfigSpec.BooleanValue CRACK_NEEDS_AIR;
 
     public static ForgeConfigSpec.BooleanValue BARK_ENABLED;
     public static ForgeConfigSpec.BooleanValue LEAF_PILES_PATCHES;
@@ -40,22 +40,22 @@ public class ServerConfigs {
         MOSS_UN_WEATHERABLE_CHANCE = builder.comment("Determines the percentage of blocks that will not be allowed to weather if not directly next to a moss source block." +
                 "The actual shape of a moss patch is influenced by all 3 of these values")
                 .defineInRange("un_weatherable_chance",0.4,0,1);
-        MOSS_NEEDS_WATER = builder.comment("If a block needs to be exposed to air to be able to weather. " +
+        MOSS_NEEDS_AIR = builder.comment("If a block needs to be exposed to air to be able to weather. " +
                 "Currently moss sources blocks ignore this check")
                         .define("needs_air",true);
         builder.pop();
         builder.push("cracked_blocks");
         CRACK_INTEREST_FOR_FACE = builder.comment("How likely each block face is to propagate its cracked state to its neighbor." +
                         "Set to 0 to completely disable cracking")
-                .defineInRange("interest_for_face",0.3, 0,1);
+                .defineInRange("interest_for_face",0.6, 0,1);
         CRACK_DISJOINT_GROWTH = builder.comment("Determines how likely a crack patch is to spread in a non uniform manner allowing more distant blocks to be affected by eachother." +
                         "In more in depth terms this makes it so a block will be affected by neighbors with WEATHERING state set to true" +
                         "as opposed to only already cracked blocks or crack source blocks")
-                .defineInRange("disjoint_growth_chance",0.5, 0,1);
+                .defineInRange("disjoint_growth_chance",0.4, 0,1);
         CRACK_UN_WEATHERABLE_CHANCE = builder.comment("Determines the percentage of blocks that will not be allowed to weather if not directly next to a moss source block." +
                         "The actual shape of a crack patch is influenced by all 3 of these values")
-                .defineInRange("unWeatherable_chance",0.4,0,1);
-        CRACK_NEEDS_WATER = builder.comment("If a block needs to be exposed to air to be able to weather. " +
+                .defineInRange("unWeatherable_chance",0.5,0,1);
+        CRACK_NEEDS_AIR = builder.comment("If a block needs to be exposed to air to be able to weather. " +
                         "Currently crack sources blocks ignore this check")
                 .define("needs_air",false);
         builder.pop();

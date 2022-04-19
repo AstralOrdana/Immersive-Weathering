@@ -1,36 +1,26 @@
 package com.ordana.immersive_weathering.integration.dynamic_stuff;
 
+import com.mojang.blaze3d.platform.NativeImage;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import net.mehvahdjukaar.selene.block_set.leaves.LeavesType;
-import net.mehvahdjukaar.selene.resourcepack.AssetGenerators;
-import net.mehvahdjukaar.selene.resourcepack.DynamicTexturePack;
-import net.mehvahdjukaar.selene.resourcepack.RPUtils;
-import net.mehvahdjukaar.selene.resourcepack.RPUtils.ResType;
-import net.mehvahdjukaar.selene.resourcepack.RPUtils.StaticResource;
-import net.mehvahdjukaar.selene.resourcepack.ResourcePackAwareDynamicTextureProvider;
+import net.mehvahdjukaar.selene.block_set.leaves.LeavesTypeRegistry;
+import net.mehvahdjukaar.selene.resourcepack.*;
+import net.mehvahdjukaar.selene.resourcepack.asset_generators.LangBuilder;
+import net.mehvahdjukaar.selene.resourcepack.asset_generators.textures.Palette;
+import net.mehvahdjukaar.selene.resourcepack.asset_generators.textures.Respriter;
+import net.mehvahdjukaar.selene.resourcepack.asset_generators.textures.SpriteUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraftforge.eventbus.api.IEventBus;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-public class ClientDynamicResourcesHandler extends ResourcePackAwareDynamicTextureProvider {
+public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider {
 
-    public static final ClientDynamicResourcesHandler INSTANCE = new ClientDynamicResourcesHandler();
-    public static final DynamicTexturePack DYNAMIC_TEXTURE_PACK =
-            new DynamicTexturePack(ImmersiveWeathering.res("virtual_resourcepack"));
-
-
-    public static void registerBus(IEventBus bus) {
-        DYNAMIC_TEXTURE_PACK.registerPack(bus);
-        DYNAMIC_TEXTURE_PACK.generateDebugResources = true;
-    }
-
-    @Override
-    public DynamicTexturePack getDynamicPack() {
-        return DYNAMIC_TEXTURE_PACK;
+    public ClientDynamicResourcesHandler() {
+        super(new DynamicTexturePack(ImmersiveWeathering.res("virtual_resourcepack")));
+        this.dynamicPack.generateDebugResources = true;
     }
 
     @Override
@@ -39,60 +29,64 @@ public class ClientDynamicResourcesHandler extends ResourcePackAwareDynamicTextu
     }
 
     @Override
-    public boolean hasTexturePackSupport() {
-        return false;
+    public boolean dependsOnLoadedPacks() {
+        return true;
     }
-
 
     @Override
     public void generateStaticAssetsOnStartup(ResourceManager manager) {
         //generate static resources
 
-        AssetGenerators.LangBuilder langBuilder = new AssetGenerators.LangBuilder();
+        LangBuilder langBuilder = new LangBuilder();
 
         //------leaf piles------
         {
 
+            StaticResource leafParticle = getResOrLog(manager,
+                    ResType.PARTICLES.getPath(ImmersiveWeathering.res("oak_leaf")));
+
             StaticResource lpBlockState = getResOrLog(manager,
-                    RPUtils.resPath(ImmersiveWeathering.res("oak_leaf_pile"), ResType.BLOCKSTATES));
+                    ResType.BLOCKSTATES.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
             StaticResource lpModel1 = getResOrLog(manager,
-                    RPUtils.resPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height1"), ResType.BLOCK_MODELS));
+                    ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height1")));
             StaticResource lpModel2 = getResOrLog(manager,
-                    RPUtils.resPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height2"), ResType.BLOCK_MODELS));
+                    ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height2")));
             StaticResource lpModel4 = getResOrLog(manager,
-                    RPUtils.resPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height4"), ResType.BLOCK_MODELS));
+                    ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height4")));
             StaticResource lpModel6 = getResOrLog(manager,
-                    RPUtils.resPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height6"), ResType.BLOCK_MODELS));
+                    ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height6")));
             StaticResource lpModel8 = getResOrLog(manager,
-                    RPUtils.resPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height8"), ResType.BLOCK_MODELS));
+                    ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height8")));
             StaticResource lpModel10 = getResOrLog(manager,
-                    RPUtils.resPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height10"), ResType.BLOCK_MODELS));
+                    ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height10")));
             StaticResource lpModel12 = getResOrLog(manager,
-                    RPUtils.resPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height12"), ResType.BLOCK_MODELS));
+                    ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height12")));
             StaticResource lpModel14 = getResOrLog(manager,
-                    RPUtils.resPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height14"), ResType.BLOCK_MODELS));
+                    ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height14")));
             StaticResource lpModel16 = getResOrLog(manager,
-                    RPUtils.resPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height16"), ResType.BLOCK_MODELS));
+                    ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height16")));
 
             StaticResource lpItemModel = getResOrLog(manager,
-                    RPUtils.resPath(ImmersiveWeathering.res("oak_leaf_pile"), ResType.ITEM_MODELS));
+                    ResType.ITEM_MODELS.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
 
             for (var e : ModDynamicRegistry.LEAF_TO_TYPE.entrySet()) {
                 LeavesType leafType = e.getValue();
                 if (!leafType.isVanilla()) {
                     var v = e.getKey();
 
-                    String id = leafType.getNamespace() + "/" + leafType.getTypeName() + "_leaf_pile";
+                    String path = leafType.getNamespace() + "/" + leafType.getTypeName();
+                    String id = path + "_leaf_pile";
+                    String particleId = path + "_leaf";
                     langBuilder.addEntry(v, leafType.getNameForTranslation("leaf_pile"));
 
                     try {
-                        DYNAMIC_TEXTURE_PACK.addSimilarJsonResource(lpBlockState, "oak_leaf_pile", id);
+                        dynamicPack.addSimilarJsonResource(lpBlockState, "oak_leaf_pile", id);
                     } catch (Exception ex) {
                         getLogger().error("Failed to generate Leaf Pile blockstate definition for {} : {}", v, ex);
                     }
 
                     try {
-                        DYNAMIC_TEXTURE_PACK.addSimilarJsonResource(lpItemModel, "oak_leaf_pile", id);
+                        dynamicPack.addSimilarJsonResource(lpItemModel, "oak_leaf_pile", id);
                     } catch (Exception ex) {
                         getLogger().error("Failed to generate Leaf Pile item model for {} : {}", v, ex);
                     }
@@ -112,31 +106,136 @@ public class ClientDynamicResourcesHandler extends ResourcePackAwareDynamicTextu
                     } catch (Exception ex) {
                         getLogger().error("Failed to generate Leaf Pile model for {} : {}", v, ex);
                     }
+
+                    try {
+                        dynamicPack.addSimilarJsonResource(leafParticle, "oak_leaf", particleId);
+                    } catch (Exception ex) {
+                        getLogger().error("Failed to generate Leaf Particle for {} : {}", v, ex);
+                    }
+
                 }
             }
         }
 
-        DYNAMIC_TEXTURE_PACK.addLang(ImmersiveWeathering.res("en_us"), langBuilder.build());
+        dynamicPack.addLang(ImmersiveWeathering.res("en_us"), langBuilder.build());
+
+
     }
 
-    public void addLeafPilesModel(RPUtils.StaticResource resource, String id, String texturePath) {
+    public void addLeafPilesModel(StaticResource resource, String id, String texturePath) {
         String string = new String(resource.data, StandardCharsets.UTF_8);
 
-        String path = resource.location.getPath().replace("oak_leaf_pile",id);
+        String path = resource.location.getPath().replace("oak_leaf_pile", id);
 
         string = string.replace("immersive_weathering:block/light_oak_leaves", texturePath);
         string = string.replace("immersive_weathering:block/medium_oak_leaves", texturePath);
+        string = string.replace("heavy_oak_leaves", id.replace("/", "/heavy_"));
 
         //adds modified under my namespace
         ResourceLocation newRes = ImmersiveWeathering.res(path);
-        DYNAMIC_TEXTURE_PACK.addBytes(newRes, string.getBytes(), ResType.GENERIC);
+        dynamicPack.addBytes(newRes, string.getBytes(), ResType.GENERIC);
     }
 
 
     //-------------resource pack dependant textures-------------
 
     @Override
-    public void regenerateTextures(ResourceManager manager) {
+    public void regenerateDynamicAssets(ResourceManager manager) {
+
+        //leaf particle textures
+        try (NativeImage template = SpriteUtils.readImage(manager, ImmersiveWeathering.res(
+                "textures/particle/oak_leaf_0.png"));
+             NativeImage template1 = SpriteUtils.readImage(manager, ImmersiveWeathering.res(
+                     "textures/particle/oak_leaf_1.png"))) {
+
+            Respriter respriter = new Respriter(template);
+            Respriter respriter1 = new Respriter(template1);
+
+            for (LeavesType type : LeavesTypeRegistry.LEAVES_TYPES.values()) {
+                if (!type.isVanilla()) {
+
+                    String path = type.getNamespace() + "/" + type.getTypeName();
+
+
+                    try (NativeImage baseTexture = RPUtils.findFirstBlockTexture(manager, type.leaves)) {
+
+                        {
+                            ResourceLocation textureRes = ImmersiveWeathering.res(
+                                    String.format("particle/%s_leaf_0", path));
+                            if (!alreadyHasTextureAtLocation(manager, textureRes)) {
+
+                                Palette targetPalette = Palette.fromImage(baseTexture);
+                                NativeImage newImage = respriter.recolorImage(targetPalette);
+
+                                dynamicPack.addTexture(textureRes, newImage);
+                            }
+                        }
+
+                        {
+                            ResourceLocation textureRes = ImmersiveWeathering.res(
+                                    String.format("particle/%s_leaf_1", path));
+                            if (!alreadyHasTextureAtLocation(manager, textureRes)) {
+
+                                Palette targetPalette = Palette.fromImage(baseTexture);
+                                NativeImage newImage = respriter1.recolorImage(targetPalette);
+
+                                dynamicPack.addTexture(textureRes, newImage);
+                            }
+                        }
+
+                    } catch (Exception ex) {
+                        //getLogger().error("Could not find sign texture for wood type {}. Using plank texture : {}", wood, ex);
+                    }
+
+                }
+            }
+        } catch (Exception ex) {
+            getLogger().error("Could not generate any Leaf Particle texture : ", ex);
+        }
+
+        //heavy leaves textures
+
+        //leaf particle textures
+
+        for (LeavesType type : LeavesTypeRegistry.LEAVES_TYPES.values()) {
+            if (!type.isVanilla()) {
+
+                String path = type.getNamespace() + "/heavy_" + type.getTypeName() + "_leaf_pile";
+
+                try (NativeImage baseTexture = RPUtils.findFirstBlockTexture(manager, type.leaves)) {
+
+                    {
+                        ResourceLocation textureRes = ImmersiveWeathering.res(
+                                String.format("block/%s", path));
+                        if (!alreadyHasTextureAtLocation(manager, textureRes)) {
+
+                            Palette targetPalette = Palette.fromImage(baseTexture);
+                            if (targetPalette.getDarkest().occurrence > 5) {
+                                targetPalette.increaseDown();
+                            }
+                            var dark = targetPalette.getDarkest();
+
+
+                            for (int x = 0; x < baseTexture.getWidth(); ++x) {
+                                for (int y = 0; y < baseTexture.getHeight(); ++y) {
+                                    int oldValue = baseTexture.getPixelRGBA(x, y);
+                                    if (NativeImage.getA(oldValue) == 0) {
+                                        baseTexture.setPixelRGBA(x, y, dark.color);
+                                    }
+                                }
+                            }
+
+                            dynamicPack.addTexture(textureRes, baseTexture);
+                        }
+                    }
+
+                } catch (Exception ex) {
+                    getLogger().error("Could not generate heavy leaf pile texture for type {}", type, ex);
+                }
+
+            }
+        }
+
     }
 
 }

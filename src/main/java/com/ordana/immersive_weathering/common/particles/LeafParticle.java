@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.common.client;
+package com.ordana.immersive_weathering.common.particles;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.multiplayer.ClientLevel;

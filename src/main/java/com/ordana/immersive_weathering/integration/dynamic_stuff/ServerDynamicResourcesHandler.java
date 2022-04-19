@@ -3,8 +3,10 @@ package com.ordana.immersive_weathering.integration.dynamic_stuff;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Stopwatch;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.common.blocks.LeafPilesRegistry;
+import net.mehvahdjukaar.selene.block_set.leaves.LeavesType;
 import net.mehvahdjukaar.selene.block_set.wood.WoodType;
-import net.mehvahdjukaar.selene.resourcepack.DynamicDataPack;
+import net.mehvahdjukaar.selene.resourcepack.*;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -13,6 +15,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.biome.Biome;
@@ -23,117 +26,89 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.logging.log4j.Logger;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
-public class ServerDynamicResourcesHandler {
+public class ServerDynamicResourcesHandler extends RPAwareDynamicDataProvider {
 
-    public static final DynamicDataPack DYNAMIC_DATA_PACK =
-            new DynamicDataPack(ImmersiveWeathering.res("virtual_resourcepack"));
-/*
-    //fired on mod setup
-    public static void registerBus(IEventBus forgeBus) {
-        DYNAMIC_DATA_PACK.registerPack(forgeBus);
-        FMLJavaModLoadingContext.get().getModEventBus()
-                .addListener(ServerDynamicResourcesHandler::generateAssets);
-        //TODO: fix tags not working
-        DYNAMIC_DATA_PACK.generateDebugResources = !FMLLoader.isProduction();
+    public ServerDynamicResourcesHandler() {
+        super(new DynamicDataPack(ImmersiveWeathering.res("virtual_resourcepack")));
+        this.dynamicPack.generateDebugResources = true;
     }
 
-    public static void generateAssets(final FMLCommonSetupEvent event) {
+    @Override
+    public Logger getLogger() {
+        return ImmersiveWeathering.LOGGER;
+    }
 
-        Stopwatch watch = Stopwatch.createStarted();
+    @Override
+    public boolean dependsOnLoadedPacks() {
+        return true;
+    }
 
-        //hanging signs
-        {
-            List<ResourceLocation> signs = new ArrayList<>();
+    @Override
+    public void regenerateDynamicAssets(ResourceManager manager) {
 
-            //loot table
-            for (var r : DynamicRegistrationHandler.LEAF_PILES.keySet()) {
-                DYNAMIC_DATA_PACK.addSimpleBlockLootTable(r);
-                signs.add(r.getRegistryName());
+        StaticResource lootTable = getResOrLog(manager, ResType.BLOCK_LOOT_TABLES.getPath(ImmersiveWeathering.res("block/oak_leaf_pile")));
+        StaticResource recipe = getResOrLog(manager, ResType.RECIPES.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
 
-                makeHangingSignRecipe(r.woodType, DYNAMIC_DATA_PACK::addRecipe);
+
+        for (var e : ModDynamicRegistry.LEAF_TO_TYPE.entrySet()) {
+            LeavesType leafType = e.getValue();
+            if (!leafType.isVanilla()) {
+                var v = e.getKey();
+
+                String path = leafType.getNamespace() + "/" + leafType.getTypeName();
+                String id = path + "_leaf_pile";
+
+                String leavesId =leafType.leaves.getRegistryName().toString();
+
+                try {
+                    addLeafPileJson(Objects.requireNonNull(lootTable), id, leavesId);
+                } catch (Exception ex) {
+                    getLogger().error("Failed to generate Leaf Pile loot table for {} : {}", v, ex);
+                }
+
+                try {
+                    addLeafPileJson(Objects.requireNonNull(recipe), id, leavesId);
+                } catch (Exception ex) {
+                    getLogger().error("Failed to generate Leaf Pile recipe for {} : {}", v, ex);
+                }
+
             }
-            //tag
-            DYNAMIC_DATA_PACK.addTag(ImmersiveWeathering.res("hanging_signs"), signs, Registry.BLOCK_REGISTRY);
-            DYNAMIC_DATA_PACK.addTag(ImmersiveWeathering.res("hanging_signs"), signs, Registry.ITEM_REGISTRY);
-        }
-
-        ImmersiveWeathering.LOGGER.info("Generated runtime data resources in: {} seconds", watch.elapsed().toSeconds());
-    }
-
-
-    public static void makeConditionalWoodRec(FinishedRecipe r, WoodType wood, Consumer<FinishedRecipe> consumer, String name) {
-
-        ConditionalRecipe.builder().addCondition(new OptionalRecipeCondition(name))
-                .addCondition(new ModLoadedCondition(wood.getNamespace()))
-                .addRecipe(r)
-                .generateAdvancement()
-                .build(consumer, "supplementaries", name + "_" + wood.getAppendableId());
-    }
-
-    private static ResourceLocation getPlankRegName(WoodType wood) {
-        return new ResourceLocation(wood.getNamespace(), wood.getWoodName() + "_planks");
-    }
-
-    private static ResourceLocation getSignRegName(WoodType wood) {
-        return new ResourceLocation(wood.getNamespace(), wood.getWoodName() + "_sign");
-    }
-
-    private static void makeSignPostRecipe(WoodType wood, Consumer<FinishedRecipe> consumer) {
-        try {
-            Item plank = wood.plankBlock.asItem();
-            Preconditions.checkArgument(plank != Items.AIR);
-
-            Item sign = ForgeRegistries.ITEMS.getValue(getSignRegName(wood));
-
-            if (sign != null && sign != Items.AIR) {
-                ShapelessRecipeBuilder.shapeless(ModRegistry.SIGN_POST_ITEMS.get(wood), 2)
-                        .requires(sign)
-                        .group(RegistryConstants.SIGN_POST_NAME)
-                        .unlockedBy("has_plank", InventoryChangeTrigger.TriggerInstance.hasItems(plank))
-                        //.build(consumer);
-                        .save((s) -> makeConditionalWoodRec(s, wood, consumer, RegistryConstants.SIGN_POST_NAME)); //
-            } else {
-                ShapedRecipeBuilder.shaped(ModRegistry.SIGN_POST_ITEMS.get(wood), 3)
-                        .pattern("   ")
-                        .pattern("222")
-                        .pattern(" 1 ")
-                        .define('1', Items.STICK)
-                        .define('2', plank)
-                        .group(RegistryConstants.SIGN_POST_NAME)
-                        .unlockedBy("has_plank", InventoryChangeTrigger.TriggerInstance.hasItems(plank))
-                        //.build(consumer);
-                        .save((s) -> makeConditionalWoodRec(s, wood, consumer, RegistryConstants.SIGN_POST_NAME)); //
-            }
-        } catch (Exception ignored) {
-            Supplementaries.LOGGER.error("Failed to generate sign post recipe for wood type {}", wood);
         }
     }
 
-    private static void makeHangingSignRecipe(WoodType wood, Consumer<FinishedRecipe> consumer) {
-        try {
-            Item plank = wood.plankBlock.asItem();
-            Preconditions.checkArgument(plank != Items.AIR);
-            ShapedRecipeBuilder.shaped(ModRegistry.HANGING_SIGNS.get(wood), 2)
-                    .pattern("010")
-                    .pattern("222")
-                    .pattern("222")
-                    .define('0', Items.IRON_NUGGET)
-                    .define('1', Items.STICK)
-                    .define('2', plank)
-                    .group(RegistryConstants.HANGING_SIGN_NAME)
-                    .unlockedBy("has_plank", InventoryChangeTrigger.TriggerInstance.hasItems(plank))
-                    //.build(consumer);
-                    .save((s) -> makeConditionalWoodRec(s, wood, consumer, RegistryConstants.HANGING_SIGN_NAME)); //
+    @Override
+    public void generateStaticAssetsOnStartup(ResourceManager manager) {
 
-        } catch (Exception ignored) {
-            Supplementaries.LOGGER.error("Failed to generate hanging sign recipe for wood type {}", wood);
+        List<ResourceLocation> leafPiles = new ArrayList<>();
+
+        //loot table
+        for (var r : ModDynamicRegistry.LEAF_TO_TYPE.entrySet()) {
+            leafPiles.add(r.getKey().getRegistryName());
         }
+        //tag
+        dynamicPack.addTag(ImmersiveWeathering.res("leaf_piles"), leafPiles, Registry.BLOCK_REGISTRY);
+        dynamicPack.addTag(ImmersiveWeathering.res("leaf_piles"), leafPiles, Registry.ITEM_REGISTRY);
     }
-*/
+
+    public void addLeafPileJson(StaticResource resource, String id, String leafBlockId) {
+        String string = new String(resource.data, StandardCharsets.UTF_8);
+
+        String path = resource.location.getPath().replace("oak_leaf_pile", id);
+
+        string = string.replace("oak_leaf_pile", id);
+        string = string.replace("minecraft:oak_leaves", leafBlockId);
+
+        //adds modified under my namespace
+        ResourceLocation newRes = ImmersiveWeathering.res(path);
+        dynamicPack.addBytes(newRes, string.getBytes(), ResType.GENERIC);
+    }
 
 }

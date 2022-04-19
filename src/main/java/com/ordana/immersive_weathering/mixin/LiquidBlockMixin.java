@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.google.common.collect.ImmutableList;
-import com.ordana.immersive_weathering.common.blocks.ModBlocks;
+import com.ordana.immersive_weathering.common.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;

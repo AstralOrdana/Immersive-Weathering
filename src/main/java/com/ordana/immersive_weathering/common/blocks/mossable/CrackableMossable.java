@@ -31,11 +31,11 @@ public interface CrackableMossable extends Mossable, Crackable {
     @Override
     default void tryWeather(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
         if (random.nextFloat() < this.getWeatherChanceSpeed()) {
-            boolean isMoss = this.getMossSpreader().getWanderWeatheringState(true, pos, serverLevel);
+            boolean isMoss = this.getMossSpreader().getWantedWeatheringState(true, pos, serverLevel);
             Optional<BlockState> opt = Optional.empty();
             if (isMoss) {
                 opt = this.getNextMossy(state);
-            } else if (this.getCrackSpreader().getWanderWeatheringState(true, pos, serverLevel)) {
+            } else if (this.getCrackSpreader().getWantedWeatheringState(true, pos, serverLevel)) {
                 opt = this.getNextCracked(state);
             }
             BlockState newState = opt.orElse(state.setValue(WEATHERABLE, WeatheringState.FALSE));

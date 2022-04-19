@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.common.blocks;
 
+import com.ordana.immersive_weathering.common.ModBlocks;
 import com.ordana.immersive_weathering.common.ModDamageSource;
 import com.ordana.immersive_weathering.common.ModTags;
 import com.ordana.immersive_weathering.common.entity.FallingIcicleEntity;

@@ -1,7 +1,9 @@
-package com.ordana.immersive_weathering.common.entity;
+package com.ordana.immersive_weathering.common;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.common.blocks.ModBlocks;
+import com.ordana.immersive_weathering.common.ModBlocks;
+import com.ordana.immersive_weathering.common.entity.FallingIcicleEntity;
+import com.ordana.immersive_weathering.common.entity.IcicleBlockEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
