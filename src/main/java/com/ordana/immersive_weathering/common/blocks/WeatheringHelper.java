@@ -7,13 +7,12 @@ import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.common.ModBlocks;
 import com.ordana.immersive_weathering.common.items.ModItems;
+import com.ordana.immersive_weathering.configs.ServerConfigs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -50,7 +49,6 @@ public class WeatheringHelper {
         }
         return builder.build();
     });
-
 
 
     public static final Supplier<Map<Block, Pair<Item, Block>>> STRIPPED_TO_BARK = Suppliers.memoize(() -> ImmutableMap.<Block, Pair<Item, Block>>builder()
@@ -148,69 +146,17 @@ public class WeatheringHelper {
         return false;
     }
 
-    //modified version of hasEnoughBlocksAround for magma block
-    public static boolean canMagmaSpread(BlockPos centerPos, int radius, Level level, int maximumSize) {
-        int count = 0;
-        boolean hasLava = false;
-        //shuffling. provides way better result that iterating through it conventionally
-        var list = grabBlocksAroundRandomly(centerPos, radius, radius, radius);
-        for (BlockPos pos : list) {
-            BlockState state = level.getBlockState(pos);
-            if (state.is(Blocks.MAGMA_BLOCK)) count += 1;
-            else {
-                var fluid = state.getFluidState();
-                if (!hasLava && fluid.is(FluidTags.LAVA)) hasLava = true;
-                else if (fluid.is(FluidTags.WATER)) return false;
-            }
-            if (count >= maximumSize) return false;
-        }
-        return hasLava;
-    }
-
-    public static boolean canRootsSpread(BlockPos centerPos, int height, int width, Level world, int maximumSize) {
-        int count = 0;
-        boolean hasRoots = false;
-        var list = grabBlocksAroundRandomly(centerPos.above(height / 2), width, height, width);
-        for (BlockPos pos : list) {
-            BlockState state = world.getBlockState(pos);
-            if (state.is(Blocks.ROOTED_DIRT)) count += 1;
-            else {
-                if (!hasRoots && isLog(state)) hasRoots = true;
-            }
-            if (count >= maximumSize) return false;
-        }
-        return hasRoots;
-    }
-
     public static boolean isLog(BlockState neighbor) {
         return neighbor.is(BlockTags.LOGS) && (!neighbor.hasProperty(RotatedPillarBlock.AXIS) ||
                 neighbor.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y) &&
                 !neighbor.getBlock().getRegistryName().getPath().contains("stripped");
     }
 
-    public static final SimpleWeightedRandomList<Direction> ROOT_DIRECTIONS =
-            SimpleWeightedRandomList.<Direction>builder()
-                    .add(Direction.NORTH, 5)
-                    .add(Direction.SOUTH, 5)
-                    .add(Direction.WEST, 5)
-                    .add(Direction.EAST, 5)
-                    .add(Direction.UP, 1)
-                    .add(Direction.DOWN, 20)
-                    .build();
-
-    public static final SimpleWeightedRandomList<Direction> CORAL_DIRECTIONS =
-            SimpleWeightedRandomList.<Direction>builder()
-                    .add(Direction.NORTH, 1)
-                    .add(Direction.SOUTH, 1)
-                    .add(Direction.WEST, 1)
-                    .add(Direction.EAST, 1)
-                    .add(Direction.UP, 5)
-                    .build();
-
-
     public static boolean isIciclePos(BlockPos pos) {
+        int rarity = ServerConfigs.ICICLES_GENERATION_RARITY.get();
+        if (rarity == 1001) return false;
         Random posRandom = new Random(Mth.getSeed(pos));
-        return posRandom.nextInt(12) == 0;
+        return posRandom.nextInt(rarity) == 0;
     }
 
     public static void tryPlacingIcicle(BlockState state, Level level, BlockPos pos, Biome.Precipitation precipitation) {
@@ -229,6 +175,8 @@ public class WeatheringHelper {
     }
 
     public static void onLightningHit(BlockPos centerPos, Level level, int rec) {
+        if (rec == 0 && !ServerConfigs.VITRIFIED_LIGHTNING.get()) return;
+
         BlockState vitrified = ModBlocks.VITRIFIED_SAND.get().defaultBlockState();
         level.setBlockAndUpdate(centerPos, vitrified);
         if (rec >= 5) return;
@@ -249,5 +197,6 @@ public class WeatheringHelper {
                 }
             }
         }
+
     }
 }

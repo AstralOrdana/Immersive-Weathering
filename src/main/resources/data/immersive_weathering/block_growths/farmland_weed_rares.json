@@ -19,14 +19,14 @@
               "Properties": {
                 "age": "1"
               }
-            },
-            "weight": 1
-          }
+            }
+          },
+          "weight": 1
         }
       ]
     }
   ],
-  "replace_target": true,
+  "destroy_target": true,
   "owners": ["minecraft:farmland"],
   "replacing_target": {
     "blocks": "#immersive_weathering:weeds_replaceable",

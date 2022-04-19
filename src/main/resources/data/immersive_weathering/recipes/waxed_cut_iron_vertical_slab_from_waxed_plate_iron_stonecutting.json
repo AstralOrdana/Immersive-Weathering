@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "immersive_weathering:waxed_plate_iron"
+  },
+  "result": "immersive_weathering:waxed_cut_iron_vertical_slab",
+  "count": 2,
+  "conditions": [
+    {
+      "modid": "quark",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

@@ -21,11 +21,23 @@ public class ServerConfigs {
     public static ForgeConfigSpec.BooleanValue LEAF_PILES_PATCHES;
     public static ForgeConfigSpec.BooleanValue ICICLES_PATCHES;
     public static ForgeConfigSpec.BooleanValue ICICLES_FALLING;
-    public static ForgeConfigSpec.BooleanValue ICICLES_GENERATION;
+    public static ForgeConfigSpec.IntValue ICICLES_GENERATION_RARITY;
 
     public static ForgeConfigSpec.DoubleValue MOSS_CLUMP_CHANCE;
     public static ForgeConfigSpec.BooleanValue ICICLE_FIRE_RESISTANCE;
     public static ForgeConfigSpec.BooleanValue ICICLE_FOOD;
+
+    public static ForgeConfigSpec.BooleanValue CRACK_REQUIRES_SHIFTING;
+
+    public static ForgeConfigSpec.DoubleValue HUMUS_SPAWN_BELOW_LEAVES;
+    public static ForgeConfigSpec.DoubleValue FALLING_LEAVES;
+
+    public static ForgeConfigSpec.BooleanValue VITRIFIED_LIGHTNING;
+    public static ForgeConfigSpec.BooleanValue VITRIFIED_LAVA;
+
+    public static ForgeConfigSpec.BooleanValue HUMUS_PATCHES;
+
+
 
     static {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -58,23 +70,22 @@ public class ServerConfigs {
         CRACK_NEEDS_AIR = builder.comment("If a block needs to be exposed to air to be able to weather. " +
                         "Currently crack sources blocks ignore this check")
                 .define("needs_air",false);
+        CRACK_REQUIRES_SHIFTING = builder.comment("If crating a cracked block by clicking on it with a pickaxe requires shifting or not")
+                        .define("pickaxe_cracking_requires_shifting", false);
         builder.pop();
 
         BARK_ENABLED =  builder.comment("Allows bark to be dropped after scraping off log blocks")
                 .define("bark_enabled",true);
 
-        builder.push("leaf_piles");
-        LEAF_PILES_PATCHES = builder.comment("Enables leaf piles patches features to spawn in forests")
-                        .define("leaf_piles_patches",true);
-        builder.pop();
 
         builder.push("icicles");
         ICICLES_PATCHES = builder.comment("Enables icicle patches features to spawn in icy biomes and caves")
                 .define("icicle_patches",true);
-        ICICLES_FALLING = builder.comment("Allows icicles to fall when a lound sound is player nearby")
+        ICICLES_FALLING = builder.comment("Allows icicles to fall when a loud sound is player nearby")
                         .define("fall_on_vibrations",true);
-        ICICLES_GENERATION = builder.comment("Allows icicles to naturally generate on the underside of blocks when it snows")
-                        .define("icicle_formation",true);
+        ICICLES_GENERATION_RARITY = builder.comment("Allows icicles to naturally generate on the underside of blocks when it snows." +
+                        "Determines the how many blocks on average an icicle can generate in. The higher the rarer. Set to 1001 to disable entirely")
+                        .defineInRange("icicle_formation",12,1,1001);
         builder.pop();
 
         builder.push("food");
@@ -86,6 +97,26 @@ public class ServerConfigs {
                 .define("icicle_food",true);
         builder.pop();
 
+        builder.push("leaf_piles");
+        LEAF_PILES_PATCHES = builder.comment("Enables leaf piles patches features to spawn in forests")
+                .define("leaf_piles_patches",true);
+        HUMUS_SPAWN_BELOW_LEAVES = builder.comment("Allows natural humus or podzol generation below leaf piles with more than 1 layer")
+                        .defineInRange("humus_and_podzol_spawn_chance",0.02,0, 1);
+        FALLING_LEAVES = builder.comment("Chance for leaf piles to spawn below leaves")
+                .defineInRange("falling_leaves_chance",0.03,0, 1);
+        builder.pop();
+
+        builder.push("vitrified_sand");
+        VITRIFIED_LIGHTNING = builder.comment("Allows lightning to create vitrified sand")
+                .define("from_lightning", true);
+        VITRIFIED_LAVA = builder.comment("Allows lava to create vitrified sand")
+                .define("from_lava", true);
+        builder.pop();
+
+        builder.push("soil_blocks");
+        HUMUS_PATCHES = builder.comment("Enables leaf piles patches features to spawn in dark oak forests")
+                .define("humus_patches",true);
+        builder.pop();
 
         SERVER_SPEC = builder.build();
     }

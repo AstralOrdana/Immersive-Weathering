@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.common.blocks;
 
 import com.ordana.immersive_weathering.common.ModBlocks;
+import com.ordana.immersive_weathering.configs.ServerConfigs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -258,8 +259,8 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         int layers = this.getLayers(state);
-        if (layers > 1) {
-            //TODO: something (biome)
+        if (layers > 1 && random.nextFloat() < ServerConfigs.HUMUS_SPAWN_BELOW_LEAVES.get()) {
+            //TODO: maybe move this to data
             if(this.isLeafy || this.hasThorns) {
                 BlockState below = world.getBlockState(pos.below());
                 if (below.is(Blocks.GRASS_BLOCK) || below.is(Blocks.DIRT) || below.is(Blocks.COARSE_DIRT) || below.is(Blocks.ROOTED_DIRT)) {
@@ -271,7 +272,7 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
 
     public static void spawnFromLeaves(BlockState state, BlockPos pos, Level level, Random random){
         //Drastically reduced this chance to help lag
-        if (!state.getValue(LeavesBlock.PERSISTENT) && random.nextFloat() < 0.03f) {
+        if (!state.getValue(LeavesBlock.PERSISTENT) && random.nextFloat() < ServerConfigs.FALLING_LEAVES.get()) {
 
             var leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
             if (leafPile != null && level.getBlockState(pos.below()).isAir()) {

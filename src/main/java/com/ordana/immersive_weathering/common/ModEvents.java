@@ -13,6 +13,7 @@ import com.ordana.immersive_weathering.common.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.common.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.common.entity.FollowLeafCrownGoal;
 import com.ordana.immersive_weathering.common.items.ModItems;
+import com.ordana.immersive_weathering.configs.ServerConfigs;
 import com.ordana.immersive_weathering.data.*;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -82,52 +83,6 @@ public class ModEvents {
         } catch (Exception ignored) {
             ImmersiveWeathering.LOGGER.error("Failed to register Growth Manager. This means many weathering features wont work");
         }
-
-
-        if (true) return;
-
-        File folder = FMLPaths.GAMEDIR.get().resolve("recorded_songs").toFile();
-
-        if (!folder.exists()) {
-            folder.mkdir();
-        }
-
-        File exportPath = new File(folder, "brain_coral.json");
-
-
-        try {
-
-            List<BlockGrowthConfiguration.DirectionalList> list = new ArrayList<>();
-            for (Direction d : Direction.Plane.HORIZONTAL) {
-                var blocks = new SimpleWeightedRandomList.Builder<BlockPair>();
-                blocks.add(BlockPair.of(Blocks.BRAIN_CORAL_WALL_FAN.defaultBlockState().setValue(CoralWallFanBlock.FACING, d)), 1);
-                list.add(new BlockGrowthConfiguration.DirectionalList(Optional.of(d),
-                        Optional.of(1), blocks.build()));
-            }
-
-            var blocks = new SimpleWeightedRandomList.Builder<BlockPair>();
-            blocks.add(BlockPair.of(Blocks.BRAIN_CORAL_FAN), 1);
-            blocks.add(BlockPair.of(Blocks.BRAIN_CORAL), 1);
-            list.add(new BlockGrowthConfiguration.DirectionalList(Optional.of(Direction.UP),
-                    Optional.of(1), blocks.build()));
-
-
-            var ac = new AreaCondition.AreaCheck(2, 2, 2, 6, Optional.empty(), Optional.empty(), Optional.empty());
-            var r = new BlockGrowthConfiguration(1, new RandomBlockMatchTest(Blocks.WATER, 0.8f), ac,
-                    list, HolderSet.direct(Holder.direct(Blocks.BRAIN_CORAL)), Optional.of(List.of(new PositionRuleTest.BiomeSetMatchTest(
-                    BuiltinRegistries.BIOME.getOrCreateTag(BiomeTags.IS_NETHER)))), Optional.empty(), Optional.empty());
-            try (FileWriter writer = new FileWriter(exportPath)) {
-                GROWTH_MANAGER.writeToFile(r, writer);
-
-                Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create(); //json object that will write stuff
-
-                // var aa =ConfiguredStructureFeature.CODEC.encodeStart(JsonOps.INSTANCE, StructureFeatures.IGLOO);
-                //aa.result().ifPresent(a -> GSON.toJson(a.getAsJsonObject(), writer));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
 
@@ -138,7 +93,6 @@ public class ModEvents {
             bee.goalSelector.addGoal(3, new FollowLeafCrownGoal(bee, 1D, false));
         }
     }
-
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
@@ -241,11 +195,15 @@ public class ModEvents {
             }
         }
         //break crackable stuff
-        else if (i instanceof PickaxeItem && b instanceof Crackable crackable && player.isSecondaryUseActive()) {
+        else if (i instanceof PickaxeItem && b instanceof Crackable crackable &&
+                (!ServerConfigs.CRACK_REQUIRES_SHIFTING.get() || player.isSecondaryUseActive())) {
 
             BlockState newBlock = crackable.getNextCracked(state).orElse(null);
             if (newBlock != null) {
-                Block.popResourceFromFace(level, pos, event.getFace(), crackable.getRepairItem(state).getDefaultInstance());
+
+                if(!player.isCreative()) {
+                    Block.popResourceFromFace(level, pos, event.getFace(), crackable.getRepairItem(state).getDefaultInstance());
+                }
 
                 level.playSound(player, pos, newBlock.getSoundType().getHitSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
 
@@ -267,26 +225,28 @@ public class ModEvents {
         }
         //spawn bark
         else if (i instanceof AxeItem) {
-            var stripped = state.getToolModifiedState(level, pos, player, stack, ToolActions.AXE_STRIP);
-            if (stripped != null) {
-                var bark = WeatheringHelper.getBarkForStrippedLog(stripped).orElse(null);
-                if (bark != null) {
+            if(ServerConfigs.BARK_ENABLED.get()) {
+                var stripped = state.getToolModifiedState(level, pos, player, stack, ToolActions.AXE_STRIP);
+                if (stripped != null) {
+                    var bark = WeatheringHelper.getBarkForStrippedLog(stripped).orElse(null);
+                    if (bark != null) {
 
-                    Block.popResourceFromFace(level, pos, event.getFace(), bark.getFirst().getDefaultInstance());
-                    level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0f, 1.0f);
+                        Block.popResourceFromFace(level, pos, event.getFace(), bark.getFirst().getDefaultInstance());
+                        level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0f, 1.0f);
 
 
-                    if (player != null) {
-                        stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(event.getHand()));
+                        if (player != null) {
+                            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(event.getHand()));
+                        }
+
+                        if (player instanceof ServerPlayer) {
+                            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                            player.awardStat(Stats.ITEM_USED.get(i));
+                        }
+                        //not cancelling so the block can getMossSpreader
+                        event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+                        return;
                     }
-
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                        player.awardStat(Stats.ITEM_USED.get(i));
-                    }
-                    //not cancelling so the block can getMossSpreader
-                    event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
-                    return;
                 }
             }
 

@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.common.entity;
 
 import com.ordana.immersive_weathering.common.ModEntities;
+import com.ordana.immersive_weathering.configs.ServerConfigs;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -20,7 +21,7 @@ import net.minecraft.world.level.gameevent.PositionSource;
 import org.jetbrains.annotations.Nullable;
 
 public class IcicleBlockEntity extends BlockEntity implements GameEventListener {
-
+    private final int radius;
     protected final PositionSource listenerSource;
     public static final Object2IntMap<GameEvent> VOLUME_FOR_EVENT = Object2IntMaps.unmodifiable(Util.make(new Object2IntOpenHashMap<>(), (map) -> {
         map.put(GameEvent.HIT_GROUND, 2);
@@ -46,6 +47,7 @@ public class IcicleBlockEntity extends BlockEntity implements GameEventListener 
     public IcicleBlockEntity(BlockPos pos, BlockState state) {
         super(ModEntities.ICICLE_TILE.get(), pos, state);
         this.listenerSource = new BlockPositionSource(this.worldPosition);
+        this.radius = ServerConfigs.ICICLES_FALLING.get() ? 15 : 0;
     }
 
     @Override
@@ -55,7 +57,7 @@ public class IcicleBlockEntity extends BlockEntity implements GameEventListener 
 
     @Override
     public int getListenerRadius() {
-        return 15;
+        return radius;
     }
 
     @Override

@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -44,6 +45,13 @@ public class ModBlocks {
     public static RegistryObject<Block> regWithItem(String name, Supplier<Block> supplier) {
         var b = BLOCKS.register(name, supplier);
         ModItems.regBlockItem(b, new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS));
+        return b;
+    }
+
+    public static RegistryObject<Block> regWithItem(String name, Supplier<Block> supplier, String requiredMod) {
+        var b = BLOCKS.register(name, supplier);
+        CreativeModeTab tab = ModList.get().isLoaded(requiredMod) ? CreativeModeTab.TAB_BUILDING_BLOCKS : null;
+        ModItems.regBlockItem(b, new Item.Properties().tab(tab));
         return b;
     }
 
@@ -393,40 +401,40 @@ public class ModBlocks {
     //vertical slab
 
     public static final RegistryObject<Block> CUT_IRON_VERTICAL_SLAB = regWithItem("cut_iron_vertical_slab", () ->
-            new RustableVerticalSlabBlock(Rustable.RustLevel.UNAFFECTED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
+            new RustableVerticalSlabBlock(Rustable.RustLevel.UNAFFECTED, BlockBehaviour.Properties.copy(CUT_IRON.get())), "quark");
     public static final RegistryObject<Block> EXPOSED_CUT_IRON_VERTICAL_SLAB = regWithItem("exposed_cut_iron_vertical_slab", () ->
-            new RustableVerticalSlabBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
+            new RustableVerticalSlabBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.copy(CUT_IRON.get())), "quark");
     public static final RegistryObject<Block> WEATHERED_CUT_IRON_VERTICAL_SLAB = regWithItem("weathered_cut_iron_vertical_slab", () ->
-            new RustableVerticalSlabBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
+            new RustableVerticalSlabBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.copy(CUT_IRON.get())), "quark");
     public static final RegistryObject<Block> RUSTED_CUT_IRON_VERTICAL_SLAB = regWithItem("rusted_cut_iron_vertical_slab", () ->
-            new RustableVerticalSlabBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
+            new RustableVerticalSlabBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.copy(CUT_IRON.get())), "quark");
 
     public static final RegistryObject<Block> WAXED_CUT_IRON_VERTICAL_SLAB = regWithItem("waxed_cut_iron_vertical_slab", () ->
-            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
+            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())), "quark");
     public static final RegistryObject<Block> WAXED_EXPOSED_CUT_IRON_VERTICAL_SLAB = regWithItem("waxed_exposed_cut_iron_vertical_slab", () ->
-            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
+            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())), "quark");
     public static final RegistryObject<Block> WAXED_WEATHERED_CUT_IRON_VERTICAL_SLAB = regWithItem("waxed_weathered_cut_iron_vertical_slab", () ->
-            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
+            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())), "quark");
     public static final RegistryObject<Block> WAXED_RUSTED_CUT_IRON_VERTICAL_SLAB = regWithItem("waxed_rusted_cut_iron_vertical_slab", () ->
-            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
+            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())), "quark");
 
     public static final RegistryObject<Block> PLATE_IRON_VERTICAL_SLAB = regWithItem("plate_iron_vertical_slab", () ->
-            new RustableVerticalSlabBlock(Rustable.RustLevel.UNAFFECTED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
+            new RustableVerticalSlabBlock(Rustable.RustLevel.UNAFFECTED, BlockBehaviour.Properties.copy(CUT_IRON.get())), "quark");
     public static final RegistryObject<Block> EXPOSED_PLATE_IRON_VERTICAL_SLAB = regWithItem("exposed_plate_iron_vertical_slab", () ->
-            new RustableVerticalSlabBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
+            new RustableVerticalSlabBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.copy(CUT_IRON.get())), "quark");
     public static final RegistryObject<Block> WEATHERED_PLATE_IRON_VERTICAL_SLAB = regWithItem("weathered_plate_iron_vertical_slab", () ->
-            new RustableVerticalSlabBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
+            new RustableVerticalSlabBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.copy(CUT_IRON.get())), "quark");
     public static final RegistryObject<Block> RUSTED_PLATE_IRON_VERTICAL_SLAB = regWithItem("rusted_plate_iron_vertical_slab", () ->
-            new RustableVerticalSlabBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.copy(CUT_IRON.get())));
+            new RustableVerticalSlabBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.copy(CUT_IRON.get())), "quark");
 
     public static final RegistryObject<Block> WAXED_PLATE_IRON_VERTICAL_SLAB = regWithItem("waxed_plate_iron_vertical_slab", () ->
-            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
+            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())), "quark");
     public static final RegistryObject<Block> WAXED_EXPOSED_PLATE_IRON_VERTICAL_SLAB = regWithItem("waxed_exposed_plate_iron_vertical_slab", () ->
-            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
+            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())), "quark");
     public static final RegistryObject<Block> WAXED_WEATHERED_PLATE_IRON_VERTICAL_SLAB = regWithItem("waxed_weathered_plate_iron_vertical_slab", () ->
-            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
+            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())), "quark");
     public static final RegistryObject<Block> WAXED_RUSTED_PLATE_IRON_VERTICAL_SLAB = regWithItem("waxed_rusted_plate_iron_vertical_slab", () ->
-            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())));
+            new VerticalSlabBlock(BlockBehaviour.Properties.copy(CUT_IRON.get())), "quark");
 
 
     //-----overrides------

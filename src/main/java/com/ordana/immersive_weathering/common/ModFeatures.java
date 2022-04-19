@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.common;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.common.features.IcicleClusterFeature;
 import com.ordana.immersive_weathering.common.features.IcicleClusterFeatureConfig;
+import com.ordana.immersive_weathering.configs.ServerConfigs;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
@@ -141,22 +142,30 @@ public class ModFeatures {
 
         Biome.BiomeCategory category = event.getCategory();
 
-        if (BiomeDictionary.hasType(key, BiomeDictionary.Type.SNOWY) || category == Biome.BiomeCategory.ICY) {
-            addFeature(event, ICICLES, GenerationStep.Decoration.TOP_LAYER_MODIFICATION);
-            if (category == Biome.BiomeCategory.UNDERGROUND) {
-                addFeature(event, CAVE_ICICLES, GenerationStep.Decoration.UNDERGROUND_DECORATION);
+        if(ServerConfigs.ICICLES_PATCHES.get()) {
+            if (BiomeDictionary.hasType(key, BiomeDictionary.Type.SNOWY) || category == Biome.BiomeCategory.ICY) {
+                addFeature(event, ICICLES, GenerationStep.Decoration.TOP_LAYER_MODIFICATION);
+                if (category == Biome.BiomeCategory.UNDERGROUND) {
+                    addFeature(event, CAVE_ICICLES, GenerationStep.Decoration.UNDERGROUND_DECORATION);
+                }
             }
-        } else if (key == Biomes.FOREST || key == Biomes.WINDSWEPT_FOREST || key == Biomes.FLOWER_FOREST) {
-            addFeature(event, "oak_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
-        } else if (key == Biomes.DARK_FOREST) {
-            addFeature(event, "dark_oak_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
-            addFeature(event, "humus_patches", GenerationStep.Decoration.LOCAL_MODIFICATIONS);
-        } else if (key == Biomes.BIRCH_FOREST || key == Biomes.OLD_GROWTH_BIRCH_FOREST) {
-            addFeature(event, "birch_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
-        } else if (key == Biomes.OLD_GROWTH_SPRUCE_TAIGA || key == Biomes.OLD_GROWTH_PINE_TAIGA || key == Biomes.TAIGA) {
-            addFeature(event, "spruce_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
         }
 
-
+        if(ServerConfigs.LEAF_PILES_PATCHES.get()) {
+            if (key == Biomes.FOREST || key == Biomes.WINDSWEPT_FOREST || key == Biomes.FLOWER_FOREST) {
+                addFeature(event, "oak_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
+            } else if (key == Biomes.DARK_FOREST) {
+                addFeature(event, "humus_patches", GenerationStep.Decoration.LOCAL_MODIFICATIONS);
+            } else if (key == Biomes.BIRCH_FOREST || key == Biomes.OLD_GROWTH_BIRCH_FOREST) {
+                addFeature(event, "birch_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
+            } else if (key == Biomes.OLD_GROWTH_SPRUCE_TAIGA || key == Biomes.OLD_GROWTH_PINE_TAIGA || key == Biomes.TAIGA) {
+                addFeature(event, "spruce_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
+            }
+        }
+        if(ServerConfigs.HUMUS_PATCHES.get()) {
+            if (key == Biomes.DARK_FOREST) {
+                addFeature(event, "humus_patches", GenerationStep.Decoration.LOCAL_MODIFICATIONS);
+            }
+        }
     }
 }
