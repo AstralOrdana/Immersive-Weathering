@@ -155,7 +155,7 @@ public class ModFeatures {
             if (key == Biomes.FOREST || key == Biomes.WINDSWEPT_FOREST || key == Biomes.FLOWER_FOREST) {
                 addFeature(event, "oak_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
             } else if (key == Biomes.DARK_FOREST) {
-                addFeature(event, "humus_patches", GenerationStep.Decoration.LOCAL_MODIFICATIONS);
+                addFeature(event, "dark_oak_leaf_pile", GenerationStep.Decoration.LOCAL_MODIFICATIONS);
             } else if (key == Biomes.BIRCH_FOREST || key == Biomes.OLD_GROWTH_BIRCH_FOREST) {
                 addFeature(event, "birch_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
             } else if (key == Biomes.OLD_GROWTH_SPRUCE_TAIGA || key == Biomes.OLD_GROWTH_PINE_TAIGA || key == Biomes.TAIGA) {

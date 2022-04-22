@@ -19,9 +19,13 @@ public class ServerConfigs {
 
     public static ForgeConfigSpec.BooleanValue BARK_ENABLED;
     public static ForgeConfigSpec.BooleanValue LEAF_PILES_PATCHES;
+    public static ForgeConfigSpec.IntValue MAX_LEAF_PILE_HEIGHT;
+    public static ForgeConfigSpec.IntValue LEAF_PILE_REACH;
+
     public static ForgeConfigSpec.BooleanValue ICICLES_PATCHES;
     public static ForgeConfigSpec.BooleanValue ICICLES_FALLING;
     public static ForgeConfigSpec.IntValue ICICLES_GENERATION_RARITY;
+
 
     public static ForgeConfigSpec.DoubleValue MOSS_CLUMP_CHANCE;
     public static ForgeConfigSpec.BooleanValue ICICLE_FIRE_RESISTANCE;
@@ -95,6 +99,8 @@ public class ServerConfigs {
                         .define("icicle_fire_resistance",true);
         ICICLE_FOOD = builder.comment("Allows icicles to be eaten")
                 .define("icicle_food",true);
+        ICICLE_FOOD = builder.comment("Allows moss clump to be eaten")
+                .define("moss_food",true);
         builder.pop();
 
         builder.push("leaf_piles");
@@ -103,7 +109,12 @@ public class ServerConfigs {
         HUMUS_SPAWN_BELOW_LEAVES = builder.comment("Allows natural humus or podzol generation below leaf piles with more than 1 layer")
                         .defineInRange("humus_and_podzol_spawn_chance",0.02,0, 1);
         FALLING_LEAVES = builder.comment("Chance for leaf piles to spawn below leaves")
-                .defineInRange("falling_leaves_chance",0.03,0, 1);
+                .defineInRange("fallen_leaves_chance",0.03,0, 1);
+        MAX_LEAF_PILE_HEIGHT = builder.comment("Maximum height that leaf piles can naturally pile up to." +
+                "Refers to the previously defined falling leaves feature")
+                        .defineInRange("fallen_leaves_height",3,1,8);
+        LEAF_PILE_REACH = builder.comment("Maximum height at which a leaf block can generate a leaf pile below")
+                .defineInRange("fallen_leaves_reach",12,1,256);
         builder.pop();
 
         builder.push("vitrified_sand");

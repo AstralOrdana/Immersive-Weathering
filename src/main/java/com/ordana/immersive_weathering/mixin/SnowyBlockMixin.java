@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.common.blocks.WeatheringHelper;
+import com.ordana.immersive_weathering.data.BlockGrowthHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
@@ -20,11 +21,12 @@ public abstract class SnowyBlockMixin extends Block {
 
     @Override
     public boolean isRandomlyTicking(BlockState state) {
-        return true;
+        return BlockGrowthHandler.canRandomTick(state);
     }
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+        //TODO: move to data (this isnt doing anything now)
         if (state.is(Blocks.PODZOL)) {
             var targetPos = pos.above();
             if (random.nextFloat() < 0.001f && world.getBlockState(targetPos).isAir()) {

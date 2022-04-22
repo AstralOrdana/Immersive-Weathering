@@ -18,7 +18,7 @@ public interface AreaCondition {
     AreaCondition EMPTY = new AreaCondition() {
         @Override
         public boolean test(BlockPos pos, Level level, BlockGrowthConfiguration config) {
-            return false;
+            return true;
         }
 
         @Override

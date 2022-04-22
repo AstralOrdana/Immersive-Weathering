@@ -20,7 +20,7 @@ public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider
 
     public ClientDynamicResourcesHandler() {
         super(new DynamicTexturePack(ImmersiveWeathering.res("virtual_resourcepack")));
-        this.dynamicPack.generateDebugResources = true;
+        this.dynamicPack.generateDebugResources = false;
     }
 
     @Override

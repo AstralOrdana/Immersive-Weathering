@@ -111,7 +111,7 @@ public interface PositionRuleTest {
         @Override
         public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
             //TODO: finish
-            return true ;//level.isRaining() == precipitation;
+            return true;//level.isRaining() == precipitation;
         }
     }
 
@@ -134,8 +134,9 @@ public interface PositionRuleTest {
         @Override
         public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
             float temp;
-            if (useLocalPos.isPresent() && useLocalPos.get()) {
-                Level l;
+            if (level.dimensionType().ultraWarm()) {
+                temp = 2;
+            } else if (useLocalPos.isPresent() && useLocalPos.get()) {
                 temp = biome.value().getTemperature(pos);
             } else {
                 temp = biome.value().getBaseTemperature();

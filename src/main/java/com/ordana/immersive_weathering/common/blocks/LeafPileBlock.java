@@ -285,8 +285,8 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
 
                 if (!level.isAreaLoaded(pos, 2)) return;
                 BlockPos targetPos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos);
-                int maxFallenLeavesReach = 12;
-                int maxPileHeight = 3;
+                int maxFallenLeavesReach = ServerConfigs.LEAF_PILE_REACH.get();
+                int maxPileHeight = ServerConfigs.MAX_LEAF_PILE_HEIGHT.get();
                 int dist = pos.getY() - targetPos.getY();
                 //calculating normally if heightmap fails
                 if (dist < 0) {

@@ -46,4 +46,9 @@ A Mod that many natural weathering systems and QOL changes.
     versionRange="[1.18,1.19)"
     ordering="NONE"
     side="BOTH"
-
+[[dependencies.immersive_weathering]]
+    modId="selene"
+    mandatory=false
+    versionRange="[1.18.2-1.15.2,]"
+    ordering="NONE"
+    side="BOTH"

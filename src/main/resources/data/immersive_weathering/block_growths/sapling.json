@@ -1,0 +1,33 @@
+{
+  "growth_chance": 0.08,
+  "position_predicates": [
+    {
+      "biomes": ["minecraft:warm_ocean"],
+      "predicate_type": "temperature_range",
+      "max": 10,
+      "min": 1
+    }
+  ],
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:dead_bush"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": ["#minecraft:saplings"],
+  "target_self": true,
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:random_block_match"
+  }
+}

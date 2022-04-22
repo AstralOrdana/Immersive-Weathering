@@ -30,13 +30,13 @@ import java.util.*;
 public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowthConfiguration> {
 
     public static final BlockGrowthConfiguration EMPTY = new BlockGrowthConfiguration(1,
-            AlwaysTrueTest.INSTANCE, AreaCondition.EMPTY, List.of(), HolderSet.direct(Holder.direct(Blocks.AIR)),
+            AlwaysTrueTest.INSTANCE, Optional.empty(), List.of(), HolderSet.direct(Holder.direct(Blocks.AIR)),
             Optional.empty(), Optional.empty(), Optional.empty());
 
     public static final Codec<BlockGrowthConfiguration> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.FLOAT.fieldOf("growth_chance").forGetter(BlockGrowthConfiguration::getGrowthChance),
             RuleTest.CODEC.fieldOf("replacing_target").forGetter(BlockGrowthConfiguration::getTargetPredicate),
-            AreaCondition.CODEC.fieldOf("area_condition").forGetter(BlockGrowthConfiguration::getAreaCondition),
+            AreaCondition.CODEC.optionalFieldOf("area_condition").forGetter(BlockGrowthConfiguration::getAreaCondition),
             DirectionalList.CODEC.listOf().fieldOf("growth_for_face").forGetter(BlockGrowthConfiguration::encodeRandomLists),
             RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).fieldOf("owners").forGetter(BlockGrowthConfiguration::getOwners),
             PositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates").forGetter(BlockGrowthConfiguration::getBiomePredicates),
@@ -58,7 +58,7 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
     private final int maxRange;
     private final AreaCondition areaCondition;
 
-    public BlockGrowthConfiguration(float growthChance, RuleTest targetPredicate, AreaCondition areaCheck,
+    public BlockGrowthConfiguration(float growthChance, RuleTest targetPredicate, Optional<AreaCondition> areaCheck,
                                     List<DirectionalList> growthForDirection,
                                     HolderSet<Block> owners, Optional<List<PositionRuleTest>> biomePredicates,
                                     Optional<Boolean> targetSelf, Optional<Boolean> destroyTarget) {
@@ -93,8 +93,8 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
         this.blockGrowths = growthBuilder.build();
         this.possibleBlocks = blockBuilder.build();
 
-        this.areaCondition = areaCheck;
-        this.maxRange = areaCheck.getMaxRange();
+        this.areaCondition = areaCheck.orElse(AreaCondition.EMPTY);
+        this.maxRange = areaCondition.getMaxRange();
         this.targetSelf = targetSelf.orElse(false);
         this.destroyTarget = destroyTarget.orElse(false);
     }
@@ -133,8 +133,8 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
         return targetPredicate;
     }
 
-    public AreaCondition getAreaCondition() {
-        return areaCondition;
+    public Optional<AreaCondition> getAreaCondition() {
+        return areaCondition == AreaCondition.EMPTY ? Optional.empty() : Optional.of(areaCondition);
     }
 
     public Set<Block> getPossibleBlocks() {

@@ -54,8 +54,11 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
                 if (s) success = Boolean.TRUE;
             }
         }
-        ;
         return success;
+    }
+
+    public static boolean canRandomTick(BlockState state) {
+        return GROWTH_FOR_BLOCK.containsKey(state.getBlock());
     }
 
     public void writeToFile(final BlockGrowthConfiguration obj, FileWriter writer) {

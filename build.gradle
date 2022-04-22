@@ -137,6 +137,7 @@ dependencies {
     implementation fg.deobf("curse.maven:quark-243121:3687633")
     implementation fg.deobf("curse.maven:autoreglib-250363:3642382")
     implementation fg.deobf("curse.maven:the-one-probe-245211:3671753")
+    implementation fg.deobf("curse.maven:configured-457570:3640884")
    // implementation fg.deobf("curse.maven:snow-real-magic-308663:3680622")
     //implementation fg.deobf("curse.maven:kiwi-303657:3714067")
 

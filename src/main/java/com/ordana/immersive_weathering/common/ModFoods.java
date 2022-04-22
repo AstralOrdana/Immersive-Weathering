@@ -6,7 +6,7 @@ import net.minecraft.world.food.FoodProperties;
 
 public class ModFoods {
     public static final FoodProperties MOSS_CLUMP = (new FoodProperties.Builder())
-            .nutrition(2).saturationMod(0.2F).alwaysEat().fast()
+            .nutrition(1).saturationMod(0.2F).alwaysEat().fast()
             .effect(()->new MobEffectInstance(MobEffects.REGENERATION, 200, 1), 0.1F).build();
     public static final FoodProperties GOLDEN_MOSS_CLUMP = (new FoodProperties.Builder())
             .nutrition(6).saturationMod(0.8F).alwaysEat().fast()
