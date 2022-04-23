@@ -274,7 +274,7 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
         //Drastically reduced this chance to help lag
         if (!state.getValue(LeavesBlock.PERSISTENT) && random.nextFloat() < ServerConfigs.FALLING_LEAVES.get()) {
 
-            var leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
+            var leafPile = LeafPilesRegistry.getFallenLeafPile(state).orElse(null);
             if (leafPile != null && level.getBlockState(pos.below()).isAir()) {
 
 

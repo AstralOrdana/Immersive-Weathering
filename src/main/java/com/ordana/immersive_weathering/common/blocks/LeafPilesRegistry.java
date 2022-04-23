@@ -3,13 +3,16 @@ package com.ordana.immersive_weathering.common.blocks;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMap;
 import com.ordana.immersive_weathering.common.ModBlocks;
+import com.ordana.immersive_weathering.configs.ServerConfigs;
 import com.ordana.immersive_weathering.integration.dynamic_stuff.ModDynamicRegistry;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class LeafPilesRegistry {
@@ -20,8 +23,7 @@ public class LeafPilesRegistry {
 
                 if (isDynamic) {
                     return ModDynamicRegistry.getLeafToLeafPileMap();
-                }
-                else return ImmutableMap.<Block, LeafPileBlock>builder()
+                } else return ImmutableMap.<Block, LeafPileBlock>builder()
                         .put(Blocks.OAK_LEAVES, ModBlocks.OAK_LEAF_PILE.get())
                         .put(Blocks.DARK_OAK_LEAVES, ModBlocks.DARK_OAK_LEAF_PILE.get())
                         .put(Blocks.SPRUCE_LEAVES, ModBlocks.SPRUCE_LEAF_PILE.get())
@@ -34,10 +36,16 @@ public class LeafPilesRegistry {
             }
     );
 
-    public static void registerBus(IEventBus bus){
-        if(isDynamic){
+    public static void registerBus(IEventBus bus) {
+        if (isDynamic) {
             ModDynamicRegistry.init(bus);
         }
+    }
+
+    public static Optional<Block> getFallenLeafPile(BlockState state) {
+        Block b = state.getBlock();
+        if (ServerConfigs.LEAF_PILES_BLACKLIST.get().contains(b.getRegistryName().toString())) return Optional.empty();
+        return Optional.ofNullable(LeafPilesRegistry.LEAF_PILES.get().get(b));
     }
 
 }

@@ -2,8 +2,6 @@ package com.ordana.immersive_weathering;
 
 import com.ordana.immersive_weathering.common.*;
 import com.ordana.immersive_weathering.common.blocks.LeafPilesRegistry;
-import com.ordana.immersive_weathering.common.ModBlocks;
-import com.ordana.immersive_weathering.common.ModEntities;
 import com.ordana.immersive_weathering.common.items.ModItems;
 import com.ordana.immersive_weathering.configs.ServerConfigs;
 import com.ordana.immersive_weathering.data.BlockSetMatchTest;
@@ -48,7 +46,6 @@ public class ImmersiveWeathering {
         MinecraftForge.EVENT_BUS.register(ModFeatures.class);
 
         LeafPilesRegistry.registerBus(bus);
-
 
 
         bus.addListener(ImmersiveWeathering::init);

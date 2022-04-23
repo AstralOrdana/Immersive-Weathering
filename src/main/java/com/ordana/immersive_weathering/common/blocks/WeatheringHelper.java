@@ -81,10 +81,6 @@ public class WeatheringHelper {
                 .map(block -> block.withPropertiesOf(state));
     }
 
-    public static Optional<Block> getFallenLeafPile(BlockState state) {
-        return Optional.ofNullable(LeafPilesRegistry.LEAF_PILES.get().get(state.getBlock()));
-    }
-
     public static Optional<Pair<Item, Block>> getBarkForStrippedLog(BlockState log) {
         return Optional.ofNullable(STRIPPED_TO_BARK.get().get(log.getBlock()));
     }

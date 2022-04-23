@@ -95,11 +95,12 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
             var o = result.resultOrPartial(error -> ImmersiveWeathering.LOGGER.error("Failed to read block growth JSON object for {} : {}", e.getKey(), error));
             o.ifPresent(GROWTHS::add);
         }
+        ImmersiveWeathering.LOGGER.info("Loaded {} block growths configurations", GROWTHS.size());
     }
 
     //called after all tags are reloaded
     public void rebuild() {
-        if(this.needsRefresh) {
+        if (this.needsRefresh) {
             GROWTH_FOR_BLOCK.clear();
             for (var config : GROWTHS) {
                 HolderSet<Block> owners = config.getOwners();

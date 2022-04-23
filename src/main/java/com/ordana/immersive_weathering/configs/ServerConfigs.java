@@ -2,6 +2,8 @@ package com.ordana.immersive_weathering.configs;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
+import java.util.List;
+
 public class ServerConfigs {
 
     public static ForgeConfigSpec SERVER_SPEC;
@@ -21,6 +23,7 @@ public class ServerConfigs {
     public static ForgeConfigSpec.BooleanValue LEAF_PILES_PATCHES;
     public static ForgeConfigSpec.IntValue MAX_LEAF_PILE_HEIGHT;
     public static ForgeConfigSpec.IntValue LEAF_PILE_REACH;
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> LEAF_PILES_BLACKLIST;
 
     public static ForgeConfigSpec.BooleanValue ICICLES_PATCHES;
     public static ForgeConfigSpec.BooleanValue ICICLES_FALLING;
@@ -92,7 +95,7 @@ public class ServerConfigs {
                         .defineInRange("icicle_formation",12,1,1001);
         builder.pop();
 
-        builder.push("food");
+        builder.push("food").comment("some of these arent working yet");
         MOSS_CLUMP_CHANCE = builder.comment("Chance that a moss clump will give regeneration effect")
                         .defineInRange("moss_regeneration_chance", 0.3,0,1);
         ICICLE_FIRE_RESISTANCE = builder.comment("Eaten icicles will give a short fire resistance buff")
@@ -115,6 +118,13 @@ public class ServerConfigs {
                         .defineInRange("fallen_leaves_height",3,1,8);
         LEAF_PILE_REACH = builder.comment("Maximum height at which a leaf block can generate a leaf pile below")
                 .defineInRange("fallen_leaves_reach",12,1,256);
+
+        LEAF_PILES_BLACKLIST = builder.comment("Leaves Block ids that should not spawn from leaves (i.e: minecraftoak_leaves)")
+                .defineList("mod_blacklist",
+                        List.of("ars_nouveau:purple_archwood_leaves",
+                                "ars_nouveau:blue_archwood_leaves",
+                                "ars_nouveau:green_archwood_leaves",
+                                "ars_nouveau:red_archwood_leaves"), o -> o instanceof String);
         builder.pop();
 
         builder.push("vitrified_sand");

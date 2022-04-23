@@ -1,8 +1,7 @@
 {
-  "growth_chance": 0.08,
+  "growth_chance": 0.02,
   "position_predicates": [
     {
-      "biomes": ["minecraft:warm_ocean"],
       "predicate_type": "temperature_range",
       "max": 10,
       "min": 1
@@ -24,10 +23,11 @@
       ]
     }
   ],
-  "owners": ["#minecraft:saplings"],
+  "owners": "#minecraft:saplings",
   "target_self": true,
   "replacing_target": {
     "block": "minecraft:air",
-    "predicate_type": "minecraft:random_block_match"
+    "predicate_type": "minecraft:random_block_match",
+    "probability": 0.7
   }
 }

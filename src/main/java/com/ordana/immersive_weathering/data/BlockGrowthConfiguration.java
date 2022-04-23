@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.AlwaysTrueTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RandomBlockMatchTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.jetbrains.annotations.Nullable;
@@ -162,12 +163,13 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
     }
 
     private boolean canGrow(BlockPos pos, Level level, Holder<Biome> biome) {
-        if(level.random.nextFloat() < this.growthChance) {
+        if (level.random.nextFloat() < this.growthChance) {
             for (PositionRuleTest biomeTest : this.biomePredicates) {
                 if (!biomeTest.test(biome, pos, level)) return false;
             }
             return level.isAreaLoaded(pos, maxRange);
-        }return false;
+        }
+        return false;
     }
 
     public float getGrowthChance() {
@@ -184,7 +186,10 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
             BlockState target = level.getBlockState(targetPos);
 
             if (targetSelf || targetPredicate.test(target, seed)) {
-
+                if (targetSelf && targetPredicate instanceof RandomBlockMatchTest rbm) {
+                    //hack to get a probability here for self target
+                    if (!(seed.nextFloat() < rbm.probability)) return false;
+                }
                 var l = blockGrowths.get(dir);
                 if (l != null) {
                     var toPlace = l.getRandomValue(level.random).orElse(null);
@@ -195,6 +200,7 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
                         if (db) {
                             targetPos2 = targetPos.relative(dir);
                             target2 = level.getBlockState(targetPos2);
+                            seed = new Random(Mth.getSeed(pos));
                             if (!targetPredicate.test(target2, seed) || !toPlace.getSecond().canSurvive(level, targetPos2)) {
                                 return false;
                             }
