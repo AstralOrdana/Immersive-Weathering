@@ -1,5 +1,5 @@
 {
-  "growth_chance": 0.02,
+  "growth_chance": 0.0005,
   "position_predicates": [
     {
       "predicate_type": "temperature_range",

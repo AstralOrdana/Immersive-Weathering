@@ -8,6 +8,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,33 +22,34 @@ public interface PositionRuleTest {
         }
 
         @Override
-        public BiomeRuleTestType<?> getType() {
+        public PositionRuleTestType<?> getType() {
             return null;
         }
     };
 
-    Codec<PositionRuleTest> CODEC = BiomeRuleTestType.CODEC
-            .dispatch("predicate_type", PositionRuleTest::getType, BiomeRuleTestType::codec);
+    Codec<PositionRuleTest> CODEC = PositionRuleTestType.CODEC
+            .dispatch("predicate_type", PositionRuleTest::getType, PositionRuleTestType::codec);
 
 
-    Map<String, ? extends BiomeRuleTestType<? extends PositionRuleTest>> TYPES = new HashMap<>() {{
+    Map<String, ? extends PositionRuleTestType<? extends PositionRuleTest>> TYPES = new HashMap<>() {{
         put(BiomeSetMatchTest.TYPE.name, BiomeSetMatchTest.TYPE);
         put(TemperatureMatchTest.TYPE.name, TemperatureMatchTest.TYPE);
         put(IsDayTest.TYPE.name, IsDayTest.TYPE);
+        put(NandTest.TYPE.name, NandTest.TYPE);
     }};
 
 
-    static Optional<? extends BiomeRuleTestType<? extends PositionRuleTest>> get(String name) {
+    static Optional<? extends PositionRuleTestType<? extends PositionRuleTest>> get(String name) {
         var r = TYPES.get(name);
         return r == null ? Optional.empty() : Optional.of(r);
     }
 
     boolean test(Holder<Biome> biome, BlockPos pos, Level level);
 
-    BiomeRuleTestType<?> getType();
+    PositionRuleTestType<?> getType();
 
-    record BiomeRuleTestType<T extends PositionRuleTest>(Codec<T> codec, String name) {
-        public static Codec<BiomeRuleTestType<?>> CODEC = Codec.STRING.flatXmap(
+    record PositionRuleTestType<T extends PositionRuleTest>(Codec<T> codec, String name) {
+        public static Codec<PositionRuleTestType<?>> CODEC = Codec.STRING.flatXmap(
                 (name) -> get(name).map(DataResult::success).orElseGet(
                         () -> DataResult.error("Unknown Biome Predicate: " + name)),
                 (t) -> DataResult.success(t.name()));
@@ -62,10 +64,10 @@ public interface PositionRuleTest {
         public static final Codec<BiomeSetMatchTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 RegistryCodecs.homogeneousList(Registry.BIOME_REGISTRY).fieldOf("biomes").forGetter(BiomeSetMatchTest::biomes)
         ).apply(instance, BiomeSetMatchTest::new));
-        static final BiomeRuleTestType<BiomeSetMatchTest> TYPE = new BiomeRuleTestType<>(BiomeSetMatchTest.CODEC, BiomeSetMatchTest.NAME);
+        static final PositionRuleTestType<BiomeSetMatchTest> TYPE = new PositionRuleTestType<>(BiomeSetMatchTest.CODEC, BiomeSetMatchTest.NAME);
 
         @Override
-        public BiomeRuleTestType<BiomeSetMatchTest> getType() {
+        public PositionRuleTestType<BiomeSetMatchTest> getType() {
             return TYPE;
         }
 
@@ -82,10 +84,10 @@ public interface PositionRuleTest {
         public static final Codec<IsDayTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 Codec.BOOL.fieldOf("day").forGetter(IsDayTest::day)
         ).apply(instance, IsDayTest::new));
-        static final BiomeRuleTestType<IsDayTest> TYPE = new BiomeRuleTestType<>(IsDayTest.CODEC, IsDayTest.NAME);
+        static final PositionRuleTestType<IsDayTest> TYPE = new PositionRuleTestType<>(IsDayTest.CODEC, IsDayTest.NAME);
 
         @Override
-        public BiomeRuleTestType<IsDayTest> getType() {
+        public PositionRuleTestType<IsDayTest> getType() {
             return TYPE;
         }
 
@@ -101,10 +103,10 @@ public interface PositionRuleTest {
         public static final Codec<PrecipitationTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 Biome.Precipitation.CODEC.fieldOf("precipitation").forGetter(PrecipitationTest::precipitation)
         ).apply(instance, PrecipitationTest::new));
-        static final BiomeRuleTestType<PrecipitationTest> TYPE = new BiomeRuleTestType<>(PrecipitationTest.CODEC, PrecipitationTest.NAME);
+        static final PositionRuleTestType<PrecipitationTest> TYPE = new PositionRuleTestType<>(PrecipitationTest.CODEC, PrecipitationTest.NAME);
 
         @Override
-        public BiomeRuleTestType<PrecipitationTest> getType() {
+        public PositionRuleTestType<PrecipitationTest> getType() {
             return TYPE;
         }
 
@@ -124,10 +126,10 @@ public interface PositionRuleTest {
                 Codec.FLOAT.fieldOf("min").forGetter(TemperatureMatchTest::min),
                 Codec.BOOL.optionalFieldOf("use_local_pos").forGetter(TemperatureMatchTest::useLocalPos)
         ).apply(instance, TemperatureMatchTest::new));
-        static final BiomeRuleTestType<TemperatureMatchTest> TYPE = new BiomeRuleTestType<>(TemperatureMatchTest.CODEC, TemperatureMatchTest.NAME);
+        static final PositionRuleTestType<TemperatureMatchTest> TYPE = new PositionRuleTestType<>(TemperatureMatchTest.CODEC, TemperatureMatchTest.NAME);
 
         @Override
-        public BiomeRuleTestType<TemperatureMatchTest> getType() {
+        public PositionRuleTestType<TemperatureMatchTest> getType() {
             return TYPE;
         }
 
@@ -144,5 +146,29 @@ public interface PositionRuleTest {
             return temp >= min && temp <= max;
         }
     }
+
+    record NandTest(List<PositionRuleTest> predicates) implements PositionRuleTest {
+
+        public static final String NAME = "nand";
+        public static final Codec<NandTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                PositionRuleTest.CODEC.listOf().fieldOf("predicates").forGetter(NandTest::predicates)
+        ).apply(instance, NandTest::new));
+
+        static final PositionRuleTestType<NandTest> TYPE = new PositionRuleTestType<>(NandTest.CODEC, NandTest.NAME);
+
+        @Override
+        public PositionRuleTestType<NandTest> getType() {
+            return TYPE;
+        }
+
+        @Override
+        public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
+            for(var p : predicates){
+                if(p.test(biome,pos, level))return false;
+            }
+            return true;
+        }
+    }
+
 
 }
