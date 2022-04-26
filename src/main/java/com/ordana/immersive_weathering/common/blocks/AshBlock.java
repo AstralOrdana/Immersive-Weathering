@@ -124,7 +124,7 @@ public class AshBlock extends FallingBlock {
                 }*/
             } else if (HAS_ASH) {
                 level.setBlock(pos, ModBlocks.ASH_BLOCK.get().defaultBlockState()
-                        .setValue(SootBlock.LIT, level.random.nextBoolean()), Block.UPDATE_CLIENTS);
+                        .setValue(SootLayerBlock.LIT, level.random.nextBoolean()), Block.UPDATE_CLIENTS);
                 return true;
             }
         }

@@ -1,21 +1,21 @@
 {
   "area_condition": {
-    "radiusX": 3,
-    "radiusY": 2,
-    "radiusZ": 3,
-    "requiredAmount": -1,
-    "type": "generate_if_not_too_many",
     "must_have": {
-      "predicate_type": "minecraft:blockstate_match",
-      "block": {
+      "block_state": {
         "Name": "immersive_weathering:weeds",
         "Properties": {
           "age": "7"
         }
-      }
-    }
+      },
+      "predicate_type": "minecraft:blockstate_match"
+    },
+    "radiusX": 3,
+    "radiusY": 2,
+    "radiusZ": 3,
+    "requiredAmount": -1,
+    "type": "generate_if_not_too_many"
   },
-  "growth_chance": 0.02,
+  "growth_chance": 0.01,
   "growth_for_face": [
     {
       "direction": "up",

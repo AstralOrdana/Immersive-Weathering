@@ -1,0 +1,63 @@
+{
+  "area_condition": {
+    "radiusX": 2,
+    "radiusY": 2,
+    "radiusZ": 2,
+    "requiredAmount": 6,
+    "type": "generate_if_not_too_many"
+  },
+  "position_predicates": [
+    {
+      "biomes": ["minecraft:bamboo_jungle"],
+      "predicate_type": "biome_match"
+    }
+  ],
+  "growth_chance": 0.001,
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:bamboo_sapling"
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:fern"
+            }
+          },
+          "weight": 5
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:melon"
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:grass"
+            }
+          },
+          "weight": 0
+        }
+      ]
+    }
+  ],
+  "owners": [
+    "minecraft:grass_block"
+  ],
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:random_block_match",
+    "probability": 0.8
+  }
+}

@@ -8,6 +8,7 @@ import com.ordana.immersive_weathering.data.BlockSetMatchTest;
 import com.ordana.immersive_weathering.data.FluidMatchTest;
 import com.ordana.immersive_weathering.data.LogMatchTest;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -33,6 +34,7 @@ public class ImmersiveWeathering {
     }
 
     public ImmersiveWeathering() {
+
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModBlocks.BLOCKS.register(bus);

@@ -61,7 +61,7 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
     private final List<Lazy<SimpleParticleType>> particles;
 
     public LeafPileBlock(Properties settings, boolean hasFlowers, boolean hasThorns, boolean isLeafy,
-                            List<Supplier<SimpleParticleType>> particles) {
+                         List<Supplier<SimpleParticleType>> particles) {
         super(settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, 1));
         this.hasFlowers = hasFlowers;
@@ -111,13 +111,13 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
             if (bl && random.nextBoolean()) {
                 //double yOff = (layers < 5) ? 0.5 : 1;
                 double y = pos.getY() + LAYERS_TO_SHAPE[layers].max(Direction.Axis.Y) + 0.0625;
-                int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos,0);
+                int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
                 for (var p : particles) {
                     level.addParticle(p.get(),
-                            entity.getX() +Mth.randomBetween(random,-0.2f,0.2f),
+                            entity.getX() + Mth.randomBetween(random, -0.2f, 0.2f),
                             y,
-                            entity.getZ() +Mth.randomBetween(random,-0.2f,0.2f),
-                            Mth.randomBetween(random,-0.75f,-1),
+                            entity.getZ() + Mth.randomBetween(random, -0.2f, 0.2f),
+                            Mth.randomBetween(random, -0.75f, -1),
                             color,
                             0);
                     //Mth.randomBetween(random, -1.0F, 1.0F) * 0.001f)
@@ -177,6 +177,9 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
 
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+        if (direction == Direction.DOWN && state.getValue(LAYERS) <= 1) {
+            state = state.setValue(LAYERS, neighborState.is(Blocks.WATER) ? 0 : 1);
+        }
         return !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
     }
 
@@ -261,7 +264,7 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
         int layers = this.getLayers(state);
         if (layers > 1 && random.nextFloat() < ServerConfigs.HUMUS_SPAWN_BELOW_LEAVES.get()) {
             //TODO: maybe move this to data
-            if(this.isLeafy || this.hasThorns) {
+            if (this.isLeafy || this.hasThorns) {
                 BlockState below = world.getBlockState(pos.below());
                 if (below.is(Blocks.GRASS_BLOCK) || below.is(Blocks.DIRT) || below.is(Blocks.COARSE_DIRT) || below.is(Blocks.ROOTED_DIRT)) {
                     world.setBlock(pos.below(), (isLeafy ? ModBlocks.HUMUS.get() : Blocks.PODZOL).defaultBlockState(), 2);
@@ -270,7 +273,7 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
         }
     }
 
-    public static void spawnFromLeaves(BlockState state, BlockPos pos, Level level, Random random){
+    public static void spawnFromLeaves(BlockState state, BlockPos pos, Level level, Random random) {
         //Drastically reduced this chance to help lag
         if (!state.getValue(LeavesBlock.PERSISTENT) && random.nextFloat() < ServerConfigs.FALLING_LEAVES.get()) {
 

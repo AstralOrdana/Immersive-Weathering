@@ -163,6 +163,7 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
     }
 
     private boolean canGrow(BlockPos pos, Level level, Holder<Biome> biome) {
+        if (this.growthChance == 0) return false;
         if (level.random.nextFloat() < this.growthChance) {
             for (PositionRuleTest biomeTest : this.biomePredicates) {
                 if (!biomeTest.test(biome, pos, level)) return false;
@@ -201,18 +202,19 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
                             targetPos2 = targetPos.relative(dir);
                             target2 = level.getBlockState(targetPos2);
                             seed = new Random(Mth.getSeed(pos));
-                            if (!targetPredicate.test(target2, seed) || !toPlace.getSecond().canSurvive(level, targetPos2)) {
+                            if (!targetPredicate.test(target2, seed)) {
                                 return false;
                             }
                         }
 
                         if (areaCondition.test(pos, level, this)) {
+
+                            if (destroyTarget) level.destroyBlock(targetPos, true);
+                            level.setBlock(targetPos, setWaterIfNeeded(toPlace.getFirst(), target), 2);
                             if (db) {
                                 if (destroyTarget) level.destroyBlock(targetPos2, true);
                                 level.setBlock(targetPos2, setWaterIfNeeded(toPlace.getSecond(), target2), 2);
                             }
-                            if (destroyTarget) level.destroyBlock(targetPos, true);
-                            level.setBlock(targetPos, setWaterIfNeeded(toPlace.getFirst(), target), 2);
                             return true;
                         }
                     }

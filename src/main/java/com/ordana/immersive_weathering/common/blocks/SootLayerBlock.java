@@ -35,11 +35,11 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class SootBlock extends MultifaceBlock {
+public class SootLayerBlock extends MultifaceBlock {
 
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
-    public SootBlock(Properties settings) {
+    public SootLayerBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.defaultBlockState().setValue(LIT, false));
     }

@@ -2,7 +2,7 @@ package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.common.blocks.AshBlock;
 import com.ordana.immersive_weathering.common.ModBlocks;
-import com.ordana.immersive_weathering.common.blocks.SootBlock;
+import com.ordana.immersive_weathering.common.blocks.SootLayerBlock;
 import com.ordana.immersive_weathering.data.BlockGrowthHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -58,7 +58,7 @@ public abstract class FireMixin {
     private boolean removeBlock(ServerLevel level, BlockPos pos, boolean b) {
         BlockState s = level.getBlockState(pos);
         boolean result = level.removeBlock(pos,b);
-        SootBlock.convertToSoot(level, pos, s);
+        SootLayerBlock.convertToSoot(level, pos, s);
         return result;
     }
 

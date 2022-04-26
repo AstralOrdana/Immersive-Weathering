@@ -108,8 +108,8 @@ public class ModBlocks {
     public static final RegistryObject<Block> ASH_BLOCK = reg("SOOT_BLOCK".toLowerCase(Locale.ROOT), () ->
             new AshBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).strength(0.5f)
                     .sound(SoundType.SNOW).lightLevel(createLightLevelFromLitBlockState(6)).randomTicks()));
-    public static final RegistryObject<SootBlock> SOOT = reg("SOOT".toLowerCase(Locale.ROOT), () ->
-            new SootBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.COLOR_BLACK).noCollission()
+    public static final RegistryObject<SootLayerBlock> SOOT = reg("SOOT".toLowerCase(Locale.ROOT), () ->
+            new SootLayerBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.COLOR_BLACK).noCollission()
                     .requiresCorrectToolForDrops().instabreak().sound(SoundType.SNOW).lightLevel(createLightLevelFromLitBlockState(5)).randomTicks()));
 
     public static final RegistryObject<Block> MOSSY_BRICKS = reg("MOSSY_BRICKS".toLowerCase(Locale.ROOT), () ->

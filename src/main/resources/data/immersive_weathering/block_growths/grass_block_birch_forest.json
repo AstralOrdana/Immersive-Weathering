@@ -1,0 +1,101 @@
+{
+  "area_condition": {
+    "radiusX": 2,
+    "radiusY": 2,
+    "radiusZ": 2,
+    "requiredAmount": 6,
+    "type": "generate_if_not_too_many"
+  },
+  "position_predicates": [
+    {
+      "biomes": [
+        "minecraft:birch_forest",
+        "minecraft:old_growth_birch_forest"
+      ],
+      "predicate_type": "biome_match"
+    }
+  ],
+  "growth_chance": 0.001,
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:dandelion"
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:lily_of_the_valley"
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:weeds"
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:brown_mushroom"
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:cornflower"
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:birch_sapling"
+            }
+          },
+          "weight": 5
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:lilac"
+            },
+            "above_block":{
+              "Name": "minecraft:lilac"
+            }
+          },
+          "weight": 7
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:grass"
+            }
+          },
+          "weight": 0
+        }
+      ]
+    }
+  ],
+  "owners": [
+    "minecraft:grass_block"
+  ],
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:random_block_match",
+    "probability": 0.8
+  }
+}

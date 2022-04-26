@@ -1,0 +1,194 @@
+{
+  "area_condition": {
+    "radiusX": 2,
+    "radiusY": 2,
+    "radiusZ": 2,
+    "requiredAmount": 6,
+    "type": "generate_if_not_too_many"
+  },
+  "position_predicates": [
+    {
+      "biomes": [
+        "minecraft:dark_forest"
+      ],
+      "predicate_type": "biome_match"
+    }
+  ],
+  "growth_chance": 0.001,
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:red_mushroom"
+            }
+          },
+          "weight": 1000
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:brown_mushroom"
+            }
+          },
+          "weight": 1000
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:poppy"
+            }
+          },
+          "weight": 1000
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:rose_bush",
+              "Properties": {
+                "half": "lower"
+              }
+            },
+            "above_block": {
+              "Name": "minecraft:rose_bush",
+              "Properties": {
+                "half": "upper"
+              }
+            }
+          },
+          "weight": 600
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:dark_oak_fence"
+            },
+            "above_block":{
+              "Name": "minecraft:carved_pumpkin",
+              "Properties": {
+                "facing": "north"
+              }
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:dark_oak_fence"
+            },
+            "above_block": {
+              "Name": "minecraft:carved_pumpkin",
+              "Properties": {
+                "facing": "north"
+              }
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:dark_oak_fence"
+            },
+            "above_block": {
+              "Name": "minecraft:carved_pumpkin",
+              "Properties": {
+                "facing": "north"
+              }
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:dark_oak_fence"
+            },
+            "above_block":{
+              "Name": "minecraft:carved_pumpkin",
+              "Properties": {
+                "facing": "west"
+              }
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:dark_oak_fence"
+            },
+            "above_block":{
+              "Name": "minecraft:jack_o_lantern",
+              "Properties": {
+                "facing": "north"
+              }
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:dark_oak_fence"
+            },
+            "above_block":{
+              "Name": "minecraft:jack_o_lantern",
+              "Properties": {
+                "facing": "south"
+              }
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:dark_oak_fence"
+            },
+            "above_block":{
+              "Name": "minecraft:jack_o_lantern",
+              "Properties": {
+                "facing": "east"
+              }
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:dark_oak_fence"
+            },
+            "above_block":{
+              "Name": "minecraft:jack_o_lantern",
+              "Properties": {
+                "facing": "west"
+              }
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:grass"
+            }
+          },
+          "weight": 0
+        }
+      ]
+    }
+  ],
+  "owners": [
+    "minecraft:grass_block"
+  ],
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:random_block_match",
+    "probability": 0.8
+  }
+}

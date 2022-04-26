@@ -63,8 +63,8 @@ public interface AreaCondition {
     //implementations
 
     record AreaCheck(int rX, int rY, int rZ, int requiredAmount, Optional<Integer> yOffset,
-                            Optional<RuleTest> mustHavePredicate,
-                            Optional<RuleTest> mustNotHavePredicate) implements AreaCondition {
+                     Optional<RuleTest> mustHavePredicate,
+                     Optional<RuleTest> mustNotHavePredicate) implements AreaCondition {
 
         public static final String NAME = "generate_if_not_too_many";
         public static final Codec<AreaCheck> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -90,18 +90,20 @@ public interface AreaCondition {
             Random random = new Random(Mth.getSeed(pos));
             boolean hasRequirement = this.mustHavePredicate.isEmpty();
             //shuffling. provides way better result that iterating through it conventionally
+            //if(hasRequirement && requiredAmount == -1)return true;
             var list = WeatheringHelper.grabBlocksAroundRandomly(pos, rX, rY, rZ);
             for (BlockPos p : list) {
                 BlockState state = level.getBlockState(p);
                 if (config.getPossibleBlocks().contains(state.getBlock())) count += 1;
-                else {
-                    if (!hasRequirement && mustHavePredicate.get().test(state, random)){
-                        hasRequirement = true;
-                        // if -1 means it can accept any number so we exit early
-                        if(requiredAmount==-1)break;
+                if (!hasRequirement &&
+                        mustHavePredicate.get().test(state, random)) {
+                    hasRequirement = true;
+                    // if -1 means it can accept any number so we exit early
+                    if (requiredAmount == -1) {
+                        break;
                     }
-                    else if (mustNotHavePredicate.isPresent() && mustNotHavePredicate.get().test(state, random))
-                        return false;
+                } else if (mustNotHavePredicate.isPresent() && mustNotHavePredicate.get().test(state, random)) {
+                    return false;
                 }
                 if (count >= requiredAmount) return false;
             }
@@ -115,7 +117,7 @@ public interface AreaCondition {
     }
 
     record NeighborCheck(RuleTest mustHavePredicate, Optional<RuleTest> mustNotHavePredicate,
-                                Optional<Integer> requiredAmount) implements AreaCondition {
+                         Optional<Integer> requiredAmount) implements AreaCondition {
 
 
         public static final String NAME = "neighbor_based_generation";

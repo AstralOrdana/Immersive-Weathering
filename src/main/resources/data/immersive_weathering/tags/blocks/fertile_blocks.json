@@ -1,7 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "minecraft:farmland",
-    "immersive_weathering:mulch_block"
-  ]
-}

@@ -1,7 +1,7 @@
 {
   "area_condition": {
-    "radiusX": 4,
-    "radiusY": 2,
+    "radiusX": 2,
+    "radiusY": 4,
     "radiusZ": 2,
     "offset": 4,
     "requiredAmount": 10,
@@ -10,7 +10,7 @@
   "must_have": {
     "predicate_type": "immersive_weathering:tree_log"
   },
-  "growth_chance": 0.01,
+  "growth_chance": 0.001,
   "growth_for_face": [
     {
       "direction": "north",

@@ -18,7 +18,6 @@ public final class ModTags {
     public static final TagKey<Block> SMOKEY_BLOCKS = registerBlockTag("smokey_blocks");
     public static final TagKey<Block> SMALL_MUSHROOMS = registerBlockTag("small_mushrooms");
     public static final TagKey<Block> SMALL_PLANTS = registerBlockTag("small_plants");
-    public static final TagKey<Block> FERTILE_BLOCKS = registerBlockTag("fertile_blocks");
     public static final TagKey<Block> ICE = registerBlockTag("ice");
     public static final TagKey<Block> MAGMA_SOURCE = registerBlockTag("magma_source");
     public static final TagKey<Block> CRACK_SOURCE = registerBlockTag("crack_source");

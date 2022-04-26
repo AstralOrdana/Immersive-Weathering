@@ -5,10 +5,11 @@
   "package": "com.ordana.immersive_weathering.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "BlockBehaviorMixin",
+    "BlockMixin",
     "BlocksMixin",
     "CampfireMixin",
     "ComposterMixin",
-    "CoralBlockMixin",
     "CropBlockMixin",
     "FarmlandMixin",
     "FireMixin",
@@ -26,7 +27,6 @@
     "SnowyBlockMixin",
     "SpreadableDirtBlockMixin",
     "SweetBerryBushMixin",
-    "TallGrassMixin",
     "WebMixin",
     "snowrealmagic.SnowMixin"
   ],

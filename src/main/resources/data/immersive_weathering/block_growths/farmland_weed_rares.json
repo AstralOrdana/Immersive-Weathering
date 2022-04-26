@@ -1,12 +1,5 @@
 {
   "growth_chance": 0.0001,
-  "area_condition": {
-    "radiusX": 3,
-    "radiusY": 2,
-    "radiusZ": 3,
-    "requiredAmount": -1,
-    "type": "generate_if_not_too_many"
-  },
   "growth_for_face": [
     {
       "direction": "up",

@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.configs.ServerConfigs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -29,6 +30,7 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create(); //json object that will write stuff
 
+    private static final Set<Block> BLOCKS = new HashSet<>();
     private static final Map<Block, Set<BlockGrowthConfiguration>> GROWTH_FOR_BLOCK = new HashMap<>();
     private static final List<BlockGrowthConfiguration> GROWTHS = new ArrayList<>();
 
@@ -58,7 +60,8 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
     }
 
     public static boolean canRandomTick(BlockState state) {
-        return GROWTH_FOR_BLOCK.containsKey(state.getBlock());
+        if (!ServerConfigs.BLOCK_GROWTH.get()) return false;
+        return BLOCKS.contains(state.getBlock());
     }
 
     public void writeToFile(final BlockGrowthConfiguration obj, FileWriter writer) {
@@ -106,6 +109,7 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
                 HolderSet<Block> owners = config.getOwners();
                 owners.forEach(b -> GROWTH_FOR_BLOCK.computeIfAbsent(b.value(), k -> new HashSet<>()).add(config));
             }
+            BLOCKS.addAll(GROWTH_FOR_BLOCK.keySet());
             GROWTHS.clear();
             this.needsRefresh = false;
         }

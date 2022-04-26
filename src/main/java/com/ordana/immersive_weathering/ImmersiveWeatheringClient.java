@@ -134,36 +134,6 @@ public class ImmersiveWeatheringClient {
         }
     }
 
-    @SubscribeEvent
-    public static void registerBlockColors(ColorHandlerEvent.Block event) {
-
-        BlockColors colors = event.getBlockColors();
-
-        /*
-
-        BlockColor foliageColor = (state, world, pos, tintIndex) -> world != null && pos != null ?
-                BiomeColors.getAverageFoliageColor(world, pos) : FoliageColor.getDefaultColor();
-
-        colors.register(foliageColor, ModBlocks.OAK_LEAF_PILE.get(), ModBlocks.ACACIA_LEAF_PILE.get(),
-                ModBlocks.JUNGLE_LEAF_PILE.get(), ModBlocks.DARK_OAK_LEAF_PILE.get());
-
-        colors.register((a,b,c,d)->FoliageColor.getBirchColor(), ModBlocks.BIRCH_LEAF_PILE.get());
-        colors.register((a,b,c,d)->FoliageColor.getEvergreenColor(), ModBlocks.SPRUCE_LEAF_PILE.get());
-        */
-
-    }
-
-    @SubscribeEvent
-    public static void registerItemColors(ColorHandlerEvent.Item event) {
-        ItemColors colors = event.getItemColors();
-        /*
-        colors.register((s, t) -> FoliageColor.getDefaultColor(),
-                ModItems.OAK_LEAF_PILE.get(), ModItems.JUNGLE_LEAF_PILE.get(), ModItems.DARK_OAK_LEAF_PILE.get(), ModItems.ACACIA_LEAF_PILE.get());
-        colors.register((s, t) -> FoliageColor.getBirchColor(), ModItems.BIRCH_LEAF_PILE.get());
-        colors.register((s, t) -> FoliageColor.getEvergreenColor(), ModItems.SPRUCE_LEAF_PILE.get());
-        */
-    }
-
     @Mod.EventBusSubscriber(modid = ImmersiveWeathering.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class ClientTicker {
 

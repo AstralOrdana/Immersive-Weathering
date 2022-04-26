@@ -20,11 +20,6 @@ public abstract class SnowyBlockMixin extends Block {
     }
 
     @Override
-    public boolean isRandomlyTicking(BlockState state) {
-        return BlockGrowthHandler.canRandomTick(state);
-    }
-
-    @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         //TODO: move to data (this isnt doing anything now)
         if (state.is(Blocks.PODZOL)) {
