@@ -252,6 +252,7 @@ public class WeatheringHelper {
         if (rec == 0 || world.random.nextFloat() < 1 * p) {
             BlockPos downPos = centerPos.down();
             if (world.getBlockState(downPos).isIn(BlockTags.SAND)) {
+                world.setBlockState(centerPos.up(), ModBlocks.FULGURITE.getDefaultState().with(FulguriteBlock.FACING, Direction.UP), 3);
                 onLightningHit(downPos, world, rec);
             }
         }

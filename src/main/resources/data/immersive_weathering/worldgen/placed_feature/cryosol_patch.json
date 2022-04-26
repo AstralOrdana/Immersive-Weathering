@@ -1,0 +1,27 @@
+{
+  "feature": "immersive_weathering:permafrost",
+  "placement": [
+    {
+      "type": "minecraft:noise_based_count",
+      "noise_to_count_ratio": 15,
+      "noise_factor": 25,
+      "noise_offset": -0.1
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:count_on_every_layer",
+      "count": {
+        "type": "minecraft:uniform",
+        "value": {
+          "min_inclusive": 1,
+          "max_inclusive": 5
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

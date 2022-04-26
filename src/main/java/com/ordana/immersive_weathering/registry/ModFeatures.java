@@ -19,9 +19,49 @@ public class ModFeatures {
                 new Identifier("immersive_weathering", "icicles"));
         BiomeModifications.addFeature(BiomeSelectors.tag(ModTags.ICY), GenerationStep.Feature.TOP_LAYER_MODIFICATION, icicles);
 
-        RegistryKey<PlacedFeature> humus_patches = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
-                new Identifier("immersive_weathering", "humus_patches"));
-        BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.DARK_FOREST), GenerationStep.Feature.RAW_GENERATION, humus_patches);
+        RegistryKey<PlacedFeature> cryosol_patch = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                new Identifier("immersive_weathering", "cryosol_patch"));
+        BiomeModifications.addFeature(BiomeSelectors.tag(ModTags.ICY), GenerationStep.Feature.RAW_GENERATION, cryosol_patch);
+
+
+        RegistryKey<PlacedFeature> humus_patch = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                new Identifier("immersive_weathering", "humus_patch"));
+        BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.DARK_FOREST), GenerationStep.Feature.RAW_GENERATION, humus_patch);
+
+        RegistryKey<PlacedFeature> rooted_ceiling = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                new Identifier("immersive_weathering", "rooted_ceiling"));
+        BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.DARK_FOREST), GenerationStep.Feature.VEGETAL_DECORATION, rooted_ceiling);
+
+
+        RegistryKey<PlacedFeature> fluvisol_patch_submerged = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                new Identifier("immersive_weathering", "fluvisol_patch_submerged"));
+        BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.RIVER, BiomeKeys.SWAMP), GenerationStep.Feature.RAW_GENERATION, fluvisol_patch_submerged);
+
+        RegistryKey<PlacedFeature> fluvisol_patch_surface = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                new Identifier("immersive_weathering", "fluvisol_patch_surface"));
+        BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.RIVER, BiomeKeys.SWAMP), GenerationStep.Feature.RAW_GENERATION, fluvisol_patch_surface);
+
+        RegistryKey<PlacedFeature> fluvisol_patch_dry = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                new Identifier("immersive_weathering", "fluvisol_patch_dry"));
+        BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.RIVER, BiomeKeys.SWAMP), GenerationStep.Feature.RAW_GENERATION, fluvisol_patch_dry);
+
+        RegistryKey<PlacedFeature> silt_disk = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                new Identifier("immersive_weathering", "silt_disk"));
+        BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.RIVER, BiomeKeys.SWAMP), GenerationStep.Feature.RAW_GENERATION, silt_disk);
+
+
+        RegistryKey<PlacedFeature> dry_lakebed = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                new Identifier("immersive_weathering", "dry_lakebed"));
+        BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.BADLANDS, BiomeKeys.ERODED_BADLANDS, BiomeKeys.WOODED_BADLANDS, BiomeKeys.DESERT), GenerationStep.Feature.RAW_GENERATION, dry_lakebed);
+
+        RegistryKey<PlacedFeature> dry_lakebed_large = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                new Identifier("immersive_weathering", "dry_lakebed_large"));
+        BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.BADLANDS, BiomeKeys.ERODED_BADLANDS, BiomeKeys.WOODED_BADLANDS, BiomeKeys.DESERT), GenerationStep.Feature.RAW_GENERATION, dry_lakebed_large);
+
+        RegistryKey<PlacedFeature> vertisol_patch = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                new Identifier("immersive_weathering", "vertisol_patch"));
+        BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.BADLANDS, BiomeKeys.ERODED_BADLANDS, BiomeKeys.WOODED_BADLANDS), GenerationStep.Feature.RAW_GENERATION, vertisol_patch);
+
 
         RegistryKey<PlacedFeature> oak_leaf_pile = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
                 new Identifier("immersive_weathering", "oak_leaf_pile"));

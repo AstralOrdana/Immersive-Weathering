@@ -1,0 +1,64 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "smoldering": "false",
+        "axis": "x"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/charred_log_horizontal",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "smoldering": "true",
+        "axis": "x"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/charred_log_horizontal_lit",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "smoldering": "false",
+        "axis": "y"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/charred_log"
+      }
+    },
+    {
+      "when": {
+        "smoldering": "true",
+        "axis": "y"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/charred_log_lit"
+      }
+    },
+    {
+      "when": {
+        "smoldering": "false",
+        "axis": "z"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/charred_log_horizontal",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "smoldering": "true",
+        "axis": "z"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/charred_log_horizontal_lit",
+        "x": 90
+      }
+    }
+  ]
+}

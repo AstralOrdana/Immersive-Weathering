@@ -1,7 +1,7 @@
 {
   "area_condition": {
-    "radiusX": 4,
-    "radiusY": 2,
+    "radiusX": 2,
+    "radiusY": 4,
     "radiusZ": 2,
     "offset": 4,
     "requiredAmount": 10,
@@ -97,7 +97,10 @@
       ]
     }
   ],
-  "owners": [ "minecraft:rooted_dirt"],
+  "owners": [
+    "minecraft:rooted_dirt",
+    "immersive_weathering:rooted_grass_block"
+  ],
   "replacing_target": {
     "block": "minecraft:dirt",
     "predicate_type": "minecraft:random_block_match",

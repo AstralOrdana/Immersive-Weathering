@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.registry.blocks.FulguriteBlock;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.*;
@@ -32,10 +33,12 @@ public abstract class LightningEntityMixin extends Entity {
     @Inject(method = "powerLightningRod", at = @At("HEAD"))
     private void powerLightningRod(CallbackInfo ci) {
         BlockPos blockPos = this.getAffectedBlockPos();
-
         BlockState blockState = this.world.getBlockState(blockPos);
         if (blockState.isIn(BlockTags.SAND)) {
             WeatheringHelper.onLightningHit(blockPos, world, 0);
+        }
+        else if (blockState.isOf(ModBlocks.FULGURITE)) {
+            ((FulguriteBlock)blockState.getBlock()).setPowered(blockState, this.world, blockPos);
         }
     }
 }

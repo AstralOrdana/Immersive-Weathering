@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "soaked=false": {
+      "model": "immersive_weathering:block/cracked_mud"
+    },
+    "soaked=true": {
+      "model": "immersive_weathering:block/cracked_mud_soaked"
+    }
+  }
+}

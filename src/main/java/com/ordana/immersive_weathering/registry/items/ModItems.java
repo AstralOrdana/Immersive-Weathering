@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.registry.items;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.ModFoods;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
+import net.minecraft.block.StairsBlock;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
@@ -13,6 +14,7 @@ public class ModItems {
 
     public static final BlockItem ICICLE = new BlockItem(ModBlocks.ICICLE, new Item.Settings().food(ModFoods.ICICLE).group(ItemGroup.DECORATIONS));
     public static final Item ICE_SICKLE = new SwordItem(IcicleToolMaterial.INSTANCE, 5, -1f, new Item.Settings().food(ModFoods.ICICLE).group(ItemGroup.COMBAT));
+    public static final BlockItem FULGURITE = new BlockItem(ModBlocks.FULGURITE, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final BlockItem VITRIFIED_SAND = new BlockItem(ModBlocks.VITRIFIED_SAND, new Item.Settings().group(ItemGroup.DECORATIONS));
 
@@ -45,11 +47,34 @@ public class ModItems {
     public static final BlockItem SOOT = new BlockItem(ModBlocks.SOOT, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem ASH_BLOCK = new BlockItem(ModBlocks.ASH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
 
-    public static final BlockItem HUMUS = new BlockItem(ModBlocks.HUMUS, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem MULCH_BLOCK = new BlockItem(ModBlocks.MULCH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem NULCH_BLOCK = new BlockItem(ModBlocks.NULCH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem MULCH = new BlockItem(ModBlocks.MULCH, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem NULCH = new BlockItem(ModBlocks.NULCH, new Item.Settings().group(ItemGroup.DECORATIONS));
+
+    public static final BlockItem HUMUS = new BlockItem(ModBlocks.HUMUS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem FLUVISOL = new BlockItem(ModBlocks.FLUVISOL, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SILT = new BlockItem(ModBlocks.SILT, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem VERTISOL = new BlockItem(ModBlocks.VERTISOL, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem CRACKED_MUD = new BlockItem(ModBlocks.CRACKED_MUD, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem CRYOSOL = new BlockItem(ModBlocks.CRYOSOL, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem PERMAFROST = new BlockItem(ModBlocks.PERMAFROST, new Item.Settings().group(ItemGroup.DECORATIONS));
+
+    public static final BlockItem ROOTED_GRASS_BLOCK = new BlockItem(ModBlocks.ROOTED_GRASS_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
+
+    public static final BlockItem CHARRED_LOG = new BlockItem(ModBlocks.CHARRED_LOG, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CHARRED_PLANKS = new BlockItem(ModBlocks.CHARRED_PLANKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CHARRED_SLAB = new BlockItem(ModBlocks.CHARRED_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CHARRED_STAIRS = new BlockItem(ModBlocks.CHARRED_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CHARRED_FENCE = new BlockItem(ModBlocks.CHARRED_FENCE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem CHARRED_FENCE_GATE = new BlockItem(ModBlocks.CHARRED_FENCE_GATE, new Item.Settings().group(ItemGroup.DECORATIONS));
+
+    public static final BlockItem ROTTEN_LOG = new BlockItem(ModBlocks.ROTTEN_LOG, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem ROTTEN_PLANKS = new BlockItem(ModBlocks.ROTTEN_PLANKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem ROTTEN_SLAB = new BlockItem(ModBlocks.ROTTEN_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem ROTTEN_STAIRS = new BlockItem(ModBlocks.ROTTEN_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem ROTTEN_FENCE = new BlockItem(ModBlocks.ROTTEN_FENCE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem ROTTEN_FENCE_GATE = new BlockItem(ModBlocks.ROTTEN_FENCE_GATE, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final BlockItem MOSSY_BRICKS = new BlockItem(ModBlocks.MOSSY_BRICKS, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem MOSSY_BRICK_STAIRS = new BlockItem(ModBlocks.MOSSY_BRICK_STAIRS, new Item.Settings().group(ItemGroup.DECORATIONS));
@@ -63,38 +88,38 @@ public class ModItems {
     public static final BlockItem CRACKED_BRICKS = new BlockItem(ModBlocks.CRACKED_BRICKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_BRICK_STAIRS = new BlockItem(ModBlocks.CRACKED_BRICK_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_BRICK_SLAB = new BlockItem(ModBlocks.CRACKED_BRICK_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
-    public static final BlockItem CRACKED_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_BRICK_WALL, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CRACKED_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_BRICK_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final BlockItem CRACKED_PRISMARINE_BRICKS = new BlockItem(ModBlocks.CRACKED_PRISMARINE_BRICKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_PRISMARINE_BRICK_STAIRS = new BlockItem(ModBlocks.CRACKED_PRISMARINE_BRICK_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_PRISMARINE_BRICK_SLAB = new BlockItem(ModBlocks.CRACKED_PRISMARINE_BRICK_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
-    public static final BlockItem CRACKED_PRISMARINE_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_PRISMARINE_BRICK_WALL, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
-    public static final BlockItem PRISMARINE_BRICK_WALL = new BlockItem(ModBlocks.PRISMARINE_BRICK_WALL, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CRACKED_PRISMARINE_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_PRISMARINE_BRICK_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem PRISMARINE_BRICK_WALL = new BlockItem(ModBlocks.PRISMARINE_BRICK_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final BlockItem CRACKED_END_STONE_BRICKS = new BlockItem(ModBlocks.CRACKED_END_STONE_BRICKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_END_STONE_BRICK_STAIRS = new BlockItem(ModBlocks.CRACKED_END_STONE_BRICK_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_END_STONE_BRICK_SLAB = new BlockItem(ModBlocks.CRACKED_END_STONE_BRICK_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
-    public static final BlockItem CRACKED_END_STONE_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_END_STONE_BRICK_WALL, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CRACKED_END_STONE_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_END_STONE_BRICK_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final BlockItem CRACKED_STONE_BRICK_STAIRS = new BlockItem(ModBlocks.CRACKED_STONE_BRICK_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_STONE_BRICK_SLAB = new BlockItem(ModBlocks.CRACKED_STONE_BRICK_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
-    public static final BlockItem CRACKED_STONE_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_STONE_BRICK_WALL, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CRACKED_STONE_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_STONE_BRICK_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final BlockItem CRACKED_POLISHED_BLACKSTONE_BRICK_STAIRS = new BlockItem(ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB = new BlockItem(ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
-    public static final BlockItem CRACKED_POLISHED_BLACKSTONE_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_WALL, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CRACKED_POLISHED_BLACKSTONE_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final BlockItem CRACKED_NETHER_BRICK_STAIRS = new BlockItem(ModBlocks.CRACKED_NETHER_BRICK_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_NETHER_BRICK_SLAB = new BlockItem(ModBlocks.CRACKED_NETHER_BRICK_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
-    public static final BlockItem CRACKED_NETHER_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_NETHER_BRICK_WALL, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CRACKED_NETHER_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_NETHER_BRICK_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final BlockItem CRACKED_DEEPSLATE_BRICK_STAIRS = new BlockItem(ModBlocks.CRACKED_DEEPSLATE_BRICK_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_DEEPSLATE_BRICK_SLAB = new BlockItem(ModBlocks.CRACKED_DEEPSLATE_BRICK_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
-    public static final BlockItem CRACKED_DEEPSLATE_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_DEEPSLATE_BRICK_WALL, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CRACKED_DEEPSLATE_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_DEEPSLATE_BRICK_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final BlockItem CRACKED_DEEPSLATE_TILE_STAIRS = new BlockItem(ModBlocks.CRACKED_DEEPSLATE_TILE_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_DEEPSLATE_TILE_SLAB = new BlockItem(ModBlocks.CRACKED_DEEPSLATE_TILE_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
-    public static final BlockItem CRACKED_DEEPSLATE_TILE_WALL = new BlockItem(ModBlocks.CRACKED_DEEPSLATE_TILE_WALL, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+    public static final BlockItem CRACKED_DEEPSLATE_TILE_WALL = new BlockItem(ModBlocks.CRACKED_DEEPSLATE_TILE_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final Item STONE_BRICK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item PRISMARINE_BRICK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
@@ -200,6 +225,7 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "ice_sickle"), ICE_SICKLE);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "vitrified_sand"), VITRIFIED_SAND);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "fulgurite"), FULGURITE);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "azalea_flowers"), AZALEA_FLOWERS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "flower_crown"), FLOWER_CROWN);
@@ -230,11 +256,34 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "soot"), SOOT);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "ash_block"), ASH_BLOCK);
 
-        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "humus"), HUMUS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mulch_block"), MULCH_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "nulch_block"), NULCH_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mulch"), MULCH);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "nulch"), NULCH);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "humus"), HUMUS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "fluvisol"), FLUVISOL);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "silt"), SILT);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "vertisol"), VERTISOL);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_mud"), CRACKED_MUD);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cryosol"), CRYOSOL);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "permafrost"), PERMAFROST);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "rooted_grass_block"), ROOTED_GRASS_BLOCK);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "charred_log"), CHARRED_LOG);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "charred_planks"), CHARRED_PLANKS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "charred_slab"), CHARRED_SLAB);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "charred_stairs"), CHARRED_STAIRS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "charred_fence"), CHARRED_FENCE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "charred_fence_gate"), CHARRED_FENCE_GATE);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_log"), ROTTEN_LOG);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_planks"), ROTTEN_PLANKS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_slab"), ROTTEN_SLAB);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_stairs"), ROTTEN_STAIRS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_fence"), ROTTEN_FENCE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_fence_gate"), ROTTEN_FENCE_GATE);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_bricks"), MOSSY_BRICKS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_brick_stairs"), MOSSY_BRICK_STAIRS);

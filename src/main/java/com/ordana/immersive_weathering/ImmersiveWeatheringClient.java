@@ -13,13 +13,16 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
+import net.minecraft.client.color.world.GrassColors;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.FallingBlockEntityRenderer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Items;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -58,6 +61,7 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
             registry.register(new Identifier("immersive_weathering", "particle/soot_0"));
             registry.register(new Identifier("immersive_weathering", "particle/ember_1"));
             registry.register(new Identifier("immersive_weathering", "particle/soot_1"));
+            registry.register(new Identifier("immersive_weathering", "particle/emberspark"));
 
             registry.register(new Identifier("immersive_weathering", "particle/oak_leaf_0"));
             registry.register(new Identifier("immersive_weathering", "particle/birch_leaf_0"));
@@ -88,6 +92,7 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         }));
         ParticleFactoryRegistry.getInstance().register(ModParticles.EMBER, EmberParticle.EmberFactory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.SOOT, LeafParticle.SimpleLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.EMBERSPARK, SoulParticle.Factory::new);
 
         ParticleFactoryRegistry.getInstance().register(ModParticles.OAK_LEAF, LeafParticle.ColoredLeafParticle::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.SPRUCE_LEAF, LeafParticle.SpruceLeafParticle::new);
@@ -108,6 +113,7 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
 
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ICICLE, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FULGURITE, RenderLayer.getCutout());
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.OAK_LEAF_PILE, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SPRUCE_LEAF_PILE, RenderLayer.getCutout());
@@ -128,6 +134,27 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.ACACIA_LEAF_PILE);
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.DARK_OAK_LEAF_PILE);
 
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.ROOTED_GRASS_BLOCK);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.MOSSY_COBBLESTONE);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.MOSSY_COBBLESTONE_SLAB);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.MOSSY_COBBLESTONE_STAIRS);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.MOSSY_COBBLESTONE_WALL);
+
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.MOSSY_STONE_BRICKS);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.MOSSY_STONE_BRICK_SLAB);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.MOSSY_STONE_BRICK_STAIRS);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.MOSSY_STONE_BRICK_WALL);
+
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.MOSSY_BRICKS);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.MOSSY_BRICK_SLAB);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.MOSSY_BRICK_STAIRS);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.MOSSY_BRICK_WALL);
+
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.MOSSY_STONE);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.MOSSY_STONE_SLAB);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.MOSSY_STONE_STAIRS);
+
+
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             return FoliageColors.getDefaultColor();
         }, ModItems.OAK_LEAF_PILE);
@@ -146,6 +173,72 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             return FoliageColors.getDefaultColor();
         }, ModItems.DARK_OAK_LEAF_PILE);
+
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, ModItems.ROOTED_GRASS_BLOCK);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, Items.MOSSY_COBBLESTONE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, Items.MOSSY_COBBLESTONE_SLAB);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, Items.MOSSY_COBBLESTONE_STAIRS);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, Items.MOSSY_COBBLESTONE_WALL);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, Items.MOSSY_STONE_BRICKS);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, Items.MOSSY_STONE_BRICK_SLAB);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, Items.MOSSY_STONE_BRICK_STAIRS);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, Items.MOSSY_STONE_BRICK_WALL);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, ModItems.MOSSY_BRICKS);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, ModItems.MOSSY_BRICK_SLAB);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, ModItems.MOSSY_BRICK_STAIRS);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, ModItems.MOSSY_BRICK_WALL);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, ModItems.MOSSY_STONE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, ModItems.MOSSY_STONE_SLAB);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, ModItems.MOSSY_STONE_STAIRS);
+
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ROOTED_GRASS_BLOCK, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOSSY_COBBLESTONE, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOSSY_COBBLESTONE_SLAB, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOSSY_COBBLESTONE_STAIRS, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOSSY_COBBLESTONE_WALL, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOSSY_STONE_BRICKS, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOSSY_STONE_BRICK_SLAB, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOSSY_STONE_BRICK_STAIRS, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOSSY_STONE_BRICK_WALL, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MOSSY_BRICKS, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MOSSY_BRICK_SLAB, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MOSSY_BRICK_STAIRS, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MOSSY_BRICK_WALL, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MOSSY_STONE, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MOSSY_STONE_SLAB, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MOSSY_STONE_STAIRS, RenderLayer.getCutout());
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.VITRIFIED_SAND, RenderLayer.getTranslucent());
 

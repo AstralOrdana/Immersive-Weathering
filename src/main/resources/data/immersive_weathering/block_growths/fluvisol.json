@@ -1,0 +1,57 @@
+{
+  "area_condition": {
+    "radiusX": 2,
+    "radiusY": 2,
+    "radiusZ": 2,
+    "requiredAmount": 4,
+    "type": "generate_if_not_too_many"
+  },
+  "growth_chance": 0.2,
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:red_mushroom"
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:brown_mushroom"
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:blue_orchid"
+            }
+          },
+          "weight": 2
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:grass"
+            }
+          },
+          "weight": 8
+        }
+      ]
+    }
+  ],
+  "owners": [
+    "immersive_weathering:fluvisol"
+  ],
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:random_block_match",
+    "probability": 0.5
+  }
+}

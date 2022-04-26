@@ -28,6 +28,7 @@ public class ImmersiveWeathering implements ModInitializer {
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new BlockGrowthHandler());
 
         ModEntities.registerEntities();
+        ModLootTables.registerLootTables();
         ModBlocks.registerBlocks();
         ModFlammableBlocks.registerFlammable();
         ModWaxable.registerWaxable();
@@ -47,6 +48,7 @@ public class ImmersiveWeathering implements ModInitializer {
             ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("immersive_weathering:better_brick_items"), modContainer, ResourcePackActivationType.NORMAL);
             ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("immersive_weathering:better_brick_blocks"), modContainer, ResourcePackActivationType.NORMAL);
             ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("immersive_weathering:visual_waxed_iron_items"), modContainer, ResourcePackActivationType.NORMAL);
+            ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("immersive_weathering:biome_tinted_mossy_blocks"), modContainer, ResourcePackActivationType.NORMAL);
         });
     }
 }

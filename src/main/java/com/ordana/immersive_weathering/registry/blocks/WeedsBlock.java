@@ -4,6 +4,10 @@ import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
@@ -20,6 +24,20 @@ public class WeedsBlock extends CropBlock {
 
     protected WeedsBlock(Settings settings) {
         super(settings);
+    }
+
+
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        int age = this.getAge(state);
+        if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
+            if(!(entity instanceof PlayerEntity player) || player.getEquippedStack(EquipmentSlot.LEGS).isEmpty()) {
+                double d = Math.abs(entity.getX() - entity.lastRenderX);
+                double e = Math.abs(entity.getZ() - entity.lastRenderZ);
+                if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
+                    entity.damage(DamageSource.SWEET_BERRY_BUSH, 0.5F);
+                }
+            }
+        }
     }
 
     @Override
@@ -57,6 +75,6 @@ public class WeedsBlock extends CropBlock {
 
     @Override
     protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
-        return floor.isIn(ModTags.FERTILE_BLOCKS) || floor.isIn(BlockTags.DIRT);
+        return floor.isIn(ModTags.FERTILE_BLOCKS) || floor.isIn(BlockTags.DIRT) || floor.isIn(ModTags.CRACKED);
     }
 }

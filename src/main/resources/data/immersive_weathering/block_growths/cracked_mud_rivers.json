@@ -1,0 +1,39 @@
+{
+  "area_condition": {
+    "radiusX": 2,
+    "radiusY": 2,
+    "radiusZ": 2,
+    "requiredAmount": 3,
+    "type": "generate_if_not_too_many"
+  },
+  "position_predicates": [
+    {
+      "biomes": ["minecraft:river"],
+      "predicate_type": "biome_match"
+    }
+  ],
+  "growth_chance": 0.05,
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:sugar_cane"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": [
+    "immersive_weathering:cracked_mud"
+  ],
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:random_block_match",
+    "probability": 0.7
+  }
+}

@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BeeEntity.class)
-public class BeeMixin extends AnimalEntity {
+public abstract class BeeMixin extends AnimalEntity {
 
     protected BeeMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
@@ -26,12 +26,11 @@ public class BeeMixin extends AnimalEntity {
         this.beeGoalHelper(this);
     }
 
-    @Nullable
-    public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
-        return null;
-    }
-
     private void beeGoalHelper(AnimalEntity animal){
         this.goalSelector.add(3, new FollowFlowerCrownGoal(animal, 1D, null, false));
     }
+
+    @Nullable
+    @Shadow
+    public abstract PassiveEntity createChild(ServerWorld world, PassiveEntity entity);
 }

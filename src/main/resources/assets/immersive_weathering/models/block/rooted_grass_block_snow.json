@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "immersive_weathering:block/rooted_grass_block_top",
+    "bottom": "minecraft:block/rooted_dirt",
+    "side": "immersive_weathering:block/rooted_grass_block_snow",
+    "particle": "minecraft:block/rooted_dirt"
+  }
+}

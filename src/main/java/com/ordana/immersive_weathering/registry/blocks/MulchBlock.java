@@ -5,8 +5,10 @@ import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -25,12 +27,12 @@ import java.util.Random;
 
 public class MulchBlock extends Block {
 
-    public static final BooleanProperty SOAKED = BooleanProperty.of("soaked");
-
     public MulchBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.getDefaultState().with(SOAKED, false));
     }
+
+    public static final BooleanProperty SOAKED = BooleanProperty.of("soaked");
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
@@ -58,6 +60,22 @@ public class MulchBlock extends Block {
     }
 
     @Override
+    public void randomDisplayTick(BlockState state, World level, BlockPos pos, Random random) {
+        if (state.get(SOAKED)) {
+            if (random.nextInt(25) == 1) {
+                BlockPos blockpos = pos.down();
+                BlockState blockstate = level.getBlockState(blockpos);
+                if (!blockstate.isOpaque() || !blockstate.isSideSolidFullSquare(level, blockpos, Direction.UP)) {
+                    double d0 = (double) pos.getX() + random.nextDouble();
+                    double d1 = (double) pos.getY() - 0.05D;
+                    double d2 = (double) pos.getZ() + random.nextDouble();
+                    level.addParticle(ParticleTypes.DRIPPING_WATER, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+                }
+            }
+        }
+    }
+
+    @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 
         BlockState cropState = world.getBlockState(pos.up());
@@ -70,46 +88,28 @@ public class MulchBlock extends Block {
             }
         }
 
-        // RandomEvent ran = new RandomEvent();
-
-        BlockState campfireState = world.getBlockState(pos.up());
-        if (campfireState.isOf(Blocks.CAMPFIRE)) {
-
-            if (random.nextFloat() < 0.2f) {
-                world.setBlockState(pos, state.with(SOAKED, false));
-                return;
-            }
-        }
-
-        if (world.hasRain(pos.up())) {
-            if (random.nextFloat() < 0.2f) {
-                world.setBlockState(pos, state.with(SOAKED, true));
-                return;
-            }
-        }
-
+        int temperature = 0;
+        boolean isTouchingWater = false;
         for (Direction direction : Direction.values()) {
             var targetPos = pos.offset(direction);
+            var biome = world.getBiome(pos);
             BlockState neighborState = world.getBlockState(targetPos);
-            if (neighborState.isIn(ModTags.MAGMA_SOURCE)) {
-                world.setBlockState(pos, state.with(SOAKED, false), 2);
-                return;
+            if (neighborState.getFluidState().getFluid() == Fluids.FLOWING_WATER || neighborState.getFluidState().getFluid() == Fluids.WATER) {
+                isTouchingWater = true;
+            }
+            if (world.hasRain(pos.offset(direction)) || biome.isIn(ModTags.WET) || neighborState.getFluidState().getFluid() == Fluids.FLOWING_WATER || neighborState.getFluidState().getFluid() == Fluids.WATER) {
+                temperature--;
+            } else if (neighborState.isIn(ModTags.MAGMA_SOURCE) || biome.isIn(ModTags.HOT) || world.getRegistryKey() == World.NETHER) {
+                temperature++;
             }
         }
-
-        var biome = world.getBiome(pos);
-        if (biome.isIn(ModTags.HOT)) {
-            if (world.random.nextFloat() < 0.07f) {
-                world.setBlockState(pos, state.with(SOAKED, false));
-            }
-        } else if (biome.isIn(ModTags.WET)) {
-            if (world.random.nextFloat() < 0.4f) {
+        if (temperature < 0 || isTouchingWater) {
+            if (!state.get(SOAKED)) {
                 world.setBlockState(pos, state.with(SOAKED, true));
             }
-        } else if (world.getRegistryKey() == World.NETHER) {
-            if (world.random.nextFloat() < 0.1f) {
-                world.setBlockState(pos, state.with(SOAKED, false));
-            }
+        }
+        else if (state.get(SOAKED)) {
+            world.setBlockState(pos, state.with(SOAKED, false));
         }
     }
 

@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
+import com.ordana.immersive_weathering.data.BlockGrowthHandler;
 import net.minecraft.block.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
@@ -32,39 +33,9 @@ public class SoilBlock extends SnowyBlock implements Fertilizable {
 
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (state.isOf(Blocks.PODZOL)) {
-            if (state.get(FERTILE)) {
-                var targetPos = pos.up();
-                if (random.nextFloat() < 0.001f && world.getBlockState(targetPos).isAir()) {
-                    if (!world.isChunkLoaded(pos)) return;
-                    if (!WeatheringHelper.hasEnoughBlocksAround(pos, 4, 3, 4, world,
-                            p -> p.getBlock() == Blocks.FERN, 8)) {
-                        if (random.nextFloat() > 0.2f) {
-                            world.setBlockState(targetPos, Blocks.FERN.getDefaultState(), 2);
-                        }
-                        else {
-                            world.setBlockState(targetPos, Blocks.BROWN_MUSHROOM.getDefaultState(), 2);
-                        }
-                    }
-                }
-            }
-        }
-        else if (state.isOf(ModBlocks.HUMUS)) {
-            if (state.get(FERTILE)) {
-                var targetPos = pos.up();
-                if (random.nextFloat() < 0.001f && world.getBlockState(targetPos).isAir()) {
-                    if (!world.isChunkLoaded(pos)) return;
-                    if (!WeatheringHelper.hasEnoughBlocksAround(pos, 4, 3, 4, world,
-                            p -> p.getBlock() == Blocks.GRASS, 8)) {
-                        if (random.nextFloat() > 0.2f) {
-                            world.setBlockState(targetPos, Blocks.GRASS.getDefaultState(), 2);
-                        }
-                        else {
-                            world.setBlockState(targetPos, Blocks.RED_MUSHROOM.getDefaultState(), 2);
-                        }
-                    }
-                }
-            }
+
+        if (state.get(FERTILE)) {
+            BlockGrowthHandler.tickBlock(state, world, pos);
         }
     }
 
@@ -80,8 +51,6 @@ public class SoilBlock extends SnowyBlock implements Fertilizable {
 
     @Override
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
-        world.setBlockState(pos, Blocks.PODZOL.getDefaultState().with(FERTILE, true));
         world.setBlockState(pos, state.getBlock().getDefaultState().with(FERTILE, true));
-
     }
 }

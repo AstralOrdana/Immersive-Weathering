@@ -17,6 +17,7 @@ public class ModParticles {
 
     public static final DefaultParticleType EMBER = FabricParticleTypes.simple();
     public static final DefaultParticleType SOOT = FabricParticleTypes.simple();
+    public static final DefaultParticleType EMBERSPARK = FabricParticleTypes.simple();
 
     public static final DefaultParticleType OAK_LEAF = FabricParticleTypes.simple();
     public static final DefaultParticleType BIRCH_LEAF = FabricParticleTypes.simple();
@@ -60,6 +61,7 @@ public class ModParticles {
     public static void registerParticles() {
         Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "ember"), EMBER);
         Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "soot"), SOOT);
+        Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "emberspark"), EMBERSPARK);
 
         Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "oak_leaf"), OAK_LEAF);
         Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "birch_leaf"), BIRCH_LEAF);

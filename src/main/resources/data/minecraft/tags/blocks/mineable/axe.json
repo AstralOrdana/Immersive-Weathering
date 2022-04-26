@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "immersive_weathering:charred_log",
+    "immersive_weathering:charred_planks",
+    "immersive_weathering:charred_slab",
+    "immersive_weathering:charred_stairs",
+    "immersive_weathering:charred_fence",
+    "immersive_weathering:charred_fence_gate",
+    "immersive_weathering:rotten_log",
+    "immersive_weathering:rotten_planks",
+    "immersive_weathering:rotten_slab",
+    "immersive_weathering:rotten_stairs",
+    "immersive_weathering:rotten_fence",
+    "immersive_weathering:rotten_fence_gate"
+  ]
+}

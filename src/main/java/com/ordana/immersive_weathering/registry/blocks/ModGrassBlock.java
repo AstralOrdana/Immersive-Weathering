@@ -64,18 +64,22 @@ public class ModGrassBlock extends GrassBlock implements Fertilizable {
 
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (!canSurvive(state, world, pos)) {
-            world.setBlockState(pos, Blocks.DIRT.getDefaultState());
-        }
-        if (state.isOf(Blocks.DIRT)) return;
-        else if (world.getLightLevel(pos.up()) >= 9) {
-            BlockState blockState = this.getDefaultState();
-            for(int i = 0; i < 4; ++i) {
-                BlockPos blockPos = pos.add(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
-                BlockPos upPos = blockPos.up();
-                BlockState upState = world.getBlockState(upPos);
-                if ((world.getBlockState(blockPos).isOf(Blocks.DIRT) || (world.getBlockState(blockPos).isOf(Blocks.MYCELIUM))) && canSpread(blockState, world, blockPos) && (upState.isAir())) {
-                    world.setBlockState(blockPos, blockState.with(SNOWY, world.getBlockState(blockPos.up()).isOf(Blocks.SNOW)));
+        if (state.get(FERTILE)) {
+            BlockGrowthHandler.tickBlock(state, world, pos);
+            if (!canSurvive(state, world, pos)) {
+                world.setBlockState(pos, Blocks.DIRT.getDefaultState());
+            }
+            if (state.isOf(Blocks.DIRT)) return;
+            else if (world.getLightLevel(pos.up()) >= 9) {
+                BlockState blockState = this.getDefaultState();
+                for(int i = 0; i < 4; ++i) {
+                    BlockPos blockPos = pos.add(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
+                    if ((world.getBlockState(blockPos).isOf(Blocks.DIRT) || (world.getBlockState(blockPos).isOf(Blocks.MYCELIUM))) && canSpread(blockState, world, blockPos)) {
+                        world.setBlockState(blockPos, blockState.with(SNOWY, world.getBlockState(blockPos.up()).isOf(Blocks.SNOW)));
+                    }
+                    else if ((world.getBlockState(blockPos).isOf(Blocks.ROOTED_DIRT)) && canSpread(blockState, world, blockPos)) {
+                        world.setBlockState(blockPos, ModBlocks.ROOTED_GRASS_BLOCK.getDefaultState().with(SNOWY, world.getBlockState(blockPos.up()).isOf(Blocks.SNOW)));
+                    }
                 }
             }
         }
@@ -89,9 +93,6 @@ public class ModGrassBlock extends GrassBlock implements Fertilizable {
                 world.setBlockState(pos, Blocks.DIRT.getDefaultState());
                 return;
             }
-        }
-        if (state.get(FERTILE)) {
-            BlockGrowthHandler.tickBlock(state, world, pos);
         }
     }
 

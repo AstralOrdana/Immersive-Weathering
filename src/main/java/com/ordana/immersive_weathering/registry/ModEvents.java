@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.registry;
 
 import com.ordana.immersive_weathering.registry.blocks.*;
+import com.ordana.immersive_weathering.registry.blocks.charred.*;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.*;
@@ -370,6 +371,7 @@ public class ModEvents {
             if (heldItem.getItem() instanceof ShovelItem) {
                 if(targetBlock.isOf(Blocks.CAMPFIRE) && targetBlock.get(Properties.LIT)) {
                     Block.dropStack(world, fixedPos , new ItemStack(ModItems.SOOT));
+                    world.playSound(player, targetPos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ModParticles.SOOT, UniformIntProvider.create(3,5));
                 }
                 else if(targetBlock.isOf(Blocks.FIRE)) {
@@ -377,6 +379,12 @@ public class ModEvents {
                     world.playSound(player, targetPos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ModParticles.SOOT, UniformIntProvider.create(3,5));
                     world.setBlockState(targetPos, Blocks.AIR.getDefaultState());
+                }
+                if((targetBlock.getBlock() instanceof CharredPillarBlock || targetBlock.getBlock() instanceof CharredBlock || targetBlock.getBlock() instanceof CharredStairsBlock || targetBlock.getBlock() instanceof CharredSlabBlock || targetBlock.getBlock() instanceof CharredFenceBlock || targetBlock.getBlock() instanceof CharredFenceGateBlock) && targetBlock.get(CharredBlock.SMOLDERING)) {
+                    Block.dropStack(world, fixedPos , new ItemStack(ModItems.SOOT));
+                    world.playSound(player, targetPos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ModParticles.SOOT, UniformIntProvider.create(3,5));
+                    world.setBlockState(targetPos, targetBlock.getBlock().getStateWithProperties(targetBlock).with(CharredBlock.SMOLDERING, false));
                 }
                 else if (targetBlock.isOf(ModBlocks.HUMUS) && !targetBlock.get(Properties.SNOWY)) {
                     world.playSound(player, targetPos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0f, 1.0f);
@@ -417,21 +425,12 @@ public class ModEvents {
                 }
             }
             if (heldItem.getItem() == Items.FLINT_AND_STEEL) {
-                if((targetBlock.isOf(ModBlocks.SOOT)) && (!targetBlock.get(SootBlock.LIT))) {
+                if((targetBlock.getBlock() instanceof CharredPillarBlock || targetBlock.getBlock() instanceof CharredBlock || targetBlock.getBlock() instanceof CharredStairsBlock || targetBlock.getBlock() instanceof CharredSlabBlock || targetBlock.getBlock() instanceof CharredFenceBlock || targetBlock.getBlock() instanceof CharredFenceGateBlock) && !targetBlock.get(CharredBlock.SMOLDERING)) {
                     world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ModParticles.EMBER, UniformIntProvider.create(3, 5));
                     if (player != null) {
                         if (!player.isCreative()) heldItem.damage(1, new Random(), null);
-                        world.setBlockState(targetPos, ModBlocks.SOOT.getStateWithProperties(targetBlock).with(Properties.LIT, true));
-                    }
-                    return ActionResult.SUCCESS;
-                }
-                else if((targetBlock.isOf(ModBlocks.ASH_BLOCK)) && (!targetBlock.get(AshBlock.LIT))) {
-                    world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                    ParticleUtil.spawnParticle(world, targetPos, ModParticles.EMBER, UniformIntProvider.create(3,5));
-                    if(player != null) {
-                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
-                        world.setBlockState(targetPos, ModBlocks.ASH_BLOCK.getStateWithProperties(targetBlock).with(Properties.LIT, true));
+                        world.setBlockState(targetPos, targetBlock.getBlock().getStateWithProperties(targetBlock).with(CharredBlock.SMOLDERING, true));
                     }
                     return ActionResult.SUCCESS;
                 }

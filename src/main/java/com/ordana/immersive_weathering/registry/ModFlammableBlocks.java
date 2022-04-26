@@ -17,6 +17,13 @@ public class ModFlammableBlocks {
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.WEEDS, 60, 100);
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.MULCH_BLOCK, 5, 5);
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.MULCH, 5, 5);
-        FlammableBlockRegistry.getDefaultInstance().add(Blocks.COBWEB, 60, 100);
+        FlammableBlockRegistry.getDefaultInstance().add(Blocks.COBWEB, 100, 100);
+
+        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.CHARRED_LOG, 5, 5);
+        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.CHARRED_PLANKS, 5, 5);
+        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.CHARRED_SLAB, 5, 5);
+        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.CHARRED_STAIRS, 5, 5);
+        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.CHARRED_FENCE, 5, 5);
+        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.CHARRED_FENCE_GATE, 5, 5);
     }
 }

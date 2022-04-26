@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(RabbitEntity.class)
-public class RabbitMixin extends AnimalEntity {
+public abstract class RabbitMixin extends AnimalEntity {
 
     protected RabbitMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
@@ -41,12 +41,11 @@ public class RabbitMixin extends AnimalEntity {
         }
     }
 
-    @Nullable
-    public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
-        return null;
-    }
-
     private void rabbitGoalHelper(AnimalEntity animal){
         this.goalSelector.add(5, new WeedEatGoal(animal));
     }
+
+    @Nullable
+    @Shadow
+    public abstract PassiveEntity createChild(ServerWorld world, PassiveEntity entity);
 }

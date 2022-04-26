@@ -2,7 +2,11 @@
   "replace": false,
   "values": [
     "immersive_weathering:vitrified_sand",
+    "immersive_weathering:fulgurite",
     "immersive_weathering:icicle",
+
+    "immersive_weathering:permafrost",
+    "immersive_weathering:cracked_mud",
 
     "immersive_weathering:mossy_stone",
     "immersive_weathering:mossy_stone_slab",

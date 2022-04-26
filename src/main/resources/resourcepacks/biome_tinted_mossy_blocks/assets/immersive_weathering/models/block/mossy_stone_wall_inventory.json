@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/mossy_wall_inventory",
+  "textures": {
+    "wall": "immersive_weathering:block/mossy_stone",
+    "overlay": "minecraft:block/stone_moss"
+  }
+}

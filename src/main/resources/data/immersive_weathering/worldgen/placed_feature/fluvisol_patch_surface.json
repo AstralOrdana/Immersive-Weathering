@@ -1,0 +1,21 @@
+{
+  "feature": "immersive_weathering:fluvisol_patch_surface",
+  "placement": [
+    {
+      "type": "minecraft:noise_based_count",
+      "noise_to_count_ratio": 5,
+      "noise_factor": 50,
+      "noise_offset": -0.1
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:heightmap",
+      "heightmap": "OCEAN_FLOOR_WG"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

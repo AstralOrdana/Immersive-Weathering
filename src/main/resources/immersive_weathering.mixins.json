@@ -27,7 +27,8 @@
     "RootsBlockMixin",
     "SaplingMixin",
     "SproutsBlockMixin",
-    "SweetBerryBushMixin"
+    "SweetBerryBushMixin",
+    "LargeFernBlockMixin"
   ],
   "client": [
   ],

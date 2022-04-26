@@ -1,0 +1,49 @@
+{
+  "type": "minecraft:ore",
+  "config": {
+    "size": 32,
+    "discard_chance_on_air_exposure": 0,
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:stone"
+        },
+        "state": {
+          "Name": "immersive_weathering:permafrost"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:dirt"
+        },
+        "state": {
+          "Name": "immersive_weathering:permafrost"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:grass_block"
+        },
+        "state": {
+          "Name": "immersive_weathering:cryosol",
+          "Properties": {
+            "snowy": "false",
+            "fertile": "true"
+          }
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:snow_block"
+        },
+        "state": {
+          "Name": "immersive_weathering:permafrost"
+        }
+      }
+    ]
+  }
+}

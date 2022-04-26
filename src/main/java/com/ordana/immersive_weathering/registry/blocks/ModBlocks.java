@@ -2,9 +2,11 @@ package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.ModParticles;
+import com.ordana.immersive_weathering.registry.blocks.charred.*;
 import com.ordana.immersive_weathering.registry.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableWallBlock;
 import com.ordana.immersive_weathering.registry.blocks.mossable.*;
+import com.ordana.immersive_weathering.registry.blocks.rotten.*;
 import com.ordana.immersive_weathering.registry.blocks.rustable.*;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
@@ -22,6 +24,7 @@ import java.util.function.ToIntFunction;
 public class ModBlocks {
 
     public static final Block ICICLE = new IcicleBlock(FabricBlockSettings.of(Material.ICE).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GLASS).nonOpaque().dynamicBounds().requiresTool());
+    public static final Block FULGURITE = new FulguriteBlock(7, 3, FabricBlockSettings.of(Material.GLASS).breakInstantly().sounds(BlockSoundGroup.GLASS).nonOpaque().dynamicBounds().requiresTool().luminance((state) -> 5));
 
     public static final Block VITRIFIED_SAND = new GlassBlock(FabricBlockSettings.of(Material.GLASS, MapColor.PALE_YELLOW).strength(2f, 6f).sounds(BlockSoundGroup.TUFF).nonOpaque().requiresTool());
 
@@ -36,15 +39,37 @@ public class ModBlocks {
     public static final Block AZALEA_FLOWER_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.FLOWERING_AZALEA).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), true, false, false, List.of(ModParticles.AZALEA_FLOWER));
 
     public static final Block WEEDS = new WeedsBlock(FabricBlockSettings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS));
-    public static final Block ASH_BLOCK = new AshBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).breakInstantly().sounds(BlockSoundGroup.SNOW).luminance(createLightLevelFromLitBlockState(6)).ticksRandomly());
-    public static final Block SOOT = new SootBlock(FabricBlockSettings.of(Material.REPLACEABLE_UNDERWATER_PLANT, MapColor.BLACK).noCollision().breakInstantly().sounds(BlockSoundGroup.SNOW).luminance(createLightLevelFromLitBlockState(5)).ticksRandomly());
-
     public static final Block MULCH_BLOCK = new MulchBlock(FabricBlockSettings.of(Material.WOOD).strength(1f, 1f).sounds(BlockSoundGroup.ROOTED_DIRT).ticksRandomly());
     public static final Block NULCH_BLOCK = new NulchBlock(FabricBlockSettings.of(Material.NETHER_WOOD).strength(1f, 1f).sounds(BlockSoundGroup.NETHER_WART).luminance(createLightLevelFromMoltenBlockState(10)).ticksRandomly());
     public static final Block MULCH = new MulchCarpetBlock(FabricBlockSettings.of(Material.WOOD).strength(1f, 1f).sounds(BlockSoundGroup.ROOTED_DIRT), List.of(ModParticles.MULCH));
     public static final Block NULCH = new MulchCarpetBlock(FabricBlockSettings.of(Material.NETHER_WOOD).strength(1f, 1f).sounds(BlockSoundGroup.NETHER_WART), List.of(ModParticles.NULCH));
 
-    public static final Block HUMUS = new SoilBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DARK_GREEN).strength(0.5F).sounds(BlockSoundGroup.GRAVEL));
+    public static final Block HUMUS = new SoilBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DARK_GREEN).strength(0.5F).sounds(BlockSoundGroup.GRAVEL).ticksRandomly());
+    public static final Block FLUVISOL = new SoilBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DEEPSLATE_GRAY).strength(0.5F).sounds(BlockSoundGroup.WART_BLOCK).ticksRandomly());
+    public static final Block SILT = new SiltBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DEEPSLATE_GRAY).strength(0.5F).sounds(BlockSoundGroup.WART_BLOCK).ticksRandomly());
+    public static final Block VERTISOL = new CrackedMudBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DIRT_BROWN).strength(0.5F).sounds(BlockSoundGroup.BASALT).ticksRandomly());
+    public static final Block CRACKED_MUD = new CrackedMudBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DIRT_BROWN).strength(2.5F).sounds(BlockSoundGroup.BASALT).ticksRandomly());
+    public static final Block CRYOSOL = new SoilBlock(FabricBlockSettings.of(Material.SOIL, MapColor.WHITE).strength(0.5F).sounds(BlockSoundGroup.TUFF).ticksRandomly());
+    public static final Block PERMAFROST = new PermafrostBlock(FabricBlockSettings.of(Material.DENSE_ICE, MapColor.LIGHT_BLUE_GRAY).strength(3F).slipperiness(1F).sounds(BlockSoundGroup.TUFF).ticksRandomly());
+
+    public static final Block ROOTED_GRASS_BLOCK = new RootedGrassBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC).ticksRandomly().strength(0.5F).sounds(BlockSoundGroup.ROOTED_DIRT));
+
+    public static final Block ASH_BLOCK = new AshBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).breakInstantly().sounds(BlockSoundGroup.SNOW).ticksRandomly());
+    public static final Block SOOT = new SootBlock(FabricBlockSettings.of(Material.REPLACEABLE_UNDERWATER_PLANT, MapColor.BLACK).noCollision().breakInstantly().requiresTool().sounds(BlockSoundGroup.SNOW).ticksRandomly());
+
+    public static final Block CHARRED_LOG = new CharredPillarBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(5)).ticksRandomly());
+    public static final Block CHARRED_PLANKS = new CharredBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(5)).ticksRandomly());
+    public static final Block CHARRED_SLAB = new CharredSlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(5)).ticksRandomly());
+    public static final Block CHARRED_STAIRS = new CharredStairsBlock(CHARRED_PLANKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(5)).ticksRandomly());
+    public static final Block CHARRED_FENCE = new CharredFenceBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(5)).ticksRandomly());
+    public static final Block CHARRED_FENCE_GATE = new CharredFenceGateBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(5)).ticksRandomly());
+
+    public static final Block ROTTEN_LOG = new RottenPillarBlock(FabricBlockSettings.of(Material.STONE, MapColor.LICHEN_GREEN).strength(1.5f, 0.5f).sounds(BlockSoundGroup.NETHER_STEM).ticksRandomly());
+    public static final Block ROTTEN_PLANKS = new RottenBlock(FabricBlockSettings.of(Material.STONE, MapColor.LICHEN_GREEN).strength(1.5f, 0.5f).sounds(BlockSoundGroup.NETHER_STEM).ticksRandomly());
+    public static final Block ROTTEN_SLAB = new RottenSlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.LICHEN_GREEN).strength(1.5f, 0.5f).sounds(BlockSoundGroup.NETHER_STEM).ticksRandomly());
+    public static final Block ROTTEN_STAIRS = new RottenStairsBlock(ROTTEN_PLANKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.LICHEN_GREEN).strength(1.5f, 0.5f).sounds(BlockSoundGroup.NETHER_STEM).ticksRandomly());
+    public static final Block ROTTEN_FENCE = new RottenFenceBlock(FabricBlockSettings.of(Material.STONE, MapColor.LICHEN_GREEN).strength(1.5f, 0.5f).sounds(BlockSoundGroup.NETHER_STEM).ticksRandomly());
+    public static final Block ROTTEN_FENCE_GATE = new RottenFenceGateBlock(FabricBlockSettings.of(Material.STONE, MapColor.LICHEN_GREEN).strength(1.5f, 0.5f).sounds(BlockSoundGroup.NETHER_STEM).ticksRandomly());
 
     public static final Block MOSSY_BRICKS = new MossyBlock(Mossable.MossLevel.MOSSY, FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
     public static final Block MOSSY_BRICK_STAIRS = new MossyStairsBlock(Mossable.MossLevel.MOSSY, MOSSY_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
@@ -154,37 +179,35 @@ public class ModBlocks {
     public static final Block WAXED_WEATHERED_PLATE_IRON_SLAB = new SlabBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER));
     public static final Block WAXED_RUSTED_PLATE_IRON_SLAB = new SlabBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER));
 
-    public static final Block EXPOSED_IRON_DOOR = new RustableDoorBlock(Rustable.RustLevel.EXPOSED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
-    public static final Block WEATHERED_IRON_DOOR = new RustableDoorBlock(Rustable.RustLevel.WEATHERED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
-    public static final Block RUSTED_IRON_DOOR = new RustableDoorBlock(Rustable.RustLevel.RUSTED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
+    public static final Block EXPOSED_IRON_DOOR = new RustableDoorBlock(Rustable.RustLevel.EXPOSED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
+    public static final Block WEATHERED_IRON_DOOR = new RustableDoorBlock(Rustable.RustLevel.WEATHERED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
+    public static final Block RUSTED_IRON_DOOR = new RustableDoorBlock(Rustable.RustLevel.RUSTED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
 
-    public static final Block EXPOSED_IRON_TRAPDOOR = new RustableTrapdoorBlock(Rustable.RustLevel.EXPOSED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
-    public static final Block WEATHERED_IRON_TRAPDOOR = new RustableTrapdoorBlock(Rustable.RustLevel.WEATHERED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
-    public static final Block RUSTED_IRON_TRAPDOOR = new RustableTrapdoorBlock(Rustable.RustLevel.RUSTED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
+    public static final Block EXPOSED_IRON_TRAPDOOR = new RustableTrapdoorBlock(Rustable.RustLevel.EXPOSED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
+    public static final Block WEATHERED_IRON_TRAPDOOR = new RustableTrapdoorBlock(Rustable.RustLevel.WEATHERED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
+    public static final Block RUSTED_IRON_TRAPDOOR = new RustableTrapdoorBlock(Rustable.RustLevel.RUSTED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
 
-    public static final Block EXPOSED_IRON_BARS = new RustableBarsBlock(Rustable.RustLevel.EXPOSED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
-    public static final Block WEATHERED_IRON_BARS = new RustableBarsBlock(Rustable.RustLevel.WEATHERED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
-    public static final Block RUSTED_IRON_BARS = new RustableBarsBlock(Rustable.RustLevel.RUSTED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
+    public static final Block EXPOSED_IRON_BARS = new RustableBarsBlock(Rustable.RustLevel.EXPOSED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
+    public static final Block WEATHERED_IRON_BARS = new RustableBarsBlock(Rustable.RustLevel.WEATHERED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
+    public static final Block RUSTED_IRON_BARS = new RustableBarsBlock(Rustable.RustLevel.RUSTED, FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
 
-    public static final Block WAXED_IRON_DOOR = new WaxedRustableDoorBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
-    public static final Block WAXED_EXPOSED_IRON_DOOR = new WaxedRustableDoorBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
-    public static final Block WAXED_WEATHERED_IRON_DOOR = new WaxedRustableDoorBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
-    public static final Block WAXED_RUSTED_IRON_DOOR = new WaxedRustableDoorBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
+    public static final Block WAXED_IRON_DOOR = new WaxedRustableDoorBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
+    public static final Block WAXED_EXPOSED_IRON_DOOR = new WaxedRustableDoorBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
+    public static final Block WAXED_WEATHERED_IRON_DOOR = new WaxedRustableDoorBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
+    public static final Block WAXED_RUSTED_IRON_DOOR = new WaxedRustableDoorBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
 
-    public static final Block WAXED_IRON_TRAPDOOR = new WaxedRustableTrapdoorBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
-    public static final Block WAXED_EXPOSED_IRON_TRAPDOOR = new WaxedRustableTrapdoorBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
-    public static final Block WAXED_WEATHERED_IRON_TRAPDOOR = new WaxedRustableTrapdoorBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
-    public static final Block WAXED_RUSTED_IRON_TRAPDOOR = new WaxedRustableTrapdoorBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
+    public static final Block WAXED_IRON_TRAPDOOR = new WaxedRustableTrapdoorBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
+    public static final Block WAXED_EXPOSED_IRON_TRAPDOOR = new WaxedRustableTrapdoorBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
+    public static final Block WAXED_WEATHERED_IRON_TRAPDOOR = new WaxedRustableTrapdoorBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
+    public static final Block WAXED_RUSTED_IRON_TRAPDOOR = new WaxedRustableTrapdoorBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
 
-    public static final Block WAXED_IRON_BARS = new WaxedBarsBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
-    public static final Block WAXED_EXPOSED_IRON_BARS = new WaxedBarsBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
-    public static final Block WAXED_WEATHERED_IRON_BARS = new WaxedBarsBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
-    public static final Block WAXED_RUSTED_IRON_BARS = new WaxedBarsBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.COPPER).nonOpaque());
+    public static final Block WAXED_IRON_BARS = new WaxedBarsBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
+    public static final Block WAXED_EXPOSED_IRON_BARS = new WaxedBarsBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
+    public static final Block WAXED_WEATHERED_IRON_BARS = new WaxedBarsBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
+    public static final Block WAXED_RUSTED_IRON_BARS = new WaxedBarsBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
 
-
-
-    private static ToIntFunction<BlockState> createLightLevelFromLitBlockState(int litLevel) {
-        return (state) -> (Boolean)state.get(Properties.LIT) ? litLevel : 0;
+    private static ToIntFunction<BlockState> createLightLevelFromSmolderingBlockState(int litLevel) {
+        return (state) -> (Boolean)state.get(CharredBlock.SMOLDERING) ? litLevel : 0;
     }
 
     private static ToIntFunction<BlockState> createLightLevelFromMoltenBlockState(int litLevel) {
@@ -204,6 +227,7 @@ public class ModBlocks {
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "icicle"), ICICLE);
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "vitrified_sand"), VITRIFIED_SAND);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "fulgurite"), FULGURITE);
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "oak_leaf_pile"), OAK_LEAF_PILE);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "spruce_leaf_pile"), SPRUCE_LEAF_PILE);
@@ -216,14 +240,37 @@ public class ModBlocks {
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "azalea_flower_pile"), AZALEA_FLOWER_PILE);
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "humus"), HUMUS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "fluvisol"), FLUVISOL);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "silt"), SILT);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "vertisol"), VERTISOL);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_mud"), CRACKED_MUD);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cryosol"), CRYOSOL);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "permafrost"), PERMAFROST);
+
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mulch_block"), MULCH_BLOCK);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "nulch_block"), NULCH_BLOCK);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mulch"), MULCH);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "nulch"), NULCH);
 
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "rooted_grass_block"), ROOTED_GRASS_BLOCK);
+
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "weeds"), WEEDS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "ash_block"), ASH_BLOCK);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "soot"), SOOT);
+
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "charred_log"), CHARRED_LOG);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "charred_planks"), CHARRED_PLANKS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "charred_slab"), CHARRED_SLAB);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "charred_stairs"), CHARRED_STAIRS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "charred_fence"), CHARRED_FENCE);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "charred_fence_gate"), CHARRED_FENCE_GATE);
+
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_log"), ROTTEN_LOG);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_planks"), ROTTEN_PLANKS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_slab"), ROTTEN_SLAB);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_stairs"), ROTTEN_STAIRS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_fence"), ROTTEN_FENCE);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_fence_gate"), ROTTEN_FENCE_GATE);
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_bricks"), MOSSY_BRICKS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_brick_stairs"), MOSSY_BRICK_STAIRS);

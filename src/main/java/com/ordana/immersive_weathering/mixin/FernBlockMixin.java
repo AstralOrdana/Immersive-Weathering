@@ -6,13 +6,15 @@ import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.Random;
 
 @Mixin(FernBlock.class)
-public class FernBlockMixin extends Block {
+public class FernBlockMixin extends PlantBlock {
 
     public FernBlockMixin(Settings settings) {
         super(settings);
@@ -21,6 +23,11 @@ public class FernBlockMixin extends Block {
     @Override
     public boolean hasRandomTicks(BlockState state) {
         return true;
+    }
+
+    @Override
+    protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
+        return floor.isIn(BlockTags.DIRT) || floor.isOf(Blocks.FARMLAND) || floor.isIn(ModTags.CRACKED);
     }
 
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {

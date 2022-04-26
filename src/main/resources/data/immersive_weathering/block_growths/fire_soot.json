@@ -77,7 +77,7 @@
       ]
     }
   ],
-  "owners": "#minecraft:fire",
+  "owners": ["minecraft:fire"],
   "replacing_target": {
     "block": "minecraft:air",
     "predicate_type": "minecraft:random_block_match",
