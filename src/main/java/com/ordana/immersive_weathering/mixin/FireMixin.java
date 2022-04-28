@@ -2,8 +2,9 @@ package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.common.blocks.AshBlock;
 import com.ordana.immersive_weathering.common.ModBlocks;
+import com.ordana.immersive_weathering.common.blocks.MulchBlock;
 import com.ordana.immersive_weathering.common.blocks.SootLayerBlock;
-import com.ordana.immersive_weathering.data.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -26,7 +27,7 @@ import java.util.Random;
 public abstract class FireMixin {
 
     @Inject(method = "tick", at = @At("HEAD"))
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random, CallbackInfo ci) {
+    private void tick(BlockState state, ServerLevel level, BlockPos pos, Random random, CallbackInfo ci) {
         if (level.getGameRules().getBoolean(GameRules.RULE_DOFIRETICK)) {
 
             //if it's upwards only (normal fire) place soot next to it

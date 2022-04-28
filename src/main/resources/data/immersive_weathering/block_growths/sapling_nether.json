@@ -4,7 +4,7 @@
     {
       "predicate_type": "temperature_range",
       "max": 10,
-      "min": 2
+      "min": 3
     }
   ],
   "growth_for_face": [

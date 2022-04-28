@@ -1,11 +1,13 @@
-package com.ordana.immersive_weathering.data;
+package com.ordana.immersive_weathering.block_growth;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ordana.immersive_weathering.block_growth.area_condition.AreaCondition;
+import com.ordana.immersive_weathering.block_growth.position_test.PositionRuleTest;
 import net.minecraft.core.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.random.SimpleWeightedRandomList;
@@ -19,16 +21,15 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.AlwaysTrueTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RandomBlockMatchTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
-import net.minecraftforge.registries.IForgeRegistryEntry;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Author: MehVahdJukaar
  */
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowthConfiguration> {
+public class BlockGrowthConfiguration implements IBlockGrowth {
 
     public static final BlockGrowthConfiguration EMPTY = new BlockGrowthConfiguration(1,
             AlwaysTrueTest.INSTANCE, Optional.empty(), List.of(), HolderSet.direct(Holder.direct(Blocks.AIR)),
@@ -39,7 +40,7 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
             RuleTest.CODEC.fieldOf("replacing_target").forGetter(BlockGrowthConfiguration::getTargetPredicate),
             AreaCondition.CODEC.optionalFieldOf("area_condition").forGetter(BlockGrowthConfiguration::getAreaCondition),
             DirectionalList.CODEC.listOf().fieldOf("growth_for_face").forGetter(BlockGrowthConfiguration::encodeRandomLists),
-            RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).fieldOf("owners").forGetter(BlockGrowthConfiguration::getOwners),
+            RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).fieldOf("owners").forGetter(b->b.owners),
             PositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates").forGetter(BlockGrowthConfiguration::getBiomePredicates),
             Codec.BOOL.optionalFieldOf("target_self").forGetter(b -> b.targetSelf() ? Optional.of(Boolean.TRUE) : Optional.empty()),
             Codec.BOOL.optionalFieldOf("destroy_target").forGetter(b -> b.destroyTarget() ? Optional.of(Boolean.TRUE) : Optional.empty())
@@ -142,10 +143,6 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
         return this.possibleBlocks;
     }
 
-    public HolderSet<Block> getOwners() {
-        return this.owners;
-    }
-
     public boolean targetSelf() {
         return targetSelf;
     }
@@ -177,7 +174,13 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
         return growthChance;
     }
 
-    public boolean tryGrowing(BlockPos pos, Level level, Holder<Biome> biome) {
+    @Override
+    public Iterable<Block> getOwners(){
+        return this.owners.stream().map(Holder::value).collect(Collectors.toList());
+    }
+
+    @Override
+    public void tryGrowing(BlockPos pos, BlockState self, ServerLevel level, Holder<Biome> biome) {
 
         if (this.canGrow(pos, level, biome)) {
             Direction dir = this.growthForDirection.getRandomValue(level.random).orElse(Direction.UP);
@@ -189,7 +192,7 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
             if (targetSelf || targetPredicate.test(target, seed)) {
                 if (targetSelf && targetPredicate instanceof RandomBlockMatchTest rbm) {
                     //hack to get a probability here for self target
-                    if (!(seed.nextFloat() < rbm.probability)) return false;
+                    if (!(seed.nextFloat() < rbm.probability)) return;
                 }
                 var l = blockGrowths.get(dir);
                 if (l != null) {
@@ -203,7 +206,7 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
                             target2 = level.getBlockState(targetPos2);
                             seed = new Random(Mth.getSeed(pos));
                             if (!targetPredicate.test(target2, seed)) {
-                                return false;
+                                return;
                             }
                         }
 
@@ -215,13 +218,13 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
                                 if (destroyTarget) level.destroyBlock(targetPos2, true);
                                 level.setBlock(targetPos2, setWaterIfNeeded(toPlace.getSecond(), target2), 2);
                             }
-                            return true;
+                            return;
                         }
                     }
                 }
             }
         }
-        return false;
+        return;
     }
 
     //builtin waterlogging support
@@ -232,21 +235,6 @@ public class BlockGrowthConfiguration implements IForgeRegistryEntry<BlockGrowth
         return toPlace;
     }
 
-    @Override
-    public BlockGrowthConfiguration setRegistryName(ResourceLocation name) {
-        return null;
-    }
-
-    @Nullable
-    @Override
-    public ResourceLocation getRegistryName() {
-        return null;
-    }
-
-    @Override
-    public Class<BlockGrowthConfiguration> getRegistryType() {
-        return null;
-    }
 
     public record DirectionalList(Optional<Direction> direction, Optional<Integer> weight,
                                   SimpleWeightedRandomList<BlockPair> randomList) {

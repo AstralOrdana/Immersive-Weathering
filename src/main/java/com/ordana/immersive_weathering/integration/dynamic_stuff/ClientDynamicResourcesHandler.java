@@ -2,6 +2,8 @@ package com.ordana.immersive_weathering.integration.dynamic_stuff;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.common.ModBlocks;
+import com.ordana.immersive_weathering.mixin.ServerLevelMixin;
 import net.mehvahdjukaar.selene.block_set.leaves.LeavesType;
 import net.mehvahdjukaar.selene.block_set.leaves.LeavesTypeRegistry;
 import net.mehvahdjukaar.selene.resourcepack.*;
@@ -10,17 +12,26 @@ import net.mehvahdjukaar.selene.resourcepack.asset_generators.textures.Palette;
 import net.mehvahdjukaar.selene.resourcepack.asset_generators.textures.Respriter;
 import net.mehvahdjukaar.selene.resourcepack.asset_generators.textures.SpriteUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.Logger;
 
+import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider {
 
     public ClientDynamicResourcesHandler() {
         super(new DynamicTexturePack(ImmersiveWeathering.res("virtual_resourcepack")));
-        this.dynamicPack.generateDebugResources = false;
+        this.dynamicPack.generateDebugResources = true;
     }
 
     @Override
@@ -115,6 +126,37 @@ public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider
 
                 }
             }
+        }
+        //only needed for datagen. remove later
+        {
+            //slabs
+            List<Block> vs = new ArrayList<>();
+            StaticResource bs = getResOrLog(manager,
+                    ResType.BLOCKSTATES.getPath(ImmersiveWeathering.res("cut_iron_vertical_slab")));
+            StaticResource model = getResOrLog(manager,
+                    ResType.MODELS.getPath(ImmersiveWeathering.res("cut_iron_vertical_slab")));
+            StaticResource im = getResOrLog(manager,
+                    ResType.ITEM_MODELS.getPath(ImmersiveWeathering.res("cut_iron_vertical_slab")));
+
+            for (Field f : ModBlocks.class.getDeclaredFields()) {
+                try {
+                    if (RegistryObject.class.isAssignableFrom(f.getType()) &&
+                    f.getName().contains("vertical_slab")) {
+                        vs.add(((RegistryObject<Block>)f.get(null)).get());
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+
+            for(var b : vs){
+                String name = b.getRegistryName().getPath();
+                langBuilder.addEntry(b, LangBuilder.getReadableName(name));
+                dynamicPack.addSimilarJsonResource(bs, "cut_iron_vertical_slab", name);
+                dynamicPack.addSimilarJsonResource(model, "cut_iron_vertical_slab", name);
+                dynamicPack.addSimilarJsonResource(im, "cut_iron_vertical_slab", name);
+            }
+
+
         }
 
         dynamicPack.addLang(ImmersiveWeathering.res("en_us"), langBuilder.build());

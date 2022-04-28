@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.common.ModBlocks;
-import com.ordana.immersive_weathering.data.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -22,16 +22,6 @@ public abstract class RootedDirtMixin extends Block implements BonemealableBlock
 
     public RootedDirtMixin(Properties settings) {
         super(settings);
-    }
-
-    @Override
-    public boolean isRandomlyTicking(BlockState state) {
-        return true;
-    }
-
-    @Override
-    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
-        BlockGrowthHandler.tickBlock(state, level, pos);
     }
 
     @Override

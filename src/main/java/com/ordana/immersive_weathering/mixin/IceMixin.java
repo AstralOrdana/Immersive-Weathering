@@ -27,42 +27,9 @@ import java.util.Random;
 
 @Mixin(IceBlock.class)
 abstract public class IceMixin extends Block {
-    @Shadow
-    protected abstract void melt(BlockState p_54169_, Level p_54170_, BlockPos p_54171_);
 
     public IceMixin(Properties settings) {
         super(settings);
-    }
-
-    @Inject(method = "randomTick", at = @At("HEAD"))
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
-        BlockPos icePos = pos.below();
-        var biome = world.getBiome(pos).value();
-        if (random.nextFloat() < 0.01f) {
-            if (world.getBlockState(icePos).is(Blocks.AIR)) {
-
-                //to form we need hot weather in a cold biome or water above & cold biome
-                if (biome.coldEnoughToSnow(pos)) {
-                    if (world.getFluidState(pos.above()).is(FluidTags.WATER) || (world.isDay() && !world.isRaining() && !world.isThundering())) {
-                        world.setBlockAndUpdate(icePos, ModBlocks.ICICLE.get().defaultBlockState()
-                                .setValue(BlockStateProperties.VERTICAL_DIRECTION, Direction.DOWN)
-                                .setValue(IcicleBlock.THICKNESS, DripstoneThickness.TIP));
-                    }
-                }
-            }
-        }
-
-        if (world.dimensionType().ultraWarm()) {
-            world.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 0.3F, 2.9F + (random.nextFloat() - random.nextFloat()) * 0.6F);
-
-            float i = pos.getX() + 0.5f;
-            float j = pos.getY() + 0.5f;
-            float k = pos.getZ() + 0.5f;
-            world.sendParticles(ParticleTypes.LARGE_SMOKE, i, j, k, 12, 0.2D, 0.2D, 0.2D, 0);
-            this.melt(state, world, pos);
-        } else if (biome.shouldSnowGolemBurn(pos) && world.isDay()) {
-            this.melt(state, world, pos);
-        }
     }
 
     //TODO: is day is broken on client side

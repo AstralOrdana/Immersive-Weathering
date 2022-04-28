@@ -23,7 +23,6 @@ public abstract class LightningEntityMixin extends Entity {
         super(type, world);
     }
 
-
     @Inject(method = "powerLightningRod", at = @At("HEAD"))
     private void powerLightningRod(CallbackInfo ci) {
         BlockPos blockPos = this.getStrikePosition();

@@ -24,17 +24,6 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
     }
 
     @Override
-    public boolean isRandomlyTicking(BlockState state) {
-        return !state.getValue(LeavesBlock.PERSISTENT);
-    }
-
-    @Inject(method = "randomTick", at = @At("HEAD"))
-    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random, CallbackInfo ci) {
-        LeafPileBlock.spawnFromLeaves(state, pos, level, random);
-    }
-
-
-    @Override
     public boolean isValidBonemealTarget(BlockGetter world, BlockPos pos, BlockState state, boolean isClient) {
         return state.is(Blocks.FLOWERING_AZALEA_LEAVES);
     }

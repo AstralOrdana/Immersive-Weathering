@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.data;
+package com.ordana.immersive_weathering.block_growth;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -6,10 +6,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.block_growth.hardcoded.HardcodedGrowths;
 import com.ordana.immersive_weathering.configs.ServerConfigs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
@@ -24,15 +24,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.io.FileWriter;
 import java.util.*;
 
-import static com.ordana.immersive_weathering.data.BlockGrowthConfiguration.CODEC;
+import static com.ordana.immersive_weathering.block_growth.BlockGrowthConfiguration.CODEC;
 
 public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create(); //json object that will write stuff
 
     private static final Set<Block> BLOCKS = new HashSet<>();
-    private static final Map<Block, Set<BlockGrowthConfiguration>> GROWTH_FOR_BLOCK = new HashMap<>();
-    private static final List<BlockGrowthConfiguration> GROWTHS = new ArrayList<>();
+    private static final Map<Block, Set<IBlockGrowth>> GROWTH_FOR_BLOCK = new HashMap<>();
+    private static final List<IBlockGrowth> GROWTHS = new ArrayList<>();
 
     public RegistryAccess registryAccess;
     private boolean needsRefresh;
@@ -41,22 +41,19 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
         super(GSON, "block_growths");
     }
 
-    public static Optional<Set<BlockGrowthConfiguration>> getBlockGrowthConfig(Block block) {
+    public static Optional<Set<IBlockGrowth>> getBlockGrowth(Block block) {
         return Optional.ofNullable(GROWTH_FOR_BLOCK.get(block));
     }
 
-    public static boolean tickBlock(BlockState state, ServerLevel level, BlockPos pos) {
-        boolean success = false;
-        var growth = getBlockGrowthConfig(state.getBlock());
+    public static void tickBlock(BlockState state, ServerLevel level, BlockPos pos) {
+        var growth = getBlockGrowth(state.getBlock());
         if (growth.isPresent()) {
             Holder<Biome> biome = level.getBiome(pos);
 
             for (var config : growth.get()) {
-                boolean s = config.tryGrowing(pos, level, biome);
-                if (s) success = Boolean.TRUE;
+                config.tryGrowing(pos, state, level, biome);
             }
         }
-        return success;
     }
 
     public static boolean canRandomTick(BlockState state) {
@@ -105,9 +102,9 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
     public void rebuild() {
         if (this.needsRefresh) {
             GROWTH_FOR_BLOCK.clear();
+            GROWTHS.addAll(HardcodedGrowths.getHardcoded());
             for (var config : GROWTHS) {
-                HolderSet<Block> owners = config.getOwners();
-                owners.forEach(b -> GROWTH_FOR_BLOCK.computeIfAbsent(b.value(), k -> new HashSet<>()).add(config));
+                config.getOwners().forEach(b -> GROWTH_FOR_BLOCK.computeIfAbsent(b, k -> new HashSet<>()).add(config));
             }
             BLOCKS.addAll(GROWTH_FOR_BLOCK.keySet());
             GROWTHS.clear();

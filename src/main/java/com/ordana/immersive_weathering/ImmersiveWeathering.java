@@ -4,11 +4,10 @@ import com.ordana.immersive_weathering.common.*;
 import com.ordana.immersive_weathering.common.blocks.LeafPilesRegistry;
 import com.ordana.immersive_weathering.common.items.ModItems;
 import com.ordana.immersive_weathering.configs.ServerConfigs;
-import com.ordana.immersive_weathering.data.BlockSetMatchTest;
-import com.ordana.immersive_weathering.data.FluidMatchTest;
-import com.ordana.immersive_weathering.data.LogMatchTest;
+import com.ordana.immersive_weathering.block_growth.rute_test.BlockSetMatchTest;
+import com.ordana.immersive_weathering.block_growth.rute_test.FluidMatchTest;
+import com.ordana.immersive_weathering.block_growth.rute_test.LogMatchTest;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -34,7 +33,7 @@ public class ImmersiveWeathering {
     }
 
     public ImmersiveWeathering() {
-
+        //TODO: fix layers texture generation
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModBlocks.BLOCKS.register(bus);

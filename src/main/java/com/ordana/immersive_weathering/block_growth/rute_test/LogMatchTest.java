@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.data;
+package com.ordana.immersive_weathering.block_growth.rute_test;
 
 import com.mojang.serialization.Codec;
 import com.ordana.immersive_weathering.common.blocks.WeatheringHelper;

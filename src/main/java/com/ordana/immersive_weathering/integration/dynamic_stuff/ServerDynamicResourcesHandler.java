@@ -48,7 +48,7 @@ public class ServerDynamicResourcesHandler extends RPAwareDynamicDataProvider {
 
     @Override
     public boolean dependsOnLoadedPacks() {
-        return true;
+        return false;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.data;
+package com.ordana.immersive_weathering.block_growth;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
