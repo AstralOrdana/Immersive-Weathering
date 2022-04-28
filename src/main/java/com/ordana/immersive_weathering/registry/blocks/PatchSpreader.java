@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 import java.util.*;
 
-public interface SpreadingPatchBlock<T extends Enum<?>> {
+public interface PatchSpreader<T extends Enum<?>> {
 
     Class<T> getType();
 
@@ -37,7 +37,7 @@ public interface SpreadingPatchBlock<T extends Enum<?>> {
      * @return determines if a certain block should gain the WEATHERING state
      * Should be called on block placement or to refresh the state
      */
-    default boolean getWanderWeatheringState(boolean hasTicked, BlockPos pos, World level, int maxRecursion) {
+    default boolean getWantedWeatheringState(boolean hasTicked, BlockPos pos, World level, int maxRecursion) {
         Random posRandom = new Random(MathHelper.hashCode(pos));
         var directions = getInfluenceForDirections(posRandom, pos, level);
 
@@ -62,9 +62,10 @@ public interface SpreadingPatchBlock<T extends Enum<?>> {
         if (needsAir && !hasAir){
             return false;
         }
-        //if it has ticked and weathering isn't caused by high weathering effect & it's unweatherable we dont weather
-        if (!shouldAlwaysWeather && hasTicked && posRandom.nextFloat() < this.getUnWeatherableChance(level, pos)){
-            return false;
+        //if it has ticked //
+        // !shouldAlwaysWeather (disabled)and weathering isn't caused by high weathering effect & it's unweatherable we dont weather
+        if ( hasTicked && posRandom.nextFloat() < this.getUnWeatherableChance(level, pos)) {
+           return false;
         }
         boolean oneSuccess = false;
         for (var w : weatheringAgents) {
@@ -74,16 +75,16 @@ public interface SpreadingPatchBlock<T extends Enum<?>> {
         return oneSuccess;
     }
 
-    default boolean getWanderWeatheringState(boolean hasTicked, BlockPos pos, World level) {
-        return getWanderWeatheringState(hasTicked, pos, level, 2);
+    default boolean getWantedWeatheringState(boolean hasTicked, BlockPos pos, World level) {
+        return getWantedWeatheringState(hasTicked, pos, level, 2);
     }
 
     @Deprecated
     default Map<Direction, Susceptibility> getInfluenceForDirectionsOld(BlockPos pos, World level) {
         Random posRandom = new Random(MathHelper.hashCode(pos));
         Map<Direction, Susceptibility> directions = new HashMap<>();
-        float directionChange = this.getInterestForDirection(level, pos);
-        float highInterestChange = this.getDisjointGrowthChance(level, pos);
+        double directionChange = this.getInterestForDirection(level, pos);
+        double highInterestChange = this.getDisjointGrowthChance(level, pos);
         for (Direction d : Direction.values()) {
             if (posRandom.nextFloat() < directionChange) {
                 Susceptibility in = posRandom.nextFloat() < highInterestChange ? Susceptibility.HIGH : Susceptibility.MEDIUM;
@@ -96,10 +97,10 @@ public interface SpreadingPatchBlock<T extends Enum<?>> {
     default Map<Direction, Susceptibility> getInfluenceForDirections(Random posRandom, BlockPos pos, World level) {
 
         Map<Direction, Susceptibility> directions = new HashMap<>();
-        float directionChance = this.getInterestForDirection(level, pos);
-        float highInterestChance = this.getDisjointGrowthChance(level, pos);
+        double directionChance = this.getInterestForDirection(level, pos);
+        double highInterestChance = this.getDisjointGrowthChance(level, pos);
         int wantedDirs = //(posRandom.nextFloat() < this.getUnWeatherableChance(level, pos)) ? 0 :
-                getDirectionCount(posRandom, directionChance);
+                getDirectionCount(posRandom, (float) directionChance);
         List<Direction> dirs = new ArrayList<>(List.of(Direction.values()));
         Collections.shuffle(dirs, posRandom);
 
@@ -134,13 +135,13 @@ public interface SpreadingPatchBlock<T extends Enum<?>> {
     /**
      * @return The change that a certain direction will influence this block
      */
-    float getInterestForDirection(World level, BlockPos pos);
+    double getInterestForDirection(World level, BlockPos pos);
 
     /**
      * @return The chance that this block will accept WEATHERING blocks instead of only fully weathered ones
      * By default this causes the spreading to appear in different places that dont touch at once
      */
-    float getDisjointGrowthChance(World level, BlockPos pos);
+    double getDisjointGrowthChance(World level, BlockPos pos);
 
     /**
      * gets the weathering effect that this block has on the current block. Override for more control
@@ -195,7 +196,7 @@ public interface SpreadingPatchBlock<T extends Enum<?>> {
                 //could incur in infinite recursion here
                 //if I find another neighboring weathered state I ask it what kind it is so because I dont know
                 //if it's a crackable or mossable
-                if (p.getWanderWeatheringState(false, pos, level, maxRecursion - 1)) {
+                if (p.getWantedWeatheringState(false, pos, level, maxRecursion - 1)) {
                     return WeatheringAgent.WEATHER;
                 }
             }
@@ -216,7 +217,7 @@ public interface SpreadingPatchBlock<T extends Enum<?>> {
     /**
      * Chance that this block will outright not be able to weather through LOW and MEDIUM influence blocks
      */
-    float getUnWeatherableChance(World level, BlockPos pos);
+    double getUnWeatherableChance(World level, BlockPos pos);
 
     /**
      * @return true if this block can not age when surrounded by full blocks

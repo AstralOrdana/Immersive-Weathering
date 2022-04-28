@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
-import com.ordana.immersive_weathering.registry.entity.WeedEatGoal;
+import com.ordana.immersive_weathering.registry.entities.WeedEatGoal;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.TemptGoal;

@@ -1,15 +1,14 @@
 package com.ordana.immersive_weathering.registry.blocks.crackable;
 
 import com.ordana.immersive_weathering.registry.ModTags;
-import com.ordana.immersive_weathering.registry.blocks.SpreadingPatchBlock;
+import com.ordana.immersive_weathering.registry.blocks.PatchSpreader;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FireBlock;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class CrackSpreader implements SpreadingPatchBlock<Crackable.CrackLevel> {
+public class CrackSpreader implements PatchSpreader<Crackable.CrackLevel> {
 
     public static final CrackSpreader INSTANCE = new CrackSpreader();
 
@@ -19,18 +18,23 @@ public class CrackSpreader implements SpreadingPatchBlock<Crackable.CrackLevel> 
     }
 
     @Override
-    public float getInterestForDirection(World level, BlockPos pos) {
+    public double getInterestForDirection(World level, BlockPos pos) {
         return 0.6f;
     }
 
     @Override
-    public float getDisjointGrowthChance(World level, BlockPos pos) {
+    public double getDisjointGrowthChance(World level, BlockPos pos) {
         return 0.4f;
     }
 
     @Override
-    public float getUnWeatherableChance(World level, BlockPos pos) {
+    public double getUnWeatherableChance(World level, BlockPos pos) {
         return 0.5f;
+    }
+
+    @Override
+    public boolean needsAirToSpread(World level, BlockPos pos) {
+        return false;
     }
 
     @Override

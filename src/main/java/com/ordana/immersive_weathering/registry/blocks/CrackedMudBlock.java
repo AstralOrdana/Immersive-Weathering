@@ -98,7 +98,7 @@ public class CrackedMudBlock extends Block {
                 world.setBlockState(pos, state.with(SOAKED, true));
             }
         }
-        else if (state.get(SOAKED)) {
+        else if (temperature > 0 && state.get(SOAKED)) {
             world.setBlockState(pos, state.with(SOAKED, false));
         }
     }

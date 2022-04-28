@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.registry.entity;
+package com.ordana.immersive_weathering.registry.entities;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;

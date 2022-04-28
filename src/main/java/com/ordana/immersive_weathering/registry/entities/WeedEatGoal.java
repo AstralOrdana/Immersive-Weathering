@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.registry.entity;
+package com.ordana.immersive_weathering.registry.entities;
 
 import com.ordana.immersive_weathering.registry.blocks.WeedsBlock;
 import net.minecraft.block.Block;

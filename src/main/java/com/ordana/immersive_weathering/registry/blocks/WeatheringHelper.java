@@ -26,43 +26,6 @@ import java.util.stream.Collectors;
 public class WeatheringHelper {
 
 
-    //TODO: maybe finish this
-    public static final Supplier<Map<RegistryKey<Biome>, DataPool<Block>>> BIOME_FLOWERS = Suppliers.memoize(() -> ImmutableMap.<RegistryKey<Biome>, DataPool<Block>>builder()
-            .put(BiomeKeys.PLAINS, DataPool.<Block>builder()
-                    .add(Blocks.GRASS, 300)
-                    .add(Blocks.DANDELION, 50)
-                    .add(ModBlocks.WEEDS, 50)
-                    .add(Blocks.AZURE_BLUET, 50)
-                    .add(Blocks.PUMPKIN, 1)
-                    .build())
-            .put(BiomeKeys.SWAMP, DataPool.<Block>builder()
-                    .add(Blocks.GRASS, 100)
-                    .add(Blocks.BLUE_ORCHID, 50)
-                    .build())
-            .build());
-
-    private static final Supplier<Map<Block, DataPool<Block>>> NETHER_VEGETATION = Suppliers.memoize(() -> ImmutableMap.<Block, DataPool<Block>>builder()
-            .put(Blocks.CRIMSON_NYLIUM, DataPool.<Block>builder()
-                    .add(Blocks.CRIMSON_ROOTS, 20)
-                    .add(Blocks.CRIMSON_FUNGUS, 5)
-                    .build())
-            .put(Blocks.WARPED_NYLIUM, DataPool.<Block>builder()
-                    .add(Blocks.WARPED_ROOTS, 20)
-                    .add(Blocks.WARPED_FUNGUS, 5)
-                    .add(Blocks.NETHER_SPROUTS, 10)
-                    .build())
-            .build());
-
-    public record CoralFamily(Block coral, Block fan, Block wallFan) {
-    }
-
-    private static final Supplier<ImmutableMap<Block, CoralFamily>> CORALS = Suppliers.memoize(() -> ImmutableMap.<Block, CoralFamily>builder()
-            .put(Blocks.BRAIN_CORAL_BLOCK, new CoralFamily(Blocks.BRAIN_CORAL, Blocks.BRAIN_CORAL_FAN, Blocks.BRAIN_CORAL_WALL_FAN))
-            .put(Blocks.BUBBLE_CORAL_BLOCK, new CoralFamily(Blocks.BUBBLE_CORAL, Blocks.BUBBLE_CORAL_FAN, Blocks.BUBBLE_CORAL_WALL_FAN))
-            .put(Blocks.FIRE_CORAL_BLOCK, new CoralFamily(Blocks.FIRE_CORAL, Blocks.FIRE_CORAL_FAN, Blocks.FIRE_CORAL_WALL_FAN))
-            .put(Blocks.TUBE_CORAL_BLOCK, new CoralFamily(Blocks.TUBE_CORAL, Blocks.TUBE_CORAL_FAN, Blocks.TUBE_CORAL_WALL_FAN))
-            .put(Blocks.HORN_CORAL_BLOCK, new CoralFamily(Blocks.HORN_CORAL, Blocks.HORN_CORAL_FAN, Blocks.HORN_CORAL_WALL_FAN))
-            .build());
 
     public static final Supplier<ImmutableMap<Block, Block>> FLOWERY_BLOCKS = Suppliers.memoize(() -> ImmutableMap.<Block, Block>builder()
             .put(Blocks.AZALEA, Blocks.FLOWERING_AZALEA)
@@ -81,29 +44,6 @@ public class WeatheringHelper {
             .put(Blocks.FLOWERING_AZALEA_LEAVES, ModBlocks.FLOWERING_AZALEA_LEAF_PILE)
             .build());
 
-    public static final DataPool<Direction> ROOT_DIRECTIONS =
-            DataPool.<Direction>builder()
-                    .add(Direction.NORTH, 5)
-                    .add(Direction.SOUTH, 5)
-                    .add(Direction.WEST, 5)
-                    .add(Direction.EAST, 5)
-                    .add(Direction.UP, 1)
-                    .add(Direction.DOWN, 20)
-                    .build();
-
-    public static final DataPool<Direction> CORAL_DIRECTIONS =
-            DataPool.<Direction>builder()
-                    .add(Direction.NORTH, 1)
-                    .add(Direction.SOUTH, 1)
-                    .add(Direction.WEST, 1)
-                    .add(Direction.EAST, 1)
-                    .add(Direction.UP, 5)
-                    .build();
-
-    public static Optional<CoralFamily> getCoralGrowth(BlockState baseBlock) {
-        return Optional.ofNullable(CORALS.get().get(baseBlock.getBlock()));
-    }
-
     public static Optional<BlockState> getAzaleaGrowth(BlockState state) {
         return Optional.ofNullable(FLOWERY_BLOCKS.get().get(state.getBlock()))
                 .map(block -> block.getStateWithProperties(state));
@@ -111,18 +51,6 @@ public class WeatheringHelper {
 
     public static Optional<Block> getFallenLeafPile(BlockState state) {
         return Optional.ofNullable(LEAF_PILES.get().get(state.getBlock()));
-    }
-
-    public static Optional<Block> getGrassGrowthForBiome(RegistryKey<Biome> biome, Random random) {
-        var list = BIOME_FLOWERS.get().get(biome);
-        if (list != null) return list.getDataOrEmpty(random);
-        return Optional.empty();
-    }
-
-    public static Optional<Block> getNyliumGrowth(BlockState state, Random random) {
-        var list = NETHER_VEGETATION.get().get(state.getBlock());
-        if (list != null) return list.getDataOrEmpty(random);
-        return Optional.empty();
     }
 
     /**

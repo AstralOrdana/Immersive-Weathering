@@ -2,8 +2,8 @@ package com.ordana.immersive_weathering;
 
 import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
-import com.ordana.immersive_weathering.registry.client.EmberParticle;
-import com.ordana.immersive_weathering.registry.client.LeafParticle;
+import com.ordana.immersive_weathering.registry.particles.EmberParticle;
+import com.ordana.immersive_weathering.registry.particles.LeafParticle;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;

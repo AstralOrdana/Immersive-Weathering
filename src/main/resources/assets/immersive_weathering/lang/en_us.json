@@ -58,10 +58,8 @@
   "block.immersive_weathering.cryosol": "Cryosol",
   "block.immersive_weathering.permafrost": "Permafrost",
 
-  "block.immersive_weathering.mulch_block": "Block of Mulch",
-  "block.immersive_weathering.nulch_block": "Block of Nulch",
-  "block.immersive_weathering.mulch": "Mulch",
-  "block.immersive_weathering.nulch": "Nulch",
+  "block.immersive_weathering.mulch_block": "Mulch",
+  "block.immersive_weathering.nulch_block": "Nulch",
 
   "block.immersive_weathering.rooted_grass_block": "Rooted Grass Block",
 
@@ -87,6 +85,8 @@
   "block.immersive_weathering.mossy_stone": "Mossy Stone",
   "block.immersive_weathering.mossy_stone_stairs": "Mossy Stone Stairs",
   "block.immersive_weathering.mossy_stone_slab": "Mossy Stone Slab",
+  "block.immersive_weathering.mossy_stone_wall": "Mossy Stone Wall",
+  "block.immersive_weathering.stone_wall": "Stone Wall",
 
   "block.immersive_weathering.cracked_bricks": "Cracked Bricks",
   "block.immersive_weathering.cracked_brick_stairs": "Cracked Brick Stairs",

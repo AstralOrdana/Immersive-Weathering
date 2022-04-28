@@ -1,0 +1,32 @@
+{
+  "growth_chance": 0.001,
+  "area_condition": {
+    "must_have": {
+      "fluid": "minecraft:flowing_water",
+      "predicate_type": "immersive_weathering:fluid_match"
+    },
+    "type": "neighbor_based_generation"
+  },
+  "target_self": true,
+  "growth_for_face": [
+    {
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:sand"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": [
+    "minecraft:sandstone"
+  ],
+  "replacing_target": {
+    "block": "minecraft:sandstone",
+    "predicate_type": "minecraft:block_match"
+  }
+}

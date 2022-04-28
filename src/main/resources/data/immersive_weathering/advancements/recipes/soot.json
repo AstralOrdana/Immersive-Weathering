@@ -3,7 +3,8 @@
   "rewards": {
     "recipes": [
       "immersive_weathering:ash_block",
-      "immersive_weathering:soot_from_ash_block"
+      "immersive_weathering:soot_from_ash_block",
+      "immersive_weathering:black_dye_from_soot"
     ]
   },
   "criteria": {

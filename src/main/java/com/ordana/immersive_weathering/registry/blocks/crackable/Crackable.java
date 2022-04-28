@@ -4,7 +4,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
-import com.ordana.immersive_weathering.registry.blocks.SpreadingPatchBlock;
+import com.ordana.immersive_weathering.registry.blocks.PatchSpreader;
 import com.ordana.immersive_weathering.registry.blocks.Weatherable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -102,9 +102,9 @@ public interface Crackable extends Weatherable {
     CrackSpreader getCrackSpreader();
 
     @Override
-    default <T extends Enum<?>> Optional<SpreadingPatchBlock<T>> getPatchSpreader(Class<T> weatheringClass) {
+    default <T extends Enum<?>> Optional<PatchSpreader<T>> getPatchSpreader(Class<T> weatheringClass) {
         if (weatheringClass == CrackLevel.class) {
-            return Optional.of((SpreadingPatchBlock<T>) getCrackSpreader());
+            return Optional.of((PatchSpreader<T>) getCrackSpreader());
         }
         return Optional.empty();
     }
@@ -113,7 +113,7 @@ public interface Crackable extends Weatherable {
     CrackLevel getCrackLevel();
 
     default boolean shouldWeather(BlockState state, BlockPos pos, World level) {
-        return this.getCrackSpreader().getWanderWeatheringState(false, pos, level);
+        return this.getCrackSpreader().getWantedWeatheringState(false, pos, level);
     }
 
     enum CrackLevel {
@@ -125,7 +125,7 @@ public interface Crackable extends Weatherable {
     default void tryWeather(BlockState state, ServerWorld serverWorld, BlockPos pos, Random random) {
         if (random.nextFloat() < this.getWeatherChanceSpeed()) {
             Optional<BlockState> opt = Optional.empty();
-            if (this.getCrackSpreader().getWanderWeatheringState(true, pos, serverWorld)) {
+            if (this.getCrackSpreader().getWantedWeatheringState(true, pos, serverWorld)) {
                 opt = this.getNextCracked(state);
             }
             BlockState newState = opt.orElse(state.with(WEATHERABLE, WeatheringState.FALSE));

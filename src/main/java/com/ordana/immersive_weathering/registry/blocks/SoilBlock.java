@@ -33,7 +33,6 @@ public class SoilBlock extends SnowyBlock implements Fertilizable {
 
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-
         if (state.get(FERTILE)) {
             BlockGrowthHandler.tickBlock(state, world, pos);
         }

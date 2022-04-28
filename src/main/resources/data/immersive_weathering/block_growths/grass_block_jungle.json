@@ -15,7 +15,7 @@
       "predicate_type": "biome_match"
     }
   ],
-  "growth_chance": 0.1,
+  "growth_chance": 0.05,
   "growth_for_face": [
     {
       "direction": "up",
@@ -34,7 +34,7 @@
               "Name": "minecraft:dandelion"
             }
           },
-          "weight": 1
+          "weight": 10
         },
         {
           "data": {
@@ -42,7 +42,7 @@
               "Name": "minecraft:fern"
             }
           },
-          "weight": 5
+          "weight": 50
         },
         {
           "data": {
@@ -50,7 +50,7 @@
               "Name": "minecraft:melon"
             }
           },
-          "weight": 1
+          "weight": 10
         },
         {
           "data": {
@@ -58,7 +58,7 @@
               "Name": "minecraft:grass"
             }
           },
-          "weight": 0
+          "weight": 100
         }
       ]
     }

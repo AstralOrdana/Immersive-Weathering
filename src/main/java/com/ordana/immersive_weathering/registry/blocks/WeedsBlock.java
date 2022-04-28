@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.registry.blocks;
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.CropBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -22,13 +23,11 @@ import java.util.Random;
 
 public class WeedsBlock extends CropBlock {
 
-    protected WeedsBlock(Settings settings) {
+    public WeedsBlock(Settings settings) {
         super(settings);
     }
 
-
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        int age = this.getAge(state);
         if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
             if(!(entity instanceof PlayerEntity player) || player.getEquippedStack(EquipmentSlot.LEGS).isEmpty()) {
                 double d = Math.abs(entity.getX() - entity.lastRenderX);
@@ -75,6 +74,6 @@ public class WeedsBlock extends CropBlock {
 
     @Override
     protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
-        return floor.isIn(ModTags.FERTILE_BLOCKS) || floor.isIn(BlockTags.DIRT) || floor.isIn(ModTags.CRACKED);
+        return floor.isIn(ModTags.FERTILE_BLOCKS) || floor.isIn(BlockTags.DIRT) || floor.isIn(ModTags.CRACKED) || floor.isOf(Blocks.SANDSTONE);
     }
 }

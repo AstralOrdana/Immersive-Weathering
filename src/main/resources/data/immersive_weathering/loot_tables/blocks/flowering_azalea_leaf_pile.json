@@ -343,7 +343,7 @@
                 },
                 {
                   "type": "minecraft:item",
-                  "name": "minecraft:acacia_leaves",
+                  "name": "minecraft:flowering_azalea_leaves",
                   "conditions": [
                     {
                       "condition": "minecraft:alternative",
@@ -379,7 +379,7 @@
                 },
                 {
                   "type": "minecraft:item",
-                  "name": "minecraft:stick",
+                  "name": "immersive_weathering:azalea_flowers",
                   "conditions": [
                     {
                       "condition": "minecraft:random_chance",

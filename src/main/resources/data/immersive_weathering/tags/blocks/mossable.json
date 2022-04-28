@@ -15,6 +15,7 @@
     "minecraft:brick_wall",
     "minecraft:stone",
     "minecraft:stone_stairs",
-    "minecraft:stone_slab"
+    "minecraft:stone_slab",
+    "immersive_weathering:stone_wall"
   ]
 }

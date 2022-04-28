@@ -31,6 +31,6 @@ public abstract class CropBlockMixin extends Block {
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         BlockState soilState = world.getBlockState(pos.down());
-        if (soilState.isOf(ModBlocks.MULCH) && !soilState.get(MulchBlock.SOAKED)) ci.cancel();
+        if (soilState.isOf(ModBlocks.MULCH_BLOCK) && !soilState.get(MulchBlock.SOAKED)) ci.cancel();
     }
 }

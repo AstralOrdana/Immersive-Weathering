@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "minecraft:water"
+    "immersive_weathering:nulch_block"
   ]
 }

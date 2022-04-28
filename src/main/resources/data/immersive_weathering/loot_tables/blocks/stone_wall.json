@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "immersive_weathering:mulch"
+          "name": "immersive_weathering:stone_wall"
         }
       ],
       "conditions": [

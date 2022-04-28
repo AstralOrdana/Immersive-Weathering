@@ -12,7 +12,6 @@ public class ModFuel {
         FuelRegistry.INSTANCE.add(ModItems.ACACIA_BARK, 200);
         FuelRegistry.INSTANCE.add(ModItems.DARK_OAK_BARK, 200);
         FuelRegistry.INSTANCE.add(ModItems.MULCH_BLOCK, 800);
-        FuelRegistry.INSTANCE.add(ModItems.MULCH, 400);
         FuelRegistry.INSTANCE.add(ModItems.SOOT, 100);
 
         FuelRegistry.INSTANCE.add(ModItems.CHARRED_LOG, 800);

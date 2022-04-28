@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.registry.client;
+package com.ordana.immersive_weathering.registry.particles;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -7,7 +7,6 @@ import net.minecraft.client.particle.*;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
-import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
 public class LeafParticle extends SpriteBillboardParticle {

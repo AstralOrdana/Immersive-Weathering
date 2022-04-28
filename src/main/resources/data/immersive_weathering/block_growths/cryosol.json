@@ -17,7 +17,7 @@
               "Name": "minecraft:fern"
             }
           },
-          "weight": 20
+          "weight": 40
         },
         {
           "data": {
@@ -28,7 +28,7 @@
               }
             }
           },
-          "weight": 5
+          "weight": 1
         }
       ]
     }
@@ -39,6 +39,6 @@
   "replacing_target": {
     "block": "minecraft:air",
     "predicate_type": "minecraft:random_block_match",
-    "probability": 0.8
+    "probability": 0.4
   }
 }

@@ -49,8 +49,6 @@ public class ModItems {
 
     public static final BlockItem MULCH_BLOCK = new BlockItem(ModBlocks.MULCH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem NULCH_BLOCK = new BlockItem(ModBlocks.NULCH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem MULCH = new BlockItem(ModBlocks.MULCH, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem NULCH = new BlockItem(ModBlocks.NULCH, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final BlockItem HUMUS = new BlockItem(ModBlocks.HUMUS, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem FLUVISOL = new BlockItem(ModBlocks.FLUVISOL, new Item.Settings().group(ItemGroup.DECORATIONS));
@@ -84,6 +82,8 @@ public class ModItems {
     public static final BlockItem MOSSY_STONE = new BlockItem(ModBlocks.MOSSY_STONE, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem MOSSY_STONE_STAIRS = new BlockItem(ModBlocks.MOSSY_STONE_STAIRS, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem MOSSY_STONE_SLAB = new BlockItem(ModBlocks.MOSSY_STONE_SLAB, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem MOSSY_STONE_WALL = new BlockItem(ModBlocks.MOSSY_STONE_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem STONE_WALL = new BlockItem(ModBlocks.STONE_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final BlockItem CRACKED_BRICKS = new BlockItem(ModBlocks.CRACKED_BRICKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_BRICK_STAIRS = new BlockItem(ModBlocks.CRACKED_BRICK_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
@@ -258,8 +258,6 @@ public class ModItems {
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mulch_block"), MULCH_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "nulch_block"), NULCH_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mulch"), MULCH);
-        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "nulch"), NULCH);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "humus"), HUMUS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "fluvisol"), FLUVISOL);
@@ -293,6 +291,8 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone"), MOSSY_STONE);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_stairs"), MOSSY_STONE_STAIRS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_slab"), MOSSY_STONE_SLAB);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_wall"), MOSSY_STONE_WALL);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "stone_wall"), STONE_WALL);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_bricks"), CRACKED_BRICKS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_brick_stairs"), CRACKED_BRICK_STAIRS);

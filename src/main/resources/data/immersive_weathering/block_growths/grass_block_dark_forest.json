@@ -14,7 +14,7 @@
       "predicate_type": "biome_match"
     }
   ],
-  "growth_chance": 0.1,
+  "growth_chance": 0.03,
   "growth_for_face": [
     {
       "direction": "up",
@@ -25,7 +25,7 @@
               "Name": "minecraft:red_mushroom"
             }
           },
-          "weight": 100
+          "weight": 200
         },
         {
           "data": {
@@ -33,7 +33,7 @@
               "Name": "minecraft:brown_mushroom"
             }
           },
-          "weight": 100
+          "weight": 200
         },
         {
           "data": {
@@ -41,7 +41,7 @@
               "Name": "minecraft:poppy"
             }
           },
-          "weight": 100
+          "weight": 200
         },
         {
           "data": {
@@ -58,7 +58,7 @@
               }
             }
           },
-          "weight": 60
+          "weight": 120
         },
         {
           "data": {
@@ -178,7 +178,7 @@
               "Name": "minecraft:grass"
             }
           },
-          "weight": 0
+          "weight": 500
         }
       ]
     }

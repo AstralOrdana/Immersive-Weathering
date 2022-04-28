@@ -2,8 +2,8 @@ package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.registry.ModDamageSource;
 import com.ordana.immersive_weathering.registry.ModTags;
-import com.ordana.immersive_weathering.registry.entity.FallingIcicleEntity;
-import com.ordana.immersive_weathering.registry.entity.IcicleBlockEntity;
+import com.ordana.immersive_weathering.registry.entities.FallingIcicleEntity;
+import com.ordana.immersive_weathering.registry.entities.IcicleBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.Thickness;

@@ -91,7 +91,7 @@ public class ModLootTables {
                         FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
                                 .rolls(ConstantLootNumberProvider.create(1))
 
-                                .with(ItemEntry.builder(ModItems.MULCH)
+                                .with(ItemEntry.builder(ModItems.MULCH_BLOCK)
                                         .conditionally(RandomChanceLootCondition.builder(0.25f)))
                                 .with(ItemEntry.builder(ModItems.HUMUS)
                                         .conditionally(RandomChanceLootCondition.builder(0.25f)))

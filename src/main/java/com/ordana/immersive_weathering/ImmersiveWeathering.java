@@ -6,7 +6,7 @@ import com.ordana.immersive_weathering.data.FluidMatchTest;
 import com.ordana.immersive_weathering.data.LogMatchTest;
 import com.ordana.immersive_weathering.registry.*;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
-import com.ordana.immersive_weathering.registry.entity.ModEntities;
+import com.ordana.immersive_weathering.registry.entities.ModEntities;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;

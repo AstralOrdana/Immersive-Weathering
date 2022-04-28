@@ -4,31 +4,38 @@
   "package": "com.ordana.immersive_weathering.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "BeeMixin",
-    "BiomeMixin",
     "BlocksMixin",
+    "BlockMixin",
+    "AbstractBlockMixin",
+
+    "DataPackContentMixin",
+
+    "BeeMixin",
+    "RabbitMixin",
+    "LightningEntityMixin",
+
+    "BiomeMixin",
+
+    "FluidMixin",
     "CampfireMixin",
     "ComposterMixin",
-    "CoralBlockMixin",
     "CropBlockMixin",
-    "DataPackContentMixin",
-    "FarmlandMixin",
     "FernBlockMixin",
     "FireMixin",
-    "FluidMixin",
     "FungusBlockMixin",
     "IceMixin",
     "LeavesMixin",
-    "LightningEntityMixin",
     "MagmaBlockMixin",
     "NyliumBlockMixin",
-    "RabbitMixin",
+    "FarmlandMixin",
+    "SaplingMixin",
     "RootedDirtBlockMixin",
     "RootsBlockMixin",
-    "SaplingMixin",
     "SproutsBlockMixin",
     "SweetBerryBushMixin",
-    "LargeFernBlockMixin"
+    "LargeFernBlockMixin",
+    "NetherWartBlockMixin",
+    "SugarCaneBlockMixin"
   ],
   "client": [
   ],

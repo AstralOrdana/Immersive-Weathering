@@ -1,0 +1,32 @@
+{
+  "growth_chance": 0.005,
+  "position_predicates": [
+    {
+      "predicate_type": "temperature_range",
+      "max": 5,
+      "min": 2
+    }
+  ],
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:dead_bush"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": "#minecraft:saplings",
+  "target_self": true,
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:block_match"
+  }
+}

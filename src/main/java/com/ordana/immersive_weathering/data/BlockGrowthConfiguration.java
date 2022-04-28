@@ -34,16 +34,17 @@ import java.util.*;
 public class BlockGrowthConfiguration {
 
     public static final BlockGrowthConfiguration EMPTY = new BlockGrowthConfiguration(1,
-            AlwaysTrueRuleTest.INSTANCE, AreaCondition.EMPTY, List.of(), RegistryEntryList.of(RegistryEntry.of(Blocks.AIR)), Optional.empty(), Optional.empty());
+            AlwaysTrueRuleTest.INSTANCE, Optional.empty(), List.of(), RegistryEntryList.of(RegistryEntry.of(Blocks.AIR)), Optional.empty(), Optional.empty(), Optional.empty());
 
     public static final Codec<BlockGrowthConfiguration> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.FLOAT.fieldOf("growth_chance").forGetter(BlockGrowthConfiguration::getGrowthChance),
             RuleTest.TYPE_CODEC.fieldOf("replacing_target").forGetter(BlockGrowthConfiguration::getTargetPredicate),
-            AreaCondition.CODEC.fieldOf("area_condition").forGetter(BlockGrowthConfiguration::getAreaCondition),
+            AreaCondition.CODEC.optionalFieldOf("area_condition").forGetter(BlockGrowthConfiguration::getAreaCondition),
             DirectionalList.CODEC.listOf().fieldOf("growth_for_face").forGetter(BlockGrowthConfiguration::encodeRandomLists),
             RegistryCodecs.entryList(Registry.BLOCK_KEY).fieldOf("owners").forGetter(BlockGrowthConfiguration::getOwners),
             PositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates").forGetter(BlockGrowthConfiguration::getBiomePredicates),
-            Codec.BOOL.optionalFieldOf("target_self").forGetter(b->b.targetSelf() ? Optional.of(Boolean.TRUE) : Optional.empty())
+            Codec.BOOL.optionalFieldOf("target_self").forGetter(b->b.targetSelf() ? Optional.of(Boolean.TRUE) : Optional.empty()),
+            Codec.BOOL.optionalFieldOf("destroy_target").forGetter(b -> b.destroyTarget() ? Optional.of(Boolean.TRUE) : Optional.empty())
     ).apply(instance, BlockGrowthConfiguration::new));
 
 
@@ -55,15 +56,16 @@ public class BlockGrowthConfiguration {
     private final Set<Block> possibleBlocks;
     private final List<PositionRuleTest> biomePredicates;
     private final boolean targetSelf;
+    private final boolean destroyTarget;
 
 
     private final int maxRange;
     private final AreaCondition areaCondition;
 
-    public BlockGrowthConfiguration(float growthChance, RuleTest targetPredicate, AreaCondition areaCheck,
+    public BlockGrowthConfiguration(float growthChance, RuleTest targetPredicate, Optional<AreaCondition> areaCheck,
                                     List<DirectionalList> growthForDirection,
                                     RegistryEntryList<Block> owners, Optional<List<PositionRuleTest>> biomePredicates,
-                                    Optional<Boolean> targetSelf) {
+                                    Optional<Boolean> targetSelf, Optional<Boolean> destroyTarget) {
         this.growthChance = growthChance;
         this.owners = owners;
         this.biomePredicates = biomePredicates.orElse(List.of());
@@ -96,9 +98,10 @@ public class BlockGrowthConfiguration {
         this.blockGrowths = growthBuilder.build();
         this.possibleBlocks = blockBuilder.build();
 
-        this.areaCondition = areaCheck;
-        this.maxRange = areaCheck.getMaxRange();
+        this.areaCondition = areaCheck.orElse(AreaCondition.EMPTY);
+        this.maxRange = areaCondition.getMaxRange();
         this.targetSelf = targetSelf.orElse(false);
+        this.destroyTarget = destroyTarget.orElse(false);
     }
 
     private void decodeRandomList(Direction direction, DataPool.Builder<Direction> dirBuilder, ImmutableMap.Builder<Direction,
@@ -137,8 +140,8 @@ public class BlockGrowthConfiguration {
         return targetPredicate;
     }
 
-    public AreaCondition getAreaCondition() {
-        return areaCondition;
+    public Optional<AreaCondition> getAreaCondition() {
+        return areaCondition == AreaCondition.EMPTY ? Optional.empty() : Optional.of(areaCondition);
     }
 
     public Set<Block> getPossibleBlocks() {
@@ -153,6 +156,10 @@ public class BlockGrowthConfiguration {
         return targetSelf;
     }
 
+    public boolean destroyTarget() {
+        return destroyTarget;
+    }
+
     public Optional<List<PositionRuleTest>> getBiomePredicates() {
         return this.biomePredicates.isEmpty() ? Optional.empty() : Optional.of(this.biomePredicates);
     }
@@ -162,10 +169,13 @@ public class BlockGrowthConfiguration {
     }
 
     private boolean canGrow(BlockPos pos, World world, RegistryEntry<Biome> biome) {
-        for (PositionRuleTest biomeTest : this.biomePredicates) {
-            if (!biomeTest.test(biome, pos, world)) return false;
-        }
-        return world.isChunkLoaded(pos) && world.random.nextFloat() < this.growthChance;
+        if (this.growthChance == 0) return false;
+        if(world.random.nextFloat() < this.growthChance) {
+            for (PositionRuleTest biomeTest : this.biomePredicates) {
+                if (!biomeTest.test(biome, pos, world)) return false;
+            }
+            return world.isChunkLoaded(pos);
+        }return false;
     }
 
     public float getGrowthChance() {
@@ -193,16 +203,18 @@ public class BlockGrowthConfiguration {
                         if (db) {
                             targetPos2 = targetPos.offset(dir);
                             target2 = world.getBlockState(targetPos2);
-                            if (!targetPredicate.test(target2, seed) || !toPlace.getSecond().canPlaceAt(world, targetPos2)) {
+                            if (!targetPredicate.test(target2, seed)) {
                                 return false;
                             }
                         }
 
                         if (areaCondition.test(pos, world, this)) {
+                            if (destroyTarget) world.breakBlock(targetPos, true);
+                            world.setBlockState(targetPos, setWaterIfNeeded(toPlace.getFirst(), target), 2);
                             if (db) {
+                                if (destroyTarget) world.breakBlock(targetPos2, true);
                                 world.setBlockState(targetPos2, setWaterIfNeeded(toPlace.getSecond(), target2), 2);
                             }
-                            world.setBlockState(targetPos, setWaterIfNeeded(toPlace.getFirst(), target), 2);
                             return true;
                         }
                     }

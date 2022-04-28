@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.registry.entity;
+package com.ordana.immersive_weathering.registry.entities;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;

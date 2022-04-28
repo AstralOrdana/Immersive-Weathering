@@ -59,6 +59,10 @@ public class BlockGrowthHandler extends JsonDataLoader implements IdentifiableRe
         return success;
     }
 
+    public static boolean canRandomTick(BlockState state) {
+        return GROWTH_FOR_BLOCK.containsKey(state.getBlock());
+    }
+
     public void writeToFile(final BlockGrowthConfiguration obj, FileWriter writer) {
         var r = CODEC.encodeStart(JsonOps.INSTANCE, obj);
         r.result().ifPresent(a -> GSON.toJson(sortJson(a.getAsJsonObject()), writer));
@@ -86,6 +90,7 @@ public class BlockGrowthHandler extends JsonDataLoader implements IdentifiableRe
         for (var e : jsons.entrySet()) {
             PENDING_JSONS.put(e.getKey(),e.getValue().deepCopy());
         }
+
     }
 
 

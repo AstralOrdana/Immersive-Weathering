@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.registry.client;
+package com.ordana.immersive_weathering.registry.particles;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

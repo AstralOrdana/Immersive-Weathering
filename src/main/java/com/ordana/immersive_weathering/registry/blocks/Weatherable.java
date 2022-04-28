@@ -8,10 +8,8 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.block.BlockState;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.core.jmx.Server;
 
 //a block that can weather
 public interface Weatherable {
@@ -41,7 +39,7 @@ public interface Weatherable {
 
     boolean isWeatherable(BlockState state);
 
-    <T extends Enum<?>> Optional<SpreadingPatchBlock<T>> getPatchSpreader(Class<T> weatheringClass);
+    <T extends Enum<?>> Optional<PatchSpreader<T>> getPatchSpreader(Class<T> weatheringClass);
 
     default float getWeatherChanceSpeed(){
         return 0.1f;

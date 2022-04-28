@@ -1,13 +1,16 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.registry.ModTags;
+import com.ordana.immersive_weathering.registry.blocks.charred.CharredPillarBlock;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -20,16 +23,19 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.List;
 import java.util.Random;
 
 public class MulchBlock extends Block {
 
-    public MulchBlock(Settings settings) {
+    public MulchBlock(Settings settings, List<DefaultParticleType> particle) {
         super(settings);
         this.setDefaultState(this.getDefaultState().with(SOAKED, false));
+        this.particles = particle;
     }
 
     public static final BooleanProperty SOAKED = BooleanProperty.of("soaked");
@@ -77,16 +83,16 @@ public class MulchBlock extends Block {
 
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-
+        /*
         BlockState cropState = world.getBlockState(pos.up());
-        if (state.isOf(ModBlocks.MULCH) && state.get(MulchBlock.SOAKED)) {
+        if (state.isOf(ModBlocks.MULCH_BLOCK) && state.get(MulchBlock.SOAKED) && cropState.getBlock() instanceof CropBlock) {
             if (world.getBaseLightLevel(pos.up(), 0) >= 9) {
                 int i = cropState.get(CropBlock.AGE);
-                if (i < 7) {
+                if (i < CropBlock.MAX_AGE) {
                     world.setBlockState(pos.up(), cropState.getBlock().getStateWithProperties(cropState).with(CropBlock.AGE, i + 1), 3);
                 }
             }
-        }
+        }*/
 
         int temperature = 0;
         boolean isTouchingWater = false;
@@ -108,7 +114,7 @@ public class MulchBlock extends Block {
                 world.setBlockState(pos, state.with(SOAKED, true));
             }
         }
-        else if (state.get(SOAKED)) {
+        else if (temperature > 0 && state.get(SOAKED)) {
             world.setBlockState(pos, state.with(SOAKED, false));
         }
     }
@@ -116,6 +122,29 @@ public class MulchBlock extends Block {
     @Override
     public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         entity.handleFallDamage(fallDistance, 0.2F, DamageSource.FALL);
+    }
+
+    private final List<DefaultParticleType> particles;
+
+    @Override
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        if (!(entity instanceof LivingEntity) || entity.getBlockStateAtPos().isOf(this)) {
+            if (world.isClient) {
+                Random random = world.getRandom();
+                boolean bl = entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ();
+                if (bl && random.nextBoolean()) {
+                    for (var p : particles) {
+                        world.addParticle(p,
+                                entity.getX() + MathHelper.nextBetween(random,-0.2f,0.2f),
+                                entity.getY() + 0.125,
+                                entity.getZ() +MathHelper.nextBetween(random,-0.2f,0.2f),
+                                MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f,
+                                0.05D,
+                                MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
+                    }
+                }
+            }
+        }
     }
 
     @Override

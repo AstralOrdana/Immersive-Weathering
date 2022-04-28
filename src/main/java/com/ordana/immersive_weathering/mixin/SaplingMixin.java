@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.data.BlockGrowthHandler;
 import net.minecraft.block.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -20,16 +21,7 @@ public abstract class SaplingMixin extends Block {
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         //it could have already turned into a tree
         if (world.getBlockState(pos).getBlock() instanceof SaplingBlock) {
-            var biome = world.getBiome(pos);
-            if (biome.value().isHot(pos)) {
-                if (world.random.nextFloat() < 0.08f) {
-                    world.setBlockState(pos, Blocks.DEAD_BUSH.getDefaultState());
-                }
-            } else if (world.getDimension().isUltrawarm()) {
-                if (world.random.nextFloat() < 0.4f) {
-                    world.setBlockState(pos, Blocks.DEAD_BUSH.getDefaultState());
-                }
-            }
+            BlockGrowthHandler.tickBlock(state, world, pos);
         }
     }
 }

@@ -1,14 +1,10 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.data.BlockGrowthHandler;
-import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.NyliumBlock;
-import net.minecraft.block.SpreadableBlock;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

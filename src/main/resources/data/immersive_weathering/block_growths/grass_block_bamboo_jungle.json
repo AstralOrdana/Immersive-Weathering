@@ -12,7 +12,7 @@
       "predicate_type": "biome_match"
     }
   ],
-  "growth_chance": 0.1,
+  "growth_chance": 0.04,
   "growth_for_face": [
     {
       "direction": "up",
@@ -47,7 +47,7 @@
               "Name": "minecraft:grass"
             }
           },
-          "weight": 0
+          "weight": 10
         }
       ]
     }

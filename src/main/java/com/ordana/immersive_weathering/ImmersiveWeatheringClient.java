@@ -2,9 +2,9 @@ package com.ordana.immersive_weathering;
 
 import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
-import com.ordana.immersive_weathering.registry.client.EmberParticle;
-import com.ordana.immersive_weathering.registry.client.LeafParticle;
-import com.ordana.immersive_weathering.registry.entity.ModEntities;
+import com.ordana.immersive_weathering.registry.particles.EmberParticle;
+import com.ordana.immersive_weathering.registry.particles.LeafParticle;
+import com.ordana.immersive_weathering.registry.entities.ModEntities;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -12,7 +12,6 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
@@ -21,11 +20,8 @@ import net.minecraft.client.particle.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.FallingBlockEntityRenderer;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 import net.minecraft.particle.DefaultParticleType;
-import net.minecraft.particle.DustParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 
@@ -153,6 +149,7 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.MOSSY_STONE);
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.MOSSY_STONE_SLAB);
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.MOSSY_STONE_STAIRS);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.MOSSY_STONE_WALL);
 
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
@@ -222,6 +219,9 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             return GrassColors.getColor(0.5D,0.5D);
         }, ModItems.MOSSY_STONE_STAIRS);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            return GrassColors.getColor(0.5D,0.5D);
+        }, ModItems.MOSSY_STONE_WALL);
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ROOTED_GRASS_BLOCK, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOSSY_COBBLESTONE, RenderLayer.getCutout());
@@ -239,6 +239,7 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MOSSY_STONE, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MOSSY_STONE_SLAB, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MOSSY_STONE_STAIRS, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MOSSY_STONE_WALL, RenderLayer.getCutout());
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.VITRIFIED_SAND, RenderLayer.getTranslucent());
 

@@ -52,6 +52,7 @@ public class ModEvents {
         CLEANED_BLOCKS.put(ModBlocks.MOSSY_STONE, Blocks.STONE);
         CLEANED_BLOCKS.put(ModBlocks.MOSSY_STONE_SLAB, Blocks.STONE_SLAB);
         CLEANED_BLOCKS.put(ModBlocks.MOSSY_STONE_STAIRS, Blocks.STONE_STAIRS);
+        CLEANED_BLOCKS.put(ModBlocks.MOSSY_STONE_WALL, ModBlocks.STONE_WALL);
 
         CRACKED_BLOCKS.put(Blocks.BRICKS, ModBlocks.CRACKED_BRICKS);
         CRACKED_BLOCKS.put(Blocks.STONE_BRICKS, Blocks.CRACKED_STONE_BRICKS);

@@ -15,7 +15,7 @@
       "predicate_type": "biome_match"
     }
   ],
-  "growth_chance": 0.1,
+  "growth_chance": 0.03,
   "growth_for_face": [
     {
       "direction": "up",
@@ -26,7 +26,7 @@
               "Name": "minecraft:dandelion"
             }
           },
-          "weight": 1
+          "weight": 10
         },
         {
           "data": {
@@ -34,7 +34,7 @@
               "Name": "minecraft:lily_of_the_valley"
             }
           },
-          "weight": 1
+          "weight": 10
         },
         {
           "data": {
@@ -42,7 +42,7 @@
               "Name": "immersive_weathering:weeds"
             }
           },
-          "weight": 1
+          "weight": 10
         },
         {
           "data": {
@@ -50,7 +50,7 @@
               "Name": "minecraft:brown_mushroom"
             }
           },
-          "weight": 1
+          "weight": 10
         },
         {
           "data": {
@@ -58,7 +58,7 @@
               "Name": "minecraft:cornflower"
             }
           },
-          "weight": 1
+          "weight": 10
         },
         {
           "data": {
@@ -71,13 +71,19 @@
         {
           "data": {
             "block": {
-              "Name": "minecraft:lilac"
+              "Name": "minecraft:lilac",
+              "Properties": {
+                "half": "lower"
+              }
             },
-            "above_block":{
-              "Name": "minecraft:lilac"
+            "above_block": {
+              "Name": "minecraft:lilac",
+              "Properties": {
+                "half": "upper"
+              }
             }
           },
-          "weight": 7
+          "weight": 70
         },
         {
           "data": {
@@ -85,7 +91,7 @@
               "Name": "minecraft:grass"
             }
           },
-          "weight": 0
+          "weight": 100
         }
       ]
     }

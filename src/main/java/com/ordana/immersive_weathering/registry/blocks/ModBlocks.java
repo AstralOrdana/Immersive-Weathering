@@ -39,10 +39,8 @@ public class ModBlocks {
     public static final Block AZALEA_FLOWER_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.FLOWERING_AZALEA).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), true, false, false, List.of(ModParticles.AZALEA_FLOWER));
 
     public static final Block WEEDS = new WeedsBlock(FabricBlockSettings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS));
-    public static final Block MULCH_BLOCK = new MulchBlock(FabricBlockSettings.of(Material.WOOD).strength(1f, 1f).sounds(BlockSoundGroup.ROOTED_DIRT).ticksRandomly());
-    public static final Block NULCH_BLOCK = new NulchBlock(FabricBlockSettings.of(Material.NETHER_WOOD).strength(1f, 1f).sounds(BlockSoundGroup.NETHER_WART).luminance(createLightLevelFromMoltenBlockState(10)).ticksRandomly());
-    public static final Block MULCH = new MulchCarpetBlock(FabricBlockSettings.of(Material.WOOD).strength(1f, 1f).sounds(BlockSoundGroup.ROOTED_DIRT), List.of(ModParticles.MULCH));
-    public static final Block NULCH = new MulchCarpetBlock(FabricBlockSettings.of(Material.NETHER_WOOD).strength(1f, 1f).sounds(BlockSoundGroup.NETHER_WART), List.of(ModParticles.NULCH));
+    public static final Block MULCH_BLOCK = new MulchBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.DIRT_BROWN).strength(1f, 1f).sounds(BlockSoundGroup.ROOTED_DIRT).ticksRandomly(), List.of(ModParticles.MULCH));
+    public static final Block NULCH_BLOCK = new NulchBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.DARK_CRIMSON).strength(1f, 1f).sounds(BlockSoundGroup.WART_BLOCK).ticksRandomly().luminance(createLightLevelFromMoltenBlockState(10)), List.of(ModParticles.MULCH));
 
     public static final Block HUMUS = new SoilBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DARK_GREEN).strength(0.5F).sounds(BlockSoundGroup.GRAVEL).ticksRandomly());
     public static final Block FLUVISOL = new SoilBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DEEPSLATE_GRAY).strength(0.5F).sounds(BlockSoundGroup.WART_BLOCK).ticksRandomly());
@@ -79,6 +77,8 @@ public class ModBlocks {
     public static final Block MOSSY_STONE = new MossyBlock(Mossable.MossLevel.MOSSY, FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
     public static final Block MOSSY_STONE_STAIRS = new MossyStairsBlock(Mossable.MossLevel.MOSSY, MOSSY_STONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
     public static final Block MOSSY_STONE_SLAB = new MossySlabBlock(Mossable.MossLevel.MOSSY, FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block MOSSY_STONE_WALL = new MossyWallBlock(Mossable.MossLevel.MOSSY, FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block STONE_WALL = new MossableWallBlock(Mossable.MossLevel.MOSSABLE, FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
 
     public static final Block CRACKED_BRICKS = new Block(FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
     public static final Block CRACKED_BRICK_STAIRS = new ModStairs(CRACKED_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
@@ -249,8 +249,6 @@ public class ModBlocks {
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mulch_block"), MULCH_BLOCK);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "nulch_block"), NULCH_BLOCK);
-        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mulch"), MULCH);
-        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "nulch"), NULCH);
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "rooted_grass_block"), ROOTED_GRASS_BLOCK);
 
@@ -280,6 +278,8 @@ public class ModBlocks {
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone"), MOSSY_STONE);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_stairs"), MOSSY_STONE_STAIRS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_slab"), MOSSY_STONE_SLAB);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_wall"), MOSSY_STONE_WALL);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "stone_wall"), STONE_WALL);
 
 
         //cracked blocks

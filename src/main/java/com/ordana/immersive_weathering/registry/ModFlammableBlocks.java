@@ -16,7 +16,6 @@ public class ModFlammableBlocks {
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.FLOWERING_AZALEA_LEAF_PILE, 30, 60);
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.WEEDS, 60, 100);
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.MULCH_BLOCK, 5, 5);
-        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.MULCH, 5, 5);
         FlammableBlockRegistry.getDefaultInstance().add(Blocks.COBWEB, 100, 100);
 
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.CHARRED_LOG, 5, 5);

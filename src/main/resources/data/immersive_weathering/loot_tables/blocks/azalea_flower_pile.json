@@ -343,7 +343,14 @@
                 },
                 {
                   "type": "minecraft:item",
-                  "name": "minecraft:acacia_leaves",
+                  "name": "immersive_weathering:azalea_flower_pile",
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 8,
+                      "add": false
+                    }
+                  ],
                   "conditions": [
                     {
                       "condition": "minecraft:alternative",
@@ -379,7 +386,7 @@
                 },
                 {
                   "type": "minecraft:item",
-                  "name": "minecraft:stick",
+                  "name": "immersive_weathering:azalea_flowers",
                   "conditions": [
                     {
                       "condition": "minecraft:random_chance",
