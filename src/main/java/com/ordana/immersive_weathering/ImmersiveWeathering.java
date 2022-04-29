@@ -34,6 +34,7 @@ public class ImmersiveWeathering {
 
     public ImmersiveWeathering() {
         //TODO: fix layers texture generation
+        //TODO: fix grass growth replacing double plants and add tag
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModBlocks.BLOCKS.register(bus);
@@ -53,8 +54,6 @@ public class ImmersiveWeathering {
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ServerConfigs.SERVER_SPEC);
 
-        //TODO: smarter farmers remove weeds
-
     }
 
     public static void init(final FMLCommonSetupEvent event) {
@@ -69,11 +68,11 @@ public class ImmersiveWeathering {
         //ModEvents.registerEvents();
 
         /*
-        FabricLoader.getMossSpreader().getModContainer(ImmersiveWeathering.MOD_ID).ifPresent(modContainer -> {
+
             ResourceManagerHelper.registerBuiltinResourcePack(new ResourceLocation("immersive_weathering:better_brick_items"), modContainer, ResourcePackActivationType.NORMAL);
             ResourceManagerHelper.registerBuiltinResourcePack(new ResourceLocation("immersive_weathering:better_brick_blocks"), modContainer, ResourcePackActivationType.NORMAL);
             ResourceManagerHelper.registerBuiltinResourcePack(new ResourceLocation("immersive_weathering:visual_waxed_iron_items"), modContainer, ResourcePackActivationType.NORMAL);
-        });
+
         */
     }
 

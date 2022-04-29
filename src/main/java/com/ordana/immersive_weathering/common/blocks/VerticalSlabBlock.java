@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -26,6 +27,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nonnull;
 
 public class VerticalSlabBlock extends Block implements SimpleWaterloggedBlock {
 
@@ -100,9 +103,9 @@ public class VerticalSlabBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+    public boolean canBeReplaced(BlockState state, @Nonnull BlockPlaceContext context) {
         VerticalSlabType type = state.getValue(TYPE);
-        return type != VerticalSlabType.DOUBLE && context.getItemInHand().getItem() == this.asItem() && context.replacingClickedOnBlock() && (context.getClickedFace() == type.direction && this.getDirectionForPlacement(context) == type.direction);
+        return type != VerticalSlabType.DOUBLE && context.getItemInHand().getItem() == this.asItem() && (context.replacingClickedOnBlock() && context.getClickedFace() == type.direction && this.getDirectionForPlacement(context) == type.direction || !context.replacingClickedOnBlock() && context.getClickedFace().getAxis() != type.direction.getAxis());
     }
 
     @Override

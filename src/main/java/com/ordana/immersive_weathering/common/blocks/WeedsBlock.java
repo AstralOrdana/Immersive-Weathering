@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.common.blocks;
 
+import com.ordana.immersive_weathering.common.ModBlocks;
 import com.ordana.immersive_weathering.common.items.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -38,7 +39,7 @@ public class WeedsBlock extends CropBlock {
 
     @Override
     protected ItemLike getBaseSeedId() {
-        return ModItems.WEEDS.get();
+        return ModBlocks.WEEDS.get();
     }
 
     @Override

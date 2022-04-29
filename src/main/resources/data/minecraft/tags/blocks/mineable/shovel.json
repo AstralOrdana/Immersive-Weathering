@@ -4,8 +4,6 @@
     "immersive_weathering:soot",
     "immersive_weathering:soot_block",
     "immersive_weathering:mulch_block",
-    "immersive_weathering:nulch_block",
-    "immersive_weathering:mulch",
-    "immersive_weathering:nulch"
+    "immersive_weathering:nulch_block"
   ]
 }

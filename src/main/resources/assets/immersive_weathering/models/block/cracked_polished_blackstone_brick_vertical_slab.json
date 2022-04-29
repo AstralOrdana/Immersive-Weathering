@@ -1,0 +1,6 @@
+{
+    "parent": "immersive_weathering:block/vertical_slab",
+    "textures": {
+        "all": "minecraft:block/cracked_polished_blackstone_bricks"
+    }
+}

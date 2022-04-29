@@ -13,6 +13,8 @@ import com.ordana.immersive_weathering.common.entity.FollowLeafCrownGoal;
 import com.ordana.immersive_weathering.common.items.ModItems;
 import com.ordana.immersive_weathering.configs.ServerConfigs;
 import com.ordana.immersive_weathering.block_growth.*;
+import com.ordana.immersive_weathering.integration.IntegrationHandler;
+import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -104,9 +106,10 @@ public class ModEvents {
                 level.playSound(player, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
 
             } else {
-                BlockState s = Mossable.getUnaffectedMossState(state);
+                BlockState s = Mossable.getUnaffectedMossBlock(state);
                 if (s != state) {
                     newState = s;
+                    if(IntegrationHandler.quark) newState = QuarkPlugin.fixVerticalSlab(newState,state);
                     if (!level.isClientSide) {
                         Block.popResourceFromFace(level, pos, event.getFace(), new ItemStack(ModItems.MOSS_CLUMP.get()));
                     }
@@ -131,40 +134,40 @@ public class ModEvents {
                 event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
             }
         } else if (i instanceof FlintAndSteelItem) {
-            if (b instanceof Mossable) {
-                BlockState s = Mossable.getUnaffectedMossState(state);
-                if (s != state) {
-                    s = Weatherable.setStable(s);
 
-                    if (level.isClientSide) {
-                        ModParticles.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.FLAME, UniformInt.of(3, 5));
-                    }
-                    //fixing stuff prevents them from weathering
+            BlockState s = Mossable.getUnaffectedMossBlock(state);
+            if (s != state) {
+                s = Weatherable.setStable(s);
 
-                    level.setBlockAndUpdate(pos, s);
-                    level.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
-
-                    if (player != null) {
-                        stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(event.getHand()));
-                    }
-
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                        player.awardStat(Stats.ITEM_USED.get(i));
-                    }
-
-                    event.setCanceled(true);
-                    event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+                if (level.isClientSide) {
+                    ModParticles.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.FLAME, UniformInt.of(3, 5));
                 }
+                //fixing stuff prevents them from weathering
+
+                level.setBlockAndUpdate(pos, s);
+                level.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
+
+                if (player != null) {
+                    stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(event.getHand()));
+                }
+
+                if (player instanceof ServerPlayer) {
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    player.awardStat(Stats.ITEM_USED.get(i));
+                }
+
+                event.setCanceled(true);
+                event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
             }
+
         }
         //spawn ash
         else if (i instanceof ShovelItem) {
             if (b instanceof CampfireBlock && state.getValue(BlockStateProperties.LIT)) {
-                Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModItems.SOOT.get()));
+                Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModBlocks.SOOT.get()));
             }
             if (b instanceof FireBlock) {
-                Block.popResource(level, pos, new ItemStack(ModItems.SOOT.get()));
+                Block.popResource(level, pos, new ItemStack(ModBlocks.SOOT.get()));
                 level.playSound(player, pos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0f, 1.0f);
 
                 level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
@@ -183,14 +186,16 @@ public class ModEvents {
             }
         }
         //break crackable stuff
-        else if (i instanceof PickaxeItem && b instanceof Crackable crackable &&
+        else if (i instanceof PickaxeItem &&
                 (!ServerConfigs.CRACK_REQUIRES_SHIFTING.get() || player.isSecondaryUseActive())) {
 
-            BlockState newBlock = crackable.getNextCracked(state).orElse(null);
-            if (newBlock != null) {
+            BlockState newBlock = Crackable.getCrackedBlock(state);
+            if (newBlock != state) {
 
                 if(!player.isCreative()) {
-                    Block.popResourceFromFace(level, pos, event.getFace(), crackable.getRepairItem(state).getDefaultInstance());
+                    if (newBlock instanceof Crackable crackable) {
+                        Block.popResourceFromFace(level, pos, event.getFace(), crackable.getRepairItem(state).getDefaultInstance());
+                    }
                 }
 
                 level.playSound(player, pos, newBlock.getSoundType().getHitSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -277,9 +282,9 @@ public class ModEvents {
             }
         }
         //mossify stuff
-        else if (i == ModItems.MOSS_CLUMP.get() && b instanceof Mossable mossable) {
-            BlockState mossy = mossable.getNextMossy(state).orElse(null);
-            if (mossy != null) {
+        else if (i == ModItems.MOSS_CLUMP.get()) {
+            BlockState mossy = Mossable.getMossyBlock(state);
+            if (mossy != state) {
                 level.playSound(player, pos, SoundEvents.MOSS_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
 
                 level.setBlockAndUpdate(pos, mossy);
@@ -324,6 +329,7 @@ public class ModEvents {
 
                 //fixing stuff prevents them from weathering
                 fixedBlock = Weatherable.setStable(fixedBlock);
+                if(IntegrationHandler.quark) fixedBlock = QuarkPlugin.fixVerticalSlab(fixedBlock,state);
 
                 SoundEvent placeSound = fixedBlock.getSoundType().getPlaceSound();
                 level.playSound(player, pos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -370,6 +376,8 @@ public class ModEvents {
 
     private static final Map<String, ResourceLocation> fullReMap = new HashMap<>() {{
         put("ash_block", ImmersiveWeathering.res("soot_block"));
+        put("nulch", ImmersiveWeathering.res("nulch_block"));
+        put("mulch", ImmersiveWeathering.res("mulch_block"));
     }};
 
     @SubscribeEvent

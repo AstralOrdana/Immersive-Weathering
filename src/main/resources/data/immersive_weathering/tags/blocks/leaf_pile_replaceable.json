@@ -3,7 +3,8 @@
   "values": [
     "immersive_weathering:soot_block",
     "immersive_weathering:soot",
-    "#immersive_weathering:small_plants",
+    "minecraft:grass",
+    "minecraft:fern",
     "minecraft:air"
   ]
 }

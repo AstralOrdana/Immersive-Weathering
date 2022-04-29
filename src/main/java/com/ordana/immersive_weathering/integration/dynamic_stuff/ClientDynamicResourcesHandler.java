@@ -14,6 +14,7 @@ import net.mehvahdjukaar.selene.resourcepack.asset_generators.textures.SpriteUti
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -25,13 +26,14 @@ import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider {
 
     public ClientDynamicResourcesHandler() {
         super(new DynamicTexturePack(ImmersiveWeathering.res("virtual_resourcepack")));
-        this.dynamicPack.generateDebugResources = true;
+        this.dynamicPack.generateDebugResources = false;
     }
 
     @Override
@@ -41,7 +43,7 @@ public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider
 
     @Override
     public boolean dependsOnLoadedPacks() {
-        return true;
+        return false;
     }
 
     @Override
@@ -128,20 +130,21 @@ public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider
             }
         }
         //only needed for datagen. remove later
+        /*
         {
             //slabs
             List<Block> vs = new ArrayList<>();
             StaticResource bs = getResOrLog(manager,
                     ResType.BLOCKSTATES.getPath(ImmersiveWeathering.res("cut_iron_vertical_slab")));
             StaticResource model = getResOrLog(manager,
-                    ResType.MODELS.getPath(ImmersiveWeathering.res("cut_iron_vertical_slab")));
+                    ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("cracked_end_stone_vertical_slab")));
             StaticResource im = getResOrLog(manager,
                     ResType.ITEM_MODELS.getPath(ImmersiveWeathering.res("cut_iron_vertical_slab")));
 
             for (Field f : ModBlocks.class.getDeclaredFields()) {
                 try {
                     if (RegistryObject.class.isAssignableFrom(f.getType()) &&
-                    f.getName().contains("vertical_slab")) {
+                    f.getName().toLowerCase(Locale.ROOT).contains("vertical_slab")) {
                         vs.add(((RegistryObject<Block>)f.get(null)).get());
                     }
                 } catch (Exception ignored) {
@@ -151,14 +154,39 @@ public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider
             for(var b : vs){
                 String name = b.getRegistryName().getPath();
                 langBuilder.addEntry(b, LangBuilder.getReadableName(name));
-                dynamicPack.addSimilarJsonResource(bs, "cut_iron_vertical_slab", name);
-                dynamicPack.addSimilarJsonResource(model, "cut_iron_vertical_slab", name);
                 dynamicPack.addSimilarJsonResource(im, "cut_iron_vertical_slab", name);
+
+                {
+                    var s = name.replace("_vertical_slab", "");
+
+                    //bs
+                    String string = new String(model.data, StandardCharsets.UTF_8);
+                    String path = model.location.getPath().replace("cracked_end_stone", s);
+                    s = s.replace("tile","tiles");
+                    s =s.replace("brick","bricks");
+                    string = string.replace("cracked_end_stone", s);
+
+                    //adds modified under my namespace
+                    ResourceLocation newRes = ImmersiveWeathering.res(path);
+                    dynamicPack.addBytes(newRes, string.getBytes(), ResType.GENERIC);
+                }
+                {
+
+                    //bs
+                    String string = new String(bs.data, StandardCharsets.UTF_8);
+                    String path = bs.location.getPath().replace("cut_iron_vertical_slab", name);
+                    string = string.replace("cut_iron", name.replace("_vertical_slab", ""));
+
+                    //adds modified under my namespace
+                    ResourceLocation newRes = ImmersiveWeathering.res(path);
+                    dynamicPack.addBytes(newRes, string.getBytes(), ResType.GENERIC);
+                }
+
             }
 
 
         }
-
+        */
         dynamicPack.addLang(ImmersiveWeathering.res("en_us"), langBuilder.build());
 
 

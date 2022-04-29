@@ -8,6 +8,7 @@ import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.common.ModBlocks;
 import com.ordana.immersive_weathering.common.items.ModItems;
 import com.ordana.immersive_weathering.configs.ServerConfigs;
+import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -35,7 +36,7 @@ public class WeatheringHelper {
                 .put(Blocks.FLOWERING_AZALEA, Blocks.AZALEA)
                 .put(Blocks.FLOWERING_AZALEA_LEAVES, Blocks.AZALEA_LEAVES)
                 .put(ModBlocks.FLOWERING_AZALEA_LEAF_PILE.get(), ModBlocks.AZALEA_LEAF_PILE.get());
-        if (ModList.get().isLoaded("quark")) {
+        if (IntegrationHandler.quark) {
             Block a = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("quark:flowering_azalea_hedge"));
             Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("quark:azalea_hedge"));
             if (a != null && b != null) {

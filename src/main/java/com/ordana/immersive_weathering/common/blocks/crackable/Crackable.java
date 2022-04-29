@@ -6,6 +6,8 @@ import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.common.ModBlocks;
 import com.ordana.immersive_weathering.common.blocks.PatchSpreader;
 import com.ordana.immersive_weathering.common.blocks.Weatherable;
+import com.ordana.immersive_weathering.integration.IntegrationHandler;
+import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
@@ -13,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.fml.ModList;
 
 import java.util.Optional;
 import java.util.Random;
@@ -20,44 +23,51 @@ import java.util.function.Supplier;
 
 public interface Crackable extends Weatherable {
 
-    Supplier<BiMap<Block, Block>> CRACK_LEVEL_INCREASES = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
+    Supplier<BiMap<Block, Block>> CRACK_LEVEL_INCREASES = Suppliers.memoize(() -> {
+        var builder = ImmutableBiMap.<Block, Block>builder()
 
-            .put(Blocks.STONE_BRICKS, Blocks.CRACKED_STONE_BRICKS)
-            .put(Blocks.BRICKS, ModBlocks.CRACKED_BRICKS.get())
-            .put(Blocks.POLISHED_BLACKSTONE_BRICKS, Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS)
-            .put(Blocks.NETHER_BRICKS, Blocks.CRACKED_NETHER_BRICKS)
-            .put(Blocks.DEEPSLATE_BRICKS, Blocks.CRACKED_DEEPSLATE_BRICKS)
-            .put(Blocks.DEEPSLATE_TILES, Blocks.CRACKED_DEEPSLATE_TILES)
-            .put(Blocks.PRISMARINE_BRICKS, ModBlocks.CRACKED_PRISMARINE_BRICKS.get())
-            .put(Blocks.END_STONE_BRICKS, ModBlocks.CRACKED_END_STONE_BRICKS.get())
+                .put(Blocks.STONE_BRICKS, Blocks.CRACKED_STONE_BRICKS)
+                .put(Blocks.BRICKS, ModBlocks.CRACKED_BRICKS.get())
+                .put(Blocks.POLISHED_BLACKSTONE_BRICKS, Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS)
+                .put(Blocks.NETHER_BRICKS, Blocks.CRACKED_NETHER_BRICKS)
+                .put(Blocks.DEEPSLATE_BRICKS, Blocks.CRACKED_DEEPSLATE_BRICKS)
+                .put(Blocks.DEEPSLATE_TILES, Blocks.CRACKED_DEEPSLATE_TILES)
+                .put(Blocks.PRISMARINE_BRICKS, ModBlocks.CRACKED_PRISMARINE_BRICKS.get())
+                .put(Blocks.END_STONE_BRICKS, ModBlocks.CRACKED_END_STONE_BRICKS.get())
 
-            .put(Blocks.STONE_BRICK_SLAB, ModBlocks.CRACKED_STONE_BRICK_SLAB.get())
-            .put(Blocks.BRICK_SLAB, ModBlocks.CRACKED_BRICK_SLAB.get())
-            .put(Blocks.POLISHED_BLACKSTONE_BRICK_SLAB, ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB.get())
-            .put(Blocks.NETHER_BRICK_SLAB, ModBlocks.CRACKED_NETHER_BRICK_SLAB.get())
-            .put(Blocks.DEEPSLATE_BRICK_SLAB, ModBlocks.CRACKED_DEEPSLATE_BRICK_SLAB.get())
-            .put(Blocks.DEEPSLATE_TILE_SLAB, ModBlocks.CRACKED_DEEPSLATE_TILE_SLAB.get())
-            .put(Blocks.PRISMARINE_BRICK_SLAB, ModBlocks.CRACKED_PRISMARINE_BRICK_SLAB.get())
-            .put(Blocks.END_STONE_BRICK_SLAB, ModBlocks.CRACKED_END_STONE_BRICK_SLAB.get())
+                .put(Blocks.STONE_BRICK_SLAB, ModBlocks.CRACKED_STONE_BRICK_SLAB.get())
+                .put(Blocks.BRICK_SLAB, ModBlocks.CRACKED_BRICK_SLAB.get())
+                .put(Blocks.POLISHED_BLACKSTONE_BRICK_SLAB, ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB.get())
+                .put(Blocks.NETHER_BRICK_SLAB, ModBlocks.CRACKED_NETHER_BRICK_SLAB.get())
+                .put(Blocks.DEEPSLATE_BRICK_SLAB, ModBlocks.CRACKED_DEEPSLATE_BRICK_SLAB.get())
+                .put(Blocks.DEEPSLATE_TILE_SLAB, ModBlocks.CRACKED_DEEPSLATE_TILE_SLAB.get())
+                .put(Blocks.PRISMARINE_BRICK_SLAB, ModBlocks.CRACKED_PRISMARINE_BRICK_SLAB.get())
+                .put(Blocks.END_STONE_BRICK_SLAB, ModBlocks.CRACKED_END_STONE_BRICK_SLAB.get())
 
-            .put(Blocks.STONE_BRICK_STAIRS, ModBlocks.CRACKED_STONE_BRICK_STAIRS.get())
-            .put(Blocks.BRICK_STAIRS, ModBlocks.CRACKED_BRICK_STAIRS.get())
-            .put(Blocks.POLISHED_BLACKSTONE_BRICK_STAIRS, ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_STAIRS.get())
-            .put(Blocks.NETHER_BRICK_STAIRS, ModBlocks.CRACKED_NETHER_BRICK_STAIRS.get())
-            .put(Blocks.DEEPSLATE_BRICK_STAIRS, ModBlocks.CRACKED_DEEPSLATE_BRICK_STAIRS.get())
-            .put(Blocks.DEEPSLATE_TILE_STAIRS, ModBlocks.CRACKED_DEEPSLATE_TILE_STAIRS.get())
-            .put(Blocks.PRISMARINE_BRICK_STAIRS, ModBlocks.CRACKED_PRISMARINE_BRICK_STAIRS.get())
-            .put(Blocks.END_STONE_BRICK_STAIRS, ModBlocks.CRACKED_END_STONE_BRICK_STAIRS.get())
+                .put(Blocks.STONE_BRICK_STAIRS, ModBlocks.CRACKED_STONE_BRICK_STAIRS.get())
+                .put(Blocks.BRICK_STAIRS, ModBlocks.CRACKED_BRICK_STAIRS.get())
+                .put(Blocks.POLISHED_BLACKSTONE_BRICK_STAIRS, ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_STAIRS.get())
+                .put(Blocks.NETHER_BRICK_STAIRS, ModBlocks.CRACKED_NETHER_BRICK_STAIRS.get())
+                .put(Blocks.DEEPSLATE_BRICK_STAIRS, ModBlocks.CRACKED_DEEPSLATE_BRICK_STAIRS.get())
+                .put(Blocks.DEEPSLATE_TILE_STAIRS, ModBlocks.CRACKED_DEEPSLATE_TILE_STAIRS.get())
+                .put(Blocks.PRISMARINE_BRICK_STAIRS, ModBlocks.CRACKED_PRISMARINE_BRICK_STAIRS.get())
+                .put(Blocks.END_STONE_BRICK_STAIRS, ModBlocks.CRACKED_END_STONE_BRICK_STAIRS.get())
 
-            .put(Blocks.STONE_BRICK_WALL, ModBlocks.CRACKED_STONE_BRICK_WALL.get())
-            .put(Blocks.BRICK_WALL, ModBlocks.CRACKED_BRICK_WALL.get())
-            .put(Blocks.POLISHED_BLACKSTONE_BRICK_WALL, ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_WALL.get())
-            .put(Blocks.NETHER_BRICK_WALL, ModBlocks.CRACKED_NETHER_BRICK_WALL.get())
-            .put(Blocks.DEEPSLATE_BRICK_WALL, ModBlocks.CRACKED_DEEPSLATE_BRICK_WALL.get())
-            .put(Blocks.DEEPSLATE_TILE_WALL, ModBlocks.CRACKED_DEEPSLATE_TILE_WALL.get())
-            .put(ModBlocks.PRISMARINE_BRICK_WALL.get(), ModBlocks.CRACKED_PRISMARINE_BRICK_WALL.get())
-            .put(Blocks.END_STONE_BRICK_WALL, ModBlocks.CRACKED_END_STONE_BRICK_WALL.get())
-            .build());
+                .put(Blocks.STONE_BRICK_WALL, ModBlocks.CRACKED_STONE_BRICK_WALL.get())
+                .put(Blocks.BRICK_WALL, ModBlocks.CRACKED_BRICK_WALL.get())
+                .put(Blocks.POLISHED_BLACKSTONE_BRICK_WALL, ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_WALL.get())
+                .put(Blocks.NETHER_BRICK_WALL, ModBlocks.CRACKED_NETHER_BRICK_WALL.get())
+                .put(Blocks.DEEPSLATE_BRICK_WALL, ModBlocks.CRACKED_DEEPSLATE_BRICK_WALL.get())
+                .put(Blocks.DEEPSLATE_TILE_WALL, ModBlocks.CRACKED_DEEPSLATE_TILE_WALL.get())
+                .put(ModBlocks.PRISMARINE_BRICK_WALL.get(), ModBlocks.CRACKED_PRISMARINE_BRICK_WALL.get())
+                .put(Blocks.END_STONE_BRICK_WALL, ModBlocks.CRACKED_END_STONE_BRICK_WALL.get());
+
+        if (IntegrationHandler.quark) {
+            QuarkPlugin.addAllVerticalSlabs(builder);
+        }
+
+        return builder.build();
+    });
 
     //reverse map for reverse access in descending order
     Supplier<BiMap<Block, Block>> CRACK_LEVEL_DECREASES = Suppliers.memoize(() -> CRACK_LEVEL_INCREASES.get().inverse());
@@ -66,15 +76,26 @@ public interface Crackable extends Weatherable {
     //these can be removed if you want
 
 
-    static Block getUncrackedCrackBlock(Block block) {
-        Block block2 = block;
+    static BlockState getUncrackedCrackBlock(BlockState state) {
+        Block block2 = state.getBlock();
         Block block3 = CRACK_LEVEL_DECREASES.get().get(block2);
         while (block3 != null) {
             block2 = block3;
             block3 = CRACK_LEVEL_DECREASES.get().get(block2);
         }
-        return block2;
+        return block2.withPropertiesOf(state);
     }
+
+    static BlockState getCrackedBlock(BlockState state) {
+        Block block2 = state.getBlock();
+        Block block3 = CRACK_LEVEL_INCREASES.get().get(block2);
+        while (block3 != null) {
+            block2 = block3;
+            block3 = CRACK_LEVEL_INCREASES.get().get(block2);
+        }
+        return block2.withPropertiesOf(state);
+    }
+
 
     static Optional<Block> getDecreasedCrackBlock(Block block) {
         return Optional.ofNullable(CRACK_LEVEL_DECREASES.get().get(block));
@@ -87,10 +108,7 @@ public interface Crackable extends Weatherable {
 
     default Optional<BlockState> getNextCracked(BlockState state) {
         return getIncreasedCrackBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
-
     }
-
-    ;
 
     default Optional<BlockState> getPreviousCracked(BlockState state) {
         return getDecreasedCrackBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
@@ -128,7 +146,7 @@ public interface Crackable extends Weatherable {
                 opt = this.getNextCracked(state);
             }
             BlockState newState = opt.orElse(state.setValue(WEATHERABLE, WeatheringState.FALSE));
-            if(newState != state) {
+            if (newState != state) {
                 serverLevel.setBlock(pos, newState, 2);
                 //schedule block event in 1 tick
                 if (!newState.hasProperty(WEATHERABLE)) {

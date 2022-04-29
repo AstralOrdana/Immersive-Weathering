@@ -142,6 +142,7 @@ dependencies {
     implementation fg.deobf("curse.maven:balm-531761:3685074")
     implementation fg.deobf("curse.maven:terrablender-563928:3725996")
     implementation fg.deobf("curse.maven:biomes-o-plenty-220318:3759236")
+    implementation fg.deobf("curse.maven:jei-238222:3682513")
    // implementation fg.deobf("curse.maven:snow-real-magic-308663:3680622")
     //implementation fg.deobf("curse.maven:kiwi-303657:3714067")
 
