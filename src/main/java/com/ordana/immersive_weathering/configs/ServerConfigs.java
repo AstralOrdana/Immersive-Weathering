@@ -113,7 +113,7 @@ public class ServerConfigs {
         HUMUS_SPAWN_BELOW_LEAVES = builder.comment("Allows natural humus or podzol generation below leaf piles with more than 1 layer")
                 .defineInRange("humus_and_podzol_spawn_chance", 0.02, 0, 1);
         FALLING_LEAVES = builder.comment("Chance for leaf piles to spawn below leaves")
-                .defineInRange("fallen_leaves_chance", 0.03, 0, 1);
+                .defineInRange("fallen_leaves_chance", 0.005, 0, 1);
         MAX_LEAF_PILE_HEIGHT = builder.comment("Maximum height that leaf piles can naturally pile up to." +
                         "Refers to the previously defined falling leaves feature")
                 .defineInRange("fallen_leaves_height", 3, 1, 8);

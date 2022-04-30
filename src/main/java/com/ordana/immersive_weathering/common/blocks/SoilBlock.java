@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.common.blocks;
 
 
 import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.IConditionalGrowingBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -27,7 +28,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Random;
 
-public class SoilBlock extends SnowyDirtBlock implements BonemealableBlock {
+public class SoilBlock extends SnowyDirtBlock implements BonemealableBlock, IConditionalGrowingBlock {
 
     public static final BooleanProperty FERTILE = BooleanProperty.create("fertile");
 
@@ -52,11 +53,8 @@ public class SoilBlock extends SnowyDirtBlock implements BonemealableBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
-        super.randomTick(state, level, pos, random);
-        if (isFertile(state)) {
-            BlockGrowthHandler.tickBlock(state, level, pos);
-        }
+    public boolean canGrow(BlockState state) {
+        return SoilBlock.isFertile(state);
     }
 
     @Override

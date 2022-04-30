@@ -46,19 +46,17 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
     }
 
     public static void tickBlock(BlockState state, ServerLevel level, BlockPos pos) {
+        if (!ServerConfigs.BLOCK_GROWTH.get()) return;
         var growth = getBlockGrowth(state.getBlock());
         if (growth.isPresent()) {
+            //TODO: move this line to datapack self predicate
+            if(state.getBlock() instanceof IConditionalGrowingBlock cb && !cb.canGrow(state))return;
             Holder<Biome> biome = level.getBiome(pos);
 
             for (var config : growth.get()) {
                 config.tryGrowing(pos, state, level, biome);
             }
         }
-    }
-
-    public static boolean canRandomTick(BlockState state) {
-        if (!ServerConfigs.BLOCK_GROWTH.get()) return false;
-        return BLOCKS.contains(state.getBlock());
     }
 
     public void writeToFile(final BlockGrowthConfiguration obj, FileWriter writer) {

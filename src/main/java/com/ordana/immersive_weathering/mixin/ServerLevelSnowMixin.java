@@ -14,7 +14,8 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(targets = {"net.minecraft.server.level.ServerLevel", "snownee.snow.WorldTickHandler"})
 public abstract class ServerLevelSnowMixin {
 
-    @ModifyArg(method = {"tickChunk","Lnet/minecraft/server/level/ServerLevel;m_8714_(Lnet/minecraft/world/level/chunk/LevelChunk;I)V"},
+    @ModifyArg(method = {"tickChunk",
+            "Lnet/minecraft/server/level/ServerLevel;m_8714_(Lnet/minecraft/world/level/chunk/LevelChunk;I)V"},
             require = 0,
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/world/level/block/Block;handlePrecipitation(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/biome/Biome$Precipitation;)V"))

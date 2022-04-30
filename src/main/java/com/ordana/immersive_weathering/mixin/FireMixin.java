@@ -33,7 +33,7 @@ public abstract class FireMixin {
         if (level.getGameRules().getBoolean(GameRules.RULE_DOFIRETICK)) {
 
             //if it's upwards only (normal fire) place soot next to it
-            BlockGrowthHandler.tickBlock(state, level, pos);
+            //BlockGrowthHandler.tickBlock(state, level, pos);
 
             //place soot above
             //TODO: see if this can be optimized & use datapack

@@ -38,7 +38,7 @@ public class LeavesGrowth implements IBlockGrowth {
             if (leafPile != null && level.getBlockState(pos.below()).isAir()) {
 
 
-                if (WeatheringHelper.isIciclePos(pos) && level.getBiome(pos).value().coldEnoughToSnow(pos)) {
+                if (random.nextBoolean() && WeatheringHelper.isIciclePos(pos) && level.getBiome(pos).value().coldEnoughToSnow(pos)) {
                     level.setBlock(pos.below(), ModBlocks.ICICLE.get().defaultBlockState()
                             .setValue(PointedDripstoneBlock.TIP_DIRECTION, Direction.DOWN), 2);
                 }
