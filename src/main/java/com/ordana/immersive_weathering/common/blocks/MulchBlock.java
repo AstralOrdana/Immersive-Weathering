@@ -1,15 +1,19 @@
 package com.ordana.immersive_weathering.common.blocks;
 
+import com.ordana.immersive_weathering.common.ModParticles;
 import com.ordana.immersive_weathering.common.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -25,6 +29,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.IPlantable;
 
 import java.util.Random;
+import java.util.function.Supplier;
 
 public class MulchBlock extends Block {
 
@@ -132,5 +137,26 @@ public class MulchBlock extends Block {
     @Override
     public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         return 5;
+    }
+
+    @Override
+    public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
+        super.stepOn(level, pos, state, entity);
+        if (entity instanceof LivingEntity) {
+            if (level.isClientSide) {
+                Random random = level.getRandom();
+                boolean bl = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
+                if (bl && random.nextBoolean()) {
+
+                    level.addParticle(ModParticles.MULCH.get(),
+                            entity.getX() + Mth.randomBetween(random,-0.2f,0.2f),
+                            pos.getY() + 1.025,
+                            entity.getZ() +Mth.randomBetween(random,-0.2f,0.2f),
+                            Mth.randomBetween(random,-0.9f,-1),
+                            -1,
+                            0);
+                }
+            }
+        }
     }
 }

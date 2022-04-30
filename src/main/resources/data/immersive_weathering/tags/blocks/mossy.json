@@ -15,6 +15,12 @@
     "immersive_weathering:mossy_brick_wall",
     "immersive_weathering:mossy_stone",
     "immersive_weathering:mossy_stone_stairs",
-    "immersive_weathering:mossy_stone_slab"
+    "immersive_weathering:mossy_stone_slab",
+    {"id":"quark:mossy_cobblestone_bricks","required":false},
+    {"id":"quark:mossy_cobblestone_bricks_stairs","required":false},
+    {"id":"quark:mossy_cobblestone_bricks_slab","required":false},
+    {"id":"quark:mossy_cobblestone_bricks_wall","required":false},
+    {"id":"quark:mossy_cobblestone_bricks_vertical_slab","required":false},
+    {"id":"waystones:mossy_waystone","required":false}
   ]
 }

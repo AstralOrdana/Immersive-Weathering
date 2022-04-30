@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.common.blocks;
 
+import com.ordana.immersive_weathering.common.ModParticles;
 import com.ordana.immersive_weathering.common.ModTags;
 import java.util.Random;
 import net.minecraft.core.BlockPos;
@@ -7,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -88,17 +90,33 @@ public class NulchBlock extends Block {
     }
 
     @Override
-    public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
+        stateBuilder.add(MOLTEN);
+    }
+
+    @Override
+    public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
         if (state.getValue(MOLTEN)) {
             if (!entity.fireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
                 entity.hurt(DamageSource.HOT_FLOOR, 1.0F);
             }
         }
-        super.stepOn(world, pos, state, entity);
-    }
+        super.stepOn(level, pos, state, entity);
+        if (!(entity instanceof LivingEntity) || entity.getFeetBlockState().is(this)) {
+            if (level.isClientSide) {
+                Random random = level.getRandom();
+                boolean bl = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
+                if (bl && random.nextBoolean()) {
 
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
-        stateBuilder.add(MOLTEN);
+                    level.addParticle(ModParticles.NULCH.get(),
+                            entity.getX() + Mth.randomBetween(random,-0.2f,0.2f),
+                            pos.getY() + 1.025,
+                            entity.getZ() +Mth.randomBetween(random,-0.2f,0.2f),
+                            Mth.randomBetween(random,-0.9f,-1),
+                            -1,
+                            0);
+                }
+            }
+        }
     }
 }

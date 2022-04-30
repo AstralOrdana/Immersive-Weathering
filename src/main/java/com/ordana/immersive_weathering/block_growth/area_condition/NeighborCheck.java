@@ -13,13 +13,15 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import java.util.*;
 
 record NeighborCheck(RuleTest mustHavePredicate, Optional<RuleTest> mustNotHavePredicate,
-                     Optional<Integer> requiredAmount) implements AreaCondition {
+                     Optional<Integer> requiredAmount, Optional<List<Direction>> directions) implements AreaCondition {
 
     public static final String NAME = "neighbor_based_generation";
     public static final Codec<NeighborCheck> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             RuleTest.CODEC.fieldOf("must_have").forGetter(NeighborCheck::mustHavePredicate),
             RuleTest.CODEC.optionalFieldOf("must_not_have").forGetter(NeighborCheck::mustNotHavePredicate),
-            Codec.INT.optionalFieldOf("required_amount").forGetter(NeighborCheck::requiredAmount)
+            Codec.INT.optionalFieldOf("required_amount").forGetter(NeighborCheck::requiredAmount),
+            Direction.CODEC.listOf().optionalFieldOf("directions").forGetter(NeighborCheck::directions)
+
     ).apply(instance, NeighborCheck::new));
     static final AreaConditionType<NeighborCheck> TYPE = new AreaConditionType<>(NeighborCheck.CODEC, NeighborCheck.NAME);
 
@@ -32,7 +34,7 @@ record NeighborCheck(RuleTest mustHavePredicate, Optional<RuleTest> mustNotHaveP
     public boolean test(BlockPos pos, Level level, BlockGrowthConfiguration config) {
         int count = 0;
         //shuffling. provides way better result that iterating through it conventionally
-        List<Direction> list = new ArrayList<Direction>(List.of(Direction.values()));
+        List<Direction> list = directions.orElse(new ArrayList<>(List.of(Direction.values())));
         Random random = new Random(Mth.getSeed(pos));
         Collections.shuffle(list, random);
         int required = this.requiredAmount.orElse(1);

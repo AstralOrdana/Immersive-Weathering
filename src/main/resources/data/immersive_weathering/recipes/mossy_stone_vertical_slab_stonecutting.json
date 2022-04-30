@@ -1,7 +1,7 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "immersive_weathering:mossy_stones"
+    "item": "immersive_weathering:mossy_stone"
   },
   "result": "immersive_weathering:mossy_stone_vertical_slab",
   "count": 2,

@@ -3,7 +3,6 @@
   "values": [
     "immersive_weathering:soot_block",
     "immersive_weathering:soot",
-    "#immersive_weathering:leaf_piles",
     "minecraft:air"
   ]
 }

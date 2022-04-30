@@ -16,10 +16,8 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.storage.WritableLevelData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.Slice;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import java.util.function.Supplier;
 
@@ -27,8 +25,8 @@ import java.util.function.Supplier;
 public abstract class ServerLevelMixin  extends Level{
 
 
-    protected ServerLevelMixin(WritableLevelData p_204149_, ResourceKey<Level> p_204150_, Holder<DimensionType> p_204151_, Supplier<ProfilerFiller> p_204152_, boolean p_204153_, boolean p_204154_, long p_204155_) {
-        super(p_204149_, p_204150_, p_204151_, p_204152_, p_204153_, p_204154_, p_204155_);
+    protected ServerLevelMixin(WritableLevelData levelData, ResourceKey<Level> key, Holder<DimensionType> typeHolder, Supplier<ProfilerFiller> supplier, boolean aSuper, boolean aSuper1, long aSuper2) {
+        super(levelData, key, typeHolder, supplier, aSuper, aSuper1, aSuper2);
     }
 
     @ModifyVariable(method = "tickChunk",
@@ -41,7 +39,7 @@ public abstract class ServerLevelMixin  extends Level{
             ),
             require = 1
     )
-    public BlockPos grabPos(BlockPos value) {
+    private BlockPos grabPos(BlockPos value) {
         grabbedPos = value;
         return value;
     }
@@ -62,15 +60,6 @@ public abstract class ServerLevelMixin  extends Level{
     private FluidState callTick(FluidState value) {
         BlockGrowthHandler.tickBlock(this.getBlockState(grabbedPos), ((ServerLevel) ((Object) this)), grabbedPos);
         return value;
-    }
-
-    @Redirect(method = "tickChunk",
-            at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/world/level/block/Block;handlePrecipitation(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/biome/Biome$Precipitation;)V"))
-    private void spawnIcicles(Block instance, BlockState state, Level level, BlockPos pos, Biome.Precipitation precipitation) {
-        WeatheringHelper.tryPlacingIcicle(state, level, pos, precipitation);
-
-        instance.handlePrecipitation(state, level, pos, precipitation);
     }
 
 }

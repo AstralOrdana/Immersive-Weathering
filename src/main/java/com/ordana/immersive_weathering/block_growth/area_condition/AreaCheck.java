@@ -5,8 +5,12 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.block_growth.BlockGrowthConfiguration;
 import com.ordana.immersive_weathering.common.blocks.WeatheringHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryCodecs;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 
@@ -15,7 +19,8 @@ import java.util.Random;
 
 record AreaCheck(int rX, int rY, int rZ, int requiredAmount, Optional<Integer> yOffset,
                  Optional<RuleTest> mustHavePredicate,
-                 Optional<RuleTest> mustNotHavePredicate) implements AreaCondition {
+                 Optional<RuleTest> mustNotHavePredicate,
+                 Optional<HolderSet<Block>> extraIncluded) implements AreaCondition {
 
     public static final String NAME = "generate_if_not_too_many";
     public static final Codec<AreaCheck> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -25,7 +30,8 @@ record AreaCheck(int rX, int rY, int rZ, int requiredAmount, Optional<Integer> y
             Codec.INT.fieldOf("requiredAmount").forGetter(AreaCheck::requiredAmount),
             Codec.INT.optionalFieldOf("yOffset").forGetter(AreaCheck::yOffset),
             RuleTest.CODEC.optionalFieldOf("must_have").forGetter(AreaCheck::mustHavePredicate),
-            RuleTest.CODEC.optionalFieldOf("must_not_have").forGetter(AreaCheck::mustNotHavePredicate)
+            RuleTest.CODEC.optionalFieldOf("must_not_have").forGetter(AreaCheck::mustNotHavePredicate),
+            RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).optionalFieldOf("includes").forGetter(AreaCheck::extraIncluded)
     ).apply(instance, AreaCheck::new));
     static final AreaConditionType<AreaCheck> TYPE = new AreaConditionType<>(AreaCheck.CODEC, AreaCheck.NAME);
 
@@ -45,7 +51,8 @@ record AreaCheck(int rX, int rY, int rZ, int requiredAmount, Optional<Integer> y
         var list = WeatheringHelper.grabBlocksAroundRandomly(pos, rX, rY, rZ);
         for (BlockPos p : list) {
             BlockState state = level.getBlockState(p);
-            if (config.getPossibleBlocks().contains(state.getBlock())) count += 1;
+            if (config.getPossibleBlocks().contains(state.getBlock()) ||
+                    (extraIncluded.isPresent() && state.is(extraIncluded.get()))) count += 1;
             if (!hasRequirement &&
                     mustHavePredicate.get().test(state, random)) {
                 hasRequirement = true;

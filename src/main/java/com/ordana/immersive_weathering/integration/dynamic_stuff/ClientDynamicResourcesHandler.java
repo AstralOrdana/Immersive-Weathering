@@ -2,8 +2,6 @@ package com.ordana.immersive_weathering.integration.dynamic_stuff;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.common.ModBlocks;
-import com.ordana.immersive_weathering.mixin.ServerLevelMixin;
 import net.mehvahdjukaar.selene.block_set.leaves.LeavesType;
 import net.mehvahdjukaar.selene.block_set.leaves.LeavesTypeRegistry;
 import net.mehvahdjukaar.selene.resourcepack.*;
@@ -12,21 +10,11 @@ import net.mehvahdjukaar.selene.resourcepack.asset_generators.textures.Palette;
 import net.mehvahdjukaar.selene.resourcepack.asset_generators.textures.Respriter;
 import net.mehvahdjukaar.selene.resourcepack.asset_generators.textures.SpriteUtils;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.world.level.block.Blocks;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider {
@@ -106,7 +94,12 @@ public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider
 
                     try {
                         String leavesTexture;
-                        leavesTexture = RPUtils.findFirstBlockTextureLocation(manager, leafType.leaves, s -> !s.contains("top"));
+                        try {
+                            leavesTexture = RPUtils.findFirstBlockTextureLocation(manager, leafType.leaves, (s) -> true);
+                        } catch (Exception exception) {
+                            getLogger().warn("Failed to find texture for Leaf Pile {}, using oak one instead", v);
+                            leavesTexture = RPUtils.findFirstBlockTextureLocation(manager, Blocks.OAK_LEAVES, (s) -> true);
+                        }
                         addLeafPilesModel(Objects.requireNonNull(lpModel1), id, leavesTexture);
                         addLeafPilesModel(Objects.requireNonNull(lpModel2), id, leavesTexture);
                         addLeafPilesModel(Objects.requireNonNull(lpModel4), id, leavesTexture);

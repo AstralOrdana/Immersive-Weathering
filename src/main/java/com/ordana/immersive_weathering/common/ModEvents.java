@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.common;
 
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
 import com.ordana.immersive_weathering.common.blocks.Waxables;
 import com.ordana.immersive_weathering.common.blocks.Weatherable;
 import com.ordana.immersive_weathering.common.blocks.WeatheringHelper;
@@ -12,7 +13,6 @@ import com.ordana.immersive_weathering.common.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.common.entity.FollowLeafCrownGoal;
 import com.ordana.immersive_weathering.common.items.ModItems;
 import com.ordana.immersive_weathering.configs.ServerConfigs;
-import com.ordana.immersive_weathering.block_growth.*;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -33,7 +33,10 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -48,7 +51,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = ImmersiveWeathering.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
@@ -109,7 +113,7 @@ public class ModEvents {
                 BlockState s = Mossable.getUnaffectedMossBlock(state);
                 if (s != state) {
                     newState = s;
-                    if(IntegrationHandler.quark) newState = QuarkPlugin.fixVerticalSlab(newState,state);
+                    if (IntegrationHandler.quark) newState = QuarkPlugin.fixVerticalSlab(newState, state);
                     if (!level.isClientSide) {
                         Block.popResourceFromFace(level, pos, event.getFace(), new ItemStack(ModItems.MOSS_CLUMP.get()));
                     }
@@ -138,7 +142,7 @@ public class ModEvents {
             BlockState s = Mossable.getUnaffectedMossBlock(state);
             if (s != state) {
                 s = Weatherable.setStable(s);
-
+                if (IntegrationHandler.quark) s = QuarkPlugin.fixVerticalSlab(s, state);
                 if (level.isClientSide) {
                     ModParticles.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.FLAME, UniformInt.of(3, 5));
                 }
@@ -191,8 +195,8 @@ public class ModEvents {
 
             BlockState newBlock = Crackable.getCrackedBlock(state);
             if (newBlock != state) {
-
-                if(!player.isCreative()) {
+                if (IntegrationHandler.quark) newBlock = QuarkPlugin.fixVerticalSlab(newBlock, state);
+                if (!player.isCreative()) {
                     if (newBlock instanceof Crackable crackable) {
                         Block.popResourceFromFace(level, pos, event.getFace(), crackable.getRepairItem(state).getDefaultInstance());
                     }
@@ -218,7 +222,7 @@ public class ModEvents {
         }
         //spawn bark
         else if (i instanceof AxeItem) {
-            if(ServerConfigs.BARK_ENABLED.get()) {
+            if (ServerConfigs.BARK_ENABLED.get()) {
                 var stripped = state.getToolModifiedState(level, pos, player, stack, ToolActions.AXE_STRIP);
                 if (stripped != null) {
                     var bark = WeatheringHelper.getBarkForStrippedLog(stripped).orElse(null);
@@ -286,7 +290,7 @@ public class ModEvents {
             BlockState mossy = Mossable.getMossyBlock(state);
             if (mossy != state) {
                 level.playSound(player, pos, SoundEvents.MOSS_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
-
+                if (IntegrationHandler.quark) mossy = QuarkPlugin.fixVerticalSlab(mossy, state);
                 level.setBlockAndUpdate(pos, mossy);
 
                 if (player != null) {
@@ -329,7 +333,7 @@ public class ModEvents {
 
                 //fixing stuff prevents them from weathering
                 fixedBlock = Weatherable.setStable(fixedBlock);
-                if(IntegrationHandler.quark) fixedBlock = QuarkPlugin.fixVerticalSlab(fixedBlock,state);
+                if (IntegrationHandler.quark) fixedBlock = QuarkPlugin.fixVerticalSlab(fixedBlock, state);
 
                 SoundEvent placeSound = fixedBlock.getSoundType().getPlaceSound();
                 level.playSound(player, pos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);

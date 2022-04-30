@@ -1,7 +1,7 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "immersive_weathering:cracked_stone_bricks"
+    "item": "minecraft:cracked_stone_bricks"
   },
   "result": "immersive_weathering:cracked_stone_brick_vertical_slab",
   "count": 2,

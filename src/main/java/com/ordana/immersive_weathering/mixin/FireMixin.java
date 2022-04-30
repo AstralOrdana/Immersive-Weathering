@@ -18,8 +18,10 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Random;
 
@@ -52,19 +54,18 @@ public abstract class FireMixin {
     }
 
     //expired fire turns into soot
-    @Redirect(method = "tick",
+    @Inject(method = "tick",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/server/level/ServerLevel;removeBlock(Lnet/minecraft/core/BlockPos;Z)Z",
-            ordinal = 3))
-    private boolean removeBlock(ServerLevel level, BlockPos pos, boolean b) {
-        BlockState s = level.getBlockState(pos);
-        boolean result = level.removeBlock(pos,b);
-        SootLayerBlock.convertToSoot(level, pos, s);
-        return result;
+            ordinal = 3,
+            shift = At.Shift.AFTER))
+    private void removeBlock(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random, CallbackInfo ci) {
+        SootLayerBlock.convertToSoot(serverLevel, pos, state);
     }
 
 
-    //replace fire with soot/ash
+    //can fail if another mod redirects it
+    //replace a block burnt by fire with soot/ash
     @Redirect(method = "tryCatchFire",
             require = 0,
             at = @At(value = "INVOKE",
@@ -75,11 +76,9 @@ public abstract class FireMixin {
     }
 
     //fire can replace soot
-    @Redirect(method = "getFireOdds",
-            at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/world/level/LevelReader;isEmptyBlock(Lnet/minecraft/core/BlockPos;)Z"))
-    private boolean canFireReplace(LevelReader levelReader, BlockPos pos) {
-        if (levelReader.getBlockState(pos).is(ModBlocks.SOOT.get())) return true;
-        return levelReader.isEmptyBlock(pos);
+    @Inject(method = "getFireOdds",
+            at = @At(value = "HEAD"), cancellable = true)
+    private void canFireReplace(LevelReader reader, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
+        if (reader.getBlockState(pos).is(ModBlocks.SOOT.get())) cir.setReturnValue(0);
     }
 }

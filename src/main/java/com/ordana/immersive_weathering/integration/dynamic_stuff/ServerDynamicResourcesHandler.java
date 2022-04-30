@@ -46,7 +46,7 @@ public class ServerDynamicResourcesHandler extends RPAwareDynamicDataProvider {
 
     public ServerDynamicResourcesHandler() {
         super(new DynamicDataPack(ImmersiveWeathering.res("virtual_resourcepack")));
-        this.dynamicPack.generateDebugResources = true;
+        this.dynamicPack.generateDebugResources = false;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ServerDynamicResourcesHandler extends RPAwareDynamicDataProvider {
 
     @Override
     public boolean dependsOnLoadedPacks() {
-        return true;
+        return false;
     }
 
     @Override

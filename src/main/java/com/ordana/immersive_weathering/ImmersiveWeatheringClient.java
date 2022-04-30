@@ -36,6 +36,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.IRegistryDelegate;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
 import java.util.Map;
 
@@ -133,6 +134,7 @@ public class ImmersiveWeatheringClient {
             return p;
         }
     }
+
 
     @Mod.EventBusSubscriber(modid = ImmersiveWeathering.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class ClientTicker {

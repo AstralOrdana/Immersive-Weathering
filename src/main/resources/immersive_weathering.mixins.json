@@ -18,9 +18,9 @@
     "RabbitMixin",
     "RootedDirtMixin",
     "ServerLevelMixin",
+    "ServerLevelSnowMixin",
     "SweetBerryBushMixin",
-    "WebMixin",
-    "snowrealmagic.SnowMixin"
+    "WebMixin"
   ],
   "client": [
     "BlockColorAccessor",

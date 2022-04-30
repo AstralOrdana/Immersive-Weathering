@@ -393,13 +393,13 @@ public class ModBlocks {
 
 
 
-    public static final RegistryObject<Block> CRACKED_END_STONE_BRICKS = regWithItem("CRACKED_END_STONE_BRICKS".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<Block> CRACKED_END_STONE_BRICKS = regWithItem("cracked_end_stone_bricks", () ->
             new CrackedBlock(Crackable.CrackLevel.CRACKED, ModItems.END_STONE_BRICK, BlockBehaviour.Properties.copy(Blocks.END_STONE)));
-    public static final RegistryObject<Block> CRACKED_END_STONE_BRICK_STAIRS = regWithItem("CRACKED_END_STONE_BRICK_STAIRS".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<Block> CRACKED_END_STONE_BRICK_STAIRS = regWithItem("cracked_end_stone_brick_stairs", () ->
             new CrackedStairsBlock(Crackable.CrackLevel.CRACKED, CRACKED_END_STONE_BRICKS, ModItems.END_STONE_BRICK, BlockBehaviour.Properties.copy(Blocks.END_STONE)));
-    public static final RegistryObject<Block> CRACKED_END_STONE_BRICK_SLAB = regWithItem("CRACKED_END_STONE_BRICK_SLAB".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<Block> CRACKED_END_STONE_BRICK_SLAB = regWithItem("cracked_end_stone_brick_slab", () ->
             new CrackedSlabBlock(Crackable.CrackLevel.CRACKED, ModItems.END_STONE_BRICK, BlockBehaviour.Properties.copy(Blocks.END_STONE)));
-    public static final RegistryObject<Block> CRACKED_END_STONE_BRICK_WALL = regWithItem("CRACKED_END_STONE_BRICK_WALL".toLowerCase(Locale.ROOT), () ->
+    public static final RegistryObject<Block> CRACKED_END_STONE_BRICK_WALL = regWithItem("cracked_end_stone_brick_wall", () ->
             new CrackedWallBlock(Crackable.CrackLevel.CRACKED, ModItems.END_STONE_BRICK, BlockBehaviour.Properties.copy(Blocks.END_STONE)));
     public static final RegistryObject<Block> CRACKED_END_STONE_BRICK_VERTICAL_SLAB = regWithItem("cracked_end_stone_brick_vertical_slab", () ->
             new CrackedVerticalSlabBlock(Crackable.CrackLevel.CRACKED, ModItems.END_STONE_BRICK,
