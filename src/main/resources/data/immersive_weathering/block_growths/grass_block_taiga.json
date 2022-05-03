@@ -27,7 +27,7 @@
               "Name": "minecraft:fern"
             }
           },
-          "weight": 10
+          "weight": 100
         },
         {
           "data": {
@@ -43,7 +43,7 @@
               "Name": "minecraft:sweet_berry_bush"
             }
           },
-          "weight": 7
+          "weight": 30
         },
         {
           "data": {
@@ -51,7 +51,7 @@
               "Name": "minecraft:grass"
             }
           },
-          "weight": 0
+          "weight": 80
         }
       ]
     }

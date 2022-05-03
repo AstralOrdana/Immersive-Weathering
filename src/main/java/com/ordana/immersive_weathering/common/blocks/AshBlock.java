@@ -112,7 +112,7 @@ public class AshBlock extends FallingBlock {
 
     private static final boolean HAS_ASH = !ModList.get().isLoaded("supplementaries");
 
-    public static boolean convertToAsh(Level level, BlockPos pos) {
+    public static boolean tryConvertToAsh(Level level, BlockPos pos, BlockState state) {
         if (level.random.nextFloat() < 0.5) {
 
             if (level.random.nextFloat() < 0.65) {
@@ -122,7 +122,7 @@ public class AshBlock extends FallingBlock {
                     level.setBlock(pos, toPlace.setValue(SootBlock.LIT, true), Block.UPDATE_CLIENTS);
                     return true;
                 }*/
-            } else if (HAS_ASH) {
+            } else if (HAS_ASH && !state.isAir()) {
                 level.setBlock(pos, ModBlocks.ASH_BLOCK.get().defaultBlockState()
                         .setValue(SootLayerBlock.LIT, level.random.nextBoolean()), Block.UPDATE_CLIENTS);
                 return true;

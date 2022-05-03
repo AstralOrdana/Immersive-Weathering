@@ -2,9 +2,7 @@ package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.common.blocks.AshBlock;
 import com.ordana.immersive_weathering.common.ModBlocks;
-import com.ordana.immersive_weathering.common.blocks.MulchBlock;
 import com.ordana.immersive_weathering.common.blocks.SootLayerBlock;
-import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -16,10 +14,9 @@ import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -64,21 +61,29 @@ public abstract class FireMixin {
     }
 
 
-    //can fail if another mod redirects it
-    //replace a block burnt by fire with soot/ash
-    @Redirect(method = "tryCatchFire",
-            require = 0,
-            at = @At(value = "INVOKE",
-                    target = "net/minecraft/world/level/Level.removeBlock (Lnet/minecraft/core/BlockPos;Z)Z"))
-    private boolean removeBlock(Level level, BlockPos pPos, boolean isMoving) {
-        if (!AshBlock.convertToAsh(level, pPos)) level.removeBlock(pPos, isMoving);
-        return true;
-    }
-
     //fire can replace soot
     @Inject(method = "getFireOdds",
             at = @At(value = "HEAD"), cancellable = true)
     private void canFireReplace(LevelReader reader, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
         if (reader.getBlockState(pos).is(ModBlocks.SOOT.get())) cir.setReturnValue(0);
+    }
+
+
+    @Unique
+    private BlockState bs;
+
+    @Inject(method = "tryCatchFire",
+            at = @At(value = "INVOKE",
+                    target = "net/minecraft/world/level/Level.removeBlock (Lnet/minecraft/core/BlockPos;Z)Z",
+                    shift = At.Shift.AFTER))
+    private void afterRemoveBlock(Level pLevel, BlockPos pPos, int pChance, Random pRandom, int pAge, Direction face, CallbackInfo ci) {
+        AshBlock.tryConvertToAsh(pLevel, pPos, bs);
+    }
+
+    @Inject(method = "tryCatchFire",
+            at = @At(value = "INVOKE",
+                    target = "net/minecraft/world/level/Level.removeBlock (Lnet/minecraft/core/BlockPos;Z)Z"))
+    private void beforeRemoveBlock(Level pLevel, BlockPos pPos, int pChance, Random pRandom, int pAge, Direction face, CallbackInfo ci) {
+        bs = pLevel.getBlockState(pPos);
     }
 }

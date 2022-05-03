@@ -104,7 +104,7 @@ public class LeafPileBlock extends Block implements BonemealableBlock {
         }
 
         //particles
-        if (layers > 0 && level.isClientSide && (!(entity instanceof LivingEntity) || entity.getFeetBlockState().is(this))) {
+        if (layers > 0 && level.isClientSide && (entity instanceof LivingEntity && entity.getFeetBlockState().is(this))) {
 
             Random random = level.getRandom();
             boolean bl = entity.xOld != entity.getX() || entity.zOld != entity.getZ();

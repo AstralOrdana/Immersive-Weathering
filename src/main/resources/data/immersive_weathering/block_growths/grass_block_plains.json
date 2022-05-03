@@ -75,7 +75,7 @@
               "Name": "minecraft:grass"
             }
           },
-          "weight": 0
+          "weight": 100
         }
       ]
     }

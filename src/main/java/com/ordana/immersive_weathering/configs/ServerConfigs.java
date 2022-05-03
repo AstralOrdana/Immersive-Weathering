@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ServerConfigs {
 
-    public static ForgeConfigSpec SERVER_SPEC;
+    public static ForgeConfigSpec SPEC;
 
 
     public static ForgeConfigSpec.DoubleValue MOSS_INTEREST_FOR_FACE;
@@ -20,6 +20,7 @@ public class ServerConfigs {
     public static ForgeConfigSpec.BooleanValue CRACK_NEEDS_AIR;
 
     public static ForgeConfigSpec.BooleanValue BARK_ENABLED;
+    public static ForgeConfigSpec.ConfigValue<String> GENERIC_BARK;
     public static ForgeConfigSpec.BooleanValue LEAF_PILES_PATCHES;
     public static ForgeConfigSpec.IntValue MAX_LEAF_PILE_HEIGHT;
     public static ForgeConfigSpec.IntValue LEAF_PILE_REACH;
@@ -82,9 +83,12 @@ public class ServerConfigs {
                 .define("pickaxe_cracking_requires_shifting", false);
         builder.pop();
 
+        builder.push("bark");
         BARK_ENABLED = builder.comment("Allows bark to be dropped after scraping off log blocks")
-                .define("bark_enabled", true);
-
+                .define("enabled", true);
+        GENERIC_BARK = builder.comment("If you dont like having a bark item for each wood type, write here a valid item id and it will be used as a generic bark instead. Note that existing bark items will not be hidden in creative inventory")
+                        .define("generic_bark_id","");
+        builder.pop();
 
         builder.push("icicles");
         ICICLES_PATCHES = builder.comment("Enables icicle patches features to spawn in icy biomes and caves")
@@ -122,10 +126,7 @@ public class ServerConfigs {
 
         LEAF_PILES_BLACKLIST = builder.comment("Leaves Block ids that should not spawn from leaves (i.e: minecraftoak_leaves)")
                 .defineList("mod_blacklist",
-                        List.of("ars_nouveau:purple_archwood_leaves",
-                                "ars_nouveau:blue_archwood_leaves",
-                                "ars_nouveau:green_archwood_leaves",
-                                "ars_nouveau:red_archwood_leaves"), o -> o instanceof String);
+                        List.of(""), o -> o instanceof String);
         builder.pop();
 
         builder.push("vitrified_sand");
@@ -145,6 +146,6 @@ public class ServerConfigs {
         BLOCK_GROWTH = builder.comment("Enable data driven block growths. This is just a global toggle, to have more control over each block growth you can use a datapack to override the existing jsons")
                 .define("block_growths_enabled", true);
 
-        SERVER_SPEC = builder.build();
+        SPEC = builder.build();
     }
 }

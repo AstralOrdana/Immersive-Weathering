@@ -18,7 +18,7 @@
       "predicate_type": "biome_match"
     }
   ],
-  "growth_chance": 0.001,
+  "growth_chance": 0.0005,
   "growth_for_face": [
     {
       "direction": "up",
@@ -29,7 +29,7 @@
               "Name": "minecraft:dead_bush"
             }
           },
-          "weight": 10
+          "weight": 30
         },
         {
           "data": {
@@ -45,7 +45,7 @@
               "Name": "minecraft:grass"
             }
           },
-          "weight": 0
+          "weight": 100
         }
       ]
     }

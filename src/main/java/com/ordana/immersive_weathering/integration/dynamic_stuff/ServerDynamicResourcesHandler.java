@@ -1,51 +1,27 @@
 package com.ordana.immersive_weathering.integration.dynamic_stuff;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Stopwatch;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.common.ModBlocks;
-import com.ordana.immersive_weathering.common.blocks.LeafPilesRegistry;
 import net.mehvahdjukaar.selene.block_set.leaves.LeavesType;
-import net.mehvahdjukaar.selene.block_set.wood.WoodType;
-import net.mehvahdjukaar.selene.resourcepack.*;
-import net.mehvahdjukaar.selene.resourcepack.asset_generators.LangBuilder;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.core.Holder;
+import net.mehvahdjukaar.selene.resourcepack.DynamicDataPack;
+import net.mehvahdjukaar.selene.resourcepack.RPAwareDynamicDataProvider;
+import net.mehvahdjukaar.selene.resourcepack.ResType;
+import net.mehvahdjukaar.selene.resourcepack.StaticResource;
 import net.minecraft.core.Registry;
-import net.minecraft.data.BuiltinRegistries;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.crafting.ConditionalRecipe;
-import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class ServerDynamicResourcesHandler extends RPAwareDynamicDataProvider {
 
     public ServerDynamicResourcesHandler() {
-        super(new DynamicDataPack(ImmersiveWeathering.res("virtual_resourcepack")));
+        super(new DynamicDataPack(ImmersiveWeathering.res("generated_pack")));
         this.dynamicPack.generateDebugResources = false;
     }
 
@@ -74,7 +50,7 @@ public class ServerDynamicResourcesHandler extends RPAwareDynamicDataProvider {
                 String path = leafType.getNamespace() + "/" + leafType.getTypeName();
                 String id = path + "_leaf_pile";
 
-                String leavesId =leafType.leaves.getRegistryName().toString();
+                String leavesId = leafType.leaves.getRegistryName().toString();
 
                 try {
                     addLeafPileJson(Objects.requireNonNull(lootTable), id, leavesId);
@@ -91,7 +67,6 @@ public class ServerDynamicResourcesHandler extends RPAwareDynamicDataProvider {
             }
         }
 
-
     }
 
     @Override
@@ -106,6 +81,11 @@ public class ServerDynamicResourcesHandler extends RPAwareDynamicDataProvider {
         //tag
         dynamicPack.addTag(ImmersiveWeathering.res("leaf_piles"), leafPiles, Registry.BLOCK_REGISTRY);
         dynamicPack.addTag(ImmersiveWeathering.res("leaf_piles"), leafPiles, Registry.ITEM_REGISTRY);
+
+        dynamicPack.addTag(ImmersiveWeathering.res("bark"),
+                ModDynamicRegistry.MODDED_BARK.values().stream().map(ForgeRegistryEntry::getRegistryName)
+                        .collect(Collectors.toList()),
+                Registry.ITEM_REGISTRY);
 
 
         //only needed for datagen. remove later

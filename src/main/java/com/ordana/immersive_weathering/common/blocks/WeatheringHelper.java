@@ -52,24 +52,7 @@ public class WeatheringHelper {
     });
 
 
-    public static final Supplier<Map<Block, Pair<Item, Block>>> STRIPPED_TO_BARK = Suppliers.memoize(() -> ImmutableMap.<Block, Pair<Item, Block>>builder()
-            .put(Blocks.STRIPPED_OAK_LOG, Pair.of(ModItems.OAK_BARK.get(), Blocks.OAK_LOG))
-            .put(Blocks.STRIPPED_OAK_WOOD, Pair.of(ModItems.OAK_BARK.get(), Blocks.OAK_WOOD))
-            .put(Blocks.STRIPPED_BIRCH_LOG, Pair.of(ModItems.BIRCH_BARK.get(), Blocks.BIRCH_LOG))
-            .put(Blocks.STRIPPED_BIRCH_WOOD, Pair.of(ModItems.BIRCH_BARK.get(), Blocks.BIRCH_WOOD))
-            .put(Blocks.STRIPPED_SPRUCE_LOG, Pair.of(ModItems.SPRUCE_BARK.get(), Blocks.SPRUCE_LOG))
-            .put(Blocks.STRIPPED_SPRUCE_WOOD, Pair.of(ModItems.SPRUCE_BARK.get(), Blocks.SPRUCE_WOOD))
-            .put(Blocks.STRIPPED_JUNGLE_LOG, Pair.of(ModItems.JUNGLE_BARK.get(), Blocks.JUNGLE_LOG))
-            .put(Blocks.STRIPPED_JUNGLE_WOOD, Pair.of(ModItems.JUNGLE_BARK.get(), Blocks.JUNGLE_WOOD))
-            .put(Blocks.STRIPPED_DARK_OAK_LOG, Pair.of(ModItems.DARK_OAK_BARK.get(), Blocks.DARK_OAK_LOG))
-            .put(Blocks.STRIPPED_DARK_OAK_WOOD, Pair.of(ModItems.DARK_OAK_BARK.get(), Blocks.DARK_OAK_WALL_SIGN))
-            .put(Blocks.STRIPPED_ACACIA_LOG, Pair.of(ModItems.ACACIA_BARK.get(), Blocks.ACACIA_LOG))
-            .put(Blocks.STRIPPED_ACACIA_WOOD, Pair.of(ModItems.ACACIA_BARK.get(), Blocks.ACACIA_WOOD))
-            .put(Blocks.STRIPPED_CRIMSON_STEM, Pair.of(ModItems.CRIMSON_SCALES.get(), Blocks.CRIMSON_STEM))
-            .put(Blocks.STRIPPED_CRIMSON_HYPHAE, Pair.of(ModItems.CRIMSON_SCALES.get(), Blocks.CRIMSON_HYPHAE))
-            .put(Blocks.STRIPPED_WARPED_STEM, Pair.of(ModItems.WARPED_SCALES.get(), Blocks.WARPED_STEM))
-            .put(Blocks.STRIPPED_WARPED_HYPHAE, Pair.of(ModItems.WARPED_SCALES.get(), Blocks.WARPED_HYPHAE))
-            .build());
+
 
 
     public static Optional<BlockState> getAzaleaGrowth(BlockState state) {
@@ -83,7 +66,17 @@ public class WeatheringHelper {
     }
 
     public static Optional<Pair<Item, Block>> getBarkForStrippedLog(BlockState log) {
-        return Optional.ofNullable(STRIPPED_TO_BARK.get().get(log.getBlock()));
+        var pair = Optional.ofNullable(LeafPilesRegistry.STRIPPED_TO_BARK.get().get(log.getBlock()));;
+        if(pair.isPresent()){
+        String s = ServerConfigs.GENERIC_BARK.get();
+            if(!s.isEmpty()) {
+                ResourceLocation res = new ResourceLocation(s);
+                if(ForgeRegistries.ITEMS.containsKey(res)){
+                    return Optional.of(Pair.of(ForgeRegistries.ITEMS.getValue(res) , pair.get().getSecond()));
+                }
+            }
+        }
+        return pair;
     }
 
     /**

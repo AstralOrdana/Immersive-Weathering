@@ -16,7 +16,7 @@
       "predicate_type": "biome_match"
     }
   ],
-  "growth_chance": 0.001,
+  "growth_chance": 0.002,
   "growth_for_face": [
     {
       "direction": "up",
@@ -27,7 +27,7 @@
               "Name": "minecraft:poppy"
             }
           },
-          "weight": 1
+          "weight": 10
         },
         {
           "data": {
@@ -35,7 +35,7 @@
               "Name": "minecraft:lily_of_the_valley"
             }
           },
-          "weight": 1
+          "weight": 10
         },
         {
           "data": {
@@ -43,7 +43,7 @@
               "Name": "minecraft:azure_bluet"
             }
           },
-          "weight": 1
+          "weight": 10
         },
         {
           "data": {
@@ -51,7 +51,7 @@
               "Name": "minecraft:oak_sapling"
             }
           },
-          "weight": 2
+          "weight": 5
         },
         {
           "data": {
@@ -61,14 +61,14 @@
                 "half": "lower"
               }
             },
-            "block_above":{
+            "above_block":{
               "Name": "minecraft:peony",
               "Properties": {
                 "half": "upper"
               }
             }
           },
-          "weight": 10
+          "weight": 50
         },
         {
           "data": {
@@ -76,7 +76,7 @@
               "Name": "minecraft:grass"
             }
           },
-          "weight": 0
+          "weight": 100
         }
       ]
     }

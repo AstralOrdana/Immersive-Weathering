@@ -1,15 +1,18 @@
 package com.ordana.immersive_weathering.integration.dynamic_stuff;
 
 import com.google.common.collect.ImmutableMap;
+import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.common.ModBlocks;
 import com.ordana.immersive_weathering.common.ModParticles;
 import com.ordana.immersive_weathering.common.blocks.LeafPileBlock;
-import com.ordana.immersive_weathering.common.ModBlocks;
-import com.ordana.immersive_weathering.common.particles.LeafParticle;
+import com.ordana.immersive_weathering.common.items.BurnableItem;
 import com.ordana.immersive_weathering.common.items.LeafPileBlockItem;
+import com.ordana.immersive_weathering.common.particles.LeafParticle;
 import net.mehvahdjukaar.selene.block_set.BlockSetManager;
 import net.mehvahdjukaar.selene.block_set.leaves.LeavesType;
 import net.mehvahdjukaar.selene.block_set.leaves.LeavesTypeRegistry;
+import net.mehvahdjukaar.selene.block_set.wood.WoodType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -25,10 +28,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ModDynamicRegistry {
 
@@ -40,11 +40,38 @@ public class ModDynamicRegistry {
 
     public static final Map<Item, LeavesType> LEAF_PILES_ITEMS = new LinkedHashMap<>();
 
+    public static final Map<WoodType, Item> MODDED_BARK = new LinkedHashMap<>();
 
     public static Map<Block, LeafPileBlock> getLeafToLeafPileMap() {
         var builder = ImmutableMap.<Block, LeafPileBlock>builder();
         LEAF_TO_TYPE.forEach((key, value) -> builder.put(value.leaves, key));
         return builder.build();
+    }
+
+    public static Map<Block, Pair<Item, Block>> getBarkMap() {
+        Map<Block, Pair<Item, Block>> map = new HashMap<>();
+        for (var e : MODDED_BARK.entrySet()) {
+            Block log = e.getKey().logBlock;
+            if (e.getKey().stripped_log != null) {
+                map.put(e.getKey().stripped_log, Pair.of(e.getValue(), log));
+            }
+        }
+        return map;
+    }
+
+    private static void registerBarks(RegistryEvent.Register<Item> event, Collection<WoodType> woodTypes) {
+        IForgeRegistry<Item> registry = event.getRegistry();
+        for (WoodType type : woodTypes) {
+            if (!type.isVanilla()) {
+                String name = type.getNamespace() + "/" + type.getTypeName() + "_bark";
+
+                Item item = new BurnableItem(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS), 200)
+                        .setRegistryName(ImmersiveWeathering.res(name));
+                registry.register(item);
+                MODDED_BARK.put(type, item);
+            }
+        }
+        LEAF_TO_TYPE.forEach((a, b) -> TYPE_TO_LEAF.put(b, a));
     }
 
     private static void registerLeafPiles(RegistryEvent.Register<Block> event, Collection<LeavesType> leavesTypes) {
@@ -110,6 +137,8 @@ public class ModDynamicRegistry {
     public static void init(IEventBus bus) {
         BlockSetManager.addBlockSetRegistrationCallback(ModDynamicRegistry::registerLeafPiles, Block.class, LeavesType.class);
         BlockSetManager.addBlockSetRegistrationCallback(ModDynamicRegistry::registerLeafPilesItems, Item.class, LeavesType.class);
+        BlockSetManager.addBlockSetRegistrationCallback(ModDynamicRegistry::registerBarks, Item.class, WoodType.class);
+
         bus.addGenericListener(ParticleType.class, ModDynamicRegistry::registerLeafPilesParticles);
 
 
@@ -137,4 +166,6 @@ public class ModDynamicRegistry {
             }
         }
     }
+
+
 }

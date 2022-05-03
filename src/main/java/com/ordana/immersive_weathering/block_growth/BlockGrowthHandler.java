@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.block_growth;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -30,7 +31,7 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create(); //json object that will write stuff
 
-    private static final Set<Block> BLOCKS = new HashSet<>();
+    private static ImmutableSet<Block> TICKING_BLOCKS = ImmutableSet.of();
     private static final Map<Block, Set<IBlockGrowth>> GROWTH_FOR_BLOCK = new HashMap<>();
     private static final List<IBlockGrowth> GROWTHS = new ArrayList<>();
 
@@ -47,10 +48,12 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
 
     public static void tickBlock(BlockState state, ServerLevel level, BlockPos pos) {
         if (!ServerConfigs.BLOCK_GROWTH.get()) return;
+        //hopefully faster than calling get directly
+        if (!TICKING_BLOCKS.contains(state.getBlock())) return;
         var growth = getBlockGrowth(state.getBlock());
         if (growth.isPresent()) {
             //TODO: move this line to datapack self predicate
-            if(state.getBlock() instanceof IConditionalGrowingBlock cb && !cb.canGrow(state))return;
+            if (state.getBlock() instanceof IConditionalGrowingBlock cb && !cb.canGrow(state)) return;
             Holder<Biome> biome = level.getBiome(pos);
 
             for (var config : growth.get()) {
@@ -104,7 +107,8 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
             for (var config : GROWTHS) {
                 config.getOwners().forEach(b -> GROWTH_FOR_BLOCK.computeIfAbsent(b, k -> new HashSet<>()).add(config));
             }
-            BLOCKS.addAll(GROWTH_FOR_BLOCK.keySet());
+            ImmutableSet.Builder<Block> b = ImmutableSet.builder();
+            TICKING_BLOCKS = b.addAll(GROWTH_FOR_BLOCK.keySet()).build();
             GROWTHS.clear();
             this.needsRefresh = false;
         }

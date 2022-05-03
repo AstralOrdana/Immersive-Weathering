@@ -2,8 +2,10 @@ package com.ordana.immersive_weathering.integration.dynamic_stuff;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.configs.ClientConfigs;
 import net.mehvahdjukaar.selene.block_set.leaves.LeavesType;
 import net.mehvahdjukaar.selene.block_set.leaves.LeavesTypeRegistry;
+import net.mehvahdjukaar.selene.block_set.wood.WoodType;
 import net.mehvahdjukaar.selene.resourcepack.*;
 import net.mehvahdjukaar.selene.resourcepack.asset_generators.LangBuilder;
 import net.mehvahdjukaar.selene.resourcepack.asset_generators.textures.Palette;
@@ -11,6 +13,7 @@ import net.mehvahdjukaar.selene.resourcepack.asset_generators.textures.Respriter
 import net.mehvahdjukaar.selene.resourcepack.asset_generators.textures.SpriteUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +23,7 @@ import java.util.Objects;
 public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider {
 
     public ClientDynamicResourcesHandler() {
-        super(new DynamicTexturePack(ImmersiveWeathering.res("virtual_resourcepack")));
+        super(new DynamicTexturePack(ImmersiveWeathering.res("generated_pack")));
         this.dynamicPack.generateDebugResources = false;
     }
 
@@ -31,7 +34,7 @@ public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider
 
     @Override
     public boolean dependsOnLoadedPacks() {
-        return false;
+        return ClientConfigs.RESOURCE_PACK_SUPPORT.get();
     }
 
     @Override
@@ -122,6 +125,29 @@ public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider
                 }
             }
         }
+        //bark
+        {
+            StaticResource itemModel = getResOrLog(manager,
+                    ResType.ITEM_MODELS.getPath(ImmersiveWeathering.res("oak_bark")));
+
+            for (var e : ModDynamicRegistry.MODDED_BARK.entrySet()) {
+                WoodType woodType = e.getKey();
+                if (!woodType.isVanilla()) {
+                    Item item = e.getValue();
+
+                    String id = woodType.getNamespace() + "/" + woodType.getTypeName() + "_bark";
+
+                    langBuilder.addEntry(item, woodType.getNameForTranslation("bark"));
+
+                    try {
+                        dynamicPack.addSimilarJsonResource(itemModel, "oak_bark", id);
+                    } catch (Exception ex) {
+                        getLogger().error("Failed to generate Bark item model for {} : {}", item, ex);
+                    }
+                }
+            }
+        }
+
         //only needed for datagen. remove later
         /*
         {
@@ -257,9 +283,6 @@ public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider
         }
 
         //heavy leaves textures
-
-        //leaf particle textures
-
         for (LeavesType type : LeavesTypeRegistry.LEAVES_TYPES.values()) {
             if (!type.isVanilla()) {
 
@@ -299,6 +322,55 @@ public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider
             }
         }
 
+
+        //bark textures
+        try (NativeImage template = SpriteUtils.readImage(manager, ImmersiveWeathering.res(
+                "textures/item/bark_template.png"))) {
+
+            for (var e : ModDynamicRegistry.MODDED_BARK.entrySet()) {
+                WoodType type = e.getKey();
+                if (!type.isVanilla()) {
+
+                    ResourceLocation textureRes = ImmersiveWeathering.res(
+                            "item/" + e.getValue().getRegistryName().getPath());
+                    if (!alreadyHasTextureAtLocation(manager, textureRes)) {
+
+                        try {
+                            String loc = RPUtils.findFirstBlockTextureLocation(manager, type.logBlock, s -> !s.contains("top"));
+
+                            try (NativeImage logTexture = NativeImage.read(manager.getResource(ResType.TEXTURES.getPath(loc)).getInputStream())) {
+                                var palette = Palette.fromImage(logTexture);
+                                int average = palette.calculateAverage();
+                                palette.increaseDown();
+                                int dark = palette.getDarkest().color;
+                                assert template.getWidth() <= logTexture.getWidth() && template.getHeight() <= logTexture.getHeight();
+                                NativeImage newImage = new NativeImage(template.getWidth(), template.getHeight(), false);
+                                for (int x = 0; x < newImage.getWidth(); x++) {
+                                    for (int y = 0; y < newImage.getHeight(); y++) {
+                                        int tm = template.getPixelRGBA(x, y);
+                                        if (tm == -1) {
+                                            newImage.setPixelRGBA(x, y, NativeImage.combine(0, 0, 0, 0));
+                                        } else if (NativeImage.getA(tm) == 0) {
+                                            newImage.setPixelRGBA(x, y, logTexture.getPixelRGBA(x, y));
+                                        } else {
+                                            newImage.setPixelRGBA(x, y, SpriteUtils.averageColors(tm,dark, average));
+                                        }
+                                    }
+                                }
+                                dynamicPack.addTexture(textureRes, newImage);
+                            } catch (Exception ex) {
+                                getLogger().error("Failed to find log texture for bark {}", type, ex);
+                            }
+                        } catch (Exception ex) {
+                            getLogger().error("Failed to find log texture for bark {}", type, ex);
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            getLogger().error("Could not generate any Bark texture : ", e);
+        }
     }
 
 }

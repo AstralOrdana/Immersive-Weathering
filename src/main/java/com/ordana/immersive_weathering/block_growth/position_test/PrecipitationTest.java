@@ -22,7 +22,7 @@ record PrecipitationTest(Biome.Precipitation precipitation) implements PositionR
 
     @Override
     public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
-        //TODO: finish
-        return true;//level.isRaining() == precipitation;
+        return biome.value().getPrecipitation() == precipitation &&
+                ((precipitation == Biome.Precipitation.NONE) == !level.isRainingAt(pos));
     }
 }

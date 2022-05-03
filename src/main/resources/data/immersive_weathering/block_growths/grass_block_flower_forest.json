@@ -24,7 +24,7 @@
               "Name": "minecraft:red_tulip"
             }
           },
-          "weight": 1
+          "weight": 10
         },
         {
           "data": {
@@ -32,7 +32,7 @@
               "Name": "minecraft:white_tulip"
             }
           },
-          "weight": 1
+          "weight": 10
         },
         {
           "data": {
@@ -40,7 +40,7 @@
               "Name": "minecraft:orange_tulip"
             }
           },
-          "weight": 1
+          "weight": 10
         },
         {
           "data": {
@@ -48,7 +48,7 @@
               "Name": "minecraft:pink_tulip"
             }
           },
-          "weight": 1
+          "weight": 10
         },
         {
           "data": {
@@ -56,7 +56,7 @@
               "Name": "minecraft:lily_of_the_valley"
             }
           },
-          "weight": 1
+          "weight": 10
         },
         {
           "data": {
@@ -64,7 +64,7 @@
               "Name": "minecraft:allium"
             }
           },
-          "weight": 1
+          "weight": 10
         },
         {
           "data": {
@@ -72,7 +72,7 @@
               "Name": "minecraft:oak_sapling"
             }
           },
-          "weight": 2
+          "weight": 7
         },
         {
           "data": {
@@ -82,14 +82,14 @@
                 "half": "lower"
               }
             },
-            "above_block":{
+            "above_block": {
               "Name": "minecraft:peony",
               "Properties": {
                 "half": "upper"
               }
             }
           },
-          "weight": 5
+          "weight": 50
         },
         {
           "data": {
@@ -99,14 +99,14 @@
                 "half": "lower"
               }
             },
-            "above_block":{
+            "above_block": {
               "Name": "minecraft:lilac",
               "Properties": {
                 "half": "upper"
               }
             }
           },
-          "weight": 5
+          "weight": 50
         },
         {
           "data": {
@@ -123,7 +123,7 @@
               }
             }
           },
-          "weight": 5
+          "weight": 50
         },
         {
           "data": {
@@ -131,7 +131,7 @@
               "Name": "minecraft:grass"
             }
           },
-          "weight": 0
+          "weight": 100
         }
       ]
     }
