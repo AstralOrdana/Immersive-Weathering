@@ -30,7 +30,6 @@ import java.util.Random;
 public class LeafPileBlock extends Block implements Fertilizable {
 
     public static final IntProperty LAYERS = IntProperty.of("layers", 0, 8);
-    ;
     protected static final VoxelShape[] LAYERS_TO_SHAPE = new VoxelShape[]{Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D),
             Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
     private static final float[] COLLISIONS = new float[]{0, 1.7f, 1.6f, 1.5f, 1.3f, 1.1f, 0.8f, 0.5f};
@@ -89,7 +88,7 @@ public class LeafPileBlock extends Block implements Fertilizable {
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         int layers = this.getLayers(state);
 
-        if (layers > 2) {
+        if (layers > 0) {
             if (entity instanceof LivingEntity && !(entity instanceof FoxEntity || entity instanceof BeeEntity)) {
                 float stuck = COLLISIONS[Math.max(0, layers - 1)];
                 entity.slowMovement(state, new Vec3d(stuck, stuck, stuck));

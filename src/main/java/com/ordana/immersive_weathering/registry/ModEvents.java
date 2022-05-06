@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.*;
 import net.minecraft.client.util.ParticleUtil;
 import net.minecraft.item.*;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -310,8 +311,52 @@ public class ModEvents {
             BlockState targetBlock = world.getBlockState(targetPos);
             ItemStack heldItem = player.getStackInHand(hand);
 
-
-            if (heldItem.getItem() == Items.SLIME_BALL) {
+            if (heldItem.getItem() == Items.DIRT) {
+                if(targetBlock.isOf(Blocks.WATER_CAULDRON) && (targetBlock.get(LeveledCauldronBlock.LEVEL) >= 3)) {
+                    Block.dropStack(world, fixedPos, new ItemStack(Items.CLAY));
+                    if (world.random.nextFloat() < 0.5f) {
+                        Block.dropStack(world, fixedPos, new ItemStack(Items.GRAVEL));
+                    }
+                    world.playSound(player, targetPos, SoundEvents.AMBIENT_UNDERWATER_EXIT, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3,5));
+                    if(player != null) {
+                        if(!player.isCreative())heldItem.decrement(1);
+                        world.setBlockState(targetPos, Blocks.CAULDRON.getStateWithProperties(targetBlock));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+            }
+            else if (heldItem.getItem() == Items.GRAVEL) {
+                if(targetBlock.isOf(Blocks.WATER_CAULDRON) && (targetBlock.get(LeveledCauldronBlock.LEVEL) >= 3)) {
+                    Block.dropStack(world, fixedPos, new ItemStack(Items.FLINT));
+                    if (world.random.nextFloat() < 0.2f) {
+                        Block.dropStack(world, fixedPos, new ItemStack(Items.IRON_NUGGET));
+                    }
+                    world.playSound(player, targetPos, SoundEvents.AMBIENT_UNDERWATER_EXIT, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3,5));
+                    if(player != null) {
+                        if(!player.isCreative())heldItem.decrement(1);
+                        world.setBlockState(targetPos, Blocks.CAULDRON.getStateWithProperties(targetBlock));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+            }
+            else if (heldItem.getItem() == Items.CLAY) {
+                if(targetBlock.isOf(Blocks.WATER_CAULDRON) && (targetBlock.get(LeveledCauldronBlock.LEVEL) >= 3)) {
+                    Block.dropStack(world, fixedPos, new ItemStack(ModItems.SILT));
+                    if (world.random.nextFloat() < 0.2f) {
+                        Block.dropStack(world, fixedPos, new ItemStack(Items.SAND));
+                    }
+                    world.playSound(player, targetPos, SoundEvents.AMBIENT_UNDERWATER_EXIT, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3,5));
+                    if(player != null) {
+                        if(!player.isCreative())heldItem.decrement(1);
+                        world.setBlockState(targetPos, Blocks.CAULDRON.getStateWithProperties(targetBlock));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+            }
+            else if (heldItem.getItem() == Items.SLIME_BALL) {
                 if(targetBlock.isOf(Blocks.PISTON) && !targetBlock.get(PistonBlock.EXTENDED)) {
                     world.playSound(player, targetPos, SoundEvents.ENTITY_SLIME_SQUISH, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.ITEM_SLIME, UniformIntProvider.create(3,5));
@@ -572,7 +617,7 @@ public class ModEvents {
                     }
                     return ActionResult.SUCCESS;
                 }
-                if(targetBlock.isIn(ModTags.EXPOSED_IRON)) {
+                else if(targetBlock.isIn(ModTags.EXPOSED_IRON)) {
                     world.playSound(player, targetPos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ModParticles.SCRAPE_RUST, UniformIntProvider.create(3,5));
                     if(player != null) {
@@ -583,6 +628,13 @@ public class ModEvents {
                             }
                         });
                     }
+                    return ActionResult.SUCCESS;
+                }
+                else if(targetBlock.isIn(ModTags.WEATHERED_IRON) || targetBlock.isIn(ModTags.RUSTED_IRON)) {
+                    world.playSound(player, targetPos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    world.playSound(player, targetPos, SoundEvents.ITEM_SHIELD_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ModParticles.SCRAPE_RUST, UniformIntProvider.create(3,5));
+                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMOKE, UniformIntProvider.create(3, 5));
                     return ActionResult.SUCCESS;
                 }
             }

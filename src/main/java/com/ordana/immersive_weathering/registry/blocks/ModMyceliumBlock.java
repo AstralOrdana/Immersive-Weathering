@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import com.ordana.immersive_weathering.data.BlockGrowthHandler;
-import com.ordana.immersive_weathering.registry.ModTags;
+import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.IConditionalGrowingBlock;
 import net.minecraft.block.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
@@ -16,7 +16,7 @@ import net.minecraft.world.chunk.light.ChunkLightProvider;
 
 import java.util.Random;
 
-public class ModMyceliumBlock extends MyceliumBlock implements Fertilizable {
+public class ModMyceliumBlock extends MyceliumBlock implements Fertilizable, IConditionalGrowingBlock {
     public static final BooleanProperty FERTILE = BooleanProperty.of("fertile");
 
     public ModMyceliumBlock(Settings settings) {
@@ -54,9 +54,13 @@ public class ModMyceliumBlock extends MyceliumBlock implements Fertilizable {
     }
 
     @Override
+    public boolean canGrow(BlockState state) {
+        return state.get(FERTILE);
+    }
+
+    @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (state.get(FERTILE)) {
-            BlockGrowthHandler.tickBlock(state, world, pos);
             if (!canSurvive(state, world, pos)) {
                 world.setBlockState(pos, Blocks.DIRT.getDefaultState());
             }

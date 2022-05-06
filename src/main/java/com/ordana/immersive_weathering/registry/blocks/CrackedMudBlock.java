@@ -1,10 +1,10 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import com.ordana.immersive_weathering.data.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.IConditionalGrowingBlock;
 import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class CrackedMudBlock extends Block {
+public class CrackedMudBlock extends Block implements IConditionalGrowingBlock {
 
     public CrackedMudBlock(Settings settings) {
         super(settings);
@@ -74,10 +74,6 @@ public class CrackedMudBlock extends Block {
 
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (state.get(FERTILE) && state.get(SOAKED)) {
-            BlockGrowthHandler.tickBlock(state, world, pos);
-        }
-
         int temperature = 0;
         boolean isTouchingWater = false;
         for (Direction direction : Direction.values()) {
@@ -107,5 +103,10 @@ public class CrackedMudBlock extends Block {
     protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
         stateManager.add(SOAKED);
         stateManager.add(FERTILE);
+    }
+
+    @Override
+    public boolean canGrow(BlockState state) {
+        return state.get(FERTILE) && state.get(SOAKED);
     }
 }

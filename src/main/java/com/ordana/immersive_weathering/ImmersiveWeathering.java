@@ -1,9 +1,9 @@
 package com.ordana.immersive_weathering;
 
-import com.ordana.immersive_weathering.data.BlockGrowthHandler;
-import com.ordana.immersive_weathering.data.BlockSetMatchTest;
-import com.ordana.immersive_weathering.data.FluidMatchTest;
-import com.ordana.immersive_weathering.data.LogMatchTest;
+import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.BlockSetMatchTest;
+import com.ordana.immersive_weathering.block_growth.FluidMatchTest;
+import com.ordana.immersive_weathering.block_growth.LogMatchTest;
 import com.ordana.immersive_weathering.registry.*;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.entities.ModEntities;
@@ -30,9 +30,9 @@ public class ImmersiveWeathering implements ModInitializer {
         ModEntities.registerEntities();
         ModLootTables.registerLootTables();
         ModBlocks.registerBlocks();
+        ModItems.registerItems();
         ModFlammableBlocks.registerFlammable();
         ModWaxable.registerWaxable();
-        ModItems.registerItems();
         ModCompostable.registerCompostable();
         ModFuel.registerFuel();
 

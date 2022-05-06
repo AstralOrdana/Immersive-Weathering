@@ -1,13 +1,11 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import com.ordana.immersive_weathering.data.BlockGrowthHandler;
-import com.ordana.immersive_weathering.registry.ModTags;
+import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.IConditionalGrowingBlock;
 import net.minecraft.block.*;
-import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Properties;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
@@ -15,7 +13,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.chunk.light.ChunkLightProvider;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.PlacedFeature;
@@ -25,7 +22,7 @@ import net.minecraft.world.gen.feature.VegetationPlacedFeatures;
 import java.util.List;
 import java.util.Random;
 
-public class ModGrassBlock extends GrassBlock implements Fertilizable {
+public class ModGrassBlock extends GrassBlock implements Fertilizable, IConditionalGrowingBlock {
     public static final BooleanProperty FERTILE = BooleanProperty.of("fertile");
 
     public ModGrassBlock(Settings settings) {
@@ -63,9 +60,13 @@ public class ModGrassBlock extends GrassBlock implements Fertilizable {
     }
 
     @Override
+    public boolean canGrow(BlockState state) {
+        return state.get(FERTILE);
+    }
+
+    @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (state.get(FERTILE)) {
-            BlockGrowthHandler.tickBlock(state, world, pos);
             if (!canSurvive(state, world, pos)) {
                 world.setBlockState(pos, Blocks.DIRT.getDefaultState());
             }
@@ -91,7 +92,6 @@ public class ModGrassBlock extends GrassBlock implements Fertilizable {
             if (!world.isChunkLoaded(pos)) return;
             if (WeatheringHelper.hasEnoughBlocksFacingMe(pos, world, b -> b.isIn(BlockTags.FIRE), 1)) {
                 world.setBlockState(pos, Blocks.DIRT.getDefaultState());
-                return;
             }
         }
     }

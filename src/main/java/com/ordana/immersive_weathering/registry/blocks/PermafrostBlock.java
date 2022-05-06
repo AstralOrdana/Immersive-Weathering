@@ -1,29 +1,17 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.GrassBlock;
-import net.minecraft.block.PowderSnowBlock;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.tag.BlockTags;
-import net.minecraft.tag.EntityTypeTags;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -42,11 +30,13 @@ public class PermafrostBlock extends Block {
 
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        BlockState blockState = world.getBlockState(pos.up());
-        if (blockState.isIn(BlockTags.DIRT)) {
-            world.setBlockState(pos, state.getBlock().getDefaultState().with(PermafrostBlock.DIRTY, true));
-        } else {
-            world.setBlockState(pos, state.getBlock().getDefaultState().with(PermafrostBlock.DIRTY, false));
+        BlockState upState = world.getBlockState(pos.up());
+        BlockState downState = world.getBlockState(pos.down());
+        if (upState.isIn(BlockTags.DIRT)) {
+            world.setBlockState(pos, ModBlocks.PERMAFROST.getDefaultState().with(PermafrostBlock.DIRTY, true));
+        }
+        if (downState.isIn(BlockTags.DIRT)) {
+            world.setBlockState(pos.down(), ModBlocks.CRYOSOL.getDefaultState());
         }
     }
 
@@ -55,9 +45,11 @@ public class PermafrostBlock extends Block {
     }
 
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
-        if (!isWearingBoots(entity) && entity instanceof LivingEntity) {
-            entity.setFrozenTicks(300);
+        if (!(entity instanceof LivingEntity) || !isWearingBoots(entity) || entity.getType() == EntityType.FOX || entity.getType() == EntityType.RABBIT || entity.getType() == EntityType.STRAY || entity.getType() == EntityType.GOAT) {
+            return;
         }
+        entity.setFrozenTicks(300);
+
         super.onSteppedOn(world, pos, state, entity);
     }
 

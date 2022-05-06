@@ -5,8 +5,6 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "BlocksMixin",
-    "BlockMixin",
-    "AbstractBlockMixin",
 
     "DataPackContentMixin",
 
@@ -19,16 +17,12 @@
     "FluidMixin",
     "CampfireMixin",
     "ComposterMixin",
-    "CropBlockMixin",
     "FernBlockMixin",
     "FireMixin",
     "FungusBlockMixin",
     "IceMixin",
+    "IceInvoker",
     "LeavesMixin",
-    "MagmaBlockMixin",
-    "NyliumBlockMixin",
-    "FarmlandMixin",
-    "SaplingMixin",
     "RootedDirtBlockMixin",
     "RootsBlockMixin",
     "SproutsBlockMixin",

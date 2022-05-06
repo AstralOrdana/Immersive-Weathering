@@ -1,21 +1,11 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.data.BlockGrowthHandler;
 import com.ordana.immersive_weathering.registry.ModTags;
-import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.*;
-import net.minecraft.block.enums.DoubleBlockHalf;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.property.Properties;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.Random;
 
 @Mixin(FernBlock.class)
 public class FernBlockMixin extends PlantBlock {

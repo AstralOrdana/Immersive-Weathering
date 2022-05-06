@@ -15,6 +15,7 @@ import net.minecraft.util.registry.Registry;
 public class ModEntities {
 
     public static EntityType<FallingIcicleEntity> FALLING_ICICLE;
+    public static EntityType<FallingAshEntity> FALLING_ASH;
 
     private static <T extends Entity> EntityType<T> registerEntity(String id, EntityType.Builder<T> type) {
         return (EntityType)Registry.register(Registry.ENTITY_TYPE, id, type.build(id));
@@ -32,6 +33,12 @@ public class ModEntities {
     public static void registerEntities() {
         FALLING_ICICLE = registerEntity("falling_icicle",
                 EntityType.Builder.<FallingIcicleEntity>create(FallingIcicleEntity::new, SpawnGroup.MISC)
+                        .setDimensions(0.98F, 0.98F)
+                        .maxTrackingRange(10)
+                        .trackingTickInterval(20));
+
+        FALLING_ASH = registerEntity("falling_ash",
+                EntityType.Builder.<FallingAshEntity>create(FallingAshEntity::new, SpawnGroup.MISC)
                         .setDimensions(0.98F, 0.98F)
                         .maxTrackingRange(10)
                         .trackingTickInterval(20));

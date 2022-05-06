@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.FulguriteBlock;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
@@ -7,11 +8,13 @@ import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,8 +37,33 @@ public abstract class LightningEntityMixin extends Entity {
     private void powerLightningRod(CallbackInfo ci) {
         BlockPos blockPos = this.getAffectedBlockPos();
         BlockState blockState = this.world.getBlockState(blockPos);
+        for (Direction direction : Direction.values()) {
+            var targetPos = blockPos.offset(direction);
+            BlockState neighborState = world.getBlockState(targetPos);
+            if (neighborState.isIn(BlockTags.BASE_STONE_OVERWORLD)) {
+                if (world.random.nextFloat() < 0.5f) {
+                    world.setBlockState(targetPos, Blocks.MAGMA_BLOCK.getDefaultState());
+                }
+            }
+            else if (neighborState.isOf(Blocks.MAGMA_BLOCK)) {
+                if (world.random.nextFloat() < 0.5f) {
+                    world.setBlockState(targetPos, Blocks.LAVA.getDefaultState());
+                }
+            }
+            else if (neighborState.isIn(BlockTags.SAND)) {
+                if (world.random.nextFloat() < 0.5f) {
+                    world.setBlockState(targetPos, ModBlocks.VITRIFIED_SAND.getDefaultState());
+                }
+            }
+        }
         if (blockState.isIn(BlockTags.SAND)) {
             WeatheringHelper.onLightningHit(blockPos, world, 0);
+        }
+        else if (blockState.isIn(BlockTags.BASE_STONE_OVERWORLD)) {
+            world.setBlockState(blockPos, Blocks.MAGMA_BLOCK.getDefaultState());
+        }
+        else if (blockState.isOf(Blocks.MAGMA_BLOCK)) {
+            world.setBlockState(blockPos, Blocks.LAVA.getDefaultState());
         }
         else if (blockState.isOf(ModBlocks.FULGURITE)) {
             ((FulguriteBlock)blockState.getBlock()).setPowered(blockState, this.world, blockPos);

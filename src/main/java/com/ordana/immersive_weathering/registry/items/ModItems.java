@@ -44,8 +44,10 @@ public class ModItems {
     public static final Item WARPED_SCALES = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
 
     public static final BlockItem WEEDS = new BlockItem(ModBlocks.WEEDS, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem SOOT = new BlockItem(ModBlocks.SOOT, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem ASH_LAYER_BLOCK = new BlockItem(ModBlocks.ASH_LAYER_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem ASH_BLOCK = new BlockItem(ModBlocks.ASH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SOOT = new BlockItem(ModBlocks.SOOT, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final Item TALLOW = new HoneycombItem(new Item.Settings().group(ItemGroup.MATERIALS));
 
     public static final BlockItem MULCH_BLOCK = new BlockItem(ModBlocks.MULCH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem NULCH_BLOCK = new BlockItem(ModBlocks.NULCH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
@@ -65,14 +67,14 @@ public class ModItems {
     public static final BlockItem CHARRED_SLAB = new BlockItem(ModBlocks.CHARRED_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CHARRED_STAIRS = new BlockItem(ModBlocks.CHARRED_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CHARRED_FENCE = new BlockItem(ModBlocks.CHARRED_FENCE, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem CHARRED_FENCE_GATE = new BlockItem(ModBlocks.CHARRED_FENCE_GATE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem CHARRED_FENCE_GATE = new BlockItem(ModBlocks.CHARRED_FENCE_GATE, new Item.Settings().group(ItemGroup.REDSTONE));
 
     public static final BlockItem ROTTEN_LOG = new BlockItem(ModBlocks.ROTTEN_LOG, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem ROTTEN_PLANKS = new BlockItem(ModBlocks.ROTTEN_PLANKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem ROTTEN_SLAB = new BlockItem(ModBlocks.ROTTEN_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem ROTTEN_STAIRS = new BlockItem(ModBlocks.ROTTEN_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem ROTTEN_FENCE = new BlockItem(ModBlocks.ROTTEN_FENCE, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem ROTTEN_FENCE_GATE = new BlockItem(ModBlocks.ROTTEN_FENCE_GATE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem ROTTEN_FENCE_GATE = new BlockItem(ModBlocks.ROTTEN_FENCE_GATE, new Item.Settings().group(ItemGroup.REDSTONE));
 
     public static final BlockItem MOSSY_BRICKS = new BlockItem(ModBlocks.MOSSY_BRICKS, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem MOSSY_BRICK_STAIRS = new BlockItem(ModBlocks.MOSSY_BRICK_STAIRS, new Item.Settings().group(ItemGroup.DECORATIONS));
@@ -254,7 +256,9 @@ public class ModItems {
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weeds"), WEEDS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "soot"), SOOT);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "ash_layer_block"), ASH_LAYER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "ash_block"), ASH_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "tallow"), TALLOW);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mulch_block"), MULCH_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "nulch_block"), NULCH_BLOCK);

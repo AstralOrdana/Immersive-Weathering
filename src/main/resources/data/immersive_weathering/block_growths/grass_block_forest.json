@@ -4,7 +4,8 @@
     "radiusY": 2,
     "radiusZ": 2,
     "requiredAmount": 6,
-    "type": "generate_if_not_too_many"
+    "type": "generate_if_not_too_many",
+    "includes": "#immersive_weathering:small_plants"
   },
   "position_predicates": [
     {
@@ -55,6 +56,14 @@
         {
           "data": {
             "block": {
+              "Name": "minecraft:birch_sapling"
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
               "Name": "minecraft:peony",
               "Properties": {
                 "half": "lower"
@@ -67,7 +76,7 @@
               }
             }
           },
-          "weight": 50
+          "weight": 20
         },
         {
           "data": {

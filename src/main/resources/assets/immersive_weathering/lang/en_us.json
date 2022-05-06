@@ -48,7 +48,10 @@
 
   "block.immersive_weathering.weeds": "Weeds",
   "block.immersive_weathering.soot": "Soot",
+  "block.immersive_weathering.ash_layer_block": "Ash",
   "block.immersive_weathering.ash_block": "Ash Block",
+  "item.immersive_weathering.tallow": "Tallow",
+
 
   "block.immersive_weathering.humus": "Humus",
   "block.immersive_weathering.fluvisol": "Fluvisol",

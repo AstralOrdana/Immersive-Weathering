@@ -1,17 +1,19 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import com.ordana.immersive_weathering.data.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.IConditionalGrowingBlock;
 import net.minecraft.block.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class SoilBlock extends SnowyBlock implements Fertilizable {
+public class SoilBlock extends SnowyBlock implements Fertilizable, IConditionalGrowingBlock {
     public static final BooleanProperty FERTILE = BooleanProperty.of("fertile");
 
 
@@ -32,10 +34,8 @@ public class SoilBlock extends SnowyBlock implements Fertilizable {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (state.get(FERTILE)) {
-            BlockGrowthHandler.tickBlock(state, world, pos);
-        }
+    public boolean canGrow(BlockState state) {
+        return state.get(FERTILE);
     }
 
     @Override

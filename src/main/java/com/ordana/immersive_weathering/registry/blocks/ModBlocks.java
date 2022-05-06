@@ -8,6 +8,7 @@ import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableWallBl
 import com.ordana.immersive_weathering.registry.blocks.mossable.*;
 import com.ordana.immersive_weathering.registry.blocks.rotten.*;
 import com.ordana.immersive_weathering.registry.blocks.rustable.*;
+import com.ordana.immersive_weathering.registry.entities.FallingAshEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
@@ -39,8 +40,8 @@ public class ModBlocks {
     public static final Block AZALEA_FLOWER_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.FLOWERING_AZALEA).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), true, false, false, List.of(ModParticles.AZALEA_FLOWER));
 
     public static final Block WEEDS = new WeedsBlock(FabricBlockSettings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS));
-    public static final Block MULCH_BLOCK = new MulchBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.DIRT_BROWN).strength(1f, 1f).sounds(BlockSoundGroup.ROOTED_DIRT).ticksRandomly(), List.of(ModParticles.MULCH));
-    public static final Block NULCH_BLOCK = new NulchBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.DARK_CRIMSON).strength(1f, 1f).sounds(BlockSoundGroup.WART_BLOCK).ticksRandomly().luminance(createLightLevelFromMoltenBlockState(10)), List.of(ModParticles.MULCH));
+    public static final Block MULCH_BLOCK = new MulchBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.DIRT_BROWN).strength(1f, 1f).sounds(BlockSoundGroup.ROOTED_DIRT).ticksRandomly());
+    public static final Block NULCH_BLOCK = new NulchBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.DARK_CRIMSON).strength(1f, 1f).sounds(BlockSoundGroup.WART_BLOCK).ticksRandomly().luminance(createLightLevelFromMoltenBlockState(10)));
 
     public static final Block HUMUS = new SoilBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DARK_GREEN).strength(0.5F).sounds(BlockSoundGroup.GRAVEL).ticksRandomly());
     public static final Block FLUVISOL = new SoilBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DEEPSLATE_GRAY).strength(0.5F).sounds(BlockSoundGroup.WART_BLOCK).ticksRandomly());
@@ -52,6 +53,7 @@ public class ModBlocks {
 
     public static final Block ROOTED_GRASS_BLOCK = new RootedGrassBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC).ticksRandomly().strength(0.5F).sounds(BlockSoundGroup.ROOTED_DIRT));
 
+    public static final Block ASH_LAYER_BLOCK = new AshLayerBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).breakInstantly().sounds(BlockSoundGroup.SNOW).suffocates(ModBlocks::never).blockVision(ModBlocks::never).ticksRandomly());
     public static final Block ASH_BLOCK = new AshBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).breakInstantly().sounds(BlockSoundGroup.SNOW).ticksRandomly());
     public static final Block SOOT = new SootBlock(FabricBlockSettings.of(Material.REPLACEABLE_UNDERWATER_PLANT, MapColor.BLACK).noCollision().breakInstantly().requiresTool().sounds(BlockSoundGroup.SNOW).ticksRandomly());
 
@@ -249,10 +251,10 @@ public class ModBlocks {
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mulch_block"), MULCH_BLOCK);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "nulch_block"), NULCH_BLOCK);
-
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "rooted_grass_block"), ROOTED_GRASS_BLOCK);
-
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "weeds"), WEEDS);
+
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "ash_layer_block"), ASH_LAYER_BLOCK);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "ash_block"), ASH_BLOCK);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "soot"), SOOT);
 

@@ -3,6 +3,7 @@
   "values": [
     "#minecraft:flowers",
     "minecraft:grass",
-    "minecraft:fern"
+    "minecraft:fern",
+    "#immersive_weathering:leaf_piles"
   ]
 }

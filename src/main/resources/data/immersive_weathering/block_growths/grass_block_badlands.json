@@ -4,7 +4,8 @@
     "radiusY": 2,
     "radiusZ": 2,
     "requiredAmount": 4,
-    "type": "generate_if_not_too_many"
+    "type": "generate_if_not_too_many",
+    "includes": "#immersive_weathering:small_plants"
   },
   "position_predicates": [
     {

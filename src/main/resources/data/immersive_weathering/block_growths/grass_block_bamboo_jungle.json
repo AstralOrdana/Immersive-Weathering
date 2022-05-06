@@ -4,11 +4,14 @@
     "radiusY": 2,
     "radiusZ": 2,
     "requiredAmount": 6,
-    "type": "generate_if_not_too_many"
+    "type": "generate_if_not_too_many",
+    "includes": "#immersive_weathering:small_plants"
   },
   "position_predicates": [
     {
-      "biomes": ["minecraft:bamboo_jungle"],
+      "biomes": [
+        "minecraft:bamboo_jungle"
+      ],
       "predicate_type": "biome_match"
     }
   ],

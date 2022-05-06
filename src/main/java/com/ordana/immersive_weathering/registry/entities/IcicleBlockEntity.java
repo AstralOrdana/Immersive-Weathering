@@ -35,7 +35,7 @@ public class IcicleBlockEntity extends BlockEntity implements GameEventListener 
         map.put(GameEvent.EXPLODE, 15);
         map.put(GameEvent.LIGHTNING_STRIKE, 15);
         Registry.GAME_EVENT.getOrEmpty(new Identifier("moyai", "moyai_boom"))
-                .ifPresent(e -> map.put(e, 7));
+                .ifPresent(e -> map.put(e, 15));
     }));
 
     public IcicleBlockEntity(BlockPos pos, BlockState state) {

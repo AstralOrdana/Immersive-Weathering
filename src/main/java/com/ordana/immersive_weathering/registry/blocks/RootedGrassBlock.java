@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import com.ordana.immersive_weathering.data.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.IConditionalGrowingBlock;
 import net.minecraft.block.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.BlockTags;
@@ -17,12 +18,11 @@ import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import net.minecraft.world.gen.feature.RandomPatchFeatureConfig;
 import net.minecraft.world.gen.feature.VegetationPlacedFeatures;
-import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.List;
 import java.util.Random;
 
-public class RootedGrassBlock extends ModGrassBlock implements Fertilizable {
+public class RootedGrassBlock extends ModGrassBlock implements Fertilizable, IConditionalGrowingBlock {
     public RootedGrassBlock(Settings settings) {
         super(settings);
     }
@@ -112,9 +112,13 @@ public class RootedGrassBlock extends ModGrassBlock implements Fertilizable {
     }
 
     @Override
+    public boolean canGrow(BlockState state) {
+        return state.get(FERTILE);
+    }
+
+    @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (state.get(FERTILE)) {
-            BlockGrowthHandler.tickBlock(state, world, pos);
             if (!canSurvive(state, world, pos)) {
                 world.setBlockState(pos, Blocks.DIRT.getDefaultState());
             }

@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
+import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -11,6 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -29,13 +31,38 @@ import java.util.Random;
 
 public class NulchBlock extends Block {
 
-    public NulchBlock(Settings settings, List<DefaultParticleType> particle) {
+    public NulchBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.getDefaultState().with(MOLTEN, false));
-        this.particles = particle;
     }
 
     public static final BooleanProperty MOLTEN = BooleanProperty.of("molten");
+
+    @Override
+    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
+        if (state.get(MOLTEN)) {
+            if (!entity.isFireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
+                entity.damage(DamageSource.HOT_FLOOR, 1.0F);
+            }
+        }
+        super.onSteppedOn(world, pos, state, entity);
+        if (entity instanceof LivingEntity) {
+            if (world.isClient) {
+                Random random = world.getRandom();
+                boolean bl = entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ();
+                if (bl && random.nextBoolean()) {
+
+                    world.addParticle(ModParticles.NULCH,
+                            entity.getX() + MathHelper.nextBetween(random,-0.2f,0.2f),
+                            pos.getY() + 1.025,
+                            entity.getZ() + MathHelper.nextBetween(random,-0.2f,0.2f),
+                            MathHelper.nextBetween(random,-0.9f,-1),
+                            -1,
+                            0);
+                }
+            }
+        }
+    }
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
@@ -62,6 +89,22 @@ public class NulchBlock extends Block {
         return super.onUse(state, world, pos, player, hand, hit);
     }
 
+    @Override
+    public void randomDisplayTick(BlockState state, World level, BlockPos pos, Random random) {
+        if (state.get(MOLTEN)) {
+            if (random.nextInt(25) == 1) {
+                BlockPos blockpos = pos.down();
+                BlockState blockstate = level.getBlockState(blockpos);
+                if (!blockstate.isOpaque() || !blockstate.isSideSolidFullSquare(level, blockpos, Direction.UP)) {
+                    double d0 = (double) pos.getX() + random.nextDouble();
+                    double d1 = (double) pos.getY() - 0.05D;
+                    double d2 = (double) pos.getZ() + random.nextDouble();
+                    level.addParticle(ParticleTypes.DRIPPING_LAVA, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+                }
+            }
+        }
+    }
+
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         var biome = world.getBiome(pos);
         for (Direction direction : Direction.values()) {
@@ -74,7 +117,7 @@ public class NulchBlock extends Block {
                 world.setBlockState(pos, state.with(MOLTEN, true), 2);
             }
         }
-        if (biome.isIn(ModTags.ICY)) {
+        if (biome.isIn(ModTags.ICY) || biome.isIn(ModTags.WET)) {
             if (world.random.nextFloat() < 0.4f) {
                 world.setBlockState(pos, state.with(MOLTEN, false));
             }
@@ -86,40 +129,9 @@ public class NulchBlock extends Block {
         }
     }
 
+    @Override
     public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         entity.handleFallDamage(fallDistance, 0.2F, DamageSource.FALL);
-    }
-
-    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
-        if (state.get(MOLTEN)) {
-            if (!entity.isFireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
-                entity.damage(DamageSource.HOT_FLOOR, 1.0F);
-            }
-        }
-        super.onSteppedOn(world, pos, state, entity);
-    }
-
-    private final List<DefaultParticleType> particles;
-
-    @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if (!(entity instanceof LivingEntity) || entity.getBlockStateAtPos().isOf(this)) {
-            if (world.isClient) {
-                Random random = world.getRandom();
-                boolean bl = entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ();
-                if (bl && random.nextBoolean()) {
-                    for (var p : particles) {
-                        world.addParticle(p,
-                                entity.getX() + MathHelper.nextBetween(random,-0.2f,0.2f),
-                                entity.getY() + 0.125,
-                                entity.getZ() +MathHelper.nextBetween(random,-0.2f,0.2f),
-                                MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f,
-                                0.05D,
-                                MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                    }
-                }
-            }
-        }
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
+import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.charred.CharredPillarBlock;
+import io.netty.util.internal.MathUtil;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -32,13 +34,33 @@ import java.util.Random;
 
 public class MulchBlock extends Block {
 
-    public MulchBlock(Settings settings, List<DefaultParticleType> particle) {
+    public MulchBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.getDefaultState().with(SOAKED, false));
-        this.particles = particle;
     }
 
     public static final BooleanProperty SOAKED = BooleanProperty.of("soaked");
+
+    @Override
+    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
+        super.onSteppedOn(world, pos, state, entity);
+        if (entity instanceof LivingEntity) {
+            if (world.isClient) {
+                Random random = world.getRandom();
+                boolean bl = entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ();
+                if (bl && random.nextBoolean()) {
+
+                    world.addParticle(ModParticles.MULCH,
+                            entity.getX() + MathHelper.nextBetween(random,-0.2f,0.2f),
+                            pos.getY() + 1.025,
+                            entity.getZ() + MathHelper.nextBetween(random,-0.2f,0.2f),
+                            MathHelper.nextBetween(random,-0.9f,-1),
+                            -1,
+                            0);
+                }
+            }
+        }
+    }
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
@@ -122,29 +144,6 @@ public class MulchBlock extends Block {
     @Override
     public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         entity.handleFallDamage(fallDistance, 0.2F, DamageSource.FALL);
-    }
-
-    private final List<DefaultParticleType> particles;
-
-    @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if (!(entity instanceof LivingEntity) || entity.getBlockStateAtPos().isOf(this)) {
-            if (world.isClient) {
-                Random random = world.getRandom();
-                boolean bl = entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ();
-                if (bl && random.nextBoolean()) {
-                    for (var p : particles) {
-                        world.addParticle(p,
-                                entity.getX() + MathHelper.nextBetween(random,-0.2f,0.2f),
-                                entity.getY() + 0.125,
-                                entity.getZ() +MathHelper.nextBetween(random,-0.2f,0.2f),
-                                MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f,
-                                0.05D,
-                                MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
-                    }
-                }
-            }
-        }
     }
 
     @Override

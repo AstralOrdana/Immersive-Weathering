@@ -1,10 +1,10 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
-import com.ordana.immersive_weathering.data.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.IConditionalGrowingBlock;
 import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.FallingBlock;
 import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,7 +28,7 @@ import net.minecraft.world.WorldAccess;
 
 import java.util.Random;
 
-public class SiltBlock extends FallingBlock {
+public class SiltBlock extends FallingBlock implements IConditionalGrowingBlock {
 
     public SiltBlock(Settings settings) {
         super(settings);
@@ -110,11 +110,12 @@ public class SiltBlock extends FallingBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (state.get(FERTILE)) {
-            BlockGrowthHandler.tickBlock(state, world, pos);
-        }
+    public boolean canGrow(BlockState state) {
+        return state.get(FERTILE) && state.get(SOAKED);
+    }
 
+    @Override
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int temperature = 0;
         boolean isTouchingWater = false;
         for (Direction direction : Direction.values()) {

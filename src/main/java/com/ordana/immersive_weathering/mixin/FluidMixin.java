@@ -43,7 +43,7 @@ public class FluidMixin extends Block implements FluidDrainable {
     }
 
     @Inject(method = "receiveNeighborFluids", at = @At("HEAD"), cancellable = true)
-    public void receiveNeighborFluids(World world, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
+    private void receiveNeighborFluids(World world, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
         if (this.fluid.isIn(FluidTags.LAVA)) {
             boolean hasWater = false;
             boolean blueIceDown = false;
@@ -146,11 +146,6 @@ public class FluidMixin extends Block implements FluidDrainable {
                     this.playExtinguishSound(world, pos);
                     cir.setReturnValue(false);
                 }
-                if (hasWater && hasSoulfire) {
-                    world.setBlockState(pos, Blocks.CRYING_OBSIDIAN.getDefaultState());
-                    this.playExtinguishSound(world, pos);
-                    cir.setReturnValue(false);
-                }
                 if (hasClay) {
                     if (world.getBlockState(blockPos).isOf(Blocks.CLAY)) {
                         world.setBlockState(blockPos, Blocks.TERRACOTTA.getDefaultState());
@@ -172,6 +167,12 @@ public class FluidMixin extends Block implements FluidDrainable {
                 }
                 if (magmaDown && blueIceUp && hasRustyBlock) {
                     world.setBlockState(pos, Blocks.RED_SANDSTONE.getDefaultState());
+                    this.playExtinguishSound(world, pos);
+                    cir.setReturnValue(false);
+                }
+
+                if (world.getFluidState(blockPos).isIn(FluidTags.WATER) && hasSoulfire) {
+                    world.setBlockState(pos, Blocks.CRYING_OBSIDIAN.getDefaultState());
                     this.playExtinguishSound(world, pos);
                     cir.setReturnValue(false);
                 }

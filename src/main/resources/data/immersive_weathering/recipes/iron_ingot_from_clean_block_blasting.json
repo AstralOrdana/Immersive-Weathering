@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "tag": "immersive_weathering:clean_iron"
+  },
+  "result": "minecraft:iron_ingot",
+  "experience": 0.15,
+  "cookingtime": 100
+}

@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.data.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
 import net.minecraft.server.DataPackContents;
 import net.minecraft.util.registry.DynamicRegistryManager;
 import org.spongepowered.asm.mixin.Mixin;
