@@ -1,113 +1,27 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.server.world.ServerWorld;
-
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.profiler.Profiler;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.MutableWorldProperties;
-import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.Slice;
+import org.spongepowered.asm.mixin.injection.At.Shift;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.function.Supplier;
+import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
 
-@Debug(export=true)
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.profiler.Profiler;
+import net.minecraft.world.chunk.ChunkSection;
+import net.minecraft.world.chunk.WorldChunk;
+
 @Mixin(ServerWorld.class)
-public abstract class ServerWorldMixin extends World {
+public abstract class ServerWorldMixin {
 
-    protected ServerWorldMixin(MutableWorldProperties properties, RegistryKey<World> registryRef, RegistryEntry<DimensionType> registryEntry, Supplier<Profiler> profiler, boolean isClient, boolean debugWorld, long seed) {
-        super(properties, registryRef, registryEntry, profiler, isClient, debugWorld, seed);
-    }
-
-    @ModifyVariable(method = "tickChunk",
-            at = @At(value = "LOAD"),
-            slice = @Slice(
-                    from = @At(
-                            value = "CONSTANT",
-                            args = "stringValue=randomTick"
-                    )
-            ),
-            require = 1
-    )
-    private BlockPos grabPos(BlockPos value) {
-        gx = value.getX();
-        gy = value.getY();
-        gz = value.getZ();
-        return value;
-    }
-
-    @Unique
-    private int gx;
-    @Unique
-    private int gy;
-    @Unique
-    private int gz;
-
-    @ModifyVariable(method = "tickChunk",
-            at = @At(value = "LOAD"),
-            slice = @Slice(
-                    from = @At(
-                            value = "CONSTANT",
-                            args = "stringValue=randomTick"
-                    )
-            ),
-            require = 1
-    )
-    private FluidState callTick(FluidState value) {
-        BlockGrowthHandler.tickBlock(gx,gy,gz, ((ServerWorld) ((Object) this)));
-        return value;
-    }
+	@Inject(method = "tickChunk", at = @At(value = "INVOKE", target = "Lnet/minecraft/fluid/FluidState;hasRandomTicks()Z", shift = Shift.BEFORE), locals = LocalCapture.CAPTURE_FAILHARD)
+	private void tickBlocks(WorldChunk chunk, int randomTickSpeed, CallbackInfo ci, ChunkPos chunkPos, boolean bl, int i, int j, Profiler profiler, ChunkSection var8[], int var9, int var10, ChunkSection chunkSection, int k, int l, BlockPos blockPos3) {
+		BlockGrowthHandler.tickBlock(blockPos3, (ServerWorld) (Object) this);
+	}
 
 }
-
-/*@Debug(export=true)
-@Mixin(ServerWorld.class)
-public abstract class ServerWorldMixin extends World {
-
-    protected ServerWorldMixin(MutableWorldProperties properties, RegistryKey<World> registryRef, RegistryEntry<DimensionType> registryEntry, Supplier<Profiler> profiler, boolean isClient, boolean debugWorld, long seed) {
-        super(properties, registryRef, registryEntry, profiler, isClient, debugWorld, seed);
-    }
-
-    @ModifyVariable(method = "tickChunk",
-            at = @At(value = "LOAD"),
-            slice = @Slice(
-                    from = @At(
-                            value = "CONSTANT",
-                            args = "stringValue=randomTick"
-                    )
-            ),
-            require = 1
-    )
-    private BlockPos grabPos(BlockPos value) {
-        grabbedPos = value;
-        return value;
-    }
-
-    @Unique
-    private BlockPos grabbedPos;
-
-    @ModifyVariable(method = "tickChunk",
-            at = @At(value = "LOAD"),
-            slice = @Slice(
-                    from = @At(
-                            value = "CONSTANT",
-                            args = "stringValue=randomTick"
-                    )
-            ),
-            require = 1
-    )
-    private FluidState callTick(FluidState value) {
-        BlockGrowthHandler.tickBlock(this.getBlockState(grabbedPos), ((ServerWorld) ((Object) this)), grabbedPos);
-        return value;
-    }
-
-}*/
