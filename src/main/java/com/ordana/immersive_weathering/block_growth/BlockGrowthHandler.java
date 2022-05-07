@@ -44,8 +44,7 @@ public class BlockGrowthHandler extends JsonDataLoader implements IdentifiableRe
         return Optional.ofNullable(GROWTH_FOR_BLOCK.get(block));
     }
 
-    public static void tickBlock(int x, int y, int z, ServerWorld world) {
-        BlockPos pos = new BlockPos(x,y,z);
+    public static void tickBlock(BlockPos pos, ServerWorld world) {
         BlockState state = world.getBlockState(pos);
         if (!TICKING_BLOCKS.contains(state.getBlock())) return;
         var growth = getBlockGrowth(state.getBlock());

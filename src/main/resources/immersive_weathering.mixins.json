@@ -25,6 +25,7 @@
     "LeavesMixin",
     "RootedDirtBlockMixin",
     "RootsBlockMixin",
+    "ServerWorldMixin",
     "SproutsBlockMixin",
     "SweetBerryBushMixin",
     "LargeFernBlockMixin",
