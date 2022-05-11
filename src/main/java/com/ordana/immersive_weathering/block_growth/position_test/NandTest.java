@@ -26,8 +26,8 @@ record NandTest(List<PositionRuleTest> predicates) implements PositionRuleTest {
     @Override
     public boolean test(RegistryEntry<Biome> biome, BlockPos pos, World level) {
         for(var p : predicates){
-            if(p.test(biome,pos, level))return false;
+            if(!p.test(biome,pos, level))return true;
         }
-        return true;
+        return false;
     }
 }

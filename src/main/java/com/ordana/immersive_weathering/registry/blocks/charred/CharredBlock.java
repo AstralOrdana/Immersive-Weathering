@@ -43,7 +43,7 @@ public class CharredBlock extends Block {
             double d = (double) i + random.nextDouble();
             double e = (double) j + random.nextDouble();
             double f = (double) k + random.nextDouble();
-            world.addParticle(ModParticles.EMBER, d, e, f, 0.1D, 3D, 0.1D);
+            world.addParticle(ModParticles.EMBERSPARK, d, e, f, 0.1D, 3D, 0.1D);
         }
     }
 

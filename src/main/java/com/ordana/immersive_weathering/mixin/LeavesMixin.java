@@ -1,17 +1,13 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.LeafPileBlock;
-import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.*;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,6 +21,21 @@ public abstract class LeavesMixin extends Block implements Fertilizable {
 
     public LeavesMixin(Settings settings) {
         super(settings);
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        if (!state.get(LeavesBlock.PERSISTENT) && state.get(LeavesBlock.DISTANCE) == 7) {
+            var leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
+            BlockState baseLeaf = leafPile.getDefaultState().with(LeafPileBlock.LAYERS, 0);
+            if (world.random.nextFloat() < 0.3f) {
+                world.setBlockState(pos, baseLeaf.with(LeafPileBlock.LAYERS, MathHelper.nextBetween(random, 1, 6)), 2);
+            }
+            else {
+                LeavesBlock.dropStacks(state, world, pos);
+                world.removeBlock(pos, false);
+            }
+        }
     }
 
     @Override

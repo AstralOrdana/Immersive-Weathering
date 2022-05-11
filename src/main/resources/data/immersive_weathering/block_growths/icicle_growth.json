@@ -1,0 +1,49 @@
+{
+  "area_condition": {
+    "must_have": {
+      "fluid": "minecraft:water",
+      "predicate_type": "immersive_weathering:fluid_match"
+    },
+    "radiusX": 2,
+    "radiusY": 2,
+    "radiusZ": 2,
+    "requiredAmount": 12,
+    "type": "generate_if_not_too_many"
+  },
+  "position_predicates": [
+    {
+      "predicate_type": "temperature_range",
+      "max": 0,
+      "min": -2
+    }
+  ],
+  "growth_chance": 0.1,
+  "growth_for_face": [
+    {
+      "direction": "down",
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:icicle",
+              "Properties": {
+                "vertical_direction": "down"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": [
+    "minecraft:ice",
+    "minecraft:packed_ice",
+    "minecraft:blue_ice"
+  ],
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:random_block_match",
+    "probability": 0.8
+  }
+}

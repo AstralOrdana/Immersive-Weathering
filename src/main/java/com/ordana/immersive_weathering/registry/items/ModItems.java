@@ -44,6 +44,8 @@ public class ModItems {
     public static final Item WARPED_SCALES = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
 
     public static final BlockItem WEEDS = new BlockItem(ModBlocks.WEEDS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SAND_LAYER_BLOCK = new BlockItem(ModBlocks.SAND_LAYER_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem RED_SAND_LAYER_BLOCK = new BlockItem(ModBlocks.RED_SAND_LAYER_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem ASH_LAYER_BLOCK = new BlockItem(ModBlocks.ASH_LAYER_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem ASH_BLOCK = new BlockItem(ModBlocks.ASH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem SOOT = new BlockItem(ModBlocks.SOOT, new Item.Settings().group(ItemGroup.DECORATIONS));
@@ -255,6 +257,8 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "warped_scales"), WARPED_SCALES);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weeds"), WEEDS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "sand_layer_block"), SAND_LAYER_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "red_sand_layer_block"), RED_SAND_LAYER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "soot"), SOOT);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "ash_layer_block"), ASH_LAYER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "ash_block"), ASH_BLOCK);

@@ -2,8 +2,7 @@
     "textures": {
         "particle": "minecraft:block/rooted_dirt",
         "bottom": "minecraft:block/rooted_dirt",
-        "top": "immersive_weathering:block/rooted_grass_block_top",
-        "top_overlay": "immersive_weathering:block/rooted_grass_block_top_overlay",
+        "top": "minecraft:block/grass_block_top",
         "side": "immersive_weathering:block/rooted_grass_block_side",
         "side_overlay": "immersive_weathering:block/rooted_grass_block_side_overlay"
     },
@@ -12,7 +11,7 @@
             "to": [ 16, 16, 16 ],
             "faces": {
                 "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#bottom", "cullface": "down" },
-                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#top",    "cullface": "up" },
+                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#top",    "tintindex": 0, "cullface": "up" },
                 "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#side",   "cullface": "north" },
                 "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#side",   "cullface": "south" },
                 "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#side",   "cullface": "west" },
@@ -22,7 +21,6 @@
         {   "from": [ 0, 0, 0 ],
             "to": [ 16, 16, 16 ],
             "faces": {
-                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#top_overlay", "tintindex": 0, "cullface": "up" },
                 "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#side_overlay", "tintindex": 0, "cullface": "north" },
                 "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#side_overlay", "tintindex": 0, "cullface": "south" },
                 "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#side_overlay", "tintindex": 0, "cullface": "west" },

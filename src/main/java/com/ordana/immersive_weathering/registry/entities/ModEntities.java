@@ -16,6 +16,8 @@ public class ModEntities {
 
     public static EntityType<FallingIcicleEntity> FALLING_ICICLE;
     public static EntityType<FallingAshEntity> FALLING_ASH;
+    public static EntityType<FallingSandLayerEntity> FALLING_SAND_LAYER;
+    public static EntityType<FallingLeafLayerEntity> FALLING_LEAF_LAYER;
 
     private static <T extends Entity> EntityType<T> registerEntity(String id, EntityType.Builder<T> type) {
         return (EntityType)Registry.register(Registry.ENTITY_TYPE, id, type.build(id));
@@ -39,6 +41,19 @@ public class ModEntities {
 
         FALLING_ASH = registerEntity("falling_ash",
                 EntityType.Builder.<FallingAshEntity>create(FallingAshEntity::new, SpawnGroup.MISC)
+                        .setDimensions(0.98F, 0.98F)
+                        .maxTrackingRange(10)
+                        .trackingTickInterval(20));
+
+        FALLING_SAND_LAYER = registerEntity("falling_sand_layer",
+                EntityType.Builder.<FallingSandLayerEntity>create(FallingSandLayerEntity::new, SpawnGroup.MISC)
+                        .setDimensions(0.98F, 0.98F)
+                        .maxTrackingRange(10)
+                        .trackingTickInterval(20));
+
+
+        FALLING_LEAF_LAYER = registerEntity("falling_leaf_layer",
+                EntityType.Builder.<FallingLeafLayerEntity>create(FallingLeafLayerEntity::new, SpawnGroup.MISC)
                         .setDimensions(0.98F, 0.98F)
                         .maxTrackingRange(10)
                         .trackingTickInterval(20));

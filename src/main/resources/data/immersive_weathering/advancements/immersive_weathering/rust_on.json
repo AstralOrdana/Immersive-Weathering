@@ -1,0 +1,40 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:wet_sponge"
+    },
+    "title": {
+      "translate": "advancements.immersive_weathering.rust_on.title"
+    },
+    "description": {
+      "translate": "advancements.immersive_weathering.rust_on.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "minecraft:husbandry/safely_harvest_honey",
+  "criteria": {
+    "wax_on": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "item": {
+          "items": [
+            "minecraft:wet_sponge"
+          ]
+        },
+        "location": {
+          "block": {
+            "tag": "immersive_weathering:rustable"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "wax_on"
+    ]
+  ]
+}

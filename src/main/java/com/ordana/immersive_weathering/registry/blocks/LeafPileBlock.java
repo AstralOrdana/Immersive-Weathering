@@ -1,8 +1,11 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
+import com.ordana.immersive_weathering.registry.ModParticles;
+import com.ordana.immersive_weathering.registry.entities.FallingLeafLayerEntity;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.damage.DamageSource;
@@ -11,7 +14,9 @@ import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
@@ -27,12 +32,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class LeafPileBlock extends Block implements Fertilizable {
+public class LeafPileBlock extends FallingBlock implements Fertilizable {
 
     public static final IntProperty LAYERS = IntProperty.of("layers", 0, 8);
     protected static final VoxelShape[] LAYERS_TO_SHAPE = new VoxelShape[]{Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D),
             Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
     private static final float[] COLLISIONS = new float[]{0, 1.7f, 1.6f, 1.5f, 1.3f, 1.1f, 0.8f, 0.5f};
+    private static final int MAX_LAYERS = 8;
 
     private final boolean hasFlowers; //if it can be boneMealed
     private final boolean hasThorns; //if it can hurt & make podzol
@@ -165,40 +171,27 @@ public class LeafPileBlock extends Block implements Fertilizable {
     }
 
     @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        BlockState below = world.getBlockState(pos.down());
-        if (!below.isOf(Blocks.BARRIER)) {
-            if (!below.isOf(Blocks.HONEY_BLOCK) && !below.isOf(Blocks.SOUL_SAND) &&
-                    !(below.getFluidState().isOf(Fluids.WATER) && state.get(LAYERS) == 0)) {
-                return below.isSideSolidFullSquare(world, pos.down(), Direction.UP) || below.isOf(this) && below.get(LAYERS) == 8;
-            } else {
-                return true;
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState facingState, WorldAccess world, BlockPos currentPos, BlockPos otherPos) {
+        if (world instanceof ServerWorld serverLevel) {
+            BlockPos pos = currentPos.up();
+            BlockState state1 = world.getBlockState(pos);
+
+            while (state1.isOf(this)) {
+                serverLevel.createAndScheduleBlockTick(pos, this, this.getFallDelay());
+                pos = pos.up();
+                state1 = serverLevel.getBlockState(pos);
             }
-        } else {
-            return false;
         }
+        return super.getStateForNeighborUpdate(state, direction, facingState, world, currentPos, otherPos);
     }
 
     @Override
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if (direction == Direction.DOWN && state.get(LAYERS) <= 1) {
-            state = state.with(LAYERS, neighborState.isOf(Blocks.WATER) ? 0 : 1);
-        }
-        return !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
-    }
-
-    @Override
-    public boolean canReplace(BlockState state, ItemPlacementContext context) {
-        int i = state.get(LAYERS);
-        if (context.getStack().isOf(this.asItem()) && i < 8 && i > 0) {
-
-            if (context.canReplaceExisting()) {
-                return context.getSide() == Direction.UP;
-            } else {
-                return true;
-            }
+    public boolean canReplace(BlockState pState, ItemPlacementContext pUseContext) {
+        int i = pState.get(LAYERS);
+        if (pUseContext.getStack().isOf(this.asItem()) && i < MAX_LAYERS) {
+            return true;
         } else {
-            return i < 3;
+            return i == 1;
         }
     }
 
@@ -245,5 +238,34 @@ public class LeafPileBlock extends Block implements Fertilizable {
                 );
             }
         }
+    }
+
+
+
+
+
+    @Override
+    public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
+        if (state.getBlock() != oldState.getBlock())
+            worldIn.createAndScheduleBlockTick(pos, this, this.getFallDelay());
+    }
+
+    @Override
+    public void scheduledTick(BlockState state, ServerWorld level, BlockPos pos, Random pRand) {
+        BlockState below = level.getBlockState(pos.down());
+        if ((FallingLeafLayerEntity.isFree(below) || hasIncompleteLeafPileBelow(below)) && pos.getY() >= level.getBottomY()) {
+
+            while (state.isOf(this)) {
+                FallingBlockEntity fallingblockentity = FallingLeafLayerEntity.fall(level, pos, state);
+                this.configureFallingBlockEntity(fallingblockentity);
+
+                pos = pos.up();
+                state = level.getBlockState(pos);
+            }
+        }
+    }
+
+    private boolean hasIncompleteLeafPileBelow(BlockState state) {
+        return state.isOf(this) && state.get(LAYERS) != MAX_LAYERS;
     }
 }

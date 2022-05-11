@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "item": "immersive_weathering:oak_bark"
+    },
+    "title": {
+      "translate": "advancements.immersive_weathering.bark_on.title"
+    },
+    "description": {
+      "translate": "advancements.immersive_weathering.bark_on.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "immersive_weathering:immersive_weathering/bark_off",
+  "criteria": {
+    "wax_on": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "item": {
+          "tag": "immersive_weathering:bark"
+        },
+        "location": {
+          "block": {
+            "tag": "immersive_weathering:stripped_logs"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "wax_on"
+    ]
+  ]
+}

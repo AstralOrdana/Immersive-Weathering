@@ -45,7 +45,7 @@ public class PermafrostBlock extends Block {
     }
 
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
-        if (!(entity instanceof LivingEntity) || !isWearingBoots(entity) || entity.getType() == EntityType.FOX || entity.getType() == EntityType.RABBIT || entity.getType() == EntityType.STRAY || entity.getType() == EntityType.GOAT) {
+        if (!(entity instanceof LivingEntity) || isWearingBoots(entity) || entity.getType() == EntityType.FOX || entity.getType() == EntityType.RABBIT || entity.getType() == EntityType.STRAY || entity.getType() == EntityType.GOAT) {
             return;
         }
         entity.setFrozenTicks(300);

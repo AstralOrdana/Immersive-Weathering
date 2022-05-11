@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "item": "immersive_weathering:flower_crown"
+    },
+    "title": {
+      "translate": "advancements.immersive_weathering.flower_crown.title"
+    },
+    "description": {
+      "translate": "advancements.immersive_weathering.flower_crown.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "minecraft:husbandry/root",
+  "criteria": {
+    "wheat": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:flower_crown"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "wheat"
+    ]
+  ]
+}

@@ -1,12 +1,29 @@
 {
   "advancements.immersive_weathering.moss.title": "Perpetuate the Cycle?",
   "advancements.immersive_weathering.moss.description": "(You ate the moss.), (Tastes... mossy.), (Your HP was mossed out.)",
-
   "advancements.immersive_weathering.icicle.title": "Monch",
   "advancements.immersive_weathering.icicle.description": "Cronch Cronch Cronch",
-
   "advancements.immersive_weathering.ice_sickle.title": "Chill Out",
   "advancements.immersive_weathering.ice_sickle.description": "Slay a Blaze using its greatest fear, an Ice Sickle",
+  "advancements.immersive_weathering.mulch.title": "Mulch Better",
+  "advancements.immersive_weathering.mulch.description": "Craft some Mulch, a dedicated farmer's best friend",
+  "advancements.immersive_weathering.flower_crown.title": "Flower Power",
+  "advancements.immersive_weathering.flower_crown.description": "Put on a Flower Crown, the bees think you look cute in it",
+  "advancements.immersive_weathering.eat_azalea_flower.title": "Flower Devour",
+  "advancements.immersive_weathering.eat_azalea_flower.description": "Eat some Azalea Flowers, you know you want to",
+  "advancements.immersive_weathering.fulgurite.title": "Shocking Discovery",
+  "advancements.immersive_weathering.fulgurite.description": "Find a Fulgurite, a rare block that only occurs where lightning strikes sand",
+  "advancements.immersive_weathering.dirts.title": "Soil Superfan",
+  "advancements.immersive_weathering.dirts.description": "Travel the world and obtain all types of soil",
+
+  "advancements.immersive_weathering.bark_off.title": "Bark Off",
+  "advancements.immersive_weathering.bark_off.description": "Scrape Bark off a Log!",
+  "advancements.immersive_weathering.bark_on.title": "Bark On",
+  "advancements.immersive_weathering.bark_on.description": "Apply Bark to a Stripped Log!",
+  "advancements.immersive_weathering.rust_off.title": "Rust Off-- Wait what??",
+  "advancements.immersive_weathering.rust_off.description": "Once iron has rusted too much, its impossible to scrape the rust off :pensive:",
+  "advancements.immersive_weathering.rust_on.title": "Rust On",
+  "advancements.immersive_weathering.rust_on.description": "Apply a Wet Sponge to blocks made of Iron!",
 
   "death.attack.icicle": "%1$s was impaled on an icicle",
   "death.attack.icicle.player": "%1$s was impaled on an icicle whilst fighting %2$s",
@@ -48,7 +65,10 @@
 
   "block.immersive_weathering.weeds": "Weeds",
   "block.immersive_weathering.soot": "Soot",
-  "block.immersive_weathering.ash_layer_block": "Ash",
+  "block.minecraft.snow": "Snow Pile",
+  "block.immersive_weathering.sand_layer_block": "Sand Pile",
+  "block.immersive_weathering.red_sand_layer_block": "Red Sand Pile",
+  "block.immersive_weathering.ash_layer_block": "Ash Pile",
   "block.immersive_weathering.ash_block": "Ash Block",
   "item.immersive_weathering.tallow": "Tallow",
 

@@ -6,15 +6,7 @@
       },
       {
         "model": "immersive_weathering:block/fluvisol",
-        "y": 90
-      },
-      {
-        "model": "immersive_weathering:block/fluvisol",
         "y": 180
-      },
-      {
-        "model": "immersive_weathering:block/fluvisol",
-        "y": 270
       }
     ],
     "snowy=true": {

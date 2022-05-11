@@ -7,7 +7,6 @@ import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.state.property.Properties;
@@ -34,19 +33,29 @@ public class ImprovedFallingBlockEntity extends FallingBlockEntity {
         this.prevX = pos.getX() + 0.5D;
         this.prevY = pos.getY();
         this.prevZ = pos.getZ() + 0.5D;
-        this.setPos(prevX, prevY + (double) ((1.0F - this.getHeight()) / 2.0F), prevZ);
+        this.setPosition(prevX, prevY + (double) ((1.0F - this.getHeight()) / 2.0F), prevZ);
         this.setVelocity(Vec3d.ZERO);
         this.setFallingBlockPos(this.getBlockPos());
         this.setBlockState(blockState);
         this.saveTileDataToItem = saveDataToItem;
     }
 
-    public static ImprovedFallingBlockEntity spawnFromBlock(EntityType<? extends FallingBlockEntity> type,
+    public static ImprovedFallingBlockEntity fall(EntityType<? extends FallingBlockEntity> type,
                                                   World level, BlockPos pos, BlockState state, boolean saveDataToItem) {
         ImprovedFallingBlockEntity entity = new ImprovedFallingBlockEntity(type, level, pos, state, saveDataToItem);
         level.setBlockState(pos, state.getFluidState().getBlockState(), 3);
         level.spawnEntity(entity);
         return entity;
+    }
+
+    public void setSaveTileDataToItem(boolean b){
+        this.saveTileDataToItem = b;
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound tag) {
+        super.writeCustomDataToNbt(tag);
+        tag.putBoolean("saveToItem", this.saveTileDataToItem);
     }
 
     @Override
@@ -69,8 +78,11 @@ public class ImprovedFallingBlockEntity extends FallingBlockEntity {
     }
 
     @Override
-    public ItemEntity dropItem (ItemConvertible itemIn, int offset) {
+    public ItemEntity dropItem(ItemConvertible itemIn, int offset) {
         ItemStack stack = new ItemStack(itemIn);
+        if (itemIn instanceof Block && this.saveTileDataToItem) {
+            stack.setSubNbt("BlockEntityTag", this.blockEntityData);
+        }
         return this.dropStack(stack, (float) offset);
     }
 

@@ -1,7 +1,11 @@
 package com.ordana.immersive_weathering.registry.entities;
 
 import com.ordana.immersive_weathering.registry.blocks.AshLayerBlock;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.LandingBlock;
+import net.minecraft.block.Material;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.MovementType;
@@ -21,8 +25,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Author: MehVahdJukaar
@@ -30,8 +33,8 @@ import javax.annotation.Nullable;
 
 public class FallingAshEntity extends ImprovedFallingBlockEntity {
 
-    public FallingAshEntity(EntityType<FallingAshEntity> type, World world) {
-        super(type, world);
+    public FallingAshEntity(EntityType<FallingAshEntity> type, World level) {
+        super(type, level);
     }
 
     public FallingAshEntity(World level) {
@@ -42,10 +45,10 @@ public class FallingAshEntity extends ImprovedFallingBlockEntity {
         super(ModEntities.FALLING_ASH, level, pos, blockState, false);
     }
 
-    public static FallingAshEntity spawnFromBlock(World world, BlockPos pos, BlockState state) {
-        FallingAshEntity entity = new FallingAshEntity(world, pos, state);
-        world.setBlockState(pos, state.getFluidState().getBlockState(), 3);
-        world.spawnEntity(entity);
+    public static FallingAshEntity fall(World level, BlockPos pos, BlockState state) {
+        FallingAshEntity entity = new FallingAshEntity(level, pos, state);
+        level.setBlockState(pos, state.getFluidState().getBlockState(), 3);
+        level.spawnEntity(entity);
         return entity;
     }
 

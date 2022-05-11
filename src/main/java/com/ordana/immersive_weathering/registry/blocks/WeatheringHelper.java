@@ -94,6 +94,14 @@ public class WeatheringHelper {
                 } else return world.setBlockState(pos, ModBlocks.CHARRED_LOG
                         .getStateWithProperties(state).with(CharredBlock.SMOLDERING, false), 3);
             }
+            else if (world.random.nextFloat() < 0.5f) {
+                return world.setBlockState(pos, ModBlocks.ASH_LAYER_BLOCK
+                        .getStateWithProperties(state), 3);
+            }
+        }
+        else if (world.random.nextFloat() > 0.2f) {
+            return world.setBlockState(pos, ModBlocks.ASH_LAYER_BLOCK
+                    .getStateWithProperties(state), 3);
         }
         else if (downState.isOf(Blocks.GRASS_BLOCK)) {
             return world.setBlockState(pos.down(), Blocks.DIRT.getDefaultState(), 3);

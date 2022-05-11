@@ -2,24 +2,64 @@ package com.ordana.immersive_weathering.registry.blocks.charred;
 
 import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.ModTags;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.PillarBlock;
+import net.minecraft.block.*;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 
 import java.util.Random;
 
-public class CharredPillarBlock extends PillarBlock {
+public class CharredPillarBlock extends PillarBlock implements LandingBlock {
+
+    @Override
+    public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
+        world.createAndScheduleBlockTick(pos, this, this.getFallDelay());
+    }
+
+    @Override
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        world.createAndScheduleBlockTick(pos, this, this.getFallDelay());
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+    }
+
+    @Override
+    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        if (!FallingBlock.canFallThrough(world.getBlockState(pos.down())) || pos.getY() < world.getBottomY()) {
+            return;
+        }
+        FallingBlockEntity fallingBlockEntity = FallingBlockEntity.spawnFromBlock(world, pos, state);
+        this.configureFallingBlockEntity(fallingBlockEntity);
+    }
+
+    protected void configureFallingBlockEntity(FallingBlockEntity entity) {
+    }
+
+    protected int getFallDelay() {
+        return 2;
+    }
+
+    public static boolean canFallThrough(BlockState state) {
+        Material material = state.getMaterial();
+        return state.isAir() || state.isIn(BlockTags.FIRE) || material.isLiquid() || material.isReplaceable();
+    }
+
+    public int getColor(BlockState state, BlockView world, BlockPos pos) {
+        return -16777216;
+    }
 
     public CharredPillarBlock(Settings settings) {
         super(settings);
@@ -43,7 +83,14 @@ public class CharredPillarBlock extends PillarBlock {
             double d = (double) i + random.nextDouble();
             double e = (double) j + random.nextDouble();
             double f = (double) k + random.nextDouble();
-            world.addParticle(ModParticles.EMBER, d, e, f, 0.1D, 3D, 0.1D);
+            world.addParticle(ModParticles.EMBERSPARK, d, e, f, 0.1D, 3D, 0.1D);
+        }
+        BlockPos blockPos;
+        if (random.nextInt(16) == 0 && FallingBlock.canFallThrough(world.getBlockState(blockPos = pos.down()))) {
+            double d = (double)pos.getX() + random.nextDouble();
+            double e = (double)pos.getY() - 0.05;
+            double f = (double)pos.getZ() + random.nextDouble();
+            world.addParticle(new BlockStateParticleEffect(ParticleTypes.FALLING_DUST, state), d, e, f, 0.0, 0.0, 0.0);
         }
     }
 

@@ -1,9 +1,9 @@
 package com.ordana.immersive_weathering;
 
 import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
-import com.ordana.immersive_weathering.block_growth.BlockSetMatchTest;
-import com.ordana.immersive_weathering.block_growth.FluidMatchTest;
-import com.ordana.immersive_weathering.block_growth.LogMatchTest;
+import com.ordana.immersive_weathering.block_growth.rule_test.BlockSetMatchTest;
+import com.ordana.immersive_weathering.block_growth.rule_test.FluidMatchTest;
+import com.ordana.immersive_weathering.block_growth.rule_test.LogMatchTest;
 import com.ordana.immersive_weathering.registry.*;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.entities.ModEntities;

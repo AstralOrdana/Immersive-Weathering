@@ -1,11 +1,12 @@
 {
-  "growth_chance": 0.001,
-  "position_predicates": [
-    {
-      "predicate_type": "precipitation_test",
-      "precipitation": "rain"
-    }
-  ],
+  "growth_chance": 0.005,
+  "area_condition": {
+    "must_have": {
+      "fluid": "minecraft:flowing_water",
+      "predicate_type": "immersive_weathering:fluid_match"
+    },
+    "type": "neighbor_based_generation"
+  },
   "growth_for_face": [
     {
       "direction": "down",
@@ -14,7 +15,7 @@
         {
           "data": {
             "block": {
-              "Name": "minecraft:sand"
+              "Name": "immersive_weathering:sand_layer_block"
             }
           },
           "weight": 1

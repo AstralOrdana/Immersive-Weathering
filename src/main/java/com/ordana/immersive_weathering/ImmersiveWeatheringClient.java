@@ -52,6 +52,8 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(ModEntities.FALLING_ICICLE, FallingBlockEntityRenderer::new);
         EntityRendererRegistry.register(ModEntities.FALLING_ASH, FallingBlockEntityRenderer::new);
+        EntityRendererRegistry.register(ModEntities.FALLING_SAND_LAYER, FallingBlockEntityRenderer::new);
+        EntityRendererRegistry.register(ModEntities.FALLING_LEAF_LAYER, FallingBlockEntityRenderer::new);
 
         ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((atlasTexture, registry) -> {
             registry.register(new Identifier("immersive_weathering", "particle/ember_0"));
@@ -90,7 +92,7 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         }));
         ParticleFactoryRegistry.getInstance().register(ModParticles.EMBER, EmberParticle.EmberFactory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.SOOT, LeafParticle.SimpleLeafParticle::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.EMBERSPARK, SoulParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.EMBERSPARK, EmberParticle.EmberFactory::new);
 
         ParticleFactoryRegistry.getInstance().register(ModParticles.OAK_LEAF, LeafParticle.ColoredLeafParticle::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.SPRUCE_LEAF, LeafParticle.SpruceLeafParticle::new);

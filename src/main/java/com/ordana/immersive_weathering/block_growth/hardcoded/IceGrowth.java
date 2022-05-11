@@ -34,22 +34,6 @@ public class IceGrowth implements IBlockGrowth {
         Biome biome = b.value();
         Random random = world.random;
 
-        if (random.nextFloat() < 0.003f) {
-            BlockPos icePos = pos.down();
-
-            if (world.getBlockState(icePos).isOf(Blocks.AIR)) {
-
-                //to form we need hot weather in a cold biome or water above & cold biome
-                if (biome.canSetSnow(world, pos)) {
-                    if (world.getFluidState(pos.up()).isIn(FluidTags.WATER) || (world.isDay() && !world.isRaining() && !world.isThundering())) {
-                        world.setBlockState(icePos, ModBlocks.ICICLE.getDefaultState()
-                                .with(Properties.VERTICAL_DIRECTION, Direction.DOWN)
-                                .with(IcicleBlock.THICKNESS, Thickness.TIP));
-                    }
-                }
-            }
-        }
-
         //melt ice
         if (state.getBlock() instanceof IceInvoker ice) {
             if (world.getDimension().isUltrawarm()) {

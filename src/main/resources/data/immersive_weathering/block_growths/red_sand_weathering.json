@@ -1,0 +1,33 @@
+{
+  "growth_chance": 0.005,
+  "area_condition": {
+    "must_have": {
+      "fluid": "minecraft:flowing_water",
+      "predicate_type": "immersive_weathering:fluid_match"
+    },
+    "type": "neighbor_based_generation"
+  },
+  "growth_for_face": [
+    {
+      "direction": "down",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:red_sand_layer_block"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": [
+    "minecraft:red_sandstone"
+  ],
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:block_match"
+  }
+}

@@ -1,7 +1,9 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.*;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -16,10 +18,14 @@ import java.util.Random;
 
 
 @Mixin(FireBlock.class)
-public abstract class FireMixin {
+public abstract class FireMixin extends AbstractFireBlock{
 
     @Unique
     private BlockState bs;
+
+    public FireMixin(Settings settings, float damage) {
+        super(settings, damage);
+    }
 
     @Inject(method = "trySpreadingFire",
             at = @At(value = "INVOKE",

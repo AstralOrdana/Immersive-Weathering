@@ -34,6 +34,7 @@ public interface PositionRuleTest {
         put(BiomeSetMatchTest.TYPE.name, BiomeSetMatchTest.TYPE);
         put(TemperatureMatchTest.TYPE.name, TemperatureMatchTest.TYPE);
         put(IsDayTest.TYPE.name, IsDayTest.TYPE);
+        put(PrecipitationTest.TYPE.name, PrecipitationTest.TYPE);
         put(NandTest.TYPE.name, NandTest.TYPE);
     }};
 

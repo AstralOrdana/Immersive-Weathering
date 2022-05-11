@@ -5,6 +5,8 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "BlocksMixin",
+    "ServerWorldMixin",
+    "ServerWorldSnowMixin",
 
     "DataPackContentMixin",
 
@@ -17,6 +19,7 @@
     "FluidMixin",
     "CampfireMixin",
     "ComposterMixin",
+    "CropBlockMixin",
     "FernBlockMixin",
     "FireMixin",
     "FungusBlockMixin",
@@ -25,7 +28,6 @@
     "LeavesMixin",
     "RootedDirtBlockMixin",
     "RootsBlockMixin",
-    "ServerWorldMixin",
     "SproutsBlockMixin",
     "SweetBerryBushMixin",
     "LargeFernBlockMixin",

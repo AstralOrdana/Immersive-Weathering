@@ -15,6 +15,7 @@ public final class ModTags {
     public static final TagKey<Block> CRACKABLE = registerBlockTag("crackable");
     public static final TagKey<Block> MOSS_SOURCE = registerBlockTag("moss_source");
     public static final TagKey<Block> RAW_LOGS = registerBlockTag("raw_logs");
+    public static final TagKey<Block> STRIPPED_LOGS = registerBlockTag("stripped_logs");
     public static final TagKey<Block> SMOKEY_BLOCKS = registerBlockTag("smokey_blocks");
     public static final TagKey<Block> SMALL_MUSHROOMS = registerBlockTag("small_mushrooms");
     public static final TagKey<Block> SMALL_PLANTS = registerBlockTag("small_plants");
@@ -34,6 +35,7 @@ public final class ModTags {
     public static final TagKey<Block> WEATHERED_IRON = registerBlockTag("weathered_iron");
     public static final TagKey<Block> RUSTED_IRON = registerBlockTag("rusted_iron");
     public static final TagKey<Block> RUSTABLE = registerBlockTag("rustable");
+    public static final TagKey<Block> UNSCRAPEABLE = registerBlockTag("unscrapeable");
     public static final TagKey<Block> WAXED_BLOCKS = registerBlockTag("waxed_blocks");
     public static final TagKey<Block> COPPER = registerBlockTag("copper");
     public static final TagKey<Block> BARS = registerBlockTag("bars");
