@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.registry.blocks.mossable;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.blocks.PatchSpreader;
 import com.ordana.immersive_weathering.registry.blocks.Weatherable;
@@ -102,17 +103,19 @@ public interface Mossable extends Weatherable {
 
     @Override
     default void tryWeather(BlockState state, ServerWorld serverWorld, BlockPos pos, Random random) {
-        if (random.nextFloat() < this.getWeatherChanceSpeed()) {
-            Optional<BlockState> opt = Optional.empty();
-            if (this.getMossSpreader().getWantedWeatheringState(true, pos, serverWorld)) {
-                opt = this.getNextMossy(state);
-            }
-            BlockState newState = opt.orElse(state.with(WEATHERABLE, WeatheringState.FALSE));
-            if(newState != state) {
-                serverWorld.setBlockState(pos, newState, 2);
-                //schedule block event in 1 tick
-                if (!newState.contains(WEATHERABLE)) {
-                    serverWorld.createAndScheduleBlockTick(pos, state.getBlock(), 1);
+        if(ImmersiveWeathering.getConfig().blockGrowthConfig.blockMossing) {
+            if (random.nextFloat() < this.getWeatherChanceSpeed()) {
+                Optional<BlockState> opt = Optional.empty();
+                if (this.getMossSpreader().getWantedWeatheringState(true, pos, serverWorld)) {
+                    opt = this.getNextMossy(state);
+                }
+                BlockState newState = opt.orElse(state.with(WEATHERABLE, WeatheringState.FALSE));
+                if (newState != state) {
+                    serverWorld.setBlockState(pos, newState, 2);
+                    //schedule block event in 1 tick
+                    if (!newState.contains(WEATHERABLE)) {
+                        serverWorld.createAndScheduleBlockTick(pos, state.getBlock(), 1);
+                    }
                 }
             }
         }

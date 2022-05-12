@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.block_growth.hardcoded;
 
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.block_growth.IBlockGrowth;
 import com.ordana.immersive_weathering.mixin.IceInvoker;
 import com.ordana.immersive_weathering.registry.blocks.IcicleBlock;
@@ -35,17 +36,19 @@ public class IceGrowth implements IBlockGrowth {
         Random random = world.random;
 
         //melt ice
-        if (state.getBlock() instanceof IceInvoker ice) {
-            if (world.getDimension().isUltrawarm()) {
-                world.playSound(null, pos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 0.3F, 2.9F + (random.nextFloat() - random.nextFloat()) * 0.6F);
+        if(ImmersiveWeathering.getConfig().fireAndIceConfig.naturalIceMelt) {
+            if (state.getBlock() instanceof IceInvoker ice) {
+                if (world.getDimension().isUltrawarm()) {
+                    world.playSound(null, pos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 0.3F, 2.9F + (random.nextFloat() - random.nextFloat()) * 0.6F);
 
-                float i = pos.getX() + 0.5f;
-                float j = pos.getY() + 0.5f;
-                float k = pos.getZ() + 0.5f;
-                world.spawnParticles(ParticleTypes.LARGE_SMOKE, i, j, k, 12, 0.2D, 0.2D, 0.2D, 0);
-                ice.invokeMelt(state, world, pos);
-            } else if (biome.isHot(pos) && world.isDay()) {
-                ice.invokeMelt(state, world, pos);
+                    float i = pos.getX() + 0.5f;
+                    float j = pos.getY() + 0.5f;
+                    float k = pos.getZ() + 0.5f;
+                    world.spawnParticles(ParticleTypes.LARGE_SMOKE, i, j, k, 12, 0.2D, 0.2D, 0.2D, 0);
+                    ice.invokeMelt(state, world, pos);
+                } else if (biome.isHot(pos) && world.isDay()) {
+                    ice.invokeMelt(state, world, pos);
+                }
             }
         }
     }

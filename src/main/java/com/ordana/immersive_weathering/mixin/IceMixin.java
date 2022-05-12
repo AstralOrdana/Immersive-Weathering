@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import net.minecraft.block.*;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
@@ -19,9 +20,12 @@ abstract public class IceMixin extends Block {
 
     //TODO: is day is broken on client side
     private boolean canMelt(BlockState state, World level, BlockPos pos) {
-        return level.getDimension().isUltrawarm() || (level.getBiome(pos).value().isHot(pos) && level.isDay()) ||
-                (level.getLightLevel(LightType.BLOCK, pos) > 11 - state.getOpacity(level, pos));
+        if(ImmersiveWeathering.getConfig().fireAndIceConfig.naturalIceMelt) {
+            return level.getDimension().isUltrawarm() || (level.getBiome(pos).value().isHot(pos) && level.isDay()) ||
+                    (level.getLightLevel(LightType.BLOCK, pos) > 11 - state.getOpacity(level, pos));
 
+        }
+        return false;
     }
 
     @Override

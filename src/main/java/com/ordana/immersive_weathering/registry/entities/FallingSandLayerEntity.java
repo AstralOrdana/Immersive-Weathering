@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.registry.entities;
 
-import com.ordana.immersive_weathering.registry.blocks.AshLayerBlock;
+import com.ordana.immersive_weathering.registry.blocks.SandLayerBlock;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -113,12 +113,12 @@ public class FallingSandLayerEntity extends ImprovedFallingBlockEntity {
                             int remaining = 0;
 
                             if (onState.isOf(blockState.getBlock())) {
-                                int layers = blockState.get(AshLayerBlock.LAYERS);
-                                int toLayers = onState.get(AshLayerBlock.LAYERS);
+                                int layers = blockState.get(SandLayerBlock.LAYERS);
+                                int toLayers = onState.get(SandLayerBlock.LAYERS);
                                 int total = layers + toLayers;
                                 int target = MathHelper.clamp(total, 1, 8);
                                 remaining = total - target;
-                                blockState = blockState.with(AshLayerBlock.LAYERS, target);
+                                blockState = blockState.with(SandLayerBlock.LAYERS, target);
                             }
 
                             if (this.world.setBlockState(pos, blockState, 3)) {
@@ -132,7 +132,7 @@ public class FallingSandLayerEntity extends ImprovedFallingBlockEntity {
 
                                 if (remaining != 0) {
                                     BlockPos above = pos.up();
-                                    blockState = blockState.with(AshLayerBlock.LAYERS, remaining);
+                                    blockState = blockState.with(SandLayerBlock.LAYERS, remaining);
                                     if (world.getBlockState(above).getMaterial().isReplaceable()) {
                                         if (!this.world.setBlockState(above, blockState, 3)) {
                                             ((ServerWorld) this.world).getChunkManager().threadedAnvilChunkStorage.sendToOtherNearbyPlayers(this,
@@ -161,7 +161,7 @@ public class FallingSandLayerEntity extends ImprovedFallingBlockEntity {
 
     public static boolean isFree(BlockState pState) {
         Material material = pState.getMaterial();
-        return pState.isAir() || pState.isIn(BlockTags.FIRE) || material.isLiquid() || (material.isReplaceable() && !(pState.getBlock() instanceof AshLayerBlock));
+        return pState.isAir() || pState.isIn(BlockTags.FIRE) || material.isLiquid() || (material.isReplaceable() && !(pState.getBlock() instanceof SandLayerBlock));
     }
 
 

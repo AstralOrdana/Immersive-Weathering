@@ -113,7 +113,7 @@ public class AshLayerBlock extends FallingBlock {
     @Override
     public boolean canPathfindThrough(BlockState state, BlockView blockGetter, BlockPos pos, NavigationType pathType) {
         if (pathType == NavigationType.LAND) {
-            return state.get(LAYERS) <= MAX_LAYERS / 2;
+            return state.get(LAYERS) <= MAX_LAYERS;
         }
         return false;
     }

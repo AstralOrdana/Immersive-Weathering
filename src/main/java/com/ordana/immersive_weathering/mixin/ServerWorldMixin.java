@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -21,7 +22,8 @@ public abstract class ServerWorldMixin {
 
 	@Inject(method = "tickChunk", at = @At(value = "INVOKE", target = "Lnet/minecraft/fluid/FluidState;hasRandomTicks()Z", shift = Shift.BEFORE), locals = LocalCapture.CAPTURE_FAILHARD)
 	private void tickBlocks(WorldChunk chunk, int randomTickSpeed, CallbackInfo ci, ChunkPos chunkPos, boolean bl, int i, int j, Profiler profiler, ChunkSection var8[], int var9, int var10, ChunkSection chunkSection, int k, int l, BlockPos blockPos3) {
-		BlockGrowthHandler.tickBlock(blockPos3, (ServerWorld) (Object) this);
+		if(ImmersiveWeathering.getConfig().blockGrowthConfig.blockGrowth) {
+			BlockGrowthHandler.tickBlock(blockPos3, (ServerWorld) (Object) this);
+		}
 	}
-
 }

@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -18,7 +19,10 @@ public abstract class ServerWorldSnowMixin {
 			at = @At(value = "INVOKE",
 					target = "Lnet/minecraft/block/Block;precipitationTick(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/world/biome/Biome$Precipitation;)V"))
 	private BlockState spawnIcicles(BlockState state, World level, BlockPos pos, Biome.Precipitation precipitation) {
-		WeatheringHelper.tryPlacingIcicle(state, level, pos, precipitation);
+		if(ImmersiveWeathering.getConfig().fireAndIceConfig.iciclePlacement) {
+			WeatheringHelper.tryPlacingIcicle(state, level, pos, precipitation);
+			return state;
+		}
 		return state;
 	}
 }

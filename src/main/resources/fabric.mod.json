@@ -8,8 +8,8 @@
   "authors": [
     "Ordana",
     "keybounce",
-    "Paperfish",
-    "MehVahdJukaar"
+    "MehVahdJukaar",
+    "Paperfish"
   ],
   "contact": {
     "homepage": "https://discord.gg/MTUHt3r",
@@ -26,8 +26,12 @@
     ],
     "client": [
       "com.ordana.immersive_weathering.ImmersiveWeatheringClient"
+    ],
+    "modmenu": [
+      "com.ordana.immersive_weathering.config.ModmenuCompat"
     ]
   },
+
   "mixins": [
     "immersive_weathering.mixins.json"
   ],
@@ -35,6 +39,7 @@
   "depends": {
     "fabricloader": ">=0.11.3",
     "fabric": "*",
+    "cloth-config": "^6.0.0-",
     "minecraft": "1.18.x",
     "java": ">=17"
   },

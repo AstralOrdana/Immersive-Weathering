@@ -105,16 +105,20 @@ public class MulchBlock extends Block {
 
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        /*
+
         BlockState cropState = world.getBlockState(pos.up());
-        if (state.isOf(ModBlocks.MULCH_BLOCK) && state.get(MulchBlock.SOAKED) && cropState.getBlock() instanceof CropBlock) {
+        if (state.isOf(ModBlocks.MULCH_BLOCK) && state.get(MulchBlock.SOAKED)) {
             if (world.getBaseLightLevel(pos.up(), 0) >= 9) {
-                int i = cropState.get(CropBlock.AGE);
-                if (i < CropBlock.MAX_AGE) {
-                    world.setBlockState(pos.up(), cropState.getBlock().getStateWithProperties(cropState).with(CropBlock.AGE, i + 1), 3);
+                if (cropState.getBlock() instanceof BeetrootsBlock) {
+                    return;
+                } else if (cropState.getBlock() instanceof CropBlock && !cropState.isOf(Blocks.BEETROOTS)) {
+                    int j = cropState.get(CropBlock.AGE);
+                    if (j < CropBlock.MAX_AGE) {
+                        world.setBlockState(pos.up(), cropState.getBlock().getStateWithProperties(cropState).with(CropBlock.AGE, j + 1), 3);
+                    }
                 }
             }
-        }*/
+        }
 
         int temperature = 0;
         boolean isTouchingWater = false;

@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.registry.blocks.mossable;
 
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.blocks.PatchSpreader;
 import com.ordana.immersive_weathering.registry.blocks.crackable.Crackable;
 import java.util.Optional;
@@ -30,20 +31,22 @@ public interface CrackableMossable extends Mossable, Crackable {
 
     @Override
     default void tryWeather(BlockState state, ServerWorld serverLevel, BlockPos pos, Random random) {
-        if (random.nextFloat() < this.getWeatherChanceSpeed()) {
-            boolean isMoss = this.getMossSpreader().getWantedWeatheringState(true, pos, serverLevel);
-            Optional<BlockState> opt = Optional.empty();
-            if (isMoss) {
-                opt = this.getNextMossy(state);
-            } else if (this.getCrackSpreader().getWantedWeatheringState(true, pos, serverLevel)) {
-                opt = this.getNextCracked(state);
-            }
-            BlockState newState = opt.orElse(state.with(WEATHERABLE, WeatheringState.FALSE));
-            if(newState != state) {
-                serverLevel.setBlockState(pos, newState, 2);
-                //schedule block event in 1 tick
-                if (!newState.contains(WEATHERABLE)) {
-                    serverLevel.createAndScheduleBlockTick(pos, state.getBlock(), 1);
+        if(ImmersiveWeathering.getConfig().blockGrowthConfig.blockCracking && ImmersiveWeathering.getConfig().blockGrowthConfig.blockMossing) {
+            if (random.nextFloat() < this.getWeatherChanceSpeed()) {
+                boolean isMoss = this.getMossSpreader().getWantedWeatheringState(true, pos, serverLevel);
+                Optional<BlockState> opt = Optional.empty();
+                if (isMoss) {
+                    opt = this.getNextMossy(state);
+                } else if (this.getCrackSpreader().getWantedWeatheringState(true, pos, serverLevel)) {
+                    opt = this.getNextCracked(state);
+                }
+                BlockState newState = opt.orElse(state.with(WEATHERABLE, WeatheringState.FALSE));
+                if (newState != state) {
+                    serverLevel.setBlockState(pos, newState, 2);
+                    //schedule block event in 1 tick
+                    if (!newState.contains(WEATHERABLE)) {
+                        serverLevel.createAndScheduleBlockTick(pos, state.getBlock(), 1);
+                    }
                 }
             }
         }

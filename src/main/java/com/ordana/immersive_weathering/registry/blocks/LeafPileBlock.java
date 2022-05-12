@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.entities.FallingLeafLayerEntity;
 import net.minecraft.block.*;
@@ -76,15 +77,16 @@ public class LeafPileBlock extends FallingBlock implements Fertilizable {
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int layers = this.getLayers(state);
-        if (layers > 1) {
-            if (this.hasThorns) {
-                if (world.getBlockState(pos.down()).isOf(Blocks.GRASS_BLOCK) || world.getBlockState(pos.down()).isOf(Blocks.DIRT) || world.getBlockState(pos.down()).isOf(Blocks.COARSE_DIRT) || world.getBlockState(pos.down()).isOf(Blocks.ROOTED_DIRT)) {
-                    world.setBlockState(pos.down(), Blocks.PODZOL.getDefaultState(), 3);
-                }
-            }
-            else if (this.isLeafy) {
-                if (world.getBlockState(pos.down()).isOf(Blocks.GRASS_BLOCK) || world.getBlockState(pos.down()).isOf(Blocks.DIRT) || world.getBlockState(pos.down()).isOf(Blocks.COARSE_DIRT) || world.getBlockState(pos.down()).isOf(Blocks.ROOTED_DIRT)) {
-                    world.setBlockState(pos.down(), ModBlocks.HUMUS.getDefaultState(), 3);
+        if(ImmersiveWeathering.getConfig().leavesConfig.leafPilesConvertBlockBelow) {
+            if (layers > 1) {
+                if (this.hasThorns) {
+                    if (world.getBlockState(pos.down()).isOf(Blocks.GRASS_BLOCK) || world.getBlockState(pos.down()).isOf(Blocks.DIRT) || world.getBlockState(pos.down()).isOf(Blocks.COARSE_DIRT) || world.getBlockState(pos.down()).isOf(Blocks.ROOTED_DIRT)) {
+                        world.setBlockState(pos.down(), Blocks.PODZOL.getDefaultState(), 3);
+                    }
+                } else if (this.isLeafy) {
+                    if (world.getBlockState(pos.down()).isOf(Blocks.GRASS_BLOCK) || world.getBlockState(pos.down()).isOf(Blocks.DIRT) || world.getBlockState(pos.down()).isOf(Blocks.COARSE_DIRT) || world.getBlockState(pos.down()).isOf(Blocks.ROOTED_DIRT)) {
+                        world.setBlockState(pos.down(), ModBlocks.HUMUS.getDefaultState(), 3);
+                    }
                 }
             }
         }
@@ -101,7 +103,16 @@ public class LeafPileBlock extends FallingBlock implements Fertilizable {
 
                 if (layers >= 6 && this.hasThorns) {
                     if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
-                        if(!(entity instanceof PlayerEntity player) || player.getEquippedStack(EquipmentSlot.LEGS).isEmpty()) {
+                        if(ImmersiveWeathering.getConfig().leavesConfig.leggingsPreventThornDamage) {
+                            if (!(entity instanceof PlayerEntity player) || (player.getEquippedStack(EquipmentSlot.LEGS).isEmpty() && ImmersiveWeathering.getConfig().leavesConfig.leggingsPreventThornDamage)) {
+                                double d = Math.abs(entity.getX() - entity.lastRenderX);
+                                double e = Math.abs(entity.getZ() - entity.lastRenderZ);
+                                if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
+                                    entity.damage(DamageSource.SWEET_BERRY_BUSH, 0.5F * (layers - 5));
+                                }
+                            }
+                        }
+                        else if (!(entity instanceof PlayerEntity player)) {
                             double d = Math.abs(entity.getX() - entity.lastRenderX);
                             double e = Math.abs(entity.getZ() - entity.lastRenderZ);
                             if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
@@ -239,10 +250,6 @@ public class LeafPileBlock extends FallingBlock implements Fertilizable {
             }
         }
     }
-
-
-
-
 
     @Override
     public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {

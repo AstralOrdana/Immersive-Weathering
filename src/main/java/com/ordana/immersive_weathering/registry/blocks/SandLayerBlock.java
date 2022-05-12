@@ -12,6 +12,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.thrown.PotionEntity;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -141,13 +142,13 @@ public class SandLayerBlock extends FallingBlock {
     }
 
     @Nullable
-    public BlockState getPlacementState(ItemPlacementContext context) {
-        BlockState blockstate = context.getWorld().getBlockState(context.getBlockPos());
-        if (blockstate.isOf(this)) {
-            int i = blockstate.get(LAYERS);
-            return blockstate.with(LAYERS, Math.min(MAX_LAYERS, i + 1));
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        BlockState blockState = ctx.getWorld().getBlockState(ctx.getBlockPos());
+        if (blockState.isOf(this)) {
+            int i = blockState.get(LAYERS);
+            return blockState.with(LAYERS, Math.min(MAX_LAYERS, i + 1));
         } else {
-            return super.getPlacementState(context);
+            return super.getPlacementState(ctx);
         }
     }
 

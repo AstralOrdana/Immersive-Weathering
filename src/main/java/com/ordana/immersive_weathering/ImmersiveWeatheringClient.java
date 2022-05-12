@@ -126,6 +126,7 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.MOSSY_COBBLESTONE_STAIRS);
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.MOSSY_COBBLESTONE_WALL);
 
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.INFESTED_MOSSY_STONE_BRICKS);
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.MOSSY_STONE_BRICKS);
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.MOSSY_STONE_BRICK_SLAB);
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.MOSSY_STONE_BRICK_STAIRS);
@@ -161,63 +162,31 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
             return FoliageColors.getDefaultColor();
         }, ModItems.DARK_OAK_LEAF_PILE);
 
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, ModItems.ROOTED_GRASS_BLOCK);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, Items.MOSSY_COBBLESTONE);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, Items.MOSSY_COBBLESTONE_SLAB);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, Items.MOSSY_COBBLESTONE_STAIRS);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, Items.MOSSY_COBBLESTONE_WALL);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, Items.MOSSY_STONE_BRICKS);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, Items.MOSSY_STONE_BRICK_SLAB);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, Items.MOSSY_STONE_BRICK_STAIRS);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, Items.MOSSY_STONE_BRICK_WALL);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, ModItems.MOSSY_BRICKS);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, ModItems.MOSSY_BRICK_SLAB);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, ModItems.MOSSY_BRICK_STAIRS);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, ModItems.MOSSY_BRICK_WALL);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, ModItems.MOSSY_STONE);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, ModItems.MOSSY_STONE_SLAB);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, ModItems.MOSSY_STONE_STAIRS);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return GrassColors.getColor(0.5D,0.5D);
-        }, ModItems.MOSSY_STONE_WALL);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), ModItems.ROOTED_GRASS_BLOCK);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), Items.MOSSY_COBBLESTONE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), Items.MOSSY_COBBLESTONE_SLAB);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), Items.MOSSY_COBBLESTONE_STAIRS);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), Items.MOSSY_COBBLESTONE_WALL);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), Items.INFESTED_MOSSY_STONE_BRICKS);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), Items.MOSSY_STONE_BRICKS);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), Items.MOSSY_STONE_BRICK_SLAB);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), Items.MOSSY_STONE_BRICK_STAIRS);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), Items.MOSSY_STONE_BRICK_WALL);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), ModItems.MOSSY_BRICKS);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), ModItems.MOSSY_BRICK_SLAB);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), ModItems.MOSSY_BRICK_STAIRS);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), ModItems.MOSSY_BRICK_WALL);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), ModItems.MOSSY_STONE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), ModItems.MOSSY_STONE_SLAB);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), ModItems.MOSSY_STONE_STAIRS);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), ModItems.MOSSY_STONE_WALL);
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ROOTED_GRASS_BLOCK, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOSSY_COBBLESTONE, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOSSY_COBBLESTONE_SLAB, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOSSY_COBBLESTONE_STAIRS, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOSSY_COBBLESTONE_WALL, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(Blocks.INFESTED_MOSSY_STONE_BRICKS, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOSSY_STONE_BRICKS, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOSSY_STONE_BRICK_SLAB, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOSSY_STONE_BRICK_STAIRS, RenderLayer.getCutout());

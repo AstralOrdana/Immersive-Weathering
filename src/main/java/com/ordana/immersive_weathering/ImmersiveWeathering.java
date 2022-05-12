@@ -4,24 +4,39 @@ import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
 import com.ordana.immersive_weathering.block_growth.rule_test.BlockSetMatchTest;
 import com.ordana.immersive_weathering.block_growth.rule_test.FluidMatchTest;
 import com.ordana.immersive_weathering.block_growth.rule_test.LogMatchTest;
+import com.ordana.immersive_weathering.config.ServerConfig;
 import com.ordana.immersive_weathering.registry.*;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.entities.ModEntities;
 import com.ordana.immersive_weathering.registry.items.ModItems;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.function.Supplier;
 
 public class ImmersiveWeathering implements ModInitializer {
 
     public static final String MOD_ID = "immersive_weathering";
 
     public static final Logger LOGGER = LogManager.getLogger();
+
+    private static final Supplier<ServerConfig> CONFIG = Util.make(() -> {
+        AutoConfig.register(ServerConfig.class, JanksonConfigSerializer::new);
+        return AutoConfig.getConfigHolder(ServerConfig.class);
+    });
+
+    public static ServerConfig getConfig() {
+        return CONFIG.get();
+    }
 
     @Override
     public void onInitialize() {
