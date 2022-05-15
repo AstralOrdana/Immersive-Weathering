@@ -6,7 +6,7 @@
       "item": "immersive_weathering:rusted_cut_iron_stairs"
     },
     {
-      "item": "minecraft:honeycomb"
+      "tag": "immersive_weathering:wax"
     }
   ],
   "result": {

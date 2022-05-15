@@ -200,6 +200,7 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MOSSY_STONE_STAIRS, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MOSSY_STONE_WALL, RenderLayer.getCutout());
 
+
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.VITRIFIED_SAND, RenderLayer.getTranslucent());
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.EXPOSED_IRON_DOOR, RenderLayer.getCutout());

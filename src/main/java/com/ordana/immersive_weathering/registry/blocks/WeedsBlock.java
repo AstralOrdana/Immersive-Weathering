@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.minecraft.block.BlockState;
@@ -7,7 +8,12 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.CropBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.entity.passive.CatEntity;
+import net.minecraft.entity.passive.FoxEntity;
+import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
@@ -28,12 +34,16 @@ public class WeedsBlock extends CropBlock {
     }
 
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
-            if(!(entity instanceof PlayerEntity player) || player.getEquippedStack(EquipmentSlot.LEGS).isEmpty()) {
-                double d = Math.abs(entity.getX() - entity.lastRenderX);
-                double e = Math.abs(entity.getZ() - entity.lastRenderZ);
-                if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
-                    entity.damage(DamageSource.SWEET_BERRY_BUSH, 0.5F);
+        if (entity instanceof LivingEntity && !(entity instanceof FoxEntity || entity instanceof BeeEntity || entity instanceof SheepEntity || entity instanceof CatEntity)) {
+            if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
+                if (entity instanceof PlayerEntity player && !player.getEquippedStack(EquipmentSlot.LEGS).isEmpty() && ImmersiveWeathering.getConfig().leavesConfig.leggingsPreventThornDamage) {
+                    return;
+                } else if (entity instanceof PlayerEntity player) {
+                    double d = Math.abs(entity.getX() - entity.lastRenderX);
+                    double e = Math.abs(entity.getZ() - entity.lastRenderZ);
+                    if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
+                        entity.damage(DamageSource.SWEET_BERRY_BUSH, 0.5F);
+                    }
                 }
             }
         }

@@ -49,6 +49,13 @@
             {
               "type": "minecraft:item",
               "name": "minecraft:charcoal",
+              "functions": [
+                {
+                  "function": "minecraft:apply_bonus",
+                  "enchantment": "minecraft:fortune",
+                  "formula": "minecraft:ore_drops"
+                }
+              ],
               "conditions": [
                 {
                   "condition": "minecraft:random_chance",

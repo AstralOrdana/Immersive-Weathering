@@ -2,14 +2,15 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
-      "bonus_rolls": 0.0,
+      "rolls": 1,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:alternatives",
           "children": [
             {
               "type": "minecraft:item",
+              "name": "immersive_weathering:charred_fence",
               "conditions": [
                 {
                   "condition": "minecraft:match_tool",
@@ -24,11 +25,18 @@
                     ]
                   }
                 }
-              ],
-              "name": "immersive_weathering:charred_fence"
+              ]
             },
             {
               "type": "minecraft:item",
+              "name": "minecraft:charcoal",
+              "functions": [
+                {
+                  "function": "minecraft:apply_bonus",
+                  "enchantment": "minecraft:fortune",
+                  "formula": "minecraft:ore_drops"
+                }
+              ],
               "conditions": [
                 {
                   "condition": "minecraft:random_chance",
@@ -37,8 +45,7 @@
                 {
                   "condition": "minecraft:survives_explosion"
                 }
-              ],
-              "name": "minecraft:charcoal"
+              ]
             }
           ]
         }

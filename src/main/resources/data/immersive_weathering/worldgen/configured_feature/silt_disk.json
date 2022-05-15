@@ -4,7 +4,7 @@
     "state": {
       "Name": "immersive_weathering:silt",
       "Properties": {
-        "soaked": "true",
+        "soaked": "false",
         "fertile": "true"
       }
     },

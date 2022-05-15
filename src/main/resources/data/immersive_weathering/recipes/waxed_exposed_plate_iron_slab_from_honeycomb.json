@@ -6,7 +6,7 @@
       "item": "immersive_weathering:exposed_plate_iron_slab"
     },
     {
-      "item": "minecraft:honeycomb"
+      "tag": "immersive_weathering:wax"
     }
   ],
   "result": {

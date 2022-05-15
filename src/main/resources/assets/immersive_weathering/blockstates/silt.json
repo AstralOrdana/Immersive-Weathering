@@ -1,38 +1,10 @@
 {
   "variants": {
-    "soaked=false": [
-      {
-        "model": "immersive_weathering:block/silt"
-      },
-      {
-        "model": "immersive_weathering:block/silt",
-        "y": 90
-      },
-      {
-        "model": "immersive_weathering:block/silt",
-        "y": 180
-      },
-      {
-        "model": "immersive_weathering:block/silt",
-        "y": 270
-      }
-    ],
-    "soaked=true": [
-      {
-        "model": "immersive_weathering:block/silt_soaked"
-      },
-      {
-        "model": "immersive_weathering:block/silt_soaked",
-        "y": 90
-      },
-      {
-        "model": "immersive_weathering:block/silt_soaked",
-        "y": 180
-      },
-      {
-        "model": "immersive_weathering:block/silt_soaked",
-        "y": 270
-      }
-    ]
+    "soaked=false": {
+      "model": "immersive_weathering:block/silt"
+    },
+    "soaked=true": {
+      "model": "immersive_weathering:block/silt_soaked"
+    }
   }
 }

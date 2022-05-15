@@ -1,12 +1,13 @@
 {
-  "growth_chance": 0.005,
   "area_condition": {
+    "type": "neighbor_based_generation",
     "must_have": {
-      "fluid": "minecraft:flowing_water",
-      "predicate_type": "immersive_weathering:fluid_match"
+      "predicate_type": "immersive_weathering:fluid_match",
+      "fluid": "minecraft:flowing_water"
     },
-    "type": "neighbor_based_generation"
+    "directions": []
   },
+  "growth_chance": 0.005,
   "growth_for_face": [
     {
       "direction": "down",
@@ -27,7 +28,7 @@
     "minecraft:sandstone"
   ],
   "replacing_target": {
-    "block": "minecraft:air",
-    "predicate_type": "minecraft:block_match"
+    "predicate_type": "minecraft:block_match",
+    "block": "minecraft:air"
   }
 }

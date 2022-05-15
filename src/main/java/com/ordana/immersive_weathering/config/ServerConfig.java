@@ -13,7 +13,7 @@ public final class ServerConfig extends PartitioningSerializer.GlobalData {
     @ConfigEntry.Category("block_growth_config")
     @ConfigEntry.Gui.TransitiveObject
     public BlockGrowthConfig blockGrowthConfig = new BlockGrowthConfig();
-    
+
     @ConfigEntry.Category("leaves_config")
     @ConfigEntry.Gui.TransitiveObject
     public LeavesConfig leavesConfig = new LeavesConfig();

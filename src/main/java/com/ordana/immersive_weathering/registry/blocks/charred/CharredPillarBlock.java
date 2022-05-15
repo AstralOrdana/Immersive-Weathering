@@ -8,13 +8,19 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.entity.projectile.thrown.PotionEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.potion.PotionUtil;
+import net.minecraft.potion.Potions;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.tag.BlockTags;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
@@ -72,6 +78,18 @@ public class CharredPillarBlock extends PillarBlock implements LandingBlock {
     protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
         stateManager.add(SMOLDERING);
         stateManager.add(AXIS);
+    }
+
+    @Override
+    public void onProjectileHit(World world, BlockState state, BlockHitResult pHit, ProjectileEntity projectile) {
+        BlockPos pos = pHit.getBlockPos();
+        if (projectile instanceof PotionEntity potion && PotionUtil.getPotion(potion.getStack()) == Potions.WATER) {
+            Entity entity = projectile.getOwner();
+            boolean flag = entity == null || entity instanceof PlayerEntity;
+            if (flag) {
+                world.setBlockState(pos, state.with(SMOLDERING, false));
+            }
+        }
     }
 
     @Override

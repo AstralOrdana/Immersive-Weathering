@@ -5,7 +5,7 @@
       "item": "immersive_weathering:exposed_iron_door"
     },
     {
-      "item": "minecraft:honeycomb"
+      "tag": "immersive_weathering:wax"
     }
   ],
   "result": {

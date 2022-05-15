@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "#"
+  ],
+  "key": {
+    "S": {
+      "item": "mineraft:string"
+    },
+    "#": {
+      "item": "immersive_weathering:tallow"
+    }
+  },
+  "result": {
+    "item": "minecraft:candle"
+  }
+}

@@ -38,7 +38,14 @@
                   "condition": "minecraft:survives_explosion"
                 }
               ],
-              "name": "minecraft:charcoal"
+              "name": "minecraft:charcoal",
+              "functions": [
+                {
+                  "function": "minecraft:apply_bonus",
+                  "enchantment": "minecraft:fortune",
+                  "formula": "minecraft:ore_drops"
+                }
+              ]
             }
           ]
         }

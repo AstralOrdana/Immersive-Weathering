@@ -1,3 +1,6 @@
 {
-  "parent": "immersive_weathering:block/ash_layer_block2"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "immersive_weathering:item/ash"
+  }
 }

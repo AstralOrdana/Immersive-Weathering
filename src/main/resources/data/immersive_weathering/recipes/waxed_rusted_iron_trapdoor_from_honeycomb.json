@@ -5,7 +5,7 @@
       "item": "immersive_weathering:rusted_iron_trapdoor"
     },
     {
-      "item": "minecraft:honeycomb"
+      "tag": "immersive_weathering:wax"
     }
   ],
   "result": {

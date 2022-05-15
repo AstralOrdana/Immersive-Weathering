@@ -1,3 +1,6 @@
 {
-  "parent": "immersive_weathering:block/red_sand_layer_block2"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "immersive_weathering:item/red_sand"
+  }
 }

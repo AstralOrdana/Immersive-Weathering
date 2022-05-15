@@ -6,7 +6,7 @@
       "item": "immersive_weathering:rusted_plate_iron"
     },
     {
-      "item": "minecraft:honeycomb"
+      "tag": "immersive_weathering:wax"
     }
   ],
   "result": {

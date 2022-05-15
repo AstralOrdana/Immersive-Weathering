@@ -68,10 +68,7 @@ public class LeafPileBlock extends FallingBlock implements Fertilizable {
     @Override
     public boolean hasRandomTicks(BlockState state) {
         int layers = this.getLayers(state);
-        if (layers > 1  ) {
-            return true;
-        }
-        return false;
+        return layers > 1;
     }
 
     @Override
@@ -103,16 +100,10 @@ public class LeafPileBlock extends FallingBlock implements Fertilizable {
 
                 if (layers >= 6 && this.hasThorns) {
                     if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
-                        if(ImmersiveWeathering.getConfig().leavesConfig.leggingsPreventThornDamage) {
-                            if (!(entity instanceof PlayerEntity player) || (player.getEquippedStack(EquipmentSlot.LEGS).isEmpty() && ImmersiveWeathering.getConfig().leavesConfig.leggingsPreventThornDamage)) {
-                                double d = Math.abs(entity.getX() - entity.lastRenderX);
-                                double e = Math.abs(entity.getZ() - entity.lastRenderZ);
-                                if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
-                                    entity.damage(DamageSource.SWEET_BERRY_BUSH, 0.5F * (layers - 5));
-                                }
-                            }
+                        if(entity instanceof PlayerEntity player && !player.getEquippedStack(EquipmentSlot.LEGS).isEmpty() && ImmersiveWeathering.getConfig().leavesConfig.leggingsPreventThornDamage){
+                            return;
                         }
-                        else if (!(entity instanceof PlayerEntity player)) {
+                        else if (entity instanceof PlayerEntity player) {
                             double d = Math.abs(entity.getX() - entity.lastRenderX);
                             double e = Math.abs(entity.getZ() - entity.lastRenderZ);
                             if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
@@ -253,7 +244,8 @@ public class LeafPileBlock extends FallingBlock implements Fertilizable {
 
     @Override
     public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
-        if (state.getBlock() != oldState.getBlock())
+        int layers = this.getLayers(state);
+        if (state.getBlock() != oldState.getBlock() && layers > 0)
             worldIn.createAndScheduleBlockTick(pos, this, this.getFallDelay());
     }
 
@@ -261,8 +253,8 @@ public class LeafPileBlock extends FallingBlock implements Fertilizable {
     public void scheduledTick(BlockState state, ServerWorld level, BlockPos pos, Random pRand) {
         BlockState below = level.getBlockState(pos.down());
         if ((FallingLeafLayerEntity.isFree(below) || hasIncompleteLeafPileBelow(below)) && pos.getY() >= level.getBottomY()) {
-
-            while (state.isOf(this)) {
+            int layers = this.getLayers(state);
+            while (state.isOf(this) && layers > 0) {
                 FallingBlockEntity fallingblockentity = FallingLeafLayerEntity.fall(level, pos, state);
                 this.configureFallingBlockEntity(fallingblockentity);
 

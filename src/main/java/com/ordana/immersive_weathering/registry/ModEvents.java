@@ -439,19 +439,19 @@ public class ModEvents {
                     if(ImmersiveWeathering.getConfig().itemUsesConfig.shovelExtinguishing) {
                         if (targetBlock.isOf(Blocks.CAMPFIRE) && targetBlock.get(Properties.LIT)) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            Block.dropStack(world, fixedPos, new ItemStack(ModItems.SOOT));
+                            Block.dropStack(world, fixedPos, new ItemStack(ModItems.ASH_LAYER_BLOCK));
                             world.playSound(player, targetPos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
                             ParticleUtil.spawnParticle(world, targetPos, ModParticles.SOOT, UniformIntProvider.create(3, 5));
                         } else if (targetBlock.isOf(Blocks.FIRE)) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            Block.dropStack(world, fixedPos, new ItemStack(ModItems.SOOT));
+                            Block.dropStack(world, fixedPos, new ItemStack(ModItems.ASH_LAYER_BLOCK));
                             world.playSound(player, targetPos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
                             ParticleUtil.spawnParticle(world, targetPos, ModParticles.SOOT, UniformIntProvider.create(3, 5));
                             world.setBlockState(targetPos, Blocks.AIR.getDefaultState());
                         }
                         if ((targetBlock.getBlock() instanceof CharredPillarBlock || targetBlock.getBlock() instanceof CharredBlock || targetBlock.getBlock() instanceof CharredStairsBlock || targetBlock.getBlock() instanceof CharredSlabBlock || targetBlock.getBlock() instanceof CharredFenceBlock || targetBlock.getBlock() instanceof CharredFenceGateBlock) && targetBlock.get(CharredBlock.SMOLDERING)) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            Block.dropStack(world, fixedPos, new ItemStack(ModItems.SOOT));
+                            Block.dropStack(world, fixedPos, new ItemStack(ModItems.ASH_LAYER_BLOCK));
                             world.playSound(player, targetPos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
                             ParticleUtil.spawnParticle(world, targetPos, ModParticles.SOOT, UniformIntProvider.create(3, 5));
                             world.setBlockState(targetPos, targetBlock.getBlock().getStateWithProperties(targetBlock).with(CharredBlock.SMOLDERING, false));

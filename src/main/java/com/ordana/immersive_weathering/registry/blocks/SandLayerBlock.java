@@ -44,15 +44,17 @@ public class SandLayerBlock extends FallingBlock {
     public static final IntProperty LAYERS = Properties.LAYERS;
     protected static final VoxelShape[] SHAPE_BY_LAYER = new VoxelShape[MAX_LAYERS + 1];
     private final int color;
+    private final BlockState sandState;
 
     static {
         Arrays.setAll(SHAPE_BY_LAYER, l -> Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, l * 2, 16.0D));
         SHAPE_BY_LAYER[0] = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 0.1f, 16.0D);
     }
 
-    public SandLayerBlock(int color, Settings properties) {
+    public SandLayerBlock(BlockState sandState, int color, Settings properties) {
         super(properties);
         this.color = color;
+        this.sandState = sandState;
         this.setDefaultState(this.stateManager.getDefaultState().with(LAYERS, 1));
     }
 
@@ -169,7 +171,7 @@ public class SandLayerBlock extends FallingBlock {
     }
 
     private void addParticle(Entity entity, BlockPos pos, World level, int layers, float upSpeed) {
-        level.addParticle(new BlockStateParticleEffect(ParticleTypes.FALLING_DUST, Blocks.SAND.getDefaultState()), entity.getX(), pos.getY() + layers * (1 / 8f), entity.getZ(),
+        level.addParticle(new BlockStateParticleEffect(ParticleTypes.FALLING_DUST, sandState), entity.getX(), pos.getY() + layers * (1 / 8f), entity.getZ(),
                 MathHelper.nextBetween(level.random, -1.0F, 1.0F) * 0.083333336F,
                 upSpeed,
                 MathHelper.nextBetween(level.random, -1.0F, 1.0F) * 0.083333336F);

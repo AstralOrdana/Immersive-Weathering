@@ -134,10 +134,9 @@
 
   "block.immersive_weathering.weeds": "Weeds",
   "block.immersive_weathering.soot": "Soot",
-  "block.minecraft.snow": "Snow Pile",
-  "block.immersive_weathering.sand_layer_block": "Sand Pile",
-  "block.immersive_weathering.red_sand_layer_block": "Red Sand Pile",
-  "block.immersive_weathering.ash_layer_block": "Ash Pile",
+  "block.immersive_weathering.sand_layer_block": "Sand",
+  "block.immersive_weathering.red_sand_layer_block": "Red Sand",
+  "block.immersive_weathering.ash_layer_block": "Ash",
   "block.immersive_weathering.ash_block": "Ash Block",
   "item.immersive_weathering.tallow": "Tallow",
 

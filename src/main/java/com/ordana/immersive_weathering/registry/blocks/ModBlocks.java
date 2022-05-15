@@ -53,11 +53,11 @@ public class ModBlocks {
 
     public static final Block ROOTED_GRASS_BLOCK = new RootedGrassBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC).ticksRandomly().strength(0.5F).sounds(BlockSoundGroup.ROOTED_DIRT));
 
-    public static final Block SAND_LAYER_BLOCK = new SandLayerBlock(14406560, FabricBlockSettings.of(Material.SNOW_LAYER, MapColor.PALE_YELLOW).strength(0.5f).sounds(BlockSoundGroup.SAND).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(SandLayerBlock.LAYERS) >= 8).nonOpaque());
-    public static final Block RED_SAND_LAYER_BLOCK = new SandLayerBlock(11098145, FabricBlockSettings.of(Material.SNOW_LAYER, MapColor.ORANGE).strength(0.5f).sounds(BlockSoundGroup.SAND).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(SandLayerBlock.LAYERS) >= 8).nonOpaque());
+    public static final Block SAND_LAYER_BLOCK = new SandLayerBlock(Blocks.SAND.getDefaultState(),14406560, FabricBlockSettings.of(Material.SNOW_LAYER, MapColor.PALE_YELLOW).strength(0.5f).sounds(BlockSoundGroup.SAND).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(SandLayerBlock.LAYERS) >= 8).nonOpaque());
+    public static final Block RED_SAND_LAYER_BLOCK = new SandLayerBlock(Blocks.RED_SAND.getDefaultState(),11098145, FabricBlockSettings.of(Material.SNOW_LAYER, MapColor.ORANGE).strength(0.5f).sounds(BlockSoundGroup.SAND).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(SandLayerBlock.LAYERS) >= 8).nonOpaque());
     public static final Block ASH_LAYER_BLOCK = new AshLayerBlock(FabricBlockSettings.of(Material.SNOW_LAYER, MapColor.BLACK).breakInstantly().sounds(BlockSoundGroup.SNOW).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(AshLayerBlock.LAYERS) >= 8).nonOpaque());
     public static final Block ASH_BLOCK = new AshBlock(FabricBlockSettings.of(Material.SNOW_BLOCK, MapColor.BLACK).breakInstantly().sounds(BlockSoundGroup.SNOW));
-    public static final Block SOOT = new SootBlock(FabricBlockSettings.of(Material.REPLACEABLE_UNDERWATER_PLANT, MapColor.BLACK).noCollision().breakInstantly().requiresTool().sounds(BlockSoundGroup.SNOW).ticksRandomly());
+    public static final Block SOOT = new SootBlock(FabricBlockSettings.of(Material.REPLACEABLE_UNDERWATER_PLANT, MapColor.BLACK).noCollision().breakInstantly().sounds(BlockSoundGroup.SNOW).ticksRandomly());
 
     public static final Block CHARRED_LOG = new CharredPillarBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(5)).ticksRandomly());
     public static final Block CHARRED_PLANKS = new CharredBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(5)).ticksRandomly());
