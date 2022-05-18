@@ -18,11 +18,12 @@ public class ModItems {
 
     public static final BlockItem VITRIFIED_SAND = new BlockItem(ModBlocks.VITRIFIED_SAND, new Item.Settings().group(ItemGroup.DECORATIONS));
 
+    public static final Item POND_WATER = new PondWaterItem(new Item.Settings().group(ItemGroup.FOOD).food(ModFoods.POND_WATER).maxCount(16));
     public static final Item AZALEA_FLOWERS = new Item(new Item.Settings().group(ItemGroup.MATERIALS).food(ModFoods.AZALEA_FLOWER));
     public static final Item FLOWER_CROWN = new FlowerCrownItem(FlowerCrownMaterial.INSTANCE, EquipmentSlot.HEAD, new Item.Settings().group(ItemGroup.TOOLS));
-    public static final Item MOSS_CLUMP = new Item(new Item.Settings().group(ItemGroup.MATERIALS).food(ModFoods.MOSS_CLUMP));
-    public static final Item GOLDEN_MOSS_CLUMP = new Item(new Item.Settings().group(ItemGroup.MATERIALS).food(ModFoods.GOLDEN_MOSS_CLUMP));
-    public static final Item ENCHANTED_GOLDEN_MOSS_CLUMP = new EnchantedGoldenMossClumpItem(new Item.Settings().group(ItemGroup.MATERIALS).rarity(Rarity.EPIC).food(ModFoods.ENCHANTED_GOLDEN_MOSS_CLUMP));
+    public static final Item MOSS_CLUMP = new Item(new Item.Settings().group(ItemGroup.FOOD).food(ModFoods.MOSS_CLUMP));
+    public static final Item GOLDEN_MOSS_CLUMP = new Item(new Item.Settings().group(ItemGroup.FOOD).food(ModFoods.GOLDEN_MOSS_CLUMP));
+    public static final Item ENCHANTED_GOLDEN_MOSS_CLUMP = new EnchantedGoldenMossClumpItem(new Item.Settings().group(ItemGroup.FOOD).rarity(Rarity.EPIC).food(ModFoods.ENCHANTED_GOLDEN_MOSS_CLUMP));
 
     public static final BlockItem OAK_LEAF_PILE = new LeafPileBlockItem(ModBlocks.OAK_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem SPRUCE_LEAF_PILE = new LeafPileBlockItem(ModBlocks.SPRUCE_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
@@ -43,6 +44,7 @@ public class ModItems {
     public static final Item CRIMSON_SCALES = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item WARPED_SCALES = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
 
+    public static final BlockItem IVY = new BlockItem(ModBlocks.IVY, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem WEEDS = new BlockItem(ModBlocks.WEEDS, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem SAND_LAYER_BLOCK = new BlockItem(ModBlocks.SAND_LAYER_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem RED_SAND_LAYER_BLOCK = new BlockItem(ModBlocks.RED_SAND_LAYER_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
@@ -231,6 +233,7 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "vitrified_sand"), VITRIFIED_SAND);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "fulgurite"), FULGURITE);
 
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "pond_water"), POND_WATER);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "azalea_flowers"), AZALEA_FLOWERS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "flower_crown"), FLOWER_CROWN);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "moss_clump"), MOSS_CLUMP);
@@ -256,6 +259,7 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "crimson_scales"), CRIMSON_SCALES);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "warped_scales"), WARPED_SCALES);
 
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "ivy"), IVY);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "weeds"), WEEDS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "sand_layer_block"), SAND_LAYER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "red_sand_layer_block"), RED_SAND_LAYER_BLOCK);
