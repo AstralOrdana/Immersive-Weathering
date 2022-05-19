@@ -6,7 +6,7 @@
   ],
   "key": {
     "S": {
-      "item": "mineraft:string"
+      "item": "minecraft:string"
     },
     "#": {
       "item": "immersive_weathering:tallow"
