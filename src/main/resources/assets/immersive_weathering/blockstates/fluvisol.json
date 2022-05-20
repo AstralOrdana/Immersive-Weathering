@@ -1,6 +1,6 @@
 {
   "variants": {
-    "snowy=false": [
+    "snowy=false,soaked=false": [
       {
         "model": "immersive_weathering:block/fluvisol"
       },
@@ -9,7 +9,16 @@
         "y": 180
       }
     ],
-    "snowy=true": {
+    "snowy=false,soaked=true": [
+      {
+        "model": "immersive_weathering:block/fluvisol_soaked"
+      },
+      {
+        "model": "immersive_weathering:block/fluvisol_soaked",
+        "y": 180
+      }
+    ],
+    "snowy=true,soaked=false": {
       "model": "minecraft:block/grass_block_snow"
     }
   }

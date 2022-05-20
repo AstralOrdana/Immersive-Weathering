@@ -45,7 +45,7 @@ public class ModBlocks {
     public static final Block NULCH_BLOCK = new NulchBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.DARK_CRIMSON).strength(1f, 1f).sounds(BlockSoundGroup.WART_BLOCK).ticksRandomly().luminance(createLightLevelFromMoltenBlockState(10)));
 
     public static final Block HUMUS = new SoilBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DARK_GREEN).strength(0.5F).sounds(BlockSoundGroup.GRAVEL).ticksRandomly());
-    public static final Block FLUVISOL = new SoilBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DEEPSLATE_GRAY).strength(0.5F).sounds(BlockSoundGroup.WART_BLOCK).ticksRandomly());
+    public static final Block FLUVISOL = new FluvisolBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DEEPSLATE_GRAY).strength(0.5F).sounds(BlockSoundGroup.WART_BLOCK).ticksRandomly());
     public static final Block SILT = new SiltBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DEEPSLATE_GRAY).strength(0.5F).sounds(BlockSoundGroup.WART_BLOCK).ticksRandomly());
     public static final Block VERTISOL = new CrackedMudBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DIRT_BROWN).strength(0.5F).sounds(BlockSoundGroup.BASALT).ticksRandomly());
     public static final Block CRACKED_MUD = new CrackedMudBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DIRT_BROWN).strength(2.5F).sounds(BlockSoundGroup.BASALT).ticksRandomly());

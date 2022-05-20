@@ -19,11 +19,11 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class SiltBlock extends Block implements IConditionalGrowingBlock {
+public class FluvisolBlock extends SoilBlock implements IConditionalGrowingBlock {
     protected static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 16.0);
     protected static final VoxelShape PUDDLE_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 14.0, 16.0);
 
-    public SiltBlock(Settings settings) {
+    public FluvisolBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.getDefaultState().with(SOAKED, false).with(FERTILE, true));
     }
@@ -35,6 +35,7 @@ public class SiltBlock extends Block implements IConditionalGrowingBlock {
     protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
         stateManager.add(SOAKED);
         stateManager.add(FERTILE);
+        stateManager.add(SNOWY);
     }
 
     @Override
@@ -62,8 +63,8 @@ public class SiltBlock extends Block implements IConditionalGrowingBlock {
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         BlockState upState = world.getBlockState(pos.up());
         BlockState downState = world.getBlockState(pos.down());
-        if (downState.isIn(BlockTags.DIRT)) {
-            world.setBlockState(pos.down(), ModBlocks.FLUVISOL.getDefaultState());
+        if (downState.isOf(ModBlocks.SILT) || downState.isOf(ModBlocks.FLUVISOL)) {
+            world.setBlockState(pos.down(), Blocks.DIRT.getDefaultState());
         }
         for (Direction direction : Direction.values()) {
             var targetPos = pos.offset(direction);

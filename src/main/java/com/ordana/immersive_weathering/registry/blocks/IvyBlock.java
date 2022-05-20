@@ -12,11 +12,10 @@ import net.minecraft.block.Fertilizable;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -27,7 +26,7 @@ public class IvyBlock extends AbstractLichenBlock implements Fertilizable {
 
 	public IvyBlock(Settings settings) {
 		super(settings);
-		this.setDefaultState(this.getDefaultState().with(AGE, 0));
+		this.setDefaultState(this.getDefaultState().with(AGE, 7));
 	}
 
 	@Override
@@ -41,31 +40,31 @@ public class IvyBlock extends AbstractLichenBlock implements Fertilizable {
 	}
 
 	@Override
+	@Nullable
+	public BlockState getPlacementState(ItemPlacementContext ctx) {
+		World world = ctx.getWorld();
+		BlockPos blockPos = ctx.getBlockPos();
+		BlockState blockState = world.getBlockState(blockPos);
+		return Arrays.stream(ctx.getPlacementDirections()).map(direction -> this.withDirection(blockState, world, blockPos, direction)).filter(Objects::nonNull).findFirst().orElse(null);
+	}
+
+	@Override
 	public boolean hasRandomTicks(BlockState state) {
 		return state.get(AGE) < MAX_AGE;
 	}
 
 	@Override
 	public boolean isFertilizable(BlockView world, BlockPos pos, BlockState state, boolean isClient) {
-		return state.get(AGE) < MAX_AGE && Stream.of(DIRECTIONS).anyMatch(direction -> this.canSpread(state, world, pos, direction.getOpposite()));
+		return Stream.of(DIRECTIONS).anyMatch(direction -> this.canSpread(state, world, pos, direction.getOpposite()));
 	}
 
 	@Override
 	public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
-		return state.get(AGE) < MAX_AGE && canGrowAround(world, pos, state);
-	}
-
-	public boolean canGrowAround(World world, BlockPos pos, BlockState state) {
 		return this.canGrowPseudoAdjacent(world, pos, state) || this.canGrowAdjacent(world, pos, state) || this.canGrowExternal(world, pos, state);
 	}
 
 	@Override
 	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-		this.grow(world, random, pos, state);
-	}
-
-	@Override
-	public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
 		int method = random.nextInt(3);
 
 		if (method == 0) {
@@ -112,6 +111,64 @@ public class IvyBlock extends AbstractLichenBlock implements Fertilizable {
 		} else {
 			growExternal(world, random, pos, state);
 		}
+
+	}
+
+	public static boolean isIvyPos(BlockPos pos) {
+		Random posRandom = new Random(MathHelper.hashCode(pos));
+		return posRandom.nextInt(2) == 0;
+	}
+
+	@Override
+	public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
+		world.setBlockState(pos, state.getBlock().getStateWithProperties(state).with(AGE, 0));
+		int method = random.nextInt(3);
+
+			if (method == 0) {
+				if (growPseudoAdjacent(world, random, pos, state)) {
+					return;
+				}
+			} else if (method == 1) {
+				if (growAdjacent(world, random, pos, state)) {
+					return;
+				}
+			} else {
+				if (growExternal(world, random, pos, state)) {
+					return;
+				}
+			}
+
+			int methodTwo = random.nextInt(3);
+
+			if (methodTwo == method) {
+				boolean side = random.nextBoolean();
+				methodTwo = method == 0 ? side ? 1 : 2 : method == 1 ? side ? 0 : 2 : side ? 0 : 1;
+			}
+
+			if (methodTwo == 0) {
+				if (growPseudoAdjacent(world, random, pos, state)) {
+					return;
+				}
+			} else if (methodTwo == 1) {
+				if (growAdjacent(world, random, pos, state)) {
+					return;
+				}
+			} else {
+				if (growExternal(world, random, pos, state)) {
+					return;
+				}
+			}
+
+			int methodThree = method == 0 ? methodTwo == 1 ? 2 : 1 : method == 1 ? methodTwo == 0 ? 2 : 0 : methodTwo == 2 ? 0 : 2;
+
+			if (methodThree == 0) {
+				growPseudoAdjacent(world, random, pos, state);
+			} else if (methodThree == 1) {
+				growAdjacent(world, random, pos, state);
+			} else {
+				growExternal(world, random, pos, state);
+			}
+
 
 	}
 
@@ -185,7 +242,7 @@ public class IvyBlock extends AbstractLichenBlock implements Fertilizable {
 					BlockPos adjacentPos = pos.offset(dir);
 					BlockState adjacentState = world.getBlockState(adjacentPos);
 					BlockState newState = ModBlocks.IVY.getDefaultState().with(AbstractLichenBlock.getProperty(idealFacingDir), true);
-					if ((adjacentState.isAir() || adjacentState.isOf(this)) && this.canPlaceAt(newState, world, adjacentPos)) {
+					if ((adjacentState.isAir() || adjacentState.isOf(this)) && this.canPlaceAt(newState, world, adjacentPos) && isIvyPos(adjacentPos)) {
 						BlockState finalNewState = adjacentState.isOf(this) ? adjacentState.with(AbstractLichenBlock.getProperty(idealFacingDir), true) : (state.get(AGE) < MAX_AGE ? newState.with(AGE, state.get(AGE) + 1) : newState);
 						world.setBlockState(adjacentPos, finalNewState);
 						if (!finalNewState.equals(adjacentState)) {
@@ -235,7 +292,7 @@ public class IvyBlock extends AbstractLichenBlock implements Fertilizable {
 					BlockState externalState = world.getBlockState(externalPos);
 					BlockState newStateOpposed = ModBlocks.IVY.getDefaultState().with(AbstractLichenBlock.getProperty(dir.getOpposite()), true);
 
-					if (world.getBlockState(pos.offset(dir)).isAir() && (externalState.isAir() || externalState.isOf(this)) && this.canPlaceAt(newStateOpposed, world, externalPos)) {
+					if (world.getBlockState(pos.offset(dir)).isAir() && (externalState.isAir() || externalState.isOf(this)) && this.canPlaceAt(newStateOpposed, world, externalPos) && isIvyPos(externalPos)) {
 						BlockState finalNewState = externalState.isOf(this) ? externalState.with(AbstractLichenBlock.getProperty(dir.getOpposite()), true) : (state.get(AGE) < MAX_AGE ? newStateOpposed.with(AGE, state.get(AGE) + 1) : newStateOpposed);
 						world.setBlockState(externalPos, finalNewState);
 						if (!finalNewState.equals(externalState)) {

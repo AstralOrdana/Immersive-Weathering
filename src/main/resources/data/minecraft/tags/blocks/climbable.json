@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "minecraft:hanging_roots"
+    "minecraft:hanging_roots",
+    "immersive_weathering:ivy"
   ]
 }
