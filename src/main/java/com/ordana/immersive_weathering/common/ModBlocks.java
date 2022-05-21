@@ -110,15 +110,15 @@ public class ModBlocks {
 
 
     public static final RegistryObject<Block> WEEDS = regWithItem("weeds", () ->
-            new WeedsBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS)),
+                    new WeedsBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS)),
             CreativeModeTab.TAB_DECORATIONS);
 
     public static final RegistryObject<Block> ASH_BLOCK = regWithItem("soot_block", () ->
             new AshBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).strength(0.5f)
                     .sound(SoundType.SNOW).lightLevel(createLightLevelFromLitBlockState(6)).randomTicks()));
     public static final RegistryObject<Block> SOOT = regWithItem("soot", () ->
-            new SootLayerBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.COLOR_BLACK).noCollission()
-                    .requiresCorrectToolForDrops().instabreak().sound(SoundType.SNOW).lightLevel(createLightLevelFromLitBlockState(5)).randomTicks()),
+                    new SootLayerBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.COLOR_BLACK).noCollission()
+                            .requiresCorrectToolForDrops().instabreak().sound(SoundType.SNOW).lightLevel(createLightLevelFromLitBlockState(5)).randomTicks()),
             CreativeModeTab.TAB_DECORATIONS);
 
     public static final RegistryObject<Block> MOSSY_BRICKS = regWithItem("mossy_bricks", () ->
@@ -130,7 +130,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> MOSSY_BRICK_WALL = regWithItem("mossy_brick_wall", () ->
             new MossyWallBlock(Mossable.MossLevel.MOSSY, BlockBehaviour.Properties.copy(MOSSY_BRICKS.get())));
     public static final RegistryObject<Block> MOSSY_BRICK_VERTICAL_SLAB = regWithItem("mossy_brick_vertical_slab", () ->
-            new MossyVerticalSlabBlock(Mossable.MossLevel.MOSSY,BlockBehaviour.Properties.copy(MOSSY_BRICKS.get())), "quark");
+            new MossyVerticalSlabBlock(Mossable.MossLevel.MOSSY, BlockBehaviour.Properties.copy(MOSSY_BRICKS.get())), "quark");
 
 
     public static final RegistryObject<Block> MOSSY_STONE = regWithItem("mossy_stone", () ->
@@ -138,7 +138,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> MOSSY_STONE_STAIRS = regWithItem("mossy_stone_stairs", () ->
             new MossyStairsBlock(Mossable.MossLevel.MOSSY, MOSSY_STONE, BlockBehaviour.Properties.copy(MOSSY_STONE.get())));
     public static final RegistryObject<Block> MOSSY_STONE_SLAB = regWithItem("mossy_stone_slab", () ->
-            new MossySlabBlock(Mossable.MossLevel.MOSSY,  BlockBehaviour.Properties.copy(MOSSY_STONE.get())));
+            new MossySlabBlock(Mossable.MossLevel.MOSSY, BlockBehaviour.Properties.copy(MOSSY_STONE.get())));
     public static final RegistryObject<Block> MOSSY_STONE_VERTICAL_SLAB = regWithItem("mossy_stone_vertical_slab", () ->
             new MossyVerticalSlabBlock(Mossable.MossLevel.MOSSY, BlockBehaviour.Properties.copy(MOSSY_STONE_STAIRS.get())), "quark");
 
@@ -197,7 +197,7 @@ public class ModBlocks {
             new CrackedWallBlock(Crackable.CrackLevel.CRACKED, () -> Items.NETHER_BRICK,
                     BlockBehaviour.Properties.copy(Blocks.NETHER_BRICKS)));
     public static final RegistryObject<Block> CRACKED_NETHER_BRICK_VERTICAL_SLAB = regWithItem("cracked_nether_brick_vertical_slab", () ->
-            new CrackedVerticalSlabBlock(Crackable.CrackLevel.CRACKED,  () -> Items.NETHER_BRICK,
+            new CrackedVerticalSlabBlock(Crackable.CrackLevel.CRACKED, () -> Items.NETHER_BRICK,
                     BlockBehaviour.Properties.copy(Blocks.NETHER_BRICKS)), "quark");
 
 
@@ -211,7 +211,7 @@ public class ModBlocks {
             new CrackedWallBlock(Crackable.CrackLevel.CRACKED, ModItems.DEEPSLATE_BRICK,
                     BlockBehaviour.Properties.copy(Blocks.CRACKED_DEEPSLATE_BRICKS)));
     public static final RegistryObject<Block> CRACKED_DEEPSLATE_BRICK_VERTICAL_SLAB = regWithItem("cracked_deepslate_brick_vertical_slab", () ->
-            new CrackedVerticalSlabBlock(Crackable.CrackLevel.CRACKED,   ModItems.DEEPSLATE_BRICK,
+            new CrackedVerticalSlabBlock(Crackable.CrackLevel.CRACKED, ModItems.DEEPSLATE_BRICK,
                     BlockBehaviour.Properties.copy(Blocks.CRACKED_DEEPSLATE_BRICKS)), "quark");
 
 
@@ -350,16 +350,16 @@ public class ModBlocks {
     public static final RegistryObject<Block> EXPOSED_IRON_DOOR = regWithItem("EXPOSED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
             new RustableDoorBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WEATHERED_IRON_DOOR = regWithItem("WEATHERED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
-            new RustableDoorBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.copy(EXPOSED_IRON_DOOR.get())),CreativeModeTab.TAB_DECORATIONS);
+            new RustableDoorBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.copy(EXPOSED_IRON_DOOR.get())), CreativeModeTab.TAB_DECORATIONS);
     public static final RegistryObject<Block> RUSTED_IRON_DOOR = regWithItem("RUSTED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
-            new RustableDoorBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.copy(EXPOSED_IRON_DOOR.get())),CreativeModeTab.TAB_DECORATIONS);
+            new RustableDoorBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.copy(EXPOSED_IRON_DOOR.get())), CreativeModeTab.TAB_DECORATIONS);
 
     public static final RegistryObject<Block> EXPOSED_IRON_TRAPDOOR = regWithItem("EXPOSED_IRON_TRAPDOOR".toLowerCase(Locale.ROOT), () ->
             new RustableTrapdoorBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WEATHERED_IRON_TRAPDOOR = regWithItem("WEATHERED_IRON_TRAPDOOR".toLowerCase(Locale.ROOT), () ->
-            new RustableTrapdoorBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.copy(EXPOSED_IRON_TRAPDOOR.get())),CreativeModeTab.TAB_DECORATIONS);
+            new RustableTrapdoorBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.copy(EXPOSED_IRON_TRAPDOOR.get())), CreativeModeTab.TAB_DECORATIONS);
     public static final RegistryObject<Block> RUSTED_IRON_TRAPDOOR = regWithItem("RUSTED_IRON_TRAPDOOR".toLowerCase(Locale.ROOT), () ->
-            new RustableTrapdoorBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.copy(EXPOSED_IRON_TRAPDOOR.get())),CreativeModeTab.TAB_DECORATIONS);
+            new RustableTrapdoorBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.copy(EXPOSED_IRON_TRAPDOOR.get())), CreativeModeTab.TAB_DECORATIONS);
 
     public static final RegistryObject<Block> EXPOSED_IRON_BARS = regWithItem("EXPOSED_IRON_BARS".toLowerCase(Locale.ROOT), () ->
             new RustableBarsBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
@@ -397,8 +397,6 @@ public class ModBlocks {
             new RustableBarsBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
 
 
-
-
     public static final RegistryObject<Block> CRACKED_END_STONE_BRICKS = regWithItem("cracked_end_stone_bricks", () ->
             new CrackedBlock(Crackable.CrackLevel.CRACKED, ModItems.END_STONE_BRICK, BlockBehaviour.Properties.copy(Blocks.END_STONE)));
     public static final RegistryObject<Block> CRACKED_END_STONE_BRICK_STAIRS = regWithItem("cracked_end_stone_brick_stairs", () ->
@@ -431,7 +429,8 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> VITRIFIED_SAND = regWithItem("vitrified_sand", () ->
             new GlassBlock(BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.TERRACOTTA_YELLOW)
-                    .strength(2f, 6f).sound(SoundType.TUFF).requiresCorrectToolForDrops().noOcclusion()));
+                    .strength(2f, 6f).sound(SoundType.TUFF)
+                    .requiresCorrectToolForDrops().noOcclusion().isViewBlocking((s, l, p) -> false)));
 
     public static final RegistryObject<Block> HUMUS = regWithItem("humus", () ->
             new SoilBlock(BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.TERRACOTTA_GREEN)

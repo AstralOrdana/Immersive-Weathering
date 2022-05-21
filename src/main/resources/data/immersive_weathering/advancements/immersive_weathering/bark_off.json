@@ -1,0 +1,59 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:wooden_axe",
+      "nbt": "{Damage:0}"
+    },
+    "title": {
+      "translate": "advancements.immersive_weathering.bark_off.title"
+    },
+    "description": {
+      "translate": "advancements.immersive_weathering.bark_off.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "minecraft:husbandry/safely_harvest_honey",
+  "criteria": {
+    "wax_off": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "item": {
+          "items": [
+            "minecraft:wooden_axe",
+            "minecraft:golden_axe",
+            "minecraft:stone_axe",
+            "minecraft:iron_axe",
+            "minecraft:diamond_axe",
+            "minecraft:netherite_axe"
+          ]
+        },
+        "location": {
+          "block": {
+            "blocks": [
+              "minecraft:oak_log",
+              "minecraft:dark_oak_log",
+              "minecraft:birch_log",
+              "minecraft:jungle_log",
+              "minecraft:acacia_log",
+              "minecraft:spruce_log",
+              "minecraft:oak_wood",
+              "minecraft:dark_oak_wood",
+              "minecraft:birch_wood",
+              "minecraft:jungle_wood",
+              "minecraft:acacia_wood",
+              "minecraft:spruce_wood"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "wax_off"
+    ]
+  ]
+}

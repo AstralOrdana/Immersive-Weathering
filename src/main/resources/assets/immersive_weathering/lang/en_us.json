@@ -228,7 +228,7 @@
   "block.immersive_weathering.quark/lavender_blossom_leaf_pile": "Serene Blossom Leaf Pile",
 
   "item.immersive_weathering.bark": "%s Bark",
-  "item.immersive_weathering.leaf_pile": "%s Leaf Pile",
+  "block.immersive_weathering.leaf_pile": "%s Leaf Pile",
 
 
 
@@ -296,6 +296,4 @@
 
   "block.immersive_weathering.mossy_stone_wall": "Mossy Stone Wall",
   "block.immersive_weathering.stone_wall": "Stone Wall"
-
-
 }

@@ -1,5 +1,5 @@
 {
-  "growth_chance": 0.0001,
+  "growth_chance": 0.000105,
   "growth_for_face": [
     {
       "direction": "up",

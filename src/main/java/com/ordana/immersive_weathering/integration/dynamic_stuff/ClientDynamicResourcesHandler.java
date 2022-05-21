@@ -354,7 +354,7 @@ public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider
         ModDynamicRegistry.MODDED_BARK.forEach((type, bark) -> {
             LangBuilder.addDynamicEntry(lang, "item.immersive_weathering.bark", type, bark);
         });
-        ModDynamicRegistry.LEAF_PILES_ITEMS.forEach((leaf, type) -> {
+        ModDynamicRegistry.LEAF_TO_TYPE.forEach((leaf, type) -> {
             LangBuilder.addDynamicEntry(lang, "block.immersive_weathering.leaf_pile", type, leaf);
         });
     }

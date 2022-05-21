@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "immersive_weathering:soot"
+    }
+  ],
+  "result": {
+    "item": "minecraft:black_dye"
+  }
+}
