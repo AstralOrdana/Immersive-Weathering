@@ -35,6 +35,24 @@
     "immersive_weathering:cracked_deepslate_brick_wall",
     "immersive_weathering:cracked_deepslate_tile_wall",
     "immersive_weathering:cracked_prismarine_brick_wall",
-    "immersive_weathering:cracked_end_stone_brick_wall"
+    "immersive_weathering:cracked_end_stone_brick_wall",
+
+    {"id":"biomemakeover:cracked_dried_peat_bricks","required":false},
+    {"id":"biomemakeover:cracked_dried_peat_brick_stairs","required":false},
+    {"id":"biomemakeover:cracked_dried_peat_brick_slab","required":false},
+    {"id":"biomemakeover:cracked_dried_peat_brick_wall","required":false},
+    {"id":"twigs:cracked_cobblestone_bricks","required":false},
+    {"id":"twigs:cracked_polished_tuff_bricks","required":false},
+    {"id":"twigs:cracked_polished_calcite_bricks","required":false},
+    {"id":"twigs:cracked_polished_rhyolite_bricks","required":false},
+    {"id":"twigs:cracked_polished_schist_bricks","required":false},
+    {"id":"twigs:cracked_polished_bloodstone_bricks","required":false},
+    {"id":"twigs:cracked_polished_amethyst_bricks","required":false},
+    {"id":"byg:cracked_red_rock_bricks","required":false},
+    {"id":"byg:cracked_red_rock_brick_slab","required":false},
+    {"id":"byg:cracked_red_rock_brick_vertical_slab","required":false},
+    {"id":"byg:cracked_red_rock_brick_stairs","required":false},
+    {"id":"byg:cracked_red_rock_brick_wall","required":false}
+
   ]
 }

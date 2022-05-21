@@ -21,7 +21,7 @@ authors="Ordana, Keybounce, Mehvahdjukaar, Paperfish" #optional
 
 itemIcon="immersive_weathering:cracked_bricks" #catalogue icon
 
-configuredBackground= "immersive_weathering:textures/block/exposed_cut_iron.png"
+configuredBackground= "immersive_weathering:textures/block/cracked_bricks.png"
 
 description='''
 A Mod that many natural weathering systems and QOL changes.

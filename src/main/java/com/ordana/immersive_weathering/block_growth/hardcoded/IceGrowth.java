@@ -29,6 +29,7 @@ public class IceGrowth implements IBlockGrowth {
         Biome biome = b.value();
         Random random = level.random;
 
+        //move to json??
         if (random.nextFloat() < 0.003f) {
             BlockPos icePos = pos.below();
 

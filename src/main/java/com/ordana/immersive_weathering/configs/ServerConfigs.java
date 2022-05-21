@@ -112,7 +112,7 @@ public class ServerConfigs {
         builder.pop();
 
         builder.push("leaf_piles");
-        LEAF_PILES_PATCHES = builder.comment("Enables leaf piles patches features to spawn in forests")
+        LEAF_PILES_PATCHES = builder.comment("Enables leaf piles patches features to spawn in forests. Currently does nothing as they have been temporarily (or not) yeeted")
                 .define("leaf_piles_patches", true);
         HUMUS_SPAWN_BELOW_LEAVES = builder.comment("Allows natural humus or podzol generation below leaf piles with more than 1 layer")
                 .defineInRange("humus_and_podzol_spawn_chance", 0.02, 0, 1);

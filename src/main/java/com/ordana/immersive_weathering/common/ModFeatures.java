@@ -10,6 +10,7 @@ import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.ClampedNormalFloat;
 import net.minecraft.util.valueproviders.ConstantInt;
@@ -42,11 +43,12 @@ public class ModFeatures {
 
     //in code because the json defined one dont want to work....
     private static void registerLeafPile(String name) {
-        final Holder<ConfiguredFeature<BlockPileConfiguration, ?>> OAK =
-                FeatureUtils.register("immersive_weathering:" + name + "_leaf_pile", Feature.BLOCK_PILE,
-                        new BlockPileConfiguration(BlockStateProvider.simple(ModBlocks.OAK_LEAF_PILE.get())));
+        String n = "immersive_weathering:" + name + "_leaf_pile";
+        final Holder<ConfiguredFeature<BlockPileConfiguration, ?>> PILE =
+                FeatureUtils.register(n, Feature.BLOCK_PILE,
+                        new BlockPileConfiguration(BlockStateProvider.simple(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(n)))));
 
-        PlacementUtils.register("immersive_weathering:" + name + "_leaf_pile", OAK,
+        PlacementUtils.register("immersive_weathering:" + name + "_leaf_pile", PILE,
                 PlacementUtils.HEIGHTMAP_TOP_SOLID,
                 NoiseBasedCountPlacement.of(2, 50, 0.7),
                 NoiseThresholdCountPlacement.of(0.3, 1, 5),
@@ -151,6 +153,7 @@ public class ModFeatures {
             }
         }
 
+        /*
         if(ServerConfigs.LEAF_PILES_PATCHES.get()) {
             if (key == Biomes.FOREST || key == Biomes.WINDSWEPT_FOREST || key == Biomes.FLOWER_FOREST) {
                 addFeature(event, "oak_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
@@ -161,7 +164,7 @@ public class ModFeatures {
             } else if (key == Biomes.OLD_GROWTH_SPRUCE_TAIGA || key == Biomes.OLD_GROWTH_PINE_TAIGA || key == Biomes.TAIGA) {
                 addFeature(event, "spruce_leaf_pile", GenerationStep.Decoration.VEGETAL_DECORATION);
             }
-        }
+        }*/
         if(ServerConfigs.HUMUS_PATCHES.get()) {
             if (key == Biomes.DARK_FOREST) {
                 addFeature(event, "humus_patches", GenerationStep.Decoration.LOCAL_MODIFICATIONS);

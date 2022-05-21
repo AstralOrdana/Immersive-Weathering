@@ -38,8 +38,8 @@ public class ServerDynamicResourcesHandler extends RPAwareDynamicDataProvider {
     @Override
     public void regenerateDynamicAssets(ResourceManager manager) {
 
-        StaticResource lootTable = getResOrLog(manager, ResType.BLOCK_LOOT_TABLES.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
-        StaticResource recipe = getResOrLog(manager, ResType.RECIPES.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
+        StaticResource lootTable = StaticResource.getOrLog(manager, ResType.BLOCK_LOOT_TABLES.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
+        StaticResource recipe = StaticResource.getOrLog(manager, ResType.RECIPES.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
 
 
         for (var e : ModDynamicRegistry.LEAF_TO_TYPE.entrySet()) {

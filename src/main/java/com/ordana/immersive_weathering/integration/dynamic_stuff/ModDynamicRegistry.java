@@ -50,12 +50,12 @@ public class ModDynamicRegistry {
 
     public static Map<Block, Pair<Item, Block>> getBarkMap() {
         Map<Block, Pair<Item, Block>> map = new HashMap<>();
-        for (var e : MODDED_BARK.entrySet()) {
-            Block log = e.getKey().logBlock;
-            if (e.getKey().stripped_log != null) {
-                map.put(e.getKey().stripped_log, Pair.of(e.getValue(), log));
+        MODDED_BARK.forEach((wood, item) -> {
+            Block log = wood.log;
+            if (wood.strippedLog != null) {
+                map.put(wood.strippedLog, Pair.of(item, log));
             }
-        }
+        });
         return map;
     }
 
@@ -147,6 +147,7 @@ public class ModDynamicRegistry {
 
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
             var clientRes = new ClientDynamicResourcesHandler();
+
             clientRes.register(bus);
 
             bus.addListener(ModDynamicRegistry::initClient);

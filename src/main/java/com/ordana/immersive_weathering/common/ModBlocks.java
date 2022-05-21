@@ -43,8 +43,12 @@ public class ModBlocks {
     }
 
     public static RegistryObject<Block> regWithItem(String name, Supplier<Block> supplier) {
+        return regWithItem(name, supplier, CreativeModeTab.TAB_BUILDING_BLOCKS);
+    }
+
+    public static RegistryObject<Block> regWithItem(String name, Supplier<Block> supplier, CreativeModeTab tab) {
         var b = BLOCKS.register(name, supplier);
-        ModItems.regBlockItem(b, new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS));
+        ModItems.regBlockItem(b, new Item.Properties().tab(tab));
         return b;
     }
 
@@ -106,14 +110,16 @@ public class ModBlocks {
 
 
     public static final RegistryObject<Block> WEEDS = regWithItem("weeds", () ->
-            new WeedsBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
+            new WeedsBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.GRASS)),
+            CreativeModeTab.TAB_DECORATIONS);
 
     public static final RegistryObject<Block> ASH_BLOCK = regWithItem("soot_block", () ->
             new AshBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).strength(0.5f)
                     .sound(SoundType.SNOW).lightLevel(createLightLevelFromLitBlockState(6)).randomTicks()));
     public static final RegistryObject<Block> SOOT = regWithItem("soot", () ->
             new SootLayerBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.COLOR_BLACK).noCollission()
-                    .requiresCorrectToolForDrops().instabreak().sound(SoundType.SNOW).lightLevel(createLightLevelFromLitBlockState(5)).randomTicks()));
+                    .requiresCorrectToolForDrops().instabreak().sound(SoundType.SNOW).lightLevel(createLightLevelFromLitBlockState(5)).randomTicks()),
+            CreativeModeTab.TAB_DECORATIONS);
 
     public static final RegistryObject<Block> MOSSY_BRICKS = regWithItem("mossy_bricks", () ->
             new MossyBlock(Mossable.MossLevel.MOSSY, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).requiresCorrectToolForDrops().strength(2f, 6f)));
@@ -344,16 +350,16 @@ public class ModBlocks {
     public static final RegistryObject<Block> EXPOSED_IRON_DOOR = regWithItem("EXPOSED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
             new RustableDoorBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WEATHERED_IRON_DOOR = regWithItem("WEATHERED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
-            new RustableDoorBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableDoorBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.copy(EXPOSED_IRON_DOOR.get())),CreativeModeTab.TAB_DECORATIONS);
     public static final RegistryObject<Block> RUSTED_IRON_DOOR = regWithItem("RUSTED_IRON_DOOR".toLowerCase(Locale.ROOT), () ->
-            new RustableDoorBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableDoorBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.copy(EXPOSED_IRON_DOOR.get())),CreativeModeTab.TAB_DECORATIONS);
 
     public static final RegistryObject<Block> EXPOSED_IRON_TRAPDOOR = regWithItem("EXPOSED_IRON_TRAPDOOR".toLowerCase(Locale.ROOT), () ->
             new RustableTrapdoorBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
     public static final RegistryObject<Block> WEATHERED_IRON_TRAPDOOR = regWithItem("WEATHERED_IRON_TRAPDOOR".toLowerCase(Locale.ROOT), () ->
-            new RustableTrapdoorBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableTrapdoorBlock(Rustable.RustLevel.WEATHERED, BlockBehaviour.Properties.copy(EXPOSED_IRON_TRAPDOOR.get())),CreativeModeTab.TAB_DECORATIONS);
     public static final RegistryObject<Block> RUSTED_IRON_TRAPDOOR = regWithItem("RUSTED_IRON_TRAPDOOR".toLowerCase(Locale.ROOT), () ->
-            new RustableTrapdoorBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));
+            new RustableTrapdoorBlock(Rustable.RustLevel.RUSTED, BlockBehaviour.Properties.copy(EXPOSED_IRON_TRAPDOOR.get())),CreativeModeTab.TAB_DECORATIONS);
 
     public static final RegistryObject<Block> EXPOSED_IRON_BARS = regWithItem("EXPOSED_IRON_BARS".toLowerCase(Locale.ROOT), () ->
             new RustableBarsBlock(Rustable.RustLevel.EXPOSED, BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5f, 6f).sound(SoundType.COPPER).noOcclusion()));

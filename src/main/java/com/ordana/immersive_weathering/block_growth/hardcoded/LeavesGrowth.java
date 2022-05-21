@@ -31,8 +31,11 @@ public class LeavesGrowth implements IBlockGrowth {
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome) {
 
         Random random = level.random;
+
         //Drastically reduced this chance to help lag
-        if (!state.getValue(LeavesBlock.PERSISTENT) && random.nextFloat() < ServerConfigs.FALLING_LEAVES.get()) {
+        //checking if it has this properties because mcreator mods...
+        if ((!state.hasProperty(LeavesBlock.PERSISTENT) || !state.getValue(LeavesBlock.PERSISTENT))
+                && random.nextFloat() < ServerConfigs.FALLING_LEAVES.get()) {
 
             var leafPile = LeafPilesRegistry.getFallenLeafPile(state).orElse(null);
             if (leafPile != null && level.getBlockState(pos.below()).isAir()) {

@@ -73,23 +73,14 @@ public class ImmersiveWeathering {
     }
 
     public static void init(final FMLCommonSetupEvent event) {
-        ModCompostable.registerCompostable();
-        ModFeatures.init();
+        event.enqueueWork(()->{
+            ModCompostable.registerCompostable();
+            ModFeatures.init();
 
-        FluidMatchTest.init();
-        LogMatchTest.init();
-        BlockSetMatchTest.init();
-
-
-        //ModEvents.registerEvents();
-
-        /*
-
-            ResourceManagerHelper.registerBuiltinResourcePack(new ResourceLocation("immersive_weathering:better_brick_items"), modContainer, ResourcePackActivationType.NORMAL);
-            ResourceManagerHelper.registerBuiltinResourcePack(new ResourceLocation("immersive_weathering:better_brick_blocks"), modContainer, ResourcePackActivationType.NORMAL);
-            ResourceManagerHelper.registerBuiltinResourcePack(new ResourceLocation("immersive_weathering:visual_waxed_iron_items"), modContainer, ResourcePackActivationType.NORMAL);
-
-        */
+            FluidMatchTest.init();
+            LogMatchTest.init();
+            BlockSetMatchTest.init();
+        });
     }
     public static void addPackFinders(AddPackFindersEvent event) {
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
