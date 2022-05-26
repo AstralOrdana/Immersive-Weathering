@@ -51,7 +51,6 @@ public class ModEntities {
                         .maxTrackingRange(10)
                         .trackingTickInterval(20));
 
-
         FALLING_LEAF_LAYER = registerEntity("falling_leaf_layer",
                 EntityType.Builder.<FallingLeafLayerEntity>create(FallingLeafLayerEntity::new, SpawnGroup.MISC)
                         .setDimensions(0.98F, 0.98F)

@@ -35,28 +35,6 @@ public class CrackedMudBlock extends Block implements IConditionalGrowingBlock {
     public static final BooleanProperty FERTILE = BooleanProperty.of("fertile");
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (!player.shouldCancelInteraction()) {
-            if (player.getStackInHand(hand).isOf(Items.WATER_BUCKET) && !state.get(SOAKED)) {
-                if (!player.isCreative()) {
-                    player.setStackInHand(hand, new ItemStack(Items.BUCKET));
-                }
-                world.setBlockState(pos, state.with(SOAKED, true));
-                world.playSound(player, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                return ActionResult.SUCCESS;
-            } else if (player.getStackInHand(hand).isOf(Items.BUCKET) && state.get(SOAKED)) {
-                if (!player.isCreative()) {
-                    player.setStackInHand(hand, new ItemStack(Items.WATER_BUCKET));
-                }
-                world.setBlockState(pos, state.with(SOAKED, false));
-                world.playSound(player, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                return ActionResult.SUCCESS;
-            }
-        }
-        return super.onUse(state, world, pos, player, hand, hit);
-    }
-
-    @Override
     public void randomDisplayTick(BlockState state, World level, BlockPos pos, Random random) {
         if (state.get(SOAKED)) {
             if (random.nextInt(25) == 1) {

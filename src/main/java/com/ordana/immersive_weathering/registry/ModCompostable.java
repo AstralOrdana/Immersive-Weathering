@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 
 public class ModCompostable {
     public static void registerCompostable() {
-        CompostingChanceRegistry.INSTANCE.add(ModItems.MOSS_CLUMP, 0.5f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.AZALEA_FLOWERS, 0.5f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.OAK_BARK, 0.8f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.SPRUCE_BARK, 0.8f);
@@ -15,7 +14,9 @@ public class ModCompostable {
         CompostingChanceRegistry.INSTANCE.add(ModItems.DARK_OAK_BARK, 0.8f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.MULCH_BLOCK, 1f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.NULCH_BLOCK, 1f);
-        CompostingChanceRegistry.INSTANCE.add(ModItems.MOSS_CLUMP, 0.5f);
+        CompostingChanceRegistry.INSTANCE.add(ModItems.IVY, 0.3f);
+        CompostingChanceRegistry.INSTANCE.add(ModItems.MOSS_CLUMP, 0.3f);
+        CompostingChanceRegistry.INSTANCE.add(ModItems.OAK_LEAF_PILE, 0.3f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.OAK_LEAF_PILE, 0.3f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.SPRUCE_LEAF_PILE, 0.3f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.BIRCH_LEAF_PILE, 0.3f);

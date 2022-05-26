@@ -33,7 +33,7 @@ record TemperatureMatchTest(float max, float min, Optional<Boolean> useLocalPos)
         if (world.getDimension().isUltrawarm()) {
             temp = 2;
         } else if (useLocalPos.isPresent() && useLocalPos.get() && biome instanceof TemperatureAccessWidener aw) {
-            (aw).getTempForPredicate(pos);
+            temp = (aw).getTempForPredicate(pos);
         } else {
             temp = biome.value().getTemperature();
         }

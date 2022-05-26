@@ -4,6 +4,7 @@
     "minecraft:moss_block",
     "minecraft:moss_carpet",
     "minecraft:vine",
-    "minecraft:water"
+    "minecraft:water",
+    "immersive_weathering:ivy"
   ]
 }

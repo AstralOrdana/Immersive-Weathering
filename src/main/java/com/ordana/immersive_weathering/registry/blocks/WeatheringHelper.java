@@ -11,11 +11,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.PillarBlock;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.item.Item;
+import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.tag.BlockTags;
-import net.minecraft.tag.FluidTags;
-import net.minecraft.tag.ItemTags;
+import net.minecraft.tag.*;
 import net.minecraft.util.collection.DataPool;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -31,82 +31,15 @@ import java.util.stream.Collectors;
 
 public class WeatheringHelper {
 
-    public static boolean tryCharBlock(World world, BlockPos pos, BlockState state) {
-        BlockState downState = world.getBlockState(pos.down());
-        if (world.random.nextFloat() < 0.85f) {
-            if (state.isIn(BlockTags.WOODEN_FENCES) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
-                ((ServerWorld) world).spawnParticles(ModParticles.SOOT, (double) pos.getX() + 0.5D,
-                        (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 10,
-                        0.5D, 0.5D, 0.5D, 0.0D);
-                if (world.random.nextFloat() < 0.5f) {
-                    return world.setBlockState(pos, ModBlocks.CHARRED_FENCE
-                            .getStateWithProperties(state).with(CharredBlock.SMOLDERING, true), 3);
-                } else return world.setBlockState(pos, ModBlocks.CHARRED_FENCE
-                        .getStateWithProperties(state).with(CharredBlock.SMOLDERING, false), 3);
-            }
-            else if (state.isIn(BlockTags.FENCE_GATES) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
-                ((ServerWorld) world).spawnParticles(ModParticles.SOOT, (double) pos.getX() + 0.5D,
-                        (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 10,
-                        0.5D, 0.5D, 0.5D, 0.0D);
-                if (world.random.nextFloat() < 0.5f) {
-                    return world.setBlockState(pos, ModBlocks.CHARRED_FENCE_GATE
-                            .getStateWithProperties(state).with(CharredBlock.SMOLDERING, true), 3);
-                } else return world.setBlockState(pos, ModBlocks.CHARRED_FENCE_GATE
-                        .getStateWithProperties(state).with(CharredBlock.SMOLDERING, false), 3);
-            }
-            else if (state.isIn(BlockTags.WOODEN_SLABS) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
-                ((ServerWorld) world).spawnParticles(ModParticles.SOOT, (double) pos.getX() + 0.5D,
-                        (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 10,
-                        0.5D, 0.5D, 0.5D, 0.0D);
-                if (world.random.nextFloat() < 0.5f) {
-                    return world.setBlockState(pos, ModBlocks.CHARRED_SLAB
-                            .getStateWithProperties(state).with(CharredBlock.SMOLDERING, true), 3);
-                } else return world.setBlockState(pos, ModBlocks.CHARRED_SLAB
-                        .getStateWithProperties(state).with(CharredBlock.SMOLDERING, false), 3);
-            }
-            else if (state.isIn(BlockTags.WOODEN_STAIRS) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
-                ((ServerWorld) world).spawnParticles(ModParticles.SOOT, (double) pos.getX() + 0.5D,
-                        (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 10,
-                        0.5D, 0.5D, 0.5D, 0.0D);
-                if (world.random.nextFloat() < 0.5f) {
-                    return world.setBlockState(pos, ModBlocks.CHARRED_STAIRS
-                            .getStateWithProperties(state).with(CharredBlock.SMOLDERING, true), 3);
-                } else return world.setBlockState(pos, ModBlocks.CHARRED_STAIRS
-                        .getStateWithProperties(state).with(CharredBlock.SMOLDERING, false), 3);
-            }
-            else if (state.isIn(BlockTags.PLANKS) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
-                ((ServerWorld) world).spawnParticles(ModParticles.SOOT, (double) pos.getX() + 0.5D,
-                        (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 10,
-                        0.5D, 0.5D, 0.5D, 0.0D);
-                if (world.random.nextFloat() < 0.5f) {
-                    return world.setBlockState(pos, ModBlocks.CHARRED_PLANKS
-                            .getStateWithProperties(state).with(CharredBlock.SMOLDERING, true), 3);
-                } else return world.setBlockState(pos, ModBlocks.CHARRED_PLANKS
-                        .getStateWithProperties(state).with(CharredBlock.SMOLDERING, false), 3);
-            }
-            else if (state.isIn(BlockTags.LOGS_THAT_BURN) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
-                ((ServerWorld) world).spawnParticles(ModParticles.SOOT, (double) pos.getX() + 0.5D,
-                        (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 10,
-                        0.5D, 0.5D, 0.5D, 0.0D);
-                if (world.random.nextFloat() < 0.5f) {
-                    return world.setBlockState(pos, ModBlocks.CHARRED_LOG
-                            .getStateWithProperties(state).with(CharredBlock.SMOLDERING, true), 3);
-                } else return world.setBlockState(pos, ModBlocks.CHARRED_LOG
-                        .getStateWithProperties(state).with(CharredBlock.SMOLDERING, false), 3);
-            }
-            else if (world.random.nextFloat() < 0.5f) {
-                return world.setBlockState(pos, ModBlocks.ASH_LAYER_BLOCK
-                        .getStateWithProperties(state), 3);
-            }
-        }
-        else if (world.random.nextFloat() > 0.2f) {
-            return world.setBlockState(pos, ModBlocks.ASH_LAYER_BLOCK
-                    .getStateWithProperties(state), 3);
-        }
-        else if (downState.isOf(Blocks.GRASS_BLOCK)) {
-            return world.setBlockState(pos.down(), Blocks.DIRT.getDefaultState(), 3);
-        }
-        return false;
+    private static final HashMap<TagKey, Block> CHARRED_BLOCKS = new HashMap<>();
+
+    static {
+        CHARRED_BLOCKS.put(BlockTags.LOGS_THAT_BURN, ModBlocks.CHARRED_LOG);
+        CHARRED_BLOCKS.put(BlockTags.PLANKS, ModBlocks.CHARRED_PLANKS);
+        CHARRED_BLOCKS.put(BlockTags.WOODEN_SLABS, ModBlocks.CHARRED_SLAB);
+        CHARRED_BLOCKS.put(BlockTags.WOODEN_STAIRS, ModBlocks.CHARRED_STAIRS);
+        CHARRED_BLOCKS.put(BlockTags.WOODEN_FENCES, ModBlocks.CHARRED_FENCE);
+        CHARRED_BLOCKS.put(BlockTags.FENCE_GATES, ModBlocks.CHARRED_FENCE_GATE);
     }
 
     public static final Supplier<ImmutableMap<Block, Block>> FLOWERY_BLOCKS = Suppliers.memoize(() -> ImmutableMap.<Block, Block>builder()
@@ -126,6 +59,36 @@ public class WeatheringHelper {
             .put(Blocks.FLOWERING_AZALEA_LEAVES, ModBlocks.FLOWERING_AZALEA_LEAF_PILE)
             .build());
 
+    public static final Supplier<Map<Block, DefaultParticleType>> LEAF_PARTICLES = Suppliers.memoize(() -> ImmutableMap.<Block, DefaultParticleType>builder()
+            .put(Blocks.OAK_LEAVES, ModParticles.OAK_LEAF)
+            .put(Blocks.DARK_OAK_LEAVES, ModParticles.DARK_OAK_LEAF)
+            .put(Blocks.SPRUCE_LEAVES, ModParticles.SPRUCE_LEAF)
+            .put(Blocks.BIRCH_LEAVES, ModParticles.BIRCH_LEAF)
+            .put(Blocks.JUNGLE_LEAVES, ModParticles.JUNGLE_LEAF)
+            .put(Blocks.ACACIA_LEAVES, ModParticles.ACACIA_LEAF)
+            .put(Blocks.AZALEA_LEAVES, ModParticles.AZALEA_LEAF)
+            .put(Blocks.FLOWERING_AZALEA_LEAVES, ModParticles.AZALEA_FLOWER)
+            .build());
+
+    public static final Supplier<Map<Block, DefaultParticleType>> BARK_PARTICLES = Suppliers.memoize(() -> ImmutableMap.<Block, DefaultParticleType>builder()
+            .put(Blocks.OAK_LOG, ModParticles.OAK_BARK)
+            .put(Blocks.DARK_OAK_LOG, ModParticles.DARK_OAK_BARK)
+            .put(Blocks.SPRUCE_LOG, ModParticles.SPRUCE_BARK)
+            .put(Blocks.BIRCH_LOG, ModParticles.BIRCH_BARK)
+            .put(Blocks.JUNGLE_LOG, ModParticles.JUNGLE_BARK)
+            .put(Blocks.ACACIA_LOG, ModParticles.ACACIA_BARK)
+            .put(Blocks.CRIMSON_STEM, ModParticles.NETHER_SCALE)
+            .put(Blocks.WARPED_STEM, ModParticles.NETHER_SCALE)
+            .put(Blocks.OAK_WOOD, ModParticles.OAK_BARK)
+            .put(Blocks.DARK_OAK_WOOD, ModParticles.DARK_OAK_BARK)
+            .put(Blocks.SPRUCE_WOOD, ModParticles.SPRUCE_BARK)
+            .put(Blocks.BIRCH_WOOD, ModParticles.BIRCH_BARK)
+            .put(Blocks.JUNGLE_WOOD, ModParticles.JUNGLE_BARK)
+            .put(Blocks.ACACIA_WOOD, ModParticles.ACACIA_BARK)
+            .put(Blocks.CRIMSON_HYPHAE, ModParticles.NETHER_SCALE)
+            .put(Blocks.WARPED_HYPHAE, ModParticles.NETHER_SCALE)
+            .build());
+
     public static Optional<BlockState> getAzaleaGrowth(BlockState state) {
         return Optional.ofNullable(FLOWERY_BLOCKS.get().get(state.getBlock()))
                 .map(block -> block.getStateWithProperties(state));
@@ -133,6 +96,14 @@ public class WeatheringHelper {
 
     public static Optional<Block> getFallenLeafPile(BlockState state) {
         return Optional.ofNullable(LEAF_PILES.get().get(state.getBlock()));
+    }
+
+    public static Optional<DefaultParticleType> getFallenLeafParticle(BlockState state) {
+        return Optional.ofNullable(LEAF_PARTICLES.get().get(state.getBlock()));
+    }
+
+    public static Optional<DefaultParticleType> getBarkParticle(BlockState state) {
+        return Optional.ofNullable(BARK_PARTICLES.get().get(state.getBlock()));
     }
 
     /**
@@ -239,5 +210,83 @@ public class WeatheringHelper {
                 }
             }
         }
+    }
+
+    public static boolean tryCharBlock(World world, BlockPos pos, BlockState state) {
+        BlockState downState = world.getBlockState(pos.down());
+        if (world.random.nextFloat() < 0.85f) {
+            if (state.isIn(BlockTags.WOODEN_FENCES) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
+                ((ServerWorld) world).spawnParticles(ModParticles.SOOT, (double) pos.getX() + 0.5D,
+                        (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 10,
+                        0.5D, 0.5D, 0.5D, 0.0D);
+                if (world.random.nextFloat() < 0.5f) {
+                    return world.setBlockState(pos, ModBlocks.CHARRED_FENCE
+                            .getStateWithProperties(state).with(CharredBlock.SMOLDERING, true), 3);
+                } else return world.setBlockState(pos, ModBlocks.CHARRED_FENCE
+                        .getStateWithProperties(state).with(CharredBlock.SMOLDERING, false), 3);
+            }
+            else if (state.isIn(BlockTags.FENCE_GATES) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
+                ((ServerWorld) world).spawnParticles(ModParticles.SOOT, (double) pos.getX() + 0.5D,
+                        (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 10,
+                        0.5D, 0.5D, 0.5D, 0.0D);
+                if (world.random.nextFloat() < 0.5f) {
+                    return world.setBlockState(pos, ModBlocks.CHARRED_FENCE_GATE
+                            .getStateWithProperties(state).with(CharredBlock.SMOLDERING, true), 3);
+                } else return world.setBlockState(pos, ModBlocks.CHARRED_FENCE_GATE
+                        .getStateWithProperties(state).with(CharredBlock.SMOLDERING, false), 3);
+            }
+            else if (state.isIn(BlockTags.WOODEN_SLABS) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
+                ((ServerWorld) world).spawnParticles(ModParticles.SOOT, (double) pos.getX() + 0.5D,
+                        (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 10,
+                        0.5D, 0.5D, 0.5D, 0.0D);
+                if (world.random.nextFloat() < 0.5f) {
+                    return world.setBlockState(pos, ModBlocks.CHARRED_SLAB
+                            .getStateWithProperties(state).with(CharredBlock.SMOLDERING, true), 3);
+                } else return world.setBlockState(pos, ModBlocks.CHARRED_SLAB
+                        .getStateWithProperties(state).with(CharredBlock.SMOLDERING, false), 3);
+            }
+            else if (state.isIn(BlockTags.WOODEN_STAIRS) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
+                ((ServerWorld) world).spawnParticles(ModParticles.SOOT, (double) pos.getX() + 0.5D,
+                        (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 10,
+                        0.5D, 0.5D, 0.5D, 0.0D);
+                if (world.random.nextFloat() < 0.5f) {
+                    return world.setBlockState(pos, ModBlocks.CHARRED_STAIRS
+                            .getStateWithProperties(state).with(CharredBlock.SMOLDERING, true), 3);
+                } else return world.setBlockState(pos, ModBlocks.CHARRED_STAIRS
+                        .getStateWithProperties(state).with(CharredBlock.SMOLDERING, false), 3);
+            }
+            else if (state.isIn(BlockTags.PLANKS) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
+                ((ServerWorld) world).spawnParticles(ModParticles.SOOT, (double) pos.getX() + 0.5D,
+                        (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 10,
+                        0.5D, 0.5D, 0.5D, 0.0D);
+                if (world.random.nextFloat() < 0.5f) {
+                    return world.setBlockState(pos, ModBlocks.CHARRED_PLANKS
+                            .getStateWithProperties(state).with(CharredBlock.SMOLDERING, true), 3);
+                } else return world.setBlockState(pos, ModBlocks.CHARRED_PLANKS
+                        .getStateWithProperties(state).with(CharredBlock.SMOLDERING, false), 3);
+            }
+            else if (state.isIn(BlockTags.LOGS_THAT_BURN) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
+                ((ServerWorld) world).spawnParticles(ModParticles.SOOT, (double) pos.getX() + 0.5D,
+                        (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 10,
+                        0.5D, 0.5D, 0.5D, 0.0D);
+                if (world.random.nextFloat() < 0.5f) {
+                    return world.setBlockState(pos, ModBlocks.CHARRED_LOG
+                            .getStateWithProperties(state).with(CharredBlock.SMOLDERING, true), 3);
+                } else return world.setBlockState(pos, ModBlocks.CHARRED_LOG
+                        .getStateWithProperties(state).with(CharredBlock.SMOLDERING, false), 3);
+            }
+            else if (world.random.nextFloat() < 0.5f) {
+                return world.setBlockState(pos, ModBlocks.ASH_LAYER_BLOCK
+                        .getStateWithProperties(state), 3);
+            }
+        }
+        else if (world.random.nextFloat() > 0.2f) {
+            return world.setBlockState(pos, ModBlocks.ASH_LAYER_BLOCK
+                    .getStateWithProperties(state), 3);
+        }
+        else if (downState.isOf(Blocks.GRASS_BLOCK)) {
+            return world.setBlockState(pos.down(), Blocks.DIRT.getDefaultState(), 3);
+        }
+        return false;
     }
 }

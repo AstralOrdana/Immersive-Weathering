@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "minecraft:dark_prismarine"
+  },
+  "result": "immersive_weathering:dark_prismarine_wall",
+  "count": 1
+}

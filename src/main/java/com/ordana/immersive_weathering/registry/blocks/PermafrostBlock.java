@@ -1,7 +1,10 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -45,10 +48,12 @@ public class PermafrostBlock extends Block {
     }
 
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
-        if (!(entity instanceof LivingEntity) || isWearingBoots(entity) || entity.getType() == EntityType.FOX || entity.getType() == EntityType.RABBIT || entity.getType() == EntityType.STRAY || entity.getType() == EntityType.GOAT) {
+        if (!(entity instanceof LivingEntity) || EnchantmentHelper.getEquipmentLevel(Enchantments.FROST_WALKER, (LivingEntity) entity) > 0 || isWearingBoots(entity) || entity.getType() == EntityType.FOX || entity.getType() == EntityType.RABBIT || entity.getType() == EntityType.SHEEP || entity.getType() == EntityType.STRAY || entity.getType() == EntityType.GOAT) {
             return;
         }
-        entity.setFrozenTicks(300);
+        if (ImmersiveWeathering.getConfig().fireAndIceConfig.permafrostFreezing) {
+            entity.setFrozenTicks(300);
+        }
 
         super.onSteppedOn(world, pos, state, entity);
     }

@@ -45,48 +45,6 @@ public class NulchBlock extends Block {
                 entity.damage(DamageSource.HOT_FLOOR, 1.0F);
             }
         }
-        super.onSteppedOn(world, pos, state, entity);
-        if (entity instanceof LivingEntity) {
-            if (world.isClient) {
-                Random random = world.getRandom();
-                boolean bl = entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ();
-                if (bl && random.nextBoolean()) {
-
-                    world.addParticle(ModParticles.NULCH,
-                            entity.getX() + MathHelper.nextBetween(random,-0.2f,0.2f),
-                            pos.getY() + 1.025,
-                            entity.getZ() + MathHelper.nextBetween(random,-0.2f,0.2f),
-                            MathHelper.nextBetween(random,-0.9f,-1),
-                            -1,
-                            0);
-                }
-            }
-        }
-    }
-
-    @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (!player.shouldCancelInteraction()) {
-            // empty bucket into mulch
-            if (player.getStackInHand(hand).isOf(Items.LAVA_BUCKET) && !state.get(MOLTEN)) {
-                if (!player.isCreative()) {
-                    player.setStackInHand(hand, new ItemStack(Items.BUCKET));
-                }
-                world.setBlockState(pos, state.with(MOLTEN, true));
-                world.playSound(player, pos, SoundEvents.ITEM_BUCKET_EMPTY_LAVA, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                return ActionResult.SUCCESS;
-            }
-            // fill bucket from mulch
-            else if (player.getStackInHand(hand).isOf(Items.BUCKET) && state.get(MOLTEN)) {
-                if (!player.isCreative()) {
-                    player.setStackInHand(hand, new ItemStack(Items.LAVA_BUCKET));
-                }
-                world.setBlockState(pos, state.with(MOLTEN, false));
-                world.playSound(player, pos, SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                return ActionResult.SUCCESS;
-            }
-        }
-        return super.onUse(state, world, pos, player, hand, hit);
     }
 
     @Override

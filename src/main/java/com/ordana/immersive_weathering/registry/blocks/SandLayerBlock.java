@@ -30,6 +30,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -149,7 +150,8 @@ public class SandLayerBlock extends FallingBlock {
         if (blockState.isOf(this)) {
             int i = blockState.get(LAYERS);
             return blockState.with(LAYERS, Math.min(MAX_LAYERS, i + 1));
-        } else {
+        }
+        else {
             return super.getPlacementState(ctx);
         }
     }

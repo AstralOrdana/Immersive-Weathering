@@ -29,7 +29,7 @@ import net.minecraft.world.WorldAccess;
 
 import java.util.Random;
 
-public class CharredPillarBlock extends PillarBlock implements LandingBlock {
+public class CharredPillarBlock extends PillarBlock implements LandingBlock, Charrable {
 
     @Override
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
@@ -71,8 +71,6 @@ public class CharredPillarBlock extends PillarBlock implements LandingBlock {
         super(settings);
         this.setDefaultState(this.getDefaultState().with(SMOLDERING, false).with(AXIS, Direction.Axis.Y));
     }
-
-    public static final BooleanProperty SMOLDERING = BooleanProperty.of("smoldering");
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {

@@ -84,6 +84,6 @@ public class WeedsBlock extends CropBlock {
 
     @Override
     protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
-        return floor.isIn(ModTags.FERTILE_BLOCKS) || floor.isIn(BlockTags.DIRT) || floor.isIn(ModTags.CRACKED) || floor.isOf(Blocks.SANDSTONE);
+        return floor.isIn(ModTags.FERTILE_BLOCKS) || floor.isIn(BlockTags.DIRT) || floor.isIn(ModTags.CRACKED) || floor.isIn(ModTags.MOSSY);
     }
 }

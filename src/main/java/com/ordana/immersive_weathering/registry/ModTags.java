@@ -1,6 +1,8 @@
 package com.ordana.immersive_weathering.registry;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
@@ -47,7 +49,6 @@ public final class ModTags {
     //items
     public static final TagKey<Item> BARK = registerItemTag("bark");
     public static final TagKey<Item> SCALES = registerItemTag("scales");
-
 
     //biomes
     public static final TagKey<Biome> ICY = registerBiomeTag("icy");

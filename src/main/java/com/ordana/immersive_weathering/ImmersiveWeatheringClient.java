@@ -62,6 +62,8 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
             registry.register(new Identifier("immersive_weathering", "particle/soot_1"));
             registry.register(new Identifier("immersive_weathering", "particle/emberspark_0"));
             registry.register(new Identifier("immersive_weathering", "particle/emberspark_1"));
+            registry.register(new Identifier("immersive_weathering", "particle/moss_0"));
+            registry.register(new Identifier("immersive_weathering", "particle/moss_1"));
 
             registry.register(new Identifier("immersive_weathering", "particle/oak_leaf_0"));
             registry.register(new Identifier("immersive_weathering", "particle/birch_leaf_0"));
@@ -80,10 +82,29 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
             registry.register(new Identifier("immersive_weathering", "particle/azalea_leaf_1"));
             registry.register(new Identifier("immersive_weathering", "particle/azalea_flower_1"));
 
-            registry.register(new Identifier("immersive_weathering", "particle/mulch_0"));
-            registry.register(new Identifier("immersive_weathering", "particle/nulch_0"));
-            registry.register(new Identifier("immersive_weathering", "particle/mulch_1"));
-            registry.register(new Identifier("immersive_weathering", "particle/nulch_1"));
+
+            registry.register(new Identifier("immersive_weathering", "particle/oak_bark_0"));
+            registry.register(new Identifier("immersive_weathering", "particle/birch_bark_0"));
+            registry.register(new Identifier("immersive_weathering", "particle/spruce_bark_0"));
+            registry.register(new Identifier("immersive_weathering", "particle/jungle_bark_0"));
+            registry.register(new Identifier("immersive_weathering", "particle/acacia_bark_0"));
+            registry.register(new Identifier("immersive_weathering", "particle/dark_oak_bark_0"));
+            registry.register(new Identifier("immersive_weathering", "particle/nether_scale_0"));
+            registry.register(new Identifier("immersive_weathering", "particle/oak_bark_1"));
+            registry.register(new Identifier("immersive_weathering", "particle/birch_bark_1"));
+            registry.register(new Identifier("immersive_weathering", "particle/spruce_bark_1"));
+            registry.register(new Identifier("immersive_weathering", "particle/jungle_bark_1"));
+            registry.register(new Identifier("immersive_weathering", "particle/acacia_bark_1"));
+            registry.register(new Identifier("immersive_weathering", "particle/dark_oak_bark_1"));
+            registry.register(new Identifier("immersive_weathering", "particle/nether_scale_1"));
+            registry.register(new Identifier("immersive_weathering", "particle/oak_bark_2"));
+            registry.register(new Identifier("immersive_weathering", "particle/birch_bark_2"));
+            registry.register(new Identifier("immersive_weathering", "particle/spruce_bark_2"));
+            registry.register(new Identifier("immersive_weathering", "particle/jungle_bark_2"));
+            registry.register(new Identifier("immersive_weathering", "particle/acacia_bark_2"));
+            registry.register(new Identifier("immersive_weathering", "particle/dark_oak_bark_2"));
+            registry.register(new Identifier("immersive_weathering", "particle/nether_scale_2"));
+
 
             //flower crowns
             registry.register(new Identifier("immersive_weathering", "particle/bee_0"));
@@ -93,6 +114,7 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(ModParticles.EMBER, EmberParticle.EmberFactory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.SOOT, LeafParticle.SimpleLeafParticle::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.EMBERSPARK, EmberParticle.EmberFactory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.MOSS, LeafParticle.SimpleLeafParticle::new);
 
         ParticleFactoryRegistry.getInstance().register(ModParticles.OAK_LEAF, LeafParticle.ColoredLeafParticle::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.SPRUCE_LEAF, LeafParticle.SpruceLeafParticle::new);
@@ -103,8 +125,13 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(ModParticles.AZALEA_LEAF, LeafParticle.SimpleLeafParticle::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.AZALEA_FLOWER, LeafParticle.SimpleLeafParticle::new);
 
-        ParticleFactoryRegistry.getInstance().register(ModParticles.MULCH, LeafParticle.SimpleLeafParticle::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.NULCH, LeafParticle.SimpleLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.OAK_BARK, LeafParticle.SimpleLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.SPRUCE_BARK, LeafParticle.SimpleLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.BIRCH_BARK, LeafParticle.SimpleLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.JUNGLE_BARK, LeafParticle.SimpleLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.ACACIA_BARK, LeafParticle.SimpleLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.DARK_OAK_BARK, LeafParticle.SimpleLeafParticle::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.NETHER_SCALE, LeafParticle.SimpleLeafParticle::new);
 
         ParticleFactoryRegistry.getInstance().register(ModParticles.SCRAPE_RUST, ScrapeRustFactory::new);
 
@@ -120,7 +147,10 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.ACACIA_LEAF_PILE);
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.DARK_OAK_LEAF_PILE);
 
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.FROSTY_GRASS);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.FROSTY_FERN);
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.ROOTED_GRASS_BLOCK);
+
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.MOSSY_COBBLESTONE);
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.MOSSY_COBBLESTONE_SLAB);
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), Blocks.MOSSY_COBBLESTONE_STAIRS);
@@ -248,6 +278,15 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SOOT, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SOOT, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FROST, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FROST, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FROSTY_GLASS, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FROSTY_GLASS, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FROSTY_GLASS_PANE, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FROSTY_GLASS_PANE, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FROSTY_GRASS, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FROSTY_FERN, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.THIN_ICE, RenderLayer.getTranslucent());
 
     }
 }

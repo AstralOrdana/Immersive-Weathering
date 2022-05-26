@@ -7,6 +7,7 @@ import net.minecraft.block.Blocks;
 
 public class ModFlammableBlocks {
     public static void registerFlammable() {
+        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.IVY, 30, 60);
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.OAK_LEAF_PILE, 30, 60);
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.SPRUCE_LEAF_PILE, 30, 60);
         FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.BIRCH_LEAF_PILE, 30, 60);

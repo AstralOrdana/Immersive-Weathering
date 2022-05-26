@@ -1,10 +1,10 @@
 {
   "area_condition": {
+    "type": "generate_if_not_too_many",
     "radiusX": 2,
     "radiusY": 2,
     "radiusZ": 2,
-    "requiredAmount": 5,
-    "type": "generate_if_not_too_many"
+    "requiredAmount": 5
   },
   "growth_chance": 0.05,
   "growth_for_face": [
@@ -42,8 +42,8 @@
     "minecraft:warped_nylium"
   ],
   "replacing_target": {
-    "block": "minecraft:air",
     "predicate_type": "minecraft:random_block_match",
+    "block": "minecraft:air",
     "probability": 0.8
   }
 }

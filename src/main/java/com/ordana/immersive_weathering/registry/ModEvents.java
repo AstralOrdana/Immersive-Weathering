@@ -9,6 +9,7 @@ import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;
 import net.minecraft.client.util.ParticleUtil;
 import net.minecraft.item.*;
+import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -24,7 +25,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class ModEvents {
-    private static final HashMap<Block, Block> CLEANED_BLOCKS = new HashMap<>();
+    public static final HashMap<Block, Block> CLEANED_BLOCKS = new HashMap<>();
     private static final HashMap<Block, Block> CRACKED_BLOCKS = new HashMap<>();
     private static final HashMap<Block, Item> DROPPED_BRICKS = new HashMap<>();
     private static final HashMap<Item, Block> BRICK_REPAIR = new HashMap<>();
@@ -375,10 +376,53 @@ public class ModEvents {
                     }
                 }
             }
+            if (heldItem.getItem() == ModItems.FROST) {
+                if (targetBlock.isOf(Blocks.GLASS)) {
+                    world.playSound(player, targetPos, SoundEvents.BLOCK_POWDER_SNOW_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SNOWFLAKE, UniformIntProvider.create(3, 5));
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.decrement(1);
+                        world.setBlockState(targetPos, ModBlocks.FROSTY_GLASS.getDefaultState().with(FrostyGrassBlock.NATURAL, Boolean.FALSE));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+                else if (targetBlock.isOf(Blocks.GLASS_PANE)) {
+                    world.playSound(player, targetPos, SoundEvents.BLOCK_POWDER_SNOW_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SNOWFLAKE, UniformIntProvider.create(3, 5));
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.decrement(1);
+                        world.setBlockState(targetPos, ModBlocks.FROSTY_GLASS_PANE.getStateWithProperties(targetBlock).with(FrostyGrassBlock.NATURAL, Boolean.FALSE));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+                else if (targetBlock.isOf(Blocks.GRASS)) {
+                    world.playSound(player, targetPos, SoundEvents.BLOCK_POWDER_SNOW_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SNOWFLAKE, UniformIntProvider.create(3, 5));
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.decrement(1);
+                        world.setBlockState(targetPos, ModBlocks.FROSTY_GRASS.getStateWithProperties(targetBlock).with(FrostyGrassBlock.NATURAL, Boolean.FALSE));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+                else if (targetBlock.isOf(Blocks.FERN)) {
+                    world.playSound(player, targetPos, SoundEvents.BLOCK_POWDER_SNOW_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SNOWFLAKE, UniformIntProvider.create(3, 5));
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.decrement(1);
+                        world.setBlockState(targetPos, ModBlocks.FROSTY_FERN.getStateWithProperties(targetBlock).with(FrostyGrassBlock.NATURAL, Boolean.FALSE));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+            }
             if (heldItem.getItem() instanceof ShearsItem) {
                 if(ImmersiveWeathering.getConfig().itemUsesConfig.soilShearing) {
                     if (targetBlock.contains(ModGrassBlock.FERTILE) && targetBlock.get(ModGrassBlock.FERTILE) && targetBlock.contains(SnowyBlock.SNOWY) && !targetBlock.get(SnowyBlock.SNOWY)) {
                         world.playSound(player, targetPos, SoundEvents.BLOCK_GROWING_PLANT_CROP, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                        ParticleUtil.spawnParticle(world, targetPos, new BlockStateParticleEffect(ParticleTypes.BLOCK, targetBlock), UniformIntProvider.create(3,5));
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                             if (!player.isCreative()) heldItem.damage(1, new Random(), null);
@@ -389,6 +433,7 @@ public class ModEvents {
                 }
                 if (targetBlock.contains(IvyBlock.AGE) && targetBlock.get(IvyBlock.AGE) < IvyBlock.MAX_AGE) {
                     world.playSound(player, targetPos, SoundEvents.BLOCK_GROWING_PLANT_CROP, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, new BlockStateParticleEffect(ParticleTypes.BLOCK, targetBlock), UniformIntProvider.create(3,5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                         if (!player.isCreative()) heldItem.damage(1, new Random(), null);
@@ -404,11 +449,7 @@ public class ModEvents {
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                             if (!player.isCreative()) heldItem.damage(1, new Random(), null);
-                            FLOWERY_BLOCKS.forEach((flowery, shorn) -> {
-                                if (targetBlock.isOf(flowery)) {
-                                    world.setBlockState(targetPos, shorn.getStateWithProperties(targetBlock));
-                                }
-                            });
+                            world.setBlockState(targetPos, FLOWERY_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
                         }
                         return ActionResult.SUCCESS;
                     }
@@ -417,14 +458,11 @@ public class ModEvents {
                     if (targetBlock.isIn(ModTags.MOSSY)) {
                         Block.dropStack(world, fixedPos, new ItemStack(ModItems.MOSS_CLUMP));
                         world.playSound(player, targetPos, SoundEvents.BLOCK_GROWING_PLANT_CROP, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                        ParticleUtil.spawnParticle(world, targetPos, ModParticles.MOSS, UniformIntProvider.create(3, 5));
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                             if (!player.isCreative()) heldItem.damage(1, new Random(), null);
-                            CLEANED_BLOCKS.forEach((mossy, clean) -> {
-                                if (targetBlock.isOf(mossy)) {
-                                    world.setBlockState(targetPos, clean.getStateWithProperties(targetBlock));
-                                }
-                            });
+                            world.setBlockState(targetPos, CLEANED_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
                         }
                         return ActionResult.SUCCESS;
                     }
@@ -488,11 +526,35 @@ public class ModEvents {
                     }
                     return ActionResult.SUCCESS;
                 }
+                if (targetBlock.isOf(ModBlocks.VERTISOL) && (!targetBlock.get(CrackedMudBlock.SOAKED))) {
+                    world.playSound(player, targetPos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3, 5));
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.decrement(1);
+                        Block.dropStack(world, fixedPos, new ItemStack(Items.BUCKET));
+                        world.setBlockState(targetPos, targetBlock.with(CrackedMudBlock.SOAKED, Boolean.TRUE));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+            }
+            if (heldItem.getItem() == Items.LAVA_BUCKET) {
+                if (targetBlock.isOf(ModBlocks.NULCH_BLOCK) && (!targetBlock.get(NulchBlock.MOLTEN))) {
+                    world.playSound(player, targetPos, SoundEvents.ITEM_BUCKET_EMPTY_LAVA, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.LAVA, UniformIntProvider.create(3, 5));
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.decrement(1);
+                        Block.dropStack(world, fixedPos, new ItemStack(Items.BUCKET));
+                        world.setBlockState(targetPos, targetBlock.with(NulchBlock.MOLTEN, Boolean.TRUE));
+                    }
+                    return ActionResult.SUCCESS;
+                }
             }
             if (heldItem.getItem() == Items.BUCKET) {
                 if (targetBlock.isOf(ModBlocks.NULCH_BLOCK) && (targetBlock.get(NulchBlock.MOLTEN))) {
                     world.playSound(player, targetPos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                    ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.LANDING_LAVA, UniformIntProvider.create(3, 5));
+                    ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.LAVA, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                         if (!player.isCreative()) heldItem.decrement(1);
@@ -545,6 +607,17 @@ public class ModEvents {
                     }
                     return ActionResult.SUCCESS;
                 }
+                if (targetBlock.isOf(ModBlocks.VERTISOL) && (targetBlock.get(CrackedMudBlock.SOAKED))) {
+                    world.playSound(player, targetPos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3, 5));
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.decrement(1);
+                        Block.dropStack(world, fixedPos, new ItemStack(Items.WATER_BUCKET));
+                        world.setBlockState(targetPos, targetBlock.with(CrackedMudBlock.SOAKED, Boolean.FALSE));
+                    }
+                    return ActionResult.SUCCESS;
+                }
             }
             if (heldItem.getItem() == Items.GLASS_BOTTLE) {
                 if (targetBlock.isOf(ModBlocks.SILT) && (targetBlock.get(SiltBlock.SOAKED))) {
@@ -560,36 +633,48 @@ public class ModEvents {
                 }
             }
             if (heldItem.getItem() instanceof ShovelItem) {
-                if(player instanceof ServerPlayerEntity) {
-                    if(ImmersiveWeathering.getConfig().itemUsesConfig.shovelExtinguishing) {
-                        if (targetBlock.isOf(Blocks.CAMPFIRE) && targetBlock.get(Properties.LIT)) {
+                if(ImmersiveWeathering.getConfig().itemUsesConfig.shovelExtinguishing) {
+                    if (targetBlock.isOf(Blocks.CAMPFIRE) && targetBlock.get(Properties.LIT)) {
+                        Block.dropStack(world, fixedPos, new ItemStack(ModItems.ASH_LAYER_BLOCK));
+                        world.playSound(player, targetPos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                        ParticleUtil.spawnParticle(world, targetPos, ModParticles.SOOT, UniformIntProvider.create(3, 5));
+                        if(player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            Block.dropStack(world, fixedPos, new ItemStack(ModItems.ASH_LAYER_BLOCK));
-                            world.playSound(player, targetPos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                            ParticleUtil.spawnParticle(world, targetPos, ModParticles.SOOT, UniformIntProvider.create(3, 5));
-                        } else if (targetBlock.isOf(Blocks.FIRE)) {
+                            world.setBlockState(targetPos, targetBlock.getBlock().getStateWithProperties(targetBlock).with(CampfireBlock.LIT, false));
+                        }
+                        return ActionResult.SUCCESS;
+                    }
+                    if (targetBlock.isOf(Blocks.FIRE)) {
+                        Block.dropStack(world, fixedPos, new ItemStack(ModItems.ASH_LAYER_BLOCK));
+                        world.playSound(player, targetPos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                        ParticleUtil.spawnParticle(world, targetPos, ModParticles.SOOT, UniformIntProvider.create(3, 5));
+                        if(player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            Block.dropStack(world, fixedPos, new ItemStack(ModItems.ASH_LAYER_BLOCK));
-                            world.playSound(player, targetPos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                            ParticleUtil.spawnParticle(world, targetPos, ModParticles.SOOT, UniformIntProvider.create(3, 5));
                             world.setBlockState(targetPos, Blocks.AIR.getDefaultState());
                         }
-                        if ((targetBlock.getBlock() instanceof CharredPillarBlock || targetBlock.getBlock() instanceof CharredBlock || targetBlock.getBlock() instanceof CharredStairsBlock || targetBlock.getBlock() instanceof CharredSlabBlock || targetBlock.getBlock() instanceof CharredFenceBlock || targetBlock.getBlock() instanceof CharredFenceGateBlock) && targetBlock.get(CharredBlock.SMOLDERING)) {
+                        return ActionResult.SUCCESS;
+                    }
+                    if ((targetBlock.getBlock() instanceof CharredPillarBlock || targetBlock.getBlock() instanceof CharredBlock || targetBlock.getBlock() instanceof CharredStairsBlock || targetBlock.getBlock() instanceof CharredSlabBlock || targetBlock.getBlock() instanceof CharredFenceBlock || targetBlock.getBlock() instanceof CharredFenceGateBlock) && targetBlock.get(CharredBlock.SMOLDERING)) {
+                        Block.dropStack(world, fixedPos, new ItemStack(ModItems.ASH_LAYER_BLOCK));
+                        world.playSound(player, targetPos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                        ParticleUtil.spawnParticle(world, targetPos, ModParticles.SOOT, UniformIntProvider.create(3, 5));
+                        if(player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            Block.dropStack(world, fixedPos, new ItemStack(ModItems.ASH_LAYER_BLOCK));
-                            world.playSound(player, targetPos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                            ParticleUtil.spawnParticle(world, targetPos, ModParticles.SOOT, UniformIntProvider.create(3, 5));
                             world.setBlockState(targetPos, targetBlock.getBlock().getStateWithProperties(targetBlock).with(CharredBlock.SMOLDERING, false));
                         }
-                    }
-                    if ((targetBlock.isOf(ModBlocks.HUMUS) || targetBlock.isOf(ModBlocks.FLUVISOL) || targetBlock.isOf(ModBlocks.VERTISOL) || targetBlock.isOf(ModBlocks.CRYOSOL)) && !targetBlock.get(Properties.SNOWY)) {
-                        world.playSound(player, targetPos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.damage(1, new Random(), null);
-                        world.setBlockState(targetPos, Blocks.DIRT_PATH.getDefaultState());
                         return ActionResult.SUCCESS;
                     }
                 }
+                if ((targetBlock.isOf(ModBlocks.HUMUS) || targetBlock.isOf(ModBlocks.FLUVISOL) || targetBlock.isOf(ModBlocks.VERTISOL) || targetBlock.isOf(ModBlocks.CRYOSOL)) && !targetBlock.get(Properties.SNOWY)) {
+                    world.playSound(player, targetPos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    if(player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.damage(1, new Random(), null);
+                        world.setBlockState(targetPos, Blocks.DIRT_PATH.getDefaultState());
+                    }
+                    return ActionResult.SUCCESS;
+                }
+
             }
             if(ImmersiveWeathering.getConfig().itemUsesConfig.azaleaShearing) {
                 if (heldItem.getItem() == ModItems.AZALEA_FLOWERS) {
@@ -630,7 +715,7 @@ public class ModEvents {
                 if(ImmersiveWeathering.getConfig().itemUsesConfig.charredBlockIgniting) {
                     if ((targetBlock.getBlock() instanceof CharredPillarBlock || targetBlock.getBlock() instanceof CharredBlock || targetBlock.getBlock() instanceof CharredStairsBlock || targetBlock.getBlock() instanceof CharredSlabBlock || targetBlock.getBlock() instanceof CharredFenceBlock || targetBlock.getBlock() instanceof CharredFenceGateBlock) && !targetBlock.get(CharredBlock.SMOLDERING)) {
                         world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                        ParticleUtil.spawnParticle(world, targetPos, ModParticles.EMBER, UniformIntProvider.create(3, 5));
+                        ParticleUtil.spawnParticle(world, targetPos, ModParticles.EMBERSPARK, UniformIntProvider.create(3, 5));
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                             if (!player.isCreative()) heldItem.damage(1, new Random(), null);
@@ -647,16 +732,53 @@ public class ModEvents {
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                             if (!player.isCreative()) heldItem.damage(1, new Random(), null);
-                            CLEANED_BLOCKS.forEach((mossy, clean) -> {
-                                if (targetBlock.isOf(mossy)) {
-                                    world.setBlockState(targetPos, clean.getStateWithProperties(targetBlock).with(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
-                                }
-                            });
+                            world.setBlockState(targetPos, CLEANED_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
                         }
                         return ActionResult.SUCCESS;
                     }
                 }
+                if (targetBlock.isOf(ModBlocks.FROSTY_GLASS)) {
+                    world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMOKE, UniformIntProvider.create(3, 5));
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.decrement(1);
+                        world.setBlockState(targetPos, Blocks.GLASS.getDefaultState());
+                    }
+                    return ActionResult.SUCCESS;
+                }
+                else if (targetBlock.isOf(ModBlocks.FROSTY_GLASS_PANE)) {
+                    world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMOKE, UniformIntProvider.create(3, 5));
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.decrement(1);
+                        world.setBlockState(targetPos, Blocks.GLASS_PANE.getStateWithProperties(targetBlock));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+                else if (targetBlock.isOf(ModBlocks.FROSTY_GRASS)) {
+                    world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMOKE, UniformIntProvider.create(3, 5));
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.decrement(1);
+                        world.setBlockState(targetPos, Blocks.GRASS.getStateWithProperties(targetBlock));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+                else if (targetBlock.isOf(ModBlocks.FROSTY_FERN)) {
+                    world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMOKE, UniformIntProvider.create(3, 5));
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.decrement(1);
+                        world.setBlockState(targetPos, Blocks.FERN.getStateWithProperties(targetBlock));
+                    }
+                    return ActionResult.SUCCESS;
+                }
             }
+
             if(ImmersiveWeathering.getConfig().itemUsesConfig.spongeRusting) {
                 if (heldItem.getItem() == Items.WET_SPONGE) {
                     if (targetBlock.isIn(ModTags.RUSTABLE)) {
@@ -664,11 +786,7 @@ public class ModEvents {
                         ParticleUtil.spawnParticle(world, targetPos, ModParticles.SCRAPE_RUST, UniformIntProvider.create(3, 5));
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            RUSTED_BLOCKS.forEach((clean, rusty) -> {
-                                if (targetBlock.isOf(clean)) {
-                                    world.setBlockState(targetPos, rusty.getStateWithProperties(targetBlock));
-                                }
-                            });
+                            world.setBlockState(targetPos, RUSTED_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
                         }
                         return ActionResult.SUCCESS;
                     }
@@ -685,7 +803,7 @@ public class ModEvents {
                     }
                     return ActionResult.SUCCESS;
                 }
-                if(targetBlock.isIn(ModTags.EXPOSED_IRON)) {
+                if(targetBlock.isIn(ModTags.EXPOSED_IRON) || targetBlock.isIn(ModTags.WEATHERED_IRON) || targetBlock.isIn(ModTags.RUSTED_IRON)) {
                     world.playSound(player, targetPos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ModParticles.SCRAPE_RUST, UniformIntProvider.create(3,5));
                     if(player instanceof ServerPlayerEntity) {
@@ -705,11 +823,7 @@ public class ModEvents {
                     if(player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                         if(!player.isCreative())heldItem.damage(1, new Random(), null);
-                        UNWAXED_BLOCKS.forEach((waxed, unwaxed) -> {
-                            if (targetBlock.isOf(waxed)) {
-                                world.setBlockState(targetPos, unwaxed.getStateWithProperties(targetBlock));
-                            }
-                        });
+                        world.setBlockState(targetPos, UNWAXED_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
                     }
                     return ActionResult.SUCCESS;
                 }
@@ -719,14 +833,11 @@ public class ModEvents {
                     if (targetBlock.isIn(ModTags.CRACKABLE)) {
                         Block.dropStack(world, fixedPos, new ItemStack(DROPPED_BRICKS.get(targetBlock.getBlock())));
                         world.playSound(player, targetPos, SoundEvents.BLOCK_STONE_HIT, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                        ParticleUtil.spawnParticle(world, targetPos, new BlockStateParticleEffect(ParticleTypes.BLOCK, targetBlock), UniformIntProvider.create(3,5));
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                             if (!player.isCreative()) heldItem.damage(1, new Random(), null);
-                            CRACKED_BLOCKS.forEach((solid, cracked) -> {
-                                if (targetBlock.isOf(solid)) {
-                                    world.setBlockState(targetPos, cracked.getStateWithProperties(targetBlock));
-                                }
-                            });
+                            world.setBlockState(targetPos, CRACKED_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
                         }
                         return ActionResult.SUCCESS;
                     }
@@ -781,20 +892,28 @@ public class ModEvents {
                     if (targetBlock.isIn(ModTags.RAW_LOGS)) {
                         Block.dropStack(world, fixedPos, new ItemStack(DROPPED_BARK.get(targetBlock.getBlock())));
                         world.playSound(player, targetPos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                        var barkParticle = WeatheringHelper.getBarkParticle(targetBlock).orElse(null);
+                        ParticleUtil.spawnParticle(world, targetPos, barkParticle, UniformIntProvider.create(3, 5));
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                             if (!player.isCreative()) heldItem.damage(1, new Random(), null);
-                            STRIPPED_BLOCKS.forEach((raw, stripped) -> {
-                                if (targetBlock.isOf(raw)) {
-                                    world.setBlockState(targetPos, stripped.getStateWithProperties(targetBlock));
-                                }
-                            });
+                            world.setBlockState(targetPos, STRIPPED_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
                         }
                         return ActionResult.SUCCESS;
                     }
                 }
                 if(ImmersiveWeathering.getConfig().itemUsesConfig.axeScraping) {
-                    if (targetBlock.isIn(ModTags.EXPOSED_IRON)) {
+                    if (targetBlock.isIn(ModTags.WEATHERED_IRON) || targetBlock.isIn(ModTags.RUSTED_IRON)) {
+                        world.playSound(player, targetPos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                        world.playSound(player, targetPos, SoundEvents.ITEM_SHIELD_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                        ParticleUtil.spawnParticle(world, targetPos, ModParticles.SCRAPE_RUST, UniformIntProvider.create(3, 5));
+                        ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMOKE, UniformIntProvider.create(3, 5));
+                        if (player instanceof ServerPlayerEntity) {
+                            Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        }
+                        return ActionResult.SUCCESS;
+                    }
+                    else if (targetBlock.isIn(ModTags.EXPOSED_IRON)) {
                         world.playSound(player, targetPos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0f, 1.0f);
                         ParticleUtil.spawnParticle(world, targetPos, ModParticles.SCRAPE_RUST, UniformIntProvider.create(3, 5));
                         if (player instanceof ServerPlayerEntity) {
@@ -805,15 +924,6 @@ public class ModEvents {
                                     world.setBlockState(targetPos, clean.getStateWithProperties(targetBlock));
                                 }
                             });
-                        }
-                        return ActionResult.SUCCESS;
-                    } else if (targetBlock.isIn(ModTags.WEATHERED_IRON) || targetBlock.isIn(ModTags.RUSTED_IRON)) {
-                        if (player instanceof ServerPlayerEntity) {
-                            Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            world.playSound(player, targetPos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                            world.playSound(player, targetPos, SoundEvents.ITEM_SHIELD_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                            ParticleUtil.spawnParticle(world, targetPos, ModParticles.SCRAPE_RUST, UniformIntProvider.create(3, 5));
-                            ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMOKE, UniformIntProvider.create(3, 5));
                         }
                         return ActionResult.SUCCESS;
                     }

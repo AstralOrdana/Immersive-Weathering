@@ -2,11 +2,13 @@ package com.ordana.immersive_weathering.registry.particles;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.util.math.BlockPos;
 
 @Environment(EnvType.CLIENT)
 public class LeafParticle extends SpriteBillboardParticle {
@@ -53,9 +55,9 @@ public class LeafParticle extends SpriteBillboardParticle {
 
     public record ColoredLeafParticle(SpriteProvider spriteProvider) implements ParticleFactory<DefaultParticleType> {
         @Override
-        public Particle createParticle(DefaultParticleType particleType, ClientWorld clientWorld, double x, double y, double z, double g, double color, double i) {
+        public Particle createParticle(DefaultParticleType particleType, ClientWorld clientWorld, double x, double y, double z, double dx, double dy, double dz) {
             return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
-                    (int) color);
+                    BiomeColors.getFoliageColor(clientWorld, new BlockPos(x,y,z)));
         }
     }
 

@@ -16,6 +16,10 @@
 
     "BiomeMixin",
 
+    "PaneBlockBlockMixin",
+    "AbstractGlassBlockMixin",
+    "FarmlandBlockMixin",
+
     "FluidMixin",
     "CampfireMixin",
     "ComposterMixin",

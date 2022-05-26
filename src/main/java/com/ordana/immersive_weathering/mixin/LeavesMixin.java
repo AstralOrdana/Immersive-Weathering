@@ -1,16 +1,26 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.*;
+import net.minecraft.client.util.ParticleUtil;
+import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Random;
 
@@ -21,23 +31,39 @@ public abstract class LeavesMixin extends Block implements Fertilizable {
         super(settings);
     }
 
-    @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         if(ImmersiveWeathering.getConfig().leavesConfig.leafDecayPiles) {
             if (!state.get(LeavesBlock.PERSISTENT) && state.get(LeavesBlock.DISTANCE) == 7) {
                 var leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
+                assert leafPile != null;
                 BlockState baseLeaf = leafPile.getDefaultState().with(LeafPileBlock.LAYERS, 0);
+                var leafParticle = WeatheringHelper.getFallenLeafParticle(state).orElse(null);
+                if(ImmersiveWeathering.getConfig().leavesConfig.leafDecayParticles) {
+                    world.spawnParticles(leafParticle, (double) pos.getX() + 0.5D,
+                            (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 10,
+                            0.5D, 0.5D, 0.5D, 0.0D);
+                }
+                if(ImmersiveWeathering.getConfig().leavesConfig.leafDecaySound) {
+                    world.playSound(null, pos, SoundEvents.BLOCK_AZALEA_LEAVES_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                }
                 if (world.random.nextFloat() < 0.3f) {
                     world.setBlockState(pos, baseLeaf.with(LeafPileBlock.LAYERS, MathHelper.nextBetween(random, 1, 6)), 2);
-                } else {
-                    LeavesBlock.dropStacks(state, world, pos);
-                    world.removeBlock(pos, false);
+                    ci.cancel();
                 }
             }
         }
-        else if (!state.get(LeavesBlock.PERSISTENT) && state.get(LeavesBlock.DISTANCE) == 7) {
-            LeavesBlock.dropStacks(state, world, pos);
-            world.removeBlock(pos, false);
+    }
+
+    @Inject(method = "randomDisplayTick", at = @At("HEAD"))
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random, CallbackInfo ci) {
+        var leafParticle = WeatheringHelper.getFallenLeafParticle(state).orElse(null);
+        if(ImmersiveWeathering.getConfig().leavesConfig.fallingLeafParticles) {
+            if (random.nextInt(32) == 0 && !world.getBlockState(pos.down()).isSolidBlock(world, pos)) {
+                if (!(world.getBlockState(pos.down()).getBlock() instanceof LeavesBlock)) {
+                    ParticleUtil.spawnParticle(world, pos, leafParticle, UniformIntProvider.create(0, 1));
+                }
+            }
         }
     }
 

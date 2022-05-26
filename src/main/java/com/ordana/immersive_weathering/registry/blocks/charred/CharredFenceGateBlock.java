@@ -26,14 +26,12 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class CharredFenceGateBlock extends FenceGateBlock {
+public class CharredFenceGateBlock extends FenceGateBlock implements Charrable {
 
     public CharredFenceGateBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.getDefaultState().with(SMOLDERING, false).with(OPEN, false).with(POWERED, false).with(IN_WALL, false));
     }
-
-    public static final BooleanProperty SMOLDERING = BooleanProperty.of("smoldering");
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {

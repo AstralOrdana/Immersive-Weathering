@@ -13,9 +13,15 @@ import net.minecraft.util.registry.Registry;
 public class ModItems {
 
     public static final BlockItem ICICLE = new BlockItem(ModBlocks.ICICLE, new Item.Settings().food(ModFoods.ICICLE).group(ItemGroup.DECORATIONS));
-    public static final Item ICE_SICKLE = new SwordItem(IcicleToolMaterial.INSTANCE, 5, -1f, new Item.Settings().food(ModFoods.ICICLE).group(ItemGroup.COMBAT));
-    public static final BlockItem FULGURITE = new BlockItem(ModBlocks.FULGURITE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final Item ICE_SICKLE = new IceSickleItem(IcicleToolMaterial.INSTANCE, 5, -1f, new Item.Settings().food(ModFoods.ICICLE).group(ItemGroup.COMBAT));
+    public static final BlockItem FROST = new BlockItem(ModBlocks.FROST, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem FROSTY_GRASS = new BlockItem(ModBlocks.FROSTY_GRASS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem FROSTY_FERN = new BlockItem(ModBlocks.FROSTY_FERN, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem FROSTY_GLASS = new BlockItem(ModBlocks.FROSTY_GLASS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem FROSTY_GLASS_PANE = new BlockItem(ModBlocks.FROSTY_GLASS_PANE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem THIN_ICE = new BlockItem(ModBlocks.THIN_ICE, new Item.Settings().group(ItemGroup.DECORATIONS));
 
+    public static final BlockItem FULGURITE = new BlockItem(ModBlocks.FULGURITE, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem VITRIFIED_SAND = new BlockItem(ModBlocks.VITRIFIED_SAND, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final Item POND_WATER = new PondWaterItem(new Item.Settings().group(ItemGroup.FOOD).food(ModFoods.POND_WATER).maxCount(16));
@@ -73,6 +79,8 @@ public class ModItems {
     public static final BlockItem CHARRED_FENCE = new BlockItem(ModBlocks.CHARRED_FENCE, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem CHARRED_FENCE_GATE = new BlockItem(ModBlocks.CHARRED_FENCE_GATE, new Item.Settings().group(ItemGroup.REDSTONE));
 
+    public static final BlockItem CHISELED_PRISMARINE_BRICKS = new BlockItem(ModBlocks.CHISELED_PRISMARINE_BRICKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+
     public static final BlockItem ROTTEN_LOG = new BlockItem(ModBlocks.ROTTEN_LOG, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem ROTTEN_PLANKS = new BlockItem(ModBlocks.ROTTEN_PLANKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem ROTTEN_SLAB = new BlockItem(ModBlocks.ROTTEN_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
@@ -101,6 +109,7 @@ public class ModItems {
     public static final BlockItem CRACKED_PRISMARINE_BRICK_SLAB = new BlockItem(ModBlocks.CRACKED_PRISMARINE_BRICK_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_PRISMARINE_BRICK_WALL = new BlockItem(ModBlocks.CRACKED_PRISMARINE_BRICK_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem PRISMARINE_BRICK_WALL = new BlockItem(ModBlocks.PRISMARINE_BRICK_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem DARK_PRISMARINE_WALL = new BlockItem(ModBlocks.DARK_PRISMARINE_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final BlockItem CRACKED_END_STONE_BRICKS = new BlockItem(ModBlocks.CRACKED_END_STONE_BRICKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_END_STONE_BRICK_STAIRS = new BlockItem(ModBlocks.CRACKED_END_STONE_BRICK_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
@@ -229,6 +238,12 @@ public class ModItems {
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "icicle"), ICICLE);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "ice_sickle"), ICE_SICKLE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "frost"), FROST);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "frosty_grass"), FROSTY_GRASS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "frosty_fern"), FROSTY_FERN);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "frosty_glass"), FROSTY_GLASS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "frosty_glass_pane"), FROSTY_GLASS_PANE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "thin_ice"), THIN_ICE);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "vitrified_sand"), VITRIFIED_SAND);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "fulgurite"), FULGURITE);
@@ -288,6 +303,8 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "charred_fence"), CHARRED_FENCE);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "charred_fence_gate"), CHARRED_FENCE_GATE);
 
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "chiseled_prismarine_bricks"), CHISELED_PRISMARINE_BRICKS);
+
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_log"), ROTTEN_LOG);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_planks"), ROTTEN_PLANKS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_slab"), ROTTEN_SLAB);
@@ -316,6 +333,8 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_prismarine_brick_slab"), CRACKED_PRISMARINE_BRICK_SLAB);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_prismarine_brick_wall"), CRACKED_PRISMARINE_BRICK_WALL);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "prismarine_brick_wall"), PRISMARINE_BRICK_WALL);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "dark_prismarine_wall"), DARK_PRISMARINE_WALL);
+
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_brick_stairs"), CRACKED_STONE_BRICK_STAIRS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_brick_slab"), CRACKED_STONE_BRICK_SLAB);

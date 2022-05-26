@@ -4,6 +4,7 @@ import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.entities.FallingLeafLayerEntity;
 import net.minecraft.block.*;
+import net.minecraft.client.util.ParticleUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.FallingBlockEntity;
@@ -25,6 +26,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.*;
@@ -36,8 +38,16 @@ import java.util.Random;
 public class LeafPileBlock extends FallingBlock implements Fertilizable {
 
     public static final IntProperty LAYERS = IntProperty.of("layers", 0, 8);
-    protected static final VoxelShape[] LAYERS_TO_SHAPE = new VoxelShape[]{Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D),
-            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
+    protected static final VoxelShape[] LAYERS_TO_SHAPE = new VoxelShape[]{
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D),
+            Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
     private static final float[] COLLISIONS = new float[]{0, 1.7f, 1.6f, 1.5f, 1.3f, 1.1f, 0.8f, 0.5f};
     private static final int MAX_LAYERS = 8;
 
@@ -69,6 +79,22 @@ public class LeafPileBlock extends FallingBlock implements Fertilizable {
     public boolean hasRandomTicks(BlockState state) {
         int layers = this.getLayers(state);
         return layers > 1;
+    }
+
+    @Override
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        BlockPos blockPos;
+        BlockState downState = world.getBlockState(pos.down());
+        if (random.nextInt(18) == 0 && FallingBlock.canFallThrough(downState) && !downState.isOf(Blocks.WATER)) {
+            if (!(world.getBlockState(pos.down()).getBlock() instanceof LeafPileBlock)) {
+                double d = (double) pos.getX() + random.nextDouble();
+                double e = (double) pos.getY() - 0.05;
+                double f = (double) pos.getZ() + random.nextDouble();
+                for (var p : particles) {
+                    ParticleUtil.spawnParticle(world, pos.down(), p, UniformIntProvider.create(0, 2));
+                }
+            }
+        }
     }
 
     @Override
@@ -153,7 +179,13 @@ public class LeafPileBlock extends FallingBlock implements Fertilizable {
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getCollisionShape(BlockState state, BlockView level, BlockPos pos, ShapeContext context) {
+        if (context instanceof EntityShapeContext c) {
+            var e = c.getEntity();
+            if (e instanceof FallingLeafLayerEntity) {
+                return LAYERS_TO_SHAPE[state.get(LAYERS)];
+            }
+        }
         return VoxelShapes.empty();
     }
 

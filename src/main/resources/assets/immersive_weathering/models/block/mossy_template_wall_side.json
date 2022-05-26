@@ -1,0 +1,20 @@
+{
+    "textures": {
+        "particle": "#side",
+        "top": "immersive_weathering:block/mossy_stone_top",
+        "side": "immersive_weathering:block/mossy_stone_side"
+    },
+    "elements": [
+        {   "from": [ 5, 0, 0 ],
+            "to": [ 11, 14, 8 ],
+            "faces": {
+                "down":  { "texture": "#side", "cullface": "down" },
+                "up":    { "texture": "#top" },
+                "north": { "texture": "#side", "cullface": "north" },
+                "west":  { "texture": "#side" },
+                "east":  { "texture": "#side" }
+            },
+            "__comment": "wall"
+        }
+    ]
+}

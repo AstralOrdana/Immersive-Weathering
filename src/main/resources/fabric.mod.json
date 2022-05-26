@@ -4,12 +4,11 @@
   "version": "${version}",
 
   "name": "Immersive Weathering",
-  "description": "A Mod that adds many natural weathering systems and QOL changes.",
+  "description": "An abundance of new natural systems to make your world feel more alive than ever.",
   "authors": [
     "Ordana",
     "keybounce",
-    "MehVahdJukaar",
-    "Paperfish"
+    "MehVahdJukaar"
   ],
   "contact": {
     "homepage": "https://discord.gg/MTUHt3r",

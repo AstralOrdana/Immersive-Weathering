@@ -3,9 +3,20 @@ package com.ordana.immersive_weathering.mixin;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.UnmodifiableIterator;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.registry.ModEvents;
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.minecraft.block.*;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
@@ -16,6 +27,7 @@ import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.spongepowered.asm.mixin.Final;
@@ -30,6 +42,20 @@ import java.util.Optional;
 @Mixin(FluidBlock.class)
 public abstract class FluidMixin extends Block implements FluidDrainable {
     private static final IntProperty LEVEL;
+
+    @Override
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        if (world.getBiome(pos).isIn(ModTags.ICY)) {
+            if (!(entity instanceof LivingEntity) || EnchantmentHelper.getEquipmentLevel(Enchantments.FROST_WALKER, (LivingEntity) entity) > 0 || ((LivingEntity) entity).hasStatusEffect(StatusEffects.CONDUIT_POWER) || entity.getType() == EntityType.SALMON || entity.getType() == EntityType.COD || entity.getType() == EntityType.POLAR_BEAR || entity.getType() == EntityType.SQUID || entity.getType() == EntityType.GLOW_SQUID || entity.getType() == EntityType.STRAY || entity.getType() == EntityType.GUARDIAN || entity.getType() == EntityType.ELDER_GUARDIAN || entity.getType() == EntityType.DROWNED || entity.getType() == EntityType.WOLF) {
+                return;
+            }
+            else if (ImmersiveWeathering.getConfig().fireAndIceConfig.freezingWater) {
+                entity.setFrozenTicks(200);
+            }
+        }
+    }
+
+
     @Shadow
     @Final
     protected FlowableFluid fluid;
@@ -64,8 +90,10 @@ public abstract class FluidMixin extends Block implements FluidDrainable {
                 boolean hasClay = false;
                 boolean hasSand = false;
                 boolean hasRedSand = false;
+                boolean hasMossyBlock = false;
                 for (Direction direction : DIRECTIONS) {
                     BlockPos blockPos = pos.offset(direction.getOpposite());
+                    BlockState targetState = world.getBlockState(blockPos);
                     if (world.getFluidState(blockPos).isIn(FluidTags.WATER)) {
                         hasWater = true;
                     }
@@ -101,6 +129,9 @@ public abstract class FluidMixin extends Block implements FluidDrainable {
                     }
                     if (world.getBlockState(blockPos).isOf(Blocks.CLAY)) {
                         hasClay = true;
+                    }
+                    if (world.getBlockState(blockPos).isIn(ModTags.MOSSY)) {
+                        hasMossyBlock = true;
                     }
                     if (world.getBlockState(blockPos).isOf(Blocks.SAND)) {
                         hasSand = true;
@@ -170,6 +201,15 @@ public abstract class FluidMixin extends Block implements FluidDrainable {
                         if (hasClay) {
                             if (world.getBlockState(blockPos).isOf(Blocks.CLAY)) {
                                 world.setBlockState(blockPos, Blocks.TERRACOTTA.getDefaultState());
+                                this.playExtinguishSound(world, pos);
+                                cir.setReturnValue(false);
+                            }
+                        }
+                    }
+                    if(ImmersiveWeathering.getConfig().generatorsConfig.mossBurning) {
+                        if (hasMossyBlock) {
+                            if (world.getBlockState(blockPos).isIn(ModTags.MOSSY)) {
+                                world.setBlockState(blockPos, ModEvents.CLEANED_BLOCKS.get(targetState.getBlock()).getStateWithProperties(targetState));
                                 this.playExtinguishSound(world, pos);
                                 cir.setReturnValue(false);
                             }

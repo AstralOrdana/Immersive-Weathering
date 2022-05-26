@@ -40,12 +40,16 @@ public final class ServerConfig extends PartitioningSerializer.GlobalData {
     @Config(name = "leaves_config")
     public static final class LeavesConfig implements ConfigData {
 
+        public boolean fallingLeafParticles = true;
         public boolean leafDecayPiles = true;
+        public boolean leafDecayParticles = true;
+        public boolean leafDecaySound = true;
         public boolean leafPilesForm = true;
         public boolean leafPilesConvertBlockBelow = true;
         public boolean leggingsPreventThornDamage = true;
 
         public boolean composterDropsDirt = true;
+        public boolean featherFallingFarmer = true;
 
         private LeavesConfig() {
         }
@@ -61,6 +65,11 @@ public final class ServerConfig extends PartitioningSerializer.GlobalData {
         public boolean lightningCreateVitrifiedSand = true;
         public boolean flammableCobwebs = true;
 
+        public boolean freezingWater = false;
+        public boolean permafrostFreezing = true;
+        public boolean thinIceMelting = false;
+        public boolean glassFrosting = true;
+        public boolean grassFrosting = true;
         public boolean naturalIceMelt = true;
         public boolean iciclePlacement = true;
 
@@ -85,6 +94,7 @@ public final class ServerConfig extends PartitioningSerializer.GlobalData {
     public static final class GeneratorsConfig implements ConfigData {
 
         public boolean allGenerators = true;
+        public boolean mossBurning = true;
         public boolean basaltGenerator = true;
         public boolean deepslateGenerator = true;
         public boolean graniteGenerator = true;

@@ -42,52 +42,6 @@ public class MulchBlock extends Block {
     public static final BooleanProperty SOAKED = BooleanProperty.of("soaked");
 
     @Override
-    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
-        super.onSteppedOn(world, pos, state, entity);
-        if (entity instanceof LivingEntity) {
-            if (world.isClient) {
-                Random random = world.getRandom();
-                boolean bl = entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ();
-                if (bl && random.nextBoolean()) {
-
-                    world.addParticle(ModParticles.MULCH,
-                            entity.getX() + MathHelper.nextBetween(random,-0.2f,0.2f),
-                            pos.getY() + 1.025,
-                            entity.getZ() + MathHelper.nextBetween(random,-0.2f,0.2f),
-                            MathHelper.nextBetween(random,-0.9f,-1),
-                            -1,
-                            0);
-                }
-            }
-        }
-    }
-
-    @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (!player.shouldCancelInteraction()) {
-            // empty bucket into mulch
-            if (player.getStackInHand(hand).isOf(Items.WATER_BUCKET) && !state.get(SOAKED)) {
-                if (!player.isCreative()) {
-                    player.setStackInHand(hand, new ItemStack(Items.BUCKET));
-                }
-                world.setBlockState(pos, state.with(SOAKED, true));
-                world.playSound(player, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                return ActionResult.SUCCESS;
-            }
-            // fill bucket from mulch
-            else if (player.getStackInHand(hand).isOf(Items.BUCKET) && state.get(SOAKED)) {
-                if (!player.isCreative()) {
-                    player.setStackInHand(hand, new ItemStack(Items.WATER_BUCKET));
-                }
-                world.setBlockState(pos, state.with(SOAKED, false));
-                world.playSound(player, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                return ActionResult.SUCCESS;
-            }
-        }
-        return super.onUse(state, world, pos, player, hand, hit);
-    }
-
-    @Override
     public void randomDisplayTick(BlockState state, World level, BlockPos pos, Random random) {
         if (state.get(SOAKED)) {
             if (random.nextInt(25) == 1) {

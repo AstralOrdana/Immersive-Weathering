@@ -28,10 +28,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class CharredSlabBlock extends SlabBlock {
-
-
-    public static final BooleanProperty SMOLDERING = BooleanProperty.of("smoldering");
+public class CharredSlabBlock extends SlabBlock implements Charrable {
 
     public CharredSlabBlock(Settings settings) {
         super(settings);

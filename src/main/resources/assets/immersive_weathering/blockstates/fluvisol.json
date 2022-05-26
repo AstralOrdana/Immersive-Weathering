@@ -1,24 +1,61 @@
 {
   "variants": {
-    "snowy=false,soaked=false": [
+    "snowy=false,soaked=false,fertile=true": [
       {
         "model": "immersive_weathering:block/fluvisol"
       },
       {
         "model": "immersive_weathering:block/fluvisol",
-        "y": 180
-      }
-    ],
-    "snowy=false,soaked=true": [
-      {
-        "model": "immersive_weathering:block/fluvisol_soaked"
+        "y": 90
       },
       {
-        "model": "immersive_weathering:block/fluvisol_soaked",
+        "model": "immersive_weathering:block/fluvisol",
         "y": 180
+      },
+      {
+        "model": "immersive_weathering:block/fluvisol",
+        "y": 270
       }
     ],
-    "snowy=true,soaked=false": {
+    "snowy=false,soaked=true,fertile=true": [
+      {
+        "model": "immersive_weathering:block/fluvisol_soaked"
+      }
+    ],
+    "snowy=true,soaked=false,fertile=true": {
+      "model": "minecraft:block/grass_block_snow"
+    },
+    "snowy=true,soaked=true,fertile=true": {
+      "model": "minecraft:block/grass_block_snow"
+    },
+
+
+    "snowy=false,soaked=false,fertile=false": [
+      {
+        "model": "immersive_weathering:block/fluvisol"
+      },
+      {
+        "model": "immersive_weathering:block/fluvisol",
+        "y": 90
+      },
+      {
+        "model": "immersive_weathering:block/fluvisol",
+        "y": 180
+      },
+      {
+        "model": "immersive_weathering:block/fluvisol",
+        "y": 270
+      }
+    ],
+    "snowy=false,soaked=true,fertile=false": [
+      {
+        "model": "immersive_weathering:block/fluvisol_soaked"
+      }
+    ],
+    "snowy=true,soaked=false,fertile=false": {
+      "model": "minecraft:block/grass_block_snow"
+    },
+    "snowy=true,soaked=true,fertile=false": {
       "model": "minecraft:block/grass_block_snow"
     }
   }

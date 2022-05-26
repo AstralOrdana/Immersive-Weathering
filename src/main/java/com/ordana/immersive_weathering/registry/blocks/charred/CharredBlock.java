@@ -28,14 +28,12 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class CharredBlock extends Block {
+public class CharredBlock extends Block implements Charrable {
 
     public CharredBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.getDefaultState().with(SMOLDERING, false));
     }
-
-    public static final BooleanProperty SMOLDERING = BooleanProperty.of("smoldering");
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {

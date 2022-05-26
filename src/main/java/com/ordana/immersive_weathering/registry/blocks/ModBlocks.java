@@ -8,12 +8,10 @@ import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableWallBl
 import com.ordana.immersive_weathering.registry.blocks.mossable.*;
 import com.ordana.immersive_weathering.registry.blocks.rotten.*;
 import com.ordana.immersive_weathering.registry.blocks.rustable.*;
-import com.ordana.immersive_weathering.registry.entities.FallingAshEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -25,8 +23,14 @@ import java.util.function.ToIntFunction;
 public class ModBlocks {
 
     public static final Block ICICLE = new IcicleBlock(FabricBlockSettings.of(Material.ICE).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GLASS).nonOpaque().dynamicBounds().requiresTool());
-    public static final Block FULGURITE = new FulguriteBlock(7, 3, FabricBlockSettings.of(Material.GLASS).breakInstantly().sounds(BlockSoundGroup.GLASS).nonOpaque().dynamicBounds().requiresTool().luminance((state) -> 5));
+    public static final Block FROST = new FrostBlock(FabricBlockSettings.of(Material.SNOW_LAYER).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.POWDER_SNOW).nonOpaque().noCollision());
+    public static final Block FROSTY_GRASS = new FrostyGrassBlock(FabricBlockSettings.of(Material.SNOW_LAYER).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.POWDER_SNOW).nonOpaque().dynamicBounds().noCollision());
+    public static final Block FROSTY_FERN = new FrostyGrassBlock(FabricBlockSettings.of(Material.SNOW_LAYER).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.POWDER_SNOW).nonOpaque().dynamicBounds().noCollision());
+    public static final Block FROSTY_GLASS = new FrostyGlassBlock(FabricBlockSettings.of(Material.GLASS).ticksRandomly().strength(0.3f).sounds(BlockSoundGroup.GLASS).nonOpaque().allowsSpawning(ModBlocks::never).solidBlock(ModBlocks::never).suffocates(ModBlocks::never).blockVision(ModBlocks::never));
+    public static final Block FROSTY_GLASS_PANE = new FrostyGlassPaneBlock(FabricBlockSettings.of(Material.GLASS).ticksRandomly().strength(0.3f).sounds(BlockSoundGroup.GLASS).nonOpaque().solidBlock(ModBlocks::never).suffocates(ModBlocks::never).blockVision(ModBlocks::never));
+    public static final Block THIN_ICE = new ThinIceBlock(FabricBlockSettings.of(Material.ICE).ticksRandomly().strength(0.3f).slipperiness(0.98f).sounds(BlockSoundGroup.GLASS).nonOpaque().solidBlock(ModBlocks::never).suffocates(ModBlocks::never).blockVision(ModBlocks::never));
 
+    public static final Block FULGURITE = new FulguriteBlock(7, 3, FabricBlockSettings.of(Material.GLASS).breakInstantly().sounds(BlockSoundGroup.GLASS).nonOpaque().dynamicBounds().requiresTool().luminance((state) -> 5));
     public static final Block VITRIFIED_SAND = new GlassBlock(FabricBlockSettings.of(Material.GLASS, MapColor.PALE_YELLOW).strength(2f, 6f).sounds(BlockSoundGroup.TUFF).nonOpaque().requiresTool());
 
     public static final Block OAK_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), false, false, true, List.of(ModParticles.OAK_LEAF));
@@ -42,7 +46,7 @@ public class ModBlocks {
     public static final Block IVY = new IvyBlock(FabricBlockSettings.of(Material.PLANT).noCollision().strength(0.2f).sounds(BlockSoundGroup.AZALEA_LEAVES));
     public static final Block WEEDS = new WeedsBlock(FabricBlockSettings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS));
     public static final Block MULCH_BLOCK = new MulchBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.DIRT_BROWN).strength(1f, 1f).sounds(BlockSoundGroup.ROOTED_DIRT).ticksRandomly());
-    public static final Block NULCH_BLOCK = new NulchBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.DARK_CRIMSON).strength(1f, 1f).sounds(BlockSoundGroup.WART_BLOCK).ticksRandomly().luminance(createLightLevelFromMoltenBlockState(10)));
+    public static final Block NULCH_BLOCK = new NulchBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.DARK_CRIMSON).strength(1f, 1f).sounds(BlockSoundGroup.WART_BLOCK).ticksRandomly().luminance(createLightLevelFromMoltenBlockState(10)).emissiveLighting(ModBlocks::emissiveIfMolten));
 
     public static final Block HUMUS = new SoilBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DARK_GREEN).strength(0.5F).sounds(BlockSoundGroup.GRAVEL).ticksRandomly());
     public static final Block FLUVISOL = new FluvisolBlock(FabricBlockSettings.of(Material.SOIL, MapColor.DEEPSLATE_GRAY).strength(0.5F).sounds(BlockSoundGroup.WART_BLOCK).ticksRandomly());
@@ -58,14 +62,14 @@ public class ModBlocks {
     public static final Block RED_SAND_LAYER_BLOCK = new SandLayerBlock(Blocks.RED_SAND.getDefaultState(),11098145, FabricBlockSettings.of(Material.SNOW_LAYER, MapColor.ORANGE).strength(0.5f).sounds(BlockSoundGroup.SAND).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(SandLayerBlock.LAYERS) >= 8).nonOpaque());
     public static final Block ASH_LAYER_BLOCK = new AshLayerBlock(FabricBlockSettings.of(Material.SNOW_LAYER, MapColor.BLACK).breakInstantly().sounds(BlockSoundGroup.SNOW).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(AshLayerBlock.LAYERS) >= 8).nonOpaque());
     public static final Block ASH_BLOCK = new AshBlock(FabricBlockSettings.of(Material.SNOW_BLOCK, MapColor.BLACK).breakInstantly().sounds(BlockSoundGroup.SNOW));
-    public static final Block SOOT = new SootBlock(FabricBlockSettings.of(Material.REPLACEABLE_UNDERWATER_PLANT, MapColor.BLACK).noCollision().breakInstantly().sounds(BlockSoundGroup.SNOW).ticksRandomly());
+    public static final Block SOOT = new SootBlock(FabricBlockSettings.of(Material.SNOW_LAYER, MapColor.BLACK).noCollision().breakInstantly().sounds(BlockSoundGroup.SNOW).ticksRandomly());
 
-    public static final Block CHARRED_LOG = new CharredPillarBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(5)).ticksRandomly());
-    public static final Block CHARRED_PLANKS = new CharredBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(5)).ticksRandomly());
-    public static final Block CHARRED_SLAB = new CharredSlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(5)).ticksRandomly());
-    public static final Block CHARRED_STAIRS = new CharredStairsBlock(CHARRED_PLANKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(5)).ticksRandomly());
-    public static final Block CHARRED_FENCE = new CharredFenceBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(5)).ticksRandomly());
-    public static final Block CHARRED_FENCE_GATE = new CharredFenceGateBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(5)).ticksRandomly());
+    public static final Block CHARRED_LOG = new CharredPillarBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(7)).ticksRandomly().emissiveLighting(ModBlocks::emissiveIfSmoldering));
+    public static final Block CHARRED_PLANKS = new CharredBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(7)).ticksRandomly().emissiveLighting(ModBlocks::emissiveIfSmoldering));
+    public static final Block CHARRED_SLAB = new CharredSlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(7)).ticksRandomly().emissiveLighting(ModBlocks::emissiveIfSmoldering));
+    public static final Block CHARRED_STAIRS = new CharredStairsBlock(CHARRED_PLANKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(7)).ticksRandomly().emissiveLighting(ModBlocks::emissiveIfSmoldering));
+    public static final Block CHARRED_FENCE = new CharredFenceBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(7)).ticksRandomly().emissiveLighting(ModBlocks::emissiveIfSmoldering));
+    public static final Block CHARRED_FENCE_GATE = new CharredFenceGateBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(1.5f, 0.5f).sounds(BlockSoundGroup.BASALT).luminance(createLightLevelFromSmolderingBlockState(7)).ticksRandomly().emissiveLighting(ModBlocks::emissiveIfSmoldering));
 
     public static final Block ROTTEN_LOG = new RottenPillarBlock(FabricBlockSettings.of(Material.STONE, MapColor.LICHEN_GREEN).strength(1.5f, 0.5f).sounds(BlockSoundGroup.NETHER_STEM).ticksRandomly());
     public static final Block ROTTEN_PLANKS = new RottenBlock(FabricBlockSettings.of(Material.STONE, MapColor.LICHEN_GREEN).strength(1.5f, 0.5f).sounds(BlockSoundGroup.NETHER_STEM).ticksRandomly());
@@ -95,6 +99,8 @@ public class ModBlocks {
     public static final Block CRACKED_PRISMARINE_BRICK_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.DIAMOND_BLUE).requiresTool().strength(1.5f, 6f));
     public static final Block CRACKED_PRISMARINE_BRICK_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.DIAMOND_BLUE).requiresTool().strength(1.5f, 6f));
     public static final Block PRISMARINE_BRICK_WALL = new CrackableWallBlock(Crackable.CrackLevel.UNCRACKED, FabricBlockSettings.of(Material.STONE, MapColor.DIAMOND_BLUE).requiresTool().strength(1.5f, 6f));
+    public static final Block DARK_PRISMARINE_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.DIAMOND_BLUE).requiresTool().strength(1.5f, 6f));
+    public static final Block CHISELED_PRISMARINE_BRICKS = new  Block(FabricBlockSettings.of(Material.STONE, MapColor.DIAMOND_BLUE).requiresTool().strength(1.5F, 6.0F));
 
     public static final Block CRACKED_END_STONE_BRICKS = new Block(FabricBlockSettings.of(Material.STONE, MapColor.PALE_YELLOW).requiresTool().strength(3.0F, 9.0F));
     public static final Block CRACKED_END_STONE_BRICK_STAIRS = new ModStairs(CRACKED_END_STONE_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.PALE_YELLOW).requiresTool().strength(3f, 9f));
@@ -223,13 +229,31 @@ public class ModBlocks {
         return type == EntityType.OCELOT || type == EntityType.PARROT;
     }
 
+    private static boolean emissiveIfSmoldering(BlockState state, BlockView world, BlockPos pos) {
+        return state.get(CharredBlock.SMOLDERING);
+    }
+
+    private static boolean emissiveIfMolten(BlockState state, BlockView world, BlockPos pos) {
+        return state.get(NulchBlock.MOLTEN);
+    }
+
     private static boolean never(BlockState state, BlockView world, BlockPos pos) {
+        return false;
+    }
+
+    private static Boolean never(BlockState state, BlockView world, BlockPos pos, EntityType<?> type) {
         return false;
     }
 
     public static void registerBlocks() {
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "icicle"), ICICLE);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "frost"), FROST);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "frosty_grass"), FROSTY_GRASS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "frosty_fern"), FROSTY_FERN);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "frosty_glass"), FROSTY_GLASS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "frosty_glass_pane"), FROSTY_GLASS_PANE);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "thin_ice"), THIN_ICE);
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "vitrified_sand"), VITRIFIED_SAND);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "fulgurite"), FULGURITE);
@@ -301,6 +325,8 @@ public class ModBlocks {
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_prismarine_brick_slab"), CRACKED_PRISMARINE_BRICK_SLAB);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_prismarine_brick_wall"), CRACKED_PRISMARINE_BRICK_WALL);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "prismarine_brick_wall"), PRISMARINE_BRICK_WALL);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "dark_prismarine_wall"), DARK_PRISMARINE_WALL);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "chiseled_prismarine_bricks"), CHISELED_PRISMARINE_BRICKS);
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_end_stone_bricks"), CRACKED_END_STONE_BRICKS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_end_stone_brick_stairs"), CRACKED_END_STONE_BRICK_STAIRS);

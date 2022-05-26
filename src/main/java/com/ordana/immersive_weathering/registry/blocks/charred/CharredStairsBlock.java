@@ -29,9 +29,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class CharredStairsBlock extends StairsBlock {
-
-    public static final BooleanProperty SMOLDERING = BooleanProperty.of("smoldering");
+public class CharredStairsBlock extends StairsBlock implements Charrable {
 
     public CharredStairsBlock(BlockState baseBlockState, Settings settings) {
         super(baseBlockState, settings);

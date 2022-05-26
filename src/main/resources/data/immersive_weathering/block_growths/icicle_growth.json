@@ -1,20 +1,8 @@
 {
-  "area_condition": {
-    "must_have": {
-      "fluid": "minecraft:water",
-      "predicate_type": "immersive_weathering:fluid_match"
-    },
-    "radiusX": 2,
-    "radiusY": 2,
-    "radiusZ": 2,
-    "requiredAmount": 12,
-    "type": "generate_if_not_too_many"
-  },
   "position_predicates": [
     {
-      "predicate_type": "temperature_range",
-      "max": 0,
-      "min": -2
+      "predicate_type": "precipitation_test",
+      "precipitation": "snow"
     }
   ],
   "growth_chance": 0.1,
@@ -39,7 +27,8 @@
   "owners": [
     "minecraft:ice",
     "minecraft:packed_ice",
-    "minecraft:blue_ice"
+    "minecraft:blue_ice",
+    "minecraft:spruce_leaves"
   ],
   "replacing_target": {
     "block": "minecraft:air",

@@ -1,9 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.registry.blocks.ModGrassBlock;
-import com.ordana.immersive_weathering.registry.blocks.ModHangingRootsBlock;
-import com.ordana.immersive_weathering.registry.blocks.ModMyceliumBlock;
-import com.ordana.immersive_weathering.registry.blocks.SoilBlock;
+import com.ordana.immersive_weathering.registry.blocks.*;
 import com.ordana.immersive_weathering.registry.blocks.crackable.*;
 import com.ordana.immersive_weathering.registry.blocks.mossable.*;
 import com.ordana.immersive_weathering.registry.blocks.rustable.Rustable;
@@ -20,6 +17,30 @@ import org.spongepowered.asm.mixin.injection.Slice;
 
 @Mixin(Blocks.class)
 public class BlocksMixin {
+    /*
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/SnowBlock",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=snow"
+                                            )
+                            )
+            )
+    private static SnowBlock snow(AbstractBlock.Settings settings)
+    {
+        return new ModSnowLayerBlock(settings);
+    }*/
+
     @Redirect
             (
                     method = "<clinit>",
