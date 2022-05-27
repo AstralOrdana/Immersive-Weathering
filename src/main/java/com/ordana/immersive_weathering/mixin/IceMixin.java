@@ -47,9 +47,11 @@ abstract public class IceMixin extends Block {
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         int rand = random.nextInt(4);
         Direction direction = Direction.fromHorizontal(rand);
-        if (world.getBlockState(pos.up()).isOf(Blocks.AIR) && (world.isRaining() || world.isNight()) && world.getBiome(pos).isIn(ModTags.ICY) && (world.getLightLevel(LightType.BLOCK, pos) < 7 - state.getOpacity(world, pos))) {
-            if (world.getFluidState(pos.offset(direction)).isOf(Fluids.WATER)) {
-                world.setBlockState(pos.offset(direction), ModBlocks.THIN_ICE.getDefaultState().with(ThinIceBlock.WATERLOGGED, true));
+        if(ImmersiveWeathering.getConfig().fireAndIceConfig.thinIceFormation) {
+            if (world.getBlockState(pos.up()).isOf(Blocks.AIR) && (world.isRaining() || world.isNight()) && world.getBiome(pos).isIn(ModTags.ICY) && (world.getLightLevel(LightType.BLOCK, pos) < 7 - state.getOpacity(world, pos))) {
+                if (world.getFluidState(pos.offset(direction)).isOf(Fluids.WATER)) {
+                    world.setBlockState(pos.offset(direction), ModBlocks.THIN_ICE.getDefaultState().with(ThinIceBlock.WATERLOGGED, true));
+                }
             }
         }
     }

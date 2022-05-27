@@ -65,8 +65,9 @@ public final class ServerConfig extends PartitioningSerializer.GlobalData {
         public boolean lightningCreateVitrifiedSand = true;
         public boolean flammableCobwebs = true;
 
-        public boolean freezingWater = false;
+        public boolean freezingWater = true;
         public boolean permafrostFreezing = true;
+        public boolean thinIceFormation = true;
         public boolean thinIceMelting = false;
         public boolean glassFrosting = true;
         public boolean grassFrosting = true;

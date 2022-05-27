@@ -8,7 +8,9 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
@@ -62,7 +64,7 @@ public class ThinIceBlock extends IceBlock implements Waterloggable {
     @Override
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
         BlockState upState = world.getBlockState(pos.up());
-        return state.getFluidState().isOf(Fluids.WATER);
+        return state.getFluidState().isOf(Fluids.WATER) && !upState.getFluidState().isOf(Fluids.WATER);
     }
 
     @Override
@@ -90,25 +92,67 @@ public class ThinIceBlock extends IceBlock implements Waterloggable {
 
     @Override
     public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+        int i = state.get(CRACKED);
         if (!(entity instanceof LivingEntity) || EnchantmentHelper.getEquipmentLevel(Enchantments.FEATHER_FALLING, (LivingEntity) entity) > 0) {
             return;
         }
         if (!world.isClient && world.random.nextFloat() < fallDistance - 0.5f && (entity instanceof PlayerEntity || world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) && entity.getWidth() * entity.getWidth() * entity.getHeight() > 0.512f) {
-
-            int i = state.get(CRACKED);
-            if (i < 3) {
-                if (world.random.nextInt(3) == 0) {
-                    world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+            if (world.random.nextBoolean()) {
+                world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                if (state.get(WATERLOGGED)) {
                     world.setBlockState(pos, ThinIceBlock.pushEntitiesUpBeforeBlockChange(state, Blocks.WATER.getDefaultState(), world, pos));
                 }
+                else world.setBlockState(pos, ThinIceBlock.pushEntitiesUpBeforeBlockChange(state, Blocks.AIR.getDefaultState(), world, pos));world.setBlockState(pos, ThinIceBlock.pushEntitiesUpBeforeBlockChange(state, Blocks.WATER.getDefaultState(), world, pos));
+            } else if (i < 3) {
                 world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
                 world.setBlockState(pos, state.with(CRACKED, i + 1));
             } else if (i == 3) {
                 world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                world.setBlockState(pos, ThinIceBlock.pushEntitiesUpBeforeBlockChange(state, Blocks.WATER.getDefaultState(), world, pos));
+                if (state.get(WATERLOGGED)) {
+                    world.setBlockState(pos, ThinIceBlock.pushEntitiesUpBeforeBlockChange(state, Blocks.WATER.getDefaultState(), world, pos));
+                }
+                else world.setBlockState(pos, ThinIceBlock.pushEntitiesUpBeforeBlockChange(state, Blocks.AIR.getDefaultState(), world, pos));
+            }
+        }
+        for (Direction direction : Direction.values()) {
+            BlockState targetState = world.getBlockState(pos.offset(direction));
+            if (world.getBlockState(pos.offset(direction)).isOf(ModBlocks.THIN_ICE)) {
+                if (world.random.nextBoolean() && i < 3) {
+                    world.setBlockState(pos.offset(direction), this.getStateWithProperties(targetState).with(CRACKED, i + 1));
+                }
             }
         }
         super.onLandedUpon(world, state, pos, entity, fallDistance);
+    }
+
+    @Override
+    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
+        if (!(entity instanceof LivingEntity) || EnchantmentHelper.getEquipmentLevel(Enchantments.FEATHER_FALLING, (LivingEntity) entity) > 0) {
+            return;
+        }
+        if (!world.isClient && (entity instanceof PlayerEntity || world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) && entity.getWidth() * entity.getWidth() * entity.getHeight() > 0.512f) {
+
+            if (world.random.nextInt(15) == 0) {
+                int i = state.get(CRACKED);
+                if (world.random.nextInt(3) == 0) {
+                    world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    if (state.get(WATERLOGGED)) {
+                        world.setBlockState(pos, ThinIceBlock.pushEntitiesUpBeforeBlockChange(state, Blocks.WATER.getDefaultState(), world, pos));
+                    }
+                    else world.setBlockState(pos, ThinIceBlock.pushEntitiesUpBeforeBlockChange(state, Blocks.AIR.getDefaultState(), world, pos));world.setBlockState(pos, ThinIceBlock.pushEntitiesUpBeforeBlockChange(state, Blocks.WATER.getDefaultState(), world, pos));
+                } else if (i < 3) {
+                    world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    world.setBlockState(pos, state.with(CRACKED, i + 1));
+                } else if (i == 3) {
+                    world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    if (state.get(WATERLOGGED)) {
+                        world.setBlockState(pos, ThinIceBlock.pushEntitiesUpBeforeBlockChange(state, Blocks.WATER.getDefaultState(), world, pos));
+                    }
+                    else world.setBlockState(pos, ThinIceBlock.pushEntitiesUpBeforeBlockChange(state, Blocks.AIR.getDefaultState(), world, pos));
+                }
+            }
+        }
+        super.onSteppedOn(world, pos, state, entity);
     }
 
     @Override

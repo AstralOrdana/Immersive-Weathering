@@ -62,6 +62,7 @@
   "text.autoconfig.immersive_weathering.option.fireAndIceConfig.glassFrosting": "Should Glass become frosty in icy biomes at night?",
   "text.autoconfig.immersive_weathering.option.fireAndIceConfig.grassFrosting": "Should Grass and Ferns become frosty in icy biomes at night?",
   "text.autoconfig.immersive_weathering.option.fireAndIceConfig.thinIceMelting": "Should Thin Ice melt while the sun is out?",
+  "text.autoconfig.immersive_weathering.option.fireAndIceConfig.thinIceFormation": "Should Thin Ice form next to ice in water in cold biomes?",
 
   "text.autoconfig.immersive_weathering.option.generatorsConfig.allGenerators": "Should any block generators be enabled?",
   "text.autoconfig.immersive_weathering.option.generatorsConfig.mossBurning": "Should Lava burn away the moss from any blocks it touches?",
