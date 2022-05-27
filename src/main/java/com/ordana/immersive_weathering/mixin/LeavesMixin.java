@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.ModParticles;
+import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.*;
@@ -34,7 +35,7 @@ public abstract class LeavesMixin extends Block implements Fertilizable {
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         if(ImmersiveWeathering.getConfig().leavesConfig.leafDecayPiles) {
-            if (!state.get(LeavesBlock.PERSISTENT) && state.get(LeavesBlock.DISTANCE) == 7) {
+            if (!state.get(LeavesBlock.PERSISTENT) && state.get(LeavesBlock.DISTANCE) == 7 && state.isIn(ModTags.VANILLA_LEAVES)) {
                 var leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
                 assert leafPile != null;
                 BlockState baseLeaf = leafPile.getDefaultState().with(LeafPileBlock.LAYERS, 0);
@@ -58,7 +59,7 @@ public abstract class LeavesMixin extends Block implements Fertilizable {
     @Inject(method = "randomDisplayTick", at = @At("HEAD"))
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random, CallbackInfo ci) {
         var leafParticle = WeatheringHelper.getFallenLeafParticle(state).orElse(null);
-        if(ImmersiveWeathering.getConfig().leavesConfig.fallingLeafParticles) {
+        if(ImmersiveWeathering.getConfig().leavesConfig.fallingLeafParticles && state.isIn(ModTags.VANILLA_LEAVES)) {
             if (random.nextInt(32) == 0 && !world.getBlockState(pos.down()).isSolidBlock(world, pos)) {
                 if (!(world.getBlockState(pos.down()).getBlock() instanceof LeavesBlock)) {
                     ParticleUtil.spawnParticle(world, pos, leafParticle, UniformIntProvider.create(0, 1));
