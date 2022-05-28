@@ -55,7 +55,7 @@ public class IcicleHelper {
     protected static boolean generateIceBlock(WorldAccess world, BlockPos pos) {
         BlockState blockState = world.getBlockState(pos);
         if (blockState.isIn(ModTags.ICICLE_REPLACEABLE_BLOCKS)) {
-            world.setBlockState(pos, Blocks.ICE.getDefaultState(), 2);
+            world.setBlockState(pos, Blocks.PACKED_ICE.getDefaultState(), 2);
             return true;
         } else {
             return false;
