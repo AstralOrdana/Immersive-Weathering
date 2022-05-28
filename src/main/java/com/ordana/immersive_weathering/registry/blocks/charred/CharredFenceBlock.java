@@ -19,6 +19,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Property;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -76,20 +77,26 @@ public class CharredFenceBlock extends FenceBlock implements Charrable {
 
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int temperature = 0;
+        boolean isTouchingWater = false;
         for (Direction direction : Direction.values()) {
             var targetPos = pos.offset(direction);
+            var biome = world.getBiome(pos);
             BlockState neighborState = world.getBlockState(targetPos);
-
             if (world.hasRain(pos.offset(direction)) || neighborState.getFluidState().getFluid() == Fluids.FLOWING_WATER || neighborState.getFluidState().getFluid() == Fluids.WATER) {
+                isTouchingWater = true;
+            }
+            if (world.hasRain(pos.offset(direction)) || biome.isIn(ModTags.WET) || neighborState.getFluidState().getFluid() == Fluids.FLOWING_WATER || neighborState.getFluidState().getFluid() == Fluids.WATER) {
                 temperature--;
-            } else if (neighborState.isIn(ModTags.MAGMA_SOURCE)) {
+            } else if (neighborState.isIn(ModTags.MAGMA_SOURCE) || neighborState.isIn(BlockTags.FIRE)) {
                 temperature++;
             }
         }
-        if (temperature > 0 && !state.get(SMOLDERING)) {
-            world.setBlockState(pos, state.with(SMOLDERING, true), 2);
-        } else if (temperature < 0 && state.get(SMOLDERING)) {
-            world.setBlockState(pos, state.with(SMOLDERING, false), 2);
+        if (temperature < 0 || isTouchingWater) {
+            if (state.get(SMOLDERING)) {
+                world.setBlockState(pos, state.with(SMOLDERING, false));
+            }
+        } else if (temperature > 0 && !state.get(SMOLDERING)) {
+            world.setBlockState(pos, state.with(SMOLDERING, true));
         }
     }
 }

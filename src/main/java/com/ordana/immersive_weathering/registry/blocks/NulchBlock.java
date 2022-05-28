@@ -80,11 +80,6 @@ public class NulchBlock extends Block {
                 world.setBlockState(pos, state.with(MOLTEN, false));
             }
         }
-        else if (world.getRegistryKey() == World.NETHER) {
-            if (world.random.nextFloat() < 0.5f) {
-                world.setBlockState(pos, state.with(MOLTEN, true));
-            }
-        }
     }
 
     @Override

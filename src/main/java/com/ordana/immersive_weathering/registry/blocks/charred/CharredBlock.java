@@ -92,11 +92,11 @@ public class CharredBlock extends Block implements Charrable {
             }
         }
         if (temperature < 0 || isTouchingWater) {
-            if (!state.get(SMOLDERING)) {
-                world.setBlockState(pos, state.with(SMOLDERING, true));
+            if (state.get(SMOLDERING)) {
+                world.setBlockState(pos, state.with(SMOLDERING, false));
             }
-        } else if (temperature > 0 && state.get(SMOLDERING)) {
-            world.setBlockState(pos, state.with(SMOLDERING, false));
+        } else if (temperature > 0 && !state.get(SMOLDERING)) {
+            world.setBlockState(pos, state.with(SMOLDERING, true));
         }
     }
 }
