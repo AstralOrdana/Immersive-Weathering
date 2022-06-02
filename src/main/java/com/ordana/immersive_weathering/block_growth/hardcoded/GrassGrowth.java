@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.block_growth.hardcoded;
 
 import com.ordana.immersive_weathering.block_growth.IBlockGrowth;
-import com.ordana.immersive_weathering.common.blocks.WeatheringHelper;
+import com.ordana.immersive_weathering.common.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;

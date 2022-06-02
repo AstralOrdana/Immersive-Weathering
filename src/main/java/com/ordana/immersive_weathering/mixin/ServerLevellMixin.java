@@ -21,10 +21,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.function.Supplier;
 
 @Mixin(ServerLevel.class)
-public abstract class ServerLevelMixin extends Level {
+public abstract class ServerLevellMixin extends Level {
 
 
-    protected ServerLevelMixin(WritableLevelData levelData, ResourceKey<Level> key, Holder<DimensionType> typeHolder, Supplier<ProfilerFiller> supplier, boolean aSuper, boolean aSuper1, long aSuper2) {
+    protected ServerLevellMixin(WritableLevelData levelData, ResourceKey<Level> key, Holder<DimensionType> typeHolder, Supplier<ProfilerFiller> supplier, boolean aSuper, boolean aSuper1, long aSuper2) {
         super(levelData, key, typeHolder, supplier, aSuper, aSuper1, aSuper2);
     }
 

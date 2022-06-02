@@ -6,7 +6,6 @@ import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
 import com.ordana.immersive_weathering.common.blocks.Waxables;
 import com.ordana.immersive_weathering.common.blocks.Weatherable;
-import com.ordana.immersive_weathering.common.blocks.WeatheringHelper;
 import com.ordana.immersive_weathering.common.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.common.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.common.blocks.rustable.Rustable;
@@ -25,7 +24,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagManager;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionResult;
@@ -41,7 +39,6 @@ import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -67,17 +64,22 @@ public class ModEvents {
     }
 
 
-    //hackies shit ever but that's the best I can do if I dont get given a registry access in that reload listener
+    //hacky but that's the best I can do if I dont get given a registry access in that reload listener
     //Without it, it wont load tags
     //use this until forge approves that datapack registries PR (will take some time)
     @SubscribeEvent
     public static void onAddReloadListeners(final AddReloadListenerEvent event) {
-        try {
-            TagManager t = ((TagManager) event.getServerResources().listeners().get(0));
-            GROWTH_MANAGER.registryAccess = t.registryAccess;
-            event.addListener(GROWTH_MANAGER);
-        } catch (Exception ignored) {
-            ImmersiveWeathering.LOGGER.error("Failed to register Growth Manager. This means many weathering features wont work");
+        TagManager t = null;
+        for(var l : event.getServerResources().listeners()){
+            if(l instanceof TagManager tm){
+                t = tm;
+                GROWTH_MANAGER.registryAccess = t.registryAccess;
+                event.addListener(GROWTH_MANAGER);
+                break;
+            }
+        }
+        if(t == null){
+            throw(new RuntimeException("Failed to register Growth Manager. This means many weathering features wont work:"));
         }
     }
 

@@ -6,15 +6,14 @@ import net.mehvahdjukaar.selene.resourcepack.DynamicDataPack;
 import net.mehvahdjukaar.selene.resourcepack.RPAwareDynamicDataProvider;
 import net.mehvahdjukaar.selene.resourcepack.ResType;
 import net.mehvahdjukaar.selene.resourcepack.StaticResource;
+import net.mehvahdjukaar.selene.resourcepack.resources.TagBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraft.world.level.block.Block;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -41,7 +40,6 @@ public class ServerDynamicResourcesHandler extends RPAwareDynamicDataProvider {
         StaticResource lootTable = StaticResource.getOrLog(manager, ResType.BLOCK_LOOT_TABLES.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
         StaticResource recipe = StaticResource.getOrLog(manager, ResType.RECIPES.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
 
-
         for (var e : ModDynamicRegistry.LEAF_TO_TYPE.entrySet()) {
             LeavesType leafType = e.getValue();
             if (!leafType.isVanilla()) {
@@ -52,6 +50,7 @@ public class ServerDynamicResourcesHandler extends RPAwareDynamicDataProvider {
 
                 String leavesId = leafType.leaves.getRegistryName().toString();
 
+                //TODO: use new system
                 try {
                     addLeafPileJson(Objects.requireNonNull(lootTable), id, leavesId);
                 } catch (Exception ex) {
@@ -71,22 +70,14 @@ public class ServerDynamicResourcesHandler extends RPAwareDynamicDataProvider {
 
     @Override
     public void generateStaticAssetsOnStartup(ResourceManager manager) {
-
-        List<ResourceLocation> leafPiles = new ArrayList<>();
-
-        //loot table
-        for (var r : ModDynamicRegistry.LEAF_TO_TYPE.entrySet()) {
-            leafPiles.add(r.getKey().getRegistryName());
-        }
         //tag
-        dynamicPack.addTag(ImmersiveWeathering.res("leaf_piles"), leafPiles, Registry.BLOCK_REGISTRY);
-        dynamicPack.addTag(ImmersiveWeathering.res("leaf_piles"), leafPiles, Registry.ITEM_REGISTRY);
+        TagBuilder leafPiles = TagBuilder.of(ImmersiveWeathering.res("leaf_piles"))
+                .addEntries(ModDynamicRegistry.LEAF_TO_TYPE.keySet().stream().map(e -> (Block) e).collect(Collectors.toSet()));
+        dynamicPack.addTag(leafPiles, Registry.BLOCK_REGISTRY);
+        dynamicPack.addTag(leafPiles, Registry.ITEM_REGISTRY);
 
-        dynamicPack.addTag(ImmersiveWeathering.res("bark"),
-                ModDynamicRegistry.MODDED_BARK.values().stream().map(ForgeRegistryEntry::getRegistryName)
-                        .collect(Collectors.toList()),
-                Registry.ITEM_REGISTRY);
-
+        dynamicPack.addTag(TagBuilder.of(ImmersiveWeathering.res("bark"))
+                .addEntries(ModDynamicRegistry.MODDED_BARK.values()), Registry.ITEM_REGISTRY);
 
         //only needed for datagen. remove later
         /*

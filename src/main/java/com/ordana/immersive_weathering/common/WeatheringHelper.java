@@ -1,12 +1,11 @@
-package com.ordana.immersive_weathering.common.blocks;
+package com.ordana.immersive_weathering.common;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
-import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
-import com.ordana.immersive_weathering.common.ModBlocks;
-import com.ordana.immersive_weathering.common.items.ModItems;
+import com.ordana.immersive_weathering.common.blocks.IcicleBlock;
+import com.ordana.immersive_weathering.common.blocks.LeafPilesRegistry;
 import com.ordana.immersive_weathering.configs.ServerConfigs;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import net.minecraft.core.BlockPos;
@@ -21,7 +20,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
@@ -188,5 +186,17 @@ public class WeatheringHelper {
             }
         }
 
+    }
+
+    public float getTemp(Level level, BlockPos pos){
+        return level.getBiome(pos).value().getTemperature(pos);
+    }
+
+    public boolean isCold(Biome biome, BlockPos pos){
+        return false;
+    }
+
+    public boolean isWarm(Biome level, BlockPos pos){
+return false;
     }
 }

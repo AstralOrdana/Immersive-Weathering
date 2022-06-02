@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.block_growth.rute_test;
 
 import com.mojang.serialization.Codec;
-import com.ordana.immersive_weathering.common.blocks.WeatheringHelper;
+import com.ordana.immersive_weathering.common.WeatheringHelper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;

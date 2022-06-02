@@ -17,7 +17,7 @@
     "RabbitEatGoalMixin",
     "RabbitMixin",
     "RootedDirtMixin",
-    "ServerLevelMixin",
+    "ServerLevellMixin",
     "ServerLevelSnowMixin",
     "SweetBerryBushMixin",
     "WebMixin"

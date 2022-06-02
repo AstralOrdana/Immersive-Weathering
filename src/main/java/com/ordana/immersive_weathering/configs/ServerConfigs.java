@@ -107,8 +107,6 @@ public class ServerConfigs {
                 .define("icicle_fire_resistance", true);
         ICICLE_FOOD = builder.comment("Allows icicles to be eaten")
                 .define("icicle_food", true);
-        ICICLE_FOOD = builder.comment("Allows moss clump to be eaten")
-                .define("moss_food", true);
         builder.pop();
 
         builder.push("leaf_piles");

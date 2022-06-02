@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.integration.dynamic_stuff;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
+import net.mehvahdjukaar.selene.block_set.BlockType;
 import net.mehvahdjukaar.selene.client.asset_generators.LangBuilder;
 import net.mehvahdjukaar.selene.client.asset_generators.textures.Palette;
 import net.mehvahdjukaar.selene.client.asset_generators.textures.PaletteColor;
@@ -350,12 +351,12 @@ public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider
     }
 
     @Override
-    public void addDynamicTranslations(DynamicLanguageManager.LanguageAccessor lang) {
+    public void addDynamicTranslations(AfterLanguageLoadEvent lang) {
         ModDynamicRegistry.MODDED_BARK.forEach((type, bark) -> {
-            LangBuilder.addDynamicEntry(lang, "item.immersive_weathering.bark", type, bark);
+            LangBuilder.addDynamicEntry(lang, "item.immersive_weathering.bark",(BlockType) type, bark);
         });
         ModDynamicRegistry.LEAF_TO_TYPE.forEach((leaf, type) -> {
-            LangBuilder.addDynamicEntry(lang, "block.immersive_weathering.leaf_pile", type, leaf);
+            LangBuilder.addDynamicEntry(lang, "block.immersive_weathering.leaf_pile",(BlockType) type, leaf);
         });
     }
 }

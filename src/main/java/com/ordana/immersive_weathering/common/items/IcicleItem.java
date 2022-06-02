@@ -27,4 +27,9 @@ public class IcicleItem extends BlockItem {
     public FoodProperties getFoodProperties() {
         return ServerConfigs.ICICLE_FOOD.get() ? ModFoods.ICICLE : null;
     }
+
+    @Override
+    public boolean isEdible() {
+        return ServerConfigs.ICICLE_FOOD.get();
+    }
 }
