@@ -37,7 +37,7 @@ public class BlockGrowthConfiguration implements IBlockGrowth {
             Optional.empty(), Optional.empty(), Optional.empty());
 
     public static final Codec<BlockGrowthConfiguration> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            TickSource.CODEC.listOf().optionalFieldOf("tick_source").forGetter(s -> Optional.of(s.getTickSources())),
+            TickSource.CODEC.listOf().optionalFieldOf("tick_sources").forGetter(s -> Optional.of(s.getTickSources())),
             Codec.FLOAT.fieldOf("growth_chance").forGetter(BlockGrowthConfiguration::getGrowthChance),
             RuleTest.CODEC.fieldOf("replacing_target").forGetter(BlockGrowthConfiguration::getTargetPredicate),
             AreaCondition.CODEC.optionalFieldOf("area_condition").forGetter(BlockGrowthConfiguration::getAreaCondition),
