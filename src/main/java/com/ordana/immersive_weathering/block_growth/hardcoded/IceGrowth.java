@@ -1,7 +1,9 @@
 package com.ordana.immersive_weathering.block_growth.hardcoded;
 
 import com.ordana.immersive_weathering.block_growth.IBlockGrowth;
+import com.ordana.immersive_weathering.block_growth.TickSource;
 import com.ordana.immersive_weathering.common.ModBlocks;
+import com.ordana.immersive_weathering.common.WeatheringHelper;
 import com.ordana.immersive_weathering.common.blocks.IcicleBlock;
 import com.ordana.immersive_weathering.mixin.IceInvoker;
 import net.minecraft.core.BlockPos;
@@ -11,7 +13,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -19,10 +23,31 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DripstoneThickness;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
 public class IceGrowth implements IBlockGrowth {
+
+    @Override
+    public Collection<TickSource> getTickSources() {
+        return List.of(TickSource.BLOCK_TICK);
+    }
+
+    public static void tryPlacingIcicle(BlockState state, Level level, BlockPos pos, Biome.Precipitation precipitation) {
+        if (precipitation == Biome.Precipitation.SNOW && WeatheringHelper.isIciclePos(pos)) {
+            BlockPos p = pos.below(state.is(BlockTags.SNOW) ? 2 : 1);
+            BlockState placement = ModBlocks.ICICLE.get().defaultBlockState().setValue(IcicleBlock.TIP_DIRECTION, Direction.DOWN);
+            if (level.getBlockState(p).isAir() && placement.canSurvive(level, p)) {
+                if (Direction.Plane.HORIZONTAL.stream().anyMatch(d -> {
+                    BlockPos rel = p.relative(d);
+                    return level.canSeeSky(rel) && level.getBlockState(rel).isAir();
+                })) {
+                    level.setBlockAndUpdate(p, placement);
+                }
+            }
+        }
+    }
 
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> b) {

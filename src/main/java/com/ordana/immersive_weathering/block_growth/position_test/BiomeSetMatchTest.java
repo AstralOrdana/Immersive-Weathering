@@ -12,7 +12,9 @@ record BiomeSetMatchTest(HolderSet<Biome> biomes) implements PositionRuleTest {
     public static final Codec<BiomeSetMatchTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             RegistryCodecs.homogeneousList(Registry.BIOME_REGISTRY).fieldOf("biomes").forGetter(BiomeSetMatchTest::biomes)
     ).apply(instance, BiomeSetMatchTest::new));
-    static final PositionRuleTestType<BiomeSetMatchTest> TYPE = new PositionRuleTestType<>(BiomeSetMatchTest.CODEC, BiomeSetMatchTest.NAME);
+
+    static final PositionRuleTestType<BiomeSetMatchTest> TYPE =
+            new PositionRuleTestType<>(BiomeSetMatchTest.CODEC, BiomeSetMatchTest.NAME);
 
     @Override
     public PositionRuleTestType<BiomeSetMatchTest> getType() {

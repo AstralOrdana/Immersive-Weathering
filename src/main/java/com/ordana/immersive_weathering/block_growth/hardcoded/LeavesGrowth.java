@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.block_growth.hardcoded;
 
 import com.ordana.immersive_weathering.block_growth.IBlockGrowth;
+import com.ordana.immersive_weathering.block_growth.TickSource;
 import com.ordana.immersive_weathering.common.ModBlocks;
 import com.ordana.immersive_weathering.common.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.common.blocks.LeafPilesRegistry;
@@ -18,6 +19,8 @@ import net.minecraft.world.level.block.PointedDripstoneBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
 public class LeavesGrowth implements IBlockGrowth {
@@ -118,5 +121,10 @@ public class LeavesGrowth implements IBlockGrowth {
 
         }
 
+    }
+
+    @Override
+    public Collection<TickSource> getTickSources() {
+        return List.of(TickSource.BLOCK_TICK);
     }
 }

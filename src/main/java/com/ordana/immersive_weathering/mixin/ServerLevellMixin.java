@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.TickSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
@@ -57,7 +58,7 @@ public abstract class ServerLevellMixin extends Level {
             require = 1
     )
     private void callTick(LevelChunk levelChunk, int i, CallbackInfo ci) {
-        BlockGrowthHandler.tickBlock(this.getBlockState(grabbedPos), ((ServerLevel) ((Object) this)), grabbedPos);
+        BlockGrowthHandler.tickBlock(TickSource.BLOCK_TICK, this.getBlockState(grabbedPos), ((ServerLevel) ((Object) this)), grabbedPos);
     }
 
 }

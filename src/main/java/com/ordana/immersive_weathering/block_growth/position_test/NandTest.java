@@ -16,7 +16,8 @@ record NandTest(List<PositionRuleTest> predicates) implements PositionRuleTest {
             PositionRuleTest.CODEC.listOf().fieldOf("predicates").forGetter(NandTest::predicates)
     ).apply(instance, NandTest::new));
 
-    static final PositionRuleTestType<NandTest> TYPE = new PositionRuleTestType<>(NandTest.CODEC, NandTest.NAME);
+    static final PositionRuleTestType<NandTest> TYPE =
+            new PositionRuleTestType<>(NandTest.CODEC, NandTest.NAME);
 
     @Override
     public PositionRuleTestType<NandTest> getType() {

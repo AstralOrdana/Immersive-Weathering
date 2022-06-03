@@ -147,46 +147,8 @@ public class WeatheringHelper {
         return posRandom.nextInt(rarity) == 0;
     }
 
-    public static void tryPlacingIcicle(BlockState state, Level level, BlockPos pos, Biome.Precipitation precipitation) {
-        if (precipitation == Biome.Precipitation.SNOW && WeatheringHelper.isIciclePos(pos)) {
-            BlockPos p = pos.below(state.is(BlockTags.SNOW) ? 2 : 1);
-            BlockState placement = ModBlocks.ICICLE.get().defaultBlockState().setValue(IcicleBlock.TIP_DIRECTION, Direction.DOWN);
-            if (level.getBlockState(p).isAir() && placement.canSurvive(level, p)) {
-                if (Direction.Plane.HORIZONTAL.stream().anyMatch(d -> {
-                    BlockPos rel = p.relative(d);
-                    return level.canSeeSky(rel) && level.getBlockState(rel).isAir();
-                })) {
-                    level.setBlockAndUpdate(p, placement);
-                }
-            }
-        }
-    }
 
-    public static void onLightningHit(BlockPos centerPos, Level level, int rec) {
-        if (rec == 0 && !ServerConfigs.VITRIFIED_LIGHTNING.get()) return;
 
-        BlockState vitrified = ModBlocks.VITRIFIED_SAND.get().defaultBlockState();
-        level.setBlockAndUpdate(centerPos, vitrified);
-        if (rec >= 5) return;
-
-        rec++;
-        float decrement = 0.7f;
-        double p = Math.pow(decrement, rec);
-        if (rec == 0 || level.random.nextFloat() < 1 * p) {
-            BlockPos downPos = centerPos.below();
-            if (level.getBlockState(downPos).is(BlockTags.SAND)) {
-                onLightningHit(downPos, level, rec);
-            }
-        }
-        for (BlockPos target : BlockPos.withinManhattan(centerPos, 1, 0, 1)) {
-            if (level.random.nextFloat() < 0.3 * p && target != centerPos) {
-                if (level.getBlockState(target).is(BlockTags.SAND)) {
-                    onLightningHit(target, level, rec);
-                }
-            }
-        }
-
-    }
 
     public float getTemp(Level level, BlockPos pos){
         return level.getBiome(pos).value().getTemperature(pos);

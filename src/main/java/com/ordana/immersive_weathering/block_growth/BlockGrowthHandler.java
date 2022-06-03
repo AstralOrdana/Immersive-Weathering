@@ -31,9 +31,14 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create(); //json object that will write stuff
 
-    private static ImmutableSet<Block> TICKING_BLOCKS = ImmutableSet.of();
-    private static final Map<Block, Set<IBlockGrowth>> GROWTH_FOR_BLOCK = new HashMap<>();
-    private static final List<IBlockGrowth> GROWTHS = new ArrayList<>();
+    private static final List<IBlockGrowth> GROWTH_TO_PARSE = new ArrayList<>();
+
+    //block specific growth. fast access with map
+    private static final Map<TickSource, ImmutableSet<Block>> TICKING_BLOCKS = new HashMap<>();
+    private static final Map<TickSource, Map<Block, Set<IBlockGrowth>>> GROWTH_FOR_BLOCK = new HashMap<>();
+    //set or universal ones
+    private static final Map<TickSource, Set<IBlockGrowth>> UNIVERSAL_GROWTHS = new HashMap<>();
+
 
     public RegistryAccess registryAccess;
     private boolean needsRefresh;
@@ -42,19 +47,30 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
         super(GSON, "block_growths");
     }
 
-    public static Optional<Set<IBlockGrowth>> getBlockGrowth(Block block) {
-        return Optional.ofNullable(GROWTH_FOR_BLOCK.get(block));
+    public static Optional<Set<IBlockGrowth>> getBlockGrowth(TickSource source, Block block) {
+        return Optional.ofNullable(GROWTH_FOR_BLOCK.get(source)).map(m -> m.get(block));
     }
 
-    public static void tickBlock(BlockState state, ServerLevel level, BlockPos pos) {
+    public static void tickBlock(TickSource source, BlockState state, ServerLevel level, BlockPos pos) {
         if (!ServerConfigs.BLOCK_GROWTH.get()) return;
+        //TODO: move this line to datapack self predicate
+        if (state.getBlock() instanceof IConditionalGrowingBlock cb && !cb.canGrow(state)) return;
+
+        var universalGroup = UNIVERSAL_GROWTHS.get(source);
+        Holder<Biome> biome = null;
+        if (universalGroup != null) {
+            biome = level.getBiome(pos);
+            for (var config : universalGroup) {
+                config.tryGrowing(pos, state, level, biome);
+            }
+        }
+
         //hopefully faster than calling get directly
-        if (!TICKING_BLOCKS.contains(state.getBlock())) return;
-        var growth = getBlockGrowth(state.getBlock());
+        var group = TICKING_BLOCKS.get(source);
+        if (group == null || group.contains(state.getBlock())) return;
+        var growth = getBlockGrowth(source, state.getBlock());
         if (growth.isPresent()) {
-            //TODO: move this line to datapack self predicate
-            if (state.getBlock() instanceof IConditionalGrowingBlock cb && !cb.canGrow(state)) return;
-            Holder<Biome> biome = level.getBiome(pos);
+            if (biome == null) biome = level.getBiome(pos);
 
             for (var config : growth.get()) {
                 config.tryGrowing(pos, state, level, biome);
@@ -88,28 +104,49 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
     protected void apply(Map<ResourceLocation, JsonElement> jsons, ResourceManager manager, ProfilerFiller profile) {
         if (registryAccess == null) return;
         this.needsRefresh = true;
-        GROWTHS.clear();
+        GROWTH_TO_PARSE.clear();
         for (var e : jsons.entrySet()) {
             //var result = CODEC.parse(JsonOps.INSTANCE,e.getValue());
             var result = CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess),
                     e.getValue());
             var o = result.resultOrPartial(error -> ImmersiveWeathering.LOGGER.error("Failed to read block growth JSON object for {} : {}", e.getKey(), error));
-            o.ifPresent(GROWTHS::add);
+            o.ifPresent(GROWTH_TO_PARSE::add);
         }
-        ImmersiveWeathering.LOGGER.info("Loaded {} block growths configurations", GROWTHS.size());
+        ImmersiveWeathering.LOGGER.info("Loaded {} block growths configurations", GROWTH_TO_PARSE.size());
     }
 
     //called after all tags are reloaded
     public void rebuild() {
         if (this.needsRefresh) {
             GROWTH_FOR_BLOCK.clear();
-            GROWTHS.addAll(HardcodedGrowths.getHardcoded());
-            for (var config : GROWTHS) {
-                config.getOwners().forEach(b -> GROWTH_FOR_BLOCK.computeIfAbsent(b, k -> new HashSet<>()).add(config));
+            UNIVERSAL_GROWTHS.clear();
+            GROWTH_TO_PARSE.addAll(HardcodedGrowths.getHardcoded());
+            for (var config : GROWTH_TO_PARSE) {
+
+                var sources = config.getTickSources();
+                for (var s : sources) {
+                    var owners = config.getOwners();
+
+                    if (owners == null) { //null owners mean it applies to everything
+                        var group = UNIVERSAL_GROWTHS.computeIfAbsent(s, e -> new HashSet<>());
+                        group.add(config);
+                    } else {
+                        var group = GROWTH_FOR_BLOCK.computeIfAbsent(s, e -> new HashMap<>());
+                        config.getOwners().forEach(b -> {
+
+                            group.computeIfAbsent(b, k -> new HashSet<>()).add(config);
+                        });
+                    }
+
+                }
             }
-            ImmutableSet.Builder<Block> b = ImmutableSet.builder();
-            TICKING_BLOCKS = b.addAll(GROWTH_FOR_BLOCK.keySet()).build();
-            GROWTHS.clear();
+            TICKING_BLOCKS.clear();
+            for (var g : GROWTH_FOR_BLOCK.entrySet()) {
+                ImmutableSet.Builder<Block> b = ImmutableSet.builder();
+                b.addAll(g.getValue().keySet());
+                TICKING_BLOCKS.put(g.getKey(), b.build());
+            }
+            GROWTH_TO_PARSE.clear();
             this.needsRefresh = false;
         }
     }

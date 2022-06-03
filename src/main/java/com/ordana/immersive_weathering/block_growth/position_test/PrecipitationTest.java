@@ -16,7 +16,9 @@ record PrecipitationTest(Biome.Precipitation precipitation) implements PositionR
     public static final Codec<PrecipitationTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Biome.Precipitation.CODEC.fieldOf("precipitation").forGetter(PrecipitationTest::precipitation)
     ).apply(instance, PrecipitationTest::new));
-    static final PositionRuleTestType<PrecipitationTest> TYPE = new PositionRuleTestType<>(PrecipitationTest.CODEC, PrecipitationTest.NAME);
+
+    static final PositionRuleTestType<PrecipitationTest> TYPE =
+            new PositionRuleTestType<>(PrecipitationTest.CODEC, PrecipitationTest.NAME);
 
     @Override
     public PositionRuleTestType<PrecipitationTest> getType() {

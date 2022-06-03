@@ -1,12 +1,16 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.TickSource;
 import com.ordana.immersive_weathering.common.WeatheringHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -28,8 +32,6 @@ public abstract class LightningEntityMixin extends Entity {
         BlockPos blockPos = this.getStrikePosition();
 
         BlockState blockState = this.level.getBlockState(blockPos);
-        if (blockState.is(BlockTags.SAND)) {
-            WeatheringHelper.onLightningHit(blockPos, level, 0);
-        }
+        BlockGrowthHandler.tickBlock(TickSource.LIGHTNING, blockState, (ServerLevel)level, blockPos);
     }
 }

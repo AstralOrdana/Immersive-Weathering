@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.block_growth.hardcoded;
 
 import com.ordana.immersive_weathering.block_growth.IBlockGrowth;
+import com.ordana.immersive_weathering.block_growth.TickSource;
 import com.ordana.immersive_weathering.common.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -11,9 +12,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.Collection;
 import java.util.List;
 
 public class GrassGrowth implements IBlockGrowth {
+
+    @Override
+    public Collection<TickSource> getTickSources() {
+        return List.of(TickSource.BLOCK_TICK);
+    }
+
     @Override
     public Iterable<Block> getOwners() {
         return List.of();

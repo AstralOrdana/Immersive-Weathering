@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.block_growth.hardcoded;
 
 import com.ordana.immersive_weathering.block_growth.IBlockGrowth;
+import com.ordana.immersive_weathering.block_growth.TickSource;
 import com.ordana.immersive_weathering.common.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,10 +16,17 @@ import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 public class CampfireGrowth implements IBlockGrowth {
+
+    @Override
+    public Collection<TickSource> getTickSources() {
+        return List.of(TickSource.BLOCK_TICK);
+    }
 
     @Override
     public Iterable<Block> getOwners() {

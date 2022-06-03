@@ -18,7 +18,9 @@ record TemperatureMatchTest(float max, float min, Optional<Boolean> useLocalPos)
             Codec.FLOAT.fieldOf("min").forGetter(TemperatureMatchTest::min),
             Codec.BOOL.optionalFieldOf("use_local_pos").forGetter(TemperatureMatchTest::useLocalPos)
     ).apply(instance, TemperatureMatchTest::new));
-    static final PositionRuleTestType<TemperatureMatchTest> TYPE = new PositionRuleTestType<>(TemperatureMatchTest.CODEC, TemperatureMatchTest.NAME);
+
+    static final PositionRuleTestType<TemperatureMatchTest> TYPE =
+            new PositionRuleTestType<>(TemperatureMatchTest.CODEC, TemperatureMatchTest.NAME);
 
     @Override
     public PositionRuleTestType<TemperatureMatchTest> getType() {

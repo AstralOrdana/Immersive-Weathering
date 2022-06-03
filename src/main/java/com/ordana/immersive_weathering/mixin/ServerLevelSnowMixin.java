@@ -1,7 +1,10 @@
 package com.ordana.immersive_weathering.mixin;
 
+import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.TickSource;
 import com.ordana.immersive_weathering.common.WeatheringHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,7 +23,7 @@ public abstract class ServerLevelSnowMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/world/level/block/Block;handlePrecipitation(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/biome/Biome$Precipitation;)V"))
     private BlockState spawnIcicles(BlockState state, Level level, BlockPos pos, Biome.Precipitation precipitation) {
-        WeatheringHelper.tryPlacingIcicle(state, level, pos, precipitation);
+        BlockGrowthHandler.tickBlock(precipitation == Biome.Precipitation.SNOW ? TickSource.SNOW : TickSource.RAIN, state, (ServerLevel)level, pos);
         return state;
     }
 
@@ -29,7 +32,7 @@ public abstract class ServerLevelSnowMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/world/level/block/Block;handlePrecipitation(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/biome/Biome$Precipitation;)V"))
     private static BlockState spawnIciclesSRM(BlockState state, Level level, BlockPos pos, Biome.Precipitation precipitation) {
-        WeatheringHelper.tryPlacingIcicle(state, level, pos, precipitation);
+        BlockGrowthHandler.tickBlock(precipitation == Biome.Precipitation.SNOW ? TickSource.SNOW : TickSource.RAIN, state, (ServerLevel)level, pos);
         return state;
     }
 
