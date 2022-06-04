@@ -4,7 +4,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.common.ModBlocks;
-import com.ordana.immersive_weathering.common.items.ModItems;
+import com.ordana.immersive_weathering.common.ModItems;
 import com.ordana.immersive_weathering.configs.ServerConfigs;
 import com.ordana.immersive_weathering.integration.dynamic_stuff.ModDynamicRegistry;
 import net.minecraft.world.item.Item;

@@ -47,7 +47,7 @@ public class ServerConfigs {
     public static ForgeConfigSpec.BooleanValue HUMUS_PATCHES;
     public static ForgeConfigSpec.BooleanValue BLOCK_GROWTH;
 
-
+    //TODO: merge with fabric
     static {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
         builder.push("mossy_blocks");

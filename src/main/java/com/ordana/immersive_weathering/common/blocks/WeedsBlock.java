@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.common.blocks;
 
 import com.ordana.immersive_weathering.common.ModBlocks;
-import com.ordana.immersive_weathering.common.items.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -65,9 +64,9 @@ public class WeedsBlock extends CropBlock {
 
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        if (level.random.nextFloat() < 0.1 && entity instanceof LivingEntity && entity.getType() != EntityType.FOX && entity.getType() != EntityType.BEE) {
+        if (level.random.nextFloat() < 0.1 && entity instanceof Player player) { //no more dead villagers
             if (!level.isClientSide && state.getValue(AGE) > 0 && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
-                if (!(entity instanceof Player player) || player.getItemBySlot(EquipmentSlot.FEET).isEmpty()) {
+                if (player.getItemBySlot(EquipmentSlot.FEET).isEmpty()) {
                     double d0 = Math.abs(entity.getX() - entity.xOld);
                     double d1 = Math.abs(entity.getZ() - entity.zOld);
                     if (d0 >= (double) 0.003F || d1 >= (double) 0.003F) {

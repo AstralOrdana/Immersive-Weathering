@@ -1,15 +1,15 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.common.blocks.ModGrassBlock;
-import com.ordana.immersive_weathering.common.blocks.ModMyceliumBlock;
-import com.ordana.immersive_weathering.common.blocks.SoilBlock;
+import com.ordana.immersive_weathering.common.blocks.soil.ModGrassBlock;
+import com.ordana.immersive_weathering.common.blocks.soil.ModMyceliumBlock;
+import com.ordana.immersive_weathering.common.blocks.soil.SoilBlock;
 import com.ordana.immersive_weathering.common.blocks.crackable.*;
 import com.ordana.immersive_weathering.common.blocks.mossable.*;
 import com.ordana.immersive_weathering.common.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.common.blocks.rustable.RustableBarsBlock;
 import com.ordana.immersive_weathering.common.blocks.rustable.RustableDoorBlock;
 import com.ordana.immersive_weathering.common.blocks.rustable.RustableTrapdoorBlock;
-import com.ordana.immersive_weathering.common.items.ModItems;
+import com.ordana.immersive_weathering.common.ModItems;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;

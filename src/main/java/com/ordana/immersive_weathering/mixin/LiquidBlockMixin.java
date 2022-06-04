@@ -86,9 +86,9 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
                     hasMagma = true;
                 } else if (currentState.is(Blocks.SOUL_FIRE)) {
                     hasSoulfire = true;
-                }else if(currentState.is(Blocks.CLAY)){
+                } else if (currentState.is(Blocks.CLAY)) {
                     hasClay = true;
-                }else if(currentState.is(BlockTags.SAND)){
+                } else if (currentState.is(BlockTags.SAND)) {
                     hasSand = true;
                 }
 
@@ -107,14 +107,16 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
                     newState = Blocks.TUFF.defaultBlockState();
                 } else if (hasMagma && hasBlueIce) {
                     newState = Blocks.BLACKSTONE.defaultBlockState();
+                }if (hasWater && hasSoulfire) {
+                    newState = Blocks.CRYING_OBSIDIAN.defaultBlockState();
                 } else if (hasBubbles) {
                     newState = Blocks.MAGMA_BLOCK.defaultBlockState();
                 } else if (hasSoulfire) {
                     newState = Blocks.CRYING_OBSIDIAN.defaultBlockState();
-                }else if(hasClay){
+                } else if (hasClay) {
                     pos = pos.relative(direction.getOpposite());
                     newState = Blocks.TERRACOTTA.defaultBlockState();
-                }else if(hasSand){
+                } else if (hasSand) {
                     pos = pos.relative(direction.getOpposite());
                     newState = ModBlocks.VITRIFIED_SAND.get().defaultBlockState();
                 }

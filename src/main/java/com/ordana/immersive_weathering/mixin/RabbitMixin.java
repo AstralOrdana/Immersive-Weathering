@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.common.ModBlocks;
-import com.ordana.immersive_weathering.common.items.ModItems;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Rabbit;

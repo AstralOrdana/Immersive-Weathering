@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.common.entity;
 
-import com.ordana.immersive_weathering.common.items.ModItems;
+import com.ordana.immersive_weathering.common.ModItems;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.TemptGoal;

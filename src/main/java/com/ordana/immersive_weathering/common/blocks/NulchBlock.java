@@ -26,7 +26,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class NulchBlock extends Block {
-
+    //TODO: merge with Mulch
     public static final BooleanProperty MOLTEN = BooleanProperty.create("molten");
 
     public NulchBlock(Properties settings) {
@@ -115,6 +115,23 @@ public class NulchBlock extends Block {
                             Mth.randomBetween(random,-0.9f,-1),
                             -1,
                             0);
+                }
+            }
+        }
+    }
+
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+        if (state.getValue(MOLTEN)) {
+            if (random.nextInt(25) == 1) {
+                BlockPos blockpos = pos.below();
+                BlockState blockstate = level.getBlockState(blockpos);
+                if (!blockstate.canOcclude() || !blockstate.isFaceSturdy(level, blockpos, Direction.UP)) {
+                    double d0 = (double) pos.getX() + random.nextDouble();
+                    double d1 = (double) pos.getY() - 0.05D;
+                    double d2 = (double) pos.getZ() + random.nextDouble();
+                    level.addParticle(ParticleTypes.DRIPPING_LAVA, d0, d1, d2, 0.0D, 0.0D, 0.0D);
                 }
             }
         }

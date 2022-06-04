@@ -72,7 +72,7 @@ public class ServerDynamicResourcesHandler extends RPAwareDynamicDataProvider {
     public void generateStaticAssetsOnStartup(ResourceManager manager) {
         //tag
         TagBuilder leafPiles = TagBuilder.of(ImmersiveWeathering.res("leaf_piles"))
-                .addEntries(ModDynamicRegistry.LEAF_TO_TYPE.keySet().stream().map(e -> (Block) e).collect(Collectors.toSet()));
+                .addEntries(ModDynamicRegistry.LEAF_TO_TYPE.keySet());
         dynamicPack.addTag(leafPiles, Registry.BLOCK_REGISTRY);
         dynamicPack.addTag(leafPiles, Registry.ITEM_REGISTRY);
 

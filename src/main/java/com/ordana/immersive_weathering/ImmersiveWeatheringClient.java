@@ -98,6 +98,8 @@ public class ImmersiveWeatheringClient {
 
         ParticleEngine particleEngine = Minecraft.getInstance().particleEngine;
 
+
+        particleEngine.register(ModParticles.EMBERSPARK.get(), EmberParticle.EmberFactory::new);
         particleEngine.register(ModParticles.EMBER.get(), EmberParticle.EmberFactory::new);
         particleEngine.register(ModParticles.SOOT.get(), LeafParticle.SimpleLeafParticle::new);
         particleEngine.register(ModParticles.OAK_LEAF.get(), LeafParticle.ColoredLeafParticle::new);

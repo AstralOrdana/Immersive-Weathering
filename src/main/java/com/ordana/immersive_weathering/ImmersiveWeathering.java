@@ -2,7 +2,7 @@ package com.ordana.immersive_weathering;
 
 import com.ordana.immersive_weathering.common.*;
 import com.ordana.immersive_weathering.common.blocks.LeafPilesRegistry;
-import com.ordana.immersive_weathering.common.items.ModItems;
+import com.ordana.immersive_weathering.common.ModItems;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
 import com.ordana.immersive_weathering.configs.ServerConfigs;
 import com.ordana.immersive_weathering.block_growth.rute_test.BlockSetMatchTest;

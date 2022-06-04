@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.common;
 
 import com.ordana.immersive_weathering.common.blocks.LeafPilesRegistry;
-import com.ordana.immersive_weathering.common.items.ModItems;
 import net.minecraft.world.level.block.ComposterBlock;
 
 public class ModCompostable {

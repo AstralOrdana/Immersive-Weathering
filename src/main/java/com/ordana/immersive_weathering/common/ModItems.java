@@ -1,9 +1,10 @@
-package com.ordana.immersive_weathering.common.items;
+package com.ordana.immersive_weathering.common;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.common.ModFoods;
 import com.ordana.immersive_weathering.common.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.common.ModBlocks;
+import com.ordana.immersive_weathering.common.items.*;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
@@ -73,6 +74,9 @@ public class ModItems {
     public static final RegistryObject<Item> ACACIA_BARK = ITEMS.register("acacia_bark", () -> new BurnableItem(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS), 200));
     public static final RegistryObject<Item> CRIMSON_SCALES = ITEMS.register("crimson_scales", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
     public static final RegistryObject<Item> WARPED_SCALES = ITEMS.register("warped_scales", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
+
+    public static final RegistryObject<Item> TALLOW = ITEMS.register("tallow",()->new HoneycombItem(new Item.Properties().tab(CreativeModeTab.MATERIALS)));
+
 
 
     public static final RegistryObject<Item> HANGING_ROOTS_ITEM = regOverride(Items.HANGING_ROOTS, () ->

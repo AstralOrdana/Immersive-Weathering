@@ -1,7 +1,7 @@
-package com.ordana.immersive_weathering.common.blocks;
+package com.ordana.immersive_weathering.common.blocks.soil;
 
-import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
 import com.ordana.immersive_weathering.block_growth.IConditionalGrowingBlock;
+import com.ordana.immersive_weathering.common.blocks.soil.SoilBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;

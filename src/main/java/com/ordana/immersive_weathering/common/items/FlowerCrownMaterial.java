@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.common.items;
 
+import com.ordana.immersive_weathering.common.ModItems;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;

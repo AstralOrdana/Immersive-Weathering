@@ -22,6 +22,8 @@ public class ModParticles {
         return PARTICLES.register(name, () -> new SimpleParticleType(true));
     }
 
+
+    public static final RegistryObject<SimpleParticleType> EMBERSPARK = regParticle("emberspark");
     public static final RegistryObject<SimpleParticleType> EMBER = regParticle("ember");
     public static final RegistryObject<SimpleParticleType> SOOT = regParticle("soot");
 

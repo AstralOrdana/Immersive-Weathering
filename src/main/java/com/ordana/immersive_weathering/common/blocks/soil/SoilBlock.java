@@ -1,6 +1,6 @@
-package com.ordana.immersive_weathering.common.blocks;
+package com.ordana.immersive_weathering.common.blocks.soil;
 
-import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
+
 import com.ordana.immersive_weathering.block_growth.IConditionalGrowingBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -13,11 +13,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShearsItem;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.GrassBlock;
+import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -26,12 +27,17 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Random;
 
-public class ModGrassBlock extends GrassBlock implements BonemealableBlock, IConditionalGrowingBlock {
-    public static final BooleanProperty FERTILE = SoilBlock.FERTILE;
+public class SoilBlock extends SnowyDirtBlock implements BonemealableBlock, IConditionalGrowingBlock {
 
-    public ModGrassBlock(Properties settings) {
+    public static final BooleanProperty FERTILE = BooleanProperty.create("fertile");
+
+    public SoilBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.defaultBlockState().setValue(FERTILE, true));
+    }
+
+    public static boolean isFertile(BlockState state){
+        return state.hasProperty(FERTILE) && state.getValue(FERTILE);
     }
 
     @Override
@@ -42,7 +48,7 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
 
     @Override
     public boolean isRandomlyTicking(BlockState state) {
-        return SoilBlock.isFertile(state) && super.isRandomlyTicking(state);
+        return isFertile(state) && super.isRandomlyTicking(state);
     }
 
     @Override
@@ -51,18 +57,25 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
     }
 
     @Override
+    public boolean isValidBonemealTarget(BlockGetter level, BlockPos pos, BlockState state, boolean isClient) {
+        return !isFertile(state) && level.getBlockState(pos.above()).isAir();
+    }
+
+    @Override
+    public boolean isBonemealSuccess(Level p_50901_, Random p_50902_, BlockPos p_50903_, BlockState p_50904_) {
+        return true;
+    }
+
+    @Override
     public void performBonemeal(ServerLevel level, Random random, BlockPos pos, BlockState state) {
-        if (!SoilBlock.isFertile(state)) {
-            state = state.setValue(FERTILE, true);
-            level.setBlock(pos, state, 3);
-        } else {
-            super.performBonemeal(level, random, pos, state);
+        if(!isFertile(state)) {
+            level.setBlock(pos, state.setValue(FERTILE, true), 3);
         }
     }
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (SoilBlock.isFertile(state)) {
+        if(isFertile(state)) {
             ItemStack itemstack = player.getItemInHand(hand);
             if (itemstack.getItem() instanceof ShearsItem) {
                 if (!level.isClientSide) {
@@ -81,7 +94,6 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
-        return super.use(state, level, pos, player, hand, hitResult);
+        return super.use(state,level,pos,player,hand,hitResult);
     }
-
 }
