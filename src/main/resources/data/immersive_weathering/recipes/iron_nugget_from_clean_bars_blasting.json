@@ -1,9 +1,9 @@
 {
   "type": "minecraft:blasting",
   "ingredient": {
-    "tag": "immersive_weathering:clean_iron_smelting"
+    "item": "minecraft:iron_bars"
   },
-  "result": "minecraft:iron_ingot",
+  "result": "minecraft:iron_nugget",
   "experience": 0.15,
   "cookingtime": 100
 }

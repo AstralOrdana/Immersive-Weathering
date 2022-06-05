@@ -49,6 +49,7 @@ public final class ServerConfig extends PartitioningSerializer.GlobalData {
         public boolean leggingsPreventThornDamage = true;
 
         public boolean composterDropsDirt = true;
+        public boolean mulchGrowsCrops = true;
         public boolean featherFallingFarmer = true;
 
         private LeavesConfig() {
@@ -66,7 +67,11 @@ public final class ServerConfig extends PartitioningSerializer.GlobalData {
         public boolean flammableCobwebs = true;
 
         public boolean freezingWater = true;
+        public int freezingWaterSeverity = 200;
         public boolean permafrostFreezing = true;
+        public int freezingPermafrostSeverity = 140;
+        public boolean icicleFreezing = true;
+        public int freezingIcicleSeverity = 300;
         public boolean thinIceFormation = true;
         public boolean thinIceMelting = false;
         public boolean glassFrosting = true;

@@ -24,6 +24,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.BlockTags;
+import net.minecraft.tag.EntityTypeTags;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -46,11 +47,11 @@ public abstract class FluidMixin extends Block implements FluidDrainable {
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (world.getBiome(pos).isIn(ModTags.ICY)) {
-            if (!(entity instanceof LivingEntity) || EnchantmentHelper.getEquipmentLevel(Enchantments.FROST_WALKER, (LivingEntity) entity) > 0 || ((LivingEntity) entity).hasStatusEffect(StatusEffects.CONDUIT_POWER) || entity.getType() == EntityType.SALMON || entity.getType() == EntityType.COD || entity.getType() == EntityType.POLAR_BEAR || entity.getType() == EntityType.SQUID || entity.getType() == EntityType.GLOW_SQUID || entity.getType() == EntityType.STRAY || entity.getType() == EntityType.GUARDIAN || entity.getType() == EntityType.ELDER_GUARDIAN || entity.getType() == EntityType.DROWNED || entity.getType() == EntityType.WOLF) {
+            if (!(entity instanceof LivingEntity) || EnchantmentHelper.getEquipmentLevel(Enchantments.FROST_WALKER, (LivingEntity) entity) > 0 || ((LivingEntity) entity).hasStatusEffect(StatusEffects.CONDUIT_POWER) || entity.getType().isIn(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
                 return;
             }
             else if (ImmersiveWeathering.getConfig().fireAndIceConfig.freezingWater) {
-                entity.setFrozenTicks(200);
+                entity.setFrozenTicks(ImmersiveWeathering.getConfig().fireAndIceConfig.freezingWaterSeverity);
             }
         }
     }

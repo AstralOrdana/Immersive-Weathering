@@ -37,7 +37,7 @@ class FlowerCrownMaterial implements ArmorMaterial {
 
     @Override
     public String getName() {
-        return "flower";
+        return "rainbow";
     }
 
     @Override

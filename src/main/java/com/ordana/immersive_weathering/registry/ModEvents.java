@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;
 import net.minecraft.client.util.ParticleUtil;
+import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.item.*;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
@@ -16,6 +17,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.stat.Stats;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
@@ -483,56 +485,61 @@ public class ModEvents {
             }
             if (heldItem.getItem() == Items.WATER_BUCKET) {
                 if (targetBlock.isOf(ModBlocks.SILT) && (!targetBlock.get(SiltBlock.SOAKED))) {
+                    player.incrementStat(Stats.USED.getOrCreateStat(Items.WATER_BUCKET));
                     world.playSound(player, targetPos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        Block.dropStack(world, fixedPos, new ItemStack(Items.BUCKET));
+                        ItemStack itemStack2 = ItemUsage.exchangeStack(heldItem, player, Items.BUCKET.getDefaultStack());
+                        player.setStackInHand(hand, itemStack2);
                         world.setBlockState(targetPos, targetBlock.with(SiltBlock.SOAKED, Boolean.TRUE));
                     }
                     return ActionResult.SUCCESS;
                 }
                 if (targetBlock.isOf(ModBlocks.FLUVISOL) && (!targetBlock.get(FluvisolBlock.SOAKED))) {
+                    player.incrementStat(Stats.USED.getOrCreateStat(Items.WATER_BUCKET));
                     world.playSound(player, targetPos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        Block.dropStack(world, fixedPos, new ItemStack(Items.BUCKET));
+                        ItemStack itemStack2 = ItemUsage.exchangeStack(heldItem, player, Items.BUCKET.getDefaultStack());
+                        player.setStackInHand(hand, itemStack2);
                         world.setBlockState(targetPos, targetBlock.with(FluvisolBlock.SOAKED, Boolean.TRUE));
                     }
                     return ActionResult.SUCCESS;
                 }
-                if (targetBlock.isOf(ModBlocks.MULCH_BLOCK) && (!targetBlock.get(MulchBlock.SOAKED))) {
+                if (targetBlock.isOf(ModBlocks.MULCH_BLOCK) && (targetBlock.get(MulchBlock.MOISTURE) == 0)) {
+                    player.incrementStat(Stats.USED.getOrCreateStat(Items.WATER_BUCKET));
                     world.playSound(player, targetPos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        Block.dropStack(world, fixedPos, new ItemStack(Items.BUCKET));
-                        world.setBlockState(targetPos, targetBlock.with(MulchBlock.SOAKED, Boolean.TRUE));
+                        ItemStack itemStack2 = ItemUsage.exchangeStack(heldItem, player, Items.BUCKET.getDefaultStack());
+                        player.setStackInHand(hand, itemStack2);
+                        world.setBlockState(targetPos, targetBlock.with(MulchBlock.MOISTURE, 7));
                     }
                     return ActionResult.SUCCESS;
                 }
                 if (targetBlock.isOf(ModBlocks.CRACKED_MUD) && (!targetBlock.get(CrackedMudBlock.SOAKED))) {
+                    player.incrementStat(Stats.USED.getOrCreateStat(Items.WATER_BUCKET));
                     world.playSound(player, targetPos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        Block.dropStack(world, fixedPos, new ItemStack(Items.BUCKET));
+                        ItemStack itemStack2 = ItemUsage.exchangeStack(heldItem, player, Items.BUCKET.getDefaultStack());
+                        player.setStackInHand(hand, itemStack2);
                         world.setBlockState(targetPos, targetBlock.with(CrackedMudBlock.SOAKED, Boolean.TRUE));
                     }
                     return ActionResult.SUCCESS;
                 }
                 if (targetBlock.isOf(ModBlocks.VERTISOL) && (!targetBlock.get(CrackedMudBlock.SOAKED))) {
+                    player.incrementStat(Stats.USED.getOrCreateStat(Items.WATER_BUCKET));
                     world.playSound(player, targetPos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        Block.dropStack(world, fixedPos, new ItemStack(Items.BUCKET));
+                        ItemStack itemStack2 = ItemUsage.exchangeStack(heldItem, player, Items.BUCKET.getDefaultStack());
+                        player.setStackInHand(hand, itemStack2);
                         world.setBlockState(targetPos, targetBlock.with(CrackedMudBlock.SOAKED, Boolean.TRUE));
                     }
                     return ActionResult.SUCCESS;
@@ -540,12 +547,13 @@ public class ModEvents {
             }
             if (heldItem.getItem() == Items.LAVA_BUCKET) {
                 if (targetBlock.isOf(ModBlocks.NULCH_BLOCK) && (!targetBlock.get(NulchBlock.MOLTEN))) {
+                    player.incrementStat(Stats.USED.getOrCreateStat(Items.LAVA_BUCKET));
                     world.playSound(player, targetPos, SoundEvents.ITEM_BUCKET_EMPTY_LAVA, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.LAVA, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        Block.dropStack(world, fixedPos, new ItemStack(Items.BUCKET));
+                        ItemStack itemStack2 = ItemUsage.exchangeStack(heldItem, player, Items.BUCKET.getDefaultStack());
+                        player.setStackInHand(hand, itemStack2);
                         world.setBlockState(targetPos, targetBlock.with(NulchBlock.MOLTEN, Boolean.TRUE));
                     }
                     return ActionResult.SUCCESS;
@@ -553,67 +561,73 @@ public class ModEvents {
             }
             if (heldItem.getItem() == Items.BUCKET) {
                 if (targetBlock.isOf(ModBlocks.NULCH_BLOCK) && (targetBlock.get(NulchBlock.MOLTEN))) {
+                    player.incrementStat(Stats.USED.getOrCreateStat(Items.BUCKET));
                     world.playSound(player, targetPos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.LAVA, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        Block.dropStack(world, fixedPos, new ItemStack(Items.LAVA_BUCKET));
+                        ItemStack itemStack2 = ItemUsage.exchangeStack(heldItem, player, Items.LAVA_BUCKET.getDefaultStack());
+                        player.setStackInHand(hand, itemStack2);
                         world.setBlockState(targetPos, targetBlock.with(NulchBlock.MOLTEN, Boolean.FALSE));
                     }
                     return ActionResult.SUCCESS;
                 }
                 if (targetBlock.isOf(ModBlocks.SILT) && (targetBlock.get(SiltBlock.SOAKED))) {
+                    player.incrementStat(Stats.USED.getOrCreateStat(Items.BUCKET));
                     world.playSound(player, targetPos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        Block.dropStack(world, fixedPos, new ItemStack(Items.WATER_BUCKET));
+                        ItemStack itemStack2 = ItemUsage.exchangeStack(heldItem, player, Items.WATER_BUCKET.getDefaultStack());
+                        player.setStackInHand(hand, itemStack2);
                         world.setBlockState(targetPos, targetBlock.with(SiltBlock.SOAKED, Boolean.FALSE));
                     }
                     return ActionResult.SUCCESS;
                 }
                 if (targetBlock.isOf(ModBlocks.FLUVISOL) && (targetBlock.get(FluvisolBlock.SOAKED))) {
+                    player.incrementStat(Stats.USED.getOrCreateStat(Items.BUCKET));
                     world.playSound(player, targetPos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        Block.dropStack(world, fixedPos, new ItemStack(Items.WATER_BUCKET));
+                        ItemStack itemStack2 = ItemUsage.exchangeStack(heldItem, player, Items.WATER_BUCKET.getDefaultStack());
+                        player.setStackInHand(hand, itemStack2);
                         world.setBlockState(targetPos, targetBlock.with(FluvisolBlock.SOAKED, Boolean.FALSE));
                     }
                     return ActionResult.SUCCESS;
                 }
-                if (targetBlock.isOf(ModBlocks.MULCH_BLOCK) && (targetBlock.get(MulchBlock.SOAKED))) {
+                if (targetBlock.isOf(ModBlocks.MULCH_BLOCK) && (targetBlock.get(MulchBlock.MOISTURE) == 7)) {
+                    player.incrementStat(Stats.USED.getOrCreateStat(Items.BUCKET));
                     world.playSound(player, targetPos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        Block.dropStack(world, fixedPos, new ItemStack(Items.WATER_BUCKET));
-                        world.setBlockState(targetPos, targetBlock.with(MulchBlock.SOAKED, Boolean.FALSE));
+                        ItemStack itemStack2 = ItemUsage.exchangeStack(heldItem, player, Items.WATER_BUCKET.getDefaultStack());
+                        player.setStackInHand(hand, itemStack2);
+                        world.setBlockState(targetPos, targetBlock.with(MulchBlock.MOISTURE, 0));
                     }
                     return ActionResult.SUCCESS;
                 }
                 if (targetBlock.isOf(ModBlocks.CRACKED_MUD) && (targetBlock.get(CrackedMudBlock.SOAKED))) {
+                    player.incrementStat(Stats.USED.getOrCreateStat(Items.BUCKET));
                     world.playSound(player, targetPos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        Block.dropStack(world, fixedPos, new ItemStack(Items.WATER_BUCKET));
+                        ItemStack itemStack2 = ItemUsage.exchangeStack(heldItem, player, Items.WATER_BUCKET.getDefaultStack());
+                        player.setStackInHand(hand, itemStack2);
                         world.setBlockState(targetPos, targetBlock.with(CrackedMudBlock.SOAKED, Boolean.FALSE));
                     }
                     return ActionResult.SUCCESS;
                 }
                 if (targetBlock.isOf(ModBlocks.VERTISOL) && (targetBlock.get(CrackedMudBlock.SOAKED))) {
+                    player.incrementStat(Stats.USED.getOrCreateStat(Items.BUCKET));
                     world.playSound(player, targetPos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        Block.dropStack(world, fixedPos, new ItemStack(Items.WATER_BUCKET));
+                        ItemStack itemStack2 = ItemUsage.exchangeStack(heldItem, player, Items.WATER_BUCKET.getDefaultStack());
+                        player.setStackInHand(hand, itemStack2);
                         world.setBlockState(targetPos, targetBlock.with(CrackedMudBlock.SOAKED, Boolean.FALSE));
                     }
                     return ActionResult.SUCCESS;
@@ -621,12 +635,13 @@ public class ModEvents {
             }
             if (heldItem.getItem() == Items.GLASS_BOTTLE) {
                 if (targetBlock.isOf(ModBlocks.SILT) && (targetBlock.get(SiltBlock.SOAKED))) {
+                    player.incrementStat(Stats.USED.getOrCreateStat(Items.GLASS_BOTTLE));
                     world.playSound(player, targetPos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        Block.dropStack(world, fixedPos, new ItemStack(ModItems.POND_WATER));
+                        ItemStack itemStack2 = ItemUsage.exchangeStack(heldItem, player, ModItems.POND_WATER.getDefaultStack());
+                        player.setStackInHand(hand, itemStack2);
                         world.setBlockState(targetPos, targetBlock.with(SiltBlock.SOAKED, Boolean.FALSE));
                     }
                     return ActionResult.SUCCESS;

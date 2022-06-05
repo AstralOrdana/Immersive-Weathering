@@ -52,7 +52,7 @@ public class PermafrostBlock extends Block {
             return;
         }
         if (ImmersiveWeathering.getConfig().fireAndIceConfig.permafrostFreezing) {
-            entity.setFrozenTicks(300);
+            entity.setFrozenTicks(ImmersiveWeathering.getConfig().fireAndIceConfig.freezingPermafrostSeverity);
         }
 
         super.onSteppedOn(world, pos, state, entity);

@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.ModDamageSource;
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.entities.FallingIcicleEntity;
@@ -93,12 +94,12 @@ public class IcicleBlock extends PointedDripstoneBlock implements BlockEntityPro
 
     @Override
     public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        if (!(entity instanceof LivingEntity) || EnchantmentHelper.getEquipmentLevel(Enchantments.FROST_WALKER, (LivingEntity) entity) > 0) {
+        if (!(entity instanceof LivingEntity) || ImmersiveWeathering.getConfig().fireAndIceConfig.icicleFreezing || EnchantmentHelper.getEquipmentLevel(Enchantments.FROST_WALKER, (LivingEntity) entity) > 0) {
             return;
         }
         if (state.get(VERTICAL_DIRECTION) == Direction.UP && state.get(THICKNESS) == Thickness.TIP) {
             entity.handleFallDamage(fallDistance + 2.0F, 3.5F, ModDamageSource.ICICLE);
-            entity.setFrozenTicks(300);
+            entity.setFrozenTicks(ImmersiveWeathering.getConfig().fireAndIceConfig.freezingIcicleSeverity);
         } else {
             entity.handleFallDamage(fallDistance, 1.0F, DamageSource.FALL);
         }

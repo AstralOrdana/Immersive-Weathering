@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "immersive_weathering:exposed_plate_iron",
+    "immersive_weathering:exposed_plate_iron_stairs",
+    "immersive_weathering:exposed_plate_iron_slab",
+    "immersive_weathering:exposed_cut_iron",
+    "immersive_weathering:exposed_cut_iron_stairs",
+    "immersive_weathering:exposed_cut_iron_slab",
+    "immersive_weathering:exposed_iron_door",
+    "immersive_weathering:exposed_iron_trapdoor"
+  ]
+}
