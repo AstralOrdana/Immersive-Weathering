@@ -747,7 +747,7 @@ public class ModEvents {
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                             if (!player.isCreative()) heldItem.damage(1, new Random(), null);
-                            world.setBlockState(targetPos, CLEANED_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
+                            world.setBlockState(targetPos, CLEANED_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock).with(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
                         }
                         return ActionResult.SUCCESS;
                     }

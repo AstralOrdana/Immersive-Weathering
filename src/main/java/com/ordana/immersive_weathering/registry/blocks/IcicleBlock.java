@@ -94,7 +94,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements BlockEntityPro
 
     @Override
     public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        if (!(entity instanceof LivingEntity) || ImmersiveWeathering.getConfig().fireAndIceConfig.icicleFreezing || EnchantmentHelper.getEquipmentLevel(Enchantments.FROST_WALKER, (LivingEntity) entity) > 0) {
+        if (!(entity instanceof LivingEntity) || !(ImmersiveWeathering.getConfig().fireAndIceConfig.icicleFreezing) || EnchantmentHelper.getEquipmentLevel(Enchantments.FROST_WALKER, (LivingEntity) entity) > 0) {
             return;
         }
         if (state.get(VERTICAL_DIRECTION) == Direction.UP && state.get(THICKNESS) == Thickness.TIP) {

@@ -69,7 +69,7 @@ public final class ServerConfig extends PartitioningSerializer.GlobalData {
         public boolean freezingWater = true;
         public int freezingWaterSeverity = 200;
         public boolean permafrostFreezing = true;
-        public int freezingPermafrostSeverity = 140;
+        public int freezingPermafrostSeverity = 200;
         public boolean icicleFreezing = true;
         public int freezingIcicleSeverity = 300;
         public boolean thinIceFormation = true;
