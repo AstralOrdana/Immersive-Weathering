@@ -1,5 +1,5 @@
 {
-  "growth_chance": 0.05,
+  "growth_chance": 0.005,
   "area_condition": {
     "radiusX": 4,
     "radiusY": 3,

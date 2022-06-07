@@ -10,7 +10,7 @@
   "must_have": {
     "predicate_type": "immersive_weathering:tree_log"
   },
-  "growth_chance": 0.01,
+  "growth_chance": 0.001,
   "growth_for_face": [
     {
       "direction": "north",

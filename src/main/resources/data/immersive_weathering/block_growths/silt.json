@@ -6,7 +6,7 @@
     "requiredAmount": 5,
     "type": "generate_if_not_too_many"
   },
-  "growth_chance": 0.03,
+  "growth_chance": 0.003,
   "growth_for_face": [
     {
       "direction": "up",

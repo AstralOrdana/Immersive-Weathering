@@ -17,7 +17,7 @@
       "predicate_type": "biome_match"
     }
   ],
-  "growth_chance": 0.02,
+  "growth_chance": 0.002,
   "growth_for_face": [
     {
       "direction": "up",

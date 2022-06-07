@@ -95,7 +95,7 @@ public class MulchBlock extends FarmlandBlock {
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 
         BlockState cropState = world.getBlockState(pos.up());
-        if (!ImmersiveWeathering.getConfig().leavesConfig.mulchGrowsCrops) {
+        if (ImmersiveWeathering.getConfig().leavesConfig.mulchGrowsCrops) {
             if (state.isOf(ModBlocks.MULCH_BLOCK) && state.get(MulchBlock.MOISTURE) == 7) {
                 if (world.getBaseLightLevel(pos.up(), 0) >= 9) {
                     if (cropState.getBlock() instanceof BeetrootsBlock) {

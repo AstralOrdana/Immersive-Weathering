@@ -1,14 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "immersive_weathering:enchanted_golden_moss_clump"
+      "item": "immersive_weathering:pond_water"
     },
     "title": {
-      "translate": "advancements.immersive_weathering.moss.title",
-      "color": "dark_green"
+      "translate": "advancements.immersive_weathering.pond_water.title"
     },
     "description": {
-      "translate": "advancements.immersive_weathering.moss.description"
+      "translate": "advancements.immersive_weathering.pond_water.description"
     },
     "frame": "challenge",
     "show_toast": true,
@@ -22,7 +21,7 @@
       "conditions": {
         "item": {
           "items": [
-            "immersive_weathering:enchanted_golden_moss_clump"
+            "immersive_weathering:pond_water"
           ]
         }
       }
