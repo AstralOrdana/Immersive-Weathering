@@ -21,6 +21,8 @@ public class IvyBlock extends MultifaceGrowthBlock implements Fertilizable {
 	public static final IntProperty AGE = IntProperty.of("age", 0, 10);
 	public static final int MAX_AGE = 10;
 
+	private final LichenGrower grower = new LichenGrower(this);
+
 	public IvyBlock(Settings settings) {
 		super(settings);
 		this.setDefaultState(this.getDefaultState().with(AGE, 7));
@@ -47,7 +49,7 @@ public class IvyBlock extends MultifaceGrowthBlock implements Fertilizable {
 
 	@Override
 	public LichenGrower getGrower() {
-		return null;
+		return this.grower;
 	}
 
 	@Override
@@ -188,11 +190,12 @@ public class IvyBlock extends MultifaceGrowthBlock implements Fertilizable {
 		return facing;
 	}
 
-	public boolean growPseudoAdjacent(World world, Random random, BlockPos pos, BlockState state) {
+	public boolean growPseudoAdjacent(World world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
 		BlockState newStateHere = state;
+		Random posRandom = new Random(random.nextLong());
 
 		List<Direction> shuffledDirections = Lists.newArrayList(Direction.values());
-		Collections.shuffle(shuffledDirections, random);
+		Collections.shuffle(shuffledDirections, posRandom);
 
 		for (Direction dir : shuffledDirections) {
 			BlockState attemptedStateHere = newStateHere.with(MultifaceGrowthBlock.getProperty(dir.getOpposite()), true);
@@ -222,12 +225,14 @@ public class IvyBlock extends MultifaceGrowthBlock implements Fertilizable {
 		return false;
 	}
 
-	public boolean growAdjacent(World world, Random random, BlockPos pos, BlockState state) {
+	public boolean growAdjacent(World world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
 		List<Direction> facing = getFacingDirections(state);
-		Collections.shuffle(facing, random);
+
+		Random posRandom = new Random(random.nextLong());
+		Collections.shuffle(facing, posRandom);
 
 		List<Direction> shuffledDirections = Lists.newArrayList(Direction.values());
-		Collections.shuffle(shuffledDirections, random);
+		Collections.shuffle(shuffledDirections, posRandom);
 
 		for (Direction idealFacingDir : facing) {
 			for (Direction dir : shuffledDirections) {
@@ -282,12 +287,13 @@ public class IvyBlock extends MultifaceGrowthBlock implements Fertilizable {
 		return false;
 	}
 
-	public boolean growExternal(World world, Random random, BlockPos pos, BlockState state) {
+	public boolean growExternal(World world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
 		List<Direction> facing = getFacingDirections(state);
-		Collections.shuffle(facing, random);
+		Random posRandom = new Random(random.nextLong());
+		Collections.shuffle(facing, posRandom);
 
 		List<Direction> shuffledDirections = Lists.newArrayList(Direction.values());
-		Collections.shuffle(shuffledDirections, random);
+		Collections.shuffle(shuffledDirections, posRandom);
 
 		for (Direction idealFacingDir : facing) {
 			for (Direction dir : shuffledDirections) {
