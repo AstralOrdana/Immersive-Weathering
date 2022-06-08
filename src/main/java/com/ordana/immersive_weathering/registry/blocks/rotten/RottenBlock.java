@@ -16,7 +16,7 @@ public class RottenBlock extends Block {
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, World level, BlockPos pos, Random random) {
+    public void randomDisplayTick(BlockState state, World level, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if (random.nextInt(25) == 1) {
             BlockPos blockpos = pos.down();
             BlockState blockstate = level.getBlockState(blockpos);

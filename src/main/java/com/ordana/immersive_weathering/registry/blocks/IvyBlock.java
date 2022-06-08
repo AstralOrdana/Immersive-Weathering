@@ -4,11 +4,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import com.google.common.collect.Lists;
-
-import net.minecraft.block.AbstractLichenBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Fertilizable;
+import net.minecraft.block.*;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
@@ -20,7 +16,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class IvyBlock extends AbstractLichenBlock implements Fertilizable {
+public class IvyBlock extends MultifaceGrowthBlock implements Fertilizable {
 	public static final IntProperty AGE = IntProperty.of("age", 0, 10);
 	public static final int MAX_AGE = 10;
 
@@ -49,22 +45,27 @@ public class IvyBlock extends AbstractLichenBlock implements Fertilizable {
 	}
 
 	@Override
+	public LichenGrower getGrower() {
+		return null;
+	}
+
+	@Override
 	public boolean hasRandomTicks(BlockState state) {
 		return state.get(AGE) < MAX_AGE;
 	}
 
 	@Override
 	public boolean isFertilizable(BlockView world, BlockPos pos, BlockState state, boolean isClient) {
-		return Stream.of(DIRECTIONS).anyMatch(direction -> this.canSpread(state, world, pos, direction.getOpposite()));
+		return Stream.of(DIRECTIONS).anyMatch(direction -> this.canGrowWithDirection(world, state, pos, direction.getOpposite()));
 	}
 
 	@Override
-	public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
+	public boolean canGrow(World world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
 		return this.canGrowPseudoAdjacent(world, pos, state) || this.canGrowAdjacent(world, pos, state) || this.canGrowExternal(world, pos, state);
 	}
 
 	@Override
-	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
 		int method = random.nextInt(3);
 
 		if (method == 0) {
@@ -120,7 +121,7 @@ public class IvyBlock extends AbstractLichenBlock implements Fertilizable {
 	}
 
 	@Override
-	public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
+	public void grow(ServerWorld world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
 		world.setBlockState(pos, state.getBlock().getStateWithProperties(state).with(AGE, 0));
 		int method = random.nextInt(3);
 
@@ -176,7 +177,7 @@ public class IvyBlock extends AbstractLichenBlock implements Fertilizable {
 		List<Direction> facing = Lists.newArrayList();
 
 		for (Direction dir : Direction.values()) {
-			if (state.get(AbstractLichenBlock.getProperty(dir))) {
+			if (state.get(MultifaceGrowthBlock.getProperty(dir))) {
 				facing.add(dir);
 			}
 		}
@@ -184,14 +185,14 @@ public class IvyBlock extends AbstractLichenBlock implements Fertilizable {
 		return facing;
 	}
 
-	public boolean growPseudoAdjacent(World world, Random random, BlockPos pos, BlockState state) {
+	public boolean growPseudoAdjacent(World world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
 		BlockState newStateHere = state;
 
 		List<Direction> shuffledDirections = Lists.newArrayList(Direction.values());
-		Collections.shuffle(shuffledDirections, random);
+		Collections.shuffle(shuffledDirections, (Random) random);
 
 		for (Direction dir : shuffledDirections) {
-			BlockState attemptedStateHere = newStateHere.with(AbstractLichenBlock.getProperty(dir.getOpposite()), true);
+			BlockState attemptedStateHere = newStateHere.with(MultifaceGrowthBlock.getProperty(dir.getOpposite()), true);
 			if (this.canPlaceAt(attemptedStateHere, world, pos)) {
 				newStateHere = attemptedStateHere;
 			}
@@ -207,7 +208,7 @@ public class IvyBlock extends AbstractLichenBlock implements Fertilizable {
 	public boolean canGrowPseudoAdjacent(World world, BlockPos pos, BlockState state) {
 		BlockState newStateHere = state;
 		for (Direction dir : Direction.values()) {
-			BlockState attemptedStateHere = newStateHere.with(AbstractLichenBlock.getProperty(dir.getOpposite()), true);
+			BlockState attemptedStateHere = newStateHere.with(MultifaceGrowthBlock.getProperty(dir.getOpposite()), true);
 			if (this.canPlaceAt(attemptedStateHere, world, pos)) {
 				newStateHere = attemptedStateHere;
 			}
@@ -218,12 +219,12 @@ public class IvyBlock extends AbstractLichenBlock implements Fertilizable {
 		return false;
 	}
 
-	public boolean growAdjacent(World world, Random random, BlockPos pos, BlockState state) {
+	public boolean growAdjacent(World world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
 		List<Direction> facing = getFacingDirections(state);
-		Collections.shuffle(facing, random);
+		Collections.shuffle(facing, (Random) random);
 
 		List<Direction> shuffledDirections = Lists.newArrayList(Direction.values());
-		Collections.shuffle(shuffledDirections, random);
+		Collections.shuffle(shuffledDirections, (Random) random);
 
 		for (Direction idealFacingDir : facing) {
 			for (Direction dir : shuffledDirections) {
@@ -241,9 +242,9 @@ public class IvyBlock extends AbstractLichenBlock implements Fertilizable {
 				if (dir.getAxis() != idealFacingDir.getAxis()) {
 					BlockPos adjacentPos = pos.offset(dir);
 					BlockState adjacentState = world.getBlockState(adjacentPos);
-					BlockState newState = ModBlocks.IVY.getDefaultState().with(AbstractLichenBlock.getProperty(idealFacingDir), true);
+					BlockState newState = ModBlocks.IVY.getDefaultState().with(MultifaceGrowthBlock.getProperty(idealFacingDir), true);
 					if ((adjacentState.isAir() || adjacentState.isOf(this)) && this.canPlaceAt(newState, world, adjacentPos) && isIvyPos(adjacentPos)) {
-						BlockState finalNewState = adjacentState.isOf(this) ? adjacentState.with(AbstractLichenBlock.getProperty(idealFacingDir), true) : (state.get(AGE) < MAX_AGE ? newState.with(AGE, state.get(AGE) + 1) : newState);
+						BlockState finalNewState = adjacentState.isOf(this) ? adjacentState.with(MultifaceGrowthBlock.getProperty(idealFacingDir), true) : (state.get(AGE) < MAX_AGE ? newState.with(AGE, state.get(AGE) + 1) : newState);
 						world.setBlockState(adjacentPos, finalNewState);
 						if (!finalNewState.equals(adjacentState)) {
 							return true;
@@ -264,9 +265,9 @@ public class IvyBlock extends AbstractLichenBlock implements Fertilizable {
 				if (dir.getAxis() != idealFacingDir.getAxis()) {
 					BlockPos adjacentPos = pos.offset(dir);
 					BlockState adjacentState = world.getBlockState(adjacentPos);
-					BlockState newState = ModBlocks.IVY.getDefaultState().with(AbstractLichenBlock.getProperty(idealFacingDir), true);
+					BlockState newState = ModBlocks.IVY.getDefaultState().with(MultifaceGrowthBlock.getProperty(idealFacingDir), true);
 					if ((adjacentState.isAir() || adjacentState.isOf(this)) && this.canPlaceAt(newState, world, adjacentPos)) {
-						BlockState finalNewState = adjacentState.isOf(this) ? adjacentState.with(AbstractLichenBlock.getProperty(idealFacingDir), true) : (state.get(AGE) < MAX_AGE ? newState.with(AGE, state.get(AGE) + 1) : newState);
+						BlockState finalNewState = adjacentState.isOf(this) ? adjacentState.with(MultifaceGrowthBlock.getProperty(idealFacingDir), true) : (state.get(AGE) < MAX_AGE ? newState.with(AGE, state.get(AGE) + 1) : newState);
 						if (!finalNewState.equals(adjacentState)) {
 							return true;
 						}
@@ -278,22 +279,22 @@ public class IvyBlock extends AbstractLichenBlock implements Fertilizable {
 		return false;
 	}
 
-	public boolean growExternal(World world, Random random, BlockPos pos, BlockState state) {
+	public boolean growExternal(World world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
 		List<Direction> facing = getFacingDirections(state);
-		Collections.shuffle(facing, random);
+		Collections.shuffle(facing, (Random) random);
 
 		List<Direction> shuffledDirections = Lists.newArrayList(Direction.values());
-		Collections.shuffle(shuffledDirections, random);
+		Collections.shuffle(shuffledDirections, (Random) random);
 
 		for (Direction idealFacingDir : facing) {
 			for (Direction dir : shuffledDirections) {
 				if (dir.getAxis() != idealFacingDir.getAxis()) {
 					BlockPos externalPos = pos.offset(idealFacingDir).offset(dir);
 					BlockState externalState = world.getBlockState(externalPos);
-					BlockState newStateOpposed = ModBlocks.IVY.getDefaultState().with(AbstractLichenBlock.getProperty(dir.getOpposite()), true);
+					BlockState newStateOpposed = ModBlocks.IVY.getDefaultState().with(MultifaceGrowthBlock.getProperty(dir.getOpposite()), true);
 
 					if (world.getBlockState(pos.offset(dir)).isAir() && (externalState.isAir() || externalState.isOf(this)) && this.canPlaceAt(newStateOpposed, world, externalPos) && isIvyPos(externalPos)) {
-						BlockState finalNewState = externalState.isOf(this) ? externalState.with(AbstractLichenBlock.getProperty(dir.getOpposite()), true) : (state.get(AGE) < MAX_AGE ? newStateOpposed.with(AGE, state.get(AGE) + 1) : newStateOpposed);
+						BlockState finalNewState = externalState.isOf(this) ? externalState.with(MultifaceGrowthBlock.getProperty(dir.getOpposite()), true) : (state.get(AGE) < MAX_AGE ? newStateOpposed.with(AGE, state.get(AGE) + 1) : newStateOpposed);
 						world.setBlockState(externalPos, finalNewState);
 						if (!finalNewState.equals(externalState)) {
 							return true;
@@ -314,10 +315,10 @@ public class IvyBlock extends AbstractLichenBlock implements Fertilizable {
 				if (dir.getAxis() != idealFacingDir.getAxis()) {
 					BlockPos externalPos = pos.offset(idealFacingDir).offset(dir);
 					BlockState externalState = world.getBlockState(externalPos);
-					BlockState newStateOpposed = ModBlocks.IVY.getDefaultState().with(AbstractLichenBlock.getProperty(dir.getOpposite()), true);
+					BlockState newStateOpposed = ModBlocks.IVY.getDefaultState().with(MultifaceGrowthBlock.getProperty(dir.getOpposite()), true);
 
 					if (world.getBlockState(pos.offset(dir)).isAir() && (externalState.isAir() || externalState.isOf(this)) && this.canPlaceAt(newStateOpposed, world, externalPos)) {
-						BlockState finalNewState = externalState.isOf(this) ? externalState.with(AbstractLichenBlock.getProperty(dir.getOpposite()), true) : (state.get(AGE) < MAX_AGE ? newStateOpposed.with(AGE, state.get(AGE) + 1) : newStateOpposed);
+						BlockState finalNewState = externalState.isOf(this) ? externalState.with(MultifaceGrowthBlock.getProperty(dir.getOpposite()), true) : (state.get(AGE) < MAX_AGE ? newStateOpposed.with(AGE, state.get(AGE) + 1) : newStateOpposed);
 						if (!finalNewState.equals(externalState)) {
 							return true;
 						}

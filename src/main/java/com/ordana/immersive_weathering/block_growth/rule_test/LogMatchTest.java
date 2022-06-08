@@ -16,7 +16,7 @@ public class LogMatchTest extends RuleTest {
 
     public static final RuleTestType<LogMatchTest> TYPE = RuleTestType.register("immersive_weathering:tree_log", CODEC);
 
-    public boolean test(BlockState state, Random random) {
+    public boolean test(BlockState state, net.minecraft.util.math.random.Random random) {
         return WeatheringHelper.isLog(state);
     }
 

@@ -31,14 +31,9 @@ public class FrostyGrassBlock extends PlantBlock implements Frostable {
         return SHAPE;
     }
 
-    @Override
-    public AbstractBlock.OffsetType getOffsetType() {
-        return AbstractBlock.OffsetType.XYZ;
-    }
-
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (state.get(NATURAL)) {
-            if (world.getDimension().isUltrawarm() || (!world.isRaining() && world.isDay()) || (world.getLightLevel(LightType.BLOCK, pos) > 7 - state.getOpacity(world, pos))) {
+            if (world.getDimension().ultrawarm() || (!world.isRaining() && world.isDay()) || (world.getLightLevel(LightType.BLOCK, pos) > 7 - state.getOpacity(world, pos))) {
                 if (state.isOf(ModBlocks.FROSTY_GRASS)) {
                     world.setBlockState(pos, Blocks.GRASS.getDefaultState());
                 } else if (state.isOf(ModBlocks.FROSTY_FERN)) {

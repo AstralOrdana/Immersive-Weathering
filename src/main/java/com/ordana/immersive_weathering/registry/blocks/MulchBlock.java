@@ -29,6 +29,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -76,7 +77,7 @@ public class MulchBlock extends FarmlandBlock {
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, World level, BlockPos pos, Random random) {
+    public void randomDisplayTick(BlockState state, World level, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if (state.get(MOISTURE) == 7) {
             if (random.nextInt(25) == 1) {
                 BlockPos blockpos = pos.down();
@@ -92,7 +93,7 @@ public class MulchBlock extends FarmlandBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
 
         BlockState cropState = world.getBlockState(pos.up());
         if (ImmersiveWeathering.getConfig().leavesConfig.mulchGrowsCrops) {

@@ -31,7 +31,7 @@ public class FernBlockMixin extends PlantBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if(ImmersiveWeathering.getConfig().fireAndIceConfig.grassFrosting) {
             if (state.isOf(Blocks.GRASS)) {
                 if ((world.isRaining() || world.isNight()) && world.getBiome(pos).isIn(ModTags.ICY) && (world.getLightLevel(LightType.BLOCK, pos) < 7 - state.getOpacity(world, pos))) {

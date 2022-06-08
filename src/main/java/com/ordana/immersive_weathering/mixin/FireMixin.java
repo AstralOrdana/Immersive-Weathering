@@ -32,7 +32,7 @@ public abstract class FireMixin extends AbstractFireBlock{
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/world/World;removeBlock(Lnet/minecraft/util/math/BlockPos;Z)Z",
                     shift = At.Shift.AFTER))
-    private void afterRemoveBlock(World world, BlockPos pos, int spreadFactor, Random rand, int currentAge, CallbackInfo ci) {
+    private void afterRemoveBlock(World world, BlockPos pos, int spreadFactor, net.minecraft.util.math.random.Random random, int currentAge, CallbackInfo ci) {
         if(ImmersiveWeathering.getConfig().fireAndIceConfig.fireCharsWood) {
             WeatheringHelper.tryCharBlock(world, pos, bs);
         }
@@ -41,7 +41,7 @@ public abstract class FireMixin extends AbstractFireBlock{
     @Inject(method = "trySpreadingFire",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/world/World;removeBlock(Lnet/minecraft/util/math/BlockPos;Z)Z"))
-    private void beforeRemoveBlock(World world, BlockPos pos, int spreadFactor, Random rand, int currentAge, CallbackInfo ci) {
+    private void beforeRemoveBlock(World world, BlockPos pos, int spreadFactor, net.minecraft.util.math.random.Random random, int currentAge, CallbackInfo ci) {
         bs = world.getBlockState(pos);
     }
 }

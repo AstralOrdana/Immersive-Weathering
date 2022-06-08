@@ -59,7 +59,7 @@ public class ModMyceliumBlock extends MyceliumBlock implements Fertilizable, ICo
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if (state.get(FERTILE)) {
             if (!canSurvive(state, world, pos)) {
                 world.setBlockState(pos, Blocks.DIRT.getDefaultState());
@@ -83,12 +83,12 @@ public class ModMyceliumBlock extends MyceliumBlock implements Fertilizable, ICo
     }
 
     @Override
-    public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
+    public boolean canGrow(World world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
         return true;
     }
 
     @Override
-    public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
+    public void grow(ServerWorld world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
         world.setBlockState(pos, Blocks.MYCELIUM.getDefaultState().with(FERTILE, true));
     }
 }

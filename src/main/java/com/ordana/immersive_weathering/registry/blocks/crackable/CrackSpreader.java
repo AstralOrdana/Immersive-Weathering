@@ -4,6 +4,7 @@ import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.PatchSpreader;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FireBlock;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

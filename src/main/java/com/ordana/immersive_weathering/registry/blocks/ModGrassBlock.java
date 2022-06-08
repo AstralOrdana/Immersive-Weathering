@@ -65,7 +65,7 @@ public class ModGrassBlock extends GrassBlock implements Fertilizable, IConditio
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if (state.get(FERTILE)) {
             if (!canSurvive(state, world, pos)) {
                 world.setBlockState(pos, Blocks.DIRT.getDefaultState());
@@ -97,7 +97,7 @@ public class ModGrassBlock extends GrassBlock implements Fertilizable, IConditio
     }
 
     @Override
-    public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
+    public void grow(ServerWorld world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
         BlockPos blockPos = pos.up();
         BlockState blockState = Blocks.GRASS.getDefaultState();
         world.setBlockState(pos, Blocks.GRASS_BLOCK.getDefaultState().with(FERTILE, true));

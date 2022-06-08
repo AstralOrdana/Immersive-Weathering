@@ -28,7 +28,7 @@ public class AbstractGlassBlockMixin extends Block {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if(ImmersiveWeathering.getConfig().fireAndIceConfig.glassFrosting) {
             if (state.isOf(Blocks.GLASS)) {
                 if ((world.isRaining() || world.isNight()) && world.getBiome(pos).isIn(ModTags.ICY)) {

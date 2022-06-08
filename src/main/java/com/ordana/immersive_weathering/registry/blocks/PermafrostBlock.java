@@ -33,7 +33,7 @@ public class PermafrostBlock extends Block {
     public static final BooleanProperty DIRTY = BooleanProperty.of("dirty");
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         BlockState upState = world.getBlockState(pos.up());
         BlockState downState = world.getBlockState(pos.down());
         if (upState.isIn(BlockTags.DIRT)) {

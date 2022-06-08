@@ -19,12 +19,14 @@ import net.minecraft.util.collection.Weighted;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryCodecs;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryEntryList;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -191,7 +193,7 @@ public class BlockGrowthConfiguration implements IBlockGrowth {
         if (this.canGrow(pos, world, biome)) {
             Direction dir = this.growthForDirection.getDataOrEmpty(world.random).orElse(Direction.UP);
 
-            Random seed = new Random(MathHelper.hashCode(pos));
+            Random seed = Random.create(MathHelper.hashCode(pos));
             BlockPos targetPos = targetSelf ? pos : pos.offset(dir);
             BlockState target =  world.getBlockState(targetPos);
 

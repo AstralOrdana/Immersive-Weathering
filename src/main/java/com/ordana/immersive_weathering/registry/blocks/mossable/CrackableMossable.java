@@ -30,7 +30,7 @@ public interface CrackableMossable extends Mossable, Crackable {
     }
 
     @Override
-    default void tryWeather(BlockState state, ServerWorld serverLevel, BlockPos pos, Random random) {
+    default void tryWeather(BlockState state, ServerWorld serverLevel, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if(ImmersiveWeathering.getConfig().blockGrowthConfig.blockCracking && ImmersiveWeathering.getConfig().blockGrowthConfig.blockMossing) {
             if (random.nextFloat() < this.getWeatherChanceSpeed()) {
                 boolean isMoss = this.getMossSpreader().getWantedWeatheringState(true, pos, serverLevel);

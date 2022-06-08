@@ -2,9 +2,10 @@ package com.ordana.immersive_weathering.registry.blocks.mossable;
 
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.PatchSpreader;
-
+import java.util.Optional;
 import java.util.Random;
 import net.minecraft.block.BlockState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
@@ -60,7 +61,7 @@ public class MossSpreader implements PatchSpreader<Mossable.MossLevel> {
     }
 
     //utility to grow stuff
-    static void growNeighbors(ServerWorld world, Random random, BlockPos pos) {
+    static void growNeighbors(ServerWorld world, net.minecraft.util.math.random.Random random, BlockPos pos) {
         for (var direction : Direction.values()) {
             if (random.nextFloat() > 0.5f) {
                 var targetPos = pos.offset(direction);

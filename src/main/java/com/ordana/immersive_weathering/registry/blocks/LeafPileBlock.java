@@ -82,7 +82,7 @@ public class LeafPileBlock extends FallingBlock implements Fertilizable {
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         BlockPos blockPos;
         BlockState downState = world.getBlockState(pos.down());
         if (random.nextInt(18) == 0 && FallingBlock.canFallThrough(downState) && !downState.isOf(Blocks.WATER)) {
@@ -98,7 +98,7 @@ public class LeafPileBlock extends FallingBlock implements Fertilizable {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         int layers = this.getLayers(state);
         if(ImmersiveWeathering.getConfig().leavesConfig.leafPilesConvertBlockBelow) {
             if (layers > 1) {
@@ -144,7 +144,7 @@ public class LeafPileBlock extends FallingBlock implements Fertilizable {
         //particles
         if (layers > 0 && world.isClient && (!(entity instanceof LivingEntity) || entity.getBlockStateAtPos().isOf(this))) {
 
-            Random random = world.getRandom();
+            net.minecraft.util.math.random.Random random = world.getRandom();
             boolean bl = entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ();
             if (bl && random.nextBoolean()) {
                 //double yOff = (layers < 5) ? 0.5 : 1;
@@ -257,12 +257,12 @@ public class LeafPileBlock extends FallingBlock implements Fertilizable {
     }
 
     @Override
-    public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
+    public boolean canGrow(World world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
         return this.hasFlowers;
     }
 
     @Override
-    public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
+    public void grow(ServerWorld world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
         for (var direction : Direction.values()) {
             if (random.nextFloat() > 0.5f) {
                 var targetPos = pos.offset(direction);
@@ -282,7 +282,7 @@ public class LeafPileBlock extends FallingBlock implements Fertilizable {
     }
 
     @Override
-    public void scheduledTick(BlockState state, ServerWorld level, BlockPos pos, Random pRand) {
+    public void scheduledTick(BlockState state, ServerWorld level, BlockPos pos, net.minecraft.util.math.random.Random pRand) {
         BlockState below = level.getBlockState(pos.down());
         if ((FallingLeafLayerEntity.isFree(below) || hasIncompleteLeafPileBelow(below)) && pos.getY() >= level.getBottomY()) {
             int layers = this.getLayers(state);

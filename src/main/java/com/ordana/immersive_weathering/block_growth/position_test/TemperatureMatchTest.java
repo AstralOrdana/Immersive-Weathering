@@ -30,7 +30,7 @@ record TemperatureMatchTest(float max, float min, Optional<Boolean> useLocalPos)
     @Override
     public boolean test(RegistryEntry<Biome> biome, BlockPos pos, World world) {
         float temp = 0;
-        if (world.getDimension().isUltrawarm()) {
+        if (world.getDimension().ultrawarm()) {
             temp = 2;
         } else if (useLocalPos.isPresent() && useLocalPos.get() && biome instanceof TemperatureAccessWidener aw) {
             temp = (aw).getTempForPredicate(pos);

@@ -38,8 +38,8 @@
   "depends": {
     "fabricloader": ">=0.11.3",
     "fabric": "*",
-    "cloth-config": "^6.0.0-",
-    "minecraft": "1.18.x",
+    "cloth-config": "^7.0.0-",
+    "minecraft": "1.19.x",
     "java": ">=17"
   },
   "suggests": {

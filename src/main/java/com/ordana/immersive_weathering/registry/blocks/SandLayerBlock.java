@@ -126,7 +126,7 @@ public class SandLayerBlock extends FallingBlock {
     }
 
     @Override
-    public void scheduledTick(BlockState state, ServerWorld level, BlockPos pos, Random pRand) {
+    public void scheduledTick(BlockState state, ServerWorld level, BlockPos pos, net.minecraft.util.math.random.Random pRand) {
         BlockState below = level.getBlockState(pos.down());
         if ((FallingSandLayerEntity.isFree(below) || hasIncompleteSandPileBelow(below)) && pos.getY() >= level.getBottomY()) {
 

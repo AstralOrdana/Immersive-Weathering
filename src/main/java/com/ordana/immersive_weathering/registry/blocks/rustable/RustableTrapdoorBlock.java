@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.registry.blocks.rustable;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.ModTags;
 import net.minecraft.block.*;
+import net.minecraft.entity.Entity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -40,7 +41,7 @@ public class RustableTrapdoorBlock extends TrapdoorBlock implements Rustable{
                 if (!this.getDefaultState().isOf(block) && hasPower != state.get(POWERED)) {
                     if (hasPower != state.get(OPEN)) {
                         this.playOpenCloseSound(world, pos, hasPower);
-                        world.emitGameEvent(hasPower ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+                        world.emitGameEvent((Entity) null, hasPower ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
                     }
                     world.setBlockState(pos, state.with(POWERED, hasPower).with(OPEN, hasPower), 2);
                 }
@@ -65,7 +66,7 @@ public class RustableTrapdoorBlock extends TrapdoorBlock implements Rustable{
                 if (hasPower && !state.get(POWERED)) { // if its recieving power but the blockstate says unpowered, that means it has just been powered on this tick
                     state = state.cycle(OPEN);
                     this.playOpenCloseSound(world, pos, state.get(OPEN));
-                    world.emitGameEvent(state.get(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+                    world.emitGameEvent((Entity) null, state.get(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
                 }
                 world.setBlockState(pos, state.with(POWERED, hasPower).with(OPEN, state.get(OPEN)), Block.NOTIFY_LISTENERS);
             }
@@ -73,23 +74,23 @@ public class RustableTrapdoorBlock extends TrapdoorBlock implements Rustable{
     }
 
     @Override
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if (world.getBlockState(pos).isIn(ModTags.EXPOSED_IRON)) {
             state = state.cycle(OPEN);
             this.playOpenCloseSound(world, pos, state.get(OPEN)); // if it is powered, play open sound, else play close sound
-            world.emitGameEvent(state.get(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
+            world.emitGameEvent((Entity) null, state.get(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
             world.setBlockState(pos, state.with(OPEN, state.get(OPEN)), Block.NOTIFY_LISTENERS); // set open to match the powered state (powered true, open true)
         }
         if (world.getBlockState(pos).isIn(ModTags.WEATHERED_IRON)) {
             state = state.cycle(OPEN);
             this.playOpenCloseSound(world, pos, state.get(OPEN)); // if it is powered, play open sound, else play close sound
-            world.emitGameEvent(state.get(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
+            world.emitGameEvent((Entity) null, state.get(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
             world.setBlockState(pos, state.with(OPEN, state.get(OPEN)), Block.NOTIFY_LISTENERS); // set open to match the powered state (powered true, open true)
         }
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random){
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random){
         if(ImmersiveWeathering.getConfig().blockGrowthConfig.blockRusting) {
             if (world.getBlockState(pos).isIn(ModTags.CLEAN_IRON)) {
                 for (Direction direction : Direction.values()) {

@@ -44,12 +44,12 @@ public class SoilBlock extends SnowyBlock implements Fertilizable, IConditionalG
     }
 
     @Override
-    public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
+    public boolean canGrow(World world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
         return true;
     }
 
     @Override
-    public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
+    public void grow(ServerWorld world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
         world.setBlockState(pos, state.getBlock().getDefaultState().with(FERTILE, true));
     }
 }

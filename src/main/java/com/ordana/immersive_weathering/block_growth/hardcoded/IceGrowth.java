@@ -33,12 +33,12 @@ public class IceGrowth implements IBlockGrowth {
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerWorld world, RegistryEntry<Biome> b) {
         Biome biome = b.value();
-        Random random = world.random;
+        Random random = (Random) world.random;
 
         //melt ice
         if(ImmersiveWeathering.getConfig().fireAndIceConfig.naturalIceMelt) {
             if (state.getBlock() instanceof IceInvoker ice) {
-                if (world.getDimension().isUltrawarm()) {
+                if (world.getDimension().ultrawarm()) {
                     world.playSound(null, pos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 0.3F, 2.9F + (random.nextFloat() - random.nextFloat()) * 0.6F);
 
                     float i = pos.getX() + 0.5f;
