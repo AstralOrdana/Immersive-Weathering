@@ -1,7 +1,7 @@
 {
   "type": "minecraft:blasting",
   "ingredient": {
-    "tag": "immersive_weathering:clean_iron"
+    "tag": "immersive_weathering:clean_iron_smelting"
   },
   "result": "minecraft:iron_ingot",
   "experience": 0.15,

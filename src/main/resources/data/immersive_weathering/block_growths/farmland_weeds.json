@@ -1,5 +1,5 @@
 {
-  "growth_chance": 0.1,
+  "growth_chance": 0.01,
   "area_condition": {
     "must_have": {
       "block_state": {
@@ -13,7 +13,7 @@
     "radiusX": 3,
     "radiusY": 2,
     "radiusZ": 3,
-    "requiredAmount": 7,
+    "requiredAmount": 4,
     "type": "generate_if_not_too_many"
   },
   "growth_for_face": [
@@ -42,6 +42,6 @@
   "replacing_target": {
     "blocks": "#immersive_weathering:weeds_replaceable",
     "predicate_type": "immersive_weathering:block_set_match",
-    "probability": 0.65
+    "probability": 0.4
   }
 }

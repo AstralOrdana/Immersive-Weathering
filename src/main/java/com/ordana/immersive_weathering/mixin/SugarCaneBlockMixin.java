@@ -18,7 +18,7 @@ public abstract class SugarCaneBlockMixin {
     @Inject(method = "canPlaceAt", at = @At("HEAD"), cancellable = true)
     public void canPlaceAt(BlockState state, WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         BlockState blockState = world.getBlockState(pos.down());
-        if ((blockState.isOf(ModBlocks.CRACKED_MUD) && blockState.get(CrackedMudBlock.SOAKED)) || (blockState.isOf(ModBlocks.MULCH_BLOCK) && blockState.get(MulchBlock.SOAKED))) {
+        if ((blockState.isOf(ModBlocks.CRACKED_MUD) && blockState.get(CrackedMudBlock.SOAKED)) || (blockState.isOf(ModBlocks.MULCH_BLOCK))) {
             cir.setReturnValue(true);
         }
     }

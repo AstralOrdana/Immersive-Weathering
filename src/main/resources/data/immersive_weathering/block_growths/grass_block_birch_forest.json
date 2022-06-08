@@ -16,7 +16,7 @@
       "predicate_type": "biome_match"
     }
   ],
-  "growth_chance": 0.03,
+  "growth_chance": 0.003,
   "growth_for_face": [
     {
       "direction": "up",
@@ -67,7 +67,7 @@
               "Name": "minecraft:birch_sapling"
             }
           },
-          "weight": 5
+          "weight": 2
         },
         {
           "data": {
@@ -84,7 +84,7 @@
               }
             }
           },
-          "weight": 70
+          "weight": 10
         },
         {
           "data": {

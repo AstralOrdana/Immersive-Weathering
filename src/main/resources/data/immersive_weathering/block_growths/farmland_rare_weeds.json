@@ -1,5 +1,5 @@
 {
-  "growth_chance": 0.001,
+  "growth_chance": 0.0001,
   "area_condition": {
     "radiusX": 2,
     "radiusY": 2,
@@ -33,6 +33,6 @@
   "replacing_target": {
     "blocks": "#immersive_weathering:weeds_replaceable",
     "predicate_type": "immersive_weathering:block_set_match",
-    "probability": 0.65
+    "probability": 0.1
   }
 }

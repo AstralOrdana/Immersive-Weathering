@@ -1,9 +1,27 @@
 {
   "variants": {
-    "soaked=false": [
+    "moisture=0": [
       { "model": "immersive_weathering:block/mulch_block" }
     ],
-    "soaked=true": [
+    "moisture=1": [
+      { "model": "immersive_weathering:block/mulch_block_soaked" }
+    ],
+    "moisture=2": [
+      { "model": "immersive_weathering:block/mulch_block_soaked" }
+    ],
+    "moisture=3": [
+      { "model": "immersive_weathering:block/mulch_block_soaked" }
+    ],
+    "moisture=4": [
+      { "model": "immersive_weathering:block/mulch_block_soaked" }
+    ],
+    "moisture=5": [
+      { "model": "immersive_weathering:block/mulch_block_soaked" }
+    ],
+    "moisture=6": [
+      { "model": "immersive_weathering:block/mulch_block_soaked" }
+    ],
+    "moisture=7": [
       { "model": "immersive_weathering:block/mulch_block_soaked" }
     ]
   }

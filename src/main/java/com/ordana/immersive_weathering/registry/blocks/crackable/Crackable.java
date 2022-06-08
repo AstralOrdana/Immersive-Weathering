@@ -59,44 +59,11 @@ public interface Crackable extends Weatherable {
             .put(Blocks.END_STONE_BRICK_WALL, ModBlocks.CRACKED_END_STONE_BRICK_WALL)
             .build());
 
-    //reverse map for reverse access in descending order
-    Supplier<BiMap<Block, Block>> CRACK_LEVEL_DECREASES = Suppliers.memoize(() -> CRACK_LEVEL_INCREASES.get().inverse());
-
-
-    //these can be removed if you want
-
-    private static Optional<Block> getDecreasedCrackBlock(Block block) {
-        return Optional.ofNullable(CRACK_LEVEL_DECREASES.get().get(block));
-    }
-
-    private static Block getUncrackedCrackBlock(Block block) {
-        Block block2 = block;
-        Block block3 = CRACK_LEVEL_DECREASES.get().get(block2);
-        while (block3 != null) {
-            block2 = block3;
-            block3 = CRACK_LEVEL_DECREASES.get().get(block2);
-        }
-        return block2;
-    }
-
-    private static Optional<BlockState> getDecreasedCrackState(BlockState state) {
-        return getDecreasedCrackBlock(state.getBlock()).map(block -> block.getStateWithProperties(state));
-    }
-
-    private static BlockState getUncrackedCrackState(BlockState state) {
-        return getUncrackedCrackBlock(state.getBlock()).getStateWithProperties(state);
-    }
-
     private static Optional<Block> getIncreasedCrackBlock(Block block) {
         return Optional.ofNullable(CRACK_LEVEL_INCREASES.get().get(block));
     }
 
-
     default Optional<BlockState> getNextCracked(BlockState state) {
-        return getIncreasedCrackBlock(state.getBlock()).map(block -> block.getStateWithProperties(state));
-    }
-
-    default Optional<BlockState> getPreviousCracked(BlockState state) {
         return getIncreasedCrackBlock(state.getBlock()).map(block -> block.getStateWithProperties(state));
     }
 
@@ -109,7 +76,6 @@ public interface Crackable extends Weatherable {
         }
         return Optional.empty();
     }
-
 
     CrackLevel getCrackLevel();
 
