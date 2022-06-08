@@ -36,12 +36,12 @@ public class RootedGrassBlock extends ModGrassBlock implements Fertilizable, ICo
         return true;
     }
 
-    public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
+    public boolean canGrow(World world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
         return true;
     }
 
     @Override
-    public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
+    public void grow(ServerWorld world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
         Direction rootDir = Direction.values()[1 + random.nextInt(5)].getOpposite();
         BlockPos rootPos = pos.offset(rootDir);
         BlockState targetState = world.getBlockState(rootPos);
@@ -117,7 +117,7 @@ public class RootedGrassBlock extends ModGrassBlock implements Fertilizable, ICo
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if (state.get(FERTILE)) {
             if (!canSurvive(state, world, pos)) {
                 world.setBlockState(pos, Blocks.DIRT.getDefaultState());

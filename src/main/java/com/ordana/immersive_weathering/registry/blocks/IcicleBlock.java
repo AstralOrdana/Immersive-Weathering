@@ -11,11 +11,9 @@ import net.minecraft.block.enums.Thickness;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
@@ -54,7 +52,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements BlockEntityPro
 
     @Nullable
     @Override
-    public <T extends BlockEntity> GameEventListener getGameEventListener(World world, T tile) {
+    public <T extends BlockEntity> GameEventListener getGameEventListener(ServerWorld world, T tile) {
         return tile instanceof IcicleBlockEntity t ? t : null;
     }
 
@@ -114,7 +112,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements BlockEntityPro
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if (canDrip(state)) {
             float f = random.nextFloat();
             if (!(f > 0.12F)) {
@@ -129,7 +127,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements BlockEntityPro
     }
 
     @Override
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if (isPointingUp(state) && !this.canPlaceAt(state, world, pos)) {
             world.breakBlock(pos, true);
         } else {
@@ -138,7 +136,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements BlockEntityPro
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         dripTick(state, world, pos, random.nextFloat());
         if (random.nextFloat() < 0.2F && isIcicleTip(state, world, pos)) {
             tryGrow(state, world, pos, random);
@@ -459,7 +457,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements BlockEntityPro
 
     private static Fluid getDripFluid(World world, Fluid fluid) {
         if (fluid.matchesType(Fluids.EMPTY)) {
-            return world.getDimension().isUltrawarm() ? Fluids.LAVA : Fluids.WATER;
+            return world.getDimension().ultrawarm() ? Fluids.LAVA : Fluids.WATER;
         } else {
             return fluid;
         }

@@ -25,7 +25,7 @@ public class FrostyGlassBlock extends AbstractGlassBlock implements Frostable {
 
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (state.get(NATURAL)) {
-            if (world.getDimension().isUltrawarm() || (!world.isRaining() && world.isDay()) || (world.getLightLevel(LightType.BLOCK, pos) > 7 - state.getOpacity(world, pos))) {
+            if (world.getDimension().ultrawarm() || (!world.isRaining() && world.isDay()) || (world.getLightLevel(LightType.BLOCK, pos) > 7 - state.getOpacity(world, pos))) {
                 world.setBlockState(pos, Blocks.GLASS.getDefaultState());
             }
         }

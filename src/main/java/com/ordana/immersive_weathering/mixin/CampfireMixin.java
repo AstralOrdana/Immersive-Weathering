@@ -15,7 +15,7 @@ public abstract class CampfireMixin extends Block {
         super(settings);
     }
 
-    @Inject(method = "doesBlockCauseSignalFire", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "isSignalFireBaseBlock", at = @At("HEAD"), cancellable = true)
     private void isSmokeSource(BlockState state, CallbackInfoReturnable<Boolean> cir) {
         if (state.isIn(ModTags.SMOKEY_BLOCKS)) cir.setReturnValue(true);
     }

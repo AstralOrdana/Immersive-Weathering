@@ -30,7 +30,7 @@ public class BlockSetMatchTest extends RuleTest {
         this.probability = chance.orElse(1f);
     }
 
-    public boolean test(BlockState state, Random random) {
+    public boolean test(BlockState state, net.minecraft.util.math.random.Random random) {
         return state.isIn(blocks) && random.nextFloat() < this.probability;
     }
 

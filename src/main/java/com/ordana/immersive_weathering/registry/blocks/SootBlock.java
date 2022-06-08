@@ -28,7 +28,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class SootBlock extends AbstractLichenBlock {
+public class SootBlock extends MultifaceGrowthBlock {
 
     public SootBlock(Settings settings) {
         super(settings);
@@ -36,10 +36,15 @@ public class SootBlock extends AbstractLichenBlock {
     }
 
     @Override
+    public LichenGrower getGrower() {
+        return null;
+    }
+
+    @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (!(entity instanceof LivingEntity) || entity.getBlockStateAtPos().isOf(this)) {
             if (world.isClient) {
-                Random random = world.getRandom();
+                net.minecraft.util.math.random.Random random = world.getRandom();
                 boolean bl = entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ();
                 if (bl && random.nextBoolean()) {
                     world.addParticle(ModParticles.SOOT,

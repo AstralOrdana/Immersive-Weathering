@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
 import net.minecraft.block.*;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;

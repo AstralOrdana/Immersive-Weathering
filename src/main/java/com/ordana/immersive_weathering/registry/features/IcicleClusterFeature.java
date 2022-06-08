@@ -32,7 +32,7 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
         StructureWorldAccess structureWorldAccess = context.getWorld();
         BlockPos blockPos = context.getOrigin();
         IcicleClusterFeatureConfig icicleClusterFeatureConfig = context.getConfig();
-        Random random = context.getRandom();
+        net.minecraft.util.math.random.Random random = context.getRandom();
         if (!IcicleHelper.canGenerate(structureWorldAccess, blockPos)) {
             return false;
         } else {
@@ -46,7 +46,7 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
                 for(int m = -k; m <= k; ++m) {
                     double d = this.icicleChance(j, k, l, m, icicleClusterFeatureConfig);
                     BlockPos blockPos2 = blockPos.add(l, 0, m);
-                    this.generate(structureWorldAccess, random, blockPos2, l, m, f, d, i, g, icicleClusterFeatureConfig);
+                    this.generate(structureWorldAccess, (Random) random, blockPos2, l, m, f, d, i, g, icicleClusterFeatureConfig);
                 }
             }
 
@@ -75,7 +75,7 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
                 int l;
                 int j;
                 if (optionalInt.isPresent() && bl2 && this.isLava(world, pos.withY(optionalInt.getAsInt()))) {
-                    j = config.icicleBlockLayerThickness.get(random);
+                    j = config.icicleBlockLayerThickness.get((net.minecraft.util.math.random.Random) random);
                     this.placeIceBlocks(world, pos.withY(optionalInt.getAsInt()), j, Direction.UP);
                     int k;
                     if (i.isPresent()) {
@@ -92,10 +92,10 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
                 boolean k = random.nextDouble() < icicleChance;
                 int m;
                 if (i.isPresent() && k && this.isLava(world, pos.withY(i.getAsInt()))) {
-                    m = config.icicleBlockLayerThickness.get(random);
+                    m = config.icicleBlockLayerThickness.get((net.minecraft.util.math.random.Random) random);
                     this.placeIceBlocks(world, pos.withY(i.getAsInt()), m, Direction.DOWN);
                     if (optionalInt.isPresent()) {
-                        j = Math.max(0, l + MathHelper.nextBetween(random, -config.maxStalagmiteStalactiteHeightDiff, config.maxStalagmiteStalactiteHeightDiff));
+                        j = Math.max(0, l + MathHelper.nextBetween((net.minecraft.util.math.random.Random) random, -config.maxStalagmiteStalactiteHeightDiff, config.maxStalagmiteStalactiteHeightDiff));
                     } else {
                         j = this.getHeight(random, localX, localZ, density, height, config);
                     }
@@ -109,7 +109,7 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
                     int o = optionalInt.getAsInt();
                     int p = Math.max(o - l, n + 1);
                     int q = Math.min(n + j, o - 1);
-                    int r = MathHelper.nextBetween(random, p, q + 1);
+                    int r = MathHelper.nextBetween((net.minecraft.util.math.random.Random) random, p, q + 1);
                     int s = r - 1;
                     m = o - r;
                     t = s - n;
@@ -187,6 +187,6 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
     }
 
     private static float clampedGaussian(Random random, float max, float mean, float deviation) {
-        return ClampedNormalFloatProvider.get(random, mean, deviation, (float) 0.0, max);
+        return ClampedNormalFloatProvider.get((net.minecraft.util.math.random.Random) random, mean, deviation, (float) 0.0, max);
     }
 }

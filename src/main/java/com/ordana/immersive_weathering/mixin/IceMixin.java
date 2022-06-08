@@ -44,7 +44,7 @@ abstract public class IceMixin extends Block {
     }
 
     @Inject(method = "randomTick", at = @At("HEAD"))
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random, CallbackInfo ci) {
         int rand = random.nextInt(4);
         Direction direction = Direction.fromHorizontal(rand);
         if(ImmersiveWeathering.getConfig().fireAndIceConfig.thinIceFormation) {
@@ -59,7 +59,7 @@ abstract public class IceMixin extends Block {
     //TODO: is day is broken on client side
     private boolean canMelt(BlockState state, World level, BlockPos pos) {
         if(ImmersiveWeathering.getConfig().fireAndIceConfig.naturalIceMelt) {
-            return level.getDimension().isUltrawarm() || (level.getBiome(pos).value().isHot(pos) && level.isDay()) ||
+            return level.getDimension().ultrawarm() || (level.getBiome(pos).value().isHot(pos) && level.isDay()) ||
                     (level.getLightLevel(LightType.BLOCK, pos) > 11 - state.getOpacity(level, pos));
 
         }
@@ -67,7 +67,7 @@ abstract public class IceMixin extends Block {
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, World level, BlockPos pos, Random random) {
+    public void randomDisplayTick(BlockState state, World level, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if (random.nextInt(25) == 1) {
             if (this.canMelt(state, level, pos) || level.isDay()) {
 

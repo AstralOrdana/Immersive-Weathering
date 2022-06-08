@@ -11,6 +11,7 @@ import net.minecraft.client.util.ParticleUtil;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.item.*;
 import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -427,7 +428,7 @@ public class ModEvents {
                         ParticleUtil.spawnParticle(world, targetPos, new BlockStateParticleEffect(ParticleTypes.BLOCK, targetBlock), UniformIntProvider.create(3,5));
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            if (!player.isCreative()) heldItem.damage(1, new Random(), null);
+                            if (!player.isCreative()) heldItem.damage(1, (net.minecraft.util.math.random.Random) new Random(), null);
                             world.setBlockState(targetPos, targetBlock.getBlock().getDefaultState().with(ModGrassBlock.FERTILE, false));
                         }
                         return ActionResult.SUCCESS;
@@ -438,7 +439,7 @@ public class ModEvents {
                     ParticleUtil.spawnParticle(world, targetPos, new BlockStateParticleEffect(ParticleTypes.BLOCK, targetBlock), UniformIntProvider.create(3,5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.damage(1, new Random(), null);
+                        if (!player.isCreative()) heldItem.damage(1, (net.minecraft.util.math.random.Random) new Random(), null);
                         world.setBlockState(targetPos, targetBlock.getBlock().getStateWithProperties(targetBlock).with(IvyBlock.AGE, IvyBlock.MAX_AGE));
                     }
                     return ActionResult.SUCCESS;
@@ -450,7 +451,7 @@ public class ModEvents {
                         ParticleUtil.spawnParticle(world, targetPos, ModParticles.AZALEA_FLOWER, UniformIntProvider.create(3, 5));
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            if (!player.isCreative()) heldItem.damage(1, new Random(), null);
+                            if (!player.isCreative()) heldItem.damage(1, (net.minecraft.util.math.random.Random) new Random(), null);
                             world.setBlockState(targetPos, FLOWERY_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
                         }
                         return ActionResult.SUCCESS;
@@ -463,7 +464,7 @@ public class ModEvents {
                         ParticleUtil.spawnParticle(world, targetPos, ModParticles.MOSS, UniformIntProvider.create(3, 5));
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            if (!player.isCreative()) heldItem.damage(1, new Random(), null);
+                            if (!player.isCreative()) heldItem.damage(1, (net.minecraft.util.math.random.Random) new Random(), null);
                             world.setBlockState(targetPos, CLEANED_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
                         }
                         return ActionResult.SUCCESS;
@@ -476,7 +477,7 @@ public class ModEvents {
                         Block.dropStack(world, fixedPos, new ItemStack(Items.SLIME_BALL));
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            if (!player.isCreative()) heldItem.damage(1, new Random(), null);
+                            if (!player.isCreative()) heldItem.damage(1, (net.minecraft.util.math.random.Random) new Random(), null);
                             world.setBlockState(targetPos, Blocks.PISTON.getStateWithProperties(targetBlock));
                         }
                         return ActionResult.SUCCESS;
@@ -684,7 +685,7 @@ public class ModEvents {
                     world.playSound(player, targetPos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     if(player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.damage(1, new Random(), null);
+                        if (!player.isCreative()) heldItem.damage(1, (net.minecraft.util.math.random.Random) new Random(), null);
                         world.setBlockState(targetPos, Blocks.DIRT_PATH.getDefaultState());
                     }
                     return ActionResult.SUCCESS;
@@ -733,7 +734,7 @@ public class ModEvents {
                         ParticleUtil.spawnParticle(world, targetPos, ModParticles.EMBERSPARK, UniformIntProvider.create(3, 5));
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            if (!player.isCreative()) heldItem.damage(1, new Random(), null);
+                            if (!player.isCreative()) heldItem.damage(1, (net.minecraft.util.math.random.Random) new Random(), null);
                             world.setBlockState(targetPos, targetBlock.getBlock().getStateWithProperties(targetBlock).with(CharredBlock.SMOLDERING, true));
                         }
                         return ActionResult.SUCCESS;
@@ -746,7 +747,7 @@ public class ModEvents {
                         ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMOKE, UniformIntProvider.create(3, 5));
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            if (!player.isCreative()) heldItem.damage(1, new Random(), null);
+                            if (!player.isCreative()) heldItem.damage(1, (net.minecraft.util.math.random.Random) new Random(), null);
                             world.setBlockState(targetPos, CLEANED_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock).with(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
                         }
                         return ActionResult.SUCCESS;
@@ -813,7 +814,7 @@ public class ModEvents {
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SCRAPE, UniformIntProvider.create(3,5));
                     if(player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        if(!player.isCreative())heldItem.damage(1, (net.minecraft.util.math.random.Random) new Random(), null);
                         Oxidizable.getDecreasedOxidationState(targetBlock).ifPresent(o-> world.setBlockState(targetPos, o));
                     }
                     return ActionResult.SUCCESS;
@@ -823,7 +824,7 @@ public class ModEvents {
                     ParticleUtil.spawnParticle(world, targetPos, ModParticles.SCRAPE_RUST, UniformIntProvider.create(3,5));
                     if(player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        if(!player.isCreative())heldItem.damage(1, (net.minecraft.util.math.random.Random) new Random(), null);
                         RUSTED_BLOCKS.forEach((clean, rusty) -> {
                             if (targetBlock.isOf(rusty)) {
                                 world.setBlockState(targetPos, clean.getStateWithProperties(targetBlock));
@@ -837,7 +838,7 @@ public class ModEvents {
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.WAX_OFF, UniformIntProvider.create(3,5));
                     if(player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if(!player.isCreative())heldItem.damage(1, new Random(), null);
+                        if(!player.isCreative())heldItem.damage(1, (net.minecraft.util.math.random.Random) new Random(), null);
                         world.setBlockState(targetPos, UNWAXED_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
                     }
                     return ActionResult.SUCCESS;
@@ -851,7 +852,7 @@ public class ModEvents {
                         ParticleUtil.spawnParticle(world, targetPos, new BlockStateParticleEffect(ParticleTypes.BLOCK, targetBlock), UniformIntProvider.create(3,5));
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            if (!player.isCreative()) heldItem.damage(1, new Random(), null);
+                            if (!player.isCreative()) heldItem.damage(1, (net.minecraft.util.math.random.Random) new Random(), null);
                             world.setBlockState(targetPos, CRACKED_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
                         }
                         return ActionResult.SUCCESS;
@@ -911,7 +912,7 @@ public class ModEvents {
                         ParticleUtil.spawnParticle(world, targetPos, barkParticle, UniformIntProvider.create(3, 5));
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            if (!player.isCreative()) heldItem.damage(1, new Random(), null);
+                            if (!player.isCreative()) heldItem.damage(1, (net.minecraft.util.math.random.Random) new Random(), null);
                             world.setBlockState(targetPos, STRIPPED_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
                         }
                         return ActionResult.SUCCESS;
@@ -933,7 +934,7 @@ public class ModEvents {
                         ParticleUtil.spawnParticle(world, targetPos, ModParticles.SCRAPE_RUST, UniformIntProvider.create(3, 5));
                         if (player instanceof ServerPlayerEntity) {
                             Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                            if (!player.isCreative()) heldItem.damage(1, new Random(), null);
+                            if (!player.isCreative()) heldItem.damage(1, (net.minecraft.util.math.random.Random) new Random(), null);
                             RUSTED_BLOCKS.forEach((clean, rusty) -> {
                                 if (targetBlock.isOf(rusty)) {
                                     world.setBlockState(targetPos, clean.getStateWithProperties(targetBlock));

@@ -29,7 +29,7 @@ public class LeavesGrowth implements IBlockGrowth {
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerWorld world, RegistryEntry<Biome> biome) {
         if(ImmersiveWeathering.getConfig().leavesConfig.leafPilesForm) {
-            Random random = world.random;
+            Random random = (Random) world.random;
             //Drastically reduced this chance to help lag
             if (state.contains(LeavesBlock.PERSISTENT) && !state.get(LeavesBlock.PERSISTENT) && random.nextFloat() < 0.03f) {
 

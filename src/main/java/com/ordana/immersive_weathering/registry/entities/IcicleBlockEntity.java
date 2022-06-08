@@ -6,6 +6,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
@@ -27,11 +28,11 @@ public class IcicleBlockEntity extends BlockEntity implements GameEventListener 
         map.put(GameEvent.HIT_GROUND, 2);
         map.put(GameEvent.PISTON_CONTRACT, 3);
         map.put(GameEvent.PISTON_EXTEND, 3);
-        map.put(GameEvent.MINECART_MOVING, 4);
+        //map.put(GameEvent.MINECART_MOVING, 4);
         map.put(GameEvent.BLOCK_OPEN, 6);
         map.put(GameEvent.BLOCK_CLOSE, 7);
-        map.put(GameEvent.RING_BELL, 8);
-        map.put(GameEvent.RAVAGER_ROAR, 10);
+        //map.put(GameEvent.RING_BELL, 8);
+        map.put(GameEvent.ENTITY_ROAR, 10);
         map.put(GameEvent.EXPLODE, 15);
         map.put(GameEvent.LIGHTNING_STRIKE, 15);
         Registry.GAME_EVENT.getOrEmpty(new Identifier("moyai", "moyai_boom"))
@@ -54,7 +55,7 @@ public class IcicleBlockEntity extends BlockEntity implements GameEventListener 
     }
 
     @Override
-    public boolean listen(World level, GameEvent gameEvent, @Nullable Entity entity, BlockPos pos) {
+    public boolean listen(ServerWorld level, GameEvent.Message gameEvent) {
         if(pos != this.pos) {
             int volume = VOLUME_FOR_EVENT.getInt(gameEvent);
             double distanceSqr = this.pos.getSquaredDistanceFromCenter(pos.getX(), pos.getY(), pos.getZ());

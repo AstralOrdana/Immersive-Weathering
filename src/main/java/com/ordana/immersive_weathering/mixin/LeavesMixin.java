@@ -8,6 +8,7 @@ import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.*;
 import net.minecraft.client.util.ParticleUtil;
 import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -33,7 +34,7 @@ public abstract class LeavesMixin extends Block implements Fertilizable {
     }
 
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random, CallbackInfo ci) {
         if(ImmersiveWeathering.getConfig().leavesConfig.leafDecayPiles) {
             if (state.contains(LeavesBlock.PERSISTENT) && !state.get(LeavesBlock.PERSISTENT) && state.contains(LeavesBlock.DISTANCE) && state.get(LeavesBlock.DISTANCE) == 7 && state.isIn(ModTags.VANILLA_LEAVES)) {
                 var leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
@@ -57,7 +58,7 @@ public abstract class LeavesMixin extends Block implements Fertilizable {
     }
 
     @Inject(method = "randomDisplayTick", at = @At("HEAD"))
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random, CallbackInfo ci) {
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, net.minecraft.util.math.random.Random random, CallbackInfo ci) {
         var leafParticle = WeatheringHelper.getFallenLeafParticle(state).orElse(null);
         if(ImmersiveWeathering.getConfig().leavesConfig.fallingLeafParticles && state.isIn(ModTags.VANILLA_LEAVES)) {
             if (random.nextInt(32) == 0 && !world.getBlockState(pos.down()).isSolidBlock(world, pos)) {
@@ -74,12 +75,12 @@ public abstract class LeavesMixin extends Block implements Fertilizable {
     }
 
     @Override
-    public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
+    public boolean canGrow(World world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
         return state.isOf(Blocks.FLOWERING_AZALEA_LEAVES);
     }
 
     @Override
-    public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
+    public void grow(ServerWorld world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
         for (var direction : Direction.values()) {
             if (random.nextFloat() > 0.5f) {
                 var targetPos = pos.offset(direction);

@@ -29,7 +29,7 @@ public abstract class CropBlockMixin extends Block {
     }
 
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random, CallbackInfo ci) {
         BlockState soilState = world.getBlockState(pos.down());
         if (soilState.isOf(ModBlocks.MULCH_BLOCK) && soilState.get(MulchBlock.MOISTURE) == 0) ci.cancel();
     }

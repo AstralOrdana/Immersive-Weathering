@@ -20,7 +20,7 @@ import net.minecraft.world.WorldEvents;
 
 import java.util.Random;
 
-public class FrostBlock extends AbstractLichenBlock implements Frostable {
+public class FrostBlock extends MultifaceGrowthBlock implements Frostable {
     public FrostBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.getDefaultState().with(NATURAL, false));
@@ -30,7 +30,7 @@ public class FrostBlock extends AbstractLichenBlock implements Frostable {
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         for (Direction direction : DIRECTIONS) {
             if (!this.canHaveDirection(direction)) continue;
-            builder.add(AbstractLichenBlock.getProperty(direction));
+            builder.add(MultifaceGrowthBlock.getProperty(direction));
         }
         builder.add(NATURAL);
     }
@@ -40,9 +40,14 @@ public class FrostBlock extends AbstractLichenBlock implements Frostable {
         return !context.getStack().isOf(ModItems.FROST) || super.canReplace(state, context);
     }
 
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    @Override
+    public LichenGrower getGrower() {
+        return null;
+    }
+
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if (state.get(NATURAL)) {
-            if (world.getDimension().isUltrawarm() || (!world.isRaining() && world.isDay()) || (world.getLightLevel(LightType.BLOCK, pos) > 7 - state.getOpacity(world, pos))) {
+            if (world.getDimension().ultrawarm() || (!world.isRaining() && world.isDay()) || (world.getLightLevel(LightType.BLOCK, pos) > 7 - state.getOpacity(world, pos))) {
                 world.removeBlock(pos, false);
             }
         }

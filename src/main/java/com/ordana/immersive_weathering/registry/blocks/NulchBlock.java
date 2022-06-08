@@ -24,6 +24,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class NulchBlock extends Block {
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, World level, BlockPos pos, Random random) {
+    public void randomDisplayTick(BlockState state, World level, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if (state.get(MOLTEN)) {
             if (random.nextInt(25) == 1) {
                 BlockPos blockpos = pos.down();

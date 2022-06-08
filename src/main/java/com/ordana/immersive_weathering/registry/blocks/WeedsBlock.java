@@ -50,7 +50,7 @@ public class WeedsBlock extends CropBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         int i = this.getAge(state);
         if (i < this.getMaxAge()) {
             float f = getAvailableMoisture(this, world, pos);
@@ -66,7 +66,7 @@ public class WeedsBlock extends CropBlock {
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if (this.getAge(state) == this.getMaxAge() && random.nextInt(10)==0) {
             double r = 0.3;
             double x = (double) pos.getX() + 0.5 + (random.nextDouble() - 0.5) * r;

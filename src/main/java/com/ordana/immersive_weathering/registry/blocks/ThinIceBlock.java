@@ -68,7 +68,7 @@ public class ThinIceBlock extends IceBlock implements Waterloggable {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         for (Direction direction : Direction.values()) {
             if (world.getBlockState(pos.up()).isOf(Blocks.AIR) && (world.isRaining() || world.isNight()) && world.getBiome(pos).isIn(ModTags.ICY) && (world.getLightLevel(LightType.BLOCK, pos) < 7 - state.getOpacity(world, pos))) {
                 if (world.getBlockState(pos.offset(direction.getOpposite())).isOf(Blocks.ICE)) {
@@ -84,7 +84,7 @@ public class ThinIceBlock extends IceBlock implements Waterloggable {
         }
 
         if(ImmersiveWeathering.getConfig().fireAndIceConfig.thinIceMelting) {
-            if (world.getDimension().isUltrawarm() || (!world.isRaining() && world.isDay()) || (world.getLightLevel(LightType.BLOCK, pos) > 7 - state.getOpacity(world, pos))) {
+            if (world.getDimension().ultrawarm() || (!world.isRaining() && world.isDay()) || (world.getLightLevel(LightType.BLOCK, pos) > 7 - state.getOpacity(world, pos))) {
                 world.setBlockState(pos, Blocks.WATER.getDefaultState());
             }
         }

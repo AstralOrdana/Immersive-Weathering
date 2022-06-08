@@ -9,6 +9,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 public interface PatchSpreader<T extends Enum<?>> {
 

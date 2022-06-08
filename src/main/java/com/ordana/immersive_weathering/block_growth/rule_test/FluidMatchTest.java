@@ -22,7 +22,7 @@ public class FluidMatchTest extends RuleTest {
         this.fluid = fluid;
     }
 
-    public boolean test(BlockState state, Random random) {
+    public boolean test(BlockState state, net.minecraft.util.math.random.Random random) {
         return state.getFluidState().isOf(this.fluid);
     }
 

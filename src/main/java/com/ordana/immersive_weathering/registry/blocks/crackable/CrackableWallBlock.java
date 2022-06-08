@@ -52,12 +52,12 @@ public class CrackableWallBlock extends CrackedWallBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld serverWorld, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerWorld serverWorld, BlockPos pos, net.minecraft.util.math.random.Random random) {
         this.tryWeather(state, serverWorld, pos, random);
     }
 
     @Override
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         world.updateNeighbors(pos, this);
     }
 }

@@ -46,7 +46,7 @@ public interface Weatherable {
     }
 
     //call this with random tick
-    void tryWeather(BlockState state, ServerWorld serverWorld, BlockPos pos, Random random);
+    void tryWeather(BlockState state, ServerWorld serverWorld, BlockPos pos, net.minecraft.util.math.random.Random random);
 
     //call on
     default BlockState getWeatheredStateForPlacement(BlockState state, BlockPos pos, World world){

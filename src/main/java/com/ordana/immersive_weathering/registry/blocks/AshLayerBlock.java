@@ -140,7 +140,7 @@ public class AshLayerBlock extends FallingBlock {
     }
 
     @Override
-    public void scheduledTick(BlockState state, ServerWorld level, BlockPos pos, Random pRand) {
+    public void scheduledTick(BlockState state, ServerWorld level, BlockPos pos, net.minecraft.util.math.random.Random pRand) {
         BlockState below = level.getBlockState(pos.down());
         if ((FallingAshEntity.isFree(below) || hasIncompleteAshPileBelow(below)) && pos.getY() >= level.getBottomY()) {
 

@@ -25,6 +25,7 @@ import net.minecraft.tag.BlockTags;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -55,7 +56,7 @@ public class CharredSlabBlock extends SlabBlock implements Charrable {
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if (state.get(SMOLDERING)) {
             int i = pos.getX();
             int j = pos.getY();

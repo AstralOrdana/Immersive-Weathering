@@ -102,7 +102,7 @@ public interface Mossable extends Weatherable {
     }
 
     @Override
-    default void tryWeather(BlockState state, ServerWorld serverWorld, BlockPos pos, Random random) {
+    default void tryWeather(BlockState state, ServerWorld serverWorld, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if(ImmersiveWeathering.getConfig().blockGrowthConfig.blockMossing) {
             if (random.nextFloat() < this.getWeatherChanceSpeed()) {
                 Optional<BlockState> opt = Optional.empty();

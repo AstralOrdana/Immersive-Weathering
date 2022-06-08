@@ -9,13 +9,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.structure.rule.RuleTest;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryCodecs;
 import net.minecraft.util.registry.RegistryEntryList;
 import net.minecraft.world.World;
 
 import java.util.Optional;
-import java.util.Random;
 
 record AreaCheck(int rX, int rY, int rZ, int requiredAmount, Optional<Integer> yOffset,
                  Optional<RuleTest> mustHavePredicate,
@@ -44,7 +44,7 @@ record AreaCheck(int rX, int rY, int rZ, int requiredAmount, Optional<Integer> y
     public boolean test(BlockPos pos, World level, BlockGrowthConfiguration config) {
         if (yOffset.isPresent()) pos = pos.up(yOffset.get());
         int count = 0;
-        Random random = new Random(MathHelper.hashCode(pos));
+        Random random = Random.create(MathHelper.hashCode(pos));
         boolean hasRequirement = this.mustHavePredicate.isEmpty();
         //shuffling. provides way better result that iterating through it conventionally
         //if(hasRequirement && requiredAmount == -1)return true;

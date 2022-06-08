@@ -19,7 +19,7 @@ public class RustableSlabBlock extends SlabBlock implements Rustable {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random){
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random){
         if(ImmersiveWeathering.getConfig().blockGrowthConfig.blockRusting) {
             if (world.getBlockState(pos).isIn(ModTags.CLEAN_IRON)) {
                 for (Direction direction : Direction.values()) {

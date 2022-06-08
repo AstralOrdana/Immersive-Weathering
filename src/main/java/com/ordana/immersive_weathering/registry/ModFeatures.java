@@ -15,7 +15,6 @@ import net.minecraft.world.gen.feature.*;
 public class ModFeatures {
     public static void registerFeatures() {
         Registry.register(Registry.FEATURE, "immersive_weathering:icicle_cluster", new IcicleClusterFeature(IcicleClusterFeatureConfig.CODEC));
-        Registry.register(Registry.FEATURE, "immersive_weathering:ivy_feature", new IvyFeature(GlowLichenFeatureConfig.CODEC));
 
 
         RegistryKey<PlacedFeature> icicles = RegistryKey.of(Registry.PLACED_FEATURE_KEY,

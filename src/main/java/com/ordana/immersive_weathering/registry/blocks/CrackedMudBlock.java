@@ -20,6 +20,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -35,7 +36,7 @@ public class CrackedMudBlock extends Block implements IConditionalGrowingBlock {
     public static final BooleanProperty FERTILE = BooleanProperty.of("fertile");
 
     @Override
-    public void randomDisplayTick(BlockState state, World level, BlockPos pos, Random random) {
+    public void randomDisplayTick(BlockState state, World level, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if (state.get(SOAKED)) {
             if (random.nextInt(25) == 1) {
                 BlockPos blockpos = pos.down();
@@ -51,7 +52,7 @@ public class CrackedMudBlock extends Block implements IConditionalGrowingBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         int temperature = 0;
         boolean isTouchingWater = false;
         for (Direction direction : Direction.values()) {

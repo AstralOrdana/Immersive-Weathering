@@ -59,7 +59,7 @@ public class SiltBlock extends Block implements IConditionalGrowingBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         BlockState upState = world.getBlockState(pos.up());
         BlockState downState = world.getBlockState(pos.down());
         if (downState.isIn(BlockTags.DIRT)) {
@@ -81,7 +81,7 @@ public class SiltBlock extends Block implements IConditionalGrowingBlock {
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (state.get(SOAKED)) {
             if (world.isClient && (!(entity instanceof LivingEntity) || entity.getBlockStateAtPos().isOf(this))) {
-                Random random = world.getRandom();
+                net.minecraft.util.math.random.Random random = world.getRandom();
                 boolean bl = entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ();
                 if (bl && random.nextBoolean()) {
                     world.addParticle(
