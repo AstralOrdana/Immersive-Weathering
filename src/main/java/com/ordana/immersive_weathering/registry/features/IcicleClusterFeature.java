@@ -46,7 +46,7 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
                 for(int m = -k; m <= k; ++m) {
                     double d = this.icicleChance(j, k, l, m, icicleClusterFeatureConfig);
                     BlockPos blockPos2 = blockPos.add(l, 0, m);
-                    this.generate(structureWorldAccess, (Random) random, blockPos2, l, m, f, d, i, g, icicleClusterFeatureConfig);
+                    this.generate(structureWorldAccess, random, blockPos2, l, m, f, d, i, g, icicleClusterFeatureConfig);
                 }
             }
 
@@ -54,7 +54,7 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
         }
     }
 
-    private void generate(StructureWorldAccess world, Random random, BlockPos pos, int localX, int localZ, float wetness, double icicleChance, int height, float density, IcicleClusterFeatureConfig config) {
+    private void generate(StructureWorldAccess world, net.minecraft.util.math.random.Random random, BlockPos pos, int localX, int localZ, float wetness, double icicleChance, int height, float density, IcicleClusterFeatureConfig config) {
         Optional<CaveSurface> optional = CaveSurface.create(world, pos, config.floorToCeilingSearchRange, IcicleHelper::canGenerate, IcicleHelper::canReplaceOrLava);
         if (optional.isPresent()) {
             OptionalInt optionalInt = optional.get().getCeilingHeight();
@@ -135,7 +135,7 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
         return !world.getBlockState(pos).isOf(Blocks.LAVA);
     }
 
-    private int getHeight(Random random, int localX, int localZ, float density, int height, IcicleClusterFeatureConfig config) {
+    private int getHeight(net.minecraft.util.math.random.Random random, int localX, int localZ, float density, int height, IcicleClusterFeatureConfig config) {
         if (random.nextFloat() > density) {
             return 0;
         } else {
@@ -186,7 +186,7 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
         return MathHelper.clampedLerpFromProgress((float)k, 0.0F, (float)config.maxDistanceFromCenterAffectingChanceOfIcicleColumn, config.chanceOfIcicleColumnAtMaxDistanceFromCenter, 1.0F);
     }
 
-    private static float clampedGaussian(Random random, float max, float mean, float deviation) {
-        return ClampedNormalFloatProvider.get((net.minecraft.util.math.random.Random) random, mean, deviation, (float) 0.0, max);
+    private static float clampedGaussian(net.minecraft.util.math.random.Random random, float max, float mean, float deviation) {
+        return ClampedNormalFloatProvider.get(random, mean, deviation, (float) 0.0, max);
     }
 }

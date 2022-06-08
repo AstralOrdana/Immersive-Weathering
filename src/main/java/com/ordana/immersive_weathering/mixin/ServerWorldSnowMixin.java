@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.mixin;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.BlockState;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -11,7 +12,7 @@ import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-@Mixin(targets = {"net.minecraft.server.world.ServerWorld"})
+@Mixin(ServerWorld.class)
 public abstract class ServerWorldSnowMixin {
 
 	@ModifyArg(method = {"tickChunk"},
