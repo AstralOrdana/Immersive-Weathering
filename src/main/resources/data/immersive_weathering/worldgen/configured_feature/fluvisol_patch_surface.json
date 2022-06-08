@@ -21,7 +21,8 @@
         "Name": "immersive_weathering:fluvisol",
         "Properties": {
           "snowy": "false",
-          "fertile": "true"
+          "fertile": "true",
+          "soaked": "false"
         }
       }
     },

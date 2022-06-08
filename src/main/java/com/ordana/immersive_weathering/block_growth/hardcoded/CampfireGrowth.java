@@ -31,7 +31,8 @@ public class CampfireGrowth implements IBlockGrowth {
         if(ImmersiveWeathering.getConfig().fireAndIceConfig.campfiresCreateSoot) {
             //TODO: move to soot class
             if (state.contains(CampfireBlock.SIGNAL_FIRE) && state.contains(CampfireBlock.LIT) && state.get(CampfireBlock.LIT)) {
-                Random random = (Random) world.random;
+
+                net.minecraft.util.math.random.Random random = world.getRandom();
 
                 int smokeHeight = state.get(CampfireBlock.SIGNAL_FIRE) ? 23 : 8;
 

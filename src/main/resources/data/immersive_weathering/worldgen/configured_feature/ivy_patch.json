@@ -1,5 +1,5 @@
 {
-  "type": "immersive_weathering:ivy_feature",
+  "type": "minecraft:multiface_growth",
   "config": {
     "search_range": 20,
     "chance_of_spreading": 0.5,
@@ -10,6 +10,7 @@
       "minecraft:birch_log",
       "minecraft:oak_log",
       "minecraft:dark_oak_log"
-    ]
+    ],
+    "block": "immersive_weathering:ivy"
   }
 }

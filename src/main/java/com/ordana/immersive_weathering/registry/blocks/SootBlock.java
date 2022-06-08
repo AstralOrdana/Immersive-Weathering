@@ -48,12 +48,12 @@ public class SootBlock extends MultifaceGrowthBlock {
                 boolean bl = entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ();
                 if (bl && random.nextBoolean()) {
                     world.addParticle(ModParticles.SOOT,
-                            entity.getX() +MathHelper.nextBetween(random,-0.2f,0.2f),
+                            entity.getX() +MathHelper.nextBetween((net.minecraft.util.math.random.Random) random,-0.2f,0.2f),
                             entity.getY() + 0.125,
-                            entity.getZ() +MathHelper.nextBetween(random,-0.2f,0.2f),
-                            MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f,
+                            entity.getZ() +MathHelper.nextBetween((net.minecraft.util.math.random.Random) random,-0.2f,0.2f),
+                            MathHelper.nextBetween((net.minecraft.util.math.random.Random) random, -1.0F, 1.0F) * 0.001f,
                             0.05D,
-                            MathHelper.nextBetween(random, -1.0F, 1.0F) * 0.001f);
+                            MathHelper.nextBetween((net.minecraft.util.math.random.Random) random, -1.0F, 1.0F) * 0.001f);
 
                 }
             }

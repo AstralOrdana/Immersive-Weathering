@@ -33,7 +33,8 @@ public class IceGrowth implements IBlockGrowth {
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerWorld world, RegistryEntry<Biome> b) {
         Biome biome = b.value();
-        Random random = (Random) world.random;
+
+        net.minecraft.util.math.random.Random random = world.getRandom();
 
         //melt ice
         if(ImmersiveWeathering.getConfig().fireAndIceConfig.naturalIceMelt) {

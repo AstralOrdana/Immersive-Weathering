@@ -1,12 +1,29 @@
 {
   "type": "minecraft:disk",
   "config": {
-    "state": {
-      "Name": "immersive_weathering:fluvisol",
-      "Properties": {
-        "snowy": "false",
-        "fertile": "true"
-      }
+    "state_provider": {
+      "fallback": {
+        "type": "minecraft:simple_state_provider",
+        "state": {
+          "Name": "immersive_weathering:fluvisol",
+          "Properties": {
+            "fertile": "true",
+            "snowy": "false",
+            "soaked": "false"
+          }
+        }
+      },
+      "rules": []
+    },
+    "target": {
+      "type": "minecraft:matching_blocks",
+      "blocks": [
+        "minecraft:dirt",
+        "minecraft:clay",
+        "minecraft:gravel",
+        "minecraft:sand",
+        "minecraft:grass_block"
+      ]
     },
     "radius": {
       "type": "minecraft:uniform",
@@ -15,26 +32,6 @@
         "max_inclusive": 6
       }
     },
-    "half_height": 1,
-    "targets": [
-      {
-        "Name": "minecraft:sand"
-      },
-      {
-        "Name": "minecraft:grass_block",
-        "Properties": {
-          "snowy": "false"
-        }
-      },
-      {
-        "Name": "minecraft:gravel"
-      },
-      {
-        "Name": "minecraft:dirt"
-      },
-      {
-        "Name": "minecraft:clay"
-      }
-    ]
+    "half_height": 1
   }
 }
