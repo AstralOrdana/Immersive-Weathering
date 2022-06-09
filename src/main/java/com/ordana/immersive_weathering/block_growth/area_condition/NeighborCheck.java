@@ -8,13 +8,9 @@ import net.minecraft.structure.rule.RuleTest;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 record NeighborCheck(RuleTest mustHavePredicate, Optional<RuleTest> mustNotHavePredicate,
@@ -40,14 +36,15 @@ record NeighborCheck(RuleTest mustHavePredicate, Optional<RuleTest> mustNotHaveP
         int count = 0;
         //shuffling. provides way better result that iterating through it conventionally
         List<Direction> list = directions.orElse(new ArrayList<>(List.of(Direction.values())));
-        Random random = Random.create(MathHelper.hashCode(pos));
-        Collections.shuffle(list, (java.util.Random) random);
+        Random random = new Random(MathHelper.hashCode(pos));
+        Collections.shuffle(list, random);
         int required = this.requiredAmount.orElse(1);
         for (Direction dir : list) {
             BlockPos p = pos.offset(dir);
             BlockState state = world.getBlockState(p);
-            if (mustHavePredicate.test(state, random)) count += 1;
-            else if (mustNotHavePredicate.isPresent() && mustNotHavePredicate.get().test(state, random))
+            net.minecraft.util.math.random.Random posRandom = net.minecraft.util.math.random.Random.create(random.nextLong());
+            if (mustHavePredicate.test(state, posRandom)) count += 1;
+            else if (mustNotHavePredicate.isPresent() && mustNotHavePredicate.get().test(state, posRandom))
                 return false;
             if (count >= required) return true;
         }
