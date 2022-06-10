@@ -12,6 +12,7 @@ public class ModCompostable {
         CompostingChanceRegistry.INSTANCE.add(ModItems.JUNGLE_BARK, 0.8f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.ACACIA_BARK, 0.8f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.DARK_OAK_BARK, 0.8f);
+        CompostingChanceRegistry.INSTANCE.add(ModItems.MANGROVE_BARK, 0.8f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.MULCH_BLOCK, 1f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.NULCH_BLOCK, 1f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.IVY, 0.3f);
@@ -22,6 +23,7 @@ public class ModCompostable {
         CompostingChanceRegistry.INSTANCE.add(ModItems.BIRCH_LEAF_PILE, 0.3f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.JUNGLE_LEAF_PILE, 0.3f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.ACACIA_LEAF_PILE, 0.3f);
+        CompostingChanceRegistry.INSTANCE.add(ModItems.MANGROVE_LEAF_PILE, 0.3f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.DARK_OAK_LEAF_PILE, 0.3f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.AZALEA_LEAF_PILE, 0.3f);
         CompostingChanceRegistry.INSTANCE.add(ModItems.AZALEA_FLOWER_PILE, 0.3f);

@@ -10,10 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.entity.passive.CatEntity;
-import net.minecraft.entity.passive.FoxEntity;
-import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
@@ -34,7 +31,7 @@ public class WeedsBlock extends CropBlock {
     }
 
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if (entity instanceof LivingEntity && !(entity instanceof FoxEntity || entity instanceof BeeEntity || entity instanceof SheepEntity || entity instanceof CatEntity)) {
+        if (entity instanceof LivingEntity && !(entity instanceof FoxEntity || entity instanceof BeeEntity || entity instanceof SheepEntity || entity instanceof CatEntity || entity instanceof VillagerEntity)) {
             if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
                 if (entity instanceof PlayerEntity player && !player.getEquippedStack(EquipmentSlot.LEGS).isEmpty() && ImmersiveWeathering.getConfig().leavesConfig.leggingsPreventThornDamage) {
                     return;

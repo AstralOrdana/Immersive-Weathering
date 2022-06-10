@@ -17,14 +17,14 @@ import org.spongepowered.asm.mixin.injection.Slice;
 
 @Mixin(Blocks.class)
 public class BlocksMixin {
-    /*
+
     @Redirect
             (
                     method = "<clinit>",
                     at = @At
                             (
                                     value = "NEW",
-                                    target = "net/minecraft/block/SnowBlock",
+                                    target = "net/minecraft/block/PropaguleBlock",
                                     ordinal = 0
                             ),
                     slice = @Slice
@@ -32,14 +32,14 @@ public class BlocksMixin {
                                     from = @At
                                             (
                                                     value = "CONSTANT",
-                                                    args="stringValue=snow"
+                                                    args="stringValue=mangrove_propagule"
                                             )
                             )
             )
-    private static SnowBlock snow(AbstractBlock.Settings settings)
+    private static PropaguleBlock mangrovePropagule(AbstractBlock.Settings settings)
     {
-        return new ModSnowLayerBlock(settings);
-    }*/
+        return new ModPropaguleBlock(settings);
+    }
 
     @Redirect
             (

@@ -24,8 +24,9 @@ public class ModParticles {
     public static final DefaultParticleType BIRCH_LEAF = FabricParticleTypes.simple();
     public static final DefaultParticleType SPRUCE_LEAF = FabricParticleTypes.simple();
     public static final DefaultParticleType JUNGLE_LEAF = FabricParticleTypes.simple();
-    public static final DefaultParticleType ACACIA_LEAF = FabricParticleTypes.simple();
     public static final DefaultParticleType DARK_OAK_LEAF = FabricParticleTypes.simple();
+    public static final DefaultParticleType ACACIA_LEAF = FabricParticleTypes.simple();
+    public static final DefaultParticleType MANGROVE_LEAF = FabricParticleTypes.simple();
     public static final DefaultParticleType AZALEA_LEAF = FabricParticleTypes.simple();
     public static final DefaultParticleType AZALEA_FLOWER = FabricParticleTypes.simple();
 
@@ -33,8 +34,9 @@ public class ModParticles {
     public static final DefaultParticleType BIRCH_BARK = FabricParticleTypes.simple();
     public static final DefaultParticleType SPRUCE_BARK = FabricParticleTypes.simple();
     public static final DefaultParticleType JUNGLE_BARK = FabricParticleTypes.simple();
-    public static final DefaultParticleType ACACIA_BARK = FabricParticleTypes.simple();
     public static final DefaultParticleType DARK_OAK_BARK = FabricParticleTypes.simple();
+    public static final DefaultParticleType ACACIA_BARK = FabricParticleTypes.simple();
+    public static final DefaultParticleType MANGROVE_BARK = FabricParticleTypes.simple();
     public static final DefaultParticleType NETHER_SCALE = FabricParticleTypes.simple();
 
     public static final DefaultParticleType SCRAPE_RUST = FabricParticleTypes.simple();
@@ -76,6 +78,7 @@ public class ModParticles {
         Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "jungle_leaf"), JUNGLE_LEAF);
         Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "acacia_leaf"), ACACIA_LEAF);
         Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "dark_oak_leaf"), DARK_OAK_LEAF);
+        Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "mangrove_leaf"), MANGROVE_LEAF);
         Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "azalea_leaf"), AZALEA_LEAF);
         Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "azalea_flower"), AZALEA_FLOWER);
 
@@ -85,6 +88,7 @@ public class ModParticles {
         Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "jungle_bark"), JUNGLE_BARK);
         Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "acacia_bark"), ACACIA_BARK);
         Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "dark_oak_bark"), DARK_OAK_BARK);
+        Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "mangrove_bark"), MANGROVE_BARK);
         Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "nether_scale"), NETHER_SCALE);
 
         Registry.register(Registry.PARTICLE_TYPE, new Identifier("immersive_weathering", "scrape_rust"), SCRAPE_RUST);

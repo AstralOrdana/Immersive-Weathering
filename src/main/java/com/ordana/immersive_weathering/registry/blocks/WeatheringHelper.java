@@ -55,6 +55,7 @@ public class WeatheringHelper {
             .put(Blocks.BIRCH_LEAVES, ModBlocks.BIRCH_LEAF_PILE)
             .put(Blocks.JUNGLE_LEAVES, ModBlocks.JUNGLE_LEAF_PILE)
             .put(Blocks.ACACIA_LEAVES, ModBlocks.ACACIA_LEAF_PILE)
+            .put(Blocks.MANGROVE_LEAVES, ModBlocks.MANGROVE_LEAF_PILE)
             .put(Blocks.AZALEA_LEAVES, ModBlocks.AZALEA_LEAF_PILE)
             .put(Blocks.FLOWERING_AZALEA_LEAVES, ModBlocks.FLOWERING_AZALEA_LEAF_PILE)
             .build());
@@ -66,6 +67,7 @@ public class WeatheringHelper {
             .put(Blocks.BIRCH_LEAVES, ModParticles.BIRCH_LEAF)
             .put(Blocks.JUNGLE_LEAVES, ModParticles.JUNGLE_LEAF)
             .put(Blocks.ACACIA_LEAVES, ModParticles.ACACIA_LEAF)
+            .put(Blocks.MANGROVE_LEAVES, ModParticles.MANGROVE_LEAF)
             .put(Blocks.AZALEA_LEAVES, ModParticles.AZALEA_LEAF)
             .put(Blocks.FLOWERING_AZALEA_LEAVES, ModParticles.AZALEA_FLOWER)
             .build());
@@ -77,6 +79,7 @@ public class WeatheringHelper {
             .put(Blocks.BIRCH_LOG, ModParticles.BIRCH_BARK)
             .put(Blocks.JUNGLE_LOG, ModParticles.JUNGLE_BARK)
             .put(Blocks.ACACIA_LOG, ModParticles.ACACIA_BARK)
+            .put(Blocks.MANGROVE_LOG, ModParticles.MANGROVE_BARK)
             .put(Blocks.CRIMSON_STEM, ModParticles.NETHER_SCALE)
             .put(Blocks.WARPED_STEM, ModParticles.NETHER_SCALE)
             .put(Blocks.OAK_WOOD, ModParticles.OAK_BARK)
@@ -85,6 +88,7 @@ public class WeatheringHelper {
             .put(Blocks.BIRCH_WOOD, ModParticles.BIRCH_BARK)
             .put(Blocks.JUNGLE_WOOD, ModParticles.JUNGLE_BARK)
             .put(Blocks.ACACIA_WOOD, ModParticles.ACACIA_BARK)
+            .put(Blocks.MANGROVE_WOOD, ModParticles.MANGROVE_BARK)
             .put(Blocks.CRIMSON_HYPHAE, ModParticles.NETHER_SCALE)
             .put(Blocks.WARPED_HYPHAE, ModParticles.NETHER_SCALE)
             .build());

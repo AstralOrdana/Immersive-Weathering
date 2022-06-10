@@ -144,6 +144,7 @@
   "block.immersive_weathering.jungle_leaf_pile": "Jungle Leaf Pile",
   "block.immersive_weathering.acacia_leaf_pile": "Acacia Leaf Pile",
   "block.immersive_weathering.dark_oak_leaf_pile": "Dark Oak Leaf Pile",
+  "block.immersive_weathering.mangrove_leaf_pile": "Mangrove Leaf Pile",
   "block.immersive_weathering.azalea_leaf_pile": "Azalea Leaf Pile",
   "block.immersive_weathering.flowering_azalea_leaf_pile": "Flowering Azalea Leaf Pile",
   "block.immersive_weathering.azalea_flower_pile": "Azalea Flower Pile",
@@ -154,6 +155,7 @@
   "item.immersive_weathering.jungle_bark": "Jungle Bark",
   "item.immersive_weathering.acacia_bark": "Acacia Bark",
   "item.immersive_weathering.dark_oak_bark": "Dark Oak Bark",
+  "item.immersive_weathering.mangrove_bark": "Mangrove Bark",
   "item.immersive_weathering.crimson_scales": "Crimson Scales",
   "item.immersive_weathering.warped_scales": "Warped Scales",
 

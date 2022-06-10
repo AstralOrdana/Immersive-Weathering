@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "minecraft:swamp",
+    "minecraft:mangrove_swamp",
     "minecraft:jungle",
     "minecraft:sparse_jungle",
 

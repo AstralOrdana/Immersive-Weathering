@@ -48,15 +48,15 @@ public class ModFeatures {
         RegistryKey<PlacedFeature> fluvisol_patch_dry = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
                 new Identifier("immersive_weathering", "fluvisol_patch_dry"));
         if(ImmersiveWeathering.getConfig().worldgenConfig.fluvisolFeature) {
-            BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.RIVER, BiomeKeys.SWAMP), GenerationStep.Feature.RAW_GENERATION, fluvisol_patch_dry);
-            BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.RIVER, BiomeKeys.SWAMP), GenerationStep.Feature.RAW_GENERATION, fluvisol_patch_surface);
-            BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.RIVER, BiomeKeys.SWAMP), GenerationStep.Feature.RAW_GENERATION, fluvisol_patch_submerged);
+            BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.RIVER, BiomeKeys.SWAMP, BiomeKeys.MANGROVE_SWAMP), GenerationStep.Feature.RAW_GENERATION, fluvisol_patch_dry);
+            BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.RIVER, BiomeKeys.SWAMP, BiomeKeys.MANGROVE_SWAMP), GenerationStep.Feature.RAW_GENERATION, fluvisol_patch_surface);
+            BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.RIVER, BiomeKeys.SWAMP, BiomeKeys.MANGROVE_SWAMP), GenerationStep.Feature.RAW_GENERATION, fluvisol_patch_submerged);
         }
 
         RegistryKey<PlacedFeature> silt_disk = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
                 new Identifier("immersive_weathering", "silt_disk"));
         if(ImmersiveWeathering.getConfig().worldgenConfig.siltFeature) {
-            BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.RIVER, BiomeKeys.SWAMP), GenerationStep.Feature.RAW_GENERATION, silt_disk);
+            BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.RIVER, BiomeKeys.SWAMP, BiomeKeys.MANGROVE_SWAMP), GenerationStep.Feature.RAW_GENERATION, silt_disk);
         }
 
         RegistryKey<PlacedFeature> dry_lakebed = RegistryKey.of(Registry.PLACED_FEATURE_KEY,

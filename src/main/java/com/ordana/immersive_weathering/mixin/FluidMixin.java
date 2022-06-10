@@ -50,7 +50,7 @@ public abstract class FluidMixin extends Block implements FluidDrainable {
             if (!(entity instanceof LivingEntity) || EnchantmentHelper.getEquipmentLevel(Enchantments.FROST_WALKER, (LivingEntity) entity) > 0 || ((LivingEntity) entity).hasStatusEffect(StatusEffects.CONDUIT_POWER) || entity.getType().isIn(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
                 return;
             }
-            else if (ImmersiveWeathering.getConfig().fireAndIceConfig.freezingWater) {
+            else if (ImmersiveWeathering.getConfig().fireAndIceConfig.freezingWater && entity.isTouchingWater()) {
                 entity.setFrozenTicks(ImmersiveWeathering.getConfig().fireAndIceConfig.freezingWaterSeverity);
             }
         }

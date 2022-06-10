@@ -35,8 +35,8 @@ public class LeavesGrowth implements IBlockGrowth {
             if (state.contains(LeavesBlock.PERSISTENT) && !state.get(LeavesBlock.PERSISTENT) && random.nextFloat() < 0.03f) {
 
                 var leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
-                if (leafPile != null && world.getBlockState(pos.down()).isIn(ModTags.LEAF_PILE_REPLACEABLE)) {
-
+                if (leafPile == null) return;
+                if (world.getBlockState(pos.down()).isIn(ModTags.LEAF_PILE_REPLACEABLE)) {
 
                     if (random.nextBoolean() && WeatheringHelper.isIciclePos(pos) && world.getBiome(pos).value().isCold(pos)) {
                         world.setBlockState(pos.down(), ModBlocks.ICICLE.getDefaultState()

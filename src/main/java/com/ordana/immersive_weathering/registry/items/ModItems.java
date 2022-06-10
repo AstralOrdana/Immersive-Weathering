@@ -37,6 +37,7 @@ public class ModItems {
     public static final BlockItem JUNGLE_LEAF_PILE = new LeafPileBlockItem(ModBlocks.JUNGLE_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem ACACIA_LEAF_PILE = new LeafPileBlockItem(ModBlocks.ACACIA_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem DARK_OAK_LEAF_PILE = new LeafPileBlockItem(ModBlocks.DARK_OAK_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem MANGROVE_LEAF_PILE = new LeafPileBlockItem(ModBlocks.MANGROVE_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem AZALEA_LEAF_PILE = new LeafPileBlockItem(ModBlocks.AZALEA_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem FLOWERING_AZALEA_LEAF_PILE = new LeafPileBlockItem(ModBlocks.FLOWERING_AZALEA_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem AZALEA_FLOWER_PILE = new LeafPileBlockItem(ModBlocks.AZALEA_FLOWER_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
@@ -47,6 +48,7 @@ public class ModItems {
     public static final Item JUNGLE_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item DARK_OAK_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item ACACIA_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
+    public static final Item MANGROVE_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item CRIMSON_SCALES = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item WARPED_SCALES = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
 
@@ -261,6 +263,7 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "jungle_leaf_pile"), JUNGLE_LEAF_PILE);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "acacia_leaf_pile"), ACACIA_LEAF_PILE);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "dark_oak_leaf_pile"), DARK_OAK_LEAF_PILE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mangrove_leaf_pile"), MANGROVE_LEAF_PILE);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "azalea_leaf_pile"), AZALEA_LEAF_PILE);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "flowering_azalea_leaf_pile"), FLOWERING_AZALEA_LEAF_PILE);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "azalea_flower_pile"), AZALEA_FLOWER_PILE);
@@ -271,6 +274,7 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "jungle_bark"), JUNGLE_BARK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "acacia_bark"), ACACIA_BARK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "dark_oak_bark"), DARK_OAK_BARK);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mangrove_bark"), MANGROVE_BARK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "crimson_scales"), CRIMSON_SCALES);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "warped_scales"), WARPED_SCALES);
 
