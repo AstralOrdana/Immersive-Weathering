@@ -49,7 +49,7 @@ public class PermafrostBlock extends Block {
     }
 
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
-        if (!(entity instanceof LivingEntity) || EnchantmentHelper.getEquipmentLevel(Enchantments.FROST_WALKER, (LivingEntity) entity) > 0 || isWearingBoots(entity)  || entity.getType().isIn(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES) || entity.getType() == EntityType.FOX || entity.getType() == EntityType.RABBIT || entity.getType() == EntityType.SHEEP || entity.getType() == EntityType.STRAY || entity.getType() == EntityType.GOAT) {
+        if (!(entity instanceof LivingEntity) || EnchantmentHelper.getEquipmentLevel(Enchantments.FROST_WALKER, (LivingEntity) entity) > 0 || isWearingBoots(entity) || entity.getType() == EntityType.VILLAGER || entity.getType().isIn(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES) || entity.getType() == EntityType.FOX || entity.getType() == EntityType.RABBIT || entity.getType() == EntityType.SHEEP || entity.getType() == EntityType.STRAY || entity.getType() == EntityType.GOAT) {
             return;
         }
         if (ImmersiveWeathering.getConfig().fireAndIceConfig.permafrostFreezing) {

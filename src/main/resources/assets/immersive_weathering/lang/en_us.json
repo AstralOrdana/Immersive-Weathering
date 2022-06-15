@@ -337,5 +337,8 @@
   "block.immersive_weathering.waxed_iron_bars": "Waxed Iron Bars",
   "block.immersive_weathering.waxed_exposed_iron_bars": "Waxed Exposed Iron Bars",
   "block.immersive_weathering.waxed_weathered_iron_bars": "Waxed Weathered Iron Bars",
-  "block.immersive_weathering.waxed_rusted_iron_bars": "Waxed Rusted Iron Bars"
+  "block.immersive_weathering.waxed_rusted_iron_bars": "Waxed Rusted Iron Bars",
+
+  "block.minecraft.sand": "Sand Block",
+  "block.minecraft.red_sand": "Red Sand Block"
 }

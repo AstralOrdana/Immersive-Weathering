@@ -59,9 +59,10 @@ public abstract class LeavesMixin extends Block implements Fertilizable {
     @Inject(method = "randomDisplayTick", at = @At("HEAD"))
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random, CallbackInfo ci) {
         var leafParticle = WeatheringHelper.getFallenLeafParticle(state).orElse(null);
+        if (leafParticle == null) return;
         if(ImmersiveWeathering.getConfig().leavesConfig.fallingLeafParticles && state.isIn(ModTags.VANILLA_LEAVES)) {
             if (random.nextInt(32) == 0 && !world.getBlockState(pos.down()).isSolidBlock(world, pos)) {
-                if (!(world.getBlockState(pos.down()).getBlock() instanceof LeavesBlock)) {
+                if (!(world.getBlockState(pos.down()).getBlock() instanceof LeavesBlock) && state.isIn(ModTags.VANILLA_LEAVES)) {
                     ParticleUtil.spawnParticle(world, pos, leafParticle, UniformIntProvider.create(0, 1));
                 }
             }

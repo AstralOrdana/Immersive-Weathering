@@ -34,7 +34,8 @@ public class LeavesGrowth implements IBlockGrowth {
             if (state.contains(LeavesBlock.PERSISTENT) && !state.get(LeavesBlock.PERSISTENT) && random.nextFloat() < 0.03f) {
 
                 var leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
-                if (leafPile != null && world.getBlockState(pos.down()).isIn(ModTags.LEAF_PILE_REPLACEABLE)) {
+                if (leafPile == null) return;
+                if (world.getBlockState(pos.down()).isIn(ModTags.LEAF_PILE_REPLACEABLE)) {
 
 
                     if (random.nextBoolean() && WeatheringHelper.isIciclePos(pos) && world.getBiome(pos).value().isCold(pos)) {
@@ -69,12 +70,15 @@ public class LeavesGrowth implements IBlockGrowth {
                             if (pileHeight == 0 || pileHeight >= maxPileHeight) return;
                         }
 
+                        BlockPos below = targetPos.down();
+                        BlockState belowState = world.getBlockState(below);
                         BlockState baseLeaf = leafPile.getDefaultState().with(LeafPileBlock.LAYERS, 0);
                         //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
                         if (isOnLeaf ||
-                                (replaceState.getMaterial().isReplaceable() && baseLeaf.canPlaceAt(world, targetPos)
-                                        && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 1, 2,
-                                        world, b -> b.getBlock() instanceof LeafPileBlock, 6))) {
+                                (replaceState.getMaterial().isReplaceable()
+                                        && belowState.isSideSolidFullSquare(world, below, Direction.UP)
+                                        && baseLeaf.canPlaceAt(world, targetPos)
+                                        && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 1, 2, world, b -> b.getBlock() instanceof LeafPileBlock, 6))) {
 
 
                             if (world.getBlockState(targetPos.down()).isOf(Blocks.WATER)) {
