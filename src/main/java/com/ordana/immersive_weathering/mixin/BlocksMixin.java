@@ -61,7 +61,7 @@ public class BlocksMixin {
             )
     private static HangingRootsBlock hangingRoots(AbstractBlock.Settings settings)
     {
-        return new ModHangingRootsBlock(settings);
+        return new ModHangingRootsBlock(settings.offsetType(AbstractBlock.OffsetType.NONE));
     }
 
     @Redirect
@@ -311,7 +311,7 @@ public class BlocksMixin {
             )
     private static Block stone(AbstractBlock.Settings settings)
     {
-        return new MossableBlock(Mossable.MossLevel.MOSSABLE, settings);
+        return new CrackableMossableBlock(Mossable.MossLevel.MOSSABLE, Crackable.CrackLevel.UNCRACKED, settings);
     }
     @Redirect
             (
@@ -333,7 +333,7 @@ public class BlocksMixin {
             )
     private static SlabBlock stoneSlab(AbstractBlock.Settings settings)
     {
-        return new MossableSlabBlock(Mossable.MossLevel.MOSSABLE, settings);
+        return new CrackableMossableSlabBlock(Mossable.MossLevel.MOSSABLE, Crackable.CrackLevel.UNCRACKED, settings);
     }
     @Shadow @Final public static Block STONE;
     @Redirect
@@ -356,7 +356,7 @@ public class BlocksMixin {
             )
     private static StairsBlock stoneStairs(BlockState baseBlockState, AbstractBlock.Settings settings)
     {
-        return new MossableStairsBlock(Mossable.MossLevel.MOSSABLE, STONE.getDefaultState(), settings);
+        return new CrackableMossableStairsBlock(Mossable.MossLevel.MOSSABLE, Crackable.CrackLevel.UNCRACKED, STONE.getDefaultState(), settings);
     }
 
 

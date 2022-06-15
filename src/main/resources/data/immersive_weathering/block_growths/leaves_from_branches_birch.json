@@ -1,0 +1,84 @@
+{
+  "growth_chance": 0.5,
+  "growth_for_face": [
+    {
+      "direction": "north",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:birch_leaves",
+              "Properties": {
+                "persistent": "false",
+                "distance":  "2"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "south",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:birch_leaves",
+              "Properties": {
+                "persistent": "false",
+                "distance":  "2"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "east",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:birch_leaves",
+              "Properties": {
+                "persistent": "false",
+                "distance":  "2"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "west",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:birch_leaves",
+              "Properties": {
+                "persistent": "false",
+                "distance":  "2"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": [
+    "immersive_weathering:birch_branches"
+  ],
+  "replacing_target": {
+    "predicate_type": "minecraft:block_match",
+    "block": "minecraft:air"
+  }
+}

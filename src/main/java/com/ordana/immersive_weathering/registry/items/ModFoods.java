@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.registry;
+package com.ordana.immersive_weathering.registry.items;
 
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -16,7 +16,7 @@ public class ModFoods {
 
     public static final FoodComponent AZALEA_FLOWER = (new FoodComponent.Builder()).hunger(0).saturationModifier(0F).alwaysEdible().snack().build();
 
-    public static final FoodComponent MOSS_CLUMP = (new FoodComponent.Builder()).hunger(1).saturationModifier(0.2F).alwaysEdible().snack().build();
+    public static final FoodComponent MOSS_CLUMP = (new FoodComponent.Builder()).hunger(1).saturationModifier(0.2F).alwaysEdible().build();
 
     public static final FoodComponent GOLDEN_MOSS_CLUMP = (new FoodComponent.Builder()).hunger(4).saturationModifier(0.6F).alwaysEdible()
             .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 200, 1), 1F).build();

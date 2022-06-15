@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.block_growth.hardcoded;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.block_growth.IBlockGrowth;
 import com.ordana.immersive_weathering.registry.ModTags;
+import com.ordana.immersive_weathering.registry.blocks.BranchesBlock;
 import com.ordana.immersive_weathering.registry.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
@@ -28,6 +29,14 @@ public class LeavesGrowth implements IBlockGrowth {
 
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerWorld world, RegistryEntry<Biome> biome) {
+
+        if(ImmersiveWeathering.getConfig().leavesConfig.branchesForm) {
+            if (state.contains(LeavesBlock.PERSISTENT) && !state.get(LeavesBlock.PERSISTENT) && state.contains(LeavesBlock.DISTANCE) && state.get(LeavesBlock.DISTANCE) == 1 && state.isIn(ModTags.VANILLA_LEAVES)) {
+                var branchLeaves = WeatheringHelper.getBranchesFromLeaves(state).orElse(null);
+                if (branchLeaves == null) return;
+                world.setBlockState(pos, branchLeaves.getBlock().getStateWithProperties(state).with(BranchesBlock.LEAFY, true));
+            }
+        }
         if(ImmersiveWeathering.getConfig().leavesConfig.leafPilesForm) {
 
             net.minecraft.util.math.random.Random random = world.getRandom();
@@ -69,13 +78,15 @@ public class LeavesGrowth implements IBlockGrowth {
                             pileHeight = replaceState.get(LeafPileBlock.LAYERS);
                             if (pileHeight == 0 || pileHeight >= maxPileHeight) return;
                         }
-
+                        BlockPos below = targetPos.down();
+                        BlockState belowState = world.getBlockState(below);
                         BlockState baseLeaf = leafPile.getDefaultState().with(LeafPileBlock.LAYERS, 0);
                         //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
                         if (isOnLeaf ||
-                                (replaceState.getMaterial().isReplaceable() && baseLeaf.canPlaceAt(world, targetPos)
-                                        && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 1, 2,
-                                        world, b -> b.getBlock() instanceof LeafPileBlock, 6))) {
+                                (replaceState.getMaterial().isReplaceable()
+                                        && belowState.isSideSolidFullSquare(world, below, Direction.UP)
+                                        && baseLeaf.canPlaceAt(world, targetPos)
+                                        && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 1, 2, world, b -> b.getBlock() instanceof LeafPileBlock, 6))) {
 
 
                             if (world.getBlockState(targetPos.down()).isOf(Blocks.WATER)) {

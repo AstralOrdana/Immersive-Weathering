@@ -19,11 +19,8 @@ public abstract class ServerWorldSnowMixin {
 			require = 0,
 			at = @At(value = "INVOKE",
 					target = "Lnet/minecraft/block/Block;precipitationTick(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/world/biome/Biome$Precipitation;)V"))
-	private BlockState spawnIcicles(BlockState state, World level, BlockPos pos, Biome.Precipitation precipitation) {
-		if(ImmersiveWeathering.getConfig().fireAndIceConfig.iciclePlacement) {
-			WeatheringHelper.tryPlacingIcicle(state, level, pos, precipitation);
-			return state;
-		}
+	private BlockState worldTickWeathering(BlockState state, World level, BlockPos pos, Biome.Precipitation precipitation) {
+		WeatheringHelper.worldTickWeathering(state, level, pos, precipitation);
 		return state;
 	}
 }

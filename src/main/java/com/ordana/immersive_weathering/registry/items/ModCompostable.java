@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.registry;
+package com.ordana.immersive_weathering.registry.items;
 
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;

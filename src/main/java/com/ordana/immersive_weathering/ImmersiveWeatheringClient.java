@@ -157,6 +157,14 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.DARK_OAK_LEAF_PILE);
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.MANGROVE_LEAF_PILE);
 
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.OAK_BRANCHES);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> FoliageColors.getSpruceColor(), ModBlocks.SPRUCE_BRANCHES);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> FoliageColors.getBirchColor(), ModBlocks.BIRCH_BRANCHES);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.JUNGLE_BRANCHES);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.ACACIA_BRANCHES);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.DARK_OAK_BRANCHES);
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(), ModBlocks.MANGROVE_BRANCHES);
+
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.FROSTY_GRASS);
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.FROSTY_FERN);
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.ROOTED_GRASS_BLOCK);
@@ -183,27 +191,13 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getColor(0D, 0D), ModBlocks.MOSSY_STONE_WALL);
 
 
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return FoliageColors.getDefaultColor();
-        }, ModItems.OAK_LEAF_PILE);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return FoliageColors.getSpruceColor();
-        }, ModItems.SPRUCE_LEAF_PILE);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return FoliageColors.getBirchColor();
-        }, ModItems.BIRCH_LEAF_PILE);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return FoliageColors.getDefaultColor();
-        }, ModItems.JUNGLE_LEAF_PILE);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return FoliageColors.getDefaultColor();
-        }, ModItems.ACACIA_LEAF_PILE);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return FoliageColors.getDefaultColor();
-        }, ModItems.DARK_OAK_LEAF_PILE);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            return FoliageColors.getDefaultColor();
-        }, ModItems.MANGROVE_LEAF_PILE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FoliageColors.getDefaultColor(), ModItems.OAK_LEAF_PILE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FoliageColors.getSpruceColor(), ModItems.SPRUCE_LEAF_PILE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FoliageColors.getBirchColor(), ModItems.BIRCH_LEAF_PILE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FoliageColors.getDefaultColor(), ModItems.JUNGLE_LEAF_PILE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FoliageColors.getDefaultColor(), ModItems.ACACIA_LEAF_PILE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FoliageColors.getDefaultColor(), ModItems.DARK_OAK_LEAF_PILE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FoliageColors.getDefaultColor(), ModItems.MANGROVE_LEAF_PILE);
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), ModItems.ROOTED_GRASS_BLOCK);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> GrassColors.getColor(0.5D,0.5D), Items.MOSSY_COBBLESTONE);
@@ -287,6 +281,14 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FLOWERING_AZALEA_LEAF_PILE, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.AZALEA_FLOWER_PILE, RenderLayer.getCutout());
 
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.OAK_BRANCHES, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SPRUCE_BRANCHES, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.BIRCH_BRANCHES, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.JUNGLE_BRANCHES, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ACACIA_BRANCHES, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.DARK_OAK_BRANCHES, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MANGROVE_BRANCHES, RenderLayer.getCutout());
+
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WEEDS, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.IVY, RenderLayer.getCutout());
 
@@ -301,6 +303,7 @@ public class ImmersiveWeatheringClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FROSTY_GRASS, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FROSTY_FERN, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.THIN_ICE, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MOSS, RenderLayer.getCutout());
 
     }
 }

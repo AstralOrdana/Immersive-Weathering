@@ -46,7 +46,7 @@ public abstract class FluidMixin extends Block implements FluidDrainable {
 
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if (world.getBiome(pos).isIn(ModTags.ICY)) {
+        if (world.getBiome(pos).isIn(ModTags.ICY) && this.fluid.isIn(FluidTags.WATER)) {
             if (!(entity instanceof LivingEntity) || EnchantmentHelper.getEquipmentLevel(Enchantments.FROST_WALKER, (LivingEntity) entity) > 0 || ((LivingEntity) entity).hasStatusEffect(StatusEffects.CONDUIT_POWER) || entity.getType().isIn(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
                 return;
             }
@@ -89,6 +89,7 @@ public abstract class FluidMixin extends Block implements FluidDrainable {
                 boolean hasBubbles = false;
                 boolean hasSoulfire = false;
                 boolean hasClay = false;
+                boolean hasMud = false;
                 boolean hasSand = false;
                 boolean hasRedSand = false;
                 boolean hasMossyBlock = false;
@@ -130,6 +131,9 @@ public abstract class FluidMixin extends Block implements FluidDrainable {
                     }
                     if (world.getBlockState(blockPos).isOf(Blocks.CLAY)) {
                         hasClay = true;
+                    }
+                    if (world.getBlockState(blockPos).isOf(Blocks.MUD)) {
+                        hasMud = true;
                     }
                     if (world.getBlockState(blockPos).isIn(ModTags.MOSSY)) {
                         hasMossyBlock = true;
@@ -202,6 +206,15 @@ public abstract class FluidMixin extends Block implements FluidDrainable {
                         if (hasClay) {
                             if (world.getBlockState(blockPos).isOf(Blocks.CLAY)) {
                                 world.setBlockState(blockPos, Blocks.TERRACOTTA.getDefaultState());
+                                this.playExtinguishSound(world, pos);
+                                cir.setReturnValue(false);
+                            }
+                        }
+                    }
+                    if(ImmersiveWeathering.getConfig().generatorsConfig.crackedMudGenerator) {
+                        if (hasMud) {
+                            if (world.getBlockState(blockPos).isOf(Blocks.MUD)) {
+                                world.setBlockState(blockPos, ModBlocks.CRACKED_MUD.getDefaultState());
                                 this.playExtinguishSound(world, pos);
                                 cir.setReturnValue(false);
                             }

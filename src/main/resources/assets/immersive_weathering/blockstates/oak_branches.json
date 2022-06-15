@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "leafy=true":
+    {
+      "model": "immersive_weathering:block/oak_branches_leafy"
+    },
+    "leafy=false":
+    {
+      "model": "immersive_weathering:block/oak_branches"
+    }
+  }
+}

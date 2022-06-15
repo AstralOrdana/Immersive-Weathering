@@ -45,6 +45,7 @@ public final class ServerConfig extends PartitioningSerializer.GlobalData {
         public boolean leafDecayParticles = true;
         public boolean leafDecaySound = true;
         public boolean leafPilesForm = true;
+        public boolean branchesForm = true;
         public boolean leafPilesConvertBlockBelow = true;
         public boolean leggingsPreventThornDamage = true;
 
@@ -91,6 +92,7 @@ public final class ServerConfig extends PartitioningSerializer.GlobalData {
         public boolean blockCracking = true;
         public boolean blockMossing = true;
         public boolean blockRusting = true;
+        public boolean woodWeathering = false;
 
         private BlockGrowthConfig() {
         }
@@ -110,6 +112,7 @@ public final class ServerConfig extends PartitioningSerializer.GlobalData {
         public boolean blackstoneGenerator = true;
         public boolean magmaGenerator = true;
         public boolean terracottaGenerator = true;
+        public boolean crackedMudGenerator = true;
         public boolean vitrifiedSandGenerator = true;
         public boolean cryingObsidianGenerator = true;
         public boolean iceGenerator = true;
@@ -153,6 +156,8 @@ public final class ServerConfig extends PartitioningSerializer.GlobalData {
         public boolean darkLeavesFeature = true;
         public boolean birchLeavesFeature = true;
         public boolean spruceLeavesFeature = true;
+        public boolean ivyFeature = true;
+        public boolean quicksandFeature = true;
 
         private WorldgenConfig() {
         }

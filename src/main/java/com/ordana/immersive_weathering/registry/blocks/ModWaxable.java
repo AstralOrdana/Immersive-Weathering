@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.registry;
+package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;

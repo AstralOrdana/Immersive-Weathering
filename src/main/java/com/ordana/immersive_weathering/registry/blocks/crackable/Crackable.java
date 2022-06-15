@@ -23,6 +23,7 @@ public interface Crackable extends Weatherable {
     Supplier<BiMap<Block, Block>> CRACK_LEVEL_INCREASES = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
 
             .put(Blocks.STONE_BRICKS, Blocks.CRACKED_STONE_BRICKS)
+            .put(Blocks.STONE, ModBlocks.CRACKED_STONE)
             .put(Blocks.BRICKS, ModBlocks.CRACKED_BRICKS)
             .put(Blocks.POLISHED_BLACKSTONE_BRICKS, Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS)
             .put(Blocks.NETHER_BRICKS, Blocks.CRACKED_NETHER_BRICKS)
@@ -32,6 +33,7 @@ public interface Crackable extends Weatherable {
             .put(Blocks.END_STONE_BRICKS, ModBlocks.CRACKED_END_STONE_BRICKS)
 
             .put(Blocks.STONE_BRICK_SLAB, ModBlocks.CRACKED_STONE_BRICK_SLAB)
+            .put(Blocks.STONE_SLAB, ModBlocks.CRACKED_STONE_SLAB)
             .put(Blocks.BRICK_SLAB, ModBlocks.CRACKED_BRICK_SLAB)
             .put(Blocks.POLISHED_BLACKSTONE_BRICK_SLAB, ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_SLAB)
             .put(Blocks.NETHER_BRICK_SLAB, ModBlocks.CRACKED_NETHER_BRICK_SLAB)
@@ -41,6 +43,7 @@ public interface Crackable extends Weatherable {
             .put(Blocks.END_STONE_BRICK_SLAB, ModBlocks.CRACKED_END_STONE_BRICK_SLAB)
 
             .put(Blocks.STONE_BRICK_STAIRS, ModBlocks.CRACKED_STONE_BRICK_STAIRS)
+            .put(Blocks.STONE_STAIRS, ModBlocks.CRACKED_STONE_STAIRS)
             .put(Blocks.BRICK_STAIRS, ModBlocks.CRACKED_BRICK_STAIRS)
             .put(Blocks.POLISHED_BLACKSTONE_BRICK_STAIRS, ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_STAIRS)
             .put(Blocks.NETHER_BRICK_STAIRS, ModBlocks.CRACKED_NETHER_BRICK_STAIRS)
@@ -50,6 +53,7 @@ public interface Crackable extends Weatherable {
             .put(Blocks.END_STONE_BRICK_STAIRS, ModBlocks.CRACKED_END_STONE_BRICK_STAIRS)
 
             .put(Blocks.STONE_BRICK_WALL, ModBlocks.CRACKED_STONE_BRICK_WALL)
+            .put(ModBlocks.STONE_WALL, ModBlocks.CRACKED_STONE_WALL)
             .put(Blocks.BRICK_WALL, ModBlocks.CRACKED_BRICK_WALL)
             .put(Blocks.POLISHED_BLACKSTONE_BRICK_WALL, ModBlocks.CRACKED_POLISHED_BLACKSTONE_BRICK_WALL)
             .put(Blocks.NETHER_BRICK_WALL, ModBlocks.CRACKED_NETHER_BRICK_WALL)

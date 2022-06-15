@@ -1,11 +1,10 @@
 package com.ordana.immersive_weathering.registry.items;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.registry.ModFoods;
 import com.ordana.immersive_weathering.registry.blocks.ModBlocks;
-import net.minecraft.block.StairsBlock;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
@@ -20,14 +19,13 @@ public class ModItems {
     public static final BlockItem FROSTY_GLASS = new BlockItem(ModBlocks.FROSTY_GLASS, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem FROSTY_GLASS_PANE = new BlockItem(ModBlocks.FROSTY_GLASS_PANE, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem THIN_ICE = new BlockItem(ModBlocks.THIN_ICE, new Item.Settings().group(ItemGroup.DECORATIONS));
-
-    public static final BlockItem FULGURITE = new BlockItem(ModBlocks.FULGURITE, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem VITRIFIED_SAND = new BlockItem(ModBlocks.VITRIFIED_SAND, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem CRYOSOL = new BlockItem(ModBlocks.CRYOSOL, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem PERMAFROST = new BlockItem(ModBlocks.PERMAFROST, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final Item POND_WATER = new PondWaterItem(new Item.Settings().group(ItemGroup.FOOD).food(ModFoods.POND_WATER).maxCount(16));
     public static final Item AZALEA_FLOWERS = new Item(new Item.Settings().group(ItemGroup.MATERIALS).food(ModFoods.AZALEA_FLOWER));
     public static final Item FLOWER_CROWN = new FlowerCrownItem(FlowerCrownMaterial.INSTANCE, EquipmentSlot.HEAD, new Item.Settings().group(ItemGroup.TOOLS));
-    public static final Item MOSS_CLUMP = new Item(new Item.Settings().group(ItemGroup.FOOD).food(ModFoods.MOSS_CLUMP));
+    public static final Item MOSS_CLUMP = new BlockItem(ModBlocks.MOSS, new Item.Settings().group(ItemGroup.DECORATIONS).food(ModFoods.MOSS_CLUMP));
     public static final Item GOLDEN_MOSS_CLUMP = new Item(new Item.Settings().group(ItemGroup.FOOD).food(ModFoods.GOLDEN_MOSS_CLUMP));
     public static final Item ENCHANTED_GOLDEN_MOSS_CLUMP = new EnchantedGoldenMossClumpItem(new Item.Settings().group(ItemGroup.FOOD).rarity(Rarity.EPIC).food(ModFoods.ENCHANTED_GOLDEN_MOSS_CLUMP));
 
@@ -42,6 +40,14 @@ public class ModItems {
     public static final BlockItem FLOWERING_AZALEA_LEAF_PILE = new LeafPileBlockItem(ModBlocks.FLOWERING_AZALEA_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem AZALEA_FLOWER_PILE = new LeafPileBlockItem(ModBlocks.AZALEA_FLOWER_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
 
+    public static final BlockItem OAK_BRANCHES = new LeafPileBlockItem(ModBlocks.OAK_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SPRUCE_BRANCHES = new LeafPileBlockItem(ModBlocks.SPRUCE_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem BIRCH_BRANCHES = new LeafPileBlockItem(ModBlocks.BIRCH_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem JUNGLE_BRANCHES = new LeafPileBlockItem(ModBlocks.JUNGLE_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem ACACIA_BRANCHES = new LeafPileBlockItem(ModBlocks.ACACIA_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem DARK_OAK_BRANCHES = new LeafPileBlockItem(ModBlocks.DARK_OAK_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem MANGROVE_BRANCHES = new LeafPileBlockItem(ModBlocks.MANGROVE_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
+
     public static final Item OAK_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item BIRCH_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item SPRUCE_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
@@ -54,12 +60,6 @@ public class ModItems {
 
     public static final BlockItem IVY = new BlockItem(ModBlocks.IVY, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem WEEDS = new BlockItem(ModBlocks.WEEDS, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem SAND_LAYER_BLOCK = new BlockItem(ModBlocks.SAND_LAYER_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem RED_SAND_LAYER_BLOCK = new BlockItem(ModBlocks.RED_SAND_LAYER_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem ASH_LAYER_BLOCK = new BlockItem(ModBlocks.ASH_LAYER_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem ASH_BLOCK = new BlockItem(ModBlocks.ASH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem SOOT = new BlockItem(ModBlocks.SOOT, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final Item TALLOW = new HoneycombItem(new Item.Settings().group(ItemGroup.MATERIALS));
 
     public static final BlockItem MULCH_BLOCK = new BlockItem(ModBlocks.MULCH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem NULCH_BLOCK = new BlockItem(ModBlocks.NULCH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
@@ -69,10 +69,18 @@ public class ModItems {
     public static final BlockItem SILT = new BlockItem(ModBlocks.SILT, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem VERTISOL = new BlockItem(ModBlocks.VERTISOL, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem CRACKED_MUD = new BlockItem(ModBlocks.CRACKED_MUD, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem CRYOSOL = new BlockItem(ModBlocks.CRYOSOL, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem PERMAFROST = new BlockItem(ModBlocks.PERMAFROST, new Item.Settings().group(ItemGroup.DECORATIONS));
-
     public static final BlockItem ROOTED_GRASS_BLOCK = new BlockItem(ModBlocks.ROOTED_GRASS_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
+
+    public static final BlockItem FULGURITE = new BlockItem(ModBlocks.FULGURITE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem VITRIFIED_SAND = new BlockItem(ModBlocks.VITRIFIED_SAND, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem QUICKSAND_BUCKET = new QuicksandBucketItem(ModBlocks.QUICKSAND, SoundEvents.ITEM_BUCKET_EMPTY_POWDER_SNOW, new Item.Settings().maxCount(1).group(ItemGroup.DECORATIONS));
+    public static final BlockItem SAND_LAYER_BLOCK = new BlockItem(ModBlocks.SAND_LAYER_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem RED_SAND_LAYER_BLOCK = new BlockItem(ModBlocks.RED_SAND_LAYER_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
+
+    public static final BlockItem ASH_LAYER_BLOCK = new BlockItem(ModBlocks.ASH_LAYER_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem ASH_BLOCK = new BlockItem(ModBlocks.ASH_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SOOT = new BlockItem(ModBlocks.SOOT, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final Item TALLOW = new HoneycombItem(new Item.Settings().group(ItemGroup.MATERIALS));
 
     public static final BlockItem CHARRED_LOG = new BlockItem(ModBlocks.CHARRED_LOG, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CHARRED_PLANKS = new BlockItem(ModBlocks.CHARRED_PLANKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
@@ -99,6 +107,10 @@ public class ModItems {
     public static final BlockItem MOSSY_STONE_STAIRS = new BlockItem(ModBlocks.MOSSY_STONE_STAIRS, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem MOSSY_STONE_SLAB = new BlockItem(ModBlocks.MOSSY_STONE_SLAB, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem MOSSY_STONE_WALL = new BlockItem(ModBlocks.MOSSY_STONE_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem CRACKED_STONE = new BlockItem(ModBlocks.CRACKED_STONE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem CRACKED_STONE_STAIRS = new BlockItem(ModBlocks.CRACKED_STONE_STAIRS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem CRACKED_STONE_SLAB = new BlockItem(ModBlocks.CRACKED_STONE_SLAB, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem CRACKED_STONE_WALL = new BlockItem(ModBlocks.CRACKED_STONE_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem STONE_WALL = new BlockItem(ModBlocks.STONE_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final BlockItem CRACKED_BRICKS = new BlockItem(ModBlocks.CRACKED_BRICKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
@@ -249,6 +261,7 @@ public class ModItems {
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "vitrified_sand"), VITRIFIED_SAND);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "fulgurite"), FULGURITE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "quicksand_bucket"), QUICKSAND_BUCKET);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "pond_water"), POND_WATER);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "azalea_flowers"), AZALEA_FLOWERS);
@@ -267,6 +280,14 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "azalea_leaf_pile"), AZALEA_LEAF_PILE);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "flowering_azalea_leaf_pile"), FLOWERING_AZALEA_LEAF_PILE);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "azalea_flower_pile"), AZALEA_FLOWER_PILE);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "oak_branches"), OAK_BRANCHES);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "spruce_branches"), SPRUCE_BRANCHES);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "birch_branches"), BIRCH_BRANCHES);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "jungle_branches"), JUNGLE_BRANCHES);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "acacia_branches"), ACACIA_BRANCHES);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "dark_oak_branches"), DARK_OAK_BRANCHES);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mangrove_branches"), MANGROVE_BRANCHES);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "oak_bark"), OAK_BARK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "spruce_bark"), SPRUCE_BARK);
@@ -325,6 +346,10 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_stairs"), MOSSY_STONE_STAIRS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_slab"), MOSSY_STONE_SLAB);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_wall"), MOSSY_STONE_WALL);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone"), CRACKED_STONE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_stairs"), CRACKED_STONE_STAIRS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_slab"), CRACKED_STONE_SLAB);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_wall"), CRACKED_STONE_WALL);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "stone_wall"), STONE_WALL);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_bricks"), CRACKED_BRICKS);

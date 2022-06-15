@@ -3,27 +3,23 @@ package com.ordana.immersive_weathering.registry.blocks;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMap;
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.charred.CharredBlock;
-import io.netty.util.internal.MathUtil;
+import com.ordana.immersive_weathering.registry.blocks.rotten.RottenFenceBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.PillarBlock;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.item.Item;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.*;
-import net.minecraft.util.collection.DataPool;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeKeys;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -72,6 +68,16 @@ public class WeatheringHelper {
             .put(Blocks.FLOWERING_AZALEA_LEAVES, ModParticles.AZALEA_FLOWER)
             .build());
 
+    public static final Supplier<Map<Block, DefaultParticleType>> BRANCH_LEAF_PARTICLES = Suppliers.memoize(() -> ImmutableMap.<Block, DefaultParticleType>builder()
+            .put(ModBlocks.OAK_BRANCHES, ModParticles.OAK_LEAF)
+            .put(ModBlocks.DARK_OAK_BRANCHES, ModParticles.DARK_OAK_LEAF)
+            .put(ModBlocks.SPRUCE_BRANCHES, ModParticles.SPRUCE_LEAF)
+            .put(ModBlocks.BIRCH_BRANCHES, ModParticles.BIRCH_LEAF)
+            .put(ModBlocks.JUNGLE_BRANCHES, ModParticles.JUNGLE_LEAF)
+            .put(ModBlocks.ACACIA_BRANCHES, ModParticles.ACACIA_LEAF)
+            .put(ModBlocks.MANGROVE_BRANCHES, ModParticles.MANGROVE_LEAF)
+            .build());
+
     public static final Supplier<Map<Block, DefaultParticleType>> BARK_PARTICLES = Suppliers.memoize(() -> ImmutableMap.<Block, DefaultParticleType>builder()
             .put(Blocks.OAK_LOG, ModParticles.OAK_BARK)
             .put(Blocks.DARK_OAK_LOG, ModParticles.DARK_OAK_BARK)
@@ -93,6 +99,26 @@ public class WeatheringHelper {
             .put(Blocks.WARPED_HYPHAE, ModParticles.NETHER_SCALE)
             .build());
 
+    public static final Supplier<Map<Block, Block>> LEAVES_FROM_BRANCHES = Suppliers.memoize(() -> ImmutableMap.<Block, Block>builder()
+            .put(ModBlocks.OAK_BRANCHES, Blocks.OAK_LEAVES)
+            .put(ModBlocks.DARK_OAK_BRANCHES, Blocks.DARK_OAK_LEAVES)
+            .put(ModBlocks.SPRUCE_BRANCHES, Blocks.SPRUCE_LEAVES)
+            .put(ModBlocks.BIRCH_BRANCHES, Blocks.BIRCH_LEAVES)
+            .put(ModBlocks.JUNGLE_BRANCHES, Blocks.JUNGLE_LEAVES)
+            .put(ModBlocks.ACACIA_BRANCHES, Blocks.ACACIA_LEAVES)
+            .put(ModBlocks.MANGROVE_BRANCHES, Blocks.MANGROVE_LEAVES)
+            .build());
+
+    public static final Supplier<Map<Block, Block>> BRANCHES_FROM_LEAVES = Suppliers.memoize(() -> ImmutableMap.<Block, Block>builder()
+            .put(Blocks.OAK_LEAVES, ModBlocks.OAK_BRANCHES)
+            .put(Blocks.DARK_OAK_LEAVES, ModBlocks.DARK_OAK_BRANCHES)
+            .put(Blocks.SPRUCE_LEAVES, ModBlocks.SPRUCE_BRANCHES)
+            .put(Blocks.BIRCH_LEAVES, ModBlocks.BIRCH_BRANCHES)
+            .put(Blocks.JUNGLE_LEAVES, ModBlocks.JUNGLE_BRANCHES)
+            .put(Blocks.ACACIA_LEAVES, ModBlocks.ACACIA_BRANCHES)
+            .put(Blocks.MANGROVE_LEAVES, ModBlocks.MANGROVE_BRANCHES)
+            .build());
+
     public static Optional<BlockState> getAzaleaGrowth(BlockState state) {
         return Optional.ofNullable(FLOWERY_BLOCKS.get().get(state.getBlock()))
                 .map(block -> block.getStateWithProperties(state));
@@ -106,8 +132,22 @@ public class WeatheringHelper {
         return Optional.ofNullable(LEAF_PARTICLES.get().get(state.getBlock()));
     }
 
+    public static Optional<DefaultParticleType> getBranchLeafParticle(BlockState state) {
+        return Optional.ofNullable(BRANCH_LEAF_PARTICLES.get().get(state.getBlock()));
+    }
+
     public static Optional<DefaultParticleType> getBarkParticle(BlockState state) {
         return Optional.ofNullable(BARK_PARTICLES.get().get(state.getBlock()));
+    }
+
+    public static Optional<BlockState> getLeavesFromBranches(BlockState state) {
+        return Optional.ofNullable(LEAVES_FROM_BRANCHES.get().get(state.getBlock()))
+                .map(block -> block.getStateWithProperties(state));
+    }
+
+    public static Optional<BlockState> getBranchesFromLeaves(BlockState state) {
+        return Optional.ofNullable(BRANCHES_FROM_LEAVES.get().get(state.getBlock()))
+                .map(block -> block.getStateWithProperties(state));
     }
 
     /**
@@ -177,16 +217,41 @@ public class WeatheringHelper {
         return posRandom.nextInt(12) == 0;
     }
 
-    public static void tryPlacingIcicle(BlockState state, World world, BlockPos pos, Biome.Precipitation precipitation) {
-        if (precipitation == Biome.Precipitation.SNOW && WeatheringHelper.isIciclePos(pos)) {
-            BlockPos p = pos.down(state.isIn(BlockTags.SNOW) ? 2 : 1);
-            BlockState placement = ModBlocks.ICICLE.getDefaultState().with(IcicleBlock.VERTICAL_DIRECTION, Direction.DOWN);
-            if (world.getBlockState(p).isAir() && placement.canPlaceAt(world, p)) {
-                if (Direction.Type.HORIZONTAL.stream().anyMatch(d -> {
-                    BlockPos rel = p.offset(d);
-                    return world.isSkyVisible(rel) && world.getBlockState(rel).isAir();
-                })) {
-                    world.setBlockState(p, placement, 3);
+    public static void worldTickWeathering(BlockState state, World world, BlockPos pos, Biome.Precipitation precipitation) {
+        if(ImmersiveWeathering.getConfig().fireAndIceConfig.iciclePlacement) {
+            if (precipitation == Biome.Precipitation.SNOW && WeatheringHelper.isIciclePos(pos)) {
+                BlockPos p = pos.down(state.isIn(BlockTags.SNOW) ? 2 : 1);
+                BlockState placement = ModBlocks.ICICLE.getDefaultState().with(IcicleBlock.VERTICAL_DIRECTION, Direction.DOWN);
+                if (world.getBlockState(p).isAir() && placement.canPlaceAt(world, p)) {
+                    if (Direction.Type.HORIZONTAL.stream().anyMatch(d -> {
+                        BlockPos rel = p.offset(d);
+                        return world.isSkyVisible(rel) && world.getBlockState(rel).isAir();
+                    })) {
+                        world.setBlockState(p, placement, 3);
+                    }
+                }
+            }
+        }
+
+        if (ImmersiveWeathering.getConfig().blockGrowthConfig.woodWeathering) {
+            if (precipitation == Biome.Precipitation.RAIN && world.getBlockState(pos.up()).isAir()) {
+                if (state.isIn(BlockTags.WOODEN_FENCES) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
+                    world.setBlockState(pos, ModBlocks.ROTTEN_FENCE.getStateWithProperties(state), 3);
+                }
+                else if (state.isIn(BlockTags.FENCE_GATES) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
+                    world.setBlockState(pos, ModBlocks.ROTTEN_FENCE_GATE.getStateWithProperties(state), 3);
+                }
+                else if (state.isIn(BlockTags.WOODEN_SLABS) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
+                    world.setBlockState(pos, ModBlocks.ROTTEN_SLAB.getStateWithProperties(state), 3);
+                }
+                else if (state.isIn(BlockTags.WOODEN_STAIRS) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
+                    world.setBlockState(pos, ModBlocks.ROTTEN_STAIRS.getStateWithProperties(state), 3);
+                }
+                else if (state.isIn(BlockTags.PLANKS) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
+                    world.setBlockState(pos, ModBlocks.ROTTEN_PLANKS.getStateWithProperties(state), 3);
+                }
+                else if (state.isIn(ModTags.STRIPPED_LOGS) && !state.isIn(BlockTags.NON_FLAMMABLE_WOOD)) {
+                    world.setBlockState(pos, ModBlocks.ROTTEN_LOG.getStateWithProperties(state), 3);
                 }
             }
         }

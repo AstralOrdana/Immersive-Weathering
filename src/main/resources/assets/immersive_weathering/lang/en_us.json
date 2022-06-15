@@ -40,9 +40,11 @@
   "text.autoconfig.immersive_weathering.option.blockGrowthConfig.blockCracking": "Should brick blocks crack over time?",
   "text.autoconfig.immersive_weathering.option.blockGrowthConfig.blockMossing": "Should blocks become mossy over time?",
   "text.autoconfig.immersive_weathering.option.blockGrowthConfig.blockRusting": "Should iron blocks rust over time?",
+  "text.autoconfig.immersive_weathering.option.blockGrowthConfig.woodWeathering": "Should wood become weathered when exposed to rain? (WARNING: there is no way to prevent wood weathering and no way to undo it)",
 
   "text.autoconfig.immersive_weathering.option.leavesConfig.fallingLeafParticles": "Should leaf blocks create falling leaf particles below themselves?",
   "text.autoconfig.immersive_weathering.option.leavesConfig.leafPilesForm": "Should Leaf Piles accumulate below living trees?",
+  "text.autoconfig.immersive_weathering.option.leavesConfig.branchesForm": "Should Branches form from leaves next to logs?",
   "text.autoconfig.immersive_weathering.option.leavesConfig.leafDecayPiles": "Should decaying leaf blocks create falling leaf piles?",
   "text.autoconfig.immersive_weathering.option.leavesConfig.leafDecayParticles": "Should leaf blocks make falling particles when they decay?",
   "text.autoconfig.immersive_weathering.option.leavesConfig.leafDecaySound": "Should leaf blocks make a breaking sound when they decay?",
@@ -83,6 +85,7 @@
   "text.autoconfig.immersive_weathering.option.generatorsConfig.magmaGenerator": "Should Lava turn to a Magma Block when touching a bubble column?",
   "text.autoconfig.immersive_weathering.option.generatorsConfig.cryingObsidianGenerator": "Should Crying Obsidian form like Obsidian if the Lava touches Soul Fire?",
   "text.autoconfig.immersive_weathering.option.generatorsConfig.terracottaGenerator": "Should Clay turn to Terracotta when touching Lava?",
+  "text.autoconfig.immersive_weathering.option.generatorsConfig.crackedMudGenerator": "Should Mud turn to Cracked Mud when touching Lava?",
   "text.autoconfig.immersive_weathering.option.generatorsConfig.vitrifiedSandGenerator": "Should Sand turn to Vitrified Sand when touching Lava?",
   "text.autoconfig.immersive_weathering.option.generatorsConfig.iceGenerator": "Should Water turn to Ice when touching Blue Ice?",
 
@@ -111,11 +114,15 @@
   "text.autoconfig.immersive_weathering.option.worldgenConfig.darkLeavesFeature": "Should Dark Oak Leaf Piles generate in the world?",
   "text.autoconfig.immersive_weathering.option.worldgenConfig.birchLeavesFeature": "Should Birch Leaf Piles generate in the world?",
   "text.autoconfig.immersive_weathering.option.worldgenConfig.spruceLeavesFeature": "Should Spruce Leaf Piles generate in the world?",
+  "text.autoconfig.immersive_weathering.option.worldgenConfig.ivyFeature": "Should Ivy generate in the world?",
+  "text.autoconfig.immersive_weathering.option.worldgenConfig.quicksandFeature": "Should Quicksand generate in the world?",
 
-  "death.attack.icicle": "%1$s was impaled on an icicle",
-  "death.attack.icicle.player": "%1$s was impaled on an icicle whilst fighting %2$s",
-  "death.attack.fallingIcicle": "%1$s was skewered by a falling icicle",
-  "death.attack.fallingIcicle.player": "%1$s was skewered by a falling icicle whilst fighting %2$s",
+  "death.attack.icicle": "%1$s was impaled on an Icicle",
+  "death.attack.icicle.player": "%1$s was impaled on an Icicle whilst fighting %2$s",
+  "death.attack.fallingIcicle": "%1$s was skewered by a falling Icicle",
+  "death.attack.fallingIcicle.player": "%1$s was skewered by a falling Icicle whilst fighting %2$s",
+  "death.attack.quicksand": "%1$s suffocated in Quicksand",
+  "death.attack.quicksand.player": "%1$s suffocated in Quicksand whilst fleeing %2$s",
 
   "subtitles.block.icicle.land": "Icicle crashes down",
 
@@ -130,6 +137,7 @@
 
   "block.immersive_weathering.vitrified_sand": "Vitrified Sand",
   "block.immersive_weathering.fulgurite": "Fulgurite",
+  "item.immersive_weathering.quicksand_bucket": "Quicksand Bucket",
 
   "item.immersive_weathering.pond_water": "Pond Water",
   "item.immersive_weathering.azalea_flowers": "Azalea Flowers",
@@ -159,7 +167,16 @@
   "item.immersive_weathering.crimson_scales": "Crimson Scales",
   "item.immersive_weathering.warped_scales": "Warped Scales",
 
+  "block.immersive_weathering.oak_branches": "Oak Branches",
+  "block.immersive_weathering.spruce_branches": "Spruce Branches",
+  "block.immersive_weathering.birch_branches": "Birch Branches",
+  "block.immersive_weathering.jungle_branches": "Jungle Branches",
+  "block.immersive_weathering.acacia_branches": "Acacia Branches",
+  "block.immersive_weathering.dark_oak_branches": "Dark Oak Branches",
+  "block.immersive_weathering.mangrove_branches": "Mangrove Branches",
+
   "block.immersive_weathering.ivy": "Ivy",
+  "block.immersive_weathering.moss": "Moss",
   "block.immersive_weathering.weeds": "Weeds",
   "block.immersive_weathering.soot": "Soot",
   "block.immersive_weathering.sand_layer_block": "Sand",
@@ -167,7 +184,6 @@
   "block.immersive_weathering.ash_layer_block": "Ash",
   "block.immersive_weathering.ash_block": "Ash Block",
   "item.immersive_weathering.tallow": "Tallow",
-
 
   "block.immersive_weathering.humus": "Humus",
   "block.immersive_weathering.fluvisol": "Fluvisol",
@@ -205,6 +221,10 @@
   "block.immersive_weathering.mossy_stone_stairs": "Mossy Stone Stairs",
   "block.immersive_weathering.mossy_stone_slab": "Mossy Stone Slab",
   "block.immersive_weathering.mossy_stone_wall": "Mossy Stone Wall",
+  "block.immersive_weathering.cracked_stone": "Cracked Stone",
+  "block.immersive_weathering.cracked_stone_stairs": "Cracked Stone Stairs",
+  "block.immersive_weathering.cracked_stone_slab": "Cracked Stone Slab",
+  "block.immersive_weathering.cracked_stone_wall": "Cracked Stone Wall",
   "block.immersive_weathering.stone_wall": "Stone Wall",
 
   "block.immersive_weathering.cracked_bricks": "Cracked Bricks",
@@ -339,5 +359,8 @@
   "block.immersive_weathering.waxed_iron_bars": "Waxed Iron Bars",
   "block.immersive_weathering.waxed_exposed_iron_bars": "Waxed Exposed Iron Bars",
   "block.immersive_weathering.waxed_weathered_iron_bars": "Waxed Weathered Iron Bars",
-  "block.immersive_weathering.waxed_rusted_iron_bars": "Waxed Rusted Iron Bars"
+  "block.immersive_weathering.waxed_rusted_iron_bars": "Waxed Rusted Iron Bars",
+
+  "block.minecraft.sand": "Sand Block",
+  "block.minecraft.red_sand": "Red Sand Block"
 }

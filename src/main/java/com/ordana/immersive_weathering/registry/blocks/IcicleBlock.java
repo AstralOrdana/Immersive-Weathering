@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.registry.blocks;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.registry.ModDamageSource;
+import com.ordana.immersive_weathering.registry.entities.ModDamageSource;
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.entities.FallingIcicleEntity;
 import com.ordana.immersive_weathering.registry.entities.IcicleBlockEntity;

@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "immersive_weathering:block/quicksand"
+      },
+      {
+        "model": "immersive_weathering:block/quicksand",
+        "y": 90
+      },
+      {
+        "model": "immersive_weathering:block/quicksand",
+        "y": 180
+      },
+      {
+        "model": "immersive_weathering:block/quicksand",
+        "y": 270
+      }
+    ]
+  }
+}

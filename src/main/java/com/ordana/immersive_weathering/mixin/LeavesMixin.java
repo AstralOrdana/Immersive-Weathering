@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.mixin;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.ModTags;
+import com.ordana.immersive_weathering.registry.blocks.BranchesBlock;
 import com.ordana.immersive_weathering.registry.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.registry.blocks.WeatheringHelper;
 import net.minecraft.block.*;
@@ -13,13 +14,17 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -28,6 +33,10 @@ import java.util.Random;
 
 @Mixin(LeavesBlock.class)
 public abstract class LeavesMixin extends Block implements Fertilizable {
+
+    @Shadow @Final public static BooleanProperty PERSISTENT;
+
+    @Shadow @Final public static IntProperty DISTANCE;
 
     public LeavesMixin(Settings settings) {
         super(settings);
@@ -41,6 +50,7 @@ public abstract class LeavesMixin extends Block implements Fertilizable {
                 if (leafPile == null) return;
                 BlockState baseLeaf = leafPile.getDefaultState().with(LeafPileBlock.LAYERS, 0);
                 var leafParticle = WeatheringHelper.getFallenLeafParticle(state).orElse(null);
+                if (leafParticle == null) return;
                 if(ImmersiveWeathering.getConfig().leavesConfig.leafDecayParticles) {
                     world.spawnParticles(leafParticle, (double) pos.getX() + 0.5D,
                             (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 10,

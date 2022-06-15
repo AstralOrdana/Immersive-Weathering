@@ -30,19 +30,24 @@ public class ModBlocks {
     public static final Block FROSTY_GLASS_PANE = new FrostyGlassPaneBlock(FabricBlockSettings.of(Material.GLASS).ticksRandomly().strength(0.3f).sounds(BlockSoundGroup.GLASS).nonOpaque().solidBlock(ModBlocks::never).suffocates(ModBlocks::never).blockVision(ModBlocks::never));
     public static final Block THIN_ICE = new ThinIceBlock(FabricBlockSettings.of(Material.ICE).ticksRandomly().strength(0.3f).slipperiness(0.98f).sounds(BlockSoundGroup.GLASS).nonOpaque().solidBlock(ModBlocks::never).suffocates(ModBlocks::never).blockVision(ModBlocks::never));
 
-    public static final Block FULGURITE = new FulguriteBlock(7, 3, FabricBlockSettings.of(Material.GLASS).breakInstantly().sounds(BlockSoundGroup.GLASS).nonOpaque().dynamicBounds().requiresTool().luminance((state) -> 5));
-    public static final Block VITRIFIED_SAND = new GlassBlock(FabricBlockSettings.of(Material.GLASS, MapColor.PALE_YELLOW).strength(2f, 6f).sounds(BlockSoundGroup.TUFF).nonOpaque().requiresTool());
+    public static final Block OAK_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(LeafPileBlock.LAYERS) >= 8), false, false, true, List.of(ModParticles.OAK_LEAF));
+    public static final Block BIRCH_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(LeafPileBlock.LAYERS) >= 8), false, false, true, List.of(ModParticles.BIRCH_LEAF));
+    public static final Block SPRUCE_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(LeafPileBlock.LAYERS) >= 8), false, true, false, List.of(ModParticles.SPRUCE_LEAF));
+    public static final Block JUNGLE_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(LeafPileBlock.LAYERS) >= 8), false, false, true, List.of(ModParticles.JUNGLE_LEAF));
+    public static final Block ACACIA_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(LeafPileBlock.LAYERS) >= 8), false, false, false, List.of(ModParticles.ACACIA_LEAF));
+    public static final Block DARK_OAK_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(LeafPileBlock.LAYERS) >= 8), false, false, true, List.of(ModParticles.DARK_OAK_LEAF));
+    public static final Block MANGROVE_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(LeafPileBlock.LAYERS) >= 8), false, false, true, List.of(ModParticles.MANGROVE_LEAF));
+    public static final Block AZALEA_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(LeafPileBlock.LAYERS) >= 8), false, false, false, List.of(ModParticles.AZALEA_LEAF));
+    public static final Block FLOWERING_AZALEA_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).breakInstantly().ticksRandomly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(LeafPileBlock.LAYERS) >= 8), true, false, false, List.of(ModParticles.AZALEA_LEAF, ModParticles.AZALEA_FLOWER));
+    public static final Block AZALEA_FLOWER_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.FLOWERING_AZALEA).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(LeafPileBlock.LAYERS) >= 8), true, false, false, List.of(ModParticles.AZALEA_FLOWER));
 
-    public static final Block OAK_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), false, false, true, List.of(ModParticles.OAK_LEAF));
-    public static final Block BIRCH_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), false, false, true, List.of(ModParticles.BIRCH_LEAF));
-    public static final Block SPRUCE_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), false, true, false, List.of(ModParticles.SPRUCE_LEAF));
-    public static final Block JUNGLE_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), false, false, true, List.of(ModParticles.JUNGLE_LEAF));
-    public static final Block ACACIA_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), false, false, false, List.of(ModParticles.ACACIA_LEAF));
-    public static final Block DARK_OAK_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), false, false, true, List.of(ModParticles.DARK_OAK_LEAF));
-    public static final Block MANGROVE_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), false, false, true, List.of(ModParticles.MANGROVE_LEAF));
-    public static final Block AZALEA_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), false, false, false, List.of(ModParticles.AZALEA_LEAF));
-    public static final Block FLOWERING_AZALEA_LEAF_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).breakInstantly().ticksRandomly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), true, false, false, List.of(ModParticles.AZALEA_LEAF, ModParticles.AZALEA_FLOWER));
-    public static final Block AZALEA_FLOWER_PILE = new LeafPileBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.FLOWERING_AZALEA).nonOpaque().allowsSpawning(ModBlocks::canSpawnOnLeaves).suffocates(ModBlocks::never).blockVision(ModBlocks::never), true, false, false, List.of(ModParticles.AZALEA_FLOWER));
+    public static final Block OAK_BRANCHES = new BranchesBlock(FabricBlockSettings.of(Material.LEAVES, MapColor.OAK_TAN).ticksRandomly().strength(1f).sounds(BlockSoundGroup.MANGROVE_ROOTS).nonOpaque());
+    public static final Block BIRCH_BRANCHES = new BranchesBlock(FabricBlockSettings.of(Material.LEAVES, MapColor.PALE_YELLOW).ticksRandomly().strength(1f).sounds(BlockSoundGroup.MANGROVE_ROOTS).nonOpaque());
+    public static final Block SPRUCE_BRANCHES = new BranchesBlock(FabricBlockSettings.of(Material.LEAVES, MapColor.SPRUCE_BROWN).ticksRandomly().strength(1f).sounds(BlockSoundGroup.MANGROVE_ROOTS).nonOpaque());
+    public static final Block JUNGLE_BRANCHES = new BranchesBlock(FabricBlockSettings.of(Material.LEAVES, MapColor.BROWN).ticksRandomly().strength(1f).sounds(BlockSoundGroup.MANGROVE_ROOTS).nonOpaque());
+    public static final Block ACACIA_BRANCHES = new BranchesBlock(FabricBlockSettings.of(Material.LEAVES, MapColor.ORANGE).ticksRandomly().strength(1f).sounds(BlockSoundGroup.MANGROVE_ROOTS).nonOpaque());
+    public static final Block DARK_OAK_BRANCHES = new BranchesBlock(FabricBlockSettings.of(Material.LEAVES, MapColor.BROWN).ticksRandomly().strength(1f).sounds(BlockSoundGroup.MANGROVE_ROOTS).nonOpaque());
+    public static final Block MANGROVE_BRANCHES = new BranchesBlock(FabricBlockSettings.of(Material.LEAVES, MapColor.DARK_RED).ticksRandomly().strength(1f).sounds(BlockSoundGroup.MANGROVE_ROOTS).nonOpaque());
 
     public static final Block IVY = new IvyBlock(FabricBlockSettings.of(Material.PLANT).noCollision().strength(0.2f).sounds(BlockSoundGroup.AZALEA_LEAVES));
     public static final Block WEEDS = new WeedsBlock(FabricBlockSettings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS));
@@ -59,8 +64,12 @@ public class ModBlocks {
 
     public static final Block ROOTED_GRASS_BLOCK = new RootedGrassBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC).ticksRandomly().strength(0.5F).sounds(BlockSoundGroup.ROOTED_DIRT));
 
+    public static final Block FULGURITE = new FulguriteBlock(7, 3, FabricBlockSettings.of(Material.GLASS).breakInstantly().sounds(BlockSoundGroup.GLASS).nonOpaque().dynamicBounds().requiresTool().luminance((state) -> 5));
+    public static final Block VITRIFIED_SAND = new GlassBlock(FabricBlockSettings.of(Material.GLASS, MapColor.PALE_YELLOW).strength(2f, 6f).sounds(BlockSoundGroup.TUFF).nonOpaque().requiresTool());
+    public static final Block QUICKSAND = new QuicksandBlock(FabricBlockSettings.of(ModMaterials.QUICKSAND, MapColor.PALE_YELLOW).strength(10f).sounds(BlockSoundGroup.SAND).dynamicBounds().suffocates(ModBlocks::always).blockVision(ModBlocks::always));
     public static final Block SAND_LAYER_BLOCK = new SandLayerBlock(Blocks.SAND.getDefaultState(),14406560, FabricBlockSettings.of(Material.SNOW_LAYER, MapColor.PALE_YELLOW).strength(0.5f).sounds(BlockSoundGroup.SAND).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(SandLayerBlock.LAYERS) >= 8).nonOpaque());
     public static final Block RED_SAND_LAYER_BLOCK = new SandLayerBlock(Blocks.RED_SAND.getDefaultState(),11098145, FabricBlockSettings.of(Material.SNOW_LAYER, MapColor.ORANGE).strength(0.5f).sounds(BlockSoundGroup.SAND).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(SandLayerBlock.LAYERS) >= 8).nonOpaque());
+
     public static final Block ASH_LAYER_BLOCK = new AshLayerBlock(FabricBlockSettings.of(Material.SNOW_LAYER, MapColor.BLACK).breakInstantly().sounds(BlockSoundGroup.SNOW).suffocates(ModBlocks::never).blockVision((blockState, blockView, blockPos) -> blockState.get(AshLayerBlock.LAYERS) >= 8).nonOpaque());
     public static final Block ASH_BLOCK = new AshBlock(FabricBlockSettings.of(Material.SNOW_BLOCK, MapColor.BLACK).breakInstantly().sounds(BlockSoundGroup.SNOW));
     public static final Block SOOT = new SootBlock(FabricBlockSettings.of(Material.SNOW_LAYER, MapColor.BLACK).noCollision().breakInstantly().sounds(BlockSoundGroup.SNOW).ticksRandomly());
@@ -79,6 +88,8 @@ public class ModBlocks {
     public static final Block ROTTEN_FENCE = new RottenFenceBlock(FabricBlockSettings.of(Material.STONE, MapColor.LICHEN_GREEN).strength(1.5f, 0.5f).sounds(BlockSoundGroup.NETHER_STEM).ticksRandomly());
     public static final Block ROTTEN_FENCE_GATE = new RottenFenceGateBlock(FabricBlockSettings.of(Material.STONE, MapColor.LICHEN_GREEN).strength(1.5f, 0.5f).sounds(BlockSoundGroup.NETHER_STEM).ticksRandomly());
 
+    public static final Block MOSS = new MossMultifaceBlock(FabricBlockSettings.of(Material.MOSS_BLOCK).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.MOSS_BLOCK).nonOpaque().noCollision());
+
     public static final Block MOSSY_BRICKS = new MossyBlock(Mossable.MossLevel.MOSSY, FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
     public static final Block MOSSY_BRICK_STAIRS = new MossyStairsBlock(Mossable.MossLevel.MOSSY, MOSSY_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
     public static final Block MOSSY_BRICK_SLAB = new MossySlabBlock(Mossable.MossLevel.MOSSY, FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
@@ -88,7 +99,11 @@ public class ModBlocks {
     public static final Block MOSSY_STONE_STAIRS = new MossyStairsBlock(Mossable.MossLevel.MOSSY, MOSSY_STONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
     public static final Block MOSSY_STONE_SLAB = new MossySlabBlock(Mossable.MossLevel.MOSSY, FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
     public static final Block MOSSY_STONE_WALL = new MossyWallBlock(Mossable.MossLevel.MOSSY, FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
-    public static final Block STONE_WALL = new MossableWallBlock(Mossable.MossLevel.MOSSABLE, FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block CRACKED_STONE = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block CRACKED_STONE_STAIRS = new ModStairs(CRACKED_STONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block CRACKED_STONE_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block CRACKED_STONE_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block STONE_WALL = new CrackableMossableWallBlock(Mossable.MossLevel.MOSSABLE, Crackable.CrackLevel.UNCRACKED, FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
 
     public static final Block CRACKED_BRICKS = new Block(FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
     public static final Block CRACKED_BRICK_STAIRS = new ModStairs(CRACKED_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
@@ -242,6 +257,10 @@ public class ModBlocks {
         return false;
     }
 
+    private static boolean always(BlockState state, BlockView world, BlockPos pos) {
+        return true;
+    }
+
     private static Boolean never(BlockState state, BlockView world, BlockPos pos, EntityType<?> type) {
         return false;
     }
@@ -258,6 +277,7 @@ public class ModBlocks {
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "vitrified_sand"), VITRIFIED_SAND);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "fulgurite"), FULGURITE);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "quicksand"), QUICKSAND);
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "oak_leaf_pile"), OAK_LEAF_PILE);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "spruce_leaf_pile"), SPRUCE_LEAF_PILE);
@@ -269,6 +289,14 @@ public class ModBlocks {
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "azalea_leaf_pile"), AZALEA_LEAF_PILE);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "flowering_azalea_leaf_pile"), FLOWERING_AZALEA_LEAF_PILE);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "azalea_flower_pile"), AZALEA_FLOWER_PILE);
+
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "oak_branches"), OAK_BRANCHES);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "spruce_branches"), SPRUCE_BRANCHES);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "birch_branches"), BIRCH_BRANCHES);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "jungle_branches"), JUNGLE_BRANCHES);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "acacia_branches"), ACACIA_BRANCHES);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "dark_oak_branches"), DARK_OAK_BRANCHES);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mangrove_branches"), MANGROVE_BRANCHES);
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "humus"), HUMUS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "fluvisol"), FLUVISOL);
@@ -304,6 +332,8 @@ public class ModBlocks {
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_fence"), ROTTEN_FENCE);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_fence_gate"), ROTTEN_FENCE_GATE);
 
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "moss"), MOSS);
+
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_bricks"), MOSSY_BRICKS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_brick_stairs"), MOSSY_BRICK_STAIRS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_brick_slab"), MOSSY_BRICK_SLAB);
@@ -313,6 +343,10 @@ public class ModBlocks {
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_stairs"), MOSSY_STONE_STAIRS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_slab"), MOSSY_STONE_SLAB);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_wall"), MOSSY_STONE_WALL);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone"), CRACKED_STONE);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_stairs"), CRACKED_STONE_STAIRS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_slab"), CRACKED_STONE_SLAB);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_wall"), CRACKED_STONE_WALL);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "stone_wall"), STONE_WALL);
 
 

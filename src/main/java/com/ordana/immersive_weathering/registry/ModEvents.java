@@ -42,6 +42,7 @@ public class ModEvents {
     private static final HashMap<Block, Block> RUSTED_BLOCKS = new HashMap<>();
     private static final HashMap<Block, Block> UNWAXED_BLOCKS = new HashMap<>();
     private static final HashMap<Block, Block> FLOWERY_BLOCKS = new HashMap<>();
+    private static final HashMap<Block, Item> SHORN_LEAVES = new HashMap<>();
 
     static {
         CLEANED_BLOCKS.put(Blocks.MOSSY_COBBLESTONE, Blocks.COBBLESTONE);
@@ -313,6 +314,14 @@ public class ModEvents {
         FLOWERY_BLOCKS.put(Blocks.FLOWERING_AZALEA, Blocks.AZALEA);
         FLOWERY_BLOCKS.put(Blocks.FLOWERING_AZALEA_LEAVES, Blocks.AZALEA_LEAVES);
         FLOWERY_BLOCKS.put(ModBlocks.FLOWERING_AZALEA_LEAF_PILE, ModBlocks.AZALEA_LEAF_PILE);
+
+        SHORN_LEAVES.put(ModBlocks.OAK_BRANCHES, ModItems.OAK_LEAF_PILE);
+        SHORN_LEAVES.put(ModBlocks.BIRCH_BRANCHES, ModItems.BIRCH_LEAF_PILE);
+        SHORN_LEAVES.put(ModBlocks.SPRUCE_BRANCHES, ModItems.SPRUCE_LEAF_PILE);
+        SHORN_LEAVES.put(ModBlocks.JUNGLE_BRANCHES, ModItems.JUNGLE_LEAF_PILE);
+        SHORN_LEAVES.put(ModBlocks.DARK_OAK_BRANCHES, ModItems.DARK_OAK_LEAF_PILE);
+        SHORN_LEAVES.put(ModBlocks.ACACIA_BRANCHES, ModItems.ACACIA_LEAF_PILE);
+        SHORN_LEAVES.put(ModBlocks.MANGROVE_BRANCHES, ModItems.MANGROVE_LEAF_PILE);
     }
 
     public static void registerEvents() {
@@ -439,6 +448,19 @@ public class ModEvents {
                         }
                         return ActionResult.SUCCESS;
                     }
+                }
+                if (targetBlock.contains(BranchesBlock.LEAFY) && targetBlock.get(BranchesBlock.LEAFY)) {
+                    world.playSound(player, targetPos, SoundEvents.BLOCK_GROWING_PLANT_CROP, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    var leafParticle = WeatheringHelper.getBranchLeafParticle(targetBlock).orElse(null);
+                    if (leafParticle == null) return ActionResult.PASS;
+                    ParticleUtil.spawnParticle(world, targetPos, leafParticle, UniformIntProvider.create(3,5));
+                    Block.dropStack(world, fixedPos, new ItemStack(SHORN_LEAVES.get(targetBlock.getBlock())));
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.damage(1, net.minecraft.util.math.random.Random.create(), null);
+                        world.setBlockState(targetPos, targetBlock.getBlock().getDefaultState().with(BranchesBlock.LEAFY, false));
+                    }
+                    return ActionResult.SUCCESS;
                 }
                 if (targetBlock.contains(IvyBlock.AGE) && targetBlock.get(IvyBlock.AGE) < IvyBlock.MAX_AGE) {
                     world.playSound(player, targetPos, SoundEvents.BLOCK_GROWING_PLANT_CROP, SoundCategory.BLOCKS, 1.0f, 1.0f);
