@@ -20,6 +20,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeKeys;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -217,7 +218,14 @@ public class WeatheringHelper {
         return posRandom.nextInt(12) == 0;
     }
 
+    public static boolean isWeatherPos(BlockPos pos) {
+        Random posRandom = new Random(MathHelper.hashCode(pos));
+        return posRandom.nextInt(6) == 0;
+    }
+
     public static void worldTickWeathering(BlockState state, World world, BlockPos pos, Biome.Precipitation precipitation) {
+        var biome = world.getBiome(pos);
+
         if(ImmersiveWeathering.getConfig().fireAndIceConfig.iciclePlacement) {
             if (precipitation == Biome.Precipitation.SNOW && WeatheringHelper.isIciclePos(pos)) {
                 BlockPos p = pos.down(state.isIn(BlockTags.SNOW) ? 2 : 1);
@@ -229,6 +237,23 @@ public class WeatheringHelper {
                     })) {
                         world.setBlockState(p, placement, 3);
                     }
+                }
+            }
+        }
+
+        if (biome.isIn(BiomeTags.DESERT_PYRAMID_HAS_STRUCTURE) && world.isRaining() && world.getBlockState(pos.up()).isAir()) {
+            if (state.isOf(Blocks.STONE_BRICKS)) {
+                world.setBlockState(pos, Blocks.CUT_SANDSTONE.getStateWithProperties(state));
+                if (world.getBlockState(pos.down()).isOf(Blocks.STONE_BRICKS) && isWeatherPos(pos.down())) {
+                    world.setBlockState(pos.down(), Blocks.CUT_SANDSTONE.getStateWithProperties(state));
+                }
+            }
+        }
+        if (precipitation == Biome.Precipitation.SNOW) {
+            if (state.isOf(Blocks.STONE_BRICKS)) {
+                world.setBlockState(pos, Blocks.BLUE_ICE.getStateWithProperties(state));
+                if (world.getBlockState(pos.down()).isOf(Blocks.STONE_BRICKS) && isWeatherPos(pos.down())) {
+                    world.setBlockState(pos.down(), Blocks.BLUE_ICE.getStateWithProperties(state));
                 }
             }
         }
