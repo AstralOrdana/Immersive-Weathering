@@ -16,6 +16,12 @@ public final class ModTags {
     public static final TagKey<Block> CRACKED = registerBlockTag("cracked");
     public static final TagKey<Block> CRACKABLE = registerBlockTag("crackable");
     public static final TagKey<Block> MOSS_SOURCE = registerBlockTag("moss_source");
+    public static final TagKey<Block> FROSTY = registerBlockTag("frosty");
+    public static final TagKey<Block> FROSTABLE = registerBlockTag("frostable");
+    public static final TagKey<Block> SNOWY = registerBlockTag("snowy");
+    public static final TagKey<Block> SNOWABLE = registerBlockTag("snowable");
+    public static final TagKey<Block> SANDY = registerBlockTag("sandy");
+    public static final TagKey<Block> SANDABLE = registerBlockTag("sandable");
     public static final TagKey<Block> RAW_LOGS = registerBlockTag("raw_logs");
     public static final TagKey<Block> STRIPPED_LOGS = registerBlockTag("stripped_logs");
     public static final TagKey<Block> SMOKEY_BLOCKS = registerBlockTag("smokey_blocks");

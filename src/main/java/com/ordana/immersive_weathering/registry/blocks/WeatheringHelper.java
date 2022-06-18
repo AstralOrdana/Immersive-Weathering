@@ -8,16 +8,14 @@ import com.ordana.immersive_weathering.registry.ModParticles;
 import com.ordana.immersive_weathering.registry.ModTags;
 import com.ordana.immersive_weathering.registry.blocks.charred.CharredBlock;
 import com.ordana.immersive_weathering.registry.blocks.rotten.RottenFenceBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.PillarBlock;
+import net.minecraft.block.*;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
@@ -28,22 +26,17 @@ import java.util.stream.Collectors;
 
 public class WeatheringHelper {
 
-    private static final HashMap<TagKey, Block> CHARRED_BLOCKS = new HashMap<>();
 
-    static {
-        CHARRED_BLOCKS.put(BlockTags.LOGS_THAT_BURN, ModBlocks.CHARRED_LOG);
-        CHARRED_BLOCKS.put(BlockTags.PLANKS, ModBlocks.CHARRED_PLANKS);
-        CHARRED_BLOCKS.put(BlockTags.WOODEN_SLABS, ModBlocks.CHARRED_SLAB);
-        CHARRED_BLOCKS.put(BlockTags.WOODEN_STAIRS, ModBlocks.CHARRED_STAIRS);
-        CHARRED_BLOCKS.put(BlockTags.WOODEN_FENCES, ModBlocks.CHARRED_FENCE);
-        CHARRED_BLOCKS.put(BlockTags.FENCE_GATES, ModBlocks.CHARRED_FENCE_GATE);
-    }
 
     public static final Supplier<ImmutableMap<Block, Block>> FLOWERY_BLOCKS = Suppliers.memoize(() -> ImmutableMap.<Block, Block>builder()
             .put(Blocks.AZALEA, Blocks.FLOWERING_AZALEA)
             .put(Blocks.AZALEA_LEAVES, Blocks.FLOWERING_AZALEA_LEAVES)
             .put(ModBlocks.AZALEA_LEAF_PILE, ModBlocks.FLOWERING_AZALEA_LEAF_PILE)
             .build());
+    public static Optional<BlockState> getAzaleaGrowth(BlockState state) {
+        return Optional.ofNullable(FLOWERY_BLOCKS.get().get(state.getBlock()))
+                .map(block -> block.getStateWithProperties(state));
+    }
 
     public static final Supplier<Map<Block, Block>> LEAF_PILES = Suppliers.memoize(() -> ImmutableMap.<Block, Block>builder()
             .put(Blocks.OAK_LEAVES, ModBlocks.OAK_LEAF_PILE)
@@ -56,6 +49,9 @@ public class WeatheringHelper {
             .put(Blocks.AZALEA_LEAVES, ModBlocks.AZALEA_LEAF_PILE)
             .put(Blocks.FLOWERING_AZALEA_LEAVES, ModBlocks.FLOWERING_AZALEA_LEAF_PILE)
             .build());
+    public static Optional<Block> getFallenLeafPile(BlockState state) {
+        return Optional.ofNullable(LEAF_PILES.get().get(state.getBlock()));
+    }
 
     public static final Supplier<Map<Block, DefaultParticleType>> LEAF_PARTICLES = Suppliers.memoize(() -> ImmutableMap.<Block, DefaultParticleType>builder()
             .put(Blocks.OAK_LEAVES, ModParticles.OAK_LEAF)
@@ -68,6 +64,9 @@ public class WeatheringHelper {
             .put(Blocks.AZALEA_LEAVES, ModParticles.AZALEA_LEAF)
             .put(Blocks.FLOWERING_AZALEA_LEAVES, ModParticles.AZALEA_FLOWER)
             .build());
+    public static Optional<DefaultParticleType> getFallenLeafParticle(BlockState state) {
+        return Optional.ofNullable(LEAF_PARTICLES.get().get(state.getBlock()));
+    }
 
     public static final Supplier<Map<Block, DefaultParticleType>> BRANCH_LEAF_PARTICLES = Suppliers.memoize(() -> ImmutableMap.<Block, DefaultParticleType>builder()
             .put(ModBlocks.OAK_BRANCHES, ModParticles.OAK_LEAF)
@@ -78,6 +77,9 @@ public class WeatheringHelper {
             .put(ModBlocks.ACACIA_BRANCHES, ModParticles.ACACIA_LEAF)
             .put(ModBlocks.MANGROVE_BRANCHES, ModParticles.MANGROVE_LEAF)
             .build());
+    public static Optional<DefaultParticleType> getBranchLeafParticle(BlockState state) {
+        return Optional.ofNullable(BRANCH_LEAF_PARTICLES.get().get(state.getBlock()));
+    }
 
     public static final Supplier<Map<Block, DefaultParticleType>> BARK_PARTICLES = Suppliers.memoize(() -> ImmutableMap.<Block, DefaultParticleType>builder()
             .put(Blocks.OAK_LOG, ModParticles.OAK_BARK)
@@ -99,6 +101,9 @@ public class WeatheringHelper {
             .put(Blocks.CRIMSON_HYPHAE, ModParticles.NETHER_SCALE)
             .put(Blocks.WARPED_HYPHAE, ModParticles.NETHER_SCALE)
             .build());
+    public static Optional<DefaultParticleType> getBarkParticle(BlockState state) {
+        return Optional.ofNullable(BARK_PARTICLES.get().get(state.getBlock()));
+    }
 
     public static final Supplier<Map<Block, Block>> LEAVES_FROM_BRANCHES = Suppliers.memoize(() -> ImmutableMap.<Block, Block>builder()
             .put(ModBlocks.OAK_BRANCHES, Blocks.OAK_LEAVES)
@@ -109,6 +114,10 @@ public class WeatheringHelper {
             .put(ModBlocks.ACACIA_BRANCHES, Blocks.ACACIA_LEAVES)
             .put(ModBlocks.MANGROVE_BRANCHES, Blocks.MANGROVE_LEAVES)
             .build());
+    public static Optional<BlockState> getLeavesFromBranches(BlockState state) {
+        return Optional.ofNullable(LEAVES_FROM_BRANCHES.get().get(state.getBlock()))
+                .map(block -> block.getStateWithProperties(state));
+    }
 
     public static final Supplier<Map<Block, Block>> BRANCHES_FROM_LEAVES = Suppliers.memoize(() -> ImmutableMap.<Block, Block>builder()
             .put(Blocks.OAK_LEAVES, ModBlocks.OAK_BRANCHES)
@@ -119,37 +128,51 @@ public class WeatheringHelper {
             .put(Blocks.ACACIA_LEAVES, ModBlocks.ACACIA_BRANCHES)
             .put(Blocks.MANGROVE_LEAVES, ModBlocks.MANGROVE_BRANCHES)
             .build());
-
-    public static Optional<BlockState> getAzaleaGrowth(BlockState state) {
-        return Optional.ofNullable(FLOWERY_BLOCKS.get().get(state.getBlock()))
-                .map(block -> block.getStateWithProperties(state));
-    }
-
-    public static Optional<Block> getFallenLeafPile(BlockState state) {
-        return Optional.ofNullable(LEAF_PILES.get().get(state.getBlock()));
-    }
-
-    public static Optional<DefaultParticleType> getFallenLeafParticle(BlockState state) {
-        return Optional.ofNullable(LEAF_PARTICLES.get().get(state.getBlock()));
-    }
-
-    public static Optional<DefaultParticleType> getBranchLeafParticle(BlockState state) {
-        return Optional.ofNullable(BRANCH_LEAF_PARTICLES.get().get(state.getBlock()));
-    }
-
-    public static Optional<DefaultParticleType> getBarkParticle(BlockState state) {
-        return Optional.ofNullable(BARK_PARTICLES.get().get(state.getBlock()));
-    }
-
-    public static Optional<BlockState> getLeavesFromBranches(BlockState state) {
-        return Optional.ofNullable(LEAVES_FROM_BRANCHES.get().get(state.getBlock()))
-                .map(block -> block.getStateWithProperties(state));
-    }
-
     public static Optional<BlockState> getBranchesFromLeaves(BlockState state) {
         return Optional.ofNullable(BRANCHES_FROM_LEAVES.get().get(state.getBlock()))
                 .map(block -> block.getStateWithProperties(state));
     }
+
+    public static final Supplier<Map<Block, Block>> SNOWY_BLOCKS = Suppliers.memoize(() -> ImmutableMap.<Block, Block>builder()
+            .put(Blocks.STONE, ModBlocks.SNOWY_STONE)
+            .put(Blocks.STONE_STAIRS, ModBlocks.SNOWY_STONE_STAIRS)
+            .put(Blocks.STONE_SLAB, ModBlocks.SNOWY_STONE_SLAB)
+            .put(ModBlocks.STONE_WALL, ModBlocks.SNOWY_STONE_WALL)
+            .put(Blocks.COBBLESTONE, ModBlocks.SNOWY_COBBLESTONE)
+            .put(Blocks.COBBLESTONE_STAIRS, ModBlocks.SNOWY_COBBLESTONE_STAIRS)
+            .put(Blocks.COBBLESTONE_SLAB, ModBlocks.SNOWY_COBBLESTONE_SLAB)
+            .put(Blocks.COBBLESTONE_WALL, ModBlocks.SNOWY_COBBLESTONE_WALL)
+            .put(Blocks.STONE_BRICKS, ModBlocks.SNOWY_STONE_BRICKS)
+            .put(Blocks.CHISELED_STONE_BRICKS, ModBlocks.SNOWY_CHISELED_STONE_BRICKS)
+            .put(Blocks.STONE_BRICK_STAIRS, ModBlocks.SNOWY_STONE_BRICK_STAIRS)
+            .put(Blocks.STONE_BRICK_SLAB, ModBlocks.SNOWY_STONE_BRICK_SLAB)
+            .put(Blocks.STONE_BRICK_WALL, ModBlocks.SNOWY_STONE_BRICK_WALL)
+            .build());
+    public static Optional<BlockState> getSnowyBlock(BlockState state) {
+        return Optional.ofNullable(SNOWY_BLOCKS.get().get(state.getBlock()))
+                .map(block -> block.getStateWithProperties(state));
+    }
+
+    public static final Supplier<Map<Block, Block>> SANDY_BLOCKS = Suppliers.memoize(() -> ImmutableMap.<Block, Block>builder()
+            .put(Blocks.STONE, ModBlocks.SANDY_STONE)
+            .put(Blocks.STONE_STAIRS, ModBlocks.SANDY_STONE_STAIRS)
+            .put(Blocks.STONE_SLAB, ModBlocks.SANDY_STONE_SLAB)
+            .put(ModBlocks.STONE_WALL, ModBlocks.SANDY_STONE_WALL)
+            .put(Blocks.COBBLESTONE, ModBlocks.SANDY_COBBLESTONE)
+            .put(Blocks.COBBLESTONE_STAIRS, ModBlocks.SANDY_COBBLESTONE_STAIRS)
+            .put(Blocks.COBBLESTONE_SLAB, ModBlocks.SANDY_COBBLESTONE_SLAB)
+            .put(Blocks.COBBLESTONE_WALL, ModBlocks.SANDY_COBBLESTONE_WALL)
+            .put(Blocks.STONE_BRICKS, ModBlocks.SANDY_STONE_BRICKS)
+            .put(Blocks.CHISELED_STONE_BRICKS, ModBlocks.SANDY_CHISELED_STONE_BRICKS)
+            .put(Blocks.STONE_BRICK_STAIRS, ModBlocks.SANDY_STONE_BRICK_STAIRS)
+            .put(Blocks.STONE_BRICK_SLAB, ModBlocks.SANDY_STONE_BRICK_SLAB)
+            .put(Blocks.STONE_BRICK_WALL, ModBlocks.SANDY_STONE_BRICK_WALL)
+            .build());
+    public static Optional<BlockState> getSandyBlock(BlockState state) {
+        return Optional.ofNullable(SANDY_BLOCKS.get().get(state.getBlock()))
+                .map(block -> block.getStateWithProperties(state));
+    }
+
 
     /**
      * Grabs block positions around center pos. Order of these is random and depends on current blockpos
@@ -241,19 +264,47 @@ public class WeatheringHelper {
             }
         }
 
-        if (biome.isIn(BiomeTags.DESERT_PYRAMID_HAS_STRUCTURE) && world.isRaining() && world.getBlockState(pos.up()).isAir()) {
-            if (state.isOf(Blocks.STONE_BRICKS)) {
-                world.setBlockState(pos, Blocks.CUT_SANDSTONE.getStateWithProperties(state));
-                if (world.getBlockState(pos.down()).isOf(Blocks.STONE_BRICKS) && isWeatherPos(pos.down())) {
-                    world.setBlockState(pos.down(), Blocks.CUT_SANDSTONE.getStateWithProperties(state));
+        /*
+        if (state.isIn(ModTags.SNOWABLE)) {
+            if (world.isRaining() && world.isSkyVisible(pos) && world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, pos).getY() > pos.getY()) {
+                BlockState downBlock = world.getBlockState(pos.down());
+                var snowyBlock = WeatheringHelper.getSnowyBlock(state).orElse(null);
+                var sandyBlock = WeatheringHelper.getSandyBlock(state).orElse(null);
+                if (biome.isIn(BiomeTags.DESERT_PYRAMID_HAS_STRUCTURE)) {
+                    world.setBlockState(pos, sandyBlock.getBlock().getStateWithProperties(state));
+                    if (isWeatherPos(pos.down())) {
+                        world.setBlockState(pos.down(), sandyBlock.getBlock().getStateWithProperties(downBlock));
+                    }
+                }
+                if (!biome.value().doesNotSnow(pos)) {
+                    world.setBlockState(pos, snowyBlock.getBlock().getStateWithProperties(state));
+                    if (isWeatherPos(pos.down())) {
+                        world.setBlockState(pos.down(), snowyBlock.getBlock().getStateWithProperties(downBlock));
+                    }
                 }
             }
         }
-        if (precipitation == Biome.Precipitation.SNOW) {
-            if (state.isOf(Blocks.STONE_BRICKS)) {
-                world.setBlockState(pos, Blocks.BLUE_ICE.getStateWithProperties(state));
-                if (world.getBlockState(pos.down()).isOf(Blocks.STONE_BRICKS) && isWeatherPos(pos.down())) {
-                    world.setBlockState(pos.down(), Blocks.BLUE_ICE.getStateWithProperties(state));
+         */
+
+        if (state.isIn(ModTags.SNOWABLE)) {
+            if (biome.isIn(BiomeTags.DESERT_PYRAMID_HAS_STRUCTURE)) {
+                BlockPos downPos = pos.down();
+                BlockState downBlock = world.getBlockState(downPos);
+                var sandyBlock = WeatheringHelper.getSandyBlock(state).orElse(null);
+                world.setBlockState(pos, sandyBlock.getBlock().getStateWithProperties(state));
+                if (isWeatherPos(downPos) && downBlock.isIn(ModTags.SNOWABLE)) {
+                    var sandyDownBlock = WeatheringHelper.getSandyBlock(downBlock).orElse(null);
+                    world.setBlockState(pos.down(), sandyDownBlock.getBlock().getStateWithProperties(downBlock));
+                }
+            }
+            if (precipitation == Biome.Precipitation.SNOW) {
+                BlockPos downPos = pos.down();
+                BlockState downBlock = world.getBlockState(downPos);
+                var snowyBlock = WeatheringHelper.getSnowyBlock(state).orElse(null);
+                world.setBlockState(pos, snowyBlock.getBlock().getStateWithProperties(state));
+                if (isWeatherPos(downPos) && downBlock.isIn(ModTags.SNOWABLE)) {
+                    var snowyDownBlock = WeatheringHelper.getSnowyBlock(downBlock).orElse(null);
+                    world.setBlockState(pos.down(), snowyDownBlock.getBlock().getStateWithProperties(downBlock));
                 }
             }
         }

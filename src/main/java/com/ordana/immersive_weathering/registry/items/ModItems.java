@@ -108,10 +108,46 @@ public class ModItems {
     public static final BlockItem MOSSY_STONE_SLAB = new BlockItem(ModBlocks.MOSSY_STONE_SLAB, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem MOSSY_STONE_WALL = new BlockItem(ModBlocks.MOSSY_STONE_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem CRACKED_STONE = new BlockItem(ModBlocks.CRACKED_STONE, new Item.Settings().group(ItemGroup.DECORATIONS));
+
     public static final BlockItem CRACKED_STONE_STAIRS = new BlockItem(ModBlocks.CRACKED_STONE_STAIRS, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem CRACKED_STONE_SLAB = new BlockItem(ModBlocks.CRACKED_STONE_SLAB, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem CRACKED_STONE_WALL = new BlockItem(ModBlocks.CRACKED_STONE_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem STONE_WALL = new BlockItem(ModBlocks.STONE_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem MOSSY_CHISELED_STONE_BRICKS = new BlockItem(ModBlocks.MOSSY_CHISELED_STONE_BRICKS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem CRACKED_CHISELED_STONE_BRICKS = new BlockItem(ModBlocks.CRACKED_CHISELED_STONE_BRICKS, new Item.Settings().group(ItemGroup.DECORATIONS));
+
+    public static final BlockItem SNOWY_STONE = new BlockItem(ModBlocks.SNOWY_STONE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SNOWY_STONE_STAIRS = new BlockItem(ModBlocks.SNOWY_STONE_STAIRS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SNOWY_STONE_SLAB = new BlockItem(ModBlocks.SNOWY_STONE_SLAB, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SNOWY_STONE_WALL = new BlockItem(ModBlocks.SNOWY_STONE_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
+
+    public static final BlockItem SNOWY_COBBLESTONE = new BlockItem(ModBlocks.SNOWY_COBBLESTONE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SNOWY_COBBLESTONE_STAIRS = new BlockItem(ModBlocks.SNOWY_COBBLESTONE_STAIRS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SNOWY_COBBLESTONE_SLAB = new BlockItem(ModBlocks.SNOWY_COBBLESTONE_SLAB, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SNOWY_COBBLESTONE_WALL = new BlockItem(ModBlocks.SNOWY_COBBLESTONE_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
+
+    public static final BlockItem SNOWY_STONE_BRICKS = new BlockItem(ModBlocks.SNOWY_STONE_BRICKS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SNOWY_CHISELED_STONE_BRICKS = new BlockItem(ModBlocks.SNOWY_CHISELED_STONE_BRICKS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SNOWY_STONE_BRICK_STAIRS = new BlockItem(ModBlocks.SNOWY_STONE_BRICK_STAIRS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SNOWY_STONE_BRICK_SLAB = new BlockItem(ModBlocks.SNOWY_STONE_BRICK_SLAB, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SNOWY_STONE_BRICK_WALL = new BlockItem(ModBlocks.SNOWY_STONE_BRICK_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
+
+    public static final BlockItem SANDY_STONE = new BlockItem(ModBlocks.SANDY_STONE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SANDY_STONE_STAIRS = new BlockItem(ModBlocks.SANDY_STONE_STAIRS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SANDY_STONE_SLAB = new BlockItem(ModBlocks.SANDY_STONE_SLAB, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SANDY_STONE_WALL = new BlockItem(ModBlocks.SANDY_STONE_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
+
+    public static final BlockItem SANDY_COBBLESTONE = new BlockItem(ModBlocks.SANDY_COBBLESTONE, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SANDY_COBBLESTONE_STAIRS = new BlockItem(ModBlocks.SANDY_COBBLESTONE_STAIRS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SANDY_COBBLESTONE_SLAB = new BlockItem(ModBlocks.SANDY_COBBLESTONE_SLAB, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SANDY_COBBLESTONE_WALL = new BlockItem(ModBlocks.SANDY_COBBLESTONE_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
+
+    public static final BlockItem SANDY_STONE_BRICKS = new BlockItem(ModBlocks.SANDY_STONE_BRICKS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SANDY_CHISELED_STONE_BRICKS = new BlockItem(ModBlocks.SANDY_CHISELED_STONE_BRICKS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SANDY_STONE_BRICK_STAIRS = new BlockItem(ModBlocks.SANDY_STONE_BRICK_STAIRS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SANDY_STONE_BRICK_SLAB = new BlockItem(ModBlocks.SANDY_STONE_BRICK_SLAB, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SANDY_STONE_BRICK_WALL = new BlockItem(ModBlocks.SANDY_STONE_BRICK_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
+
 
     public static final BlockItem CRACKED_BRICKS = new BlockItem(ModBlocks.CRACKED_BRICKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
     public static final BlockItem CRACKED_BRICK_STAIRS = new BlockItem(ModBlocks.CRACKED_BRICK_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
@@ -351,6 +387,40 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_slab"), CRACKED_STONE_SLAB);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_wall"), CRACKED_STONE_WALL);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "stone_wall"), STONE_WALL);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_chiseled_stone_bricks"), MOSSY_CHISELED_STONE_BRICKS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_chiseled_stone_bricks"), CRACKED_CHISELED_STONE_BRICKS);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_stone"), SNOWY_STONE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_stone_stairs"), SNOWY_STONE_STAIRS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_stone_slab"), SNOWY_STONE_SLAB);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_stone_wall"), SNOWY_STONE_WALL);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_cobblestone"), SNOWY_COBBLESTONE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_cobblestone_stairs"), SNOWY_COBBLESTONE_STAIRS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_cobblestone_slab"), SNOWY_COBBLESTONE_SLAB);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_cobblestone_wall"), SNOWY_COBBLESTONE_WALL);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_stone_bricks"), SNOWY_STONE_BRICKS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_chiseled_stone_bricks"), SNOWY_CHISELED_STONE_BRICKS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_stone_brick_stairs"), SNOWY_STONE_BRICK_STAIRS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_stone_brick_slab"), SNOWY_STONE_BRICK_SLAB);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_stone_brick_wall"), SNOWY_STONE_BRICK_WALL);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_stone"), SANDY_STONE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_stone_stairs"), SANDY_STONE_STAIRS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_stone_slab"), SANDY_STONE_SLAB);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_stone_wall"), SANDY_STONE_WALL);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_cobblestone"), SANDY_COBBLESTONE);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_cobblestone_stairs"), SANDY_COBBLESTONE_STAIRS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_cobblestone_slab"), SANDY_COBBLESTONE_SLAB);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_cobblestone_wall"), SANDY_COBBLESTONE_WALL);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_stone_bricks"), SANDY_STONE_BRICKS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_chiseled_stone_bricks"), SANDY_CHISELED_STONE_BRICKS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_stone_brick_stairs"), SANDY_STONE_BRICK_STAIRS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_stone_brick_slab"), SANDY_STONE_BRICK_SLAB);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_stone_brick_wall"), SANDY_STONE_BRICK_WALL);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_bricks"), CRACKED_BRICKS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_brick_stairs"), CRACKED_BRICK_STAIRS);

@@ -819,6 +819,7 @@ public class BlocksMixin {
     }
 
 
+
     @Redirect
             (
                     method = "<clinit>",
@@ -838,6 +839,28 @@ public class BlocksMixin {
                             )
             )
     private static Block stoneBricks(AbstractBlock.Settings settings)
+    {
+        return new CrackableMossableBlock(Mossable.MossLevel.MOSSABLE, Crackable.CrackLevel.UNCRACKED, settings);
+    }
+    @Redirect
+            (
+                    method = "<clinit>",
+                    at = @At
+                            (
+                                    value = "NEW",
+                                    target = "net/minecraft/block/Block",
+                                    ordinal = 0
+                            ),
+                    slice = @Slice
+                            (
+                                    from = @At
+                                            (
+                                                    value = "CONSTANT",
+                                                    args="stringValue=chiseled_stone_bricks"
+                                            )
+                            )
+            )
+    private static Block chiseledStoneBricks(AbstractBlock.Settings settings)
     {
         return new CrackableMossableBlock(Mossable.MossLevel.MOSSABLE, Crackable.CrackLevel.UNCRACKED, settings);
     }

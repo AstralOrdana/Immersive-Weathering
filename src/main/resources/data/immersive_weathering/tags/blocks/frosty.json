@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "immersive_weathering:frosty_grass",
+    "immersive_weathering:frosty_fern",
+    "immersive_weathering:frosty_glass",
+    "immersive_weathering:frosty_glass_pane"
+  ]
+}

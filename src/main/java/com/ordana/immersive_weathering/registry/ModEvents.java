@@ -4,6 +4,7 @@ import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.blocks.*;
 import com.ordana.immersive_weathering.registry.blocks.charred.*;
 import com.ordana.immersive_weathering.registry.items.ModItems;
+import com.terraformersmc.modmenu.util.mod.Mod;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;
@@ -32,6 +33,7 @@ public class ModEvents {
     private static final HashMap<Block, Block> CRACKED_BLOCKS = new HashMap<>();
     private static final HashMap<Block, Item> DROPPED_BRICKS = new HashMap<>();
     private static final HashMap<Item, Block> BRICK_REPAIR = new HashMap<>();
+    private static final HashMap<Item, Block> CHISELED_BRICK_REPAIR = new HashMap<>();
     private static final HashMap<Item, Block> BRICK_REPAIR_SLABS = new HashMap<>();
     private static final HashMap<Item, Block> BRICK_REPAIR_STAIRS = new HashMap<>();
     private static final HashMap<Item, Block> BRICK_REPAIR_WALLS = new HashMap<>();
@@ -43,6 +45,10 @@ public class ModEvents {
     private static final HashMap<Block, Block> UNWAXED_BLOCKS = new HashMap<>();
     private static final HashMap<Block, Block> FLOWERY_BLOCKS = new HashMap<>();
     private static final HashMap<Block, Item> SHORN_LEAVES = new HashMap<>();
+    private static final HashMap<Block, Block> SNOWY_BLOCKS = new HashMap<>();
+    private static final HashMap<Block, Block> SANDY_BLOCKS = new HashMap<>();
+    private static final HashMap<Block, Block> UNSNOWY_BLOCKS = new HashMap<>();
+    private static final HashMap<Block, Block> UNSANDY_BLOCKS = new HashMap<>();
 
     static {
         CLEANED_BLOCKS.put(Blocks.MOSSY_COBBLESTONE, Blocks.COBBLESTONE);
@@ -50,6 +56,7 @@ public class ModEvents {
         CLEANED_BLOCKS.put(Blocks.MOSSY_COBBLESTONE_STAIRS, Blocks.COBBLESTONE_STAIRS);
         CLEANED_BLOCKS.put(Blocks.MOSSY_COBBLESTONE_WALL, Blocks.COBBLESTONE_WALL);
         CLEANED_BLOCKS.put(Blocks.MOSSY_STONE_BRICKS, Blocks.STONE_BRICKS);
+        CLEANED_BLOCKS.put(ModBlocks.MOSSY_CHISELED_STONE_BRICKS, Blocks.CHISELED_STONE_BRICKS);
         CLEANED_BLOCKS.put(Blocks.MOSSY_STONE_BRICK_SLAB, Blocks.STONE_BRICK_SLAB);
         CLEANED_BLOCKS.put(Blocks.MOSSY_STONE_BRICK_STAIRS, Blocks.STONE_BRICK_STAIRS);
         CLEANED_BLOCKS.put(Blocks.MOSSY_STONE_BRICK_WALL, Blocks.STONE_BRICK_WALL);
@@ -64,6 +71,7 @@ public class ModEvents {
 
         CRACKED_BLOCKS.put(Blocks.BRICKS, ModBlocks.CRACKED_BRICKS);
         CRACKED_BLOCKS.put(Blocks.STONE_BRICKS, Blocks.CRACKED_STONE_BRICKS);
+        CRACKED_BLOCKS.put(Blocks.CHISELED_STONE_BRICKS, ModBlocks.CRACKED_CHISELED_STONE_BRICKS);
         CRACKED_BLOCKS.put(Blocks.PRISMARINE_BRICKS, ModBlocks.CRACKED_PRISMARINE_BRICKS);
         CRACKED_BLOCKS.put(Blocks.END_STONE_BRICKS, ModBlocks.CRACKED_END_STONE_BRICKS);
         CRACKED_BLOCKS.put(Blocks.POLISHED_BLACKSTONE_BRICKS, Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS);
@@ -99,6 +107,7 @@ public class ModEvents {
         CRACKED_BLOCKS.put(Blocks.DEEPSLATE_TILE_WALL, ModBlocks.CRACKED_DEEPSLATE_TILE_WALL);
 
         DROPPED_BRICKS.put(Blocks.STONE_BRICKS, ModItems.STONE_BRICK);
+        DROPPED_BRICKS.put(Blocks.CHISELED_STONE_BRICKS, ModItems.STONE_BRICK);
         DROPPED_BRICKS.put(Blocks.PRISMARINE_BRICKS, ModItems.PRISMARINE_BRICK);
         DROPPED_BRICKS.put(Blocks.END_STONE_BRICKS, ModItems.END_STONE_BRICK);
         DROPPED_BRICKS.put(Blocks.POLISHED_BLACKSTONE_BRICKS, ModItems.BLACKSTONE_BRICK);
@@ -133,6 +142,8 @@ public class ModEvents {
         DROPPED_BRICKS.put(Blocks.DEEPSLATE_BRICK_WALL, ModItems.DEEPSLATE_BRICK);
         DROPPED_BRICKS.put(Blocks.DEEPSLATE_TILE_WALL, ModItems.DEEPSLATE_TILE);
         DROPPED_BRICKS.put(Blocks.BRICK_WALL, Items.BRICK);
+
+        CHISELED_BRICK_REPAIR.put(ModItems.STONE_BRICK, Blocks.CHISELED_STONE_BRICKS);
 
         BRICK_REPAIR.put(ModItems.STONE_BRICK, Blocks.STONE_BRICKS);
         BRICK_REPAIR.put(ModItems.PRISMARINE_BRICK, Blocks.PRISMARINE_BRICKS);
@@ -322,6 +333,70 @@ public class ModEvents {
         SHORN_LEAVES.put(ModBlocks.DARK_OAK_BRANCHES, ModItems.DARK_OAK_LEAF_PILE);
         SHORN_LEAVES.put(ModBlocks.ACACIA_BRANCHES, ModItems.ACACIA_LEAF_PILE);
         SHORN_LEAVES.put(ModBlocks.MANGROVE_BRANCHES, ModItems.MANGROVE_LEAF_PILE);
+
+        SNOWY_BLOCKS.put(Blocks.GRASS, ModBlocks.FROSTY_GRASS);
+        SNOWY_BLOCKS.put(Blocks.FERN, ModBlocks.FROSTY_FERN);
+        SNOWY_BLOCKS.put(Blocks.GLASS, ModBlocks.FROSTY_GLASS);
+        SNOWY_BLOCKS.put(Blocks.GLASS_PANE, ModBlocks.FROSTY_GLASS_PANE);
+        SNOWY_BLOCKS.put(Blocks.STONE, ModBlocks.SNOWY_STONE);
+        SNOWY_BLOCKS.put(Blocks.STONE_STAIRS, ModBlocks.SNOWY_STONE_STAIRS);
+        SNOWY_BLOCKS.put(Blocks.STONE_SLAB, ModBlocks.SNOWY_STONE_SLAB);
+        SNOWY_BLOCKS.put(ModBlocks.STONE_WALL, ModBlocks.SNOWY_STONE_WALL);
+        SNOWY_BLOCKS.put(Blocks.COBBLESTONE, ModBlocks.SNOWY_COBBLESTONE);
+        SNOWY_BLOCKS.put(Blocks.COBBLESTONE_STAIRS, ModBlocks.SNOWY_COBBLESTONE_STAIRS);
+        SNOWY_BLOCKS.put(Blocks.COBBLESTONE_SLAB, ModBlocks.SNOWY_COBBLESTONE_SLAB);
+        SNOWY_BLOCKS.put(Blocks.COBBLESTONE_WALL, ModBlocks.SNOWY_COBBLESTONE_WALL);
+        SNOWY_BLOCKS.put(Blocks.STONE_BRICKS, ModBlocks.SNOWY_STONE_BRICKS);
+        SNOWY_BLOCKS.put(Blocks.CHISELED_STONE_BRICKS, ModBlocks.SNOWY_CHISELED_STONE_BRICKS);
+        SNOWY_BLOCKS.put(Blocks.STONE_BRICK_STAIRS, ModBlocks.SNOWY_STONE_BRICK_STAIRS);
+        SNOWY_BLOCKS.put(Blocks.STONE_BRICK_SLAB, ModBlocks.SNOWY_STONE_BRICK_SLAB);
+        SNOWY_BLOCKS.put(Blocks.STONE_BRICK_WALL, ModBlocks.SNOWY_STONE_BRICK_WALL);
+
+        UNSNOWY_BLOCKS.put(ModBlocks.FROSTY_GRASS, Blocks.GRASS);
+        UNSNOWY_BLOCKS.put(ModBlocks.FROSTY_FERN, Blocks.FERN);
+        UNSNOWY_BLOCKS.put(ModBlocks.FROSTY_GLASS, Blocks.GLASS);
+        UNSNOWY_BLOCKS.put(ModBlocks.FROSTY_GLASS_PANE, Blocks.GLASS_PANE);
+        UNSNOWY_BLOCKS.put(ModBlocks.SNOWY_STONE, Blocks.STONE);
+        UNSNOWY_BLOCKS.put(ModBlocks.SNOWY_STONE_STAIRS, Blocks.STONE_STAIRS);
+        UNSNOWY_BLOCKS.put(ModBlocks.SNOWY_STONE_SLAB, Blocks.STONE_SLAB);
+        UNSNOWY_BLOCKS.put(ModBlocks.SNOWY_STONE_WALL, ModBlocks.STONE_WALL);
+        UNSNOWY_BLOCKS.put(ModBlocks.SNOWY_COBBLESTONE, Blocks.COBBLESTONE);
+        UNSNOWY_BLOCKS.put(ModBlocks.SNOWY_COBBLESTONE_STAIRS, Blocks.COBBLESTONE_STAIRS);
+        UNSNOWY_BLOCKS.put(ModBlocks.SNOWY_COBBLESTONE_SLAB, Blocks.COBBLESTONE_SLAB);
+        UNSNOWY_BLOCKS.put(ModBlocks.SNOWY_COBBLESTONE_WALL, Blocks.COBBLESTONE_WALL);
+        UNSNOWY_BLOCKS.put(ModBlocks.SNOWY_STONE_BRICKS, Blocks.STONE_BRICKS);
+        UNSNOWY_BLOCKS.put(ModBlocks.SNOWY_CHISELED_STONE_BRICKS, Blocks.CHISELED_STONE_BRICKS);
+        UNSNOWY_BLOCKS.put(ModBlocks.SNOWY_STONE_BRICK_STAIRS, Blocks.STONE_BRICK_STAIRS);
+        UNSNOWY_BLOCKS.put(ModBlocks.SNOWY_STONE_BRICK_SLAB, Blocks.STONE_BRICK_SLAB);
+        UNSNOWY_BLOCKS.put(ModBlocks.SNOWY_STONE_BRICK_WALL, Blocks.STONE_BRICK_WALL);
+
+        SANDY_BLOCKS.put(Blocks.STONE, ModBlocks.SANDY_STONE);
+        SANDY_BLOCKS.put(Blocks.STONE_STAIRS, ModBlocks.SANDY_STONE_STAIRS);
+        SANDY_BLOCKS.put(Blocks.STONE_SLAB, ModBlocks.SANDY_STONE_SLAB);
+        SANDY_BLOCKS.put(ModBlocks.STONE_WALL, ModBlocks.SANDY_STONE_WALL);
+        SANDY_BLOCKS.put(Blocks.COBBLESTONE, ModBlocks.SANDY_COBBLESTONE);
+        SANDY_BLOCKS.put(Blocks.COBBLESTONE_STAIRS, ModBlocks.SANDY_COBBLESTONE_STAIRS);
+        SANDY_BLOCKS.put(Blocks.COBBLESTONE_SLAB, ModBlocks.SANDY_COBBLESTONE_SLAB);
+        SANDY_BLOCKS.put(Blocks.COBBLESTONE_WALL, ModBlocks.SANDY_COBBLESTONE_WALL);
+        SANDY_BLOCKS.put(Blocks.STONE_BRICKS, ModBlocks.SANDY_STONE_BRICKS);
+        SANDY_BLOCKS.put(Blocks.CHISELED_STONE_BRICKS, ModBlocks.SANDY_CHISELED_STONE_BRICKS);
+        SANDY_BLOCKS.put(Blocks.STONE_BRICK_STAIRS, ModBlocks.SANDY_STONE_BRICK_STAIRS);
+        SANDY_BLOCKS.put(Blocks.STONE_BRICK_SLAB, ModBlocks.SANDY_STONE_BRICK_SLAB);
+        SANDY_BLOCKS.put(Blocks.STONE_BRICK_WALL, ModBlocks.SANDY_STONE_BRICK_WALL);
+
+        UNSANDY_BLOCKS.put(ModBlocks.SANDY_STONE, Blocks.STONE);
+        UNSANDY_BLOCKS.put(ModBlocks.SANDY_STONE_STAIRS, Blocks.STONE_STAIRS);
+        UNSANDY_BLOCKS.put(ModBlocks.SANDY_STONE_SLAB, Blocks.STONE_SLAB);
+        UNSANDY_BLOCKS.put(ModBlocks.SANDY_STONE_WALL, ModBlocks.STONE_WALL);
+        UNSANDY_BLOCKS.put(ModBlocks.SANDY_COBBLESTONE, Blocks.COBBLESTONE);
+        UNSANDY_BLOCKS.put(ModBlocks.SANDY_COBBLESTONE_STAIRS, Blocks.COBBLESTONE_STAIRS);
+        UNSANDY_BLOCKS.put(ModBlocks.SANDY_COBBLESTONE_SLAB, Blocks.COBBLESTONE_SLAB);
+        UNSANDY_BLOCKS.put(ModBlocks.SANDY_COBBLESTONE_WALL, Blocks.COBBLESTONE_WALL);
+        UNSANDY_BLOCKS.put(ModBlocks.SANDY_STONE_BRICKS, Blocks.STONE_BRICKS);
+        UNSANDY_BLOCKS.put(ModBlocks.SANDY_CHISELED_STONE_BRICKS, Blocks.CHISELED_STONE_BRICKS);
+        UNSANDY_BLOCKS.put(ModBlocks.SANDY_STONE_BRICK_STAIRS, Blocks.STONE_BRICK_STAIRS);
+        UNSANDY_BLOCKS.put(ModBlocks.SANDY_STONE_BRICK_SLAB, Blocks.STONE_BRICK_SLAB);
+        UNSANDY_BLOCKS.put(ModBlocks.SANDY_STONE_BRICK_WALL, Blocks.STONE_BRICK_WALL);
     }
 
     public static void registerEvents() {
@@ -395,43 +470,49 @@ public class ModEvents {
                 }
             }
             if (heldItem.getItem() == ModItems.FROST) {
-                if (targetBlock.isOf(Blocks.GLASS)) {
+                if (targetBlock.isIn(ModTags.FROSTABLE)) {
                     world.playSound(player, targetPos, SoundEvents.BLOCK_POWDER_SNOW_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SNOWFLAKE, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                         if (!player.isCreative()) heldItem.decrement(1);
-                        world.setBlockState(targetPos, ModBlocks.FROSTY_GLASS.getDefaultState().with(FrostyGrassBlock.NATURAL, Boolean.FALSE));
+                        world.setBlockState(targetPos, SNOWY_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock).with(FrostyGrassBlock.NATURAL, Boolean.FALSE));
                     }
                     return ActionResult.SUCCESS;
                 }
-                else if (targetBlock.isOf(Blocks.GLASS_PANE)) {
+            }
+            if (heldItem.getItem() == Items.SNOWBALL) {
+                if (targetBlock.isIn(ModTags.SNOWABLE)) {
                     world.playSound(player, targetPos, SoundEvents.BLOCK_POWDER_SNOW_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SNOWFLAKE, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                         if (!player.isCreative()) heldItem.decrement(1);
-                        world.setBlockState(targetPos, ModBlocks.FROSTY_GLASS_PANE.getStateWithProperties(targetBlock).with(FrostyGrassBlock.NATURAL, Boolean.FALSE));
+                        world.setBlockState(targetPos, SNOWY_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
                     }
                     return ActionResult.SUCCESS;
                 }
-                else if (targetBlock.isOf(Blocks.GRASS)) {
-                    world.playSound(player, targetPos, SoundEvents.BLOCK_POWDER_SNOW_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SNOWFLAKE, UniformIntProvider.create(3, 5));
+            }
+            if (heldItem.getItem() == ModItems.SAND_LAYER_BLOCK) {
+                if (targetBlock.isIn(ModTags.SANDABLE)) {
+                    world.playSound(player, targetPos, SoundEvents.BLOCK_SAND_PLACE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, new BlockStateParticleEffect(ParticleTypes.FALLING_DUST, Blocks.SAND.getDefaultState()), UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                         if (!player.isCreative()) heldItem.decrement(1);
-                        world.setBlockState(targetPos, ModBlocks.FROSTY_GRASS.getStateWithProperties(targetBlock).with(FrostyGrassBlock.NATURAL, Boolean.FALSE));
+                        world.setBlockState(targetPos, SANDY_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
                     }
                     return ActionResult.SUCCESS;
                 }
-                else if (targetBlock.isOf(Blocks.FERN)) {
-                    world.playSound(player, targetPos, SoundEvents.BLOCK_POWDER_SNOW_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SNOWFLAKE, UniformIntProvider.create(3, 5));
+            }
+            if (heldItem.getItem() == Items.FEATHER) {
+                if (targetBlock.isIn(ModTags.SANDY)) {
+                    world.playSound(player, targetPos, SoundEvents.BLOCK_SAND_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    Block.dropStack(world, fixedPos, new ItemStack(ModItems.SAND_LAYER_BLOCK));
+                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, new BlockStateParticleEffect(ParticleTypes.FALLING_DUST, Blocks.SAND.getDefaultState()), UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        world.setBlockState(targetPos, ModBlocks.FROSTY_FERN.getStateWithProperties(targetBlock).with(FrostyGrassBlock.NATURAL, Boolean.FALSE));
+                        world.setBlockState(targetPos, UNSANDY_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
                     }
                     return ActionResult.SUCCESS;
                 }
@@ -781,43 +862,13 @@ public class ModEvents {
                         return ActionResult.SUCCESS;
                     }
                 }
-                if (targetBlock.isOf(ModBlocks.FROSTY_GLASS)) {
+                if (targetBlock.isIn(ModTags.FROSTY) || targetBlock.isIn(ModTags.SNOWY)) {
                     world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMOKE, UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        world.setBlockState(targetPos, Blocks.GLASS.getDefaultState());
-                    }
-                    return ActionResult.SUCCESS;
-                }
-                else if (targetBlock.isOf(ModBlocks.FROSTY_GLASS_PANE)) {
-                    world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMOKE, UniformIntProvider.create(3, 5));
-                    if (player instanceof ServerPlayerEntity) {
-                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        world.setBlockState(targetPos, Blocks.GLASS_PANE.getStateWithProperties(targetBlock));
-                    }
-                    return ActionResult.SUCCESS;
-                }
-                else if (targetBlock.isOf(ModBlocks.FROSTY_GRASS)) {
-                    world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMOKE, UniformIntProvider.create(3, 5));
-                    if (player instanceof ServerPlayerEntity) {
-                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        world.setBlockState(targetPos, Blocks.GRASS.getStateWithProperties(targetBlock));
-                    }
-                    return ActionResult.SUCCESS;
-                }
-                else if (targetBlock.isOf(ModBlocks.FROSTY_FERN)) {
-                    world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMOKE, UniformIntProvider.create(3, 5));
-                    if (player instanceof ServerPlayerEntity) {
-                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.decrement(1);
-                        world.setBlockState(targetPos, Blocks.FERN.getStateWithProperties(targetBlock));
+                        if (!player.isCreative()) heldItem.damage(1, net.minecraft.util.math.random.Random.create(), null);
+                        world.setBlockState(targetPos, UNSNOWY_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
                     }
                     return ActionResult.SUCCESS;
                 }
@@ -921,6 +972,17 @@ public class ModEvents {
                 }
                 if (BRICK_REPAIR_WALLS.containsKey(heldItem.getItem()) && targetBlock.isOf(CRACKED_BLOCKS.get(BRICK_REPAIR_WALLS.get(heldItem.getItem())))) {
                     Block fixedBlock = BRICK_REPAIR_WALLS.get(heldItem.getItem());
+                    SoundEvent placeSound = fixedBlock.getSoundGroup(fixedBlock.getDefaultState()).getPlaceSound();
+                    world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.decrement(1);
+                        world.setBlockState(targetPos, fixedBlock.getStateWithProperties(targetBlock).with(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+                if (CHISELED_BRICK_REPAIR.containsKey(heldItem.getItem()) && targetBlock.isOf(CRACKED_BLOCKS.get(CHISELED_BRICK_REPAIR.get(heldItem.getItem())))) {
+                    Block fixedBlock = CHISELED_BRICK_REPAIR.get(heldItem.getItem());
                     SoundEvent placeSound = fixedBlock.getSoundGroup(fixedBlock.getDefaultState()).getPlaceSound();
                     world.playSound(player, targetPos, placeSound, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     if (player instanceof ServerPlayerEntity) {

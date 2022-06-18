@@ -236,6 +236,40 @@
   "block.immersive_weathering.cracked_stone_slab": "Cracked Stone Slab",
   "block.immersive_weathering.cracked_stone_wall": "Cracked Stone Wall",
   "block.immersive_weathering.stone_wall": "Stone Wall",
+  "block.immersive_weathering.mossy_chiseled_stone_bricks": "Mossy Chiseled Stone Bricks",
+  "block.immersive_weathering.cracked_chiseled_stone_bricks": "Cracked Chiseled Stone Bricks",
+
+  "block.immersive_weathering.snowy_stone": "Snowy Stone",
+  "block.immersive_weathering.snowy_stone_stairs": "Snowy Stone Stairs",
+  "block.immersive_weathering.snowy_stone_slab": "Snowy Stone Slab",
+  "block.immersive_weathering.snowy_stone_wall": "Snowy Stone Wall",
+
+  "block.immersive_weathering.snowy_cobblestone": "Snowy Cobblestone",
+  "block.immersive_weathering.snowy_cobblestone_stairs": "Snowy Cobblestone Stairs",
+  "block.immersive_weathering.snowy_cobblestone_slab": "Snowy Cobblestone Slab",
+  "block.immersive_weathering.snowy_cobblestone_wall": "Snowy Cobblestone Wall",
+
+  "block.immersive_weathering.snowy_stone_bricks": "Snowy Stone Bricks",
+  "block.immersive_weathering.snowy_chiseled_stone_bricks": "Snowy Chiseled Stone Bricks",
+  "block.immersive_weathering.snowy_stone_brick_stairs": "Snowy Stone Brick Stairs",
+  "block.immersive_weathering.snowy_stone_brick_slab": "Snowy Stone Brick Slab",
+  "block.immersive_weathering.snowy_stone_brick_wall": "Snowy Stone Brick Wall",
+
+  "block.immersive_weathering.sandy_stone": "Sandy Stone",
+  "block.immersive_weathering.sandy_stone_stairs": "Sandy Stone Stairs",
+  "block.immersive_weathering.sandy_stone_slab": "Sandy Stone Slab",
+  "block.immersive_weathering.sandy_stone_wall": "Sandy Stone Wall",
+
+  "block.immersive_weathering.sandy_cobblestone": "Sandy Cobblestone",
+  "block.immersive_weathering.sandy_cobblestone_stairs": "Sandy Cobblestone Stairs",
+  "block.immersive_weathering.sandy_cobblestone_slab": "Sandy Cobblestone Slab",
+  "block.immersive_weathering.sandy_cobblestone_wall": "Sandy Cobblestone Wall",
+
+  "block.immersive_weathering.sandy_stone_bricks": "Sandy Stone Bricks",
+  "block.immersive_weathering.sandy_chiseled_stone_bricks": "Sandy Chiseled Stone Bricks",
+  "block.immersive_weathering.sandy_stone_brick_stairs": "Sandy Stone Brick Stairs",
+  "block.immersive_weathering.sandy_stone_brick_slab": "Sandy Stone Brick Slab",
+  "block.immersive_weathering.sandy_stone_brick_wall": "Sandy Stone Brick Wall",
 
   "block.immersive_weathering.cracked_bricks": "Cracked Bricks",
   "block.immersive_weathering.cracked_brick_stairs": "Cracked Brick Stairs",

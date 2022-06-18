@@ -49,6 +49,7 @@ public class ModBlocks {
     public static final Block DARK_OAK_BRANCHES = new BranchesBlock(FabricBlockSettings.of(Material.LEAVES, MapColor.BROWN).ticksRandomly().strength(1f).sounds(BlockSoundGroup.MANGROVE_ROOTS).nonOpaque());
     public static final Block MANGROVE_BRANCHES = new BranchesBlock(FabricBlockSettings.of(Material.LEAVES, MapColor.DARK_RED).ticksRandomly().strength(1f).sounds(BlockSoundGroup.MANGROVE_ROOTS).nonOpaque());
 
+    public static final Block MOSS = new MossMultifaceBlock(FabricBlockSettings.of(Material.MOSS_BLOCK).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.MOSS_BLOCK).nonOpaque().noCollision());
     public static final Block IVY = new IvyBlock(FabricBlockSettings.of(Material.PLANT).noCollision().strength(0.2f).sounds(BlockSoundGroup.AZALEA_LEAVES));
     public static final Block WEEDS = new WeedsBlock(FabricBlockSettings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS));
     public static final Block MULCH_BLOCK = new MulchBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.DIRT_BROWN).strength(1f, 1f).sounds(BlockSoundGroup.ROOTED_DIRT).ticksRandomly());
@@ -88,7 +89,37 @@ public class ModBlocks {
     public static final Block ROTTEN_FENCE = new RottenFenceBlock(FabricBlockSettings.of(Material.STONE, MapColor.LICHEN_GREEN).strength(1.5f, 0.5f).sounds(BlockSoundGroup.NETHER_STEM).ticksRandomly());
     public static final Block ROTTEN_FENCE_GATE = new RottenFenceGateBlock(FabricBlockSettings.of(Material.STONE, MapColor.LICHEN_GREEN).strength(1.5f, 0.5f).sounds(BlockSoundGroup.NETHER_STEM).ticksRandomly());
 
-    public static final Block MOSS = new MossMultifaceBlock(FabricBlockSettings.of(Material.MOSS_BLOCK).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.MOSS_BLOCK).nonOpaque().noCollision());
+    public static final Block SNOWY_STONE = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SNOWY_STONE_STAIRS = new ModStairs(SNOWY_STONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SNOWY_STONE_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SNOWY_STONE_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+
+    public static final Block SNOWY_COBBLESTONE = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SNOWY_COBBLESTONE_STAIRS = new ModStairs(SNOWY_COBBLESTONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SNOWY_COBBLESTONE_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SNOWY_COBBLESTONE_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+
+    public static final Block SNOWY_STONE_BRICKS = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SNOWY_CHISELED_STONE_BRICKS = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SNOWY_STONE_BRICK_STAIRS = new ModStairs(SNOWY_STONE_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SNOWY_STONE_BRICK_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SNOWY_STONE_BRICK_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+
+    public static final Block SANDY_STONE = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_STONE_STAIRS = new ModStairs(SANDY_STONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_STONE_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_STONE_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+
+    public static final Block SANDY_COBBLESTONE = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_COBBLESTONE_STAIRS = new ModStairs(SANDY_COBBLESTONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_COBBLESTONE_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_COBBLESTONE_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+
+    public static final Block SANDY_STONE_BRICKS = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_CHISELED_STONE_BRICKS = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_STONE_BRICK_STAIRS = new ModStairs(SANDY_STONE_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_STONE_BRICK_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_STONE_BRICK_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
 
     public static final Block MOSSY_BRICKS = new MossyBlock(Mossable.MossLevel.MOSSY, FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
     public static final Block MOSSY_BRICK_STAIRS = new MossyStairsBlock(Mossable.MossLevel.MOSSY, MOSSY_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
@@ -99,11 +130,15 @@ public class ModBlocks {
     public static final Block MOSSY_STONE_STAIRS = new MossyStairsBlock(Mossable.MossLevel.MOSSY, MOSSY_STONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
     public static final Block MOSSY_STONE_SLAB = new MossySlabBlock(Mossable.MossLevel.MOSSY, FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
     public static final Block MOSSY_STONE_WALL = new MossyWallBlock(Mossable.MossLevel.MOSSY, FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+
+    public static final Block STONE_WALL = new CrackableMossableWallBlock(Mossable.MossLevel.MOSSABLE, Crackable.CrackLevel.UNCRACKED, FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block CRACKED_CHISELED_STONE_BRICKS = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block MOSSY_CHISELED_STONE_BRICKS = new MossyBlock(Mossable.MossLevel.MOSSY, FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+
     public static final Block CRACKED_STONE = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
     public static final Block CRACKED_STONE_STAIRS = new ModStairs(CRACKED_STONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
     public static final Block CRACKED_STONE_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
     public static final Block CRACKED_STONE_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
-    public static final Block STONE_WALL = new CrackableMossableWallBlock(Mossable.MossLevel.MOSSABLE, Crackable.CrackLevel.UNCRACKED, FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
 
     public static final Block CRACKED_BRICKS = new Block(FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
     public static final Block CRACKED_BRICK_STAIRS = new ModStairs(CRACKED_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
@@ -311,6 +346,7 @@ public class ModBlocks {
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "rooted_grass_block"), ROOTED_GRASS_BLOCK);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "ivy"), IVY);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "weeds"), WEEDS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "moss"), MOSS);
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "sand_layer_block"), SAND_LAYER_BLOCK);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "red_sand_layer_block"), RED_SAND_LAYER_BLOCK);
@@ -332,25 +368,61 @@ public class ModBlocks {
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_fence"), ROTTEN_FENCE);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_fence_gate"), ROTTEN_FENCE_GATE);
 
-        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "moss"), MOSS);
-
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_bricks"), MOSSY_BRICKS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_brick_stairs"), MOSSY_BRICK_STAIRS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_brick_slab"), MOSSY_BRICK_SLAB);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_brick_wall"), MOSSY_BRICK_WALL);
 
+
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "stone_wall"), STONE_WALL);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_chiseled_stone_bricks"), MOSSY_CHISELED_STONE_BRICKS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_chiseled_stone_bricks"), CRACKED_CHISELED_STONE_BRICKS);
+
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone"), MOSSY_STONE);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_stairs"), MOSSY_STONE_STAIRS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_slab"), MOSSY_STONE_SLAB);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_wall"), MOSSY_STONE_WALL);
+
+
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_stone"), SNOWY_STONE);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_stone_stairs"), SNOWY_STONE_STAIRS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_stone_slab"), SNOWY_STONE_SLAB);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_stone_wall"), SNOWY_STONE_WALL);
+
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_cobblestone"), SNOWY_COBBLESTONE);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_cobblestone_stairs"), SNOWY_COBBLESTONE_STAIRS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_cobblestone_slab"), SNOWY_COBBLESTONE_SLAB);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_cobblestone_wall"), SNOWY_COBBLESTONE_WALL);
+
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_stone_bricks"), SNOWY_STONE_BRICKS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_chiseled_stone_bricks"), SNOWY_CHISELED_STONE_BRICKS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_stone_brick_stairs"), SNOWY_STONE_BRICK_STAIRS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_stone_brick_slab"), SNOWY_STONE_BRICK_SLAB);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "snowy_stone_brick_wall"), SNOWY_STONE_BRICK_WALL);
+
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_stone"), SANDY_STONE);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_stone_stairs"), SANDY_STONE_STAIRS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_stone_slab"), SANDY_STONE_SLAB);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_stone_wall"), SANDY_STONE_WALL);
+
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_cobblestone"), SANDY_COBBLESTONE);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_cobblestone_stairs"), SANDY_COBBLESTONE_STAIRS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_cobblestone_slab"), SANDY_COBBLESTONE_SLAB);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_cobblestone_wall"), SANDY_COBBLESTONE_WALL);
+
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_stone_bricks"), SANDY_STONE_BRICKS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_chiseled_stone_bricks"), SANDY_CHISELED_STONE_BRICKS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_stone_brick_stairs"), SANDY_STONE_BRICK_STAIRS);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_stone_brick_slab"), SANDY_STONE_BRICK_SLAB);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "sandy_stone_brick_wall"), SANDY_STONE_BRICK_WALL);
+
+        //cracked blocks
+
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone"), CRACKED_STONE);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_stairs"), CRACKED_STONE_STAIRS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_slab"), CRACKED_STONE_SLAB);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_wall"), CRACKED_STONE_WALL);
-        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "stone_wall"), STONE_WALL);
 
-
-        //cracked blocks
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_bricks"), CRACKED_BRICKS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_brick_stairs"), CRACKED_BRICK_STAIRS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_brick_slab"), CRACKED_BRICK_SLAB);

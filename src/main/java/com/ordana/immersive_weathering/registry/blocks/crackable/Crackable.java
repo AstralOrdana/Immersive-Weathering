@@ -22,6 +22,7 @@ public interface Crackable extends Weatherable {
 
     Supplier<BiMap<Block, Block>> CRACK_LEVEL_INCREASES = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
 
+            .put(Blocks.CHISELED_STONE_BRICKS, ModBlocks.CRACKED_CHISELED_STONE_BRICKS)
             .put(Blocks.STONE_BRICKS, Blocks.CRACKED_STONE_BRICKS)
             .put(Blocks.STONE, ModBlocks.CRACKED_STONE)
             .put(Blocks.BRICKS, ModBlocks.CRACKED_BRICKS)
