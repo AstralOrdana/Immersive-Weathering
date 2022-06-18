@@ -45,7 +45,7 @@ public class ModEvents {
     private static final HashMap<Block, Block> UNWAXED_BLOCKS = new HashMap<>();
     private static final HashMap<Block, Block> FLOWERY_BLOCKS = new HashMap<>();
     private static final HashMap<Block, Item> SHORN_LEAVES = new HashMap<>();
-    private static final HashMap<Block, Block> SNOWY_BLOCKS = new HashMap<>();
+    public static final HashMap<Block, Block> SNOWY_BLOCKS = new HashMap<>();
     private static final HashMap<Block, Block> SANDY_BLOCKS = new HashMap<>();
     private static final HashMap<Block, Block> UNSNOWY_BLOCKS = new HashMap<>();
     private static final HashMap<Block, Block> UNSANDY_BLOCKS = new HashMap<>();
@@ -505,18 +505,6 @@ public class ModEvents {
                     return ActionResult.SUCCESS;
                 }
             }
-            if (heldItem.getItem() == Items.FEATHER) {
-                if (targetBlock.isIn(ModTags.SANDY)) {
-                    world.playSound(player, targetPos, SoundEvents.BLOCK_SAND_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                    Block.dropStack(world, fixedPos, new ItemStack(ModItems.SAND_LAYER_BLOCK));
-                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, new BlockStateParticleEffect(ParticleTypes.FALLING_DUST, Blocks.SAND.getDefaultState()), UniformIntProvider.create(3, 5));
-                    if (player instanceof ServerPlayerEntity) {
-                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        world.setBlockState(targetPos, UNSANDY_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
-                    }
-                    return ActionResult.SUCCESS;
-                }
-            }
             if (heldItem.getItem() instanceof ShearsItem) {
                 if(ImmersiveWeathering.getConfig().itemUsesConfig.soilShearing) {
                     if (targetBlock.contains(ModGrassBlock.FERTILE) && targetBlock.get(ModGrassBlock.FERTILE) && targetBlock.contains(SnowyBlock.SNOWY) && !targetBlock.get(SnowyBlock.SNOWY)) {
@@ -799,7 +787,30 @@ public class ModEvents {
                     }
                     return ActionResult.SUCCESS;
                 }
-
+                if (targetBlock.isIn(ModTags.SANDY)) {
+                    world.playSound(player, targetPos, SoundEvents.BLOCK_SAND_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    Block.dropStack(world, fixedPos, new ItemStack(ModItems.SAND_LAYER_BLOCK));
+                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, new BlockStateParticleEffect(ParticleTypes.FALLING_DUST, Blocks.SAND.getDefaultState()), UniformIntProvider.create(3, 5));
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.damage(1, net.minecraft.util.math.random.Random.create(), null);
+                        world.setBlockState(targetPos, UNSANDY_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+                if (targetBlock.isIn(ModTags.FROSTY) || targetBlock.isIn(ModTags.SNOWY)) {
+                    world.playSound(player, targetPos, SoundEvents.BLOCK_POWDER_SNOW_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    if (!targetBlock.isIn(ModTags.FROSTY)) {
+                        Block.dropStack(world, fixedPos, new ItemStack(Items.SNOWBALL));
+                    }
+                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SNOWFLAKE, UniformIntProvider.create(3, 5));
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.damage(1, net.minecraft.util.math.random.Random.create(), null);
+                        world.setBlockState(targetPos, UNSNOWY_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
+                    }
+                    return ActionResult.SUCCESS;
+                }
             }
             if(ImmersiveWeathering.getConfig().itemUsesConfig.azaleaShearing) {
                 if (heldItem.getItem() == ModItems.AZALEA_FLOWERS) {
@@ -861,16 +872,6 @@ public class ModEvents {
                         }
                         return ActionResult.SUCCESS;
                     }
-                }
-                if (targetBlock.isIn(ModTags.FROSTY) || targetBlock.isIn(ModTags.SNOWY)) {
-                    world.playSound(player, targetPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMOKE, UniformIntProvider.create(3, 5));
-                    if (player instanceof ServerPlayerEntity) {
-                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.damage(1, net.minecraft.util.math.random.Random.create(), null);
-                        world.setBlockState(targetPos, UNSNOWY_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
-                    }
-                    return ActionResult.SUCCESS;
                 }
             }
 

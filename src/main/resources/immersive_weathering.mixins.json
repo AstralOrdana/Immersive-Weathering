@@ -30,6 +30,7 @@
     "RootsBlockMixin",
     "ServerWorldMixin",
     "ServerWorldSnowMixin",
+    "SnowballMixin",
     "SpongeBlockMixin",
     "SproutsBlockMixin",
     "SugarCaneBlockMixin",
