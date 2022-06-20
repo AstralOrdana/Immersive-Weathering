@@ -98,6 +98,11 @@ public class ModItems {
     public static final BlockItem ROTTEN_FENCE = new BlockItem(ModBlocks.ROTTEN_FENCE, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem ROTTEN_FENCE_GATE = new BlockItem(ModBlocks.ROTTEN_FENCE_GATE, new Item.Settings().group(ItemGroup.REDSTONE));
 
+    public static final BlockItem SNOW_BRICKS = new BlockItem(ModBlocks.SNOW_BRICKS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SNOW_BRICK_STAIRS = new BlockItem(ModBlocks.SNOW_BRICK_STAIRS, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SNOW_BRICK_SLAB = new BlockItem(ModBlocks.SNOW_BRICK_SLAB, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SNOW_BRICK_WALL = new BlockItem(ModBlocks.SNOW_BRICK_WALL, new Item.Settings().group(ItemGroup.DECORATIONS));
+
     public static final BlockItem MOSSY_BRICKS = new BlockItem(ModBlocks.MOSSY_BRICKS, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem MOSSY_BRICK_STAIRS = new BlockItem(ModBlocks.MOSSY_BRICK_STAIRS, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem MOSSY_BRICK_SLAB = new BlockItem(ModBlocks.MOSSY_BRICK_SLAB, new Item.Settings().group(ItemGroup.DECORATIONS));
@@ -373,6 +378,11 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_fence"), ROTTEN_FENCE);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "rotten_fence_gate"), ROTTEN_FENCE_GATE);
 
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snow_bricks"), SNOW_BRICKS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snow_brick_stairs"), SNOW_BRICK_STAIRS);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snow_brick_slab"), SNOW_BRICK_SLAB);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "snow_brick_wall"), SNOW_BRICK_WALL);
+
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_bricks"), MOSSY_BRICKS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_brick_stairs"), MOSSY_BRICK_STAIRS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_brick_slab"), MOSSY_BRICK_SLAB);
@@ -382,10 +392,12 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_stairs"), MOSSY_STONE_STAIRS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_slab"), MOSSY_STONE_SLAB);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_stone_wall"), MOSSY_STONE_WALL);
+
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone"), CRACKED_STONE);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_stairs"), CRACKED_STONE_STAIRS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_slab"), CRACKED_STONE_SLAB);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_stone_wall"), CRACKED_STONE_WALL);
+
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "stone_wall"), STONE_WALL);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mossy_chiseled_stone_bricks"), MOSSY_CHISELED_STONE_BRICKS);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "cracked_chiseled_stone_bricks"), CRACKED_CHISELED_STONE_BRICKS);
