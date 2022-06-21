@@ -218,7 +218,13 @@ public class ModBlocks {
     public static final Block WAXED_RUSTED_IRON_BARS = new WaxedBarsBlock(FabricBlockSettings.of(Material.METAL).requiresTool().strength(5f, 6f).sounds(BlockSoundGroup.METAL).nonOpaque());
 
     private static ToIntFunction<BlockState> createLightLevelFromSmolderingBlockState(int litLevel) {
-        return (state) -> (Boolean)state.get(CharredBlock.SMOLDERING) ? litLevel : 0;
+        return (state) -> {
+            try {
+                return (Boolean)state.get(CharredBlock.SMOLDERING) ? litLevel : 0;
+            } catch (IllegalArgumentException e) {
+                return 0;
+            }
+        };
     }
 
     private static ToIntFunction<BlockState> createLightLevelFromMoltenBlockState(int litLevel) {
@@ -230,7 +236,11 @@ public class ModBlocks {
     }
 
     private static boolean emissiveIfSmoldering(BlockState state, BlockView world, BlockPos pos) {
-        return state.get(CharredBlock.SMOLDERING);
+        try {
+            return state.get(CharredBlock.SMOLDERING);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 
     private static boolean emissiveIfMolten(BlockState state, BlockView world, BlockPos pos) {
