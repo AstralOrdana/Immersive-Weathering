@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.registry;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.registry.blocks.*;
 import com.ordana.immersive_weathering.registry.blocks.charred.*;
+import com.ordana.immersive_weathering.registry.blocks.sandy.SandyBlock;
 import com.ordana.immersive_weathering.registry.items.ModItems;
 import com.terraformersmc.modmenu.util.mod.Mod;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -494,13 +495,16 @@ public class ModEvents {
                 }
             }
             if (heldItem.getItem() == ModItems.SAND_LAYER_BLOCK) {
-                if (targetBlock.isIn(ModTags.SANDABLE)) {
+                if (targetBlock.isIn(ModTags.SANDABLE) || ((targetBlock.isIn(ModTags.SANDY) && targetBlock.get(SandyBlock.SANDINESS) < 1))) {
                     world.playSound(player, targetPos, SoundEvents.BLOCK_SAND_PLACE, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ModParticles.spawnParticlesOnBlockFaces(world, targetPos, new BlockStateParticleEffect(ParticleTypes.FALLING_DUST, Blocks.SAND.getDefaultState()), UniformIntProvider.create(3, 5));
                     if (player instanceof ServerPlayerEntity) {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                         if (!player.isCreative()) heldItem.decrement(1);
-                        world.setBlockState(targetPos, SANDY_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
+                        if (targetBlock.contains(SandyBlock.SANDINESS) && targetBlock.get(SandyBlock.SANDINESS) == 0) {
+                            world.setBlockState(targetPos, targetBlock.getBlock().getStateWithProperties(targetBlock).with(SandyBlock.SANDINESS, 1));
+                        }
+                        else world.setBlockState(targetPos, SANDY_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock).with(SandyBlock.SANDINESS, 0));
                     }
                     return ActionResult.SUCCESS;
                 }
@@ -732,7 +736,7 @@ public class ModEvents {
                 }
             }
             if (heldItem.getItem() == Items.GLASS_BOTTLE) {
-                if (targetBlock.isOf(ModBlocks.SILT) && (targetBlock.get(SiltBlock.SOAKED))) {
+                if ((targetBlock.isOf(ModBlocks.SILT) || targetBlock.isOf(ModBlocks.FLUVISOL)) && (targetBlock.get(SiltBlock.SOAKED))) {
                     player.incrementStat(Stats.USED.getOrCreateStat(Items.GLASS_BOTTLE));
                     world.playSound(player, targetPos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     ParticleUtil.spawnParticle(world, targetPos, ParticleTypes.SPLASH, UniformIntProvider.create(3, 5));
@@ -740,7 +744,7 @@ public class ModEvents {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                         ItemStack itemStack2 = ItemUsage.exchangeStack(heldItem, player, ModItems.POND_WATER.getDefaultStack());
                         player.setStackInHand(hand, itemStack2);
-                        world.setBlockState(targetPos, targetBlock.with(SiltBlock.SOAKED, Boolean.FALSE));
+                        world.setBlockState(targetPos, targetBlock.with(SiltBlock.SOAKED, false));
                     }
                     return ActionResult.SUCCESS;
                 }
@@ -787,7 +791,7 @@ public class ModEvents {
                     }
                     return ActionResult.SUCCESS;
                 }
-                if (targetBlock.isIn(ModTags.SANDY)) {
+                if (targetBlock.isIn(ModTags.SANDY) && targetBlock.get(SandyBlock.SANDINESS) == 0) {
                     world.playSound(player, targetPos, SoundEvents.BLOCK_SAND_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     Block.dropStack(world, fixedPos, new ItemStack(ModItems.SAND_LAYER_BLOCK));
                     ModParticles.spawnParticlesOnBlockFaces(world, targetPos, new BlockStateParticleEffect(ParticleTypes.FALLING_DUST, Blocks.SAND.getDefaultState()), UniformIntProvider.create(3, 5));
@@ -795,6 +799,17 @@ public class ModEvents {
                         Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
                         if (!player.isCreative()) heldItem.damage(1, net.minecraft.util.math.random.Random.create(), null);
                         world.setBlockState(targetPos, UNSANDY_BLOCKS.get(targetBlock.getBlock()).getStateWithProperties(targetBlock));
+                    }
+                    return ActionResult.SUCCESS;
+                }
+                if (targetBlock.isIn(ModTags.SANDY) && targetBlock.get(SandyBlock.SANDINESS) == 1) {
+                    world.playSound(player, targetPos, SoundEvents.BLOCK_SAND_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    Block.dropStack(world, fixedPos, new ItemStack(ModItems.SAND_LAYER_BLOCK));
+                    ModParticles.spawnParticlesOnBlockFaces(world, targetPos, new BlockStateParticleEffect(ParticleTypes.FALLING_DUST, Blocks.SAND.getDefaultState()), UniformIntProvider.create(3, 5));
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, targetPos, heldItem);
+                        if (!player.isCreative()) heldItem.damage(1, net.minecraft.util.math.random.Random.create(), null);
+                        world.setBlockState(targetPos, targetBlock.getBlock().getStateWithProperties(targetBlock).with(SandyBlock.SANDINESS, 0));
                     }
                     return ActionResult.SUCCESS;
                 }

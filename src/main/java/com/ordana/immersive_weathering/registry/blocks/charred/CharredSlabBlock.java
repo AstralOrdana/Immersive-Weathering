@@ -34,7 +34,7 @@ public class CharredSlabBlock extends SlabBlock implements Charrable {
 
     public CharredSlabBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(SMOLDERING, false).with(TYPE, SlabType.BOTTOM).with(WATERLOGGED, false));
+        this.setDefaultState(this.getDefaultState().with(SMOLDERING, false));
     }
 
     @Override

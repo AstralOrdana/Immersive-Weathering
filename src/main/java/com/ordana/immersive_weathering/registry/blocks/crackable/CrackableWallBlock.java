@@ -39,6 +39,7 @@ public class CrackableWallBlock extends CrackedWallBlock {
         super.appendProperties(stateBuilder);
         stateBuilder.add(WEATHERABLE);
     }
+
     @Override
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos neighbor, boolean isMoving) {
         super.neighborUpdate(state, world, pos, block, neighbor,true);

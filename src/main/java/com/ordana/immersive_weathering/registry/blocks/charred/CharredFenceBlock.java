@@ -32,7 +32,7 @@ public class CharredFenceBlock extends FenceBlock implements Charrable {
 
     public CharredFenceBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(SMOLDERING, false).with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false).with(WATERLOGGED, false));
+        this.setDefaultState(this.getDefaultState().with(SMOLDERING, false));
     }
 
     @Override

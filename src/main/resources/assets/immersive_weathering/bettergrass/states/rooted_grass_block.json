@@ -1,0 +1,11 @@
+{
+  "type": "grass",
+  "variants": {
+    "snowy=false": {
+      "data": "immersive_weathering:bettergrass/data/rooted_grass_block"
+    },
+    "snowy=true": {
+      "data": "minecraft:bettergrass/data/snowy_grass_block"
+    }
+  }
+}

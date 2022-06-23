@@ -46,6 +46,7 @@
   "text.autoconfig.immersive_weathering.category.item_uses_config": "Item Uses",
   "text.autoconfig.immersive_weathering.category.worldgen_config": "Worldgen",
 
+  "text.autoconfig.immersive_weathering.option.blockGrowthConfig.weedsGrowth": "Should Weeds appear spontaneously on Farmland?",
   "text.autoconfig.immersive_weathering.option.blockGrowthConfig.blockGrowth": "Should any block growth mechanics occur?",
   "text.autoconfig.immersive_weathering.option.blockGrowthConfig.blockCracking": "Should brick blocks crack over time?",
   "text.autoconfig.immersive_weathering.option.blockGrowthConfig.blockMossing": "Should blocks become mossy over time?",
@@ -126,6 +127,7 @@
   "text.autoconfig.immersive_weathering.option.worldgenConfig.spruceLeavesFeature": "Should Spruce Leaf Piles generate in the world?",
   "text.autoconfig.immersive_weathering.option.worldgenConfig.ivyFeature": "Should Ivy generate in the world?",
   "text.autoconfig.immersive_weathering.option.worldgenConfig.quicksandFeature": "Should Quicksand generate in the world?",
+  "text.autoconfig.immersive_weathering.option.worldgenConfig.frostFeature": "Should Frost generate in the world?",
 
   "death.attack.icicle": "%1$s was impaled on an Icicle",
   "death.attack.icicle.player": "%1$s was impaled on an Icicle whilst fighting %2$s",

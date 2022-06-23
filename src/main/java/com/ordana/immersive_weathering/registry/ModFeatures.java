@@ -23,6 +23,12 @@ public class ModFeatures {
             BiomeModifications.addFeature(BiomeSelectors.tag(ModTags.ICY), GenerationStep.Feature.TOP_LAYER_MODIFICATION, icicles);
         }
 
+        RegistryKey<PlacedFeature> frost = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                new Identifier("immersive_weathering", "frost_patch"));
+        if(ImmersiveWeathering.getConfig().worldgenConfig.frostFeature) {
+            BiomeModifications.addFeature(BiomeSelectors.tag(ModTags.ICY), GenerationStep.Feature.TOP_LAYER_MODIFICATION, frost);
+        }
+
         RegistryKey<PlacedFeature> cryosol_patch = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
                 new Identifier("immersive_weathering", "cryosol_patch"));
         if(ImmersiveWeathering.getConfig().worldgenConfig.cryosolFeature) {

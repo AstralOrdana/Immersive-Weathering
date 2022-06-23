@@ -88,6 +88,7 @@ public final class ServerConfig extends PartitioningSerializer.GlobalData {
     @Config(name = "block_growth_config")
     public static final class BlockGrowthConfig implements ConfigData {
 
+        public boolean weedsGrowth = true;
         public boolean blockGrowth = true;
         public boolean blockCracking = true;
         public boolean blockMossing = true;
@@ -158,6 +159,7 @@ public final class ServerConfig extends PartitioningSerializer.GlobalData {
         public boolean spruceLeavesFeature = true;
         public boolean ivyFeature = true;
         public boolean quicksandFeature = true;
+        public boolean frostFeature = true;
 
         private WorldgenConfig() {
         }

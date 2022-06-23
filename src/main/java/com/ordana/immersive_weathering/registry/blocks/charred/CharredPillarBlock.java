@@ -32,6 +32,17 @@ import java.util.Random;
 
 public class CharredPillarBlock extends PillarBlock implements LandingBlock, Charrable {
 
+    public CharredPillarBlock(Settings settings) {
+        super(settings);
+        this.setDefaultState(this.getDefaultState().with(SMOLDERING, false).with(AXIS, Direction.Axis.Y));
+    }
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
+        stateManager.add(SMOLDERING);
+        stateManager.add(AXIS);
+    }
+
     @Override
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
         world.createAndScheduleBlockTick(pos, this, this.getFallDelay());
@@ -66,17 +77,6 @@ public class CharredPillarBlock extends PillarBlock implements LandingBlock, Cha
 
     public int getColor(BlockState state, BlockView world, BlockPos pos) {
         return -16777216;
-    }
-
-    public CharredPillarBlock(Settings settings) {
-        super(settings);
-        this.setDefaultState(this.getDefaultState().with(SMOLDERING, false).with(AXIS, Direction.Axis.Y));
-    }
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
-        stateManager.add(SMOLDERING);
-        stateManager.add(AXIS);
     }
 
     @Override

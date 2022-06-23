@@ -40,13 +40,13 @@ public class ModItems {
     public static final BlockItem FLOWERING_AZALEA_LEAF_PILE = new LeafPileBlockItem(ModBlocks.FLOWERING_AZALEA_LEAF_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem AZALEA_FLOWER_PILE = new LeafPileBlockItem(ModBlocks.AZALEA_FLOWER_PILE, new Item.Settings().group(ItemGroup.DECORATIONS));
 
-    public static final BlockItem OAK_BRANCHES = new LeafPileBlockItem(ModBlocks.OAK_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem SPRUCE_BRANCHES = new LeafPileBlockItem(ModBlocks.SPRUCE_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem BIRCH_BRANCHES = new LeafPileBlockItem(ModBlocks.BIRCH_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem JUNGLE_BRANCHES = new LeafPileBlockItem(ModBlocks.JUNGLE_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem ACACIA_BRANCHES = new LeafPileBlockItem(ModBlocks.ACACIA_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem DARK_OAK_BRANCHES = new LeafPileBlockItem(ModBlocks.DARK_OAK_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final BlockItem MANGROVE_BRANCHES = new LeafPileBlockItem(ModBlocks.MANGROVE_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem OAK_BRANCHES = new BlockItem(ModBlocks.OAK_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SPRUCE_BRANCHES = new BlockItem(ModBlocks.SPRUCE_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem BIRCH_BRANCHES = new BlockItem(ModBlocks.BIRCH_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem JUNGLE_BRANCHES = new BlockItem(ModBlocks.JUNGLE_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem ACACIA_BRANCHES = new BlockItem(ModBlocks.ACACIA_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem DARK_OAK_BRANCHES = new BlockItem(ModBlocks.DARK_OAK_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem MANGROVE_BRANCHES = new BlockItem(ModBlocks.MANGROVE_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final Item OAK_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item BIRCH_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));

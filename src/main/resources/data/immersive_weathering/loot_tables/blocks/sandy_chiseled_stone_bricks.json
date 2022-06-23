@@ -2,13 +2,61 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "bonus_rolls": 0.0,
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "immersive_weathering:sand_layer_block",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 2,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "immersive_weathering:sandy_chiseled_stone_bricks",
+                  "properties": {
+                    "sandiness": "1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "enchantments": [
+                {
+                  "enchantment": "minecraft:silk_touch",
+                  "levels": {
+                    "min": 1
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:alternatives",
           "children": [
             {
               "type": "minecraft:item",
+              "name": "immersive_weathering:sandy_chiseled_stone_bricks",
               "conditions": [
                 {
                   "condition": "minecraft:match_tool",
@@ -23,22 +71,25 @@
                     ]
                   }
                 }
-              ],
-              "name": "immersive_weathering:sandy_chiseled_stone_bricks"
+              ]
             },
             {
-              "type": "minecraft:item",
+              "type": "minecraft:alternatives",
+              "children": [
+                {
+                  "type": "minecraft:item",
+                  "name": "minecraft:chiseled_stone_bricks"
+                }
+              ],
               "conditions": [
                 {
                   "condition": "minecraft:survives_explosion"
                 }
-              ],
-              "name": "minecraft:chiseled_stone_bricks"
+              ]
             }
           ]
         }
-      ],
-      "rolls": 1.0
+      ]
     }
   ]
 }

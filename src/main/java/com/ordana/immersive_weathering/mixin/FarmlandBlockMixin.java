@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.mixin;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.block_growth.IConditionalGrowingBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FarmlandBlock;
@@ -16,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(FarmlandBlock.class)
-public class FarmlandBlockMixin extends Block {
+public class FarmlandBlockMixin extends Block implements IConditionalGrowingBlock {
 
     public FarmlandBlockMixin(Settings settings) {
         super(settings);
@@ -32,5 +33,10 @@ public class FarmlandBlockMixin extends Block {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean canGrow(BlockState state) {
+        return ImmersiveWeathering.getConfig().blockGrowthConfig.weedsGrowth;
     }
 }

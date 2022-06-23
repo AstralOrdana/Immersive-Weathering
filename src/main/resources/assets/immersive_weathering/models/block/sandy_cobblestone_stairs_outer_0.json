@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "top": "immersive_weathering:block/sandy_cobblestone_0",
+    "bottom": "immersive_weathering:block/sandy_cobblestone_0",
+    "side": "immersive_weathering:block/sandy_cobblestone_0"
+  }
+}

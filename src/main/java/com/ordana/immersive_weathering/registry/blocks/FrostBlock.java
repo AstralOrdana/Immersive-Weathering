@@ -47,8 +47,11 @@ public class FrostBlock extends MultifaceGrowthBlock implements Frostable {
 
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
         if (state.get(NATURAL)) {
-            if (world.getDimension().ultrawarm() || (!world.isRaining() && world.isDay()) || (world.getLightLevel(LightType.BLOCK, pos) > 7 - state.getOpacity(world, pos))) {
-                world.removeBlock(pos, false);
+            for (Direction direction : Direction.values()) {
+                var targetPos = pos.offset(direction);
+                if (world.getDimension().ultrawarm() || (!world.isRaining() && world.isDay() && world.isSkyVisible(targetPos.offset(direction))) || (world.getLightLevel(LightType.BLOCK, pos) > 7 - state.getOpacity(world, pos))) {
+                    world.removeBlock(pos, false);
+                }
             }
         }
     }

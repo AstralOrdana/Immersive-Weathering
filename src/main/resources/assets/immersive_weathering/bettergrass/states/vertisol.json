@@ -1,0 +1,17 @@
+{
+  "type": "grass",
+  "variants": {
+    "soaked=false,snowy=false": {
+      "data": "immersive_weathering:bettergrass/data/vertisol"
+    },
+    "soaked=false,snowy=true": {
+      "data": "minecraft:bettergrass/data/snowy_grass_block"
+    },
+    "soaked=true,snowy=false": {
+      "data": "immersive_weathering:bettergrass/data/vertisol_soaked"
+    },
+    "soaked=true,snowy=true": {
+      "data": "minecraft:bettergrass/data/snowy_grass_block"
+    }
+  }
+}

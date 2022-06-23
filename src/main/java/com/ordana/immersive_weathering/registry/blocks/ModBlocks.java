@@ -8,6 +8,10 @@ import com.ordana.immersive_weathering.registry.blocks.crackable.CrackableWallBl
 import com.ordana.immersive_weathering.registry.blocks.mossable.*;
 import com.ordana.immersive_weathering.registry.blocks.rotten.*;
 import com.ordana.immersive_weathering.registry.blocks.rustable.*;
+import com.ordana.immersive_weathering.registry.blocks.sandy.SandyBlock;
+import com.ordana.immersive_weathering.registry.blocks.sandy.SandySlabBlock;
+import com.ordana.immersive_weathering.registry.blocks.sandy.SandyStairsBlock;
+import com.ordana.immersive_weathering.registry.blocks.sandy.SandyWallBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
@@ -110,21 +114,21 @@ public class ModBlocks {
     public static final Block SNOWY_STONE_BRICK_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
     public static final Block SNOWY_STONE_BRICK_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
 
-    public static final Block SANDY_STONE = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
-    public static final Block SANDY_STONE_STAIRS = new ModStairs(SANDY_STONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
-    public static final Block SANDY_STONE_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
-    public static final Block SANDY_STONE_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_STONE = new SandyBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_STONE_STAIRS = new SandyStairsBlock(SANDY_STONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_STONE_SLAB = new SandySlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_STONE_WALL = new SandyWallBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
 
-    public static final Block SANDY_COBBLESTONE = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
-    public static final Block SANDY_COBBLESTONE_STAIRS = new ModStairs(SANDY_COBBLESTONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
-    public static final Block SANDY_COBBLESTONE_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
-    public static final Block SANDY_COBBLESTONE_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_COBBLESTONE = new SandyBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_COBBLESTONE_STAIRS = new SandyStairsBlock(SANDY_COBBLESTONE.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_COBBLESTONE_SLAB = new SandySlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_COBBLESTONE_WALL = new SandyWallBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
 
-    public static final Block SANDY_STONE_BRICKS = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
-    public static final Block SANDY_CHISELED_STONE_BRICKS = new Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
-    public static final Block SANDY_STONE_BRICK_STAIRS = new ModStairs(SANDY_STONE_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
-    public static final Block SANDY_STONE_BRICK_SLAB = new SlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
-    public static final Block SANDY_STONE_BRICK_WALL = new WallBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_STONE_BRICKS = new SandyBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_CHISELED_STONE_BRICKS = new SandyBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_STONE_BRICK_STAIRS = new SandyStairsBlock(SANDY_STONE_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_STONE_BRICK_SLAB = new SandySlabBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
+    public static final Block SANDY_STONE_BRICK_WALL = new SandyWallBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5f, 6f));
 
     public static final Block MOSSY_BRICKS = new MossyBlock(Mossable.MossLevel.MOSSY, FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));
     public static final Block MOSSY_BRICK_STAIRS = new MossyStairsBlock(Mossable.MossLevel.MOSSY, MOSSY_BRICKS.getDefaultState(), FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(2f, 6f));

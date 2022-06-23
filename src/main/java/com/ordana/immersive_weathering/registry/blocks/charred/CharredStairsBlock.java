@@ -35,7 +35,7 @@ public class CharredStairsBlock extends StairsBlock implements Charrable {
 
     public CharredStairsBlock(BlockState baseBlockState, Settings settings) {
         super(baseBlockState, settings);
-        this.setDefaultState(this.getDefaultState().with(SMOLDERING, false).with(FACING, Direction.NORTH).with(HALF, BlockHalf.BOTTOM).with(SHAPE, StairShape.STRAIGHT).with(WATERLOGGED, false));
+        this.setDefaultState(this.getDefaultState().with(SMOLDERING, false));
     }
 
     @Override

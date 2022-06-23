@@ -28,11 +28,12 @@ public class IcicleBlockEntity extends BlockEntity implements GameEventListener 
         map.put(GameEvent.HIT_GROUND, 2);
         map.put(GameEvent.PISTON_CONTRACT, 3);
         map.put(GameEvent.PISTON_EXTEND, 3);
-        //map.put(GameEvent.MINECART_MOVING, 4);
         map.put(GameEvent.BLOCK_OPEN, 6);
         map.put(GameEvent.BLOCK_CLOSE, 7);
-        //map.put(GameEvent.RING_BELL, 8);
+        map.put(GameEvent.NOTE_BLOCK_PLAY, 8);
         map.put(GameEvent.ENTITY_ROAR, 10);
+        map.put(GameEvent.SHRIEK, 13);
+        map.put(GameEvent.INSTRUMENT_PLAY, 14);
         map.put(GameEvent.EXPLODE, 15);
         map.put(GameEvent.LIGHTNING_STRIKE, 15);
         Registry.GAME_EVENT.getOrEmpty(new Identifier("moyai", "moyai_boom"))
