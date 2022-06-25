@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "block/pasted",
-		"particle": "block/pasted"
+		"1": "block/large_spruce_sapling_branch",
+		"particle": "block/large_spruce_sapling_branch"
 	},
 	"elements": [
 		{
