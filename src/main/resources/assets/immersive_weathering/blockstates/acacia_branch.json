@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "large=false,facing=east": {
+      "model": "immersive_weathering:block/acacia_branch",
+      "y": 270
+    },
+    "large=false,facing=north": {
+      "model": "immersive_weathering:block/acacia_branch",
+      "y": 180
+    },
+    "large=false,facing=south": {
+      "model": "immersive_weathering:block/acacia_branch"
+    },
+    "large=false,facing=west": {
+      "model": "immersive_weathering:block/acacia_branch",
+      "y": 90
+    },
+    "large=true,facing=east": {
+      "model": "immersive_weathering:block/acacia_branch_large",
+      "y": 270
+    },
+    "large=true,facing=north": {
+      "model": "immersive_weathering:block/acacia_branch_large",
+      "y": 180
+    },
+    "large=true,facing=south": {
+      "model": "immersive_weathering:block/acacia_branch_large"
+    },
+    "large=true,facing=west": {
+      "model": "immersive_weathering:block/acacia_branch_large",
+      "y": 90
+    }
+  }
+}

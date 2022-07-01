@@ -1,0 +1,50 @@
+{
+  "area_condition": {
+    "type": "neighbor_based_generation",
+    "must_have": {
+      "predicate_type": "minecraft:block_match",
+      "block": "minecraft:birch_log"
+    },
+    "must_not_have": {
+      "predicate_type": "minecraft:block_match",
+      "block": "minecraft:air"
+    },
+    "directions": []
+  },
+  "growth_chance": 0.5,
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:jungle_branch",
+              "Properties": {
+                "large": "false",
+                "facing": "north"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": [
+    "minecraft:birch_leaves"
+  ],
+  "replacing_target": {
+    "predicate_type": "minecraft:blockstate_match",
+    "block_state": {
+      "Name": "minecraft:birch_leaves",
+      "Properties": {
+        "distance": "1",
+        "persistent": "false",
+        "waterlogged": "false"
+      }
+    }
+  },
+  "target_self": true
+}

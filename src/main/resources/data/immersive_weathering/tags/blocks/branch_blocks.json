@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "immersive_weathering:oak_branches",
+    "immersive_weathering:birch_branches",
+    "immersive_weathering:spruce_branches",
+    "immersive_weathering:jungle_branches",
+    "immersive_weathering:dark_oak_branches",
+    "immersive_weathering:acacia_branches",
+    "immersive_weathering:mangrove_branches"
+  ]
+}

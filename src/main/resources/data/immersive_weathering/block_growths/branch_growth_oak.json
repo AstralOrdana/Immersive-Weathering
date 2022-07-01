@@ -1,0 +1,97 @@
+{
+  "area_condition": {
+    "type": "generate_if_not_too_many",
+    "radiusX": 2,
+    "radiusY": 4,
+    "radiusZ": 2,
+    "requiredAmount": 3,
+    "must_have": {
+      "predicate_type": "minecraft:block_match",
+      "block": "minecraft:oak_leaves"
+    },
+    "includes": "#immersive_weathering:branches"
+  },
+  "growth_chance": 0.5,
+  "growth_for_face": [
+    {
+      "direction": "north",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:oak_branch",
+              "Properties": {
+                "large": "false",
+                "facing": "north"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "south",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:oak_branch",
+              "Properties": {
+                "large": "false",
+                "facing": "south"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "east",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:oak_branch",
+              "Properties": {
+                "large": "false",
+                "facing": "east"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "west",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:oak_branch",
+              "Properties": {
+                "large": "false",
+                "facing": "west"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": [
+    "minecraft:oak_log"
+  ],
+  "replacing_target": {
+    "predicate_type": "minecraft:random_block_match",
+    "block": "minecraft:air",
+    "probability": 0.4
+  }
+}

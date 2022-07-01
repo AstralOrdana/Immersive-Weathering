@@ -25,6 +25,8 @@ public final class ModTags {
     public static final TagKey<Block> RAW_LOGS = registerBlockTag("raw_logs");
     public static final TagKey<Block> STRIPPED_LOGS = registerBlockTag("stripped_logs");
     public static final TagKey<Block> SMOKEY_BLOCKS = registerBlockTag("smokey_blocks");
+    public static final TagKey<Block> BRANCH_BLOCKS = registerBlockTag("branch_blocks");
+    public static final TagKey<Block> BRANCHES = registerBlockTag("branches");
     public static final TagKey<Block> SMALL_MUSHROOMS = registerBlockTag("small_mushrooms");
     public static final TagKey<Block> SMALL_PLANTS = registerBlockTag("small_plants");
     public static final TagKey<Block> FERTILE_BLOCKS = registerBlockTag("fertile_blocks");

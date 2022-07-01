@@ -53,6 +53,14 @@ public class ModBlocks {
     public static final Block DARK_OAK_BRANCHES = new BranchesBlock(FabricBlockSettings.of(Material.LEAVES, MapColor.BROWN).ticksRandomly().strength(1f).sounds(BlockSoundGroup.MANGROVE_ROOTS).nonOpaque());
     public static final Block MANGROVE_BRANCHES = new BranchesBlock(FabricBlockSettings.of(Material.LEAVES, MapColor.DARK_RED).ticksRandomly().strength(1f).sounds(BlockSoundGroup.MANGROVE_ROOTS).nonOpaque());
 
+    public static final Block OAK_BRANCH = new BranchBlock(FabricBlockSettings.of(Material.PLANT, MapColor.GREEN).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().noCollision());
+    public static final Block BIRCH_BRANCH = new BranchBlock(FabricBlockSettings.of(Material.PLANT, MapColor.GREEN).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().noCollision());
+    public static final Block SPRUCE_BRANCH = new BranchBlock(FabricBlockSettings.of(Material.PLANT, MapColor.GREEN).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().noCollision());
+    public static final Block JUNGLE_BRANCH = new BranchBlock(FabricBlockSettings.of(Material.PLANT, MapColor.GREEN).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().noCollision());
+    public static final Block ACACIA_BRANCH = new BranchBlock(FabricBlockSettings.of(Material.PLANT, MapColor.GREEN).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().noCollision());
+    public static final Block DARK_OAK_BRANCH = new BranchBlock(FabricBlockSettings.of(Material.PLANT, MapColor.GREEN).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().noCollision());
+    public static final Block MANGROVE_BRANCH = new BranchBlock(FabricBlockSettings.of(Material.PLANT, MapColor.GREEN).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque().noCollision());
+
     public static final Block MOSS = new MossMultifaceBlock(FabricBlockSettings.of(Material.MOSS_BLOCK).ticksRandomly().breakInstantly().sounds(BlockSoundGroup.MOSS_BLOCK).nonOpaque().noCollision());
     public static final Block IVY = new IvyBlock(FabricBlockSettings.of(Material.PLANT).noCollision().strength(0.2f).sounds(BlockSoundGroup.AZALEA_LEAVES));
     public static final Block WEEDS = new WeedsBlock(FabricBlockSettings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS));
@@ -341,6 +349,14 @@ public class ModBlocks {
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "acacia_branches"), ACACIA_BRANCHES);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "dark_oak_branches"), DARK_OAK_BRANCHES);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mangrove_branches"), MANGROVE_BRANCHES);
+
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "oak_branch"), OAK_BRANCH);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "spruce_branch"), SPRUCE_BRANCH);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "birch_branch"), BIRCH_BRANCH);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "jungle_branch"), JUNGLE_BRANCH);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "acacia_branch"), ACACIA_BRANCH);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "dark_oak_branch"), DARK_OAK_BRANCH);
+        Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "mangrove_branch"), MANGROVE_BRANCH);
 
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "humus"), HUMUS);
         Registry.register(Registry.BLOCK, new Identifier(ImmersiveWeathering.MOD_ID, "fluvisol"), FLUVISOL);

@@ -48,6 +48,14 @@ public class ModItems {
     public static final BlockItem DARK_OAK_BRANCHES = new BlockItem(ModBlocks.DARK_OAK_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
     public static final BlockItem MANGROVE_BRANCHES = new BlockItem(ModBlocks.MANGROVE_BRANCHES, new Item.Settings().group(ItemGroup.DECORATIONS));
 
+    public static final BlockItem OAK_BRANCH = new BlockItem(ModBlocks.OAK_BRANCH, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem SPRUCE_BRANCH = new BlockItem(ModBlocks.SPRUCE_BRANCH, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem BIRCH_BRANCH = new BlockItem(ModBlocks.BIRCH_BRANCH, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem JUNGLE_BRANCH = new BlockItem(ModBlocks.JUNGLE_BRANCH, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem ACACIA_BRANCH = new BlockItem(ModBlocks.ACACIA_BRANCH, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem DARK_OAK_BRANCH = new BlockItem(ModBlocks.DARK_OAK_BRANCH, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final BlockItem MANGROVE_BRANCH = new BlockItem(ModBlocks.MANGROVE_BRANCH, new Item.Settings().group(ItemGroup.DECORATIONS));
+
     public static final Item OAK_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item BIRCH_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item SPRUCE_BARK = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
@@ -329,6 +337,14 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "acacia_branches"), ACACIA_BRANCHES);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "dark_oak_branches"), DARK_OAK_BRANCHES);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mangrove_branches"), MANGROVE_BRANCHES);
+
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "oak_branch"), OAK_BRANCH);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "spruce_branch"), SPRUCE_BRANCH);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "birch_branch"), BIRCH_BRANCH);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "jungle_branch"), JUNGLE_BRANCH);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "acacia_branch"), ACACIA_BRANCH);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "dark_oak_branch"), DARK_OAK_BRANCH);
+        Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "mangrove_branch"), MANGROVE_BRANCH);
 
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "oak_bark"), OAK_BARK);
         Registry.register(Registry.ITEM, new Identifier(ImmersiveWeathering.MOD_ID, "spruce_bark"), SPRUCE_BARK);

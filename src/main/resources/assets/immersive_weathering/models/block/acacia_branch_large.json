@@ -1,0 +1,18 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"branch": "immersive_weathering:block/acacia_branch_large",
+		"particle": "immersive_weathering:block/acacia_branch_large"
+	},
+	"elements": [
+		{
+			"from": [8, 0, 0],
+			"to": [8, 16, 32],
+			"shade": false,
+			"faces": {
+				"east": {"uv": [16, 0, 0, 16], "texture": "#branch"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#branch"}
+			}
+		}
+	]
+}
