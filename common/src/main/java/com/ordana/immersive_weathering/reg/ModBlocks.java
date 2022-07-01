@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.reg;
 
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.blocks.*;
 import com.ordana.immersive_weathering.blocks.charred.*;
 import com.ordana.immersive_weathering.blocks.crackable.*;
@@ -174,7 +175,8 @@ public class ModBlocks {
             new MossyVerticalSlabBlock(Mossable.MossLevel.MOSSY, Properties.copy(MOSSY_STONE_STAIRS.get())), "quark");
     public static final Supplier<Block> MOSSY_STONE_WALL = regWithItem("mossy_stone_wall",()->
             new MossyWallBlock(Mossable.MossLevel.MOSSY, Properties.copy(Blocks.COBBLESTONE_WALL)));
-
+    public static final Supplier<Block> STONE_WALL = regWithItem("stone_wall",()->
+            new MossableWallBlock(Mossable.MossLevel.UNAFFECTED, Properties.copy(Blocks.COBBLESTONE_WALL)));
 
     //cracked bricks
 

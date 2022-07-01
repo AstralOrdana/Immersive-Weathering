@@ -11,4 +11,5 @@ include("common")
 include("fabric")
 include("forge")
 
-rootProject.name = "architectury-example-mod"
+rootProject.name = "immersive_weathering-mod"
+

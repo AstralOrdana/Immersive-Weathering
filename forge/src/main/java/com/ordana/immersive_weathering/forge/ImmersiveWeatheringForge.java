@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.event.AddPackFindersEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
@@ -64,6 +65,7 @@ public class ImmersiveWeatheringForge {
         LeafPilesRegistry.registerBus(bus);
 
         bus.addListener(ImmersiveWeatheringForge::init);
+        bus.addGenericListener(Item.class, ImmersiveWeatheringForge::registerAdditional);
         bus.addListener(ImmersiveWeatheringForge::addPackFinders);
     }
 
@@ -74,6 +76,11 @@ public class ImmersiveWeatheringForge {
             ImmersiveWeathering.commonSetup();
             registerWaxables();
         });
+    }
+
+
+    public static void registerAdditional(RegistryEvent.Register<Item> event){
+        ImmersiveWeathering.commonRegistration();
     }
 
     private static void registerWaxables() {

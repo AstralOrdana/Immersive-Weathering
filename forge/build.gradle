@@ -7,6 +7,8 @@ architectury {
     forge()
 }
 
+String mod_id = project.mod_id
+
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
 
@@ -14,9 +16,8 @@ loom {
         convertAccessWideners = true
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
 
-        mixinConfig "immersive_weathering-common.mixins.json"
-        mixinConfig "immersive_weathering.mixins.json"
-
+        mixinConfig mod_id + "-common.mixins.json"
+        mixinConfig mod_id + ".mixins.json"
     }
 }
 
@@ -39,9 +40,11 @@ dependencies {
 
 processResources {
     inputs.property "version", project.version
+    //inputs.property "mod_name": project.getArchivesBaseName()
 
     filesMatching("META-INF/mods.toml") {
         expand "version": project.version
+        expand "mod_name": project.getArchivesBaseName()
     }
 }
 
@@ -78,7 +81,7 @@ components.java {
 publishing {
     publications {
         mavenForge(MavenPublication) {
-            artifactId = rootProject.archives_base_name + "-" + project.name
+            artifactId = rootProject.mod_id + "-" + project.name
             from components.java
         }
     }

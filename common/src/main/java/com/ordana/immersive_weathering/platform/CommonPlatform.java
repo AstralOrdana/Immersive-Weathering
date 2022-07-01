@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.configs.ConfigBuilderWrapper;
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
@@ -48,6 +50,31 @@ public class CommonPlatform {
 
     @ExpectPlatform
     public static Platform getPlatform(){
+        throw new AssertionError();
+    }
+
+    public enum Env{
+        CLIENT, SERVER;
+
+        public boolean isClient() {
+            return this == CLIENT;
+        }
+
+        public boolean isServer() {
+            return this == SERVER;
+        }
+
+        public void ifClient(Runnable runnable) {
+            if (isClient()) runnable.run();
+        }
+
+        public void ifServer(Runnable runnable) {
+            if (isServer()) runnable.run();
+        }
+    }
+
+    @ExpectPlatform
+    public static Env getEnv(){
         throw new AssertionError();
     }
 

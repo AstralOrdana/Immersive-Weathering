@@ -2,7 +2,7 @@ package com.ordana.immersive_weathering.block_growth.area_condition;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ordana.immersive_weathering.block_growth.BlockGrowthConfiguration;
+import com.ordana.immersive_weathering.block_growth.ConfigurableBlockGrowth;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -10,7 +10,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.AlwaysTrueTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -33,7 +32,7 @@ record NeighborCheck(RuleTest mustHavePredicate, RuleTest mustNotHavePredicate,
     }
 
     @Override
-    public boolean test(BlockPos pos, Level level, BlockGrowthConfiguration config) {
+    public boolean test(BlockPos pos, Level level, ConfigurableBlockGrowth config) {
         int count = 0;
         //shuffling. provides way better result that iterating through it conventionally
         List<Direction> list = new ArrayList<>(directions);

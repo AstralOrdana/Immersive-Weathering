@@ -22,8 +22,6 @@ import org.spongepowered.asm.mixin.injection.Slice;
 @Mixin(Blocks.class)
 public abstract class BlocksMixin {
 
-    //TODO: add roots
-
     @Redirect(method = "<clinit>", at = @At(
             value = "NEW",
             target = "net/minecraft/world/level/block/Block",

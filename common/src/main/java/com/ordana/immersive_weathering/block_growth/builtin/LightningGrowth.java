@@ -8,6 +8,7 @@ import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -21,8 +22,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class LightningGrowth implements IBlockGrowth {
+public class LightningGrowth extends BuiltinBlockGrowth {
 
+
+    public LightningGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
+        super(name, owners, sources);
+    }
+
+    //TODO: move to data
     @Override
     public @Nullable Iterable<Block> getOwners() {
         List<Block> blocks = new ArrayList<>();
@@ -75,8 +82,4 @@ public class LightningGrowth implements IBlockGrowth {
         }
     }
 
-    @Override
-    public Collection<TickSource> getTickSources() {
-        return List.of(TickSource.LIGHTNING);
-    }
 }

@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.mixin.forge;
+package com.ordana.immersive_weathering.mixin.fabric;
 
 import com.ordana.immersive_weathering.reg.ModTags;
 import com.ordana.immersive_weathering.utils.WeatheringHelper;
@@ -31,19 +31,19 @@ public abstract class FireMixin extends BaseFireBlock{
     }
 
 
-    @Inject(method = "tryCatchFire",
+    @Inject(method = "checkBurnOut",
             at = @At(value = "INVOKE",
                     target = "net/minecraft/world/level/Level.removeBlock (Lnet/minecraft/core/BlockPos;Z)Z",
                     shift = At.Shift.AFTER))
-    private void afterRemoveBlock(Level pLevel, BlockPos pPos, int pChance, Random pRandom, int pAge, Direction face, CallbackInfo ci) {
-        WeatheringHelper.onFireBurnBlock(pLevel, pPos, bs);
+    private void afterRemoveBlock(Level level, BlockPos blockPos, int i, Random random, int j, CallbackInfo ci) {
+        WeatheringHelper.onFireBurnBlock(level, blockPos, bs);
     }
 
-    @Inject(method = "tryCatchFire",
+    @Inject(method = "checkBurnOut",
             at = @At(value = "INVOKE",
                     target = "net/minecraft/world/level/Level.removeBlock (Lnet/minecraft/core/BlockPos;Z)Z"))
-    private void beforeRemoveBlock(Level pLevel, BlockPos pPos, int pChance, Random pRandom, int pAge, Direction face, CallbackInfo ci) {
-        bs = pLevel.getBlockState(pPos);
+    private void beforeRemoveBlock(Level level, BlockPos blockPos, int i, Random random, int j, CallbackInfo ci) {
+        bs = level.getBlockState(blockPos);
     }
 
 

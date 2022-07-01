@@ -12,6 +12,7 @@ import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -23,17 +24,17 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.PointedDripstoneBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-public class LeavesGrowth implements IBlockGrowth {
+public class LeavesGrowth extends BuiltinBlockGrowth {
 
 
-    @Override
-    public Iterable<LeafPileBlock> getOwners() {
-        return CommonPlatform.getLeafPiles();
+    public LeavesGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
+        super(name, owners, sources);
     }
 
     //TODO: add particles here too
@@ -132,10 +133,6 @@ public class LeavesGrowth implements IBlockGrowth {
 
     }
 
-    @Override
-    public Collection<TickSource> getTickSources() {
-        return List.of(TickSource.BLOCK_TICK);
-    }
 
 
     //called from mixin

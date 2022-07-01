@@ -9,6 +9,7 @@ import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -22,22 +23,19 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DripstoneThickness;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-public class IceGrowth implements IBlockGrowth {
+public class IceGrowth extends BuiltinBlockGrowth {
 
-    @Override
-    public Iterable<Block> getOwners() {
-        return List.of(Blocks.ICE, Blocks.BLUE_ICE, Blocks.PACKED_ICE);
+
+    public IceGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
+        super(name, owners, sources);
     }
 
-    @Override
-    public Collection<TickSource> getTickSources() {
-        return List.of(TickSource.BLOCK_TICK);
-    }
 
     public static void tryPlacingIcicle(BlockState state, Level level, BlockPos pos, Biome.Precipitation precipitation) {
         if (precipitation == Biome.Precipitation.SNOW && WeatheringHelper.isIciclePos(pos)) {

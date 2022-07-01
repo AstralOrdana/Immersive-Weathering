@@ -24,6 +24,10 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
     public void onInitialize() {
 
         ImmersiveWeathering.commonInit();
+        ImmersiveWeathering.commonSetup();
+        ImmersiveWeathering.commonRegistration();
+
+
         ModRegistry.registerEntries();
 
         ModWaxables.getValues().forEach(OxidizableBlocksRegistry::registerWaxableBlockPair);
@@ -33,10 +37,8 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
         }
 
 
+
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(BlockGrowthHandler.getInstance(FabricBlockGrowthManager::new));
-
-
-        // ModEvents.registerEvents();
 
 
         FabricLoader.getInstance().getModContainer(ImmersiveWeatheringFabric.MOD_ID).ifPresent(modContainer -> {
@@ -55,14 +57,4 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
         }
     }
 
-    /*
-    private static final Supplier<ServerConfig> CONFIG = Util.make(() -> {
-        AutoConfig.add(ServerConfig.class, JanksonConfigSerializer::new);
-        return AutoConfig.getConfigHolder(ServerConfig.class);
-    });
-
-    public static ServerConfig getConfig() {
-        return CONFIG.get();
-    }
-    */
 }

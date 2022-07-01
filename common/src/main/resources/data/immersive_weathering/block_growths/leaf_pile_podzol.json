@@ -35,7 +35,7 @@
   "owners": "#mmersive_weathering:spruce_leaf_pile",
   "replacing_target": {
     "block": "#minecraft:dirt",
-    "predicate_type": "minecraft:random_block_match",
+    "predicate_type": "immersive_weathering:block_set_match",
     "probability": 0.7
   }
 }

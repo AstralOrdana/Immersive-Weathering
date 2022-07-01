@@ -38,9 +38,10 @@ dependencies {
 
 processResources {
     inputs.property "version", project.version
+    inputs.property "mod_id", rootProject.mod_id
 
     filesMatching("fabric.mod.json") {
-        expand "version": project.version
+        expand "version": project.version, "mod_id": rootProject.mod_id
     }
 }
 
@@ -77,7 +78,7 @@ components.java {
 publishing {
     publications {
         mavenFabric(MavenPublication) {
-            artifactId = rootProject.archives_base_name + "-" + project.name
+            artifactId = rootProject.mod_id + "-" + project.name
             from components.java
         }
     }

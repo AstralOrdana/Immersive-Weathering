@@ -42,8 +42,10 @@ public class PermafrostBlock extends Block {
 
     @Override
     public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity) {
-        int freezing = CommonConfigs.FREEZING_PERMAFROST_SEVERITY.get();
-        WeatheringHelper.applyFreezing(entity, freezing);
+        if(!world.isClientSide) {
+            int freezing = CommonConfigs.FREEZING_PERMAFROST_SEVERITY.get();
+            WeatheringHelper.applyFreezing(entity, freezing);
+        }
         super.stepOn(world, pos, state, entity);
     }
 

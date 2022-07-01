@@ -5,9 +5,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.block_growth.builtin.HardcodedGrowths;
+import com.ordana.immersive_weathering.block_growth.builtin.BuiltinBlockGrowth;
+import com.ordana.immersive_weathering.block_growth.builtin.BuiltinGrowthsRegistry;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -28,8 +30,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import java.io.FileWriter;
 import java.util.*;
 import java.util.function.Supplier;
-
-import static com.ordana.immersive_weathering.block_growth.BlockGrowthConfiguration.CODEC;
 
 public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
 
@@ -112,10 +112,10 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
                 if (isRaining) {
                     Biome biome = level.getBiome(targetPos).value();
                     Biome.Precipitation precipitation = biome.getPrecipitation();
-                    if (precipitation == Biome.Precipitation.RAIN) {
-                        if (biome.coldEnoughToSnow(targetPos)) source = TickSource.SNOW;
-                        else source = TickSource.RAIN;
+                    if (precipitation == Biome.Precipitation.RAIN && biome.coldEnoughToSnow(targetPos)) {
+                        precipitation = Biome.Precipitation.SNOW;
                     }
+                    source = precipitation == Biome.Precipitation.SNOW ? TickSource.SNOW : TickSource.RAIN;
                 }
                 tickBlock(source, state, level, targetPos);
             }
@@ -138,12 +138,16 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
         if (this.needsRefresh) {
             this.needsRefresh = false;
 
-            List<IBlockGrowth> growths = new ArrayList<>(HardcodedGrowths.getHardcoded());
+            List<IBlockGrowth> growths = new ArrayList<>();
 
             for (var e : GROWTH_TO_PARSE.entrySet()) {
-                //var result = CODEC.parse(JsonOps.INSTANCE,e.getValue());
-                var result = CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess),
-                        e.getValue());
+                var json = e.getValue();
+                DataResult<? extends IBlockGrowth> result;
+                if(json instanceof JsonObject jo && jo.has("builtin")){
+                    result = BuiltinBlockGrowth.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
+                } else {
+                    result = ConfigurableBlockGrowth.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
+                }
                 var o = result.resultOrPartial(error -> ImmersiveWeathering.LOGGER.error("Failed to read block growth JSON object for {} : {}", e.getKey(), error));
                 o.ifPresent(growths::add);
             }
@@ -183,8 +187,8 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
 
     //debug
 
-    private void writeToFile(final BlockGrowthConfiguration obj, FileWriter writer) {
-        var r = CODEC.encodeStart(JsonOps.INSTANCE, obj);
+    private void writeToFile(final ConfigurableBlockGrowth obj, FileWriter writer) {
+        DataResult<JsonElement> r = ConfigurableBlockGrowth.CODEC.encodeStart(JsonOps.INSTANCE, obj);
         r.result().ifPresent(a -> GSON.toJson(sortJson(a.getAsJsonObject()), writer));
     }
 

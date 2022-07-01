@@ -8,6 +8,7 @@ import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.biome.Biome;
@@ -18,11 +19,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.List;
 
-public class SnowIcicleGrowth implements IBlockGrowth {
+public class SnowIcicleGrowth extends BuiltinBlockGrowth {
 
-    @Override
-    public @Nullable Iterable<Block> getOwners() {
-        return null;
+    public SnowIcicleGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
+        super(name, owners, sources);
     }
 
     @Override
@@ -41,8 +41,5 @@ public class SnowIcicleGrowth implements IBlockGrowth {
         }
     }
 
-    @Override
-    public Collection<TickSource> getTickSources() {
-        return List.of(TickSource.SNOW);
-    }
+
 }

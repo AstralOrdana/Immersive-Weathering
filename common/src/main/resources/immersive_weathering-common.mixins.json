@@ -9,7 +9,9 @@
   "mixins": [
     "BeeMixin",
     "BlocksMixin",
+    "BushBlockBlockMixin",
     "CampfireMixin",
+    "forge.FireMixin",
     "IceMixin",
     "LargeFernBlockMixin",
     "LeavesMixin",

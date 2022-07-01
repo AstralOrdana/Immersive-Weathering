@@ -22,6 +22,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -30,6 +31,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.PowderSnowBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -198,6 +200,18 @@ public class WeatheringHelper {
         return charred.withPropertiesOf(state);
     }
 
+    public static void onFireBurnBlock(Level pLevel, BlockPos pPos, BlockState bs) {
+        if(CommonConfigs.FIRE_CHARS_WOOD.get()){
+
+        }
+        if(CommonConfigs.ASH_SPAWNS.get()){
+
+        }
+    }
+
+    public static void onFireExpired(ServerLevel serverLevel, BlockPos pos, BlockState state) {
+    }
+
     //(for fire I think)
     public boolean ashStuff(BlockState state, Level level, BlockPos pos) {
         BlockState downState = level.getBlockState(pos.below());
@@ -255,7 +269,10 @@ public class WeatheringHelper {
     }
 
     public static void applyFreezing(Entity entity, int freezing, boolean inWater) {
-        if (freezing != 0 && (entity instanceof LivingEntity le) &&
+       if(entity instanceof Player){
+           int a = 1; //TODO: this isnt working
+       }
+        if (freezing != 0 && entity.canFreeze() && (entity instanceof LivingEntity le) &&
                 !(EnchantmentHelper.getEnchantmentLevel(Enchantments.FROST_WALKER, le) > 0) &&
                 !entity.getType().is(ModTags.LIGHT_FREEZE_IMMUNE)) {
             if (inWater) {

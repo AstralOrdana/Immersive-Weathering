@@ -29,11 +29,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.FlowingFluid;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
@@ -137,6 +140,10 @@ public class CommonPlatformImpl {
             }
         };
         MinecraftForge.EVENT_BUS.addListener(c);
+    }
+
+    public static CommonPlatform.Env getEnv() {
+        return FMLEnvironment.dist == Dist.CLIENT ? CommonPlatform.Env.CLIENT : CommonPlatform.Env.SERVER;
     }
 
 

@@ -2,7 +2,7 @@ package com.ordana.immersive_weathering.block_growth.area_condition;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import com.ordana.immersive_weathering.block_growth.BlockGrowthConfiguration;
+import com.ordana.immersive_weathering.block_growth.ConfigurableBlockGrowth;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 
@@ -12,7 +12,7 @@ public interface AreaCondition {
 
     AreaCondition EMPTY = new AreaCondition() {
         @Override
-        public boolean test(BlockPos pos, Level level, BlockGrowthConfiguration config) {
+        public boolean test(BlockPos pos, Level level, ConfigurableBlockGrowth config) {
             return true;
         }
 
@@ -43,7 +43,7 @@ public interface AreaCondition {
     }
 
 
-    boolean test(BlockPos pos, Level level, BlockGrowthConfiguration config);
+    boolean test(BlockPos pos, Level level, ConfigurableBlockGrowth config);
 
     int getMaxRange();
 

@@ -5,6 +5,7 @@ import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.configs.ConfigBuilderWrapper;
 import com.ordana.immersive_weathering.configs.fabric.FabricConfigBuilder;
 import com.ordana.immersive_weathering.platform.CommonPlatform;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
@@ -90,6 +91,9 @@ public class CommonPlatformImpl {
 
     }
 
+    public static CommonPlatform.Env getEnv() {
+        return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT ? CommonPlatform.Env.CLIENT : CommonPlatform.Env.SERVER;
+    }
 
 
 }

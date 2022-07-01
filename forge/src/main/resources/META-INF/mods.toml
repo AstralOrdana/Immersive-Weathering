@@ -10,7 +10,7 @@ version = "${version}"
 displayName = "Immersive Weathering"
 authors = "Me!"
 
-logoFile="assets/immersive_weathering/icon.png" #optional
+logoFile="icon.png" #optional
 description = '''
 This is an example description! Tell everyone what your mod is about!
 '''

@@ -2,7 +2,7 @@ package com.ordana.immersive_weathering.block_growth.area_condition;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ordana.immersive_weathering.block_growth.BlockGrowthConfiguration;
+import com.ordana.immersive_weathering.block_growth.ConfigurableBlockGrowth;
 import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
@@ -41,7 +41,7 @@ record AreaCheck(int rX, int rY, int rZ, int requiredAmount, Optional<Integer> y
     }
 
     @Override
-    public boolean test(BlockPos pos, Level level, BlockGrowthConfiguration config) {
+    public boolean test(BlockPos pos, Level level, ConfigurableBlockGrowth config) {
         if (yOffset.isPresent()) pos = pos.above(yOffset.get());
         int count = 0;
         Random random = new Random(Mth.getSeed(pos));

@@ -145,7 +145,7 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
 
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        if (world.getBiome(pos).is(ModTags.ICY) && this.getOwnFluid().is(FluidTags.WATER)) {
+        if (!world.isClientSide && world.getBiome(pos).is(ModTags.ICY) && this.getOwnFluid().is(FluidTags.WATER)) {
             var freezing = CommonConfigs.FREEZING_WATER_SEVERITY.get();
             WeatheringHelper.applyFreezing(entity, freezing, true);
         }

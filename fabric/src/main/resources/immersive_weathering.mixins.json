@@ -9,7 +9,9 @@
     "fabric.CropBlockMixin",
     "fabric.DataPackContentMixin",
     "fabric.FarmlandBlockMixin",
+    "fabric.FireMixin",
     "fabric.FungusBlockMixin",
+    "fabric.ItemsMixin",
     "fabric.NetherWartBlockMixin",
     "fabric.SproutsBlockMixin",
     "fabric.SugarCaneBlockMixin"

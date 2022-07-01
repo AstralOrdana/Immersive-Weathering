@@ -6,26 +6,23 @@ import com.ordana.immersive_weathering.platform.CommonPlatform;
 import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
 
-public class GrassGrowth implements IBlockGrowth {
+public class GrassGrowth extends BuiltinBlockGrowth {
 
-    @Override
-    public Collection<TickSource> getTickSources() {
-        return List.of(TickSource.BLOCK_TICK);
-    }
 
-    @Override
-    public Iterable<Block> getOwners() {
-        return List.of();
+    public GrassGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
+        super(name, owners, sources);
     }
 
     @Override

@@ -1,0 +1,7 @@
+{
+  "builtin": "icicle_from_snow",
+  "tick_sources": [
+    "block_tick"
+  ],
+  "owners": "#minecraft:leaves"
+}

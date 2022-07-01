@@ -31,23 +31,23 @@ import java.util.stream.Collectors;
  * Author: MehVahdJukaar
  */
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-public class BlockGrowthConfiguration implements IBlockGrowth {
+public class ConfigurableBlockGrowth implements IBlockGrowth {
 
-    public static final BlockGrowthConfiguration EMPTY = new BlockGrowthConfiguration(List.of(), 1,
+    public static final ConfigurableBlockGrowth EMPTY = new ConfigurableBlockGrowth(List.of(), 1,
             AlwaysTrueTest.INSTANCE, AreaCondition.EMPTY, List.of(), Optional.of(HolderSet.direct(Holder.direct(Blocks.AIR))),
             List.of(), false, false);
 
-    public static final Codec<BlockGrowthConfiguration> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            TickSource.CODEC.listOf().optionalFieldOf("tick_sources",List.of(TickSource.BLOCK_TICK)).forGetter(BlockGrowthConfiguration::getTickSources),
-            Codec.FLOAT.fieldOf("growth_chance").forGetter(BlockGrowthConfiguration::getGrowthChance),
-            RuleTest.CODEC.fieldOf("replacing_target").forGetter(BlockGrowthConfiguration::getTargetPredicate),
-            AreaCondition.CODEC.optionalFieldOf("area_condition",AreaCondition.EMPTY).forGetter(BlockGrowthConfiguration::getAreaCondition),
-            DirectionalList.CODEC.listOf().fieldOf("growth_for_face").forGetter(BlockGrowthConfiguration::encodeRandomLists),
+    public static final Codec<ConfigurableBlockGrowth> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            TickSource.CODEC.listOf().optionalFieldOf("tick_sources",List.of(TickSource.BLOCK_TICK)).forGetter(ConfigurableBlockGrowth::getTickSources),
+            Codec.FLOAT.fieldOf("growth_chance").forGetter(ConfigurableBlockGrowth::getGrowthChance),
+            RuleTest.CODEC.fieldOf("replacing_target").forGetter(ConfigurableBlockGrowth::getTargetPredicate),
+            AreaCondition.CODEC.optionalFieldOf("area_condition",AreaCondition.EMPTY).forGetter(ConfigurableBlockGrowth::getAreaCondition),
+            DirectionalList.CODEC.listOf().fieldOf("growth_for_face").forGetter(ConfigurableBlockGrowth::encodeRandomLists),
             RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).optionalFieldOf("owners").forGetter(b -> Optional.ofNullable(b.owners)),
-            PositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates",List.of()).forGetter(BlockGrowthConfiguration::getPositionTests),
-            Codec.BOOL.optionalFieldOf("target_self",false).forGetter(BlockGrowthConfiguration::targetSelf),
-            Codec.BOOL.optionalFieldOf("destroy_target",false).forGetter(BlockGrowthConfiguration::destroyTarget)
-    ).apply(instance, BlockGrowthConfiguration::new));
+            PositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates",List.of()).forGetter(ConfigurableBlockGrowth::getPositionTests),
+            Codec.BOOL.optionalFieldOf("target_self",false).forGetter(ConfigurableBlockGrowth::targetSelf),
+            Codec.BOOL.optionalFieldOf("destroy_target",false).forGetter(ConfigurableBlockGrowth::destroyTarget)
+    ).apply(instance, ConfigurableBlockGrowth::new));
 
     @Nullable //null for universal ones
     private final HolderSet<Block> owners;
@@ -64,11 +64,11 @@ public class BlockGrowthConfiguration implements IBlockGrowth {
     private final int maxRange;
     private final AreaCondition areaCondition;
 
-    public BlockGrowthConfiguration(List<TickSource> sources, float growthChance,
-                                    RuleTest targetPredicate, AreaCondition areaCheck,
-                                    List<DirectionalList> growthForDirection,
-                                    Optional<HolderSet<Block>> owners, List<PositionRuleTest> biomePredicates,
-                                    Boolean targetSelf, Boolean destroyTarget) {
+    public ConfigurableBlockGrowth(List<TickSource> sources, float growthChance,
+                                   RuleTest targetPredicate, AreaCondition areaCheck,
+                                   List<DirectionalList> growthForDirection,
+                                   Optional<HolderSet<Block>> owners, List<PositionRuleTest> biomePredicates,
+                                   Boolean targetSelf, Boolean destroyTarget) {
         this.tickSources =  sources;
         this.growthChance = growthChance;
         this.owners = owners.orElse(null);

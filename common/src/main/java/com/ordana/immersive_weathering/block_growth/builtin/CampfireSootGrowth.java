@@ -1,12 +1,8 @@
 package com.ordana.immersive_weathering.block_growth.builtin;
 
-import com.ordana.immersive_weathering.block_growth.IBlockGrowth;
 import com.ordana.immersive_weathering.block_growth.TickSource;
 import com.ordana.immersive_weathering.reg.ModBlocks;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
+import net.minecraft.core.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.biome.Biome;
@@ -15,22 +11,17 @@ import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class CampfireGrowth implements IBlockGrowth {
+public class CampfireSootGrowth extends BuiltinBlockGrowth {
 
-    @Override
-    public Collection<TickSource> getTickSources() {
-        return List.of(TickSource.BLOCK_TICK);
-    }
-
-    @Override
-    public Iterable<Block> getOwners() {
-        return Registry.BLOCK.getTag(BlockTags.CAMPFIRES).get().stream().map(Holder::value).collect(Collectors.toList());
+    public CampfireSootGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
+        super(name, owners, sources);
     }
 
     @Override
@@ -42,17 +33,8 @@ public class CampfireGrowth implements IBlockGrowth {
 
             int smokeHeight = state.getValue(CampfireBlock.SIGNAL_FIRE) ? 23 : 8;
 
-            BlockPos sootPos = pos;
-            for (int i = 0; i < smokeHeight; i++) {
-                sootPos = sootPos.above();
-                BlockState above = level.getBlockState(sootPos.above());
-                if (Block.isFaceFull(above.getCollisionShape(level, sootPos.above()), Direction.DOWN)) {
-                    if (level.getBlockState(sootPos).isAir()) {
-                        level.setBlock(sootPos, ModBlocks.SOOT.get().defaultBlockState().setValue(BlockStateProperties.UP, true), 3);
-                    }
-                    smokeHeight = i + 1;
-                }
-            }
+            FireSootGrowth.spawnSootAboveFire(level, pos, smokeHeight);
+
             BlockPos sootBlock = pos.above(random.nextInt(smokeHeight) + 1);
             int rand = random.nextInt(4);
             Direction sootDir = Direction.from2DDataValue(rand);
@@ -69,4 +51,5 @@ public class CampfireGrowth implements IBlockGrowth {
             }
         }
     }
+
 }
