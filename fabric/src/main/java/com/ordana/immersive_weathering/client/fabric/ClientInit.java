@@ -81,7 +81,6 @@ public class ClientInit implements ClientModInitializer {
             //flower crowns
             registry.register(ImmersiveWeathering.res( "particle/bee_0"));
             registry.register(ImmersiveWeathering.res( "particle/bee_1"));
-
         }));
 
 

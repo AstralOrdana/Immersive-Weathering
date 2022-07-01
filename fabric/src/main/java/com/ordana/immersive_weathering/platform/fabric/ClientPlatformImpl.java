@@ -6,7 +6,6 @@ import net.minecraft.world.level.block.Block;
 
 public class ClientPlatformImpl {
 
-
     public static void registerRenderType(Block block, RenderType type) {
         BlockRenderLayerMap.INSTANCE.putBlock(block, type);
     }
