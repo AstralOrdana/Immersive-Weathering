@@ -1,0 +1,31 @@
+{
+  "growth_chance": 0.05,
+  "target_self": true,
+  "position_predicates": [
+    {
+      "type": "day_test",
+      "day": true
+    }
+  ],
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:grass"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": "immersive_weathering:frosty_grass",
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:block_match"
+  }
+}

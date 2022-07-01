@@ -1,0 +1,147 @@
+{
+  "area_condition": {
+    "radiusX": 2,
+    "radiusY": 2,
+    "radiusZ": 2,
+    "requiredAmount": 6,
+    "type": "generate_if_not_too_many",
+    "includes": "#immersive_weathering:small_plants"
+  },
+  "position_predicates": [
+    {
+      "biomes": ["minecraft:flower_forest"],
+     "type": "biome_match"
+    }
+  ],
+  "growth_chance": 0.001,
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:red_tulip"
+            }
+          },
+          "weight": 10
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:white_tulip"
+            }
+          },
+          "weight": 10
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:orange_tulip"
+            }
+          },
+          "weight": 10
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:pink_tulip"
+            }
+          },
+          "weight": 10
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:lily_of_the_valley"
+            }
+          },
+          "weight": 10
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:allium"
+            }
+          },
+          "weight": 10
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:oak_sapling"
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:peony",
+              "Properties": {
+                "half": "lower"
+              }
+            },
+            "above_block": {
+              "Name": "minecraft:peony",
+              "Properties": {
+                "half": "upper"
+              }
+            }
+          },
+          "weight": 50
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:lilac",
+              "Properties": {
+                "half": "lower"
+              }
+            },
+            "above_block": {
+              "Name": "minecraft:lilac",
+              "Properties": {
+                "half": "upper"
+              }
+            }
+          },
+          "weight": 50
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:rose_bush",
+              "Properties": {
+                "half": "lower"
+              }
+            },
+            "above_block":{
+              "Name": "minecraft:rose_bush",
+              "Properties": {
+                "half": "upper"
+              }
+            }
+          },
+          "weight": 50
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:grass"
+            }
+          },
+          "weight": 100
+        }
+      ]
+    }
+  ],
+  "owners": [
+    "minecraft:grass_block"
+  ],
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:random_block_match",
+    "probability": 0.8
+  }
+}

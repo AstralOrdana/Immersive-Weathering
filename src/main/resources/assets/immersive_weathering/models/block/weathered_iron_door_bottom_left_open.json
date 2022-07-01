@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/door_bottom_left_open",
-  "textures": {
-    "bottom": "immersive_weathering:block/weathered_iron_door_bottom",
-    "top": "immersive_weathering:block/weathered_iron_door_top"
-  }
-}

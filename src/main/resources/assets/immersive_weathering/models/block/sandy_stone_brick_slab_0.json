@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "top": "immersive_weathering:block/sandy_stone_bricks_0",
-    "bottom": "immersive_weathering:block/sandy_stone_bricks_0",
-    "side": "immersive_weathering:block/sandy_stone_bricks_0"
-  }
-}

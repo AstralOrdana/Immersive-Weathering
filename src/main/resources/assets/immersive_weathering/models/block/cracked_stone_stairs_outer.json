@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "immersive_weathering:block/cracked_stone",
-    "top": "immersive_weathering:block/cracked_stone",
-    "side": "immersive_weathering:block/cracked_stone"
-  }
-}

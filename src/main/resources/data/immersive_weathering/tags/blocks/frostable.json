@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "minecraft:grass",
-    "minecraft:fern",
-    "minecraft:glass",
-    "minecraft:glass_pane"
-  ]
-}

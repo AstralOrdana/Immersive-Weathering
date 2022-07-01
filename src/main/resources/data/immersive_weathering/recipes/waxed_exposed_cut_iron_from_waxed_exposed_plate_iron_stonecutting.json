@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "immersive_weathering:waxed_exposed_plate_iron"
-  },
-  "result": "immersive_weathering:waxed_exposed_cut_iron",
-  "count": 1
-}

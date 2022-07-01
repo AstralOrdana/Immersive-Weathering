@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "minecraft:cracked_deepslate_tiles"
-  },
-  "result": "immersive_weathering:cracked_deepslate_tile_slab",
-  "count": 2
-}

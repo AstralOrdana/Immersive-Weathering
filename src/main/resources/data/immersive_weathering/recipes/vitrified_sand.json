@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "minecraft:sand"
-  },
-  "result": "immersive_weathering:vitrified_sand",
-  "experience": 0.1,
-  "cookingtime": 100
-}

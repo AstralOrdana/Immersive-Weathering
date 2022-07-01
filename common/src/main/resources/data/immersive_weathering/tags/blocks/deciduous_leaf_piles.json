@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "immersive_weathering:oak_leaf_pile",
+    "immersive_weathering:birch_leaf_pile",
+    "immersive_weathering:jungle_leaf_pile",
+    "immersive_weathering:dark_oak_leaf_pile"
+  ]
+}

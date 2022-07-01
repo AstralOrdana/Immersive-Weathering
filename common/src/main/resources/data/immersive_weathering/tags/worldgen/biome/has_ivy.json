@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "forge:is_wet",
+      "required": false
+    },
+    "minecraft:forest",
+    "minecraft:windswept_forest",
+    "minecraft:flower_forest",
+    "minecraft:dark_forest",
+    "minecraft:birch_forest",
+    "minecraft:old_growth_birch_forest"
+  ]
+}

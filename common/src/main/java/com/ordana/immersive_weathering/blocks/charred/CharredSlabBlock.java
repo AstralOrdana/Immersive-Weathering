@@ -1,0 +1,54 @@
+package com.ordana.immersive_weathering.blocks.charred;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.SlabType;
+import net.minecraft.world.phys.BlockHitResult;
+
+public class CharredSlabBlock extends SlabBlock implements Charred {
+
+    public CharredSlabBlock(Properties settings) {
+        super(settings);
+        this.registerDefaultState(this.defaultBlockState().setValue(SMOLDERING, false).setValue(TYPE, SlabType.BOTTOM).setValue(WATERLOGGED, false));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
+        super.createBlockStateDefinition(stateManager);
+        stateManager.add(SMOLDERING);
+    }
+
+    @Override
+    public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity) {
+        onEntityStepOn(state, entity);
+        super.stepOn(world, pos, state, entity);
+    }
+
+    @Override
+    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+        return interactWithPlayer(state, worldIn, pos, player, handIn);
+    }
+
+    @Override
+    public void onProjectileHit(Level level, BlockState state, BlockHitResult pHit, Projectile projectile) {
+        BlockPos pos = pHit.getBlockPos();
+        interactWithProjectile(level, state, projectile, pos);
+    }
+
+    @Override
+    public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
+        if (entityIn instanceof Projectile projectile) {
+            interactWithProjectile(worldIn, state, projectile, pos);
+        }
+    }
+
+}
