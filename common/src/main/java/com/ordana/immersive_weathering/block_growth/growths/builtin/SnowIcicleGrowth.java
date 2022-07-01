@@ -1,6 +1,5 @@
-package com.ordana.immersive_weathering.block_growth.builtin;
+package com.ordana.immersive_weathering.block_growth.growths.builtin;
 
-import com.ordana.immersive_weathering.block_growth.IBlockGrowth;
 import com.ordana.immersive_weathering.block_growth.TickSource;
 import com.ordana.immersive_weathering.blocks.IcicleBlock;
 import com.ordana.immersive_weathering.reg.ModBlocks;
@@ -16,7 +15,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
 import java.util.List;
 
 public class SnowIcicleGrowth extends BuiltinBlockGrowth {

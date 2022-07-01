@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.mixin;
 
-import com.ordana.immersive_weathering.block_growth.builtin.LeavesGrowth;
+import com.ordana.immersive_weathering.block_growth.growths.builtin.LeavesGrowth;
 import com.ordana.immersive_weathering.client.ParticleHelper;
 import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import net.minecraft.core.BlockPos;

@@ -118,20 +118,20 @@ public class ModBlocks {
 
     //later stuff
 
-    public static final Supplier<Block> SAND_LAYER_BLOCK = regBlock("sand_layer_block", () ->
+    public static final Supplier<Block> SAND_LAYER_BLOCK = regWithItem("sand_layer_block", () ->
             new SandLayerBlock(14406560, Properties.of(Material.TOP_SNOW, MaterialColor.SAND).strength(0.5f)
                     .sound(SoundType.SAND).isSuffocating(NEVER)
                     .isViewBlocking((blockState, blockView, blockPos) -> blockState.getValue(LayerBlock.LAYERS_8) >= 8)
                     .noOcclusion()));
-    public static final Supplier<Block> RED_SAND_LAYER_BLOCK = regBlock("red_sand_layer_block", () ->
+    public static final Supplier<Block> RED_SAND_LAYER_BLOCK = regWithItem("red_sand_layer_block", () ->
             new SandLayerBlock( 11098145, Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_ORANGE)
                     .strength(0.5f).sound(SoundType.SAND).isSuffocating(NEVER).noOcclusion()));
-    public static final Supplier<Block> ASH_LAYER_BLOCK = regBlock("ash_layer_block", () ->
+    public static final Supplier<Block> ASH_LAYER_BLOCK = regWithItem("ash_layer_block", () ->
             new LayerBlock(Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_BLACK).instabreak()
                     .sound(SoundType.SNOW).isSuffocating(NEVER).noOcclusion()));
-    public static final Supplier<Block> ASH_BLOCK = regBlock("ash_block", () ->
+    public static final Supplier<Block> ASH_BLOCK = regWithItem("ash_block", () ->
             new LayerBlock(Properties.of(Material.SNOW, MaterialColor.COLOR_BLACK).instabreak().sound(SoundType.SNOW)));
-    public static final Supplier<Block> SOOT = regBlock("soot", () ->
+    public static final Supplier<Block> SOOT = regWithItem("soot", () ->
             new SootBlock(Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_BLACK).noCollission().instabreak().sound(SoundType.SNOW).randomTicks()));
 
     //vegetation
@@ -144,7 +144,7 @@ public class ModBlocks {
     public static final Supplier<Block> HANGING_ROOTS_WALL = regBlock("hanging_roots_wall", () ->
             new WallRootsBlock(Properties.copy(Blocks.HANGING_ROOTS)));
 
-    public static final Supplier<Block> IVY = regWithItem("ivy", () ->
+    public static final Supplier<IvyBlock> IVY = regWithItem("ivy", () ->
             new IvyBlock(Properties.of(Material.PLANT).noCollission().strength(0.2f)
                     .sound(SoundType.AZALEA_LEAVES)));
 

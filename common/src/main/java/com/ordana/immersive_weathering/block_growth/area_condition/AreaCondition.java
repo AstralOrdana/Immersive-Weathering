@@ -2,7 +2,7 @@ package com.ordana.immersive_weathering.block_growth.area_condition;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import com.ordana.immersive_weathering.block_growth.ConfigurableBlockGrowth;
+import com.ordana.immersive_weathering.block_growth.growths.ConfigurableBlockGrowth;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 

@@ -1,6 +1,5 @@
-package com.ordana.immersive_weathering.block_growth.builtin;
+package com.ordana.immersive_weathering.block_growth.growths.builtin;
 
-import com.ordana.immersive_weathering.block_growth.IBlockGrowth;
 import com.ordana.immersive_weathering.block_growth.TickSource;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
@@ -26,12 +25,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
 public class LeavesGrowth extends BuiltinBlockGrowth {
-
 
     public LeavesGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
         super(name, owners, sources);
@@ -40,7 +37,6 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
     //TODO: add particles here too
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome) {
-
         Random random = level.random;
 
         //Drastically reduced this chance to help lag

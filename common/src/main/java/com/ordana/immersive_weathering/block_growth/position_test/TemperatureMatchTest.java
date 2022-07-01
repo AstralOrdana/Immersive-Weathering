@@ -1,33 +1,53 @@
 package com.ordana.immersive_weathering.block_growth.position_test;
 
+import com.mojang.datafixers.kinds.Applicative;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.Lifecycle;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.mixin.accessors.BiomeAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryCodecs;
+import net.minecraft.util.valueproviders.BiasedToBottomInt;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.dimension.LevelStem;
+import net.minecraft.world.level.levelgen.WorldGenSettings;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 record TemperatureMatchTest(float max, float min, Optional<Boolean> useLocalPos) implements PositionRuleTest {
 
-
     public static final String NAME = "temperature_range";
-    public static final Codec<TemperatureMatchTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.FLOAT.fieldOf("max").forGetter(TemperatureMatchTest::max),
-            Codec.FLOAT.fieldOf("min").forGetter(TemperatureMatchTest::min),
-            Codec.BOOL.optionalFieldOf("use_local_pos").forGetter(TemperatureMatchTest::useLocalPos)
-    ).apply(instance, TemperatureMatchTest::new));
+
+    private static final Codec<TemperatureMatchTest> C = RecordCodecBuilder.create(instance -> instance.group(
+                    Codec.FLOAT.fieldOf("min").forGetter(biasedToBottomInt -> biasedToBottomInt.min),
+                    Codec.FLOAT.fieldOf("max").forGetter(biasedToBottomInt -> biasedToBottomInt.max),
+                    Codec.BOOL.optionalFieldOf("use_local_pos").forGetter(TemperatureMatchTest::useLocalPos))
+            .apply( instance, TemperatureMatchTest::new));
+
+    public static final Codec<TemperatureMatchTest> CODEC = C.comapFlatMap(t -> {
+        if (t.max < t.min) {
+            return DataResult.error("Max must be at least min, min_inclusive: " + t.min + ", max_inclusive: " + t.max);
+        }
+        return DataResult.success(t);
+    }, Function.identity());
+
 
     static final PositionRuleTestType<TemperatureMatchTest> TYPE =
             new PositionRuleTestType<>(TemperatureMatchTest.CODEC, TemperatureMatchTest.NAME);
 
     @Override
     public PositionRuleTestType<TemperatureMatchTest> getType() {
+
         return TYPE;
     }
 
+    //snow is at >0.15F
     @Override
     public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
         float temp;

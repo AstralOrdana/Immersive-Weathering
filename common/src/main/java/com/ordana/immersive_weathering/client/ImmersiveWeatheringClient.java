@@ -110,6 +110,8 @@ public class ImmersiveWeatheringClient {
         ClientPlatform.registerRenderType(ModBlocks.FROSTY_GRASS.get(), RenderType.cutout());
         ClientPlatform.registerRenderType(ModBlocks.FROSTY_FERN.get(), RenderType.cutout());
         ClientPlatform.registerRenderType(ModBlocks.THIN_ICE.get(), RenderType.translucent());
+
+        ClientPlatform.registerRenderType(ModBlocks.HANGING_ROOTS_WALL.get(), RenderType.cutout());
     }
 
     @FunctionalInterface
@@ -247,6 +249,15 @@ public class ImmersiveWeatheringClient {
         event.register(defaultGrassColor, ModBlocks.MOSSY_STONE_SLAB.get());
         event.register(defaultGrassColor, ModBlocks.MOSSY_STONE_STAIRS.get());
         event.register(defaultGrassColor, ModBlocks.MOSSY_STONE_WALL.get());
+
+        final ItemColor defaultFoliageColor = (stack, tintIndex) -> FoliageColor.getDefaultColor();
+
+        event.register(defaultFoliageColor, ModBlocks.OAK_LEAF_PILE.get());
+        event.register((stack, tintIndex) -> FoliageColor.getEvergreenColor(), ModBlocks.SPRUCE_LEAF_PILE.get());
+        event.register((stack, tintIndex) -> FoliageColor.getBirchColor(), ModBlocks.BIRCH_LEAF_PILE.get());
+        event.register(defaultFoliageColor, ModBlocks.JUNGLE_LEAF_PILE.get());
+        event.register(defaultFoliageColor, ModBlocks.ACACIA_LEAF_PILE.get());
+        event.register(defaultFoliageColor, ModBlocks.DARK_OAK_LEAF_PILE.get());
 
     }
 

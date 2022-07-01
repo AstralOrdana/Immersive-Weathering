@@ -16,7 +16,7 @@ import java.util.Random;
 
 record BlockTest(Vec3i offset, RuleTest predicate) implements PositionRuleTest {
 
-    public static final String NAME = "block_match";
+    public static final String NAME = "block_test";
 
     public static final Codec<BlockTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Vec3i.offsetCodec(16).optionalFieldOf("offset", Vec3i.ZERO).forGetter(BlockTest::offset),

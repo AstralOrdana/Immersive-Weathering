@@ -1,5 +1,6 @@
-package com.ordana.immersive_weathering.block_growth;
+package com.ordana.immersive_weathering.block_growth.growths;
 
+import com.ordana.immersive_weathering.block_growth.TickSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;

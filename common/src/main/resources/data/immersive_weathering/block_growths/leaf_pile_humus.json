@@ -34,7 +34,7 @@
   ],
   "owners": "#immersive_weathering:deciduous_leaf_piles",
   "replacing_target": {
-    "block": "#minecraft:dirt",
+    "blocks": "#minecraft:dirt",
     "predicate_type": "immersive_weathering:block_set_match",
     "probability": 0.7
   }

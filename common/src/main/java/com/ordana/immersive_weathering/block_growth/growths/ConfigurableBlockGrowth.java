@@ -1,9 +1,11 @@
-package com.ordana.immersive_weathering.block_growth;
+package com.ordana.immersive_weathering.block_growth.growths;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ordana.immersive_weathering.block_growth.BlockPair;
+import com.ordana.immersive_weathering.block_growth.TickSource;
 import com.ordana.immersive_weathering.block_growth.area_condition.AreaCondition;
 import com.ordana.immersive_weathering.block_growth.position_test.PositionRuleTest;
 import com.ordana.immersive_weathering.mixin.accessors.RandomBlockMatchTestAccessor;

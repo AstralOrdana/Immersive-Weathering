@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.mixin;
 import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
@@ -21,6 +22,6 @@ public abstract class BushBlockBlockMixin extends Block {
 
     @Inject(method = "mayPlaceOn", at = @At(value = "HEAD"), cancellable = true)
     protected void mayPlaceOn(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CallbackInfoReturnable<Boolean> cir) {
-        if (blockState.is(ModTags.CRACKED)) cir.setReturnValue(true);
+        if (blockState.is(ModTags.CRACKED) && this.builtInRegistryHolder().is(BlockTags.REPLACEABLE_PLANTS)) cir.setReturnValue(true);
     }
 }

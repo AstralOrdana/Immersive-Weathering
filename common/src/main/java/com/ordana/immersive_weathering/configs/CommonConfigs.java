@@ -26,8 +26,8 @@ public class CommonConfigs {
     public static Supplier<Integer> FREEZING_ICICLE_SEVERITY;
     public static Supplier<Integer> FREEZING_PERMAFROST_SEVERITY;
 
-    public static Supplier<Boolean> FIRE_CHARS_WOOD;
-    public static Supplier<Boolean> ASH_SPAWNS;
+    public static Supplier<Double> FIRE_CHARS_WOOD_CHANCE;
+    public static Supplier<Double> ASH_SPAWNS_CHANCE;
     public static Supplier<Boolean> SOOT_SPAWN;
     public static Supplier<Boolean> FLAMMABLE_COBWEBS;
 
@@ -115,8 +115,8 @@ public class CommonConfigs {
         builder.pop();
 
         builder.push("charring");
-        FIRE_CHARS_WOOD = builder.define("fire_chars_wood", true);
-        ASH_SPAWNS = builder.define("ash_spawn", true);
+        FIRE_CHARS_WOOD_CHANCE = builder.define("fire_chars_wood", 0.3, 0, 1);
+        ASH_SPAWNS_CHANCE = builder.define("ash_spawn", 0.3, 0, 1); //gets aplied after fire charring
         SOOT_SPAWN = builder.define("soot_spawn", true);
         FLAMMABLE_COBWEBS = builder.define("flammable_cobweb", true);
         builder.pop();

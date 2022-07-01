@@ -8,8 +8,11 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.block_growth.builtin.BuiltinBlockGrowth;
-import com.ordana.immersive_weathering.block_growth.builtin.BuiltinGrowthsRegistry;
+import com.ordana.immersive_weathering.block_growth.growths.ConfigurableBlockGrowth;
+import com.ordana.immersive_weathering.block_growth.growths.IBlockGrowth;
+import com.ordana.immersive_weathering.block_growth.growths.builtin.BuiltinBlockGrowth;
+import com.ordana.immersive_weathering.block_growth.growths.builtin.NoOpBlockGrowth;
+import com.ordana.immersive_weathering.block_growth.growths.builtin.SnowIcicleGrowth;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -149,6 +152,12 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
                     result = ConfigurableBlockGrowth.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
                 }
                 var o = result.resultOrPartial(error -> ImmersiveWeathering.LOGGER.error("Failed to read block growth JSON object for {} : {}", e.getKey(), error));
+                if(o.isPresent()){
+                    IBlockGrowth g = o.get();
+                    if(!(g instanceof NoOpBlockGrowth)) {
+                        growths.add(g);
+                    }
+                }
                 o.ifPresent(growths::add);
             }
             ImmersiveWeathering.LOGGER.info("Loaded {} block growths configurations", GROWTH_TO_PARSE.size());

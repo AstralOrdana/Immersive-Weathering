@@ -6,6 +6,8 @@
   "client": [
   ],
   "mixins": [
+    "FireMixin",
+    "WebMixin"
   ],
   "injectors": {
     "defaultRequire": 1

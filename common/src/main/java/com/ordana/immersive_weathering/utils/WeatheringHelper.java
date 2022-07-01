@@ -31,7 +31,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.PowderSnowBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -154,28 +153,43 @@ public class WeatheringHelper {
         return posRandom.nextInt(rarity) == 0;
     }
 
+    //spawn sooth?
+    public static void onFireExpired(ServerLevel serverLevel, BlockPos pos, BlockState state) {
+    }
+
     //called after a block has been devoured by fire. All given blocks are thus flammable
+    public static void onFireBurnBlock(Level level, BlockPos pos, BlockState state) {
+        if(level instanceof ServerLevel serverLevel) tryCharBlock(serverLevel, pos, state);
+    }
+
     public static boolean tryCharBlock(ServerLevel world, BlockPos pos, BlockState state) {
-        BlockState newState = null;
-        if (world.random.nextFloat() < 0.8f) {
-            BlockState charred = getCharredState(state);
+        double charChance = CommonConfigs.FIRE_CHARS_WOOD_CHANCE.get();
+        double ashChance = CommonConfigs.ASH_SPAWNS_CHANCE.get();
+        if (charChance != 0 || ashChance != 0) {
+            BlockState newState = null;
+            BlockState charred = charChance != 0 ? getCharredState(state) : null;
             if (charred != null) {
-                newState = charred.setValue(CharredBlock.SMOLDERING, world.random.nextBoolean());
+                if (world.random.nextFloat() < charChance) {
+                    newState = charred.setValue(CharredBlock.SMOLDERING, world.random.nextBoolean());
+                }
             }
-        } else if (world.random.nextFloat() < 0.5f) {
-            // newState = ModBlocks.ASH_LAYER_BLOCK.get().withPropertiesOf(state), 3);
-        }
+            if (charred == null) {
+                if (world.random.nextFloat() < ashChance) {
+                    //TODO: set random layer height and do similar to supp??
+                    newState = ModBlocks.ASH_LAYER_BLOCK.get().defaultBlockState();
+                }
+            }
+            if (newState != null) {
+                world.sendParticles(ModParticles.SOOT.get(),
+                        pos.getX() + 0.5D,
+                        pos.getY() + 0.5D,
+                        pos.getZ() + 0.5D,
+                        10,
+                        0.5D, 0.5D, 0.5D,
+                        0.0D);
 
-        if (newState != null) {
-            world.sendParticles(ModParticles.SOOT.get(),
-                    pos.getX() + 0.5D,
-                    pos.getY() + 0.5D,
-                    pos.getZ() + 0.5D,
-                    10,
-                    0.5D, 0.5D, 0.5D,
-                    0.0D);
-
-            return world.setBlock(pos, newState, 3);
+                return world.setBlock(pos, newState, 3);
+            }
         }
         return false;
     }
@@ -200,17 +214,8 @@ public class WeatheringHelper {
         return charred.withPropertiesOf(state);
     }
 
-    public static void onFireBurnBlock(Level pLevel, BlockPos pPos, BlockState bs) {
-        if(CommonConfigs.FIRE_CHARS_WOOD.get()){
 
-        }
-        if(CommonConfigs.ASH_SPAWNS.get()){
 
-        }
-    }
-
-    public static void onFireExpired(ServerLevel serverLevel, BlockPos pos, BlockState state) {
-    }
 
     //(for fire I think)
     public boolean ashStuff(BlockState state, Level level, BlockPos pos) {
@@ -296,5 +301,7 @@ public class WeatheringHelper {
         }
         world.setBlockAndUpdate(targetPos, newState);
     }
+
+
 
 }

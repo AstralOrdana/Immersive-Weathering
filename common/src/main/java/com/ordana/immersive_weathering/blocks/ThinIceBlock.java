@@ -36,16 +36,16 @@ public class ThinIceBlock extends IceBlock implements LiquidBlockContainer {
     protected static final VoxelShape SHAPE = Block.box(0.0, 12.0, 0.0, 16.0, 16.0, 16.0);
 
     public static final IntegerProperty CRACKED = ModBlockProperties.CRACKED;
-    public static final BooleanProperty HAS_ICE = ModBlockProperties.HAS_ICE;
+    public static final BooleanProperty CAN_EXPAND = ModBlockProperties.CAN_EXPAND;
 
     public ThinIceBlock(Properties settings) {
         super(settings);
-        this.registerDefaultState(this.stateDefinition.any().setValue(CRACKED, 0).setValue(HAS_ICE, true));
+        this.registerDefaultState(this.stateDefinition.any().setValue(CRACKED, 0).setValue(CAN_EXPAND, true));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
-        stateManager.add(CRACKED,HAS_ICE);
+        stateManager.add(CRACKED, CAN_EXPAND);
     }
 
     @Override
@@ -78,17 +78,22 @@ public class ThinIceBlock extends IceBlock implements LiquidBlockContainer {
 
         boolean hasIce = false;
         for (Direction dir : Direction.Plane.HORIZONTAL) {
-            if (level.getBlockState(pos.relative(dir)).is(Blocks.ICE)) {
+            if (canExpand(level, pos.relative(dir))) {
                 hasIce = true;
                 break;
             }
         }
-        return this.defaultBlockState().setValue(HAS_ICE, hasIce);
+        return this.defaultBlockState().setValue(CAN_EXPAND, hasIce);
+    }
+
+    public boolean canExpand(Level level, BlockPos pos){
+        return level.getBlockState(pos).is(ModTags.ICE) && level.getBiome(pos).value().coldEnoughToSnow(pos);
     }
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         //TODO: move to block growth
+        /*
         if (state.getValue(HAS_ICE)) {
             //TODO: use common logic here for cold and hot
             if (world.getBlockState(pos.above()).is(Blocks.AIR) && (world.isRaining() || world.isNight())
@@ -99,12 +104,13 @@ public class ThinIceBlock extends IceBlock implements LiquidBlockContainer {
                     }
                 }
             }
-        }
+        }*/
 
         if (world.getBrightness(LightLayer.BLOCK, pos) > 11 - state.getLightBlock(world, pos)) {
             this.melt(state, world, pos);
         }
 
+        //TODO: also move to growths
         if (CommonConfigs.THIN_ICE_MELTING.get()) {
             if (world.dimensionType().ultraWarm() || (!world.isRaining() && world.isDay()) || !isDimEnoughToForm(state, world, pos)) {
                 world.setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());

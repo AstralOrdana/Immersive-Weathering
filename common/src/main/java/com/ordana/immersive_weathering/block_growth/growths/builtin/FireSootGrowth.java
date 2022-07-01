@@ -1,23 +1,17 @@
-package com.ordana.immersive_weathering.block_growth.builtin;
+package com.ordana.immersive_weathering.block_growth.growths.builtin;
 
 import com.ordana.immersive_weathering.block_growth.TickSource;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.minecraft.core.*;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CampfireBlock;
-import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 public class FireSootGrowth extends BuiltinBlockGrowth {
 

@@ -1,9 +1,9 @@
-package com.ordana.immersive_weathering.block_growth.builtin;
+package com.ordana.immersive_weathering.block_growth.growths.builtin;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ordana.immersive_weathering.block_growth.IBlockGrowth;
+import com.ordana.immersive_weathering.block_growth.growths.IBlockGrowth;
 import com.ordana.immersive_weathering.block_growth.TickSource;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;

@@ -1,8 +1,7 @@
-package com.ordana.immersive_weathering.block_growth.builtin;
+package com.ordana.immersive_weathering.block_growth.growths.builtin;
 
 import com.ordana.immersive_weathering.block_growth.TickSource;
 import net.minecraft.core.HolderSet;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 
 import java.util.HashMap;
@@ -14,6 +13,7 @@ public class BuiltinGrowthsRegistry {
     final static Map<String, BuiltinGrowthFactory> BUILTIN_GROWTHS = new HashMap<>();
 
     static {
+        register("no_op", NoOpBlockGrowth::new);
         register("campfire_soot", CampfireSootGrowth::new);
         register("fire_soot", FireSootGrowth::new);
         register("ice_icicle_and_melt", IceGrowth::new);

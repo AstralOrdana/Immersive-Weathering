@@ -75,7 +75,7 @@ public class IvyFeature extends Feature<GlowLichenConfiguration> {
             blockState = world.getBlockState(mutable.setWithOffset(pos, direction));
         } while(!blockState.is(config.canBePlacedOn));
 
-        IvyBlock ivyBlock = (IvyBlock) ModBlocks.IVY;
+        IvyBlock ivyBlock = ModBlocks.IVY.get();
         BlockState blockState2 = ivyBlock.getStateForPlacement(state, world, pos, direction);
         if (blockState2 == null) {
             return false;

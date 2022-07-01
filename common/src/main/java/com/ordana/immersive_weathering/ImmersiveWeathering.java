@@ -59,4 +59,6 @@ public class ImmersiveWeathering {
     //RE add lightning strike growths
     //TODO: disabled conditional growth. add command system
     //fire mixin
+    //figure out thin ice situation
+    //thin ice repair and solidify when snow??
 }

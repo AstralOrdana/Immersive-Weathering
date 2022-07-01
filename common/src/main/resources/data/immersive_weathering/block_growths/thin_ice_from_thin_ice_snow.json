@@ -1,18 +1,20 @@
 {
   "tick_sources": [
-    "clear_sky"
+    "rain","snow"
   ],
-  "growth_chance": 0.01,
+  "growth_chance": 0.1,
   "position_predicates": [
     {
-      "biomes": [
-        "#immersive_weathering:icy"
-      ],
-     "type": "biome_match"
-    },
-    {
-      "type": "day_test",
-      "day": false
+      "type": "block_test",
+      "predicate": {
+        "predicate_type": "immersive_weathering:block_property_test",
+        "properties": [
+          {
+            "from_block": "immersive_weathering:thin_ice",
+            "property": "can_expand"
+          }
+        ]
+      }
     }
   ],
   "growth_for_face": [
@@ -51,7 +53,7 @@
         {
           "data": {
             "block": {
-              "Name": "immersive_weathering:hanging_roots_wall"
+              "Name": "immersive_weathering:thin_ice"
             }
           },
           "weight": 1
@@ -65,7 +67,7 @@
         {
           "data": {
             "block": {
-              "Name": "immersive_weathering:hanging_roots_wall"
+              "Name": "immersive_weathering:thin_ice"
             }
           },
           "weight": 1
@@ -73,7 +75,7 @@
       ]
     }
   ],
-  "owners": [ "minecraft:ice", "immersive_weathering:thin_ice"],
+  "owners": ["immersive_weathering:thin_ice"],
   "replacing_target": {
     "fluids": ["minecraft:water"],
     "predicate_type": "immersive_weathering:fluid_match"

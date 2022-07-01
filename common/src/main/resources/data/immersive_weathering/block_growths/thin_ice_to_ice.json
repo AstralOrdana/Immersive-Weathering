@@ -1,0 +1,47 @@
+{
+  "tick_sources": [
+    "rain","snow","sky_access"
+  ],
+  "growth_chance": 0.1,
+  "target_self": true,
+  "position_predicates": [
+    {
+      "type": "block_test",
+      "predicate": {
+        "predicate_type": "immersive_weathering:block_property_test",
+        "properties": [
+          {
+            "from_block": "immersive_weathering:thin_ice",
+            "property": "can_expand"
+          }
+        ]
+      }
+    },
+    {
+      "type": "temperature_range",
+      "max": 0.15,
+      "min": -1
+    }
+  ],
+  "growth_for_face": [
+    {
+      "direction": "north",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:ice"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": ["immersive_weathering:thin_ice"],
+  "replacing_target": {
+    "fluids": ["minecraft:water"],
+    "predicate_type": "immersive_weathering:fluid_match"
+  }
+}
