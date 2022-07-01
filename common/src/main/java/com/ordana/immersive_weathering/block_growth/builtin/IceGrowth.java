@@ -30,6 +30,11 @@ import java.util.Random;
 public class IceGrowth implements IBlockGrowth {
 
     @Override
+    public Iterable<Block> getOwners() {
+        return List.of(Blocks.ICE, Blocks.BLUE_ICE, Blocks.PACKED_ICE);
+    }
+
+    @Override
     public Collection<TickSource> getTickSources() {
         return List.of(TickSource.BLOCK_TICK);
     }
@@ -87,9 +92,6 @@ public class IceGrowth implements IBlockGrowth {
         }
     }
 
-    @Override
-    public Iterable<Block> getOwners() {
-        return List.of(Blocks.ICE, Blocks.BLUE_ICE, Blocks.PACKED_ICE);
-    }
+
 
 }
