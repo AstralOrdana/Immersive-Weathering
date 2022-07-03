@@ -146,9 +146,9 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
         if (CommonConfigs.LEAF_PILES_FROM_DECAY_CHANCE.get() > level.random.nextFloat()) {
             Block leafPile = LeafPilesRegistry.getFallenLeafPile(state).orElse(null);
             if (leafPile == null) return;
-            BlockState baseLeaf = leafPile.defaultBlockState().setValue(LeafPileBlock.LAYERS, 0);
+            BlockState baseLeaf = leafPile.defaultBlockState();
 
-            level.setBlock(pos, baseLeaf.setValue(LeafPileBlock.LAYERS, Mth.randomBetweenInclusive(level.random, 1, 6)), 2);
+            level.setBlock(pos, baseLeaf.setValue(LeafPileBlock.LAYERS, Mth.randomBetweenInclusive(level.random, 1, 5)), 2);
         }
     }
 

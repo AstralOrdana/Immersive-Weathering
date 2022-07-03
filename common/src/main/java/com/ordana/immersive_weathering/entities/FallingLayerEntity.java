@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.entities;
 
 import com.ordana.immersive_weathering.blocks.LayerBlock;
-import com.ordana.immersive_weathering.blocks.ModBlockProperties;
+import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.reg.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -9,7 +9,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -24,11 +23,9 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.Fallable;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -78,7 +75,7 @@ public class FallingLayerEntity extends FallingBlockEntity {
     @Nullable
     @Override
     public ItemEntity spawnAtLocation(ItemLike pItem) {
-        this.dropBlockContent(this.getBlockState(), this.blockPosition());
+        this.dropItemAndBreak(this.getBlockState(), this.blockPosition());
         return null;
     }
 
@@ -103,13 +100,21 @@ public class FallingLayerEntity extends FallingBlockEntity {
             if (!this.level.isClientSide) {
                 BlockPos pos = this.blockPosition();
                 if (this.level.getFluidState(pos).is(FluidTags.WATER)) {
-                    this.discard();
-                    return;
+                    //shitty case for leaf piles
+                    BlockState onState = this.level.getBlockState(pos);
+                    if(block instanceof LeafPileBlock && onState.is(Blocks.WATER) && block.getLayers(blockState)==1){
+                        blockState = blockState.setValue(block.layerProperty(),0);
+                    }
+                    //TODO: fix placing on water. this is a mess
+                 //   //TODO: fix underwater
+                    //                        discardAndDrop(blockState,pos);
+                 //   return;
                 }
                 if (this.getDeltaMovement().lengthSqr() > 1.0D) {
                     BlockHitResult blockhitresult = this.level.clip(new ClipContext(new Vec3(this.xo, this.yo, this.zo), this.position(), ClipContext.Block.COLLIDER, ClipContext.Fluid.SOURCE_ONLY, this));
                     if (blockhitresult.getType() != HitResult.Type.MISS && this.level.getFluidState(blockhitresult.getBlockPos()).is(FluidTags.WATER)) {
-                        this.discard();
+                        discardAndDrop(blockState,pos);
+                        //what the hell is this for?
                         return;
                     }
                 }
@@ -118,11 +123,8 @@ public class FallingLayerEntity extends FallingBlockEntity {
                 //fall
                 if (!this.onGround) {
                     if (!this.level.isClientSide && (this.time > 100 && (pos.getY() <= this.level.getMinBuildHeight() || pos.getY() > this.level.getMaxBuildHeight()) || this.time > 600)) {
-                        if (this.dropItem && this.level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
-                            this.spawnAtLocation(block);
-                        }
-
-                        this.discard();
+                        discardAndDrop(blockState,pos);
+                        return;
                     }
                     //place
                 } else {
@@ -165,7 +167,7 @@ public class FallingLayerEntity extends FallingBlockEntity {
                                         if (!this.level.setBlock(above, blockState, 3)) {
                                             ((ServerLevel) this.level).getChunkSource().chunkMap.broadcast(this,
                                                     new ClientboundBlockUpdatePacket(above, this.level.getBlockState(above)));
-                                            this.dropBlockContent(blockState, pos);
+                                            this.dropItemAndBreak(blockState, pos);
                                         }
                                     }
                                 }
@@ -174,11 +176,7 @@ public class FallingLayerEntity extends FallingBlockEntity {
                                 return;
                             }
                         }
-                        this.discard();
-                        if (this.level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
-                            this.callOnBrokenAfterFall(block, pos);
-                            this.dropBlockContent(blockState, pos);
-                        }
+                        discardAndDrop(blockState, pos);
                     }
                 }
             }
@@ -187,7 +185,17 @@ public class FallingLayerEntity extends FallingBlockEntity {
         }
     }
 
-    private void dropBlockContent(BlockState state, BlockPos pos) {
+    //TODO: merge these two
+    private void discardAndDrop(BlockState state, BlockPos pos) {
+        if (this.dropItem && this.level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
+            this.callOnBrokenAfterFall(state.getBlock(), pos);
+            this.dropItemAndBreak(state, pos);
+        }
+
+        this.discard();
+    }
+
+    private void dropItemAndBreak(BlockState state, BlockPos pos) {
         Block.dropResources(state, level, pos, null, null, ItemStack.EMPTY);
 
         level.levelEvent(null, 2001, pos, Block.getId(state));
