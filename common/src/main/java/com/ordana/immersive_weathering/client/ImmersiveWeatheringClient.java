@@ -120,8 +120,8 @@ public class ImmersiveWeatheringClient {
     }
 
     public static void onRegisterEntityRenderTypes(EntityRendererReg event) {
-        event.register(ModEntities.FALLING_ICICLE.get(), FallingBlockRenderer::new);
-        event.register(ModEntities.FALLING_LAYER.get(), FallingBlockRenderer::new);
+        event.register(ModEntities.FALLING_ICICLE.get(), FallingBlockRendererGeneric::new);
+        event.register(ModEntities.FALLING_LAYER.get(), FallingBlockRendererGeneric::new);
     }
 
     @FunctionalInterface

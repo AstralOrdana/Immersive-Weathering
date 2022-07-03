@@ -5,14 +5,13 @@ import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.configs.ConfigBuilder;
+import com.ordana.immersive_weathering.forge.FeatureHacks;
 import com.ordana.immersive_weathering.forge.ForgeConfigBuilder;
 import com.ordana.immersive_weathering.forge.dynamic.ModDynamicRegistry;
 import com.ordana.immersive_weathering.platform.CommonPlatform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -126,14 +125,7 @@ public class CommonPlatformImpl {
 
     public static void addFeatureToBiome(GenerationStep.Decoration step, TagKey<Biome> tagKey, ResourceKey<PlacedFeature> feature) {
 
-        Consumer<BiomeLoadingEvent> c = e -> {
-
-            var biome = ForgeRegistries.BIOMES.getHolder(e.getName());
-            if (biome.isPresent() && biome.get().is(tagKey)) {
-                Holder<PlacedFeature> featureHolder = BuiltinRegistries.PLACED_FEATURE.getHolderOrThrow(feature);
-                e.getGeneration().addFeature(step, featureHolder);
-            }
-        };
+        Consumer<BiomeLoadingEvent> c = e -> FeatureHacks.registerVanillaBiomeFeatures(e, tagKey, feature, step);
         MinecraftForge.EVENT_BUS.addListener(c);
     }
 
@@ -141,12 +133,12 @@ public class CommonPlatformImpl {
         return FMLEnvironment.dist == Dist.CLIENT ? CommonPlatform.Env.CLIENT : CommonPlatform.Env.SERVER;
     }
 
-    @Nullable
+
     public static Map<Block, LeafPileBlock> getDynamicLeafPiles() {
         return ModDynamicRegistry.getLeafToLeafPileMap();
     }
 
-    @Nullable
+
     public static Map<Block, SimpleParticleType> getDynamicLeafParticles() {
         return ModDynamicRegistry.getLeavesToParticleMap();
     }

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SS",
+    "SS"
+  ],
+  "key": {
+    "S": {
+      "item": "immersive_weathering:blackstone_brick"
+    }
+  },
+  "result": {
+    "item": "minecraft:polished_blackstone_bricks",
+    "count": 1
+  }
+}

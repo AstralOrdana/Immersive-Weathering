@@ -110,6 +110,7 @@ public class CommonPlatformImpl {
 
     @Nullable
     public static Map<Block, SimpleParticleType> getDynamicLeafParticles() {
+        return null;
     }
 
 

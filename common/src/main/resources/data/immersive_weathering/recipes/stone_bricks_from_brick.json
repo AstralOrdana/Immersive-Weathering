@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SS",
+    "SS"
+  ],
+  "key": {
+    "S": {
+      "item": "immersive_weathering:stone_brick"
+    }
+  },
+  "result": {
+    "item": "minecraft:stone_bricks",
+    "count": 1
+  }
+}

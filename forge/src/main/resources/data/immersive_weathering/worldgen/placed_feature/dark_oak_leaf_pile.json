@@ -1,0 +1,24 @@
+{
+  "feature": "immersive_weathering:dark_oak_leaf_pile",
+  "placement": [
+    {
+      "type": "minecraft:noise_based_count",
+      "noise_to_count_ratio": 2,
+      "noise_factor": 50,
+      "noise_offset": 0.7
+    },
+    {
+      "type": "minecraft:noise_threshold_count",
+      "noise_level": 0.3,
+      "below_noise": 1,
+      "above_noise": 5
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:heightmap",
+      "heightmap": "MOTION_BLOCKING"
+    }
+  ]
+}

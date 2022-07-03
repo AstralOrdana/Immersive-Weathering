@@ -61,4 +61,7 @@ public class ImmersiveWeathering {
     //figure out thin ice situation
     //thin ice repair and solidify when snow??
     //CHARRED stuff falling in water
+    //thin ice melts receiding
+    //block sounds
+    //thin ice crack sounds
 }

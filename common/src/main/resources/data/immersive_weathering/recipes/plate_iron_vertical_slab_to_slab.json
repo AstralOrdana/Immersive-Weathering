@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "immersive_weathering:plate_iron_vertical_slab"
+    }
+  ],
+  "conditions": [
+    {
+      "modid": "quark",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "result": {
+    "item": "immersive_weathering:plate_iron_slab",
+    "count": 1
+  }
+}

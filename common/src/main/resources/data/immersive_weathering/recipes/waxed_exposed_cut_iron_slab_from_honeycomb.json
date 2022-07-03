@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "waxed_cut_iron_slab",
+  "ingredients": [
+    {
+      "item": "immersive_weathering:exposed_cut_iron_slab"
+    },
+    {
+      "tag": "immersive_weathering:wax"
+    }
+  ],
+  "result": {
+    "item": "immersive_weathering:waxed_exposed_cut_iron_slab"
+  }
+}

@@ -6,6 +6,7 @@ import com.ordana.immersive_weathering.entities.FallingLayerEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -17,12 +18,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -30,9 +33,11 @@ import java.util.Random;
  */
 
 public class LayerBlock extends FallingBlock {
-    private static final int MAX_LAYERS = 8;
     public static final IntegerProperty LAYERS_8 = BlockStateProperties.LAYERS;
-    private static final VoxelShape[] SHAPE_BY_LAYER = new VoxelShape[MAX_LAYERS + 1];
+    private static final VoxelShape[] SHAPE_BY_LAYER = new VoxelShape[8 + 1];
+
+    private final int min;
+    private final int max;
 
     static {
         Arrays.setAll(SHAPE_BY_LAYER, l -> Block.box(0.0D, 0.0D, 0.0D, 16.0D, l * 2, 16.0D));
@@ -42,10 +47,15 @@ public class LayerBlock extends FallingBlock {
     public LayerBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(layerProperty(), 1));
+        this.min = Collections.min(this.layerProperty().getPossibleValues());
+        this.max = Collections.max(this.layerProperty().getPossibleValues());
     }
 
-    public int getMaxLayers() {
-        return MAX_LAYERS;
+    public final int getMaxLayers() {
+        return max;
+    }
+    public final int getMinLayers() {
+        return min;
     }
 
     public IntegerProperty layerProperty() {
@@ -111,10 +121,16 @@ public class LayerBlock extends FallingBlock {
         return super.updateShape(state, direction, facingState, world, currentPos, otherPos);
     }
 
+
+    public boolean shouldFall(BlockState state, BlockState belowState) {
+        Material material = belowState.getMaterial();
+        return belowState.isAir() || belowState.is(BlockTags.FIRE) || material.isLiquid() || (material.isReplaceable() && !(belowState.getBlock() instanceof LayerBlock));
+    }
+
     @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, Random pRand) {
         BlockState below = level.getBlockState(pos.below());
-        if ((FallingLayerEntity.isFree(below) || hasIncompletePileBelow(below)) && pos.getY() >= level.getMinBuildHeight()) {
+        if ((this.shouldFall(state, below) || hasIncompletePileBelow(below)) && pos.getY() >= level.getMinBuildHeight()) {
 
             while (state.is(this)) {
                 FallingBlockEntity fallingblockentity = FallingLayerEntity.fall(level, pos, state);

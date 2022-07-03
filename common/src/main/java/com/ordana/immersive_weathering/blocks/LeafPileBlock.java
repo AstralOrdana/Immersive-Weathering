@@ -24,7 +24,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Fluids;
@@ -157,17 +156,13 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-        BlockState below = world.getBlockState(pos.below());
-        if (!below.is(Blocks.BARRIER)) {
-            if (!below.is(Blocks.HONEY_BLOCK) && !below.is(Blocks.SOUL_SAND) &&
-                    !(below.getFluidState().is(Fluids.WATER) && state.getValue(LAYERS) == 0)) {
-                return below.isFaceSturdy(world, pos.below(), Direction.UP) || below.is(this) && below.getValue(LAYERS) == 8;
-            } else {
-                return true;
-            }
-        } else {
-            return false;
-        }
+        return state.getValue(LAYERS) != 0 || world.getFluidState(pos.below()).is(Fluids.WATER);
+    }
+
+    @Override
+    public boolean shouldFall(BlockState state, BlockState belowState) {
+        if (state.getValue(LAYERS) == 0 && belowState.is(Blocks.WATER)) return false;
+        return super.shouldFall(state, belowState);
     }
 
     @Override
@@ -184,11 +179,11 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         if (context.getItemInHand().is(this.asItem()) && i < 8 && i > 0) {
 
             //TODO: something is wrong here causing a stack overflow
-           // if (context.replacingClickedOnBlock()) {
-           //     return context.getClickedFace() == Direction.UP;
-           // } else {
-                return true;
-           // }
+            // if (context.replacingClickedOnBlock()) {
+            //     return context.getClickedFace() == Direction.UP;
+            // } else {
+            return true;
+            // }
         } else {
             return i < 3;
         }

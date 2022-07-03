@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#",
+    "#",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "immersive_weathering:plate_iron_slab"
+    }
+  },
+  "result": {
+    "item": "immersive_weathering:plate_iron_vertical_slab",
+    "count": 3
+  },
+  "conditions": [
+    {
+      "modid": "quark",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

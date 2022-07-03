@@ -76,6 +76,7 @@ public class ImmersiveWeatheringForge {
 
     public static void registerAdditional(RegistryEvent.Register<Item> event){
         ImmersiveWeathering.commonRegistration();
+        FeatureHacks.register();
     }
 
     private static void registerWaxables() {

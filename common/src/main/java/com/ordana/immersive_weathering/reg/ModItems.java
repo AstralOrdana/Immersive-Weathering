@@ -38,7 +38,7 @@ public class ModItems {
     public static final Supplier<BlockItem> BIRCH_LEAF_PILE = regLeafPile("birch_leaf_pile", ModBlocks.BIRCH_LEAF_PILE);
     public static final Supplier<BlockItem> JUNGLE_LEAF_PILE = regLeafPile("jungle_leaf_pile", ModBlocks.JUNGLE_LEAF_PILE);
     public static final Supplier<BlockItem> ACACIA_LEAF_PILE = regLeafPile("acacia_leaf_pile", ModBlocks.ACACIA_LEAF_PILE);
-    public static final Supplier<BlockItem> DARK_OAK_LEAF_PILE = regLeafPile("dark_leaf_pile", ModBlocks.DARK_OAK_LEAF_PILE);
+    public static final Supplier<BlockItem> DARK_OAK_LEAF_PILE = regLeafPile("dark_oak_leaf_pile", ModBlocks.DARK_OAK_LEAF_PILE);
     public static final Supplier<BlockItem> AZALEA_LEAF_PILE = regLeafPile("azalea_leaf_pile", ModBlocks.AZALEA_LEAF_PILE);
     public static final Supplier<BlockItem> FLOWERING_AZALEA_LEAF_PILE = regLeafPile("flowering_azalea_leaf_pile", ModBlocks.FLOWERING_AZALEA_LEAF_PILE);
     public static final Supplier<BlockItem> AZALEA_FLOWER_PILE = regLeafPile("azalea_flower_pile", ModBlocks.AZALEA_FLOWER_PILE);

@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.entities;
 
 import com.ordana.immersive_weathering.blocks.LayerBlock;
+import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.reg.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,6 +27,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Fallable;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -34,6 +36,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class FallingLayerEntity extends FallingBlockEntity {
 
+
     public FallingLayerEntity(EntityType<FallingLayerEntity> type, Level level) {
         super(type, level);
     }
@@ -41,6 +44,7 @@ public class FallingLayerEntity extends FallingBlockEntity {
     public FallingLayerEntity(Level level) {
         this(ModEntities.FALLING_LAYER.get(), level);
     }
+
     public FallingLayerEntity(Level level, BlockPos pos,
                               BlockState blockState) {
         super(ModEntities.FALLING_LAYER.get(), level);
@@ -88,10 +92,9 @@ public class FallingLayerEntity extends FallingBlockEntity {
             return;
         }
         BlockState blockState = this.getBlockState();
-        if (blockState.isAir()) {
+        if (blockState.isAir() || !(blockState.getBlock() instanceof LayerBlock block)) {
             this.discard();
         } else {
-            Block block = blockState.getBlock();
             if (!this.isNoGravity()) {
                 this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.04D, 0.0D));
             }
@@ -129,33 +132,35 @@ public class FallingLayerEntity extends FallingBlockEntity {
 
                         boolean canBeReplaced = onState.canBeReplaced(new DirectionalPlaceContext(this.level, pos, Direction.DOWN,
                                 new ItemStack(blockState.getBlock().asItem()), Direction.UP));
-                        boolean isFree = isFree(this.level.getBlockState(pos.below()));
+                        boolean isFree = block.shouldFall(blockState, this.level.getBlockState(pos.below()));
                         boolean canSurvive = blockState.canSurvive(this.level, pos) && !isFree;
                         if (canBeReplaced && canSurvive) {
 
                             int remaining = 0;
 
                             if (onState.is(blockState.getBlock())) {
-                                int layers = blockState.getValue(LayerBlock.LAYERS_8);
-                                int toLayers = onState.getValue(LayerBlock.LAYERS_8);
+
+                                IntegerProperty layers_property = block.layerProperty();
+
+                                int layers = blockState.getValue(layers_property);
+                                int toLayers = onState.getValue(layers_property);
                                 int total = layers + toLayers;
-                                int target = Mth.clamp(total, 1, 8);
+                                int target = Mth.clamp(total, 1, block.getMaxLayers());
                                 remaining = total - target;
-                                blockState = blockState.setValue(LayerBlock.LAYERS_8, target);
+                                blockState = blockState.setValue(layers_property, target);
                             }
 
                             if (this.level.setBlock(pos, blockState, 3)) {
                                 ((ServerLevel) this.level).getChunkSource().chunkMap.broadcast(this,
                                         new ClientboundBlockUpdatePacket(pos, this.level.getBlockState(pos)));
 
-                                if (block instanceof Fallable fallable) {
-                                    fallable.onLand(this.level, pos, blockState, onState, this);
-                                }
+                                block.onLand(this.level, pos, blockState, onState, this);
+
                                 this.discard();
 
                                 if (remaining != 0) {
                                     BlockPos above = pos.above();
-                                    blockState = blockState.setValue(LayerBlock.LAYERS_8, remaining);
+                                    blockState = blockState.setValue(block.layerProperty(), remaining);
                                     if (level.getBlockState(above).getMaterial().isReplaceable()) {
                                         if (!this.level.setBlock(above, blockState, 3)) {
                                             ((ServerLevel) this.level).getChunkSource().chunkMap.broadcast(this,
@@ -181,12 +186,6 @@ public class FallingLayerEntity extends FallingBlockEntity {
             this.setDeltaMovement(this.getDeltaMovement().scale(0.98D));
         }
     }
-
-    public static boolean isFree(BlockState pState) {
-        Material material = pState.getMaterial();
-        return pState.isAir() || pState.is(BlockTags.FIRE) || material.isLiquid() || (material.isReplaceable() && !(pState.getBlock() instanceof LayerBlock));
-    }
-
 
     private void dropBlockContent(BlockState state, BlockPos pos) {
         Block.dropResources(state, level, pos, null, null, ItemStack.EMPTY);

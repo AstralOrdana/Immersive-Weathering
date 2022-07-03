@@ -8,7 +8,7 @@
           {
             "from_block": "immersive_weathering:oak_leaf_pile",
             "property": "layers",
-            "value": 2,
+            "value": "2",
             "operator": ">="
           }
         ]
