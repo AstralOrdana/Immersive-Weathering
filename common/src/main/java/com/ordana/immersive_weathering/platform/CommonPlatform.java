@@ -1,16 +1,18 @@
 package com.ordana.immersive_weathering.platform;
 
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.ImmutableMap;
+import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
-import com.ordana.immersive_weathering.configs.ConfigBuilderWrapper;
+import com.ordana.immersive_weathering.configs.ConfigBuilder;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -25,8 +27,10 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Map;
 
 public class CommonPlatform {
+
 
     public enum Platform {
         FORGE, FABRIC;
@@ -97,20 +101,6 @@ public class CommonPlatform {
     }
 
 
-    @ExpectPlatform
-    public static void addExtraFloweryBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static void addExtraMossyBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static void addExtraCrackedBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
-        throw new AssertionError();
-    }
 
     @ExpectPlatform
     public static boolean isMobGriefingOn(Level level, Entity entity) {
@@ -138,7 +128,7 @@ public class CommonPlatform {
     }
 
     @ExpectPlatform
-    public static ConfigBuilderWrapper getConfigBuilder(String name, ConfigBuilderWrapper.ConfigType type) {
+    public static ConfigBuilder getConfigBuilder(String name, ConfigBuilder.ConfigType type) {
         throw new AssertionError();
     }
 
@@ -146,4 +136,39 @@ public class CommonPlatform {
     public static void addFeatureToBiome(GenerationStep.Decoration step, TagKey<Biome> tagKey, ResourceKey<PlacedFeature> feature) {
         throw new AssertionError();
     }
+
+
+    @ExpectPlatform
+    public static void addExtraFloweryBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static void addExtraMossyBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static void addExtraCrackedBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
+        throw new AssertionError();
+    }
+
+    @Nullable
+    @ExpectPlatform
+    public static Map<Block, LeafPileBlock> getDynamicLeafPiles() {
+        throw new AssertionError();
+    }
+
+    @Nullable
+    @ExpectPlatform
+    public static Map<Block, SimpleParticleType> getDynamicLeafParticles() {
+        throw new AssertionError();
+    }
+
+
+    @ExpectPlatform
+    public static void addExtraBark(ImmutableMap.Builder<Block, Pair<Item, Block>> builder) {
+        throw new AssertionError();
+    }
+
 }

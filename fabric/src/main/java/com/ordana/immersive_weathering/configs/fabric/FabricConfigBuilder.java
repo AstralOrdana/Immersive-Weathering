@@ -2,7 +2,7 @@ package com.ordana.immersive_weathering.configs.fabric;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
-import com.ordana.immersive_weathering.configs.ConfigBuilderWrapper;
+import com.ordana.immersive_weathering.configs.ConfigBuilder;
 import com.ordana.immersive_weathering.configs.fabric.values.BoolConfigValue;
 import com.ordana.immersive_weathering.configs.fabric.values.DoubleConfigValue;
 import com.ordana.immersive_weathering.configs.fabric.values.EnumConfigValue;
@@ -10,12 +10,12 @@ import com.ordana.immersive_weathering.configs.fabric.values.IntConfigValue;
 
 import java.util.function.Supplier;
 
-public class FabricConfigBuilder extends ConfigBuilderWrapper {
+public class FabricConfigBuilder extends ConfigBuilder {
 
     private final ImmutableList.Builder<ConfigCategory> categoriesBuilder = new ImmutableList.Builder<>();
     private Pair<String, ImmutableList.Builder<ConfigEntry>> currentCategoryBuilder;
 
-    public FabricConfigBuilder(String name, ConfigBuilderWrapper.ConfigType type) {
+    public FabricConfigBuilder(String name, ConfigBuilder.ConfigType type) {
         super(name, type);
     }
 

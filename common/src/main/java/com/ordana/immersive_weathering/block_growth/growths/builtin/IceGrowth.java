@@ -2,7 +2,7 @@ package com.ordana.immersive_weathering.block_growth.growths.builtin;
 
 import com.ordana.immersive_weathering.block_growth.TickSource;
 import com.ordana.immersive_weathering.blocks.IcicleBlock;
-import com.ordana.immersive_weathering.mixin.accessors.IceInvoker;
+import com.ordana.immersive_weathering.mixins.accessors.IceInvoker;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import net.minecraft.core.BlockPos;

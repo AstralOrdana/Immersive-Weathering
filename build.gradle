@@ -1,6 +1,9 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "0.12.0-SNAPSHOT" apply false
+
+//    id 'org.quiltmc.quilt-mappings-on-loom' version '4.+'
+  //  id 'io.github.juuxel.loom-quiltflower' version '1.7.+'
 }
 
 architectury {
@@ -19,8 +22,13 @@ subprojects {
         // The following line declares the mojmap mappings, you may use other mappings as well
         //mappings loom.officialMojangMappings()
         mappings loom.layered() {
-            officialMojangMappings()
-            parchment("org.parchmentmc.data:parchment-${rootProject.parchment_version}")
+           // officialMojangMappings()
+           // parchment("org.parchmentmc.data:parchment-${rootProject.parchment_version}")
+//    it.addLayer(quiltMappings.mappings("org.quiltmc:quilt-mappings:1.18.2+build.24:v2"))
+            it.parchment("org.parchmentmc.data:parchment-1.18.2:2022.03.13@zip")
+            it.officialMojangMappings {
+                //setNameSyntheticMembers(false)
+            }
         }
         // The following line declares the yarn mappings you may select this one as well.
         // mappings "net.fabricmc:yarn:1.18.2+build.3:v2"
@@ -44,6 +52,11 @@ allprojects {
         // for more information about repositories.
 
         maven { url "https://maven.parchmentmc.org" }
+
+        maven {
+            url = "https://www.cursemaven.com"
+            allowInsecureProtocol = true
+        }
     }
 
     tasks.withType(JavaCompile) {

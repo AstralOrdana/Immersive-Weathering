@@ -13,7 +13,7 @@ public class ClientConfigs {
     public static Supplier<Boolean> FALLING_LEAF_PARTICLES;
 
     public static void init() {
-        ConfigBuilderWrapper builder = CommonPlatform.getConfigBuilder("server", ConfigBuilderWrapper.ConfigType.CLIENT);
+        ConfigBuilder builder = CommonPlatform.getConfigBuilder("server", ConfigBuilder.ConfigType.CLIENT);
 
         builder.push("general");
         LEAF_DECAY_PARTICLES = builder.define("leaves_decay_particles", true);

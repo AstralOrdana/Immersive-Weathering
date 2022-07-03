@@ -1,13 +1,13 @@
 package com.ordana.immersive_weathering.forge;
 
-import com.ordana.immersive_weathering.configs.ConfigBuilderWrapper;
+import com.ordana.immersive_weathering.configs.ConfigBuilder;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 
 import java.util.function.Supplier;
 
-public class ForgeConfigBuilder extends ConfigBuilderWrapper {
+public class ForgeConfigBuilder extends ConfigBuilder {
 
     private final ForgeConfigSpec.Builder builder;
 

@@ -82,7 +82,7 @@ public class CommonConfigs {
     public static Supplier<Boolean> MULCH_GROWS_CROPS;
 
     public static void init() {
-        ConfigBuilderWrapper builder = CommonPlatform.getConfigBuilder("server", ConfigBuilderWrapper.ConfigType.COMMON);
+        ConfigBuilder builder = CommonPlatform.getConfigBuilder("server", ConfigBuilder.ConfigType.COMMON);
 
         builder.push("general");
         BLOCK_GROWTHS = builder.define("block_growths", true);

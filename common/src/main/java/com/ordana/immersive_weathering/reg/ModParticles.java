@@ -43,7 +43,7 @@ public class ModParticles {
 
     //custom flower crowns
 
- //   public static final Supplier<SimpleParticleType> CROWN_BEE = RegistryPlatform.registerParticle("crown_bee");
+    //public static final Supplier<SimpleParticleType> CROWN_BEE = RegistryPlatform.registerParticle("crown_bee");
 
 
 }

@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.ordana.immersive_weathering.mixin.forge",
+  "package": "com.ordana.immersive_weathering.mixins.forge",
   "compatibilityLevel": "JAVA_16",
   "client": [
   ],

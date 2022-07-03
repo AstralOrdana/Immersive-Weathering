@@ -1,53 +1,48 @@
 package com.ordana.immersive_weathering.platform.forge;
 
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.ImmutableMap;
+import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
-import com.ordana.immersive_weathering.configs.ConfigBuilderWrapper;
+import com.ordana.immersive_weathering.configs.ConfigBuilder;
 import com.ordana.immersive_weathering.forge.ForgeConfigBuilder;
-
+import com.ordana.immersive_weathering.forge.dynamic.ModDynamicRegistry;
 import com.ordana.immersive_weathering.platform.CommonPlatform;
-import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class CommonPlatformImpl {
 
@@ -63,16 +58,16 @@ public class CommonPlatformImpl {
     public static <T> Field findField(Class<? super T> clazz, String fieldName) {
         try {
             return ObfuscationReflectionHelper.findField(clazz, fieldName);
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
 
     @Nullable
-    public static Method findMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes){
-        try{
-            return ObfuscationReflectionHelper.findMethod(clazz,methodName, parameterTypes);
-        }catch (Exception e){
+    public static Method findMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes) {
+        try {
+            return ObfuscationReflectionHelper.findMethod(clazz, methodName, parameterTypes);
+        } catch (Exception e) {
             return null;
         }
     }
@@ -96,13 +91,13 @@ public class CommonPlatformImpl {
     public static void addExtraMossyBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
         //if (IntegrationHandler.quark) {
         //    QuarkPlugin.addAllVerticalSlabs(builder);
-       // }
+        // }
     }
 
     public static void addExtraCrackedBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
-       // if (IntegrationHandler.quark) {
+        // if (IntegrationHandler.quark) {
         //    QuarkPlugin.addAllVerticalSlabs(builder);
-       // }
+        // }
     }
 
     public static boolean isMobGriefingOn(Level level, Entity entity) {
@@ -121,8 +116,8 @@ public class CommonPlatformImpl {
         return block.getFluid();
     }
 
-    public static ConfigBuilderWrapper getConfigBuilder(String name, ConfigBuilderWrapper.ConfigType type) {
-        return new ForgeConfigBuilder(name,type);
+    public static ConfigBuilder getConfigBuilder(String name, ConfigBuilder.ConfigType type) {
+        return new ForgeConfigBuilder(name, type);
     }
 
     public static Collection<LeafPileBlock> getLeafPiles() {
@@ -131,10 +126,10 @@ public class CommonPlatformImpl {
 
     public static void addFeatureToBiome(GenerationStep.Decoration step, TagKey<Biome> tagKey, ResourceKey<PlacedFeature> feature) {
 
-        Consumer<BiomeLoadingEvent> c = e->{
+        Consumer<BiomeLoadingEvent> c = e -> {
 
             var biome = ForgeRegistries.BIOMES.getHolder(e.getName());
-            if(biome.isPresent() && biome.get().is(tagKey)){
+            if (biome.isPresent() && biome.get().is(tagKey)) {
                 Holder<PlacedFeature> featureHolder = BuiltinRegistries.PLACED_FEATURE.getHolderOrThrow(feature);
                 e.getGeneration().addFeature(step, featureHolder);
             }
@@ -144,6 +139,20 @@ public class CommonPlatformImpl {
 
     public static CommonPlatform.Env getEnv() {
         return FMLEnvironment.dist == Dist.CLIENT ? CommonPlatform.Env.CLIENT : CommonPlatform.Env.SERVER;
+    }
+
+    @Nullable
+    public static Map<Block, LeafPileBlock> getDynamicLeafPiles() {
+        return ModDynamicRegistry.getLeafToLeafPileMap();
+    }
+
+    @Nullable
+    public static Map<Block, SimpleParticleType> getDynamicLeafParticles() {
+        return ModDynamicRegistry.getLeavesToParticleMap();
+    }
+
+    public static void addExtraBark(ImmutableMap.Builder<Block, Pair<Item, Block>> builder) {
+        builder.putAll(ModDynamicRegistry.getBarkMap());
     }
 
 

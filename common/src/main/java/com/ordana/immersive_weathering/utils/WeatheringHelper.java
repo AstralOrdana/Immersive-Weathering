@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableBiMap;
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.blocks.charred.CharredBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
-import com.ordana.immersive_weathering.mixin.accessors.BiomeAccessor;
+import com.ordana.immersive_weathering.mixins.accessors.BiomeAccessor;
 import com.ordana.immersive_weathering.platform.CommonPlatform;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModParticles;

@@ -3,8 +3,8 @@ package com.ordana.immersive_weathering.forge;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.common_delete.blocks.LeafPilesRegistry;
-import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.forge.dynamic.ModDynamicRegistry;
+import com.ordana.immersive_weathering.reg.LeafPilesRegistry;
 import com.ordana.immersive_weathering.reg.ModWaxables;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
@@ -12,11 +12,9 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -31,7 +29,6 @@ import net.minecraftforge.resource.PathResourcePack;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.function.Supplier;
 
 /**
  * Author: Ordana, Keybounce, MehVahdJukaar
@@ -45,7 +42,7 @@ public class ImmersiveWeatheringForge {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModRegistry.init(bus);
-
+        ModDynamicRegistry.init(bus);
 
 
 
@@ -61,8 +58,6 @@ public class ImmersiveWeatheringForge {
 
         //TODO: fix layers texture generation
         //TODO: fix grass growth replacing double plants and add tag
-
-        LeafPilesRegistry.registerBus(bus);
 
         bus.addListener(ImmersiveWeatheringForge::init);
         bus.addGenericListener(Item.class, ImmersiveWeatheringForge::registerAdditional);

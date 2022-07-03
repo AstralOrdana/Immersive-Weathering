@@ -24,6 +24,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Fluids;
@@ -182,11 +183,12 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         int i = state.getValue(LAYERS);
         if (context.getItemInHand().is(this.asItem()) && i < 8 && i > 0) {
 
-            if (context.replacingClickedOnBlock()) {
-                return context.getClickedFace() == Direction.UP;
-            } else {
+            //TODO: something is wrong here causing a stack overflow
+           // if (context.replacingClickedOnBlock()) {
+           //     return context.getClickedFace() == Direction.UP;
+           // } else {
                 return true;
-            }
+           // }
         } else {
             return i < 3;
         }
