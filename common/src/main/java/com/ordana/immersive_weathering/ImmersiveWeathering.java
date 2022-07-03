@@ -64,4 +64,13 @@ public class ImmersiveWeathering {
     //thin ice melts receiding
     //block sounds
     //thin ice crack sounds
+    //TODO: add wet test
+    //add forge loot table modifiers
+
+
+    {
+        //stuff for temp test:
+        //biome temp, light level, cold blocks around, day
+
+    }
 }

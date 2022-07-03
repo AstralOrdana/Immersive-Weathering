@@ -9,17 +9,16 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
-import java.util.Optional;
 import java.util.function.Function;
 
-record TemperatureMatchTest(float max, float min, Optional<Boolean> useLocalPos) implements PositionRuleTest {
+record TemperatureMatchTest(float max, float min, boolean useLocalPos) implements PositionRuleTest {
 
     public static final String NAME = "temperature_range";
 
     private static final Codec<TemperatureMatchTest> C = RecordCodecBuilder.create(instance -> instance.group(
-                    Codec.FLOAT.fieldOf("min").forGetter(biasedToBottomInt -> biasedToBottomInt.min),
-                    Codec.FLOAT.fieldOf("max").forGetter(biasedToBottomInt -> biasedToBottomInt.max),
-                    Codec.BOOL.optionalFieldOf("use_local_pos").forGetter(TemperatureMatchTest::useLocalPos))
+                    Codec.FLOAT.fieldOf("min").forGetter(g -> g.min),
+                    Codec.FLOAT.fieldOf("max").forGetter(g -> g.max),
+                    Codec.BOOL.optionalFieldOf("use_local_pos", true).forGetter(TemperatureMatchTest::useLocalPos))
             .apply( instance, TemperatureMatchTest::new));
 
     public static final Codec<TemperatureMatchTest> CODEC = C.comapFlatMap(t -> {
@@ -31,7 +30,7 @@ record TemperatureMatchTest(float max, float min, Optional<Boolean> useLocalPos)
 
 
     static final PositionRuleTestType<TemperatureMatchTest> TYPE =
-            new PositionRuleTestType<>(TemperatureMatchTest.CODEC, TemperatureMatchTest.NAME);
+            new PositionRuleTestType<>(TemperatureMatchTest.C, TemperatureMatchTest.NAME);
 
     @Override
     public PositionRuleTestType<TemperatureMatchTest> getType() {
@@ -45,7 +44,7 @@ record TemperatureMatchTest(float max, float min, Optional<Boolean> useLocalPos)
         float temp;
         if (level.dimensionType().ultraWarm()) {
             temp = 3;
-        } else if (useLocalPos.isPresent() && useLocalPos.get()) {
+        } else if (useLocalPos) {
             temp = ((BiomeAccessor) (Object) biome.value()).invokeGetTemperature(pos);
         } else {
             temp = biome.value().getBaseTemperature();

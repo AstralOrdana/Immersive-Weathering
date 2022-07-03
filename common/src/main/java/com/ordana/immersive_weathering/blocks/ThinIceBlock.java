@@ -106,6 +106,7 @@ public class ThinIceBlock extends IceBlock implements LiquidBlockContainer {
             }
         }*/
 
+        //TODO: group in a single method
         if (world.getBrightness(LightLayer.BLOCK, pos) > 11 - state.getLightBlock(world, pos)) {
             this.melt(state, world, pos);
         }

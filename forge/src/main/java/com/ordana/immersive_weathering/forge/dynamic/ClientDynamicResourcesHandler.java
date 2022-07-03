@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.forge.dynamic;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
+import com.ordana.immersive_weathering.forge.RegistryConfigs;
 import net.mehvahdjukaar.selene.block_set.BlockType;
 import net.mehvahdjukaar.selene.client.asset_generators.LangBuilder;
 import net.mehvahdjukaar.selene.client.asset_generators.textures.Palette;
@@ -41,8 +42,7 @@ public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider
 
     @Override
     public boolean dependsOnLoadedPacks() {
-        //TODO: this isnt working
-        return false;//ClientConfigs.RESOURCE_PACK_SUPPORT.get();
+        return RegistryConfigs.RESOURCE_PACK_SUPPORT.get();
     }
 
     @Override

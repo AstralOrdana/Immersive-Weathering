@@ -5,9 +5,7 @@
   "growth_chance": 0.1,
   "position_predicates": [
     {
-      "biomes": [
-        "#immersive_weathering:icy"
-      ],
+      "biomes": "#immersive_weathering:icy",
      "type": "biome_match"
     },
     {

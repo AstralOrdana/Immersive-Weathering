@@ -13,6 +13,7 @@
     "CampfireMixin",
     "IceMixin",
     "LeavesMixin",
+    "LevelChunkMixin",
     "LightningEntityMixin",
     "LiquidBlockMixin",
     "RabbitEatGoalMixin",

@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.forge.dynamic;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.forge.RegistryConfigs;
 import net.mehvahdjukaar.selene.block_set.leaves.LeavesType;
 import net.mehvahdjukaar.selene.resourcepack.DynamicDataPack;
 import net.mehvahdjukaar.selene.resourcepack.RPAwareDynamicDataProvider;
@@ -10,6 +11,7 @@ import net.mehvahdjukaar.selene.resourcepack.resources.TagBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
@@ -29,7 +31,7 @@ public class ServerDynamicResourcesHandler extends RPAwareDynamicDataProvider {
 
     @Override
     public boolean dependsOnLoadedPacks() {
-        return false;
+        return RegistryConfigs.RESOURCE_PACK_SUPPORT.get();
     }
 
     @Override
@@ -69,8 +71,8 @@ public class ServerDynamicResourcesHandler extends RPAwareDynamicDataProvider {
     @Override
     public void generateStaticAssetsOnStartup(ResourceManager manager) {
         //tag
-        TagBuilder leafPiles = TagBuilder.of(ImmersiveWeathering.res("leaf_piles"))
-                .addEntries(ModDynamicRegistry.LEAF_TO_TYPE.keySet());
+        TagBuilder leafPiles = TagBuilder.of(ImmersiveWeathering.res("leaf_piles"));
+        ModDynamicRegistry.LEAF_TO_TYPE.keySet().forEach(v->leafPiles.addEntry((IForgeRegistryEntry)v));
         dynamicPack.addTag(leafPiles, Registry.BLOCK_REGISTRY);
         dynamicPack.addTag(leafPiles, Registry.ITEM_REGISTRY);
 
