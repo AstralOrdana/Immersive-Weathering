@@ -1,16 +1,19 @@
-package com.ordana.immersive_weathering.forge;
+package com.ordana.immersive_weathering.blocks.soil;
 
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.reg.ModTags;
-import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -18,17 +21,15 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.PlantType;
 
 import java.util.Random;
 
@@ -41,30 +42,6 @@ public class NulchBlock extends Block {
         this.registerDefaultState(this.defaultBlockState().setValue(MOLTEN, false));
     }
 
-    @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!player.isSecondaryUseActive()) {
-            // empty bucket into mulch
-            if (player.getItemInHand(hand).is(Items.LAVA_BUCKET) && !state.getValue(MOLTEN)) {
-                if (!player.isCreative()) {
-                    player.setItemInHand(hand, new ItemStack(Items.BUCKET));
-                }
-                world.setBlockAndUpdate(pos, state.setValue(MOLTEN, true));
-                world.playSound(player, pos, SoundEvents.BUCKET_EMPTY_LAVA, SoundSource.BLOCKS, 1.0f, 1.0f);
-                return InteractionResult.SUCCESS;
-            }
-            // fill bucket from mulch
-            else if (player.getItemInHand(hand).is(Items.BUCKET) && state.getValue(MOLTEN)) {
-                if (!player.isCreative()) {
-                    player.setItemInHand(hand, new ItemStack(Items.LAVA_BUCKET));
-                }
-                world.setBlockAndUpdate(pos, state.setValue(MOLTEN, false));
-                world.playSound(player, pos, SoundEvents.BUCKET_FILL_LAVA, SoundSource.BLOCKS, 1.0f, 1.0f);
-                return InteractionResult.SUCCESS;
-            }
-        }
-        return super.use(state, world, pos, player, hand, hit);
-    }
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
@@ -143,15 +120,38 @@ public class NulchBlock extends Block {
         }
     }
 
-    @Override
-    public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, IPlantable plantable) {
-        if (plantable.getPlantType(world, pos) == PlantType.NETHER) return true;
-        return super.canSustainPlant(state, world, pos, facing, plantable);
-    }
 
     @Override
-    public boolean hidesNeighborFace(BlockGetter level, BlockPos pos, BlockState state, BlockState neighborState, Direction dir) {
-        return super.hidesNeighborFace(level, pos, state, neighborState, dir);
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (!player.isSecondaryUseActive()) {
+            // empty bucket into mulch
+            ItemStack stack = player.getItemInHand(hand);
+            if (stack.is(Items.LAVA_BUCKET) && !state.getValue(MOLTEN)) {
+                level.playSound(player, pos, SoundEvents.BUCKET_EMPTY_LAVA, SoundSource.BLOCKS, 1.0f, 1.0f);
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.LAVA, UniformInt.of(3, 5));
+                if (player instanceof ServerPlayer) {
+                    ItemStack itemStack2 = ItemUtils.createFilledResult(stack, player, Items.BUCKET.getDefaultInstance());
+                    player.setItemInHand(hand, itemStack2);
+                    level.setBlockAndUpdate(pos, state.setValue(MOLTEN, true));
+                    player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+                }
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            }
+            // fill bucket from mulch
+            else if (stack.is(Items.BUCKET) && state.getValue(MOLTEN)) {
+                level.playSound(player, pos, SoundEvents.BUCKET_FILL_LAVA, SoundSource.BLOCKS, 1.0f, 1.0f);
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
+                if (player instanceof ServerPlayer) {
+                    ItemStack itemStack2 = ItemUtils.createFilledResult(stack, player, Items.LAVA_BUCKET.getDefaultInstance());
+                    player.setItemInHand(hand, itemStack2);
+                    level.setBlockAndUpdate(pos, state.setValue(MOLTEN, true));
+                    player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+                }
+                return InteractionResult.SUCCESS;
+            }
+        }
+        return super.use(state, level, pos, player, hand, hit);
     }
+
 
 }

@@ -4,6 +4,7 @@ package com.ordana.immersive_weathering.fabric;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -115,34 +116,7 @@ public class ModEvents {
                 }
             }
 
-            if (heldItem.getItem() == Items.LAVA_BUCKET) {
-                if (targetBlock.is(ModBlocks.NULCH_BLOCK) && (!targetBlock.getValue(NulchBlock.MOLTEN))) {
-                    player.awardStat(Stats.ITEM_USED.get(Items.LAVA_BUCKET));
-                    world.playSound(player, targetPos, SoundEvents.BUCKET_EMPTY_LAVA, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.LAVA, UniformInt.of(3, 5));
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        ItemStack itemStack2 = ItemUtils.createFilledResult(heldItem, player, Items.BUCKET.getDefaultInstance());
-                        player.setItemInHand(hand, itemStack2);
-                        world.setBlockAndUpdate(targetPos, targetBlock.setValue(NulchBlock.MOLTEN, Boolean.TRUE));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-            }
-            if (heldItem.getItem() == Items.BUCKET) {
-                if (targetBlock.is(ModBlocks.NULCH_BLOCK) && (targetBlock.getValue(NulchBlock.MOLTEN))) {
-                    player.awardStat(Stats.ITEM_USED.get(Items.BUCKET));
-                    world.playSound(player, targetPos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.LAVA, UniformInt.of(3, 5));
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        ItemStack itemStack2 = ItemUtils.createFilledResult(heldItem, player, Items.LAVA_BUCKET.getDefaultInstance());
-                        player.setItemInHand(hand, itemStack2);
-                        world.setBlockAndUpdate(targetPos, targetBlock.setValue(NulchBlock.MOLTEN, Boolean.FALSE));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-            }
+
 
             if (heldItem.getItem() instanceof ShovelItem) {
                 if(ImmersiveWeatheringFabric.getConfig().itemUsesConfig.shovelExtinguishing) {
@@ -180,6 +154,7 @@ public class ModEvents {
                 if ((targetBlock.is(ModBlocks.HUMUS) || targetBlock.is(ModBlocks.FLUVISOL) || targetBlock.is(ModBlocks.VERTISOL) || targetBlock.is(ModBlocks.CRYOSOL)) && !targetBlock.getValue(BlockStateProperties.SNOWY)) {
                     world.playSound(player, targetPos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0f, 1.0f);
                     if(player instanceof ServerPlayer) {
+                        HoeItem
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
                         if (!player.isCreative()) heldItem.hurt(1, new Random(), null);
                         world.setBlockAndUpdate(targetPos, Blocks.DIRT_PATH.defaultBlockState());
@@ -188,41 +163,7 @@ public class ModEvents {
                 }
 
             }
-            if(ImmersiveWeatheringFabric.getConfig().itemUsesConfig.azaleaShearing) {
-                if (heldItem.getItem() == ModItems.AZALEA_FLOWERS) {
-                    if (targetBlock.is(ModTags.FLOWERABLE)) {
-                        world.playSound(player, targetPos, SoundEvents.FLOWERING_AZALEA_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                        ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ModParticles.AZALEA_FLOWER, UniformInt.of(3, 5));
-                        if (player instanceof ServerPlayer) {
-                            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                            if (!player.isCreative()) heldItem.shrink(1);
-                            FLOWERY_BLOCKS.forEach((flowery, shorn) -> {
-                                if (targetBlock.is(shorn)) {
-                                    world.setBlockAndUpdate(targetPos, flowery.withPropertiesOf(targetBlock));
-                                }
-                            });
-                        }
-                        return InteractionResult.SUCCESS;
-                    }
-                }
-            }
-            if(ImmersiveWeatheringFabric.getConfig().itemUsesConfig.mossShearing) {
-                if (heldItem.getItem() == ModItems.MOSS_CLUMP) {
-                    if (targetBlock.is(ModTags.MOSSABLE)) {
-                        world.playSound(player, targetPos, SoundEvents.MOSS_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                        if (player instanceof ServerPlayer) {
-                            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                            if (!player.isCreative()) heldItem.shrink(1);
-                            CLEANED_BLOCKS.forEach((mossy, clean) -> {
-                                if (targetBlock.is(clean)) {
-                                    world.setBlockAndUpdate(targetPos, mossy.withPropertiesOf(targetBlock));
-                                }
-                            });
-                        }
-                        return InteractionResult.SUCCESS;
-                    }
-                }
-            }
+
             if (heldItem.getItem() == Items.FLINT_AND_STEEL) {
                 if(ImmersiveWeatheringFabric.getConfig().itemUsesConfig.charredBlockIgniting) {
                     if ((targetBlock.getBlock() instanceof CharredPillarBlock || targetBlock.getBlock() instanceof CharredBlock || targetBlock.getBlock() instanceof CharredStairsBlock || targetBlock.getBlock() instanceof CharredSlabBlock || targetBlock.getBlock() instanceof CharredFenceBlock || targetBlock.getBlock() instanceof CharredFenceGateBlock) && !targetBlock.getValue(CharredBlock.SMOLDERING)) {
@@ -236,20 +177,6 @@ public class ModEvents {
                         return InteractionResult.SUCCESS;
                     }
                 }
-                if(ImmersiveWeatheringFabric.getConfig().itemUsesConfig.mossBurning) {
-                    if (targetBlock.is(ModTags.MOSSY)) {
-                        world.playSound(player, targetPos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                        ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMALL_FLAME, UniformInt.of(3, 5));
-                        ModParticles.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SMOKE, UniformInt.of(3, 5));
-                        if (player instanceof ServerPlayer) {
-                            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                            if (!player.isCreative()) heldItem.hurt(1, new Random(), null);
-                            world.setBlockAndUpdate(targetPos, CLEANED_BLOCKS.get(targetBlock.getBlock()).withPropertiesOf(targetBlock).setValue(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
-                        }
-                        return InteractionResult.SUCCESS;
-                    }
-                }
-
             }
 
             if(ImmersiveWeatheringFabric.getConfig().itemUsesConfig.spongeRusting) {
@@ -300,9 +227,6 @@ public class ModEvents {
                     }
                     return InteractionResult.SUCCESS;
                 }
-            }
-            if(ImmersiveWeatheringFabric.getConfig().itemUsesConfig.pickaxeCracking) {
-
             }
             if (heldItem.getItem() instanceof AxeItem) {
                 if(ImmersiveWeatheringFabric.getConfig().itemUsesConfig.axeStripping) {

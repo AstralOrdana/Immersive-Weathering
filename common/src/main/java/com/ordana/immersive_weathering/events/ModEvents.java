@@ -1,12 +1,15 @@
 package com.ordana.immersive_weathering.events;
 
+import com.ordana.immersive_weathering.blocks.Weatherable;
 import com.ordana.immersive_weathering.blocks.crackable.Crackable;
+import com.ordana.immersive_weathering.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -15,10 +18,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.PickaxeItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -49,6 +49,7 @@ public class ModEvents {
         EVENTS.add(ModEvents::slimePistons);
         EVENTS.add(ModEvents::pickaxeCracking);
         EVENTS.add(ModEvents::brickRepair);
+        EVENTS.add(ModEvents::burnMoss);
     }
 
 
@@ -69,6 +70,29 @@ public class ModEvents {
         return InteractionResult.PASS;
     }
 
+    private static InteractionResult burnMoss(Item item, ItemStack stack, BlockPos pos, BlockState state,
+                                               Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        if(item instanceof FlintAndSteelItem && CommonConfigs.MOSS_BURNING.get()){
+            BlockState s = Mossable.getUnaffectedMossBlock(state);
+            if (s != state) {
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.FLAME, UniformInt.of(3, 5));
+                level.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
+
+                if (player instanceof ServerPlayer) {
+                    stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                    s = Weatherable.setStable(s);
+                    if (IntegrationHandler.quark) s = QuarkPlugin.fixVerticalSlab(s, state);
+                    player.awardStat(Stats.ITEM_USED.get(item));
+                    level.setBlockAndUpdate(pos, s);
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                }
+                return InteractionResult.sidedSuccess(level.isClientSide));
+            }
+        }
+        return InteractionResult.PASS;
+    }
+
+
     private static InteractionResult slimePistons(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                                   Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if (item == Items.SLIME_BALL && CommonConfigs.PISTON_SLIMING.get()) {
@@ -78,6 +102,7 @@ public class ModEvents {
                 if (player instanceof ServerPlayer) {
                     if (!player.getAbilities().instabuild) stack.shrink(1);
                     level.setBlockAndUpdate(pos, Blocks.STICKY_PISTON.withPropertiesOf(state));
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                 }
                 return InteractionResult.SUCCESS;
             }
@@ -90,7 +115,8 @@ public class ModEvents {
     private static InteractionResult pickaxeCracking(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                                      Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if (item instanceof PickaxeItem && CommonConfigs.PICKAXE_CRACKING.get()) {
-            if (!player.isSecondaryUseActive() && CommonConfigs.PICKAXE_CRACKING_SHIFT.get()) return InteractionResult.PASS;
+            if (!player.isSecondaryUseActive() && CommonConfigs.PICKAXE_CRACKING_SHIFT.get())
+                return InteractionResult.PASS;
 
             BlockState newBlock = Crackable.getCrackedBlock(state);
             if (newBlock != state) {
@@ -108,63 +134,42 @@ public class ModEvents {
 
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                     level.setBlockAndUpdate(pos, newBlock);
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                 }
             }
         }
         return InteractionResult.PASS;
     }
 
-    if(BRICK_REPAIR.containsKey(heldItem.getItem())&&targetBlock.is(CRACKED_BLOCKS.get(BRICK_REPAIR.get(heldItem.getItem()))))
 
-    {
-        Block fixedBlock = BRICK_REPAIR.get(heldItem.getItem());
-        SoundEvent placeSound = fixedBlock.getSoundType(fixedBlock.defaultBlockState()).getPlaceSound();
-        world.playSound(player, targetPos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
-        if (player instanceof ServerPlayer) {
-            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-            if (!player.isCreative()) heldItem.shrink(1);
-            world.setBlockAndUpdate(targetPos, fixedBlock.withPropertiesOf(targetBlock).setValue(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
-        }
-        return InteractionResult.SUCCESS;
-    }
-                if(BRICK_REPAIR_SLABS.containsKey(heldItem.getItem())&&targetBlock.is(CRACKED_BLOCKS.get(BRICK_REPAIR_SLABS.get(heldItem.getItem()))))
+    //well this could very well be in each crackable classes...
+    private static InteractionResult brickRepair(Item item, ItemStack stack, BlockPos pos, BlockState state, Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        if (state.getBlock() instanceof Crackable crackable && crackable.getRepairItem(state) == item) {
+            //Fix cracked stuff
+            BlockState fixedBlock = crackable.getPreviousCracked(state).orElse(null);
+            if (fixedBlock != null) {
 
-    {
-        Block fixedBlock = BRICK_REPAIR_SLABS.get(heldItem.getItem());
-        SoundEvent placeSound = fixedBlock.getSoundType(fixedBlock.defaultBlockState()).getPlaceSound();
-        world.playSound(player, targetPos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
-        if (player instanceof ServerPlayer) {
-            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-            if (!player.isCreative()) heldItem.shrink(1);
-            world.setBlockAndUpdate(targetPos, fixedBlock.withPropertiesOf(targetBlock).setValue(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
-        }
-        return InteractionResult.SUCCESS;
-    }
-                if(BRICK_REPAIR_STAIRS.containsKey(heldItem.getItem())&&targetBlock.is(CRACKED_BLOCKS.get(BRICK_REPAIR_STAIRS.get(heldItem.getItem()))))
+                //fixing stuff prevents them from weathering
+                fixedBlock = Weatherable.setStable(fixedBlock);
+                if (IntegrationHandler.quark) fixedBlock = QuarkPlugin.fixVerticalSlab(fixedBlock, state);
 
-    {
-        Block fixedBlock = BRICK_REPAIR_STAIRS.get(heldItem.getItem());
-        SoundEvent placeSound = fixedBlock.getSoundType(fixedBlock.defaultBlockState()).getPlaceSound();
-        world.playSound(player, targetPos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
-        if (player instanceof ServerPlayer) {
-            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-            if (!player.isCreative()) heldItem.shrink(1);
-            world.setBlockAndUpdate(targetPos, fixedBlock.withPropertiesOf(targetBlock).setValue(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
-        }
-        return InteractionResult.SUCCESS;
-    }
-                if(BRICK_REPAIR_WALLS.containsKey(heldItem.getItem())&&targetBlock.is(CRACKED_BLOCKS.get(BRICK_REPAIR_WALLS.get(heldItem.getItem()))))
+                SoundEvent placeSound = fixedBlock.getSoundType().getPlaceSound();
+                level.playSound(player, pos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
 
-    {
-        Block fixedBlock = BRICK_REPAIR_WALLS.get(heldItem.getItem());
-        SoundEvent placeSound = fixedBlock.getSoundType(fixedBlock.defaultBlockState()).getPlaceSound();
-        world.playSound(player, targetPos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
-        if (player instanceof ServerPlayer) {
-            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-            if (!player.isCreative()) heldItem.shrink(1);
-            world.setBlockAndUpdate(targetPos, fixedBlock.withPropertiesOf(targetBlock).setValue(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
+
+                if (!player.getAbilities().instabuild) {
+                    stack.shrink(1);
+                }
+
+                if (player instanceof ServerPlayer) {
+                    player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+                    level.setBlockAndUpdate(pos, fixedBlock);
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                }
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            }
         }
-        return InteractionResult.SUCCESS;
+        return InteractionResult.PASS;
     }
 
 
