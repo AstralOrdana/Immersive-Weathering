@@ -114,68 +114,7 @@ public class ModEvents {
                     }
                 }
             }
-            if (heldItem.getItem() == Items.WATER_BUCKET) {
-                if (targetBlock.is(ModBlocks.SILT) && (!targetBlock.getValue(SiltBlock.SOAKED))) {
-                    player.awardStat(Stats.ITEM_USED.get(Items.WATER_BUCKET));
-                    world.playSound(player, targetPos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        ItemStack itemStack2 = ItemUtils.createFilledResult(heldItem, player, Items.BUCKET.getDefaultInstance());
-                        player.setItemInHand(hand, itemStack2);
-                        world.setBlockAndUpdate(targetPos, targetBlock.setValue(SiltBlock.SOAKED, Boolean.TRUE));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-                if (targetBlock.is(ModBlocks.FLUVISOL) && (!targetBlock.getValue(FluvisolBlock.SOAKED))) {
-                    player.awardStat(Stats.ITEM_USED.get(Items.WATER_BUCKET));
-                    world.playSound(player, targetPos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        ItemStack itemStack2 = ItemUtils.createFilledResult(heldItem, player, Items.BUCKET.getDefaultInstance());
-                        player.setItemInHand(hand, itemStack2);
-                        world.setBlockAndUpdate(targetPos, targetBlock.setValue(FluvisolBlock.SOAKED, Boolean.TRUE));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-                if (targetBlock.is(ModBlocks.MULCH_BLOCK) && (targetBlock.getValue(MulchBlock.MOISTURE) == 0)) {
-                    player.awardStat(Stats.ITEM_USED.get(Items.WATER_BUCKET));
-                    world.playSound(player, targetPos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        ItemStack itemStack2 = ItemUtils.createFilledResult(heldItem, player, Items.BUCKET.getDefaultInstance());
-                        player.setItemInHand(hand, itemStack2);
-                        world.setBlockAndUpdate(targetPos, targetBlock.setValue(MulchBlock.MOISTURE, 7));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-                if (targetBlock.is(ModBlocks.CRACKED_MUD) && (!targetBlock.getValue(CrackedMudBlock.SOAKED))) {
-                    player.awardStat(Stats.ITEM_USED.get(Items.WATER_BUCKET));
-                    world.playSound(player, targetPos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        ItemStack itemStack2 = ItemUtils.createFilledResult(heldItem, player, Items.BUCKET.getDefaultInstance());
-                        player.setItemInHand(hand, itemStack2);
-                        world.setBlockAndUpdate(targetPos, targetBlock.setValue(CrackedMudBlock.SOAKED, Boolean.TRUE));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-                if (targetBlock.is(ModBlocks.VERTISOL) && (!targetBlock.getValue(CrackedMudBlock.SOAKED))) {
-                    player.awardStat(Stats.ITEM_USED.get(Items.WATER_BUCKET));
-                    world.playSound(player, targetPos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        ItemStack itemStack2 = ItemUtils.createFilledResult(heldItem, player, Items.BUCKET.getDefaultInstance());
-                        player.setItemInHand(hand, itemStack2);
-                        world.setBlockAndUpdate(targetPos, targetBlock.setValue(CrackedMudBlock.SOAKED, Boolean.TRUE));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-            }
+
             if (heldItem.getItem() == Items.LAVA_BUCKET) {
                 if (targetBlock.is(ModBlocks.NULCH_BLOCK) && (!targetBlock.getValue(NulchBlock.MOLTEN))) {
                     player.awardStat(Stats.ITEM_USED.get(Items.LAVA_BUCKET));
@@ -200,66 +139,6 @@ public class ModEvents {
                         ItemStack itemStack2 = ItemUtils.createFilledResult(heldItem, player, Items.LAVA_BUCKET.getDefaultInstance());
                         player.setItemInHand(hand, itemStack2);
                         world.setBlockAndUpdate(targetPos, targetBlock.setValue(NulchBlock.MOLTEN, Boolean.FALSE));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-                if (targetBlock.is(ModBlocks.SILT) && (targetBlock.getValue(SiltBlock.SOAKED))) {
-                    player.awardStat(Stats.ITEM_USED.get(Items.BUCKET));
-                    world.playSound(player, targetPos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        ItemStack itemStack2 = ItemUtils.createFilledResult(heldItem, player, Items.WATER_BUCKET.getDefaultInstance());
-                        player.setItemInHand(hand, itemStack2);
-                        world.setBlockAndUpdate(targetPos, targetBlock.setValue(SiltBlock.SOAKED, Boolean.FALSE));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-                if (targetBlock.is(ModBlocks.FLUVISOL) && (targetBlock.getValue(FluvisolBlock.SOAKED))) {
-                    player.awardStat(Stats.ITEM_USED.get(Items.BUCKET));
-                    world.playSound(player, targetPos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        ItemStack itemStack2 = ItemUtils.createFilledResult(heldItem, player, Items.WATER_BUCKET.getDefaultInstance());
-                        player.setItemInHand(hand, itemStack2);
-                        world.setBlockAndUpdate(targetPos, targetBlock.setValue(FluvisolBlock.SOAKED, Boolean.FALSE));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-                if (targetBlock.is(ModBlocks.MULCH_BLOCK) && (targetBlock.getValue(MulchBlock.MOISTURE) == 7)) {
-                    player.awardStat(Stats.ITEM_USED.get(Items.BUCKET));
-                    world.playSound(player, targetPos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        ItemStack itemStack2 = ItemUtils.createFilledResult(heldItem, player, Items.WATER_BUCKET.getDefaultInstance());
-                        player.setItemInHand(hand, itemStack2);
-                        world.setBlockAndUpdate(targetPos, targetBlock.setValue(MulchBlock.MOISTURE, 0));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-                if (targetBlock.is(ModBlocks.CRACKED_MUD) && (targetBlock.getValue(CrackedMudBlock.SOAKED))) {
-                    player.awardStat(Stats.ITEM_USED.get(Items.BUCKET));
-                    world.playSound(player, targetPos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        ItemStack itemStack2 = ItemUtils.createFilledResult(heldItem, player, Items.WATER_BUCKET.getDefaultInstance());
-                        player.setItemInHand(hand, itemStack2);
-                        world.setBlockAndUpdate(targetPos, targetBlock.setValue(CrackedMudBlock.SOAKED, Boolean.FALSE));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-                if (targetBlock.is(ModBlocks.VERTISOL) && (targetBlock.getValue(CrackedMudBlock.SOAKED))) {
-                    player.awardStat(Stats.ITEM_USED.get(Items.BUCKET));
-                    world.playSound(player, targetPos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        ItemStack itemStack2 = ItemUtils.createFilledResult(heldItem, player, Items.WATER_BUCKET.getDefaultInstance());
-                        player.setItemInHand(hand, itemStack2);
-                        world.setBlockAndUpdate(targetPos, targetBlock.setValue(CrackedMudBlock.SOAKED, Boolean.FALSE));
                     }
                     return InteractionResult.SUCCESS;
                 }
@@ -423,63 +302,7 @@ public class ModEvents {
                 }
             }
             if(ImmersiveWeatheringFabric.getConfig().itemUsesConfig.pickaxeCracking) {
-                if (heldItem.getItem() instanceof PickaxeItem) {
-                    if (targetBlock.is(ModTags.CRACKABLE)) {
-                        Block.popResource(world, fixedPos, new ItemStack(DROPPED_BRICKS.get(targetBlock.getBlock())));
-                        world.playSound(player, targetPos, SoundEvents.STONE_HIT, SoundSource.BLOCKS, 1.0f, 1.0f);
-                        ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, new BlockParticleOption(ParticleTypes.BLOCK, targetBlock), UniformInt.of(3,5));
-                        if (player instanceof ServerPlayer) {
-                            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                            if (!player.isCreative()) heldItem.hurt(1, new Random(), null);
-                            world.setBlockAndUpdate(targetPos, CRACKED_BLOCKS.get(targetBlock.getBlock()).withPropertiesOf(targetBlock));
-                        }
-                        return InteractionResult.SUCCESS;
-                    }
-                }
-                if (BRICK_REPAIR.containsKey(heldItem.getItem()) && targetBlock.is(CRACKED_BLOCKS.get(BRICK_REPAIR.get(heldItem.getItem())))) {
-                    Block fixedBlock = BRICK_REPAIR.get(heldItem.getItem());
-                    SoundEvent placeSound = fixedBlock.getSoundType(fixedBlock.defaultBlockState()).getPlaceSound();
-                    world.playSound(player, targetPos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.shrink(1);
-                        world.setBlockAndUpdate(targetPos, fixedBlock.withPropertiesOf(targetBlock).setValue(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-                if (BRICK_REPAIR_SLABS.containsKey(heldItem.getItem()) && targetBlock.is(CRACKED_BLOCKS.get(BRICK_REPAIR_SLABS.get(heldItem.getItem())))) {
-                    Block fixedBlock = BRICK_REPAIR_SLABS.get(heldItem.getItem());
-                    SoundEvent placeSound = fixedBlock.getSoundType(fixedBlock.defaultBlockState()).getPlaceSound();
-                    world.playSound(player, targetPos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.shrink(1);
-                        world.setBlockAndUpdate(targetPos, fixedBlock.withPropertiesOf(targetBlock).setValue(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-                if (BRICK_REPAIR_STAIRS.containsKey(heldItem.getItem()) && targetBlock.is(CRACKED_BLOCKS.get(BRICK_REPAIR_STAIRS.get(heldItem.getItem())))) {
-                    Block fixedBlock = BRICK_REPAIR_STAIRS.get(heldItem.getItem());
-                    SoundEvent placeSound = fixedBlock.getSoundType(fixedBlock.defaultBlockState()).getPlaceSound();
-                    world.playSound(player, targetPos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.shrink(1);
-                        world.setBlockAndUpdate(targetPos, fixedBlock.withPropertiesOf(targetBlock).setValue(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-                if (BRICK_REPAIR_WALLS.containsKey(heldItem.getItem()) && targetBlock.is(CRACKED_BLOCKS.get(BRICK_REPAIR_WALLS.get(heldItem.getItem())))) {
-                    Block fixedBlock = BRICK_REPAIR_WALLS.get(heldItem.getItem());
-                    SoundEvent placeSound = fixedBlock.getSoundType(fixedBlock.defaultBlockState()).getPlaceSound();
-                    world.playSound(player, targetPos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.shrink(1);
-                        world.setBlockAndUpdate(targetPos, fixedBlock.withPropertiesOf(targetBlock).setValue(Weatherable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
+
             }
             if (heldItem.getItem() instanceof AxeItem) {
                 if(ImmersiveWeatheringFabric.getConfig().itemUsesConfig.axeStripping) {

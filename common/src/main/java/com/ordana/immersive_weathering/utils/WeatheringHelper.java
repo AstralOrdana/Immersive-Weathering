@@ -4,6 +4,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.mojang.datafixers.util.Pair;
+import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.blocks.charred.CharredBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.mixins.accessors.BiomeAccessor;
@@ -14,16 +15,27 @@ import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -159,7 +171,7 @@ public class WeatheringHelper {
 
     //called after a block has been devoured by fire. All given blocks are thus flammable
     public static void onFireBurnBlock(Level level, BlockPos pos, BlockState state) {
-        if(level instanceof ServerLevel serverLevel) tryCharBlock(serverLevel, pos, state);
+        if (level instanceof ServerLevel serverLevel) tryCharBlock(serverLevel, pos, state);
     }
 
     public static boolean tryCharBlock(ServerLevel world, BlockPos pos, BlockState state) {
@@ -213,8 +225,6 @@ public class WeatheringHelper {
         if (charred == null) return null;
         return charred.withPropertiesOf(state);
     }
-
-
 
 
     //(for fire I think)
@@ -274,9 +284,9 @@ public class WeatheringHelper {
     }
 
     public static void applyFreezing(Entity entity, int freezing, boolean inWater) {
-       if(entity instanceof Player){
-           int a = 1; //TODO: this isnt working
-       }
+        if (entity instanceof Player) {
+            int a = 1; //TODO: this isnt working
+        }
         if (freezing != 0 && entity.canFreeze() && (entity instanceof LivingEntity le) &&
                 !(EnchantmentHelper.getEnchantmentLevel(Enchantments.FROST_WALKER, le) > 0) &&
                 !entity.getType().is(ModTags.LIGHT_FREEZE_IMMUNE)) {
@@ -303,5 +313,30 @@ public class WeatheringHelper {
     }
 
 
-
+    public static InteractionResult handleSoakedBlocksInteraction(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand) {
+        if (player.isSecondaryUseActive()) return InteractionResult.PASS;
+        ItemStack stack = player.getItemInHand(hand);
+        if (stack.getItem() == Items.WATER_BUCKET && state.getValue(ModBlockProperties.SOAKED)) {
+            level.playSound(player, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
+            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
+            if (player instanceof ServerPlayer) {
+                ItemStack itemStack2 = ItemUtils.createFilledResult(stack, player, Items.BUCKET.getDefaultInstance());
+                player.setItemInHand(hand, itemStack2);
+                level.setBlockAndUpdate(pos, state.setValue(ModBlockProperties.SOAKED, true));
+                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        } else if (stack.getItem() == Items.BUCKET && !state.getValue(ModBlockProperties.SOAKED)) {
+            level.playSound(player, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0f, 1.0f);
+            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
+            if (player instanceof ServerPlayer) {
+                ItemStack itemStack2 = ItemUtils.createFilledResult(stack, player, Items.WATER_BUCKET.getDefaultInstance());
+                player.setItemInHand(hand, itemStack2);
+                level.setBlockAndUpdate(pos, state.setValue(ModBlockProperties.SOAKED, false));
+                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
+        return InteractionResult.PASS;
+    }
 }

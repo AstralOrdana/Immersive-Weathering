@@ -3,20 +3,17 @@ package com.ordana.immersive_weathering.forge;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModTags;
+import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -135,28 +132,10 @@ public class MulchBlock extends Block {
 
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!player.isSecondaryUseActive()) {
-            // empty bucket into mulch
-            if (player.getItemInHand(hand).is(Items.WATER_BUCKET) && !state.getValue(SOAKED)) {
-                if (!player.isCreative()) {
-                    player.setItemInHand(hand, new ItemStack(Items.BUCKET));
-                }
-                world.setBlockAndUpdate(pos, state.setValue(SOAKED, true));
-                world.playSound(player, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
-                return InteractionResult.SUCCESS;
-            }
-            // fill bucket from mulch
-            else if (player.getItemInHand(hand).is(Items.BUCKET) && state.getValue(SOAKED)) {
-                if (!player.isCreative()) {
-                    player.setItemInHand(hand, new ItemStack(Items.WATER_BUCKET));
-                }
-                world.setBlockAndUpdate(pos, state.setValue(SOAKED, false));
-                world.playSound(player, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0f, 1.0f);
-                return InteractionResult.SUCCESS;
-            }
-        }
-        return super.use(state, world, pos, player, hand, hit);
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        var res = WeatheringHelper.handleSoakedBlocksInteraction(state, level, pos, player, hand);
+        if (res != InteractionResult.PASS) return res;
+        return super.use(state, level, pos, player, hand, hit);
     }
 
 
