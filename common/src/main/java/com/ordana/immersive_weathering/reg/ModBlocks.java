@@ -575,7 +575,7 @@ public class ModBlocks {
             new FluvisolBlock(Properties.of(Material.DIRT, MaterialColor.DEEPSLATE)
                     .strength(0.5F).sound(SoundType.WART_BLOCK).randomTicks()));
     public static final Supplier<Block> SILT = regWithItem("silt", () ->
-            new FluvisolBlock(Properties.of(Material.DIRT, MaterialColor.DEEPSLATE)
+            new SiltBlock(Properties.of(Material.DIRT, MaterialColor.DEEPSLATE)
                     .strength(0.5F).sound(SoundType.WART_BLOCK).randomTicks()));
 
     public static final Supplier<Block> VERTISOL = regWithItem("vertisol", () ->
@@ -649,7 +649,7 @@ public class ModBlocks {
             new IcicleBlock(Properties.of(Material.ICE).randomTicks().instabreak()
                     .sound(SoundType.GLASS).noOcclusion().dynamicShape()));
 
-    public static final Supplier<Block> FROST = regWithItem("frost", () ->
+    public static final Supplier<Block> FROST = regBlock("frost", () ->
             new FrostBlock(Properties.of(Material.TOP_SNOW)
                     .randomTicks().instabreak().sound(SoundType.POWDER_SNOW).noOcclusion().noCollission()));
 

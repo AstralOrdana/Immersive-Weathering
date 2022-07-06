@@ -19,7 +19,7 @@
       "com.ordana.immersive_weathering.fabric.ImmersiveWeatheringFabric"
     ],
     "client": [
-      "com.ordana.immersive_weathering.client.fabric.ClientInit"
+      "com.ordana.immersive_weathering.fabric.ImmersiveWeatheringClientFabric"
     ],
     "modmenu": [
       "com.ordana.immersive_weathering.integration.ModMenuCompat"

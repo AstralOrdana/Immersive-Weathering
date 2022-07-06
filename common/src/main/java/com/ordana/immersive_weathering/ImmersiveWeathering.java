@@ -55,6 +55,7 @@ public class ImmersiveWeathering {
         ModCompostable.register();
     }
 
+    //farmers plant on mulch
     //hanging roots item override (mixin for fabric override for forge)
     //RE add lightning strike growths
     //TODO: disabled conditional growth. add command system

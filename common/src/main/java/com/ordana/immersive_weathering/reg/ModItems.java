@@ -111,5 +111,7 @@ public class ModItems {
     public static final Supplier<Item> THIN_ICE_ITEM = regItem("thin_ice", ()->
             new ThinIceItem(ModBlocks.THIN_ICE.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 
+    public static final Supplier<Item> FROST_ITEM = regItem("frost",()->
+            new FrostItem(ModBlocks.FROST.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 
 }

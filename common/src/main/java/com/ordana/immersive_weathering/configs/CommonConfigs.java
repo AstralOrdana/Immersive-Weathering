@@ -60,7 +60,7 @@ public class CommonConfigs {
 
     public static Supplier<Boolean> ICICLE_FOOD;
     public static Supplier<Boolean> ICICLE_FIRE_RESISTANCE;
-    public static Supplier<Boolean> POND_WATER_ENABLED;
+    public static Supplier<Boolean> MUDDY_WATER_ENABLED;
 
     public static Supplier<Boolean> COMPOSTER_DIRT;
     public static Supplier<Boolean> FEATHER_FALLING_FARMERS;
@@ -154,7 +154,7 @@ public class CommonConfigs {
         builder.push("food");
         ICICLE_FOOD = builder.define("icicle_food", true);
         ICICLE_FIRE_RESISTANCE = builder.define("icicle_fire_resistance", false);
-        POND_WATER_ENABLED = builder.define("pond_water_enabled", true);
+        MUDDY_WATER_ENABLED = builder.define("muddy_water_enabled", true);
         builder.pop();
 
         builder.push("misc");
