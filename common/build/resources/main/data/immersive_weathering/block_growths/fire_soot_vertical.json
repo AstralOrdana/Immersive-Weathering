@@ -1,0 +1,7 @@
+{
+  "builtin": "fire_soot",
+  "tick_sources": [
+    "block_tick"
+  ],
+  "owners": "#minecraft:fire"
+}

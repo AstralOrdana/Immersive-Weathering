@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "immersive_weathering:block/weathered_cut_iron"
+    }
+  }
+}

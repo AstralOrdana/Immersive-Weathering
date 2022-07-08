@@ -1,0 +1,23 @@
+{
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "immersive_weathering:block/soot",
+        "soot": "immersive_weathering:block/soot"
+    },
+    "elements": [
+        {
+            "from": [ 0, 0, 0.1 ],
+            "to": [ 16, 16, 0.1 ],
+            "faces": {
+                "north": {
+                    "texture": "#soot",
+                    "uv": [ 16, 0, 0, 16 ]
+                },
+                "south": {
+                    "texture": "#soot",
+                    "uv": [ 0, 0, 16, 16 ]
+                }
+            }
+        }
+    ]
+}

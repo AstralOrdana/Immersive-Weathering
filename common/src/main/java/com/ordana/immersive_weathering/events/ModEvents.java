@@ -3,7 +3,11 @@ package com.ordana.immersive_weathering.events;
 import com.ordana.immersive_weathering.blocks.Weatherable;
 import com.ordana.immersive_weathering.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.blocks.mossable.Mossable;
+import com.ordana.immersive_weathering.client.ParticleHelper;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.reg.ModItems;
+import com.ordana.immersive_weathering.reg.ModParticles;
+import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -24,6 +28,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.ArrayList;
@@ -31,6 +36,7 @@ import java.util.List;
 
 
 public class ModEvents {
+
 
     @FunctionalInterface
     public interface InteractionEvent {
@@ -50,6 +56,7 @@ public class ModEvents {
         EVENTS.add(ModEvents::pickaxeCracking);
         EVENTS.add(ModEvents::brickRepair);
         EVENTS.add(ModEvents::burnMoss);
+        EVENTS.add(ModEvents::shearShearing);
     }
 
 
@@ -172,5 +179,82 @@ public class ModEvents {
         return InteractionResult.PASS;
     }
 
+    private static InteractionResult shearShearing(Item item, ItemStack stack, BlockPos pos, BlockState state,
+                                                     Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+
+        if (item instanceof ShearsItem) {
+            BlockState newState = null;
+            if(CommonConfigs.AZALEA_SHEARING.get()){
+                newState = WeatheringHelper.getAzaleaSheared(state).orElse(null);
+                if (newState != null) {
+                    if (level.isClientSide) {
+                        ParticleHelper.spawnParticlesOnBlockFaces(level, pos, ModParticles.AZALEA_FLOWER.get(), UniformInt.of(4, 6));
+                    } else {
+                        Block.popResourceFromFace(level, pos, event.getFace(), new ItemStack(ModItems.AZALEA_FLOWERS.get()));
+                    }
+                }
+            }
+            if(newState != null && CommonConfigs.MOSS_SHEARING.get()){
+                newState = Mossable.getUnaffectedMossBlock(state);
+                if (newState != state) {
+                    if (IntegrationHandler.quark) newState = QuarkPlugin.fixVerticalSlab(newState, state);
+                    if (!level.isClientSide) {
+                        Block.popResourceFromFace(level, pos, hitResult.getDirection(), new ItemStack(ModItems.MOSS_CLUMP.get()));
+                    }else{
+                        ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.MOSS.get(), UniformInt.of(3, 5));
+                    }
+                }
+            }
+            if (newState != null) {
+                level.playSound(player, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
+                level.setBlockAndUpdate(pos, newState);
+
+                stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+
+                if (player instanceof ServerPlayer) {
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    level.gameEvent(player, GameEvent.SHEAR, pos);
+                    player.awardStat(Stats.ITEM_USED.get(item));
+                }
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            }
+        }
+        return InteractionResult.PASS;
+    }
+
+    private static InteractionResult shearShearing(Item item, ItemStack stack, BlockPos pos, BlockState state,
+                                                   Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        if(item instanceof AxeItem && CommonConfigs.AXE_STRIPPING.get()) {
+
+            if (ServerConfigs.BARK_ENABLED.get()) {
+                var stripped = state.getToolModifiedState(level, pos, player, stack, ToolActions.AXE_STRIP);
+                if (stripped != null) {
+                    var bark = WeatheringHelper.getBarkForStrippedLog(stripped).orElse(null);
+                    if (bark != null) {
+
+                        Block.popResourceFromFace(level, pos, event.getFace(), bark.getFirst().getDefaultInstance());
+                        level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0f, 1.0f);
+
+                        var barkParticle = WeatheringHelper.getBarkParticle(targetBlock).orElse(null);
+                        ParticleUtils.spawnParticlesOnBlockFaces(level, targetPos, barkParticle, UniformInt.of(3, 5));
+
+                        if (player != null) {
+                            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(event.getHand()));
+                        }
+
+                        if (player instanceof ServerPlayer) {
+                            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                            player.awardStat(Stats.ITEM_USED.get(i));
+                        }
+                        //not cancelling so the block can getMossSpreader
+                        event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+                        return;
+                    }
+                }
+            }
+        }
+
+
+    }
 
 }

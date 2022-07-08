@@ -1,0 +1,198 @@
+{
+  "advancements.immersive_weathering.moss.title": "延续生命的循环？",
+  "advancements.immersive_weathering.moss.description": "你吃下了苔藓，尝起来……藓藓的，你的生命值被藓翻了",
+
+  "advancements.immersive_weathering.icicle.title": "咔哧",
+  "advancements.immersive_weathering.icicle.description": "咔哧咔哧咔哧 ",
+  
+  "advancements.immersive_weathering.ice_sickle.title": "冷静下来",
+  "advancements.immersive_weathering.ice_sickle.description": "用烈焰人最大的恐惧——冰镰杀死它",
+
+  "death.attack.icicle": "%1$s被冰锥刺穿了",
+  "death.attack.icicle.player": "%1$s在与%2$s战斗的时候中被冰锥刺穿",
+  "death.attack.fallingIcicle": "%1$s被落下的冰凌刺穿了",
+  "death.attack.fallingIcicle.player": "%1$s在与%2$s战斗的时候被落下的冰凌刺穿了",
+
+  "subtitles.block.icicle.land": "冰凌坠落",
+
+  "block.immersive_weathering.icicle": "冰凌",
+  "item.immersive_weathering.ice_sickle": "冰镰",
+  
+  "block.immersive_weathering.vitrified_sand": "玻化沙",
+
+  "block.immersive_weathering.weeds": "野草",
+  "block.immersive_weathering.soot": "灰烬",
+  "block.immersive_weathering.ash_block": "灰烬块",
+
+  "block.immersive_weathering.mossy_bricks": "苔砖块",
+  "block.immersive_weathering.mossy_brick_stairs": "覆苔砖块楼梯",
+  "block.immersive_weathering.mossy_brick_slab": "覆苔砖块台阶",
+  "block.immersive_weathering.mossy_brick_wall": "覆苔砖块墙",
+
+  "block.immersive_weathering.mossy_stone": "覆苔石头",
+  "block.immersive_weathering.mossy_stone_stairs": "覆苔石头楼梯",
+  "block.immersive_weathering.mossy_stone_slab": "覆苔石头台阶",
+
+  "block.immersive_weathering.cracked_bricks": "裂纹砖块",
+  "block.immersive_weathering.cracked_brick_stairs": "裂纹砖块楼梯",
+  "block.immersive_weathering.cracked_brick_slab": "裂纹砖块台阶",
+  "block.immersive_weathering.cracked_brick_wall": "裂纹砖块墙",
+
+  "block.immersive_weathering.cracked_prismarine_bricks": "裂纹海晶石砖",
+  "block.immersive_weathering.cracked_prismarine_brick_stairs": "裂纹海晶石砖楼梯",
+  "block.immersive_weathering.cracked_prismarine_brick_slab": "裂纹海晶石砖台阶",
+  "block.immersive_weathering.cracked_prismarine_brick_wall": "裂纹海晶石砖墙",
+  "block.immersive_weathering.prismarine_brick_wall": "海晶石砖墙",
+
+  "block.immersive_weathering.cracked_end_stone_bricks": "裂纹末地石砖",
+  "block.immersive_weathering.cracked_end_stone_brick_stairs": "裂纹末地石砖楼梯",
+  "block.immersive_weathering.cracked_end_stone_brick_slab": "裂纹末地石砖台阶",
+  "block.immersive_weathering.cracked_end_stone_brick_wall": "裂纹末地石砖墙",
+
+  "block.immersive_weathering.cracked_stone_brick_stairs": "裂纹石砖楼梯",
+  "block.immersive_weathering.cracked_stone_brick_slab": "裂纹石砖台阶",
+  "block.immersive_weathering.cracked_stone_brick_wall": "裂纹石砖墙",
+
+  "block.immersive_weathering.cracked_nether_brick_stairs": "裂纹下界砖楼梯",
+  "block.immersive_weathering.cracked_nether_brick_slab": "裂纹下界砖台阶",
+  "block.immersive_weathering.cracked_nether_brick_wall": "裂纹下界砖墙",
+
+  "block.immersive_weathering.cracked_deepslate_brick_stairs": "裂纹深板岩砖楼梯",
+  "block.immersive_weathering.cracked_deepslate_brick_slab": "裂纹深板岩砖台阶",
+  "block.immersive_weathering.cracked_deepslate_brick_wall": "裂纹深板岩砖墙",
+
+  "block.immersive_weathering.cracked_deepslate_tile_stairs": "裂纹深板岩瓦楼梯",
+  "block.immersive_weathering.cracked_deepslate_tile_slab": "裂纹深板岩瓦台阶",
+  "block.immersive_weathering.cracked_deepslate_tile_wall": "裂纹深板岩瓦墙",
+
+  "block.immersive_weathering.cracked_polished_blackstone_brick_stairs": "裂纹磨制黑石砖楼梯",
+  "block.immersive_weathering.cracked_polished_blackstone_brick_slab": "裂纹磨制黑石砖台阶",
+  "block.immersive_weathering.cracked_polished_blackstone_brick_wall": "裂纹磨制黑石砖墙",
+
+  "item.immersive_weathering.stone_brick": "石砖",
+  "item.immersive_weathering.blackstone_brick": "黑石砖",
+  "item.immersive_weathering.deepslate_brick": "深板岩砖",
+  "item.immersive_weathering.deepslate_tile": "深板岩瓦片",
+  "item.immersive_weathering.end_stone_brick": "末地砖",
+  "item.immersive_weathering.prismarine_brick": "海晶砖",
+
+  "item.immersive_weathering.azalea_flowers": "杜鹃花",
+  "item.immersive_weathering.flower_crown": "花冠",
+  "item.immersive_weathering.moss_clump": "苔藓丛",
+  "item.immersive_weathering.golden_moss_clump": "金苔藓丛",
+  "item.immersive_weathering.enchanted_golden_moss_clump": "附魔金苔藓丛",
+
+  "item.immersive_weathering.oak_bark": "橡树皮",
+  "item.immersive_weathering.spruce_bark": "云杉树皮",
+  "item.immersive_weathering.birch_bark": "白桦树皮",
+  "item.immersive_weathering.jungle_bark": "丛林树皮",
+  "item.immersive_weathering.acacia_bark": "金合欢树皮",
+  "item.immersive_weathering.dark_oak_bark": "深色橡树皮",
+  "item.immersive_weathering.crimson_scales": "绯红菌皮",
+  "item.immersive_weathering.warped_scales": "诡异菌皮",
+
+  "block.immersive_weathering.oak_leaf_pile": "橡树叶堆",
+  "block.immersive_weathering.spruce_leaf_pile": "云杉树叶堆",
+  "block.immersive_weathering.birch_leaf_pile": "白桦树叶堆",
+  "block.immersive_weathering.jungle_leaf_pile": "丛林树叶堆",
+  "block.immersive_weathering.acacia_leaf_pile": "金合欢树叶堆",
+  "block.immersive_weathering.dark_oak_leaf_pile": "深色橡树叶堆",
+  "block.immersive_weathering.azalea_leaf_pile": "杜鹃树叶堆",
+  "block.immersive_weathering.flowering_azalea_leaf_pile": "盛开的杜鹃树叶堆",
+  "block.immersive_weathering.azalea_flower_pile": "杜鹃花堆",
+
+  "block.immersive_weathering.humus": "腐殖土",
+  "block.immersive_weathering.mulch_block": "沃土",
+  "block.immersive_weathering.nulch_block": "下界沃土",
+  "block.immersive_weathering.mulch": "腐殖质",
+  "block.immersive_weathering.nulch": "下界腐殖质",
+
+  "item.immersive_weathering.steel_wool": "钢丝球",
+
+  "block.immersive_weathering.cut_iron": "切制铁块",
+  "block.immersive_weathering.exposed_cut_iron": "斑驳的切制铁块",
+  "block.immersive_weathering.weathered_cut_iron": "锈蚀的切制铁块",
+  "block.immersive_weathering.rusted_cut_iron": "氧化的切制铁块",
+
+  "block.immersive_weathering.cut_iron_stairs": "切制铁楼梯",
+  "block.immersive_weathering.exposed_cut_iron_stairs": "斑驳的切制铁楼梯",
+  "block.immersive_weathering.weathered_cut_iron_stairs": "锈蚀的切制铁楼梯",
+  "block.immersive_weathering.rusted_cut_iron_stairs": "氧化的切制铁楼梯",
+
+  "block.immersive_weathering.cut_iron_slab": "切制铁台阶",
+  "block.immersive_weathering.exposed_cut_iron_slab": "斑驳的切制铁台阶",
+  "block.immersive_weathering.weathered_cut_iron_slab": "锈蚀的切制铁台阶",
+  "block.immersive_weathering.rusted_cut_iron_slab": "氧化的切制铁台阶",
+
+  "block.immersive_weathering.waxed_cut_iron": "涂蜡切制铁块",
+  "block.immersive_weathering.waxed_exposed_cut_iron": "斑驳的涂蜡切制铁块",
+  "block.immersive_weathering.waxed_weathered_cut_iron": "锈蚀的涂蜡切制铁块",
+  "block.immersive_weathering.waxed_rusted_cut_iron": "氧化的涂蜡切制铁块",
+
+  "block.immersive_weathering.waxed_cut_iron_stairs": "涂蜡切制铁楼梯",
+  "block.immersive_weathering.waxed_exposed_cut_iron_stairs": "斑驳的涂蜡切制铁楼梯",
+  "block.immersive_weathering.waxed_weathered_cut_iron_stairs": "锈蚀的涂蜡切制铁楼梯",
+  "block.immersive_weathering.waxed_rusted_cut_iron_stairs": "氧化的涂蜡切制铁楼梯",
+
+  "block.immersive_weathering.waxed_cut_iron_slab": "涂蜡切制铁台阶",
+  "block.immersive_weathering.waxed_exposed_cut_iron_slab": "斑驳的涂蜡切制铁台阶",
+  "block.immersive_weathering.waxed_weathered_cut_iron_slab": "锈蚀的涂蜡切制铁台阶",
+  "block.immersive_weathering.waxed_rusted_cut_iron_slab": "氧化的涂蜡切制铁台阶",
+
+  "block.immersive_weathering.plate_iron": "铁板块",
+  "block.immersive_weathering.exposed_plate_iron": "斑驳的铁板块",
+  "block.immersive_weathering.weathered_plate_iron": "锈蚀的铁板块",
+  "block.immersive_weathering.rusted_plate_iron": "氧化的铁板块",
+
+  "block.immersive_weathering.plate_iron_stairs": "铁板楼梯",
+  "block.immersive_weathering.exposed_plate_iron_stairs": "斑驳的铁板楼梯",
+  "block.immersive_weathering.weathered_plate_iron_stairs": "锈蚀的铁板楼梯",
+  "block.immersive_weathering.rusted_plate_iron_stairs": "氧化的铁板楼梯",
+
+  "block.immersive_weathering.plate_iron_slab": "铁板台阶",
+  "block.immersive_weathering.exposed_plate_iron_slab": "斑驳的铁板台阶",
+  "block.immersive_weathering.weathered_plate_iron_slab": "锈蚀的铁板台阶",
+  "block.immersive_weathering.rusted_plate_iron_slab": "氧化的铁板台阶",
+
+  "block.immersive_weathering.waxed_plate_iron": "涂蜡铁板块",
+  "block.immersive_weathering.waxed_exposed_plate_iron": "斑驳的涂蜡铁板块",
+  "block.immersive_weathering.waxed_weathered_plate_iron": "锈蚀的涂蜡铁板块",
+  "block.immersive_weathering.waxed_rusted_plate_iron": "氧化的涂蜡铁板块",
+
+  "block.immersive_weathering.waxed_plate_iron_stairs": "涂蜡铁板楼梯",
+  "block.immersive_weathering.waxed_exposed_plate_iron_stairs": "斑驳的涂蜡铁板楼梯",
+  "block.immersive_weathering.waxed_weathered_plate_iron_stairs": "锈蚀的涂蜡铁板楼梯",
+  "block.immersive_weathering.waxed_rusted_plate_iron_stairs": "氧化的涂蜡铁板楼梯",
+
+  "block.immersive_weathering.waxed_plate_iron_slab": "涂蜡铁板台阶",
+  "block.immersive_weathering.waxed_exposed_plate_iron_slab": "斑驳的涂蜡铁板台阶",
+  "block.immersive_weathering.waxed_weathered_plate_iron_slab": "锈蚀的涂蜡铁板台阶",
+  "block.immersive_weathering.waxed_rusted_plate_iron_slab": "氧化的涂蜡铁板台阶",
+
+  "block.immersive_weathering.exposed_iron_door": "斑驳的铁门",
+  "block.immersive_weathering.weathered_iron_door": "锈蚀的铁门",
+  "block.immersive_weathering.rusted_iron_door": "氧化的铁门",
+
+  "block.immersive_weathering.exposed_iron_trapdoor": "斑驳的铁活版门",
+  "block.immersive_weathering.weathered_iron_trapdoor": "锈蚀的铁活版门",
+  "block.immersive_weathering.rusted_iron_trapdoor": "氧化的铁活版门",
+
+  "block.immersive_weathering.exposed_iron_bars": "斑驳的铁栏杆",
+  "block.immersive_weathering.weathered_iron_bars": "锈蚀的铁栏杆",
+  "block.immersive_weathering.rusted_iron_bars": "氧化的铁栏杆",
+
+  "block.immersive_weathering.waxed_iron_door": "涂蜡铁门",
+  "block.immersive_weathering.waxed_exposed_iron_door": "斑驳的涂蜡铁门",
+  "block.immersive_weathering.waxed_weathered_iron_door": "锈蚀的涂蜡铁门",
+  "block.immersive_weathering.waxed_rusted_iron_door": "氧化的涂蜡铁门",
+
+  "block.immersive_weathering.waxed_iron_trapdoor": "涂蜡铁活版门",
+  "block.immersive_weathering.waxed_exposed_iron_trapdoor": "斑驳的涂蜡铁活版门",
+  "block.immersive_weathering.waxed_weathered_iron_trapdoor": "锈蚀的涂蜡铁活版门",
+  "block.immersive_weathering.waxed_rusted_iron_trapdoor": "氧化的涂蜡铁活版门",
+
+  "block.immersive_weathering.waxed_iron_bars": "涂蜡铁栏杆",
+  "block.immersive_weathering.waxed_exposed_iron_bars": "斑驳的涂蜡铁栏杆",
+  "block.immersive_weathering.waxed_weathered_iron_bars": "锈蚀的涂蜡铁栏杆",
+  "block.immersive_weathering.waxed_rusted_iron_bars": "氧化的涂蜡铁栏杆"
+}

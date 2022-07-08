@@ -1,0 +1,15 @@
+{   "parent": "block/thin_block",
+    "textures": {
+        "particle": "immersive_weathering:block/light_birch_leaves",
+        "texture": "immersive_weathering:block/light_birch_leaves"
+    },
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 1, 16 ],
+            "faces": {
+                "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#texture", "tintindex": 0, "cullface": "down" },
+                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#texture", "tintindex": 0}
+            }
+        }
+    ]
+}

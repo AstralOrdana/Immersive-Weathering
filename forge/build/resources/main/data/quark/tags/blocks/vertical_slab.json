@@ -1,0 +1,31 @@
+{
+  "replace": false,
+  "values": [
+    "immersive_weathering:mossy_brick_vertical_slab",
+    "immersive_weathering:mossy_stone_vertical_slab",
+    "immersive_weathering:cracked_brick_vertical_slab",
+    "immersive_weathering:cracked_stone_brick_vertical_slab",
+    "immersive_weathering:cracked_polished_blackstone_brick_vertical_slab",
+    "immersive_weathering:cracked_nether_brick_vertical_slab",
+    "immersive_weathering:cracked_deepslate_brick_vertical_slab",
+    "immersive_weathering:cracked_deepslate_tile_vertical_slab",
+    "immersive_weathering:cracked_end_stone_brick_vertical_slab",
+    "immersive_weathering:cracked_prismarine_brick_vertical_slab",
+    "immersive_weathering:cut_iron_vertical_slab",
+    "immersive_weathering:exposed_cut_iron_vertical_slab",
+    "immersive_weathering:weathered_cut_iron_vertical_slab",
+    "immersive_weathering:rusted_cut_iron_vertical_slab",
+    "immersive_weathering:waxed_cut_iron_vertical_slab",
+    "immersive_weathering:waxed_exposed_cut_iron_vertical_slab",
+    "immersive_weathering:waxed_weathered_cut_iron_vertical_slab",
+    "immersive_weathering:waxed_rusted_cut_iron_vertical_slab",
+    "immersive_weathering:plate_iron_vertical_slab",
+    "immersive_weathering:exposed_plate_iron_vertical_slab",
+    "immersive_weathering:weathered_plate_iron_vertical_slab",
+    "immersive_weathering:rusted_plate_iron_vertical_slab",
+    "immersive_weathering:waxed_plate_iron_vertical_slab",
+    "immersive_weathering:waxed_exposed_plate_iron_vertical_slab",
+    "immersive_weathering:waxed_weathered_plate_iron_vertical_slab",
+    "immersive_weathering:waxed_rusted_plate_iron_vertical_slab"
+  ]
+}

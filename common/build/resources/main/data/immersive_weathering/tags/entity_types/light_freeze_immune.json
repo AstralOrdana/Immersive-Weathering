@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:freeze_immune_entity_types",
+    "minecraft:fox",
+    "minecraft:rabbit",
+    "minecraft:sheep",
+    "minecraft:goat",
+
+    "minecraft:stray",
+    "minecraft:polar_bear",
+    "minecraft:salmon",
+    "minecraft:cod",
+    "minecraft:squid",
+    "minecraft:glow_squid",
+    "minecraft:guardian",
+    "minecraft:elder_guardian",
+    "minecraft:drowned",
+    "minecraft:wolf",
+    "minecraft:wither"
+  ]
+}

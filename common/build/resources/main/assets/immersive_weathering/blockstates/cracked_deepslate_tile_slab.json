@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "immersive_weathering:block/cracked_deepslate_tile_slab"
+    },
+    "type=double": {
+      "model": "minecraft:block/cracked_deepslate_tiles"
+    },
+    "type=top": {
+      "model": "immersive_weathering:block/cracked_deepslate_tile_slab_top"
+    }
+  }
+}

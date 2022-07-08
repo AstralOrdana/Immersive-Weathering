@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "immersive_weathering:deepslate_brick",
+    "immersive_weathering:stone_brick",
+    "immersive_weathering:end_stone_brick",
+    "immersive_weathering:blackstone_brick"
+  ]
+}

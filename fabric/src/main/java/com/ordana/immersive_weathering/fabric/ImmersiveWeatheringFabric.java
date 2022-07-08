@@ -3,8 +3,10 @@ package com.ordana.immersive_weathering.fabric;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.events.ModEvents;
 import com.ordana.immersive_weathering.reg.ModWaxables;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -36,7 +38,7 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
             FlammableBlockRegistry.getDefaultInstance().add(Blocks.COBWEB, 100, 100);
         }
 
-
+        UseBlockCallback.EVENT.register((p, l, h, r) -> ModEvents.invokeEvents(p.getItemInHand(h), p, l, h, r));
 
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(BlockGrowthHandler.getInstance(FabricBlockGrowthManager::new));
 
@@ -49,7 +51,7 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
         });
     }
 
-    private static class FabricBlockGrowthManager extends BlockGrowthHandler implements IdentifiableResourceReloadListener{
+    private static class FabricBlockGrowthManager extends BlockGrowthHandler implements IdentifiableResourceReloadListener {
 
         @Override
         public ResourceLocation getFabricId() {

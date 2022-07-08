@@ -1,0 +1,8 @@
+{
+    "parent": "block/iron_bars_side",
+    "textures": {
+        "particle": "immersive_weathering:block/exposed_iron_bars",
+        "bars": "immersive_weathering:block/exposed_iron_bars",
+        "edge": "immersive_weathering:block/exposed_iron_bars"
+    }
+}

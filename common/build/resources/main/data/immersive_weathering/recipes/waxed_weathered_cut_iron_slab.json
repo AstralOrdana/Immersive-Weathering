@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "waxed_cut_iron_slab",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "immersive_weathering:waxed_weathered_cut_iron"
+    }
+  },
+  "result": {
+    "item": "immersive_weathering:waxed_weathered_cut_iron_slab",
+    "count": 6
+  }
+}

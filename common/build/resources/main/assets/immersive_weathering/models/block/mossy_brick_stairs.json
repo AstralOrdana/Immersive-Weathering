@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "immersive_weathering:block/mossy_bricks",
+    "top": "immersive_weathering:block/mossy_bricks",
+    "side": "immersive_weathering:block/mossy_bricks"
+  }
+}

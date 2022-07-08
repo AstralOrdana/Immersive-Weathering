@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S  ",
+    "SS ",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "immersive_weathering:mossy_bricks"
+    }
+  },
+  "result": {
+    "item": "immersive_weathering:mossy_brick_stairs",
+    "count": 4
+  }
+}

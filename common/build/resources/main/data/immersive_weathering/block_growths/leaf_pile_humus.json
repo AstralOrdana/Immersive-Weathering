@@ -1,0 +1,41 @@
+{
+  "position_predicates": [
+    {
+      "type": "block_test",
+      "predicate": {
+        "predicate_type": "immersive_weathering:block_property_test",
+        "properties": [
+          {
+            "from_block": "immersive_weathering:oak_leaf_pile",
+            "property": "layers",
+            "value": "2",
+            "operator": ">="
+          }
+        ]
+      }
+    }
+  ],
+  "growth_chance": 0.05,
+  "growth_for_face": [
+    {
+      "direction": "down",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:humus"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": "#immersive_weathering:deciduous_leaf_piles",
+  "replacing_target": {
+    "blocks": "#minecraft:dirt",
+    "predicate_type": "immersive_weathering:block_set_match",
+    "probability": 0.7
+  }
+}

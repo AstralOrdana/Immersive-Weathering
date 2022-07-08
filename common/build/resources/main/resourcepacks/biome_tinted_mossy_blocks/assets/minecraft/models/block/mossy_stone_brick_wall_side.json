@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/mossy_template_wall_side",
+  "textures": {
+    "wall": "minecraft:block/mossy_stone_bricks",
+    "overlay": "minecraft:block/stone_brick_moss"
+  }
+}

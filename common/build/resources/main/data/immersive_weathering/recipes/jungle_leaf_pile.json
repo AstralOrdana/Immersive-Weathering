@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:jungle_leaves"
+    }
+  },
+  "result": {
+    "item": "immersive_weathering:jungle_leaf_pile",
+    "count": 6
+  }
+}

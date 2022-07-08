@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "immersive_weathering:exposed_iron_bars"
+  },
+  "result": "minecraft:iron_nugget",
+  "experience": 0.15,
+  "cookingtime": 200
+}

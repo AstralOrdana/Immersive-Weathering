@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "immersive_weathering:rusted_plate_iron"
+  },
+  "result": "immersive_weathering:rusted_plate_iron_stairs",
+  "count": 1
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "immersive_weathering:block/cut_iron",
+    "top": "immersive_weathering:block/cut_iron",
+    "side": "immersive_weathering:block/cut_iron"
+  }
+}

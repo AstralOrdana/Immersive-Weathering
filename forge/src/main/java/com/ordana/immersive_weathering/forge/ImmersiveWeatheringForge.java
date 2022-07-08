@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.forge;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.events.ModEvents;
 import com.ordana.immersive_weathering.forge.dynamic.ModDynamicRegistry;
 import com.ordana.immersive_weathering.reg.LeafPilesRegistry;
 import com.ordana.immersive_weathering.reg.ModWaxables;
@@ -12,13 +13,17 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -66,7 +71,14 @@ public class ImmersiveWeatheringForge {
         bus.addListener(ImmersiveWeatheringForge::addPackFinders);
     }
 
-
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        var ret = ModEvents.invokeEvents(event.getItemStack(),event.getPlayer(),event.getWorld(),event.getHand(),event.getHitVec());
+        if(ret != InteractionResult.PASS){
+            event.setCanceled(true);
+            event.setCancellationResult(ret);
+        }
+    }
 
     public static void init(final FMLCommonSetupEvent event) {
         event.enqueueWork(()->{

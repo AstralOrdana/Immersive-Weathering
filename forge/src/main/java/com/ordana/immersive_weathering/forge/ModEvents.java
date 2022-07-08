@@ -57,45 +57,7 @@ public class ModEvents {
         Player player = event.getPlayer();
 
         //shear azalea
-        if (i instanceof ShearsItem) {
-            var newState = WeatheringHelper.getAzaleaSheared(state).orElse(null);
-            if (newState != null) {
-                if (level.isClientSide) {
-                    ParticleHelper.spawnParticlesOnBlockFaces(level, pos, ModParticles.AZALEA_FLOWER.get(), UniformInt.of(4, 6));
-                } else {
-                    Block.popResourceFromFace(level, pos, event.getFace(), new ItemStack(ModItems.AZALEA_FLOWERS.get()));
-                }
-                level.playSound(player, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
-
-            } else {
-                BlockState s = Mossable.getUnaffectedMossBlock(state);
-                if (s != state) {
-                    newState = s;
-                    if (IntegrationHandler.quark) newState = QuarkPlugin.fixVerticalSlab(newState, state);
-                    if (!level.isClientSide) {
-                        Block.popResourceFromFace(level, pos, event.getFace(), new ItemStack(ModItems.MOSS_CLUMP.get()));
-                    }
-                    level.playSound(player, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
-                }
-            }
-
-            if (newState != null) {
-                level.setBlockAndUpdate(pos, newState);
-
-                if (player != null) {
-                    stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(event.getHand()));
-                }
-
-                if (player instanceof ServerPlayer) {
-                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                    level.gameEvent(player, GameEvent.SHEAR, pos);
-                    player.awardStat(Stats.ITEM_USED.get(i));
-                }
-
-                event.setCanceled(true);
-                event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
-            }
-        } else if (i instanceof FlintAndSteelItem) {
+  if (i instanceof FlintAndSteelItem) {
 
             BlockState s = Mossable.getUnaffectedMossBlock(state);
             if (s != state) {
@@ -180,30 +142,7 @@ public class ModEvents {
         }
         //spawn bark
         else if (i instanceof AxeItem) {
-            if (ServerConfigs.BARK_ENABLED.get()) {
-                var stripped = state.getToolModifiedState(level, pos, player, stack, ToolActions.AXE_STRIP);
-                if (stripped != null) {
-                    var bark = WeatheringHelper.getBarkForStrippedLog(stripped).orElse(null);
-                    if (bark != null) {
 
-                        Block.popResourceFromFace(level, pos, event.getFace(), bark.getFirst().getDefaultInstance());
-                        level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0f, 1.0f);
-
-
-                        if (player != null) {
-                            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(event.getHand()));
-                        }
-
-                        if (player instanceof ServerPlayer) {
-                            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                            player.awardStat(Stats.ITEM_USED.get(i));
-                        }
-                        //not cancelling so the block can getMossSpreader
-                        event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
-                        return;
-                    }
-                }
-            }
 
             if (state.getBlock() instanceof Rustable r && r.getAge() != Rustable.RustLevel.RUSTED) {
                 var unRusted = r.getPrevious(state).orElse(null);

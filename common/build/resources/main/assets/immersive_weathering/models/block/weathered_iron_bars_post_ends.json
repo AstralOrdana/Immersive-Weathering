@@ -1,0 +1,7 @@
+{
+    "parent": "block/iron_bars_post_ends",
+    "textures": {
+        "particle": "immersive_weathering:block/weathered_iron_bars",
+        "edge": "immersive_weathering:block/weathered_iron_bars"
+    }
+}

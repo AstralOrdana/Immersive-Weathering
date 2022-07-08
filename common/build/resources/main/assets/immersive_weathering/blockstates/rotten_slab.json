@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "immersive_weathering:block/rotten_slab"
+    },
+    "type=double": {
+      "model": "immersive_weathering:block/rotten_planks"
+    },
+    "type=top": {
+      "model": "immersive_weathering:block/rotten_slab_top"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:stone_bricks",
+    "minecraft:bricks",
+    "minecraft:nether_bricks",
+    "minecraft:polished_blackstone_bricks",
+    "minecraft:deepslate_bricks",
+    "minecraft:deepslate_tiles",
+    "minecraft:prismarine_bricks",
+    "minecraft:end_stone_bricks",
+
+    "minecraft:stone_brick_slab",
+    "minecraft:brick_slab",
+    "minecraft:nether_brick_slab",
+    "minecraft:polished_blackstone_brick_slab",
+    "minecraft:deepslate_brick_slab",
+    "minecraft:deepslate_tile_slab",
+    "minecraft:prismarine_brick_slab",
+    "minecraft:end_stone_brick_slab",
+
+    "minecraft:stone_brick_stairs",
+    "minecraft:brick_stairs",
+    "minecraft:nether_brick_stairs",
+    "minecraft:polished_blackstone_brick_stairs",
+    "minecraft:deepslate_brick_stairs",
+    "minecraft:deepslate_tile_stairs",
+    "minecraft:prismarine_brick_stairs",
+    "minecraft:end_stone_brick_stairs",
+
+    "minecraft:stone_brick_wall",
+    "minecraft:brick_wall",
+    "minecraft:nether_brick_wall",
+    "minecraft:polished_blackstone_brick_wall",
+    "minecraft:deepslate_brick_wall",
+    "minecraft:deepslate_tile_wall",
+    "immersive_weathering:prismarine_brick_wall",
+    "minecraft:end_stone_brick_wall"
+  ]
+}

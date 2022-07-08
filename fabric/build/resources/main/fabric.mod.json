@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "immersive_weathering",
+  "version": "2.6.0",
+  "name": "Immersive Weathering",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "Me!"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "Insert License Here",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.ordana.immersive_weathering.fabric.ImmersiveWeatheringFabric"
+    ],
+    "client": [
+      "com.ordana.immersive_weathering.client.fabric.ClientInit"
+    ],
+    "modmenu": [
+      "com.ordana.immersive_weathering.integration.ModMenuCompat"
+    ]
+  },
+  "mixins": [
+    "immersive_weathering.mixins.json",
+    "immersive_weathering-common.mixins.json"
+  ],
+  "depends": {
+    "fabric": "*",
+    "minecraft": ">=1.18.2"
+  }
+}

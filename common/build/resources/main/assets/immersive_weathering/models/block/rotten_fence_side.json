@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_side",
+  "textures": {
+    "texture": "immersive_weathering:block/rotten_planks"
+  }
+}

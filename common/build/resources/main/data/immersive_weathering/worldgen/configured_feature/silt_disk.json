@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:disk",
+  "config": {
+    "state": {
+      "Name": "immersive_weathering:silt",
+      "Properties": {
+        "soaked": "false",
+        "fertile": "true"
+      }
+    },
+    "radius": {
+      "type": "minecraft:uniform",
+      "value": {
+        "min_inclusive": 3,
+        "max_inclusive": 7
+      }
+    },
+    "half_height": 1,
+    "targets": [
+      {
+        "Name": "minecraft:sand"
+      },
+      {
+        "Name": "minecraft:grass_block",
+        "Properties": {
+          "snowy": "false"
+        }
+      },
+      {
+        "Name": "minecraft:gravel"
+      },
+      {
+        "Name": "minecraft:dirt"
+      },
+      {
+        "Name": "minecraft:clay"
+      }
+    ]
+  }
+}

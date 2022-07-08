@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "immersive_weathering:cracked_end_stone_bricks"
+  },
+  "result": "immersive_weathering:cracked_end_stone_brick_vertical_slab",
+  "count": 2,
+  "conditions": [
+    {
+      "modid": "quark",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

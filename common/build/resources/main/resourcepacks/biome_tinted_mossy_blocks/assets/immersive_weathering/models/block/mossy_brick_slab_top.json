@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/mossy_slab_top",
+  "textures": {
+    "bottom": "immersive_weathering:block/mossy_bricks",
+    "top": "immersive_weathering:block/mossy_bricks",
+    "side": "immersive_weathering:block/mossy_bricks",
+    "overlay": "minecraft:block/brick_moss"
+  }
+}

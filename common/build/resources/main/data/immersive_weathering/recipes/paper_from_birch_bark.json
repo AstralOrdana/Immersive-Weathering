@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "immersive_weathering:birch_bark"
+    },
+    {
+      "item": "immersive_weathering:birch_bark"
+    },
+    {
+      "item": "immersive_weathering:birch_bark"
+    }
+  ],
+  "result": {
+    "item": "minecraft:paper",
+    "count":  3
+  }
+}

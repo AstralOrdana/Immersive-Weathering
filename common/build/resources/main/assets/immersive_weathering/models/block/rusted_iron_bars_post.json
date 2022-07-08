@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:iron_bars_post",
+    "textures": {
+        "particle": "immersive_weathering:block/rusted_iron_bars",
+        "bars": "immersive_weathering:block/rusted_iron_bars"
+    }
+}

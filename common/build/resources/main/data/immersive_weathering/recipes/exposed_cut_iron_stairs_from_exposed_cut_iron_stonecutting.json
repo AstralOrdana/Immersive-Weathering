@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "immersive_weathering:exposed_cut_iron"
+  },
+  "result": "immersive_weathering:exposed_cut_iron_stairs",
+  "count": 1
+}

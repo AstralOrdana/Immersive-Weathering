@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#immersive_weathering:weathered_iron",
+    "#immersive_weathering:rusted_iron"
+  ]
+}

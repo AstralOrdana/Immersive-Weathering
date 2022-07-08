@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "immersive_weathering:cracked_prismarine_bricks"
+  },
+  "result": "immersive_weathering:cracked_prismarine_brick_vertical_slab",
+  "count": 2,
+  "conditions": [
+    {
+      "modid": "quark",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "builtin": "campfire_soot",
+  "tick_sources": [
+    "block_tick"
+  ],
+  "owners": "#minecraft:campfires"
+}

@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "layers=1": {
+      "model": "immersive_weathering:block/sand_layer_block2"
+    },
+    "layers=2": {
+      "model": "immersive_weathering:block/sand_layer_block4"
+    },
+    "layers=3": {
+      "model": "immersive_weathering:block/sand_layer_block6"
+    },
+    "layers=4": {
+      "model": "immersive_weathering:block/sand_layer_block8"
+    },
+    "layers=5": {
+      "model": "immersive_weathering:block/sand_layer_block10"
+    },
+    "layers=6": {
+      "model": "immersive_weathering:block/sand_layer_block12"
+    },
+    "layers=7": {
+      "model": "immersive_weathering:block/sand_layer_block14"
+    },
+    "layers=8": {
+      "model": "immersive_weathering:block/sand_layer_block16"
+    }
+  }
+}

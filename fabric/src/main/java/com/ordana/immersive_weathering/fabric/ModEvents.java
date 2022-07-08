@@ -87,33 +87,6 @@ public class ModEvents {
                         return InteractionResult.SUCCESS;
                     }
                 }
-
-                if(ImmersiveWeatheringFabric.getConfig().itemUsesConfig.azaleaShearing) {
-                    if (targetBlock.is(ModTags.FLOWERY)) {
-                        Block.popResource(world, fixedPos, new ItemStack(ModItems.AZALEA_FLOWERS));
-                        world.playSound(player, targetPos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
-                        ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ModParticles.AZALEA_FLOWER, UniformInt.of(3, 5));
-                        if (player instanceof ServerPlayer) {
-                            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                            if (!player.isCreative()) heldItem.hurt(1, new Random(), null);
-                            world.setBlockAndUpdate(targetPos, FLOWERY_BLOCKS.get(targetBlock.getBlock()).withPropertiesOf(targetBlock));
-                        }
-                        return InteractionResult.SUCCESS;
-                    }
-                }
-                if(ImmersiveWeatheringFabric.getConfig().itemUsesConfig.mossShearing) {
-                    if (targetBlock.is(ModTags.MOSSY)) {
-                        Block.popResource(world, fixedPos, new ItemStack(ModItems.MOSS_CLUMP));
-                        world.playSound(player, targetPos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
-                        ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ModParticles.MOSS, UniformInt.of(3, 5));
-                        if (player instanceof ServerPlayer) {
-                            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                            if (!player.isCreative()) heldItem.hurt(1, new Random(), null);
-                            world.setBlockAndUpdate(targetPos, CLEANED_BLOCKS.get(targetBlock.getBlock()).withPropertiesOf(targetBlock));
-                        }
-                        return InteractionResult.SUCCESS;
-                    }
-                }
             }
 
 
@@ -270,30 +243,7 @@ public class ModEvents {
                     }
                 }
             }
-            if(ImmersiveWeatheringFabric.getConfig().itemUsesConfig.axeStripping) {
-                if (UNSTRIP_LOG.containsKey(heldItem.getItem()) && targetBlock.is(STRIPPED_BLOCKS.get(UNSTRIP_LOG.get(heldItem.getItem())))) {
-                    Block fixedBlock = UNSTRIP_LOG.get(heldItem.getItem());
-                    SoundEvent placeSound = fixedBlock.getSoundType(fixedBlock.defaultBlockState()).getPlaceSound();
-                    world.playSound(player, targetPos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.shrink(1);
-                        world.setBlockAndUpdate(targetPos, fixedBlock.withPropertiesOf(targetBlock));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-                if (UNSTRIP_WOOD.containsKey(heldItem.getItem()) && targetBlock.is(STRIPPED_BLOCKS.get(UNSTRIP_WOOD.get(heldItem.getItem())))) {
-                    Block fixedBlock = UNSTRIP_WOOD.get(heldItem.getItem());
-                    SoundEvent placeSound = fixedBlock.getSoundType(fixedBlock.defaultBlockState()).getPlaceSound();
-                    world.playSound(player, targetPos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
-                        if (!player.isCreative()) heldItem.shrink(1);
-                        world.setBlockAndUpdate(targetPos, fixedBlock.withPropertiesOf(targetBlock));
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-            }
+
             return InteractionResult.PASS;
         });
     }

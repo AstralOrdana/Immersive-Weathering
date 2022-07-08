@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "immersive_weathering:block/weeds_0"
+    },
+    "age=1": {
+      "model": "immersive_weathering:block/weeds_1"
+    },
+    "age=2": {
+      "model": "immersive_weathering:block/weeds_2"
+    },
+    "age=3": {
+      "model": "immersive_weathering:block/weeds_3"
+    },
+    "age=4": {
+      "model": "immersive_weathering:block/weeds_4"
+    },
+    "age=5": {
+      "model": "immersive_weathering:block/weeds_5"
+    },
+    "age=6": {
+      "model": "immersive_weathering:block/weeds_6"
+    },
+    "age=7": {
+      "model": "immersive_weathering:block/weeds_7"
+    }
+  }
+}

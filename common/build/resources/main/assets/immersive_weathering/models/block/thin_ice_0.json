@@ -1,0 +1,6 @@
+{
+    "parent": "immersive_weathering:block/thin_ice_template",
+    "textures": {
+        "texture": "immersive_weathering:block/thin_ice_0"
+    }
+}

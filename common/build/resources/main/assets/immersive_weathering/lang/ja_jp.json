@@ -1,0 +1,190 @@
+{
+  "advancements.immersive_weathering.moss.title": "生命のサイクルを 保持する？",
+  "advancements.immersive_weathering.moss.description": "＊(コケを 食べた) ＊(...コケっぽい味がした) ＊(HPが コケた)",
+
+  "advancements.immersive_weathering.icicle.title": "メンヒ",
+  "advancements.immersive_weathering.icicle.description": "バリバリ ボリボリボリ",
+
+  "death.attack.icicle": "%1$sは氷柱に突き刺さった",
+  "death.attack.icicle.player": "%1$sは%2$sと戦いながら氷柱に突き刺さった",
+  "death.attack.fallingIcicle": "%1$sは落ちてきた氷柱に串刺しにされた",
+  "death.attack.fallingIcicle.player": "%1$sは%2$sと戦いながら落ちてきた氷柱に串刺しにされた",
+
+  "subtitles.block.icicle.land": "氷柱が落ちる",
+
+  "block.immersive_weathering.icicle": "氷柱",
+
+  "block.immersive_weathering.weeds": "雑草",
+  "block.immersive_weathering.soot": "煤",
+  "block.immersive_weathering.ash_block": "煤ブロック",
+
+  "block.immersive_weathering.mossy_bricks": "苔むしたレンガ",
+  "block.immersive_weathering.mossy_brick_stairs": "苔むしたレンガの階段",
+  "block.immersive_weathering.mossy_brick_slab": "苔むしたレンガのハーフブロック",
+  "block.immersive_weathering.mossy_brick_wall": "苔むしたレンガの塀",
+
+  "block.immersive_weathering.mossy_stone": "苔むした石",
+  "block.immersive_weathering.mossy_stone_stairs": "苔むした石の階段",
+  "block.immersive_weathering.mossy_stone_slab": "苔むした石のハーフブロック",
+
+  "block.immersive_weathering.cracked_bricks": "ひび割れたレンガ",
+  "block.immersive_weathering.cracked_brick_stairs": "ひび割れたレンガの階段",
+  "block.immersive_weathering.cracked_brick_slab": "ひび割れたレンガのハーフブロック",
+  "block.immersive_weathering.cracked_brick_wall": "ひび割れたレンガの塀",
+
+  "block.immersive_weathering.cracked_prismarine_bricks": "ひび割れたプリズマリンレンガ",
+  "block.immersive_weathering.cracked_prismarine_brick_stairs": "ひび割れたプリズマリンレンガの階段",
+  "block.immersive_weathering.cracked_prismarine_brick_slab": "ひび割れたプリズマリンレンガのハーフブロック",
+  "block.immersive_weathering.cracked_prismarine_brick_wall": "ひび割れたプリズマリンレンガの塀",
+  "block.immersive_weathering.prismarine_brick_wall": "プリズマリンレンガの塀",
+
+  "block.immersive_weathering.cracked_end_stone_bricks": "ひび割れたエンドストーンレンガ",
+  "block.immersive_weathering.cracked_end_stone_brick_stairs": "ひび割れたエンドストーンレンガの階段",
+  "block.immersive_weathering.cracked_end_stone_brick_slab": "ひび割れたエンドストーンレンガのハーフブロック",
+  "block.immersive_weathering.cracked_end_stone_brick_wall": "ひび割れたエンドストーンレンガの塀",
+
+  "block.immersive_weathering.cracked_stone_brick_stairs": "ひび割れた石レンガの階段",
+  "block.immersive_weathering.cracked_stone_brick_slab": "ひび割れた石レンガのハーフブロック",
+  "block.immersive_weathering.cracked_stone_brick_wall": "ひび割れた石レンガの塀",
+
+  "block.immersive_weathering.cracked_nether_brick_stairs": "ひび割れたネザーレンガの階段",
+  "block.immersive_weathering.cracked_nether_brick_slab": "ひび割れたネザーレンガのハーフブロック",
+  "block.immersive_weathering.cracked_nether_brick_wall": "ひび割れたネザーレンガの塀",
+
+  "block.immersive_weathering.cracked_deepslate_brick_stairs": "ひび割れた深層岩レンガの階段",
+  "block.immersive_weathering.cracked_deepslate_brick_slab": "ひび割れた深層岩レンガのハーフブロック",
+  "block.immersive_weathering.cracked_deepslate_brick_wall": "ひび割れた深層岩レンガの塀",
+
+  "block.immersive_weathering.cracked_deepslate_tile_stairs": "ひび割れた深層岩タイルの階段",
+  "block.immersive_weathering.cracked_deepslate_tile_slab": "ひび割れた深層岩タイルのハーフブロック",
+  "block.immersive_weathering.cracked_deepslate_tile_wall": "ひび割れた深層岩タイルの塀",
+
+  "block.immersive_weathering.cracked_polished_blackstone_brick_stairs": "ひび割れたブラックストーンレンガの階段",
+  "block.immersive_weathering.cracked_polished_blackstone_brick_slab": "ひび割れたブラックストーンレンガのハーフブロック",
+  "block.immersive_weathering.cracked_polished_blackstone_brick_wall": "ひび割れたブラックストーンレンガの塀",
+
+  "item.immersive_weathering.stone_brick": "石レンガ",
+  "item.immersive_weathering.blackstone_brick": "ブラックストーンレンガ",
+  "item.immersive_weathering.deepslate_brick": "深層岩レンガ",
+  "item.immersive_weathering.deepslate_tile": "深層岩タイル",
+  "item.immersive_weathering.end_stone_brick": "エンドストーンレンガ",
+  "item.immersive_weathering.prismarine_brick": "プリズマリンレンガ",
+
+  "item.immersive_weathering.azalea_flowers": "ツツジの花",
+  "item.immersive_weathering.flower_crown": "花かんむり",
+  "item.immersive_weathering.moss_clump": "苔塊",
+  "item.immersive_weathering.golden_moss_clump": "金の苔塊",
+
+  "item.immersive_weathering.oak_bark": "オークの樹皮",
+  "item.immersive_weathering.spruce_bark": "トウヒの樹皮",
+  "item.immersive_weathering.birch_bark": "シラカバの樹皮",
+  "item.immersive_weathering.jungle_bark": "ジャングルの樹皮",
+  "item.immersive_weathering.acacia_bark": "アカシアの樹皮",
+  "item.immersive_weathering.dark_oak_bark": "ダークオークの樹皮",
+  "item.immersive_weathering.crimson_scales": "真紅の表皮",
+  "item.immersive_weathering.warped_scales": "歪んだ表皮",
+
+  "block.immersive_weathering.oak_leaf_pile": "オークの積み重なった落ち葉",
+  "block.immersive_weathering.spruce_leaf_pile": "トウヒの積み重なった落ち葉",
+  "block.immersive_weathering.birch_leaf_pile": "シラカバの積み重なった落ち葉",
+  "block.immersive_weathering.jungle_leaf_pile": "ジャングルの積み重なった落ち葉",
+  "block.immersive_weathering.acacia_leaf_pile": "アカシアの積み重なった落ち葉",
+  "block.immersive_weathering.dark_oak_leaf_pile": "ダークオークの積み重なった落ち葉",
+  "block.immersive_weathering.azalea_leaf_pile": "ツツジの積み重なった落ち葉",
+  "block.immersive_weathering.flowering_azalea_leaf_pile": "開花したツツジの積み重なった落ち葉",
+  "block.immersive_weathering.azalea_flower_pile": "積み重なったツツジの花",
+
+  "block.immersive_weathering.mulch_block": "マルチングブロック",
+  "block.immersive_weathering.nulch_block": "ヌルチングブロック",
+  "block.immersive_weathering.mulch": "マルチ",
+  "block.immersive_weathering.nulch": "ヌルチ",
+
+  "item.immersive_weathering.steel_wool": "スチールウール",
+
+  "block.immersive_weathering.cut_iron": "切り込み入りの鉄",
+  "block.immersive_weathering.exposed_cut_iron": "風化した切り込み入りの鉄",
+  "block.immersive_weathering.weathered_cut_iron": "錆びた切り込み入りの鉄",
+  "block.immersive_weathering.rusted_cut_iron": "錆びきった切り込み入りの鉄",
+
+  "block.immersive_weathering.cut_iron_stairs": "切り込み入りの鉄の階段",
+  "block.immersive_weathering.exposed_cut_iron_stairs": "風化した切り込み入りの鉄の階段",
+  "block.immersive_weathering.weathered_cut_iron_stairs": "錆びた切り込み入りの鉄の階段",
+  "block.immersive_weathering.rusted_cut_iron_stairs": "錆びきった切り込み入りの鉄の階段",
+
+  "block.immersive_weathering.cut_iron_slab": "切り込み入りの鉄のハーフブロック",
+  "block.immersive_weathering.exposed_cut_iron_slab": "風化した切り込み入りの鉄のハーフブロック",
+  "block.immersive_weathering.weathered_cut_iron_slab": "錆びた切り込み入りの鉄のハーフブロック",
+  "block.immersive_weathering.rusted_cut_iron_slab": "錆びきった切り込み入りの鉄のハーフブロック",
+
+  "block.immersive_weathering.waxed_cut_iron": "錆止めされた切り込み入りの鉄",
+  "block.immersive_weathering.waxed_exposed_cut_iron": "錆止めされた風化した切り込み入りの鉄",
+  "block.immersive_weathering.waxed_weathered_cut_iron": "錆止めされた錆びた切り込み入りの鉄",
+  "block.immersive_weathering.waxed_rusted_cut_iron": "錆止めされた錆びきった切り込み入りの鉄",
+
+  "block.immersive_weathering.waxed_cut_iron_stairs": "錆止めされた切り込み入りの鉄の階段",
+  "block.immersive_weathering.waxed_exposed_cut_iron_stairs": "錆止めされた風化した切り込み入りの鉄の階段",
+  "block.immersive_weathering.waxed_weathered_cut_iron_stairs": "錆止めされた錆びた切り込み入りの鉄の階段",
+  "block.immersive_weathering.waxed_rusted_cut_iron_stairs": "錆止めされた錆びきった切り込み入りの鉄の階段",
+
+  "block.immersive_weathering.waxed_cut_iron_slab": "錆止めされた切り込み入りの鉄のハーフブロック",
+  "block.immersive_weathering.waxed_exposed_cut_iron_slab": "錆止めされた風化した切り込み入りの鉄のハーフブロック",
+  "block.immersive_weathering.waxed_weathered_cut_iron_slab": "錆止めされた錆びた切り込み入りの鉄のハーフブロック",
+  "block.immersive_weathering.waxed_rusted_cut_iron_slab": "錆止めされた錆びきった切り込み入りの鉄のハーフブロック",
+
+  "block.immersive_weathering.plate_iron": "鉄の板金",
+  "block.immersive_weathering.exposed_plate_iron": "風化した鉄の板金",
+  "block.immersive_weathering.weathered_plate_iron": "錆びた鉄の板金",
+  "block.immersive_weathering.rusted_plate_iron": "錆びきった鉄の板金",
+
+  "block.immersive_weathering.plate_iron_stairs": "鉄の板金の階段",
+  "block.immersive_weathering.exposed_plate_iron_stairs": "風化した鉄の板金の階段",
+  "block.immersive_weathering.weathered_plate_iron_stairs": "錆びた鉄の板金の階段",
+  "block.immersive_weathering.rusted_plate_iron_stairs": "錆びきった鉄の板金の階段",
+
+  "block.immersive_weathering.plate_iron_slab": "鉄の板金のハーフブロック",
+  "block.immersive_weathering.exposed_plate_iron_slab": "風化した鉄の板金のハーフブロック",
+  "block.immersive_weathering.weathered_plate_iron_slab": "錆びた鉄の板金のハーフブロック",
+  "block.immersive_weathering.rusted_plate_iron_slab": "錆びきった鉄の板金のハーフブロック",
+
+  "block.immersive_weathering.waxed_plate_iron": "錆止めされた鉄の板金",
+  "block.immersive_weathering.waxed_exposed_plate_iron": "錆止めされた風化した鉄の板金",
+  "block.immersive_weathering.waxed_weathered_plate_iron": "錆止めされた錆びた鉄の板金",
+  "block.immersive_weathering.waxed_rusted_plate_iron": "錆止めされた錆びきった鉄の板金",
+
+  "block.immersive_weathering.waxed_plate_iron_stairs": "錆止めされた鉄の板金の階段",
+  "block.immersive_weathering.waxed_exposed_plate_iron_stairs": "錆止めされた風化した鉄の板金の階段",
+  "block.immersive_weathering.waxed_weathered_plate_iron_stairs": "錆止めされた錆びた鉄の板金の階段",
+  "block.immersive_weathering.waxed_rusted_plate_iron_stairs": "錆止めされた錆びきった鉄の板金の階段",
+
+  "block.immersive_weathering.waxed_plate_iron_slab": "錆止めされた鉄の板金ハーフブロック",
+  "block.immersive_weathering.waxed_exposed_plate_iron_slab": "錆止めされた風化した鉄の板金のハーフブロック",
+  "block.immersive_weathering.waxed_weathered_plate_iron_slab": "錆止めされた錆びた鉄の板金のハーフブロック",
+  "block.immersive_weathering.waxed_rusted_plate_iron_slab": "錆止めされた錆びきった鉄の板金のハーフブロック",
+
+  "block.immersive_weathering.exposed_iron_door": "風化した鉄のドア",
+  "block.immersive_weathering.weathered_iron_door": "錆びた鉄のドア",
+  "block.immersive_weathering.rusted_iron_door": "錆びきった鉄のドア",
+
+  "block.immersive_weathering.exposed_iron_trapdoor": "風化した鉄のトラップドア",
+  "block.immersive_weathering.weathered_iron_trapdoor": "錆びた鉄のトラップドア",
+  "block.immersive_weathering.rusted_iron_trapdoor": "錆びきった鉄のトラップドア",
+
+  "block.immersive_weathering.exposed_iron_bars": "風化した鉄格子",
+  "block.immersive_weathering.weathered_iron_bars": "錆びた鉄格子",
+  "block.immersive_weathering.rusted_iron_bars": "錆びきった鉄格子",
+
+  "block.immersive_weathering.waxed_iron_door": "錆止めされた鉄のドア",
+  "block.immersive_weathering.waxed_exposed_iron_door": "錆止めされた風化した鉄のドア",
+  "block.immersive_weathering.waxed_weathered_iron_door": "錆止めされた錆びた鉄のドア",
+  "block.immersive_weathering.waxed_rusted_iron_door": "錆止めされた錆びきった鉄のドア",
+
+  "block.immersive_weathering.waxed_iron_trapdoor": "錆止めされた鉄のトラップドア",
+  "block.immersive_weathering.waxed_exposed_iron_trapdoor": "錆止めされた風化した鉄のトラップドア",
+  "block.immersive_weathering.waxed_weathered_iron_trapdoor": "錆止めされた錆びた鉄のトラップドア",
+  "block.immersive_weathering.waxed_rusted_iron_trapdoor": "錆止めされた錆びきった鉄のトラップドア",
+
+  "block.immersive_weathering.waxed_iron_bars": "錆止めされた鉄格子",
+  "block.immersive_weathering.waxed_exposed_iron_bars": "錆止めされた風化した鉄格子",
+  "block.immersive_weathering.waxed_weathered_iron_bars": "錆止めされた錆びた鉄格子",
+  "block.immersive_weathering.waxed_rusted_iron_bars": "錆止めされた錆びきった鉄格子"
+}

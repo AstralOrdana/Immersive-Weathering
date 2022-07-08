@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "immersive_weathering:rusted_plate_iron",
+    "immersive_weathering:rusted_plate_iron_stairs",
+    "immersive_weathering:rusted_plate_iron_slab",
+    "immersive_weathering:rusted_cut_iron",
+    "immersive_weathering:rusted_cut_iron_stairs",
+    "immersive_weathering:rusted_cut_iron_slab",
+    "immersive_weathering:rusted_iron_door",
+    "immersive_weathering:rusted_iron_trapdoor"
+  ]
+}

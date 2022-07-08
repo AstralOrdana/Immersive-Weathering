@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "immersive_weathering:block/cracked_mud_top_soaked",
+    "bottom": "immersive_weathering:block/cracked_mud_bottom_soaked",
+    "side": "immersive_weathering:block/cracked_mud_side_soaked"
+  }
+}
