@@ -36,7 +36,7 @@ import java.util.List;
 
 
 public class ModEvents {
-
+/*
 
     @FunctionalInterface
     public interface InteractionEvent {
@@ -93,7 +93,7 @@ public class ModEvents {
                     level.setBlockAndUpdate(pos, s);
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                 }
-                return InteractionResult.sidedSuccess(level.isClientSide));
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
         return InteractionResult.PASS;
@@ -256,5 +256,5 @@ public class ModEvents {
 
 
     }
-
+*/
 }

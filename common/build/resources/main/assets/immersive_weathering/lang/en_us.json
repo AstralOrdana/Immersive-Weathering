@@ -36,10 +36,21 @@
   "text.autoconfig.immersive_weathering.category.item_uses_config": "Item Uses",
   "text.autoconfig.immersive_weathering.category.worldgen_config": "Worldgen",
 
-  "text.autoconfig.immersive_weathering.option.blockGrowthConfig.blockGrowth": "Should any block growth mechanics occur?",
-  "text.autoconfig.immersive_weathering.option.blockGrowthConfig.blockCracking": "Should brick blocks crack over time?",
-  "text.autoconfig.immersive_weathering.option.blockGrowthConfig.blockMossing": "Should blocks become mossy over time?",
-  "text.autoconfig.immersive_weathering.option.blockGrowthConfig.blockRusting": "Should iron blocks rust over time?",
+  //block growths
+  "text.immersive_weathering.block_growths": "Block Growths",
+  "text.immersive_weathering.block_growths.descriptionKey": "Should any block growth mechanics occur?",
+
+  //mossy blocks
+  "text.immersive_weathering.interest_for_face": "Interest for Face",
+  "text.immersive_weathering.interest_for_face.descriptionKey": "How much influence should neighboring mossy blocks have on moss spreading?",
+  "text.immersive_weathering.patchiness": "Patchiness",
+  "text.immersive_weathering.patchiness.descriptionKey": "How patchy should moss growth be?",
+  "text.immersive_weathering.immune_chance": "Immune Chance",
+  "text.immersive_weathering.immune_chance.descriptionKey": "What should be the chance for random blocks to be naturally immune to mossing",
+  "text.immersive_weathering.needs_air": "Needs Air",
+  "text.immersive_weathering.needs_air.descriptionKey": "Should moss only be able to spread to blocks that are exposed to air?",
+
+  //cracked blocks
 
   "text.autoconfig.immersive_weathering.option.leavesConfig.fallingLeafParticles": "Should leaf blocks create falling leaf particles below themselves?",
   "text.autoconfig.immersive_weathering.option.leavesConfig.leafPilesForm": "Should Leaf Piles accumulate below living trees?",

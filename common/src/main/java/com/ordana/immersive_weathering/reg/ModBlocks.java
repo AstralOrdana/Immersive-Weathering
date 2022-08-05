@@ -591,7 +591,7 @@ public class ModBlocks {
             new PermafrostBlock(Properties.of(Material.ICE_SOLID, MaterialColor.CLAY)
                     .strength(3F).friction(1F).sound(SoundType.TUFF).randomTicks()));
 
-    public static final Supplier<Block> ROOTED_GRASS_BLOCK = regWithItem("roored_grass", () ->
+    public static final Supplier<Block> ROOTED_GRASS_BLOCK = regWithItem("rooted_grass_block", () ->
             new RootedGrassBlock(Properties.of(Material.GRASS).randomTicks().strength(0.5F)
                     .sound(SoundType.ROOTED_DIRT)));
 

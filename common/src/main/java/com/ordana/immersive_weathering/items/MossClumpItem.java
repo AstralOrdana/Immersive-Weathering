@@ -38,7 +38,8 @@ public class MossClumpItem extends Item {
                 }
 
                 if (player instanceof ServerPlayer) {
-                    if (IntegrationHandler.quark) mossy = QuarkPlugin.fixVerticalSlab(mossy, state);
+                    //todo
+                    //if (IntegrationHandler.quark) mossy = QuarkPlugin.fixVerticalSlab(mossy, state);
 
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                     level.setBlockAndUpdate(pos, mossy);
@@ -47,5 +48,6 @@ public class MossClumpItem extends Item {
             }
             return super.useOn(context);
         }
+        return super.useOn(context);
     }
 }
