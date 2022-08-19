@@ -69,14 +69,6 @@
         {
           "data": {
             "block": {
-              "Name": "minecraft:oak_sapling"
-            }
-          },
-          "weight": 1
-        },
-        {
-          "data": {
-            "block": {
               "Name": "minecraft:peony",
               "Properties": {
                 "half": "lower"

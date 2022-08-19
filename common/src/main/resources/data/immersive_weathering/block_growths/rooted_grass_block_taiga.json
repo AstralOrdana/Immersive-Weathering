@@ -10,12 +10,13 @@
   "position_predicates": [
     {
       "biomes": [
-        "minecraft:jungle"
+        "minecraft:taiga",
+        "minecraft:snowy_taiga"
       ],
      "type": "biome_match"
     }
   ],
-  "growth_chance": 0.001,
+  "growth_chance": 0.01,
   "growth_for_face": [
     {
       "direction": "up",
@@ -23,44 +24,20 @@
         {
           "data": {
             "block": {
-              "Name": "minecraft:dandelion"
+              "Name": "minecraft:spruce_sapling"
             }
           },
           "weight": 1
-        },
-        {
-          "data": {
-            "block": {
-              "Name": "minecraft:fern"
-            }
-          },
-          "weight": 5
-        },
-        {
-          "data": {
-            "block": {
-              "Name": "minecraft:melon"
-            }
-          },
-          "weight": 1
-        },
-        {
-          "data": {
-            "block": {
-              "Name": "minecraft:grass"
-            }
-          },
-          "weight": 0
         }
       ]
     }
   ],
   "owners": [
-    "minecraft:grass_block"
+    "immersive_weathering:rooted_grass_block"
   ],
   "replacing_target": {
     "block": "minecraft:air",
     "predicate_type": "minecraft:random_block_match",
-    "probability": 0.8
+    "probability": 1
   }
 }
