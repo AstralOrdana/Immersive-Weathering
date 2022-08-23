@@ -34,14 +34,6 @@
         {
           "data": {
             "block": {
-              "Name": "minecraft:acacia_sapling"
-            }
-          },
-          "weight": 1
-        },
-        {
-          "data": {
-            "block": {
               "Name": "minecraft:grass"
             }
           },
