@@ -1,7 +1,0 @@
-{
-  "parent": "immersive_weathering:block/frosty_tinted_cross",
-  "textures": {
-    "grass": "immersive_weathering:block/frosty_fern_overlay",
-    "frosty": "immersive_weathering:block/frosty_fern"
-  }
-}

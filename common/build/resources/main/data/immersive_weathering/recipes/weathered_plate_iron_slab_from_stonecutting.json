@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "immersive_weathering:weathered_plate_iron"
-  },
-  "result": "immersive_weathering:weathered_plate_iron_slab",
-  "count": 2
-}

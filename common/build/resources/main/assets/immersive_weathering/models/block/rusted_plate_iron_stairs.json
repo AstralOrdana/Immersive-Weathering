@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "immersive_weathering:block/rusted_plate_iron",
-    "top": "immersive_weathering:block/rusted_plate_iron",
-    "side": "immersive_weathering:block/rusted_plate_iron"
-  }
-}

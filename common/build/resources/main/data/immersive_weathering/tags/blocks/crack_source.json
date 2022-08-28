@@ -1,8 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "minecraft:lava",
-    "minecraft:fire",
-    "#immersive_weathering:cracked"
-  ]
-}

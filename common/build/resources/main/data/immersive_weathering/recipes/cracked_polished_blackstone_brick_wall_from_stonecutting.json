@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "minecraft:cracked_polished_blackstone_bricks"
-  },
-  "result": "immersive_weathering:cracked_polished_blackstone_brick_wall",
-  "count": 1
-}

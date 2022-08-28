@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "minecraft:iron_bars"
-  },
-  "result": "minecraft:iron_nugget",
-  "experience": 0.15,
-  "cookingtime": 100
-}

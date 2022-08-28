@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "#minecraft:base_stone_overworld",
-    "minecraft:ice",
-    "minecraft:packed_ice",
-    "minecraft:blue_ice"
-  ]
-}
