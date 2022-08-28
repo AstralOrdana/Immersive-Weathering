@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "immersive_weathering:block/exposed_iron_bars"
-  }
-}

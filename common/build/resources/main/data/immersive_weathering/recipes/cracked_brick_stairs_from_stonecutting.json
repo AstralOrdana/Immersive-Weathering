@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "immersive_weathering:cracked_bricks"
-  },
-  "result": "immersive_weathering:cracked_brick_stairs",
-  "count": 1
-}

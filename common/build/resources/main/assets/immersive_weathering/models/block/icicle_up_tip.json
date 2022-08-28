@@ -1,6 +1,0 @@
-{
-  "parent": "immersive_weathering:block/icicle",
-  "textures": {
-    "cross": "immersive_weathering:block/icicle_up_tip"
-  }
-}

@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/mossy_template_wall_side",
-  "textures": {
-    "wall": "immersive_weathering:block/mossy_bricks",
-    "overlay": "minecraft:block/brick_moss"
-  }
-}

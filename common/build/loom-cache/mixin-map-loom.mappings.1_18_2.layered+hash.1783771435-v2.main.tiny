@@ -1,9 +1,0 @@
-v1	named	intermediary
-FIELD	com/ordana/immersive_weathering/mixins/BlocksMixin	Lnet/minecraft/world/level/block/Block;	PRISMARINE_BRICKS	field_10006
-FIELD	com/ordana/immersive_weathering/mixins/BlocksMixin	Lnet/minecraft/world/level/block/Block;	END_STONE_BRICKS	field_10462
-FIELD	com/ordana/immersive_weathering/mixins/LiquidBlockMixin	Lcom/google/common/collect/ImmutableList;	POSSIBLE_FLOW_DIRECTIONS	field_34006
-FIELD	com/ordana/immersive_weathering/mixins/LiquidBlockMixin	Lnet/minecraft/world/level/material/FlowingFluid;	fluid	field_11279
-FIELD	com/ordana/immersive_weathering/mixins/RabbitEatGoalMixin	Z	canRaid	field_6861
-METHOD	com/ordana/immersive_weathering/mixins/LightningEntityMixin	()Lnet/minecraft/core/BlockPos;	getStrikePosition	method_36607
-METHOD	com/ordana/immersive_weathering/mixins/LiquidBlockMixin	(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;)V	fizz	method_10318
-METHOD	com/ordana/immersive_weathering/mixins/LiquidBlockMixin	(Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/world/level/material/FluidState;	getFluidState	method_9545

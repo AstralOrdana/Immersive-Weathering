@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "immersive_weathering:block/charred_planks_lit",
-    "top": "immersive_weathering:block/charred_planks_lit",
-    "side": "immersive_weathering:block/charred_planks_lit"
-  }
-}

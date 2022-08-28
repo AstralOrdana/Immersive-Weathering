@@ -1,8 +1,0 @@
-{
-    "parent": "block/iron_bars_side_alt",
-    "textures": {
-        "particle": "immersive_weathering:block/rusted_iron_bars",
-        "bars": "immersive_weathering:block/rusted_iron_bars",
-        "edge": "immersive_weathering:block/rusted_iron_bars"
-    }
-}

@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/cube_bottom_top",
-  "textures": {
-    "top": "immersive_weathering:block/puddle_top",
-    "bottom": "minecraft:block/dirt",
-    "side": "immersive_weathering:block/fluvisol_side_soaked"
-  }
-}

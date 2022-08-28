@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "immersive_weathering:mossy_stone"
-  },
-  "result": "immersive_weathering:mossy_stone_stairs",
-  "count": 1
-}
