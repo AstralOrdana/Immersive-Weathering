@@ -42,6 +42,7 @@ import java.util.List;
 public class ModEvents {
 
 
+
     @FunctionalInterface
     public interface InteractionEvent {
         InteractionResult run(Item i, ItemStack stack,
@@ -241,5 +242,7 @@ public class ModEvents {
     private static boolean doStripLog(ItemStack stack, BlockPos pos, BlockState state, Player player, Level level, InteractionHand hand, Direction dir) {
         throw new AssertionError();
     }
+
+
 
 }

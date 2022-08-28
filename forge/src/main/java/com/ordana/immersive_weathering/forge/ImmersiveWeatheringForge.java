@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.forge;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.events.ModEvents;
 import com.ordana.immersive_weathering.reg.ModWaxables;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
@@ -10,6 +11,7 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -68,14 +70,11 @@ public class ImmersiveWeatheringForge {
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        //todo
-        /*
         var ret = ModEvents.invokeEvents(event.getItemStack(),event.getPlayer(),event.getWorld(),event.getHand(),event.getHitVec());
         if(ret != InteractionResult.PASS){
             event.setCanceled(true);
             event.setCancellationResult(ret);
         }
-        */
     }
 
     public static void init(final FMLCommonSetupEvent event) {

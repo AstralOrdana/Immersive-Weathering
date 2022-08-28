@@ -15,7 +15,12 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class ImmersiveWeatheringFabric implements ModInitializer {
 
@@ -28,6 +33,7 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
         ImmersiveWeathering.commonInit();
         ImmersiveWeathering.commonSetup();
         ImmersiveWeathering.commonRegistration();
+
 
 
         ModRegistry.registerEntries();
@@ -50,6 +56,12 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
             ResourceManagerHelper.registerBuiltinResourcePack(ImmersiveWeathering.res("visual_waxed_iron_items"), modContainer, ResourcePackActivationType.NORMAL);
             ResourceManagerHelper.registerBuiltinResourcePack(ImmersiveWeathering.res("biome_tinted_mossy_blocks"), modContainer, ResourcePackActivationType.NORMAL);
         });
+
+        UseBlockCallback.EVENT.register(ImmersiveWeatheringFabric::onRightClickBlock);
+    }
+
+    public static InteractionResult onRightClickBlock(Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        return ModEvents.invokeEvents(player.getItemInHand(hand),player, level, hand, hitResult);
     }
 
     private static class FabricBlockGrowthManager extends BlockGrowthHandler implements IdentifiableResourceReloadListener {
