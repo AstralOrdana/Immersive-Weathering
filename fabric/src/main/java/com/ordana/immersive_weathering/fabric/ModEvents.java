@@ -1,23 +1,39 @@
 package com.ordana.immersive_weathering.fabric;
 
 
+import com.ordana.immersive_weathering.blocks.charred.*;
+import com.ordana.immersive_weathering.blocks.soil.ModGrassBlock;
+import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.reg.ModItems;
+import com.ordana.immersive_weathering.reg.ModParticles;
+import com.ordana.immersive_weathering.reg.ModTags;
+import com.ordana.immersive_weathering.utils.WeatheringHelper;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.HoeItem;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
+
+import java.util.Random;
 
 public class ModEvents {
 
-
-    /*
-
     //TODO: add composter stuff
 
+    /*
 
     public static void registerEvents(Player player, Level world, InteractionHand hand, BlockHitResult hitResult) {
 
@@ -60,7 +76,7 @@ public class ModEvents {
                     }
                 } else if (heldItem.getItem() == Items.CLAY) {
                     if (targetBlock.is(Blocks.WATER_CAULDRON) && (targetBlock.getValue(LayeredCauldronBlock.LEVEL) >= 3)) {
-                        Block.popResource(world, fixedPos, new ItemStack(ModItems.SILT));
+                        Block.popResource(world, fixedPos, new ItemStack(ModBlocks.SILT.get()));
                         if (world.random.nextFloat() < 0.2f) {
                             Block.popResource(world, fixedPos, new ItemStack(Items.SAND));
                         }
@@ -97,9 +113,9 @@ public class ModEvents {
             if (heldItem.getItem() instanceof ShovelItem) {
                 if(ImmersiveWeatheringFabric.getConfig().itemUsesConfig.shovelExtinguishing) {
                     if (targetBlock.is(Blocks.CAMPFIRE) && targetBlock.getValue(BlockStateProperties.LIT)) {
-                        Block.popResource(world, fixedPos, new ItemStack(ModItems.ASH_LAYER_BLOCK));
+                        Block.popResource(world, fixedPos, new ItemStack(ModBlocks.ASH_LAYER_BLOCK.get()));
                         world.playSound(player, targetPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                        ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ModParticles.SOOT, UniformInt.of(3, 5));
+                        ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ModParticles.SOOT.get(), UniformInt.of(3, 5));
                         if(player instanceof ServerPlayer) {
                             CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
                             world.setBlockAndUpdate(targetPos, targetBlock.getBlock().withPropertiesOf(targetBlock).setValue(CampfireBlock.LIT, false));
@@ -107,9 +123,9 @@ public class ModEvents {
                         return InteractionResult.SUCCESS;
                     }
                     if (targetBlock.is(Blocks.FIRE)) {
-                        Block.popResource(world, fixedPos, new ItemStack(ModItems.ASH_LAYER_BLOCK));
+                        Block.popResource(world, fixedPos, new ItemStack(ModBlocks.ASH_LAYER_BLOCK.get()));
                         world.playSound(player, targetPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                        ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ModParticles.SOOT, UniformInt.of(3, 5));
+                        ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ModParticles.SOOT.get(), UniformInt.of(3, 5));
                         if(player instanceof ServerPlayer) {
                             CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
                             world.setBlockAndUpdate(targetPos, Blocks.AIR.defaultBlockState());
@@ -117,9 +133,9 @@ public class ModEvents {
                         return InteractionResult.SUCCESS;
                     }
                     if ((targetBlock.getBlock() instanceof CharredPillarBlock || targetBlock.getBlock() instanceof CharredBlock || targetBlock.getBlock() instanceof CharredStairsBlock || targetBlock.getBlock() instanceof CharredSlabBlock || targetBlock.getBlock() instanceof CharredFenceBlock || targetBlock.getBlock() instanceof CharredFenceGateBlock) && targetBlock.getValue(CharredBlock.SMOLDERING)) {
-                        Block.popResource(world, fixedPos, new ItemStack(ModItems.ASH_LAYER_BLOCK));
+                        Block.popResource(world, fixedPos, new ItemStack(ModBlocks.ASH_LAYER_BLOCK.get()));
                         world.playSound(player, targetPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                        ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ModParticles.SOOT, UniformInt.of(3, 5));
+                        ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ModParticles.SOOT.get(), UniformInt.of(3, 5));
                         if(player instanceof ServerPlayer) {
                             CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
                             world.setBlockAndUpdate(targetPos, targetBlock.getBlock().withPropertiesOf(targetBlock).setValue(CharredBlock.SMOLDERING, false));
@@ -127,10 +143,9 @@ public class ModEvents {
                         return InteractionResult.SUCCESS;
                     }
                 }
-                if ((targetBlock.is(ModBlocks.HUMUS) || targetBlock.is(ModBlocks.FLUVISOL) || targetBlock.is(ModBlocks.VERTISOL) || targetBlock.is(ModBlocks.CRYOSOL)) && !targetBlock.getValue(BlockStateProperties.SNOWY)) {
+                if ((targetBlock.is(ModBlocks.HUMUS.get()) || targetBlock.is(ModBlocks.FLUVISOL.get()) || targetBlock.is(ModBlocks.VERTISOL.get()) || targetBlock.is(ModBlocks.CRYOSOL.get())) && !targetBlock.getValue(BlockStateProperties.SNOWY.get())) {
                     world.playSound(player, targetPos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0f, 1.0f);
                     if(player instanceof ServerPlayer) {
-                        HoeItem
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
                         if (!player.isCreative()) heldItem.hurt(1, new Random(), null);
                         world.setBlockAndUpdate(targetPos, Blocks.DIRT_PATH.defaultBlockState());
@@ -144,7 +159,7 @@ public class ModEvents {
                 if(ImmersiveWeatheringFabric.getConfig().itemUsesConfig.charredBlockIgniting) {
                     if ((targetBlock.getBlock() instanceof CharredPillarBlock || targetBlock.getBlock() instanceof CharredBlock || targetBlock.getBlock() instanceof CharredStairsBlock || targetBlock.getBlock() instanceof CharredSlabBlock || targetBlock.getBlock() instanceof CharredFenceBlock || targetBlock.getBlock() instanceof CharredFenceGateBlock) && !targetBlock.getValue(CharredBlock.SMOLDERING)) {
                         world.playSound(player, targetPos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                        ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ModParticles.EMBERSPARK, UniformInt.of(3, 5));
+                        ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ModParticles.EMBERSPARK.get(), UniformInt.of(3, 5));
                         if (player instanceof ServerPlayer) {
                             CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
                             if (!player.isCreative()) heldItem.hurt(1, new Random(), null);
@@ -159,7 +174,7 @@ public class ModEvents {
                 if (heldItem.getItem() == Items.WET_SPONGE) {
                     if (targetBlock.is(ModTags.RUSTABLE)) {
                         world.playSound(player, targetPos, SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundSource.BLOCKS, 1.0f, 1.0f);
-                        ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ModParticles.SCRAPE_RUST, UniformInt.of(3, 5));
+                        ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
                         if (player instanceof ServerPlayer) {
                             CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
                             world.setBlockAndUpdate(targetPos, RUSTED_BLOCKS.get(targetBlock.getBlock()).withPropertiesOf(targetBlock));
@@ -168,7 +183,7 @@ public class ModEvents {
                     }
                 }
             }
-            if (heldItem.getItem() == ModItems.STEEL_WOOL) {
+            if (heldItem.getItem() == ModItems.STEEL_WOOL.get()) {
                 if(targetBlock.is(ModTags.COPPER)) {
                     world.playSound(player, targetPos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
                     ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ParticleTypes.SCRAPE, UniformInt.of(3,5));
@@ -181,7 +196,7 @@ public class ModEvents {
                 }
                 if(targetBlock.is(ModTags.EXPOSED_IRON) || targetBlock.is(ModTags.WEATHERED_IRON) || targetBlock.is(ModTags.RUSTED_IRON)) {
                     world.playSound(player, targetPos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ModParticles.SCRAPE_RUST, UniformInt.of(3,5));
+                    ParticleUtils.spawnParticlesOnBlockFaces(world, targetPos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3,5));
                     if(player instanceof ServerPlayer) {
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, targetPos, heldItem);
                         if(!player.isCreative())heldItem.hurt(1, new Random(), null);
