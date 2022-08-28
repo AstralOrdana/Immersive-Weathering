@@ -22,7 +22,7 @@ import java.util.logging.Level;
 
 @Mod.EventBusSubscriber(modid = ImmersiveWeatheringForge.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
-
+/*
 
 
     @SubscribeEvent
@@ -337,7 +337,7 @@ public class ModEvents {
         }
     }
 
-
+*/
 }
 
 

@@ -2,9 +2,9 @@ package com.ordana.immersive_weathering.platform.fabric;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.blocks.rustable.Rustable;
+import com.ordana.immersive_weathering.blocks.soil.NulchBlock;
 import com.ordana.immersive_weathering.fabric.ModRegistry;
 import com.ordana.immersive_weathering.fabric.MulchBlock;
-import com.ordana.immersive_weathering.fabric.NulchBlock;
 import com.ordana.immersive_weathering.fabric.rustable.*;
 import com.ordana.immersive_weathering.platform.RegistryPlatform;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;

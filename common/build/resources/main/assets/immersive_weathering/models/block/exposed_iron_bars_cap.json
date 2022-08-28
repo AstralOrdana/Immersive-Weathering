@@ -1,5 +1,5 @@
 {
-    "parent": "block/iron_bars_cap",
+    "parent": "minecraft:block/iron_bars_cap",
     "textures": {
         "particle": "immersive_weathering:block/exposed_iron_bars",
         "bars": "immersive_weathering:block/exposed_iron_bars",

@@ -32,14 +32,6 @@
         {
           "data": {
             "block": {
-              "Name": "minecraft:spruce_sapling"
-            }
-          },
-          "weight": 1
-        },
-        {
-          "data": {
-            "block": {
               "Name": "minecraft:sweet_berry_bush"
             }
           },

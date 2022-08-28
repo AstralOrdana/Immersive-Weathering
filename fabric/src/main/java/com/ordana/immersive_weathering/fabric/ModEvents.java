@@ -12,6 +12,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 public class ModEvents {
 
+    /*
 
     //TODO: add composter stuff
 
@@ -247,6 +248,7 @@ public class ModEvents {
             return InteractionResult.PASS;
         });
     }
+     */
 }
 
 

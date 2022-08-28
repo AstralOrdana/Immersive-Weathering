@@ -1,5 +1,7 @@
 package com.ordana.immersive_weathering.blocks.charred;
 
+import com.ordana.immersive_weathering.blocks.ModBlockProperties;
+import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -12,71 +14,121 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Fallable;
-import net.minecraft.world.level.block.FallingBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Random;
 
-public class CharredPillarBlock extends RotatedPillarBlock implements Fallable, Charred {
+public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
 
-    @Override
-    public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify) {
-        world.scheduleTick(pos, this, this.getFallDelay());
+    public static final IntegerProperty DISTANCE;
+    public static final BooleanProperty SUPPORTED;
+    private static final int TICK_DELAY = 1;
+
+    public CharredPillarBlock(Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.Y).setValue(SMOLDERING, false).setValue(SUPPORTED, false).setValue(DISTANCE, 4));
     }
 
-    @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
-        world.scheduleTick(pos, this, this.getFallDelay());
-        return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
-    }
-
-    @Override
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
-        if (!FallingBlock.isFree(world.getBlockState(pos.below())) || pos.getY() < world.getMinBuildHeight()) {
-            return;
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+        if (!level.isClientSide) {
+            level.scheduleTick(pos, this, 1);
         }
-        FallingBlockEntity fallingBlockEntity = FallingBlockEntity.fall(world, pos, state);
-        this.configureFallingBlockEntity(fallingBlockEntity);
     }
 
-    protected void configureFallingBlockEntity(FallingBlockEntity entity) {
+    private int getDistanceAt(BlockState neighbor) {
+        if (neighbor.is(ModTags.CHARRED_BLOCKS) && neighbor.hasProperty(DISTANCE)) {
+            return neighbor.is(ModTags.CHARRED_BLOCKS) ? neighbor.getValue(DISTANCE) : 3;
+        }
+        return 0;
     }
 
-    protected int getFallDelay() {
-        return 2;
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos currentPos, BlockPos neighborPos) {
+        int i = getDistanceAt(neighborState) + 1;
+        if (i != 1 || state.getValue(DISTANCE) != i) {
+            level.scheduleTick(currentPos, this, 1);
+        }
+        if (i == 0 && level.getBlockState(currentPos.below()).isFaceSturdy(level, currentPos.below(), Direction.UP)) {
+            level.scheduleTick(currentPos, this, 1);
+        }
+
+        return state;
     }
 
-    public static boolean canFallThrough(BlockState state) {
-        Material material = state.getMaterial();
-        return state.isAir() || state.is(BlockTags.FIRE) || material.isLiquid() || material.isReplaceable();
+    private boolean isSupported(BlockGetter level, BlockPos pos) {
+        return level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP);
     }
 
-    public int getColor(BlockState state, BlockGetter world, BlockPos pos) {
-        return -16777216;
+    public static int getDistance(BlockGetter level, BlockPos pos) {
+        BlockPos.MutableBlockPos mutableBlockPos = pos.mutable().move(Direction.DOWN);
+        BlockState blockState = level.getBlockState(mutableBlockPos);
+        int i = 4;
+
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
+            if (blockState.hasProperty(DISTANCE)) {
+                i = blockState.getValue(DISTANCE);
+
+            } else if (blockState.isFaceSturdy(level, mutableBlockPos, Direction.UP)) {
+                return 0;
+            }
+            BlockState blockState2 = level.getBlockState(mutableBlockPos.setWithOffset(pos, direction));
+            if (blockState2.hasProperty(DISTANCE)) {
+                i = Math.min(i, blockState2.getValue(DISTANCE) + 1);
+                if (i == 1) {
+                    break;
+                }
+            }
+        }
+        return i;
     }
 
-    //TODO: check ^
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockPos blockPos = context.getClickedPos();
+        Level level = context.getLevel();
+        int i = getDistance(level, blockPos);
+        return (this.defaultBlockState()).setValue(AXIS, context.getClickedFace().getAxis()).setValue(DISTANCE, i).setValue(SUPPORTED, this.isSupported(level, blockPos));
+    }
+
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+        int i = getDistance(level, pos);
+        BlockState blockState = state.setValue(DISTANCE, i).setValue(SUPPORTED, this.isSupported(level, pos));
+        if (!level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP)) {
+            level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(SUPPORTED, false), 0);
+        }
+        else level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(SUPPORTED, true), 0);
+
+        if (level.getBlockState(pos).getValue(DISTANCE) != 1 && !state.getValue(SUPPORTED)) {
+            level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(DISTANCE, 0), 0);
+            FallingBlockEntity.fall(level, pos, blockState);
+        }
+    }
+
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        return true;
+    }
 
 
-    public CharredPillarBlock(Properties settings) {
-        super(settings);
-        this.registerDefaultState(this.defaultBlockState().setValue(SMOLDERING, false).setValue(AXIS, Direction.Axis.Y));
+    static {
+        DISTANCE = BlockStateProperties.STABILITY_DISTANCE;
+        SUPPORTED = ModBlockProperties.SUPPORTED;
     }
 
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
         super.createBlockStateDefinition(stateManager);
-        stateManager.add(SMOLDERING);
+        stateManager.add(SMOLDERING, SUPPORTED, DISTANCE);
     }
 
     @Override
@@ -108,13 +160,12 @@ public class CharredPillarBlock extends RotatedPillarBlock implements Fallable, 
         Charred.super.animateTick(state, world, pos, random);
         //TODO: CHECK
         BlockPos blockPos;
-        if (random.nextInt(16) == 0 && FallingBlock.isFree(world.getBlockState(blockPos = pos.below()))) {
+        if (random.nextInt(16) == 0 && FallingBlock.isFree(world.getBlockState(pos.below()))) {
             double d = (double) pos.getX() + random.nextDouble();
             double e = (double) pos.getY() - 0.05;
             double f = (double) pos.getZ() + random.nextDouble();
             world.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state), d, e, f, 0.0, 0.0, 0.0);
         }
     }
-
 
 }

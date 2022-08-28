@@ -64,14 +64,6 @@
         {
           "data": {
             "block": {
-              "Name": "minecraft:birch_sapling"
-            }
-          },
-          "weight": 1
-        },
-        {
-          "data": {
-            "block": {
               "Name": "minecraft:lilac",
               "Properties": {
                 "half": "lower"

@@ -38,7 +38,8 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
             FlammableBlockRegistry.getDefaultInstance().add(Blocks.COBWEB, 100, 100);
         }
 
-        UseBlockCallback.EVENT.register((p, l, h, r) -> ModEvents.invokeEvents(p.getItemInHand(h), p, l, h, r));
+        //todo
+        //UseBlockCallback.EVENT.register((p, l, h, r) -> ModEvents.invokeEvents(p.getItemInHand(h), p, l, h, r));
 
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(BlockGrowthHandler.getInstance(FabricBlockGrowthManager::new));
 
