@@ -7,7 +7,6 @@ import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.configs.ConfigBuilder;
 import com.ordana.immersive_weathering.forge.FeatureHacks;
 import com.ordana.immersive_weathering.forge.ForgeConfigBuilder;
-import com.ordana.immersive_weathering.forge.dynamic.ModDynamicRegistry;
 import com.ordana.immersive_weathering.platform.CommonPlatform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -135,16 +134,18 @@ public class CommonPlatformImpl {
 
 
     public static Map<Block, LeafPileBlock> getDynamicLeafPiles() {
-        return ModDynamicRegistry.getLeafToLeafPileMap();
+        return Map.of();
+      //  return ModDynamicRegistry.getLeafToLeafPileMap();
     }
 
 
     public static Map<Block, SimpleParticleType> getDynamicLeafParticles() {
-        return ModDynamicRegistry.getLeavesToParticleMap();
+        return Map.of();
+      //  return ModDynamicRegistry.getLeavesToParticleMap();
     }
 
     public static void addExtraBark(ImmutableMap.Builder<Block, Pair<Item, Block>> builder) {
-        builder.putAll(ModDynamicRegistry.getBarkMap());
+       // builder.putAll(ModDynamicRegistry.getBarkMap());
     }
 
 

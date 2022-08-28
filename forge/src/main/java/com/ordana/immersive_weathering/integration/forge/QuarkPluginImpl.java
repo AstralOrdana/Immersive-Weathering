@@ -20,7 +20,7 @@ import java.util.List;
 public class QuarkPluginImpl {
 
     public static void onFirstClientTick() {
-
+/*
         try {
             if (ModuleLoader.INSTANCE.isModuleEnabled(GreenerGrassModule.class)) {
                 Method method = ObfuscationReflectionHelper.findMethod(GreenerGrassModule.class, "registerGreenerColor", Iterable.class, boolean.class);
@@ -31,7 +31,7 @@ public class QuarkPluginImpl {
                 method.invoke(ModuleLoader.INSTANCE.getModuleInstance(GreenerGrassModule.class), leaves, true);
             }
         } catch (Exception ignored) {
-        }
+        }*/
     }
 
 

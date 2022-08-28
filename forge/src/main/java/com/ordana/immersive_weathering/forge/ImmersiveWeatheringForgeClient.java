@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.forge;
 
 import com.ordana.immersive_weathering.client.ImmersiveWeatheringClient;
-import com.ordana.immersive_weathering.forge.dynamic.ModDynamicRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleProvider;
@@ -47,7 +46,7 @@ public class ImmersiveWeatheringForgeClient {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerParticles(ParticleFactoryRegisterEvent event) {
         ImmersiveWeatheringClient.onRegisterParticles(ImmersiveWeatheringForgeClient::registerParticle);
-        ModDynamicRegistry.onRegisterParticles(ImmersiveWeatheringForgeClient::registerParticle);
+        //ModDynamicRegistry.onRegisterParticles(ImmersiveWeatheringForgeClient::registerParticle);
     }
 
     private static <T extends ParticleOptions> void registerParticle(ParticleType<T> type, Function<SpriteSet,

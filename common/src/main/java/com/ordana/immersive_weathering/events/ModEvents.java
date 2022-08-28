@@ -38,7 +38,7 @@ import java.util.List;
 
 
 public class ModEvents {
-/*
+
 
     @FunctionalInterface
     public interface InteractionEvent {
@@ -257,5 +257,5 @@ public class ModEvents {
         }
         return InteractionResult.PASS;
     }
-*/
+
 }

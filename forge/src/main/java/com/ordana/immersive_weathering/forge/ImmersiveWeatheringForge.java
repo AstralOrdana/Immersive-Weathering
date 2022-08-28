@@ -3,9 +3,6 @@ package com.ordana.immersive_weathering.forge;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.events.ModEvents;
-import com.ordana.immersive_weathering.forge.dynamic.ModDynamicRegistry;
-import com.ordana.immersive_weathering.reg.LeafPilesRegistry;
 import com.ordana.immersive_weathering.reg.ModWaxables;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
@@ -13,7 +10,6 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -49,8 +45,7 @@ public class ImmersiveWeatheringForge {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModRegistry.init(bus);
-        ModDynamicRegistry.init(bus);
-
+        //ModDynamicRegistry.init(bus);
 
 
         ImmersiveWeathering.commonInit();
@@ -84,14 +79,14 @@ public class ImmersiveWeatheringForge {
     }
 
     public static void init(final FMLCommonSetupEvent event) {
-        event.enqueueWork(()->{
+        event.enqueueWork(() -> {
             ImmersiveWeathering.commonSetup();
             registerWaxables();
         });
     }
 
 
-    public static void registerAdditional(RegistryEvent.Register<Item> event){
+    public static void registerAdditional(RegistryEvent.Register<Item> event) {
         ImmersiveWeathering.commonRegistration();
         FeatureHacks.register();
     }
@@ -109,7 +104,7 @@ public class ImmersiveWeatheringForge {
             inverseWaxable.setAccessible(true);
             inverseWaxable.set(null, Suppliers.memoize(() -> (HoneycombItem.WAXABLES.get()).inverse()));
 
-        }catch (Exception e){
+        } catch (Exception e) {
             ImmersiveWeathering.LOGGER.error("Failed to register Waxables");
         }
     }

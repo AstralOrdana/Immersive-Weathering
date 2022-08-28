@@ -34,7 +34,7 @@ dependencies {
     // Remove the next line if you don't want to depend on the API
     // modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
-    modImplementation("curse.maven:quark-243121:3687633")
+    modCompileOnly("curse.maven:quark-243121:3840125")
     modImplementation("curse.maven:autoreglib-250363:3642382")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }

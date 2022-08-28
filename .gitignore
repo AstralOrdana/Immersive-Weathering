@@ -40,3 +40,7 @@ run/
 /common/build/
 /.idea/
 /build/
+/build/
+/common/.gradle/
+/common/build/
+/common/run/
