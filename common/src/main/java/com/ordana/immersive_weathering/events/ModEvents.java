@@ -5,6 +5,8 @@ import com.ordana.immersive_weathering.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.client.ParticleHelper;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.integration.IntegrationHandler;
+import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import com.ordana.immersive_weathering.reg.ModItems;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.utils.WeatheringHelper;
@@ -93,7 +95,7 @@ public class ModEvents {
                     level.setBlockAndUpdate(pos, s);
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                 }
-                return InteractionResult.sidedSuccess(level.isClientSide));
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
         return InteractionResult.PASS;
@@ -190,7 +192,7 @@ public class ModEvents {
                     if (level.isClientSide) {
                         ParticleHelper.spawnParticlesOnBlockFaces(level, pos, ModParticles.AZALEA_FLOWER.get(), UniformInt.of(4, 6));
                     } else {
-                        Block.popResourceFromFace(level, pos, event.getFace(), new ItemStack(ModItems.AZALEA_FLOWERS.get()));
+                        Block.popResourceFromFace(level, pos, hitResult.getDirection(), new ItemStack(ModItems.AZALEA_FLOWERS.get()));
                     }
                 }
             }
@@ -222,11 +224,11 @@ public class ModEvents {
         return InteractionResult.PASS;
     }
 
-    private static InteractionResult shearShearing(Item item, ItemStack stack, BlockPos pos, BlockState state,
+    private static InteractionResult axeStripping(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                                    Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if(item instanceof AxeItem && CommonConfigs.AXE_STRIPPING.get()) {
-
-            if (ServerConfigs.BARK_ENABLED.get()) {
+/*
+            if (true) { //bark enabled
                 var stripped = state.getToolModifiedState(level, pos, player, stack, ToolActions.AXE_STRIP);
                 if (stripped != null) {
                     var bark = WeatheringHelper.getBarkForStrippedLog(stripped).orElse(null);
@@ -251,10 +253,9 @@ public class ModEvents {
                         return;
                     }
                 }
-            }
+            }*/
         }
-
-
+        return InteractionResult.PASS;
     }
 
 }

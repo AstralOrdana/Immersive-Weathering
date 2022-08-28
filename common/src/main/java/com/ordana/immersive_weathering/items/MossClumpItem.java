@@ -2,6 +2,8 @@ package com.ordana.immersive_weathering.items;
 
 import com.ordana.immersive_weathering.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.integration.IntegrationHandler;
+import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -45,7 +47,7 @@ public class MossClumpItem extends Item {
                 }
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
-            return super.useOn(context);
         }
+        return super.useOn(context);
     }
 }

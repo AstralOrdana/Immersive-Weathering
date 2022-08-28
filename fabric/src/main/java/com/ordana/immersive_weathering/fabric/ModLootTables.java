@@ -1,7 +1,10 @@
 package com.ordana.immersive_weathering.fabric;
-/*
+
+import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.reg.ModItems;
 import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
@@ -31,14 +34,17 @@ public class ModLootTables {
 
     public static void registerLootTables() {
 
-        LootTableLoadingCallback.EVENT.add((resourceManager, lootManager, id, table, setter) ->
+        //TODO: Use this
+        /*
+        LootTableEvents.MODIFY
+        LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, table, setter) ->
                 {
                     //mobs
                     if (BLAZE_ID.equals(id)) {
                         FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
                                 .setRolls(ConstantValue.exactly(1))
 
-                                .add(LootItem.lootTableItem(ModItems.SOOT)
+                                .add(LootItem.lootTableItem(ModBlocks.SOOT.get().asItem())
                                         .when(LootItemRandomChanceCondition.randomChance(0.75f)))
                                 .withFunction(SetItemCountFunction.setCount(UniformGenerator.between(1.0f, 3.0f)).build())
                                 .withFunction(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(1f, 0f)).build());
@@ -152,5 +158,7 @@ public class ModLootTables {
                     }
                 }
         );
+
+         */
     }
-}*/
+}

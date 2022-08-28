@@ -29,3 +29,12 @@ bin/
 # fabric
 
 run/
+/.gradle/
+/fabric/.gradle/
+/fabric/build/
+/forge/.gradle/
+/forge/build/
+/common/.gradle/
+/common/build/
+/.idea/
+/build/
