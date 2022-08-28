@@ -10,8 +10,10 @@ import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import com.ordana.immersive_weathering.reg.ModItems;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.utils.WeatheringHelper;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
@@ -227,35 +229,17 @@ public class ModEvents {
     private static InteractionResult axeStripping(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                                    Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if(item instanceof AxeItem && CommonConfigs.AXE_STRIPPING.get()) {
-/*
+
             if (true) { //bark enabled
-                var stripped = state.getToolModifiedState(level, pos, player, stack, ToolActions.AXE_STRIP);
-                if (stripped != null) {
-                    var bark = WeatheringHelper.getBarkForStrippedLog(stripped).orElse(null);
-                    if (bark != null) {
-
-                        Block.popResourceFromFace(level, pos, event.getFace(), bark.getFirst().getDefaultInstance());
-                        level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0f, 1.0f);
-
-                        var barkParticle = WeatheringHelper.getBarkParticle(targetBlock).orElse(null);
-                        ParticleUtils.spawnParticlesOnBlockFaces(level, targetPos, barkParticle, UniformInt.of(3, 5));
-
-                        if (player != null) {
-                            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(event.getHand()));
-                        }
-
-                        if (player instanceof ServerPlayer) {
-                            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                            player.awardStat(Stats.ITEM_USED.get(i));
-                        }
-                        //not cancelling so the block can getMossSpreader
-                        event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
-                        return;
-                    }
-                }
-            }*/
+                if (doStripLog(stack, pos, state, player, level, hand, hitResult.getDirection())) return InteractionResult.sidedSuccess(level.isClientSide);
+            }
         }
         return InteractionResult.PASS;
+    }
+
+    @ExpectPlatform
+    private static boolean doStripLog(ItemStack stack, BlockPos pos, BlockState state, Player player, Level level, InteractionHand hand, Direction dir) {
+        throw new AssertionError();
     }
 
 }
