@@ -4,6 +4,7 @@ import com.ordana.immersive_weathering.platform.CommonPlatform;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.lang.reflect.Field;
 import java.util.function.Supplier;
@@ -14,11 +15,12 @@ public class ModStairBlock extends StairBlock {
 
     public ModStairBlock(Supplier<Block> baseBlockState, Properties settings) {
         super(FORGE_BLOCK_SUPPLIER == null ? baseBlockState.get().defaultBlockState() : Blocks.AIR.defaultBlockState(), settings);
-        if(FORGE_BLOCK_SUPPLIER != null){
+        if (FORGE_BLOCK_SUPPLIER != null) {
             FORGE_BLOCK_SUPPLIER.setAccessible(true);
             try {
-                FORGE_BLOCK_SUPPLIER.set(this, baseBlockState.get().defaultBlockState());
-            }catch (Exception ignored){}
+                FORGE_BLOCK_SUPPLIER.set(this, (Supplier<BlockState>) () -> baseBlockState.get().defaultBlockState());
+            } catch (Exception ignored) {
+            }
         }
     }
 }
