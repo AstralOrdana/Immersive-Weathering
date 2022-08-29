@@ -17,7 +17,10 @@
         {
           "data": {
             "block": {
-              "Name": "immersive_weathering:frosty_fern"
+              "Name": "immersive_weathering:frosty_fern",
+              "Properties": {
+                "natural": "true"
+              }
             }
           },
           "weight": 1
