@@ -39,9 +39,9 @@ public class ParticleHelper {
         double d0 = vec3.x + (i == 0 ? Mth.nextDouble(p_144958_.random, -0.5D, 0.5D) : (double)i * 0.55D);
         double d1 = vec3.y + (j == 0 ? Mth.nextDouble(p_144958_.random, -0.5D, 0.5D) : (double)j * 0.55D);
         double d2 = vec3.z + (k == 0 ? Mth.nextDouble(p_144958_.random, -0.5D, 0.5D) : (double)k * 0.55D);
-        float v = CommonUtils.getID(p_144961_.getType()).getNamespace().equals("immersive_weathering") ? -2:0;
+       // float v = CommonUtils.getID(p_144961_.getType()).getNamespace().equals("immersive_weathering") ? -2:0;
         //TODO: generalize this and redo leaf particle physics
-        p_144958_.addParticle(p_144961_, d0, d1, d2, v, 0, 0);
+        p_144958_.addParticle(p_144961_, d0, d1, d2, 0, 0, 0);
     }
 
 

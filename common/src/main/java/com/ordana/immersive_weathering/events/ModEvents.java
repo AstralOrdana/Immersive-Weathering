@@ -202,7 +202,7 @@ public class ModEvents {
                 newState = WeatheringHelper.getAzaleaSheared(state).orElse(null);
                 if (newState != null) {
                     if (level.isClientSide) {
-                        ParticleHelper.spawnParticlesOnBlockFaces(level, pos, ModParticles.AZALEA_FLOWER.get(), UniformInt.of(4, 6));
+                        ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.AZALEA_FLOWER.get(), UniformInt.of(4, 6));
                     } else {
                         Block.popResourceFromFace(level, pos, hitResult.getDirection(), new ItemStack(ModItems.AZALEA_FLOWERS.get()));
                     }
