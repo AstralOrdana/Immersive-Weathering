@@ -26,7 +26,10 @@
         {
           "data": {
             "block": {
-              "Name": "immersive_weathering:frosty_glass_pane"
+              "Name": "immersive_weathering:frosty_glass_pane",
+              "Properties": {
+                "natural": "true"
+              }
             }
           },
           "weight": 1

@@ -1,0 +1,39 @@
+{
+  "feature": "immersive_weathering:frost_patch",
+  "placement": [
+    {
+      "type": "minecraft:noise_based_count",
+      "noise_to_count_ratio": 12,
+      "noise_factor": 50,
+      "noise_offset": 0.2
+    },
+    {
+      "type": "minecraft:noise_threshold_count",
+      "noise_level": 0.3,
+      "below_noise": 1,
+      "above_noise": 5
+    },
+    {
+      "type": "minecraft:count_on_every_layer",
+      "count": {
+        "type": "minecraft:uniform",
+        "value": {
+          "min_inclusive": 4,
+          "max_inclusive": 16
+        }
+      }
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "min_inclusive": {
+          "absolute": 92
+        },
+        "max_inclusive": {
+          "absolute": 256
+        }
+      }
+    }
+  ]
+}

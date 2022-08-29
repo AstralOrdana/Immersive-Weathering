@@ -553,6 +553,11 @@ public class ModBlocks {
     public static final Supplier<Block> PRISMARINE_BRICK_WALL = regWithItem("prismarine_brick_wall", () ->
             new CrackedWallBlock(Crackable.CrackLevel.UNCRACKED, ModItems.PRISMARINE_BRICK, Properties.copy(Blocks.PRISMARINE)));
 
+    //dark prismarine wall
+
+    public static final Supplier<Block> DARK_PRISMARINE_WALL = regWithItem("dark_prismarine_wall", () ->
+            new WallBlock(Properties.copy(Blocks.DARK_PRISMARINE)));
+
     //vitrified sand
 
     public static final Supplier<Block> FULGURITE = regWithItem("fulgurite", () ->

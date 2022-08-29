@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.reg;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.features.FrostFeature;
 import com.ordana.immersive_weathering.features.IcicleClusterFeature;
 import com.ordana.immersive_weathering.features.IcicleClusterFeatureConfig;
 import com.ordana.immersive_weathering.features.IvyFeature;
@@ -24,11 +25,17 @@ public class ModFeatures {
     public static final Supplier<Feature<GlowLichenConfiguration>> IVY_FEATURE = RegistryPlatform.registerFeature("ivy_feature", () ->
             new IvyFeature(GlowLichenConfiguration.CODEC));
 
+    public static final Supplier<Feature<GlowLichenConfiguration>> FROST_FEATURE = RegistryPlatform.registerFeature("frost_feature", () ->
+            new FrostFeature(GlowLichenConfiguration.CODEC));
+
     public static void init() {
 
         ResourceKey<PlacedFeature> icicles = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
                 ImmersiveWeathering.res("icicles"));
+        ResourceKey<PlacedFeature> frost_patch = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
+                ImmersiveWeathering.res("frost_patch"));
         if (CommonConfigs.ICICLE_FEATURE.get()) {
+            CommonPlatform.addFeatureToBiome(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModTags.ICY, frost_patch);
             CommonPlatform.addFeatureToBiome(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModTags.ICY, icicles);
         }
 
