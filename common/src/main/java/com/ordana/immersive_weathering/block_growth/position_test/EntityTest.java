@@ -19,7 +19,7 @@ public class EntityTest implements PositionRuleTest {
     public static final Codec<EntityTest> CODEC = RecordCodecBuilder.create((i) -> i.group(
             RegistryCodecs.homogeneousList(Registry.ENTITY_TYPE_REGISTRY).fieldOf("targets").forGetter(EntityTest::getTargets),
             IntProvider.codec(0, 100).fieldOf("count").forGetter(EntityTest::getIntProvider),
-            Codec.INT.fieldOf("size").forGetter(EntityTest::getSize),
+            Codec.intRange(0, 64).fieldOf("radius").forGetter(EntityTest::getSize),
             Codec.BOOL.optionalFieldOf("less_than").forGetter(EntityTest::isLessThan),
             Direction.CODEC.optionalFieldOf("look_direction").forGetter(EntityTest::getDirection),
             Codec.INT.optionalFieldOf("offset").forGetter(EntityTest::getOffset)

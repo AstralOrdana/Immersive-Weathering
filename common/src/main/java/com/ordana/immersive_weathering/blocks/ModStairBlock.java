@@ -17,7 +17,7 @@ public class ModStairBlock extends StairBlock {
         if(FORGE_BLOCK_SUPPLIER != null){
             FORGE_BLOCK_SUPPLIER.setAccessible(true);
             try {
-                FORGE_BLOCK_SUPPLIER.set(this, baseBlockState);
+                FORGE_BLOCK_SUPPLIER.set(this, baseBlockState.get().defaultBlockState());
             }catch (Exception ignored){}
         }
     }
