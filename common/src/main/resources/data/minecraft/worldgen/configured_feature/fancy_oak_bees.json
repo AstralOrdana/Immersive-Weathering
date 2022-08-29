@@ -1,0 +1,69 @@
+{
+  "type": "minecraft:tree",
+  "config": {
+    "ignore_vines": true,
+    "force_dirt": true,
+    "minimum_size": {
+      "type": "minecraft:two_layers_feature_size",
+      "min_clipped_height": 4,
+      "limit": 0,
+      "lower_size": 0,
+      "upper_size": 0
+    },
+    "dirt_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 1,
+          "data": {
+            "Name": "minecraft:dirt"
+          }
+        },
+        {
+          "weight": 1,
+          "data": {
+            "Name": "minecraft:rooted_dirt"
+          }
+        }
+      ]
+    },
+    "trunk_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:oak_log",
+        "Properties": {
+          "axis": "y"
+        }
+      }
+    },
+    "foliage_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:oak_leaves",
+        "Properties": {
+          "persistent": "false",
+          "distance": "7",
+          "waterlogged": "false"
+        }
+      }
+    },
+    "trunk_placer": {
+      "type": "minecraft:fancy_trunk_placer",
+      "base_height": 3,
+      "height_rand_a": 11,
+      "height_rand_b": 0
+    },
+    "foliage_placer": {
+      "type": "minecraft:fancy_foliage_placer",
+      "radius": 2,
+      "offset": 4,
+      "height": 4
+    },
+    "decorators": [
+      {
+        "type": "minecraft:beehive",
+        "probability": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "immersive_weathering:humus",
+    "immersive_weathering:fluvisol",
+    "immersive_weathering:vertisol",
+    "immersive_weathering:cryosol",
+    "immersive_weathering:mulch_block",
+    "immersive_weathering:nulch_block",
+    "immersive_weathering:rooted_grass_block",
+    "immersive_weathering:silt",
+    "immersive_weathering:snow_bricks",
+    "immersive_weathering:snow_brick_slab",
+    "immersive_weathering:snow_brick_stairs",
+    "immersive_weathering:snow_brick_wall"
+  ]
+}
