@@ -56,7 +56,6 @@ public class ModEvents {
     private static final List<InteractionEvent> EVENTS = new ArrayList<>();
 
     static {
-        EVENTS.add(ModEvents::shearMoss);
         EVENTS.add(ModEvents::slimePistons);
         EVENTS.add(ModEvents::pickaxeCracking);
         EVENTS.add(ModEvents::brickRepair);
@@ -76,11 +75,6 @@ public class ModEvents {
         return InteractionResult.PASS;
     }
 
-    private static InteractionResult shearMoss(Item item, ItemStack stack, BlockPos pos, BlockState state,
-                                               Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
-
-        return InteractionResult.PASS;
-    }
 
     private static InteractionResult burnMoss(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                                Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
@@ -202,6 +196,7 @@ public class ModEvents {
                                                      Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
 
         if (item instanceof ShearsItem) {
+            //azalea shearing
             BlockState newState = null;
             if(CommonConfigs.AZALEA_SHEARING.get()){
                 newState = WeatheringHelper.getAzaleaSheared(state).orElse(null);
@@ -213,7 +208,8 @@ public class ModEvents {
                     }
                 }
             }
-            if(newState != null && CommonConfigs.MOSS_SHEARING.get()){
+            //moss shearing
+            if(newState == null && CommonConfigs.MOSS_SHEARING.get()){
                 newState = Mossable.getUnaffectedMossBlock(state);
                 if (newState != state) {
                     if (IntegrationHandler.quark) newState = QuarkPlugin.fixVerticalSlab(newState, state);
@@ -224,6 +220,7 @@ public class ModEvents {
                     }
                 }
             }
+            //common logic
             if (newState != null) {
                 level.playSound(player, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
                 level.setBlockAndUpdate(pos, newState);
