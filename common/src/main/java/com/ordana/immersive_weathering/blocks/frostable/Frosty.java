@@ -66,6 +66,7 @@ public interface Frosty {
     }
 
     BooleanProperty NATURAL = BooleanProperty.create("natural");
+//            if (world.dimensionType().ultraWarm() || (!world.isRaining() && world.isDay()) || (world.getBrightness(LightLayer.BLOCK, pos) > 7 - state.getLightBlock(world, pos))) {
 
     default void tryUnFrost(BlockState state, ServerLevel world, BlockPos pos) {
         if (state.getValue(NATURAL)) {

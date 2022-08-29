@@ -1,5 +1,5 @@
 {
-  "tick_sources": "snow",
+  "tick_sources": ["snow"],
   "growth_chance": 0.05,
   "target_self": true,
   "area_condition": {

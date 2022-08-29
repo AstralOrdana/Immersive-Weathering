@@ -35,7 +35,6 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
         ImmersiveWeathering.commonRegistration();
 
 
-
         ModRegistry.registerEntries();
 
         ModWaxables.getValues().forEach(OxidizableBlocksRegistry::registerWaxableBlockPair);
@@ -61,7 +60,7 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
     }
 
     public static InteractionResult onRightClickBlock(Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
-        return ModEvents.invokeEvents(player.getItemInHand(hand),player, level, hand, hitResult);
+        return ModEvents.invokeEvents(player.getItemInHand(hand), player, level, hand, hitResult);
     }
 
     private static class FabricBlockGrowthManager extends BlockGrowthHandler implements IdentifiableResourceReloadListener {

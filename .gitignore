@@ -44,3 +44,7 @@ run/
 /common/.gradle/
 /common/build/
 /common/run/
+/forge/build/
+/forge/.gradle/
+/forge/build/
+/forge/run/
