@@ -119,6 +119,20 @@ public class ModEvents {
                 return InteractionResult.SUCCESS;
             }
         }
+        if(item == Items.SHEARS && CommonConfigs.PISTON_SLIMING.get()){
+            if (state.is(Blocks.STICKY_PISTON) && !state.getValue(PistonBaseBlock.EXTENDED)) {
+                level.playSound(player, pos, SoundEvents.SLIME_SQUISH, SoundSource.BLOCKS, 1.0f, 1.0f);
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.ITEM_SLIME, UniformInt.of(3, 5));
+                stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                level.setBlockAndUpdate(pos, Blocks.PISTON.withPropertiesOf(state));
+                if (player instanceof ServerPlayer) {
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    level.gameEvent(player, GameEvent.SHEAR, pos);
+                    player.awardStat(Stats.ITEM_USED.get(item));
+                }
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            }
+        }
         return InteractionResult.PASS;
     }
 
