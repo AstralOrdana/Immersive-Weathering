@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.forge;
 
 import com.google.common.base.Suppliers;
+import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.events.ModEvents;
@@ -26,12 +27,11 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.forgespi.locating.IModFile;
 import net.minecraftforge.resource.PathResourcePack;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
+import java.util.function.Supplier;
 
 /**
  * Author: Ordana, Keybounce, MehVahdJukaar
@@ -70,8 +70,8 @@ public class ImmersiveWeatheringForge {
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        var ret = ModEvents.invokeEvents(event.getItemStack(),event.getPlayer(),event.getWorld(),event.getHand(),event.getHitVec());
-        if(ret != InteractionResult.PASS){
+        var ret = ModEvents.invokeEvents(event.getItemStack(), event.getPlayer(), event.getWorld(), event.getHand(), event.getHitVec());
+        if (ret != InteractionResult.PASS) {
             event.setCanceled(true);
             event.setCancellationResult(ret);
         }
@@ -92,20 +92,18 @@ public class ImmersiveWeatheringForge {
 
     private static void registerWaxables() {
         try {
-            Field waxables = ObfuscationReflectionHelper.findField(HoneycombItem.class, "WAXABLES");
-            waxables.setAccessible(true);
             var oldWaxables = HoneycombItem.WAXABLES.get();
-            waxables.set(null, Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
+            Supplier<BiMap<Block, Block>> s = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
                     .putAll(oldWaxables)
-                    .putAll(ModWaxables.getValues()).build()));
+                    .putAll(ModWaxables.getValues()).build());
+            HoneycombItem.WAXABLES = s;
 
-            Field inverseWaxable = ObfuscationReflectionHelper.findField(HoneycombItem.class, "WAX_OFF_BY_BLOCK");
-            inverseWaxable.setAccessible(true);
-            inverseWaxable.set(null, Suppliers.memoize(() -> (HoneycombItem.WAXABLES.get()).inverse()));
+            HoneycombItem.WAX_OFF_BY_BLOCK = Suppliers.memoize(() -> (HoneycombItem.WAXABLES.get()).inverse());
 
         } catch (Exception e) {
-            ImmersiveWeathering.LOGGER.error("Failed to register Waxables");
+            ImmersiveWeathering.LOGGER.error("Failed to register Waxables: ", e);
         }
+
     }
 
     public static void addPackFinders(AddPackFindersEvent event) {

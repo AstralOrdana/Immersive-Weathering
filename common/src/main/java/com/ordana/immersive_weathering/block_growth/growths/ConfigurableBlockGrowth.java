@@ -45,7 +45,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
             RuleTest.CODEC.fieldOf("replacing_target").forGetter(ConfigurableBlockGrowth::getTargetPredicate),
             AreaCondition.CODEC.optionalFieldOf("area_condition",AreaCondition.EMPTY).forGetter(ConfigurableBlockGrowth::getAreaCondition),
             DirectionalList.CODEC.listOf().fieldOf("growth_for_face").forGetter(ConfigurableBlockGrowth::encodeRandomLists),
-            RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).optionalFieldOf("owners").forGetter(b -> Optional.ofNullable(b.owners)),
+            RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY, true).optionalFieldOf("owners").forGetter(b -> Optional.ofNullable(b.owners)),
             PositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates",List.of()).forGetter(ConfigurableBlockGrowth::getPositionTests),
             Codec.BOOL.optionalFieldOf("target_self",false).forGetter(ConfigurableBlockGrowth::targetSelf),
             Codec.BOOL.optionalFieldOf("destroy_target",false).forGetter(ConfigurableBlockGrowth::destroyTarget)

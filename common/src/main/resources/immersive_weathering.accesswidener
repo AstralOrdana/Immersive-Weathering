@@ -1,1 +1,6 @@
 accessWidener   v2  named
+
+accessible field net/minecraft/world/item/HoneycombItem WAXABLES Ljava/util/function/Supplier;
+accessible field net/minecraft/world/item/HoneycombItem WAX_OFF_BY_BLOCK Ljava/util/function/Supplier;
+mutable field net/minecraft/world/item/HoneycombItem WAXABLES Ljava/util/function/Supplier;
+mutable field net/minecraft/world/item/HoneycombItem WAX_OFF_BY_BLOCK Ljava/util/function/Supplier;
