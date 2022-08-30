@@ -34,7 +34,7 @@ public interface Frosty {
 
     Supplier<BiMap<Block, Block>> UNFROSTY_TO_FROSTY = Suppliers.memoize(() -> {
         var builder = ImmutableBiMap.<Block, Block>builder()
-
+                .put(Blocks.AIR, ModBlocks.FROST.get())
                 .put(Blocks.GLASS, ModBlocks.FROSTY_GLASS.get())
                 .put(Blocks.FERN, ModBlocks.FROSTY_FERN.get())
                 .put(Blocks.GRASS, ModBlocks.FROSTY_GRASS.get())
