@@ -22,7 +22,8 @@ public class FrostyGlassPaneBlock extends IronBarsBlock implements Frosty {
 
     public FrostyGlassPaneBlock(Properties settings) {
         super(settings);
-        this.registerDefaultState(this.stateDefinition.any().setValue(NATURAL, false));
+        this.registerDefaultState(this.defaultBlockState()
+                        .setValue(WATERLOGGED,false).setValue(NATURAL, false));
     }
 
     @Override

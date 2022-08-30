@@ -12,7 +12,6 @@ import com.ordana.immersive_weathering.block_growth.growths.ConfigurableBlockGro
 import com.ordana.immersive_weathering.block_growth.growths.IBlockGrowth;
 import com.ordana.immersive_weathering.block_growth.growths.builtin.BuiltinBlockGrowth;
 import com.ordana.immersive_weathering.block_growth.growths.builtin.NoOpBlockGrowth;
-import com.ordana.immersive_weathering.block_growth.growths.builtin.SnowIcicleGrowth;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -36,11 +35,12 @@ import java.util.function.Supplier;
 
 public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
 
-    public static BlockGrowthHandler getInstance(){
+    public static BlockGrowthHandler getInstance() {
         return getInstance(BlockGrowthHandler::new);
     }
-    public static <T extends BlockGrowthHandler> T getInstance(Supplier<T> factory){
-        if(INSTANCE == null)INSTANCE = factory.get();
+
+    public static <T extends BlockGrowthHandler> T getInstance(Supplier<T> factory) {
+        if (INSTANCE == null) INSTANCE = factory.get();
         return (T) INSTANCE;
     }
 
@@ -69,7 +69,7 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
     public static void tickBlock(TickSource source, BlockState state, ServerLevel level, BlockPos pos) {
         if (!CommonConfigs.BLOCK_GROWTHS.get()) return;
 
-        //TODO: move this line to datapack self predicate
+        //TODO: move this line to data pack self predicate
         if (state.getBlock() instanceof IConditionalGrowingBlock cb && !cb.canGrow(state)) return;
 
         Holder<Biome> biome = null;
@@ -146,15 +146,15 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
             for (var e : GROWTH_TO_PARSE.entrySet()) {
                 var json = e.getValue();
                 DataResult<? extends IBlockGrowth> result;
-                if(json instanceof JsonObject jo && jo.has("builtin")){
+                if (json instanceof JsonObject jo && jo.has("builtin")) {
                     result = BuiltinBlockGrowth.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
                 } else {
                     result = ConfigurableBlockGrowth.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
                 }
                 var o = result.resultOrPartial(error -> ImmersiveWeathering.LOGGER.error("Failed to read block growth JSON object for {} : {}", e.getKey(), error));
-                if(o.isPresent()){
+                if (o.isPresent()) {
                     IBlockGrowth g = o.get();
-                    if(!(g instanceof NoOpBlockGrowth)) {
+                    if (!(g instanceof NoOpBlockGrowth)) {
                         growths.add(g);
                     }
                 }
