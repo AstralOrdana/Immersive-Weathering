@@ -548,6 +548,11 @@ public class ModBlocks {
             new CrackedVerticalSlabBlock(Crackable.CrackLevel.CRACKED, ModItems.PRISMARINE_BRICK,
                     Properties.copy(CRACKED_PRISMARINE_BRICK_SLAB.get())), "quark");
 
+    //chiseled prismarine bricks
+
+    public static final Supplier<Block> CHISELED_PRISMARINE_BRICKS = regWithItem("chiseled_prismarine_bricks", () ->
+            new Block(Properties.copy(Blocks.PRISMARINE)));
+
     //prismarine brick wall
 
     public static final Supplier<Block> PRISMARINE_BRICK_WALL = regWithItem("prismarine_brick_wall", () ->
