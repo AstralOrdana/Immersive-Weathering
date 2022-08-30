@@ -48,3 +48,4 @@ run/
 /forge/.gradle/
 /forge/build/
 /forge/run/
+forge/build/tmp/compileJava/previous-compilation-data.bin
