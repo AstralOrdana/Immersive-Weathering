@@ -93,10 +93,9 @@ public class ImmersiveWeatheringForge {
     private static void registerWaxables() {
         try {
             var oldWaxables = HoneycombItem.WAXABLES.get();
-            Supplier<BiMap<Block, Block>> s = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
+            HoneycombItem.WAXABLES = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
                     .putAll(oldWaxables)
                     .putAll(ModWaxables.getValues()).build());
-            HoneycombItem.WAXABLES = s;
 
             HoneycombItem.WAX_OFF_BY_BLOCK = Suppliers.memoize(() -> (HoneycombItem.WAXABLES.get()).inverse());
 
