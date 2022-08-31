@@ -41,6 +41,7 @@ public interface PositionRuleTest {
         put(IsDayTest.TYPE.name, IsDayTest.TYPE);
         put(HeightTest.TYPE.name, HeightTest.TYPE);
         put(EntityTest.TYPE.name, EntityTest.TYPE);
+        put(LightTest.TYPE.name, LightTest.TYPE);
         put(BiomeSetMatchTest.TYPE.name, BiomeSetMatchTest.TYPE);
         put(BlockTest.TYPE.name, BlockTest.TYPE);
     }};

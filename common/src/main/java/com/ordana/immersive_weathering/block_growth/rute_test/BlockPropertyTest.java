@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.block_growth.rute_test;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ordana.immersive_weathering.block_growth.Operator;
 import net.minecraft.core.Registry;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
@@ -143,40 +144,7 @@ public class BlockPropertyTest extends RuleTest {
         );
     }
 
-    private enum Operator {
-        LESS("<"),
-        LESS_EQUAL("<="),
-        EQUAL("=="),
-        GREATER_EQUAL(">="),
-        GREATER(">");
 
-        private final String symbol;
-
-        Operator(String symbol) {
-            this.symbol = symbol;
-        }
-
-        public boolean apply(int first, int second){
-            return switch (this){
-                case LESS -> first < second;
-                case LESS_EQUAL -> first <= second;
-                case EQUAL -> first == second;
-                case GREATER_EQUAL -> first >= second;
-                case GREATER -> first > second;
-            };
-        }
-
-        public static final Codec<Operator> CODEC = Codec.STRING.flatXmap(string -> {
-                    for (var o : Operator.values()) {
-                        if (o.name().toLowerCase(Locale.ROOT).equals(string) || o.symbol.equals(string)) {
-                            return DataResult.success(o);
-                        }
-                    }
-                    return DataResult.error("Unknown Operator " + string);
-                },
-                o -> DataResult.success(o.symbol)
-        );
-    }
 
 
 }
