@@ -14,6 +14,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -22,7 +23,6 @@ import java.util.logging.Level;
 
 @Mod.EventBusSubscriber(modid = ImmersiveWeatheringForge.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
-
 
 
     @SubscribeEvent
@@ -40,6 +40,19 @@ public class ModEvents {
     }
 
 
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        var ret = com.ordana.immersive_weathering.events.ModEvents.invokeEvents(event.getItemStack(), event.getPlayer(), event.getWorld(), event.getHand(), event.getHitVec());
+        if (ret != InteractionResult.PASS) {
+            event.setCanceled(true);
+            event.setCancellationResult(ret);
+        }
+    }
+
+
+
+
+    //old stuff
 /*
 
     //TODO: copy and merge fabic one from latest update
@@ -313,29 +326,7 @@ public class ModEvents {
         }
     }
 
-    @SubscribeEvent
-    public static void addFeaturesToBiomes(BiomeLoadingEvent event) {
 
-        ResourceKey<Biome> key = ResourceKey.create(ForgeRegistries.Keys.BIOMES, event.getName());
-        //Holder<Biome> holder = BuiltinRegistries.BIOME.getHolderOrThrow(key);
-
-        Biome.BiomeCategory category = event.getCategory();
-
-        if(ServerConfigs.ICICLES_PATCHES.get()) {
-            if (BiomeDictionary.hasType(key, BiomeDictionary.Type.SNOWY) || category == Biome.BiomeCategory.ICY) {
-                addFeature(event, ICICLES, GenerationStep.Decoration.TOP_LAYER_MODIFICATION);
-                if (category == Biome.BiomeCategory.UNDERGROUND) {
-                    addFeature(event, CAVE_ICICLES, GenerationStep.Decoration.UNDERGROUND_DECORATION);
-                }
-            }
-        }
-
-        if(ServerConfigs.HUMUS_PATCHES.get()) {
-            if (key == Biomes.DARK_FOREST) {
-                addFeature(event, "humus_patches", GenerationStep.Decoration.LOCAL_MODIFICATIONS);
-            }
-        }
-    }
 
 */
 }

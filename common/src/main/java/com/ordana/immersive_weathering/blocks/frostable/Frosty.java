@@ -39,9 +39,7 @@ public interface Frosty {
                 .put(Blocks.FERN, ModBlocks.FROSTY_FERN.get())
                 .put(Blocks.GRASS, ModBlocks.FROSTY_GRASS.get())
                 .put(Blocks.GLASS_PANE, ModBlocks.FROSTY_GLASS_PANE.get());
-
         //CommonPlatform.addExtraCrackedBlocks(builder);
-
         return builder.build();
     });
 
@@ -66,7 +64,6 @@ public interface Frosty {
     }
 
     BooleanProperty NATURAL = BooleanProperty.create("natural");
-//            if (world.dimensionType().ultraWarm() || (!world.isRaining() && world.isDay()) || (world.getBrightness(LightLayer.BLOCK, pos) > 7 - state.getLightBlock(world, pos))) {
 
     default void tryUnFrost(BlockState state, ServerLevel world, BlockPos pos) {
         if (state.getValue(NATURAL)) {

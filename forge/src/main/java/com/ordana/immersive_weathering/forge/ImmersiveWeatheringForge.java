@@ -68,14 +68,7 @@ public class ImmersiveWeatheringForge {
         bus.addListener(ImmersiveWeatheringForge::addPackFinders);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOW)
-    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        var ret = ModEvents.invokeEvents(event.getItemStack(), event.getPlayer(), event.getWorld(), event.getHand(), event.getHitVec());
-        if (ret != InteractionResult.PASS) {
-            event.setCanceled(true);
-            event.setCancellationResult(ret);
-        }
-    }
+
 
     public static void init(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {

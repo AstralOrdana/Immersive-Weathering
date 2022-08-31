@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-
+//remove in 1.19
 //credits to Tslat
 public class FeatureHacks {
 
