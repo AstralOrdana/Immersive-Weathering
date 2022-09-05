@@ -139,11 +139,6 @@ public class CommonPlatform {
 
 
     @ExpectPlatform
-    public static void addExtraFloweryBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
     public static void addExtraMossyBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
         throw new AssertionError();
     }

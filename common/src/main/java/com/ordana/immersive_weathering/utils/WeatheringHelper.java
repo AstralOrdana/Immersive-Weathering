@@ -15,7 +15,9 @@ import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -55,15 +57,26 @@ import java.util.stream.Collectors;
 
 public class WeatheringHelper {
 
+    private static void addOptional(ImmutableBiMap.Builder<Block, Block> map,
+                                    String moddedId, String moddedId2){
+        var o1 = Registry.BLOCK.getOptional(new ResourceLocation(moddedId));
+        var o2 = Registry.BLOCK.getOptional(new ResourceLocation(moddedId2));
+        if(o1.isPresent() && o2.isPresent()){
+            map.put(o1.get(),o2.get());
+        }
+    }
+
     public static final Supplier<BiMap<Block, Block>> FLOWERY_BLOCKS = Suppliers.memoize(() -> {
         var builder = ImmutableBiMap.<Block, Block>builder()
                 .put(Blocks.FLOWERING_AZALEA, Blocks.AZALEA)
                 .put(Blocks.FLOWERING_AZALEA_LEAVES, Blocks.AZALEA_LEAVES)
                 .put(ModBlocks.FLOWERING_AZALEA_LEAF_PILE.get(), ModBlocks.AZALEA_LEAF_PILE.get());
-
-        CommonPlatform.addExtraFloweryBlocks(builder);
+        addOptional(builder,"quark:flowering_azalea_hedge", "quark:azalea_hedge");
+        addOptional(builder,"quark:flowering_azalea_leaf_carpet", "quark:azalea_leaf_carpet");
         return builder.build();
     });
+
+
 
 
     public static Optional<BlockState> getAzaleaGrowth(BlockState state) {

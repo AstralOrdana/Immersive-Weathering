@@ -218,7 +218,7 @@ public class ModEvents {
                     }else{
                         ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.MOSS.get(), UniformInt.of(3, 5));
                     }
-                }
+                }else newState = null;
             }
             //common logic
             if (newState != null) {
