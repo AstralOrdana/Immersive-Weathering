@@ -48,7 +48,7 @@ public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
     }
 
     private int getDistanceAt(BlockState neighbor) {
-        if (neighbor.is(ModTags.CHARRED_BLOCKS) && neighbor.hasProperty(DISTANCE)) {
+        if (neighbor.hasProperty(DISTANCE)) {
             return neighbor.is(ModTags.CHARRED_BLOCKS) ? neighbor.getValue(DISTANCE) : 3;
         }
         return 0;
@@ -67,7 +67,7 @@ public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
     }
 
     private boolean isSupported(BlockGetter level, BlockPos pos) {
-        return level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP);
+        return level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP) || level.getBlockState(pos.below()).is(BlockTags.LEAVES);
     }
 
     public static int getDistance(BlockGetter level, BlockPos pos) {
@@ -76,14 +76,14 @@ public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
         int i = 4;
 
         for (Direction direction : Direction.Plane.HORIZONTAL) {
-            if (blockState.hasProperty(DISTANCE)) {
+            if (blockState.hasProperty(DISTANCE) && blockState.is(ModTags.CHARRED_BLOCKS)) {
                 i = blockState.getValue(DISTANCE);
 
             } else if (blockState.isFaceSturdy(level, mutableBlockPos, Direction.UP)) {
                 return 0;
             }
             BlockState blockState2 = level.getBlockState(mutableBlockPos.setWithOffset(pos, direction));
-            if (blockState2.hasProperty(DISTANCE)) {
+            if (blockState2.hasProperty(DISTANCE) && blockState2.is(ModTags.CHARRED_BLOCKS)) {
                 i = Math.min(i, blockState2.getValue(DISTANCE) + 1);
                 if (i == 1) {
                     break;
@@ -102,17 +102,19 @@ public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
 
     public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
         int i = getDistance(level, pos);
+        BlockPos belowPos = pos.below();
         BlockState blockState = state.setValue(DISTANCE, i).setValue(SUPPORTED, this.isSupported(level, pos));
-        if (!level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP)) {
-            level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(SUPPORTED, false), 0);
+        if (level.getBlockState(belowPos).isFaceSturdy(level, belowPos, Direction.UP) || level.getBlockState(belowPos).is(BlockTags.LEAVES)) {
+            level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(SUPPORTED, true), 0);
         }
-        else level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(SUPPORTED, true), 0);
+        else level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(SUPPORTED, false), 0);
 
         if (level.getBlockState(pos).getValue(DISTANCE) != 1 && !state.getValue(SUPPORTED)) {
             level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(DISTANCE, 0), 0);
             FallingBlockEntity.fall(level, pos, blockState);
         }
     }
+
 
     public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         return true;

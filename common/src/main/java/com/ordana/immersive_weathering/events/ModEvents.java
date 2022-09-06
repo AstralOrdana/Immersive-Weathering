@@ -112,6 +112,7 @@ public class ModEvents {
                 }
                 return InteractionResult.SUCCESS;
             }
+            return InteractionResult.PASS;
         }
         if(item == Items.SHEARS && CommonConfigs.PISTON_SLIMING.get()){
             if (state.is(Blocks.STICKY_PISTON) && !state.getValue(PistonBaseBlock.EXTENDED)) {
@@ -119,6 +120,8 @@ public class ModEvents {
                 ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.ITEM_SLIME, UniformInt.of(3, 5));
                 stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
                 level.setBlockAndUpdate(pos, Blocks.PISTON.withPropertiesOf(state));
+
+                Block.popResourceFromFace(level, pos, hitResult.getDirection(), Items.SLIME_BALL.getDefaultInstance());
                 if (player instanceof ServerPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                     level.gameEvent(player, GameEvent.SHEAR, pos);
@@ -126,6 +129,7 @@ public class ModEvents {
                 }
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
+            return InteractionResult.PASS;
         }
         return InteractionResult.PASS;
     }
@@ -237,6 +241,8 @@ public class ModEvents {
         }
         return InteractionResult.PASS;
     }
+
+
 
     private static InteractionResult axeStripping(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                                    Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {

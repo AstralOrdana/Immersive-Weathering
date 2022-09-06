@@ -130,7 +130,7 @@ public class ModBlocks {
             new LayerBlock(Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_BLACK).instabreak()
                     .sound(SoundType.SNOW).isSuffocating(NEVER).noOcclusion()));
     public static final Supplier<Block> ASH_BLOCK = regWithItem("ash_block", () ->
-            new LayerBlock(Properties.of(Material.SNOW, MaterialColor.COLOR_BLACK).instabreak().sound(SoundType.SNOW)));
+            new AshBlock(Properties.of(Material.SNOW, MaterialColor.COLOR_BLACK).instabreak().sound(SoundType.SNOW)));
     public static final Supplier<Block> SOOT = regWithItem("soot", () ->
             new SootBlock(Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_BLACK).noCollission().instabreak().sound(SoundType.SNOW).randomTicks()));
 
