@@ -275,11 +275,10 @@ public class ModBlocks {
 
     //TODO: remove particles
     public static final Supplier<Block> MULCH_BLOCK = regWithItem("mulch_block", () ->
-            RegistryPlatform.createSpecialBlock(BlockType.MULCH,
-                    Properties.of(Material.WOOD).strength(1f, 1f)
+            new MulchBlock(Properties.of(Material.DIRT).strength(1f, 1f)
                             .sound(SoundType.ROOTED_DIRT).randomTicks()));
     public static final Supplier<Block> NULCH_BLOCK = regWithItem("nulch_block", () ->
-            new NulchBlock(Properties.of(Material.NETHER_WOOD).strength(1f, 1f)
+            new NulchBlock(Properties.of(Material.DIRT).strength(1f, 1f)
                     .sound(SoundType.NETHER_WART).lightLevel(moltenLightLevel(10)).randomTicks()));
 
     //cut iron
