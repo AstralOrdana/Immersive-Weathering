@@ -26,7 +26,7 @@
       "com.ordana.immersive_weathering.fabric.ImmersiveWeatheringClientFabric"
     ],
     "modmenu": [
-      "com.ordana.immersive_weathering.integration.ModMenuCompat"
+      "com.ordana.immersive_weathering.integration.fabric.ModMenuCompat"
     ]
   },
   "mixins": [

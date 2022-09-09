@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.integration;
+package com.ordana.immersive_weathering.integration.fabric;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.configs.ClientConfigs;

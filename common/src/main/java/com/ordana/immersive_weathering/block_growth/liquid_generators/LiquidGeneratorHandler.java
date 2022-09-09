@@ -43,9 +43,9 @@ import java.util.function.Supplier;
 
 public class LiquidGeneratorHandler extends SimpleJsonResourceReloadListener {
 
-    public static final LiquidGeneratorHandler RELOAD_INSTANCE = new LiquidGeneratorHandler();
-
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create(); //json object that will write stuff
+
+    public static final LiquidGeneratorHandler RELOAD_INSTANCE = new LiquidGeneratorHandler();
 
     private static final Map<ResourceLocation, JsonElement> TO_PARSE = new HashMap<>();
 

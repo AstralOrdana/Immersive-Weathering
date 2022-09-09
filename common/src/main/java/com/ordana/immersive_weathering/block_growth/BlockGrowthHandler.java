@@ -34,9 +34,9 @@ import java.util.*;
 
 public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
 
-    public static final BlockGrowthHandler RELOAD_INSTANCE = new BlockGrowthHandler();
-
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create(); //json object that will write stuff
+
+    public static final BlockGrowthHandler RELOAD_INSTANCE = new BlockGrowthHandler();
 
     private static final Map<ResourceLocation, JsonElement> GROWTH_TO_PARSE = new HashMap<>();
 

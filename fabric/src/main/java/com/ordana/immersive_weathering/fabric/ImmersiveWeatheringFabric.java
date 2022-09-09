@@ -44,12 +44,13 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
 
         ImmersiveWeathering.commonSetup();
 
+        //fabric only stuff here
+
         ModWaxables.getValues().forEach(OxidizableBlocksRegistry::registerWaxableBlockPair);
 
         if (CommonConfigs.FLAMMABLE_COBWEBS.get()) {
             FlammableBlockRegistry.getDefaultInstance().add(Blocks.COBWEB, 100, 100);
         }
-
 
         FabricLoader.getInstance().getModContainer(ImmersiveWeathering.MOD_ID).ifPresent(modContainer -> {
             ResourceManagerHelper.registerBuiltinResourcePack(ImmersiveWeathering.res("better_brick_items"), modContainer, ResourcePackActivationType.NORMAL);
@@ -58,6 +59,7 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
             ResourceManagerHelper.registerBuiltinResourcePack(ImmersiveWeathering.res("biome_tinted_mossy_blocks"), modContainer, ResourcePackActivationType.NORMAL);
         });
 
+        //events
         UseBlockCallback.EVENT.register(ImmersiveWeatheringFabric::onRightClickBlock);
     }
 
