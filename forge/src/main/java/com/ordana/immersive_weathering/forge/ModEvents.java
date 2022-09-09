@@ -26,20 +26,11 @@ import java.util.logging.Level;
 public class ModEvents {
 
 
+    //hacky but eh
     @SubscribeEvent
     public static void onTagUpdated(TagsUpdatedEvent event) {
         BlockGrowthHandler.RELOAD_INSTANCE.rebuild(event.getTagManager());
         LiquidGeneratorHandler.RELOAD_INSTANCE.rebuild(event.getTagManager());
-    }
-
-
-    //hacky but that's the best I can do if I dont get given a registry access in that reload listener
-    //Without it, it wont load tags
-    //use this until forge approves that datapack registries PR (will take some time)
-    @SubscribeEvent
-    public static void onAddReloadListeners(final AddReloadListenerEvent event) {
-        event.addListener(BlockGrowthHandler.RELOAD_INSTANCE);
-        event.addListener(LiquidGeneratorHandler.RELOAD_INSTANCE);
     }
 
 
@@ -51,8 +42,6 @@ public class ModEvents {
             event.setCancellationResult(ret);
         }
     }
-
-
 
 
     //old stuff

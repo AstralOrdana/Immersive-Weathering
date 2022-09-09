@@ -1,5 +1,7 @@
 package com.ordana.immersive_weathering;
 
+import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
+import com.ordana.immersive_weathering.block_growth.liquid_generators.LiquidGeneratorHandler;
 import com.ordana.immersive_weathering.block_growth.position_test.PositionRuleTest;
 import com.ordana.immersive_weathering.block_growth.rute_test.*;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
@@ -38,13 +40,17 @@ public class ImmersiveWeathering {
         ModParticles.init();
         ModFeatures.init();
 
+
+        PlatformHelper.addServerReloadListener(BlockGrowthHandler.RELOAD_INSTANCE, res("block_growths"));
+        PlatformHelper.addServerReloadListener(LiquidGeneratorHandler.RELOAD_INSTANCE, res("liquid_generators"));
     }
 
     public static void commonSetup() {
 
     }
 
-    public static void commonRegistration() {
+    public static void additionalRegistration() {
+        //TODO: move to regHelper
         PositionRuleTest.register();
         //rule tests
         FluidMatchTest.register();

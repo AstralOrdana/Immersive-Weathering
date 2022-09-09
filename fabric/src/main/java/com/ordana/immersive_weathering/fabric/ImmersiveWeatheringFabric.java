@@ -17,7 +17,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.mehvahdjukaar.moonlight.api.platform.fabric.RegHelperImpl;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -32,27 +31,24 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
     @Override
     public void onInitialize() {
 
-
-        RegHelperImpl.registerEntries();
         ServerLifecycleEvents.SERVER_STARTING.register(s -> currentServer = s);
 
+        //loads registries
         ImmersiveWeathering.commonInit();
+        //registers stuff
+        RegHelperImpl.registerEntries();
+        //additional reg
+        ImmersiveWeathering.additionalRegistration();
+
+        //runs everything else
+
         ImmersiveWeathering.commonSetup();
-        ImmersiveWeathering.commonRegistration();
-
-
-        ModRegistry.registerEntries();
 
         ModWaxables.getValues().forEach(OxidizableBlocksRegistry::registerWaxableBlockPair);
 
         if (CommonConfigs.FLAMMABLE_COBWEBS.get()) {
             FlammableBlockRegistry.getDefaultInstance().add(Blocks.COBWEB, 100, 100);
         }
-
-        //todo
-        //UseBlockCallback.EVENT.register((p, l, h, r) -> ModEvents.invokeEvents(p.getItemInHand(h), p, l, h, r));
-
-        //ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(BlockGrowthHandler.getInstance(FabricBlockGrowthManager::new));
 
 
         FabricLoader.getInstance().getModContainer(ImmersiveWeathering.MOD_ID).ifPresent(modContainer -> {
@@ -67,14 +63,6 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
 
     public static InteractionResult onRightClickBlock(Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         return ModEvents.invokeEvents(player.getItemInHand(hand), player, level, hand, hitResult);
-    }
-
-    private static class FabricBlockGrowthManager extends BlockGrowthHandler implements IdentifiableResourceReloadListener {
-
-        @Override
-        public ResourceLocation getFabricId() {
-            return ImmersiveWeathering.res("block_growths");
-        }
     }
 
 }

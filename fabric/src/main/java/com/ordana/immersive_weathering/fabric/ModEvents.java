@@ -29,9 +29,11 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Random;
 
+@Deprecated(forRemoval = true)
 public class ModEvents {
 
     //TODO: add composter stuff
+    //this is old fabric events class
 
     /*
 
