@@ -11,8 +11,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.FluidState;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Locale;
@@ -85,7 +85,7 @@ public class LiquidGenerator implements Comparable<LiquidGenerator> {
                 case SIDES -> {
                     for (var d : possibleFlowDir) {
                         BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(pos.relative(d)));
-                        if (!e.getValue().test(state, level.random))return Optional.empty();
+                        if (!e.getValue().test(state, level.random)) return Optional.empty();
                     }
                 }
                 case UP -> {
@@ -125,15 +125,27 @@ public class LiquidGenerator implements Comparable<LiquidGenerator> {
     }
 
     public enum Side implements StringRepresentable {
-        SIDES, UP, DOWN;
+        SIDES("sides"), UP("up"), DOWN("down");
+
+        private final String name;
+
+        Side(String name) {
+            this.name = name;
+        }
 
         @Override
         public String getSerializedName() {
-            return this.toString().toLowerCase(Locale.ROOT);
+            return name;
         }
 
+        @Nullable
         public static Side byName(String string) {
-            return Side.valueOf(string.toLowerCase(Locale.ROOT));
+            return switch (string.toLowerCase(Locale.ROOT)) {
+                default -> null;
+                case "sides" -> SIDES;
+                case "up" -> UP;
+                case "down" -> DOWN;
+            };
         }
 
         private static final Codec<Side> CODEC = StringRepresentable.fromEnum(Side::values, Side::byName);
