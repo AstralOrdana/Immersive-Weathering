@@ -52,7 +52,7 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
         //todo
         //UseBlockCallback.EVENT.register((p, l, h, r) -> ModEvents.invokeEvents(p.getItemInHand(h), p, l, h, r));
 
-        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(BlockGrowthHandler.getInstance(FabricBlockGrowthManager::new));
+        //ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(BlockGrowthHandler.getInstance(FabricBlockGrowthManager::new));
 
 
         FabricLoader.getInstance().getModContainer(ImmersiveWeathering.MOD_ID).ifPresent(modContainer -> {

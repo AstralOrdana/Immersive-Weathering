@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.forge;
 
 import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
 
+import com.ordana.immersive_weathering.block_growth.liquid_generators.LiquidGeneratorHandler;
 import com.ordana.immersive_weathering.client.ParticleHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -27,7 +28,8 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onTagUpdated(TagsUpdatedEvent event) {
-        BlockGrowthHandler.getInstance().rebuild(event.getTagManager());
+        BlockGrowthHandler.RELOAD_INSTANCE.rebuild(event.getTagManager());
+        LiquidGeneratorHandler.RELOAD_INSTANCE.rebuild(event.getTagManager());
     }
 
 
@@ -36,7 +38,8 @@ public class ModEvents {
     //use this until forge approves that datapack registries PR (will take some time)
     @SubscribeEvent
     public static void onAddReloadListeners(final AddReloadListenerEvent event) {
-        event.addListener(BlockGrowthHandler.getInstance());
+        event.addListener(BlockGrowthHandler.RELOAD_INSTANCE);
+        event.addListener(LiquidGeneratorHandler.RELOAD_INSTANCE);
     }
 
 

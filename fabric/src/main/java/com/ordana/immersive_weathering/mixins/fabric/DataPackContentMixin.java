@@ -13,6 +13,6 @@ public abstract class DataPackContentMixin {
 
     @Inject(method = "updateRegistryTags*", at = @At("TAIL"))
     private void onTagReload(RegistryAccess registryAccess, CallbackInfo ci){
-        BlockGrowthHandler.getInstance().rebuild(registryAccess);
+        BlockGrowthHandler.RELOAD_INSTANCE.rebuild(registryAccess);
     }
 }
