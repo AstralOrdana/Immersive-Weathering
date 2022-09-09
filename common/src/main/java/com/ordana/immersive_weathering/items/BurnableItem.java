@@ -1,6 +1,5 @@
 package com.ordana.immersive_weathering.items;
 
-import com.ordana.immersive_weathering.platform.RegistryPlatform;
 import dev.architectury.injectables.annotations.PlatformOnly;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.world.item.Item;

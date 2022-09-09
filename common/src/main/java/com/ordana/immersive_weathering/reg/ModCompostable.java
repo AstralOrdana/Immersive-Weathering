@@ -1,6 +1,5 @@
 package com.ordana.immersive_weathering.reg;
 
-import com.ordana.immersive_weathering.platform.RegistryPlatform;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 
 public class ModCompostable {
@@ -21,6 +20,6 @@ public class ModCompostable {
         RegHelper.registerCompostable(ModBlocks.IVY.get(), 0.3f);
 
         //TODO: re add
-        //  LeafPilesRegistry.LEAF_PILES.get().values().forEach(l -> RegistryPlatform.register (l, 0.3f));
+        //  LeafPilesRegistry.LEAF_PILES.get().values().forEach(l -> IWPlatformStuff.register (l, 0.3f));
     }
 }

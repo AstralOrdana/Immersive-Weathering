@@ -1,12 +1,12 @@
 package com.ordana.immersive_weathering.mixins;
 
+import com.ordana.immersive_weathering.IWPlatformStuff;
 import com.ordana.immersive_weathering.blocks.crackable.*;
 import com.ordana.immersive_weathering.blocks.mossable.*;
 import com.ordana.immersive_weathering.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.blocks.soil.ModGrassBlock;
 import com.ordana.immersive_weathering.blocks.soil.ModMyceliumBlock;
 import com.ordana.immersive_weathering.blocks.soil.SoilBlock;
-import com.ordana.immersive_weathering.platform.RegistryPlatform;
 import com.ordana.immersive_weathering.reg.ModItems;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
@@ -792,7 +792,7 @@ public abstract class BlocksMixin {
             )
     )
     private static IronBarsBlock ironBars(BlockBehaviour.Properties settings) {
-        return (IronBarsBlock)RegistryPlatform.createSpecialBlock(RegistryPlatform.BlockType.RUSTABLE_BARS, settings, Rustable.RustLevel.UNAFFECTED);
+        return (IronBarsBlock) IWPlatformStuff.createSpecialBlock(IWPlatformStuff.BlockType.RUSTABLE_BARS, settings, Rustable.RustLevel.UNAFFECTED);
     }
 
     @Redirect(
@@ -811,7 +811,7 @@ public abstract class BlocksMixin {
     )
 
     private static DoorBlock ironDoor(BlockBehaviour.Properties settings) {
-        return (DoorBlock) RegistryPlatform.createSpecialBlock(RegistryPlatform.BlockType.RUSTABLE_DOOR, settings, Rustable.RustLevel.UNAFFECTED);
+        return (DoorBlock) IWPlatformStuff.createSpecialBlock(IWPlatformStuff.BlockType.RUSTABLE_DOOR, settings, Rustable.RustLevel.UNAFFECTED);
     }
 
     @Redirect(
@@ -829,7 +829,7 @@ public abstract class BlocksMixin {
             )
     )
     private static TrapDoorBlock ironTrapdoor(BlockBehaviour.Properties settings) {
-        return (TrapDoorBlock) RegistryPlatform.createSpecialBlock(RegistryPlatform.BlockType.RUSTABLE_TRAPDOOR, settings, Rustable.RustLevel.UNAFFECTED);
+        return (TrapDoorBlock) IWPlatformStuff.createSpecialBlock(IWPlatformStuff.BlockType.RUSTABLE_TRAPDOOR, settings, Rustable.RustLevel.UNAFFECTED);
     }
 
 

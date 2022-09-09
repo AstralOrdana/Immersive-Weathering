@@ -5,18 +5,16 @@ import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.items.*;
 import com.ordana.immersive_weathering.items.materials.FlowerCrownMaterial;
 import com.ordana.immersive_weathering.items.materials.IcicleToolMaterial;
-import com.ordana.immersive_weathering.platform.RegistryPlatform;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 
 import java.util.function.Supplier;
 
 public class ModItems {
 
-    public static void init(){}
+    public static void init() {
+    }
 
     public static <T extends Item> Supplier<T> regItem(String name, Supplier<T> itemSup) {
         return RegHelper.registerItem(ImmersiveWeathering.res(name), itemSup);
@@ -110,10 +108,10 @@ public class ModItems {
             new IceSickleItem(IcicleToolMaterial.INSTANCE, 5, -1f,
                     new Item.Properties().food(ModFoods.ICICLE).tab(CreativeModeTab.TAB_COMBAT)));
 
-    public static final Supplier<Item> THIN_ICE_ITEM = regItem("thin_ice", ()->
+    public static final Supplier<Item> THIN_ICE_ITEM = regItem("thin_ice", () ->
             new ThinIceItem(ModBlocks.THIN_ICE.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 
-    public static final Supplier<Item> FROST_ITEM = regItem("frost",()->
+    public static final Supplier<Item> FROST_ITEM = regItem("frost", () ->
             new FrostItem(ModBlocks.FROST.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 
 }
