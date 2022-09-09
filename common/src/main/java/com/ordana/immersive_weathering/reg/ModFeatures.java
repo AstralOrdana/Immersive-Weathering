@@ -11,6 +11,7 @@ import com.ordana.immersive_weathering.platform.RegistryPlatform;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.GlowLichenConfiguration;
@@ -83,9 +84,27 @@ public class ModFeatures {
                 ImmersiveWeathering.res("dry_lakebed"));
         ResourceKey<PlacedFeature> dry_lakebed_large = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
                 ImmersiveWeathering.res("dry_lakebed_large"));
+        ResourceKey<PlacedFeature> sandstone_blobs = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
+                ImmersiveWeathering.res("sandstone_blobs"));
+        ResourceKey<PlacedFeature> sand_patch = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
+                ImmersiveWeathering.res("sand_patch"));
+        ResourceKey<PlacedFeature> sandy_clay_patch = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
+                ImmersiveWeathering.res("sandy_clay_patch"));
+        ResourceKey<PlacedFeature> sand_pile = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
+                ImmersiveWeathering.res("sand_pile"));
+        ResourceKey<PlacedFeature> desert_fossil = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
+                ImmersiveWeathering.res("desert_fossil"));
+        ResourceKey<PlacedFeature> terracotta_blobs = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
+                ImmersiveWeathering.res("terracotta_blobs"));
         if (CommonConfigs.LAKEBED_FEATURE.get()) {
             CommonPlatform.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_LAKEBED, dry_lakebed_large);
             CommonPlatform.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_LAKEBED, dry_lakebed);
+            CommonPlatform.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_LAKEBED, desert_fossil);
+            CommonPlatform.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, BiomeTags.HAS_DESERT_PYRAMID, sandstone_blobs);
+            CommonPlatform.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, BiomeTags.HAS_DESERT_PYRAMID, sand_patch);
+            CommonPlatform.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, BiomeTags.HAS_DESERT_PYRAMID, sandy_clay_patch);
+            CommonPlatform.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, BiomeTags.HAS_DESERT_PYRAMID, sand_pile);
+            CommonPlatform.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, BiomeTags.IS_BADLANDS, terracotta_blobs);
         }
 
         ResourceKey<PlacedFeature> vertisol_patch = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
@@ -94,11 +113,9 @@ public class ModFeatures {
             CommonPlatform.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_VERITOSOL, vertisol_patch);
         }
 
-
         ResourceKey<PlacedFeature> ivy_patch = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
                 ImmersiveWeathering.res("ivy_patch"));
         CommonPlatform.addFeatureToBiome(GenerationStep.Decoration.VEGETAL_DECORATION, ModTags.HAS_IVY, ivy_patch);
-
 
     }
 }

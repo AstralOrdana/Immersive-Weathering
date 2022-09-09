@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.fabric;
+package com.ordana.immersive_weathering.blocks.soil;
 
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModTags;

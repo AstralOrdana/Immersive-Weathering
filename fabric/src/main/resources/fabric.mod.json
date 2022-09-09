@@ -2,17 +2,21 @@
   "schemaVersion": 1,
   "id": "immersive_weathering",
   "version": "${version}",
+
   "name": "Immersive Weathering",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "An abundance of new natural systems to make your world feel more alive than ever.",
   "authors": [
     "Ordana, MehVahdjukaar, Keybee"
   ],
+
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://discord.gg/MTUHt3r",
+    "sources": "https://github.com/AstralOrdana/Immersive-Weathering-Fabric"
   },
+
   "license": "Insert License Here",
   "icon": "icon.png",
+
   "environment": "*",
   "entrypoints": {
     "main": [

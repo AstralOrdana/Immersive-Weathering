@@ -134,7 +134,7 @@ public class ModBlocks {
             new LayerBlock(Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_BLACK).instabreak()
                     .sound(SoundType.SNOW).isSuffocating(NEVER).noOcclusion()));
     public static final Supplier<Block> ASH_BLOCK = regWithItem("ash_block", () ->
-            new LayerBlock(Properties.of(Material.SNOW, MaterialColor.COLOR_BLACK).instabreak().sound(SoundType.SNOW)));
+            new AshBlock(Properties.of(Material.SNOW, MaterialColor.COLOR_BLACK).instabreak().sound(SoundType.SNOW)));
     public static final Supplier<Block> SOOT = regWithItem("soot", () ->
             new SootBlock(Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_BLACK).noCollission().instabreak().sound(SoundType.SNOW).randomTicks()));
 
@@ -279,11 +279,10 @@ public class ModBlocks {
 
     //TODO: remove particles
     public static final Supplier<Block> MULCH_BLOCK = regWithItem("mulch_block", () ->
-            RegistryPlatform.createSpecialBlock(BlockType.MULCH,
-                    Properties.of(Material.WOOD).strength(1f, 1f)
+            new MulchBlock(Properties.of(Material.DIRT).strength(1f, 1f)
                             .sound(SoundType.ROOTED_DIRT).randomTicks()));
     public static final Supplier<Block> NULCH_BLOCK = regWithItem("nulch_block", () ->
-            new NulchBlock(Properties.of(Material.NETHER_WOOD).strength(1f, 1f)
+            new NulchBlock(Properties.of(Material.DIRT).strength(1f, 1f)
                     .sound(SoundType.NETHER_WART).lightLevel(moltenLightLevel(10)).randomTicks()));
 
     //cut iron

@@ -40,6 +40,8 @@ public final class ModTags {
     public static final TagKey<Block> FLOWERY = registerBlockTag("flowery");
     public static final TagKey<Block> FLOWERABLE = registerBlockTag("flowerable");
 
+    public static final TagKey<Block> SAND_CAVE_FLOOR = registerBlockTag("sand_cave_floor");
+
     //items
     public static final TagKey<Item> BARK = registerItemTag("bark");
     public static final TagKey<Item> SCALES = registerItemTag("scales");

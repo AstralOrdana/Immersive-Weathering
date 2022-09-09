@@ -1,0 +1,27 @@
+{
+  "feature": "immersive_weathering:terracotta_blobs",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": 160
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "min_inclusive": {
+          "above_bottom": 64
+        },
+        "max_inclusive": {
+          "absolute": 160
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}
