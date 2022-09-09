@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.configs;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.platform.CommonPlatform;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigBuilder;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigSpec;

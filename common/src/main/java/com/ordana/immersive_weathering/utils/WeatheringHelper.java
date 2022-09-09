@@ -8,7 +8,6 @@ import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.blocks.charred.CharredBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.mixins.accessors.BiomeAccessor;
-import com.ordana.immersive_weathering.platform.CommonPlatform;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.reg.ModTags;

@@ -5,7 +5,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.blocks.PatchSpreader;
 import com.ordana.immersive_weathering.blocks.Weatherable;
-import com.ordana.immersive_weathering.platform.CommonPlatform;
+import com.ordana.immersive_weathering.IWPlatformStuff;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -38,7 +38,7 @@ public interface Mossable extends Weatherable {
                 .put(Blocks.BRICK_SLAB, ModBlocks.MOSSY_BRICK_SLAB.get())
                 .put(Blocks.BRICK_WALL, ModBlocks.MOSSY_BRICK_WALL.get());
 
-        CommonPlatform.addExtraMossyBlocks(builder);
+        IWPlatformStuff.addExtraMossyBlocks(builder);
         return builder.build();
     });
 

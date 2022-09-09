@@ -1,6 +1,5 @@
 package net.mehvahdjukaar.moonlight.api.block;
 
-import com.ordana.immersive_weathering.platform.CommonPlatform;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;

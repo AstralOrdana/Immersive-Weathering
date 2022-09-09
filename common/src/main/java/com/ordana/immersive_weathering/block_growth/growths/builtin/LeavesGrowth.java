@@ -4,7 +4,6 @@ import com.ordana.immersive_weathering.block_growth.TickSource;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
-import com.ordana.immersive_weathering.platform.CommonPlatform;
 import com.ordana.immersive_weathering.reg.LeafPilesRegistry;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.utils.WeatheringHelper;

@@ -1,7 +1,5 @@
 package com.ordana.immersive_weathering.integration;
 
-import com.ordana.immersive_weathering.platform.CommonPlatform;
-import net.fabricmc.loader.api.FabricLoader;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 
 public class IntegrationHandler {

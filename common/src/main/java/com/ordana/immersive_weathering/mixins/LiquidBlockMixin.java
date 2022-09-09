@@ -2,7 +2,6 @@ package com.ordana.immersive_weathering.mixins;
 
 import com.google.common.collect.ImmutableList;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
-import com.ordana.immersive_weathering.platform.CommonPlatform;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModTags;
 import com.ordana.immersive_weathering.utils.WeatheringHelper;
@@ -11,7 +10,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;

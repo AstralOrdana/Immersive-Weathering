@@ -9,7 +9,6 @@ import com.ordana.immersive_weathering.block_growth.TickSource;
 import com.ordana.immersive_weathering.block_growth.area_condition.AreaCondition;
 import com.ordana.immersive_weathering.block_growth.position_test.PositionRuleTest;
 import com.ordana.immersive_weathering.mixins.accessors.RandomBlockMatchTestAccessor;
-import com.ordana.immersive_weathering.platform.CommonPlatform;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.minecraft.core.*;
 import net.minecraft.server.level.ServerLevel;

@@ -4,7 +4,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
-import com.ordana.immersive_weathering.platform.CommonPlatform;
+import com.ordana.immersive_weathering.IWPlatformStuff;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -20,7 +20,7 @@ public class LeafPilesRegistry {
 
     public static final Supplier<Map<Block, LeafPileBlock>> LEAF_PILES = Suppliers.memoize(() -> {
 
-                Map<Block, LeafPileBlock> piles = CommonPlatform.getDynamicLeafPiles();
+                Map<Block, LeafPileBlock> piles = IWPlatformStuff.getDynamicLeafPiles();
 
                 return Objects.requireNonNullElseGet(piles, () -> ImmutableMap.<Block, LeafPileBlock>builder()
                         .put(Blocks.OAK_LEAVES, ModBlocks.OAK_LEAF_PILE.get())
@@ -55,14 +55,14 @@ public class LeafPilesRegistry {
                 .put(Blocks.STRIPPED_WARPED_STEM, Pair.of(ModItems.WARPED_SCALES.get(), Blocks.WARPED_STEM))
                 .put(Blocks.STRIPPED_WARPED_HYPHAE, Pair.of(ModItems.WARPED_SCALES.get(), Blocks.WARPED_HYPHAE));
 
-        CommonPlatform.addExtraBark(builder);
+        IWPlatformStuff.addExtraBark(builder);
 
         return builder.build();
     });
 
     public static final Supplier<Map<Block, SimpleParticleType>> LEAVES_TO_PARTICLE = Suppliers.memoize(() -> {
 
-                Map<Block, SimpleParticleType> piles = CommonPlatform.getDynamicLeafParticles();
+                Map<Block, SimpleParticleType> piles = IWPlatformStuff.getDynamicLeafParticles();
 
                 return Objects.requireNonNullElseGet(piles, () -> ImmutableMap.<Block, SimpleParticleType>builder()
                         .put(Blocks.OAK_LEAVES, ModParticles.OAK_LEAF.get())

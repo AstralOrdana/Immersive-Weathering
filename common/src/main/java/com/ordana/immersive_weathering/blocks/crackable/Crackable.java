@@ -5,7 +5,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.blocks.PatchSpreader;
 import com.ordana.immersive_weathering.blocks.Weatherable;
-import com.ordana.immersive_weathering.platform.CommonPlatform;
+import com.ordana.immersive_weathering.IWPlatformStuff;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -60,7 +60,7 @@ public interface Crackable extends Weatherable {
                 .put(ModBlocks.PRISMARINE_BRICK_WALL.get(), ModBlocks.CRACKED_PRISMARINE_BRICK_WALL.get())
                 .put(Blocks.END_STONE_BRICK_WALL, ModBlocks.CRACKED_END_STONE_BRICK_WALL.get());
 
-        CommonPlatform.addExtraCrackedBlocks(builder);
+        IWPlatformStuff.addExtraCrackedBlocks(builder);
 
         return builder.build();
     });

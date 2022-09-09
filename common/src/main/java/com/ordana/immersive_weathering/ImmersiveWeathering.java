@@ -4,10 +4,7 @@ import com.ordana.immersive_weathering.block_growth.position_test.PositionRuleTe
 import com.ordana.immersive_weathering.block_growth.rute_test.*;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
-import com.ordana.immersive_weathering.platform.CommonPlatform;
 import com.ordana.immersive_weathering.reg.*;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.network.ModMessages;
 import net.minecraft.resources.ResourceLocation;
