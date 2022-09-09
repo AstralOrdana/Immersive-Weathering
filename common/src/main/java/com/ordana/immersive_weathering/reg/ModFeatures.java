@@ -99,11 +99,11 @@ public class ModFeatures {
             IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_LAKEBED, dry_lakebed_large);
             IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_LAKEBED, dry_lakebed);
             IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_LAKEBED, desert_fossil);
-            IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, BiomeTags.HAS_DESERT_PYRAMID, sandstone_blobs);
-            IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, BiomeTags.HAS_DESERT_PYRAMID, sand_patch);
-            IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, BiomeTags.HAS_DESERT_PYRAMID, sandy_clay_patch);
-            IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, BiomeTags.HAS_DESERT_PYRAMID, sand_pile);
-            IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, BiomeTags.IS_BADLANDS, terracotta_blobs);
+            IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_LAKEBED, terracotta_blobs);
+            IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.UNDERGROUND_DESERT, sandstone_blobs);
+            IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.UNDERGROUND_DESERT, sand_patch);
+            IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.UNDERGROUND_DESERT, sandy_clay_patch);
+            IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.UNDERGROUND_DESERT, sand_pile);
         }
 
         ResourceKey<PlacedFeature> vertisol_patch = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
