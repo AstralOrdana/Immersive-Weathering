@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.items;
 
 import com.ordana.immersive_weathering.platform.RegistryPlatform;
 import dev.architectury.injectables.annotations.PlatformOnly;
+import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -13,7 +14,7 @@ public class BurnableItem extends Item {
     public BurnableItem(Properties properties, int burnTime) {
         super(properties);
         this.burnTime = burnTime;
-        RegistryPlatform.registerItemBurnTime(this, burnTime);
+        RegHelper.registerItemBurnTime(this, burnTime);
     }
 
     @PlatformOnly(PlatformOnly.FORGE)

@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.blocks.crackable;
 
-import com.ordana.immersive_weathering.blocks.VerticalSlabBlock;
+import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;

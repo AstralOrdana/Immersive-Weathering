@@ -8,6 +8,8 @@ import com.ordana.immersive_weathering.platform.CommonPlatform;
 import com.ordana.immersive_weathering.reg.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.network.ModMessages;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,9 +27,11 @@ public class ImmersiveWeathering {
     //called either on mod creation on fabric or mod setup on forge
     public static void commonInit() {
 
+        ModMessages.registerMessages();
+
         CommonConfigs.init();
 
-        if(CommonPlatform.getEnv().isClient()){
+        if(PlatformHelper.getEnv().isClient()){
             ClientConfigs.init();
         }
 

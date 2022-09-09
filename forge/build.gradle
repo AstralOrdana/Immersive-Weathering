@@ -36,6 +36,8 @@ dependencies {
 
     modCompileOnly("curse.maven:quark-243121:3840125")
     modImplementation("curse.maven:autoreglib-250363:3642382")
+   // modImplementation("curse.maven:supplementaries-412082:3972685")
+   // modImplementation("curse.maven:selene-499980:3842421")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }

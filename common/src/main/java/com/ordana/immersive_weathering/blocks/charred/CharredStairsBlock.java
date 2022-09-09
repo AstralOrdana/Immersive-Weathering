@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.blocks.charred;
 
-import com.ordana.immersive_weathering.blocks.ModStairBlock;
+import net.mehvahdjukaar.moonlight.api.block.ModStairBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;

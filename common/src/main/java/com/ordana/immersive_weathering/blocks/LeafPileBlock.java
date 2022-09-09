@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.blocks;
 import com.ordana.immersive_weathering.platform.RegistryPlatform;
 import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import dev.architectury.injectables.annotations.PlatformOnly;
+import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -68,7 +69,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         this.hasThorns = hasThorns;
         this.particles = particles;
         this.isLeafy = isLeafy;
-        RegistryPlatform.registerBlockFlammability(this, FIRE_SPREAD, FLAMMABILITY);
+        RegHelper.registerBlockFlammability(this, FIRE_SPREAD, FLAMMABILITY);
     }
 
 

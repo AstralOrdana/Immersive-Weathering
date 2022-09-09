@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.blocks.charred;
 
-import com.ordana.immersive_weathering.blocks.VerticalSlabBlock;
+import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;

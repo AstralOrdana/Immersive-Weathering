@@ -6,6 +6,7 @@ import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.events.ModEvents;
 import com.ordana.immersive_weathering.reg.ModWaxables;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
@@ -14,6 +15,7 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -24,11 +26,12 @@ import net.minecraft.world.phys.BlockHitResult;
 
 public class ImmersiveWeatheringFabric implements ModInitializer {
 
-    public static final String MOD_ID = ImmersiveWeathering.MOD_ID;
-
+    public static MinecraftServer currentServer;
 
     @Override
     public void onInitialize() {
+
+        ServerLifecycleEvents.SERVER_STARTING.register(s -> currentServer = s);
 
         ImmersiveWeathering.commonInit();
         ImmersiveWeathering.commonSetup();
@@ -49,7 +52,7 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(BlockGrowthHandler.getInstance(FabricBlockGrowthManager::new));
 
 
-        FabricLoader.getInstance().getModContainer(ImmersiveWeatheringFabric.MOD_ID).ifPresent(modContainer -> {
+        FabricLoader.getInstance().getModContainer(ImmersiveWeathering.MOD_ID).ifPresent(modContainer -> {
             ResourceManagerHelper.registerBuiltinResourcePack(ImmersiveWeathering.res("better_brick_items"), modContainer, ResourcePackActivationType.NORMAL);
             ResourceManagerHelper.registerBuiltinResourcePack(ImmersiveWeathering.res("better_brick_blocks"), modContainer, ResourcePackActivationType.NORMAL);
             ResourceManagerHelper.registerBuiltinResourcePack(ImmersiveWeathering.res("visual_waxed_iron_items"), modContainer, ResourcePackActivationType.NORMAL);

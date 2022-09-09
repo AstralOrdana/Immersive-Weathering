@@ -1,24 +1,18 @@
 package com.ordana.immersive_weathering.fabric.rustable;
 
-import com.ordana.immersive_weathering.blocks.VerticalSlabBlock;
 import com.ordana.immersive_weathering.blocks.rustable.Rustable;
-
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.reg.ModTags;
-import com.ordana.immersive_weathering.reg.ModWaxables;
+import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
-
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 

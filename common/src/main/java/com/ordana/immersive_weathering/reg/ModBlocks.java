@@ -14,6 +14,10 @@ import com.ordana.immersive_weathering.blocks.soil.*;
 import com.ordana.immersive_weathering.platform.CommonPlatform;
 import com.ordana.immersive_weathering.platform.RegistryPlatform;
 import com.ordana.immersive_weathering.platform.RegistryPlatform.BlockType;
+import net.mehvahdjukaar.moonlight.api.block.ModStairBlock;
+import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
+import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -37,7 +41,7 @@ public class ModBlocks {
     public static void init(){}
 
     public static <T extends Block> Supplier<T> regBlock(String name, Supplier<T> block) {
-        return RegistryPlatform.registerBlock(name, block);
+        return RegHelper.registerBlock(ImmersiveWeathering.res(name), block);
     }
 
     public static <T extends Block> Supplier<T> regWithItem(String name, Supplier<T> block) {
@@ -51,13 +55,13 @@ public class ModBlocks {
     }
 
     public static <T extends Block> Supplier<T> regWithItem(String name, Supplier<T> block, String requiredMod) {
-        CreativeModeTab tab = CommonPlatform.isModLoaded(requiredMod) ? CreativeModeTab.TAB_BUILDING_BLOCKS : null;
+        CreativeModeTab tab = PlatformHelper.isModLoaded(requiredMod) ? CreativeModeTab.TAB_BUILDING_BLOCKS : null;
         return regWithItem(name, block, tab);
     }
 
 
     public static Supplier<BlockItem> regBlockItem(String name, Supplier<? extends Block> blockSup, Item.Properties properties) {
-        return RegistryPlatform.registerItem(name, () -> new BlockItem(blockSup.get(), properties));
+        return RegHelper.registerItem(ImmersiveWeathering.res(name), () -> new BlockItem(blockSup.get(), properties));
     }
 
     //predicates

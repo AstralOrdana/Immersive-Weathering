@@ -42,8 +42,6 @@ public class ImmersiveWeatheringForge {
 
     public ImmersiveWeatheringForge() {
 
-        RegistryConfigs.init();
-
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModRegistry.init(bus);

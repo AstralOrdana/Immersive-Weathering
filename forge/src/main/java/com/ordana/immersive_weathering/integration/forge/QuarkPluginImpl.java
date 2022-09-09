@@ -1,21 +1,14 @@
 package com.ordana.immersive_weathering.integration.forge;
 
-import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.blocks.VerticalSlabBlock;
+import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
-import vazkii.quark.base.module.ModuleLoader;
-import vazkii.quark.content.client.module.GreenerGrassModule;
-
-import java.lang.reflect.Method;
-import java.util.List;
 
 public class QuarkPluginImpl {
 

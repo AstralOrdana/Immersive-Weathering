@@ -6,6 +6,7 @@ import com.mojang.serialization.Codec;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.platform.RegistryPlatform;
 import com.ordana.immersive_weathering.reg.ModTags;
+import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -35,7 +36,8 @@ public class FeatureHacks {
 
     public static void register(){}
 
-    public static final Supplier<Feature<?>> VANILLA_JSON_FEATURE = RegistryPlatform.registerFeature("vanilla_json",
+    public static final Supplier<Feature<?>> VANILLA_JSON_FEATURE = RegHelper.registerFeature(
+            ImmersiveWeathering.res("vanilla_json"),
             () -> new VanillaJsonFeature(VanillaJsonFeature.VanillaJsonFeatureConfig.CODEC));
 
     public static final Map<String,FeatureContainer> FEATURE_PLACERS = new HashMap<>();

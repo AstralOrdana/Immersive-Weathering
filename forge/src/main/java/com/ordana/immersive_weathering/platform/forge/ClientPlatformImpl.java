@@ -21,15 +21,5 @@ public class ClientPlatformImpl {
         ItemBlockRenderTypes.setRenderLayer(block, type);
     }
 
-    public static void renderBlock(FallingBlockEntity entity, PoseStack matrixStack, MultiBufferSource buffer, BlockState blockstate, Level world, BlockPos blockpos, BlockRenderDispatcher modelRenderer) {
-        for (RenderType type : RenderType.chunkBufferLayers()) {
-            //TODO. move to lib
-            if (ItemBlockRenderTypes.canRenderInLayer(blockstate, type)) {
-                ForgeHooksClient.setRenderType(type);
-                modelRenderer.getModelRenderer().tesselateBlock(world, modelRenderer.getBlockModel(blockstate), blockstate, blockpos, matrixStack,
-                        buffer.getBuffer(type), false, new Random(), blockstate.getSeed(entity.getStartPos()), OverlayTexture.NO_OVERLAY);
-            }
-        }
-        ForgeHooksClient.setRenderType(null);
-    }
+
 }

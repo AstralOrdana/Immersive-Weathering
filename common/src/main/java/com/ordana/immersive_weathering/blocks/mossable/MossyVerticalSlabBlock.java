@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.blocks.mossable;
 
-import com.ordana.immersive_weathering.blocks.VerticalSlabBlock;
+import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;

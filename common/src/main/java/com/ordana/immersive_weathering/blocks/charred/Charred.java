@@ -3,7 +3,7 @@ package com.ordana.immersive_weathering.blocks.charred;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.reg.ModTags;
-import net.mehvahdjukaar.supplementaries.api.ILightable;
+import net.mehvahdjukaar.moonlight.api.block.ILightable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -14,9 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Fluids;
 
 import java.util.Random;

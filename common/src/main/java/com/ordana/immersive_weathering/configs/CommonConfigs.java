@@ -1,11 +1,18 @@
 package com.ordana.immersive_weathering.configs;
 
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.platform.CommonPlatform;
+import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigBuilder;
+import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigSpec;
+import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigType;
 
 import java.util.function.Supplier;
 
 public class CommonConfigs {
 
+
+    public static ConfigSpec SERVER_SPEC;
 
     public static Supplier<Boolean> BLOCK_GROWTHS;
 
@@ -82,7 +89,9 @@ public class CommonConfigs {
     public static Supplier<Boolean> MULCH_GROWS_CROPS;
 
     public static void init() {
-        ConfigBuilder builder = CommonPlatform.getConfigBuilder("server", ConfigBuilder.ConfigType.COMMON);
+        ConfigBuilder builder = ConfigBuilder.create(ImmersiveWeathering.res("common"), ConfigType.COMMON);
+
+        builder.setSynced();
 
         builder.push("general");
         BLOCK_GROWTHS = builder.define("block_growths", true);
@@ -187,13 +196,13 @@ public class CommonConfigs {
         builder.pop();
 
         //fabric specific
-        CommonPlatform.getPlatform().ifFabric(() -> {
+        PlatformHelper.getPlatform().ifFabric(() -> {
 
 
         });
 
 
-        builder.buildAndRegister();
+       SERVER_SPEC =  builder.buildAndRegister();
     }
 
 

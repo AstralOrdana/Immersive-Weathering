@@ -65,6 +65,7 @@ public class ModEvents {
 
 
     public static InteractionResult invokeEvents(ItemStack stack, Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        if(stack.isEmpty())return InteractionResult.PASS;
         Item i = stack.getItem();
         BlockPos pos = hitResult.getBlockPos();
         BlockState state = level.getBlockState(pos);

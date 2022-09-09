@@ -1,10 +1,10 @@
 package com.ordana.immersive_weathering.forge.rustable;
 
-import com.ordana.immersive_weathering.blocks.VerticalSlabBlock;
 import com.ordana.immersive_weathering.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.reg.ModTags;
 import com.ordana.immersive_weathering.reg.ModWaxables;
+import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;

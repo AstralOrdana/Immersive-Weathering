@@ -10,6 +10,7 @@ import com.ordana.immersive_weathering.block_growth.area_condition.AreaCondition
 import com.ordana.immersive_weathering.block_growth.position_test.PositionRuleTest;
 import com.ordana.immersive_weathering.mixins.accessors.RandomBlockMatchTestAccessor;
 import com.ordana.immersive_weathering.platform.CommonPlatform;
+import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.minecraft.core.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
@@ -179,7 +180,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
                 //they all need to be true
                 if (!positionTest.test(biome, pos, level)) return false;
             }
-            return CommonPlatform.isAreaLoaded(level, pos, maxRange);
+            return PlatformHelper.isAreaLoaded(level, pos, maxRange);
         }
         return false;
     }

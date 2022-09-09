@@ -18,13 +18,6 @@ import java.util.Random;
 
 public class ClientPlatformImpl {
 
-    public static void registerRenderType(Block block, RenderType type) {
-        BlockRenderLayerMap.INSTANCE.putBlock(block, type);
-    }
 
-    public static void renderBlock(FallingBlockEntity entity, PoseStack poseStack, MultiBufferSource buffer, BlockState state, Level level, BlockPos pos, BlockRenderDispatcher modelRenderer) {
-        BlockRenderDispatcher blockRenderDispatcher = Minecraft.getInstance().getBlockRenderer();
-        blockRenderDispatcher.getModelRenderer().tesselateBlock(level, blockRenderDispatcher.getBlockModel(state), state, pos, poseStack, buffer.getBuffer(ItemBlockRenderTypes.getMovingBlockRenderType(state)),
-                false, new Random(), state.getSeed(entity.getStartPos()), OverlayTexture.NO_OVERLAY);
-    }
+
 }

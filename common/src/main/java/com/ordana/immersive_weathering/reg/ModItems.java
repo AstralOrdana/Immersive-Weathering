@@ -1,10 +1,12 @@
 package com.ordana.immersive_weathering.reg;
 
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.items.*;
 import com.ordana.immersive_weathering.items.materials.FlowerCrownMaterial;
 import com.ordana.immersive_weathering.items.materials.IcicleToolMaterial;
 import com.ordana.immersive_weathering.platform.RegistryPlatform;
+import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
@@ -17,7 +19,7 @@ public class ModItems {
     public static void init(){}
 
     public static <T extends Item> Supplier<T> regItem(String name, Supplier<T> itemSup) {
-        return RegistryPlatform.registerItem(name, itemSup);
+        return RegHelper.registerItem(ImmersiveWeathering.res(name), itemSup);
     }
 
     //helpers

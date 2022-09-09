@@ -8,6 +8,7 @@ import com.ordana.immersive_weathering.features.IcicleClusterFeatureConfig;
 import com.ordana.immersive_weathering.features.IvyFeature;
 import com.ordana.immersive_weathering.platform.CommonPlatform;
 import com.ordana.immersive_weathering.platform.RegistryPlatform;
+import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -19,13 +20,16 @@ import java.util.function.Supplier;
 
 public class ModFeatures {
 
-    public static final Supplier<Feature<IcicleClusterFeatureConfig>> ICICLE_FEATURE = RegistryPlatform.registerFeature("icicle_cluster", () ->
+    public static final Supplier<Feature<IcicleClusterFeatureConfig>> ICICLE_FEATURE = RegHelper.registerFeature(
+            ImmersiveWeathering.res("icicle_cluster"), () ->
             new IcicleClusterFeature(IcicleClusterFeatureConfig.CODEC));
 
-    public static final Supplier<Feature<GlowLichenConfiguration>> IVY_FEATURE = RegistryPlatform.registerFeature("ivy_feature", () ->
+    public static final Supplier<Feature<GlowLichenConfiguration>> IVY_FEATURE = RegHelper.registerFeature(
+            ImmersiveWeathering.res("ivy_feature"), () ->
             new IvyFeature(GlowLichenConfiguration.CODEC));
 
-    public static final Supplier<Feature<GlowLichenConfiguration>> FROST_FEATURE = RegistryPlatform.registerFeature("frost_feature", () ->
+    public static final Supplier<Feature<GlowLichenConfiguration>> FROST_FEATURE = RegHelper.registerFeature(
+            ImmersiveWeathering.res("frost_feature"), () ->
             new FrostFeature(GlowLichenConfiguration.CODEC));
 
     public static void init() {

@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.ordana.immersive_weathering.platform.ClientPlatform;
+import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
@@ -39,7 +39,7 @@ public class FallingBlockRendererGeneric<T extends FallingBlockEntity> extends E
                 BlockPos blockpos = new BlockPos(entity.getX(), entity.getBoundingBox().maxY, entity.getZ());
                 poseStack.translate(-0.5D, 0.0D, -0.5D);
                 BlockRenderDispatcher modelRenderer = Minecraft.getInstance().getBlockRenderer();
-                ClientPlatform.renderBlock(entity, poseStack, buffer, blockstate, level, blockpos, modelRenderer);
+                ClientPlatformHelper.renderBlock(entity, poseStack, buffer, blockstate, level, blockpos, modelRenderer);
                 poseStack.popPose();
                 super.render(entity, pEntityYaw, pPartialTicks, poseStack, buffer, pPackedLight);
             }

@@ -153,9 +153,11 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
 
     @Unique
     public FlowingFluid getOwnFluid() {
-        var f = CommonPlatform.getFlowingFluid((LiquidBlock) (Object) this);
-        if (f == null) return this.fluid;
-        return f;
+        //TODO: re add
+       // var f = CommonPlatform.getFlowingFluid((LiquidBlock) (Object) this);
+        //if (f == null)
+            return this.fluid;
+        //return f;
     }
 
 }
