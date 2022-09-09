@@ -147,7 +147,7 @@ public class ModEvents {
             if (newBlock != state) {
                 if (IntegrationHandler.quark) newBlock = QuarkPlugin.fixVerticalSlab(newBlock, state);
                 if (!player.getAbilities().instabuild) {
-                    if (newBlock instanceof Crackable crackable) {
+                    if (state.getBlock() instanceof Crackable crackable) {
                         Block.popResourceFromFace(level, pos, hitResult.getDirection(), crackable.getRepairItem(state).getDefaultInstance());
                     }
                 }
@@ -161,6 +161,7 @@ public class ModEvents {
                     level.setBlockAndUpdate(pos, newBlock);
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                 }
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
         return InteractionResult.PASS;

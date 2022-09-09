@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.Codec;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.events.ModEvents;
 import com.ordana.immersive_weathering.reg.ModTags;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.core.Holder;
@@ -142,7 +143,8 @@ public class FeatureHacks {
                     "minecraft:frozen_river"),
             ModTags.WET, ImmutableList.of("minecraft:swamp",
                     "minecraft:jungle",
-                    "minecraft:sparse_jungle")
+                    "minecraft:sparse_jungle"),
+            ModTags.HAS_DESERT_STUFF, ImmutableList.of("minecraft:desert")
     );
 
     public static boolean isTagged(TagKey<Biome> tag, ResourceLocation biome){
