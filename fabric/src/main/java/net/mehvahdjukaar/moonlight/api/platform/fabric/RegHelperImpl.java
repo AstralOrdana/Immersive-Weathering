@@ -57,8 +57,7 @@ public class RegHelperImpl {
 
     @SuppressWarnings("unchecked")
     public static <T, E extends T> RegSupplier<E> register(ResourceLocation name, Supplier<E> supplier, Registry<T> reg) {
-        if (true) return registerAsync(name, supplier, reg);
-        //disabled for now
+        //if (true) return registerAsync(name, supplier, reg);
         String modId = name.getNamespace();
         var m = REGISTRIES.computeIfAbsent(reg, h -> new LinkedHashMap<>());
         RegistryQueue<T> registry = (RegistryQueue<T>) m.computeIfAbsent(modId, c -> new RegistryQueue<>(reg));

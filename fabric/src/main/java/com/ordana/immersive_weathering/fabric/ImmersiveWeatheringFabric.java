@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.mehvahdjukaar.moonlight.api.platform.fabric.RegHelperImpl;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.PackType;
@@ -31,6 +32,8 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
     @Override
     public void onInitialize() {
 
+
+        RegHelperImpl.registerEntries();
         ServerLifecycleEvents.SERVER_STARTING.register(s -> currentServer = s);
 
         ImmersiveWeathering.commonInit();
