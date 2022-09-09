@@ -33,6 +33,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 
@@ -103,15 +104,16 @@ public class LiquidGeneratorHandler extends SimpleJsonResourceReloadListener {
         }
     }
 
-    public boolean applyGenerator(FluidState fluidState, BlockPos pos, Level level){
-        var list = GENERATORS.get(fluidState.getType());
+    public static Optional<BlockPos> applyGenerators(FlowingFluid fluidState, List<Direction> possibleFlowDir, BlockPos pos, Level level){
+        var list = GENERATORS.get(fluidState.getSource());
         if(list != null && !list.isEmpty()) {
             Map<Direction,BlockState> neighborCache = new EnumMap<>(Direction.class);
             for(var generator : list){
-                if(generator.tryGenerating(fluidState, pos, level, neighborCache))return true;
+                var res = generator.tryGenerating(possibleFlowDir, pos, level, neighborCache);
+                if(res.isPresent())return res;
             }
         }
-        return false;
+        return Optional.empty();
     }
 
     //debug

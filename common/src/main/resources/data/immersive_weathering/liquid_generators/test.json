@@ -1,0 +1,9 @@
+{
+  "fluid": "minecraft:water",
+  "generate": "//blockstate here",
+  "neighbors": {
+    "sides": "rule test",
+    "up": "rule test",
+    "down": "rule test"
+  }
+}

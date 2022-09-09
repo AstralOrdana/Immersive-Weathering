@@ -1,6 +1,8 @@
 package com.ordana.immersive_weathering.mixins;
 
 import com.google.common.collect.ImmutableList;
+import com.ordana.immersive_weathering.IWPlatformStuff;
+import com.ordana.immersive_weathering.block_growth.liquid_generators.LiquidGeneratorHandler;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModTags;
@@ -32,6 +34,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Optional;
+
 @Mixin(LiquidBlock.class)
 public abstract class LiquidBlockMixin extends Block implements BucketPickup {
 
@@ -56,6 +60,15 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
     @Inject(method = "shouldSpreadLiquid", at = @At("HEAD"), cancellable = true)
     private void shouldSpreadLiquid(Level world, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
         var fluid = this.getOwnFluid();
+
+        Optional<BlockPos> successPos = LiquidGeneratorHandler.applyGenerators(fluid, POSSIBLE_FLOW_DIRECTIONS, pos, world);
+        if(successPos.isPresent()){
+            this.fizz(world, successPos.get());
+            cir.setReturnValue(false);
+            return;
+        }
+        if(true)return;
+
         if (fluid != null && fluid.is(FluidTags.LAVA)) {
             boolean hasWater = false;
             boolean blueIceDown = false;
@@ -160,11 +173,10 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
 
     @Unique
     public FlowingFluid getOwnFluid() {
-        //TODO: re add
-       // var f = CommonPlatform.getFlowingFluid((LiquidBlock) (Object) this);
-        //if (f == null)
+        var f = IWPlatformStuff.getFlowingFluid((LiquidBlock) (Object) this);
+        if (f == null)
             return this.fluid;
-        //return f;
+        return f;
     }
 
 }
