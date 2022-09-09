@@ -146,6 +146,11 @@ public class FeatureHacks {
     );
 
     public static boolean isTagged(TagKey<Biome> tag, ResourceLocation biome){
-        return BUILTIN_TAGS.get(tag).contains(biome.toString());
+        var l = BUILTIN_TAGS.get(tag);
+        if(l == null){
+            int a = 1;
+            return false;
+        }
+       return l.contains(biome.toString());
     }
 }

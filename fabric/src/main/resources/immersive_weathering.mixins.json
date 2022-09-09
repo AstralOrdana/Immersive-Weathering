@@ -14,9 +14,7 @@
     "ItemsMixin",
     "NetherWartBlockMixin",
     "SproutsBlockMixin",
-    "SugarCaneBlockMixin",
-    "temp.PackRepositoryAccessor",
-    "temp.PackRepositoryMixin"
+    "SugarCaneBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
