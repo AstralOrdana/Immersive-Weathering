@@ -92,7 +92,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
                             BlockPos side = pos.relative(d);
                             BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(side));
                             if (e.getValue().test(state, level.random)) {
-                                targetPos = side;
+                                targetPos = pos;
                                 break;
                             }
                         }
@@ -120,7 +120,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
 
         if (targetPos != null) {
             level.setBlockAndUpdate(targetPos, this.growth);
-            return Optional.of(pos);
+            return Optional.of(targetPos);
         }
         return Optional.empty();
     }
