@@ -15,13 +15,12 @@ record TemperatureMatchTest(float max, float min, boolean useLocalPos) implement
 
     public static final String NAME = "temperature_range";
 
-    private static final Codec<TemperatureMatchTest> C = RecordCodecBuilder.create(instance -> instance.group(
+    private static final Codec<TemperatureMatchTest> C = RecordCodecBuilder.<TemperatureMatchTest>create(
+            instance -> instance.group(
                     Codec.FLOAT.fieldOf("min").forGetter(g -> g.min),
                     Codec.FLOAT.fieldOf("max").forGetter(g -> g.max),
                     Codec.BOOL.optionalFieldOf("use_local_pos", true).forGetter(TemperatureMatchTest::useLocalPos))
-            .apply( instance, TemperatureMatchTest::new));
-
-    public static final Codec<TemperatureMatchTest> CODEC = C.comapFlatMap(t -> {
+            .apply( instance, TemperatureMatchTest::new)).comapFlatMap(t -> {
         if (t.max < t.min) {
             return DataResult.error("Max must be at least min, min_inclusive: " + t.min + ", max_inclusive: " + t.max);
         }

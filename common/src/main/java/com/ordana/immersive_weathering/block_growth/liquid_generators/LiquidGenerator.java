@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.block_growth.liquid_generators;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.block_growth.position_test.PositionRuleTest;
 import net.minecraft.core.BlockPos;
@@ -18,18 +19,26 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
 public class LiquidGenerator implements Comparable<LiquidGenerator> {
 
-    public static final Codec<LiquidGenerator> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Registry.FLUID.byNameCodec().fieldOf("fluid").forGetter(LiquidGenerator::getLiquid),
-            BlockState.CODEC.fieldOf("generate").forGetter(LiquidGenerator::getGrowth),
-            Codec.simpleMap(Side.CODEC, RuleTest.CODEC, StringRepresentable.keys(Side.values()))
-                    .fieldOf("neighbors").forGetter(LiquidGenerator::getNeighborBlocks),
-            RuleTest.CODEC.optionalFieldOf("target_other").forGetter(LiquidGenerator::targetsOther),
-            PositionRuleTest.CODEC.listOf().optionalFieldOf("additional_checks", List.of()).forGetter(LiquidGenerator::getPositionTests),
-            Codec.INT.optionalFieldOf("priority", 0).forGetter(LiquidGenerator::getPriority)
-    ).apply(instance, LiquidGenerator::new));
+    public static final Codec<LiquidGenerator> CODEC = RecordCodecBuilder.<LiquidGenerator>create(
+            instance -> instance.group(
+                    Registry.FLUID.byNameCodec().fieldOf("fluid").forGetter(LiquidGenerator::getLiquid),
+                    BlockState.CODEC.fieldOf("generate").forGetter(LiquidGenerator::getGrowth),
+                    Codec.simpleMap(Side.CODEC, RuleTest.CODEC, StringRepresentable.keys(Side.values()))
+                            .fieldOf("neighbors").forGetter(LiquidGenerator::getNeighborBlocks),
+                    RuleTest.CODEC.optionalFieldOf("target_other").forGetter(LiquidGenerator::targetsOther),
+                    PositionRuleTest.CODEC.listOf().optionalFieldOf("additional_checks", List.of()).forGetter(LiquidGenerator::getPositionTests),
+                    Codec.INT.optionalFieldOf("priority", 0).forGetter(LiquidGenerator::getPriority)
+            ).apply(instance, LiquidGenerator::new)).comapFlatMap(arg -> {
+        if (arg.neighborBlocks.isEmpty()) {
+            return DataResult.error("Neighbor predicate map must not be empty");
+        }
+        return DataResult.success(arg);
+    }, Function.identity());
+    ;
 
     private final Fluid owners;
     private final BlockState growth;
@@ -78,14 +87,22 @@ public class LiquidGenerator implements Comparable<LiquidGenerator> {
     }
 
     public Optional<BlockPos> tryGenerating(List<Direction> possibleFlowDir, BlockPos pos, Level level, Map<Direction, BlockState> neighborCache) {
-        if(this.neighborBlocks.isEmpty())return Optional.empty();
+        if (this.neighborBlocks.isEmpty()) return Optional.empty();
+        BlockPos targetPos = pos;
         for (var e : this.neighborBlocks.entrySet()) {
             Side s = e.getKey();
             switch (s) {
                 case SIDES -> {
                     for (var d : possibleFlowDir) {
-                        BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(pos.relative(d)));
-                        if (!e.getValue().test(state, level.random)) return Optional.empty();
+                        targetPos = null;
+                        if (d.getAxis().isHorizontal()) {
+                            BlockPos side = pos.relative(d);
+                            BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(side));
+                            if (e.getValue().test(state, level.random)) {
+                                targetPos = side;
+                                break;
+                            }
+                        }
                     }
                 }
                 case UP -> {
@@ -117,8 +134,8 @@ public class LiquidGenerator implements Comparable<LiquidGenerator> {
                     return Optional.of(p);
                 }
             }
-        } else {
-            level.setBlockAndUpdate(pos, this.growth);
+        } else if (targetPos != null) {
+            level.setBlockAndUpdate(targetPos, this.growth);
             return Optional.of(pos);
         }
         return Optional.empty();
