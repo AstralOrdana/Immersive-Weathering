@@ -27,7 +27,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
                     Registry.FLUID.byNameCodec().fieldOf("fluid").forGetter(SelfFluidGenerator::getFluid),
                     BlockState.CODEC.fieldOf("generate").forGetter(SelfFluidGenerator::getGrowth),
                     Codec.simpleMap(Side.CODEC, RuleTest.CODEC, StringRepresentable.keys(Side.values()))
-                            .fieldOf("neighbors").forGetter(SelfFluidGenerator::getNeighborBlocks),
+                            .fieldOf("adjacent_blocks").forGetter(SelfFluidGenerator::getNeighborBlocks),
                     PositionRuleTest.CODEC.listOf().optionalFieldOf("additional_checks", List.of()).forGetter(SelfFluidGenerator::getPositionTests),
                     Codec.INT.optionalFieldOf("priority", 0).forGetter(SelfFluidGenerator::getPriority)
             ).apply(instance, SelfFluidGenerator::new)).comapFlatMap(arg -> {
