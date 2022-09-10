@@ -167,7 +167,7 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
             if (!(entity instanceof LivingEntity) || EnchantmentHelper.getEnchantmentLevel(Enchantments.FROST_WALKER, (LivingEntity) entity) > 0 || ((LivingEntity) entity).hasEffect(MobEffects.CONDUIT_POWER) || entity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
                 return;
             }
-            WeatheringHelper.applyFreezing(entity, freezing, true);
+            if (entity.isInWater()) WeatheringHelper.applyFreezing(entity, freezing, true);
         }
     }
 
