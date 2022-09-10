@@ -1,12 +1,20 @@
 {
-  "fluid": "minecraft:water",
+  "fluid": "minecraft:lava",
   "generate": {
-    "Name": "minecraft:diamond_block"
+    "Name": "minecraft:acacia_log",
+    "Properties": {
+      "axis": "y"
+    }
   },
   "neighbors": {
     "sides": {
-      "block": "minecraft:",
-      "predicate_type": "minecraft:emerald_block"
+      "block_state": {
+        "Name": "minecraft:cake",
+        "Properties": {
+          "bites": "0"
+        }
+      },
+      "predicate_type": "minecraft:blockstate_match"
     }
   }
 }
