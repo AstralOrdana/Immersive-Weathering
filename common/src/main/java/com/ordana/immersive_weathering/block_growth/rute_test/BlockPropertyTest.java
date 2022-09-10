@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.block_growth.Operator;
+import com.ordana.immersive_weathering.reg.ModRuleTests;
 import net.minecraft.core.Registry;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
@@ -25,8 +26,6 @@ public class BlockPropertyTest extends RuleTest {
     public static final Codec<BlockPropertyTest> CODEC = PropPredicate.CODEC.listOf().fieldOf("properties")
             .xmap(BlockPropertyTest::new, (t) -> t.propPredicates).codec();
 
-    public static final RuleTestType<BlockPropertyTest> TYPE = RuleTestType.register("immersive_weathering:block_property_test", CODEC);
-
     private final List<PropPredicate> propPredicates;
 
     private BlockPropertyTest(List<PropPredicate> propPredicates) {
@@ -43,11 +42,7 @@ public class BlockPropertyTest extends RuleTest {
 
     @Override
     protected RuleTestType<BlockPropertyTest> getType() {
-        return TYPE;
-    }
-    //just need to load and static register will register
-
-    public static void register() {
+        return ModRuleTests.BLOCK_PROPERTY_TEST.get();
     }
 
 

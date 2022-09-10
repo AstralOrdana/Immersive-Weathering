@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.block_growth.rute_test;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ordana.immersive_weathering.reg.ModRuleTests;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;
@@ -20,9 +21,6 @@ public class FluidMatchTest extends RuleTest {
             Codec.FLOAT.optionalFieldOf("probability",1f).forGetter(b->b.probability)
     ).apply(instance, FluidMatchTest::new));
 
-
-    public static final RuleTestType<FluidMatchTest> TYPE = RuleTestType.register("immersive_weathering:fluid_match",CODEC);
-
     private final HolderSet<Fluid> fluids;
     private final float probability;
 
@@ -32,14 +30,14 @@ public class FluidMatchTest extends RuleTest {
         this.probability = chance;
     }
 
+    @Override
     public boolean test(BlockState state, Random random) {
         return state.getFluidState().is(fluids) && random.nextFloat() < this.probability;
     }
 
+    @Override
     protected RuleTestType<FluidMatchTest> getType() {
-        return TYPE;
+        return ModRuleTests.FLUID_MATCH_TEST.get();
     }
-    //just need to load and static register will register
-    public static void register() {}
 
 }

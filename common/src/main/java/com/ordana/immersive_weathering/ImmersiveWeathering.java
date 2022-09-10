@@ -38,7 +38,9 @@ public class ImmersiveWeathering {
         ModItems.init();
         ModEntities.init();
         ModParticles.init();
+        ModRuleTests.init();
         ModFeatures.init();
+
 
 
         PlatformHelper.addServerReloadListener(BlockGrowthHandler.RELOAD_INSTANCE, res("block_growths"));
@@ -46,19 +48,9 @@ public class ImmersiveWeathering {
     }
 
     public static void commonSetup() {
-
-    }
-
-    public static void additionalRegistration() {
         //TODO: move to regHelper
         PositionRuleTest.register();
         //rule tests
-        FluidMatchTest.register();
-        LogMatchTest.register();
-        BlockSetMatchTest.register();
-        BurnableTest.register();
-        BlockPropertyTest.register();
-
         ModCompostable.register();
     }
 

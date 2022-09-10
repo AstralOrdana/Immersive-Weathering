@@ -34,7 +34,7 @@ import java.util.function.Supplier;
 //credits to Tslat
 public class FeatureHacks {
 
-    public static void register(){}
+    public static void init(){}
 
     public static final Supplier<Feature<?>> VANILLA_JSON_FEATURE = RegHelper.registerFeature(
             ImmersiveWeathering.res("vanilla_json"),

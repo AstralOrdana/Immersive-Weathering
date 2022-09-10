@@ -3,16 +3,20 @@ package com.ordana.immersive_weathering.forge;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModWaxables;
+import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -36,12 +40,10 @@ public class ImmersiveWeatheringForge {
     public ImmersiveWeatheringForge() {
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-
-        ModRegistry.init(bus);
         //ModDynamicRegistry.init(bus);
 
-
         ImmersiveWeathering.commonInit();
+        FeatureHacks.init();
 
         /**
          * Update stuff:
@@ -54,25 +56,26 @@ public class ImmersiveWeatheringForge {
         //TODO: fix layers texture generation
         //TODO: fix grass growth replacing double plants and add tag
 
-        bus.addListener(ImmersiveWeatheringForge::init);
-        bus.addGenericListener(Item.class, ImmersiveWeatheringForge::registerAdditional);
+        bus.addListener(ImmersiveWeatheringForge::setup);
         bus.addListener(ImmersiveWeatheringForge::addPackFinders);
+        bus.addGenericListener(Item.class, ImmersiveWeatheringForge::registerOverrides);
+    }
+
+    public static void registerOverrides(RegistryEvent.Register<Item> event) {
+        //override
+        event.getRegistry().register(
+                new CeilingAndWallBlockItem(Blocks.HANGING_ROOTS, ModBlocks.HANGING_ROOTS_WALL.get(),
+                        new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)).setRegistryName("minecraft:hanging_roots"));
     }
 
 
-
-    public static void init(final FMLCommonSetupEvent event) {
+    public static void setup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             ImmersiveWeathering.commonSetup();
             registerWaxables();
         });
     }
 
-
-    public static void registerAdditional(RegistryEvent.Register<Item> event) {
-        ImmersiveWeathering.additionalRegistration();
-        FeatureHacks.register();
-    }
 
     private static void registerWaxables() {
         try {
@@ -90,6 +93,7 @@ public class ImmersiveWeatheringForge {
     }
 
     public static void addPackFinders(AddPackFindersEvent event) {
+
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
             registerBuiltinResourcePack(event, new TextComponent("Better Brick Items"), "better_brick_items");
             registerBuiltinResourcePack(event, new TextComponent("Better Brick blocks"), "better_brick_blocks");

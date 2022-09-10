@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.block_growth.rute_test;
 
 import com.mojang.serialization.Codec;
+import com.ordana.immersive_weathering.reg.ModRuleTests;
 import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
@@ -14,18 +15,14 @@ public class LogMatchTest extends RuleTest {
 
     public static final Codec<LogMatchTest> CODEC = Codec.unit(() -> INSTANCE);
 
-    public static final RuleTestType<LogMatchTest> TYPE = RuleTestType.register("immersive_weathering:tree_log", CODEC);
-
+    @Override
     public boolean test(BlockState state, Random random) {
         return WeatheringHelper.isLog(state);
     }
 
+    @Override
     protected RuleTestType<LogMatchTest> getType() {
-        return TYPE;
-    }
-
-    //just need to load and static register will register
-    public static void register() {
+        return ModRuleTests.LOG_TEST.get();
     }
 
 }
