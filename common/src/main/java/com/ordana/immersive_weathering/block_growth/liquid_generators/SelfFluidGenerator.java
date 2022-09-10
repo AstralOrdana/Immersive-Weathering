@@ -12,7 +12,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.material.Fluid;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -21,48 +20,49 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class LiquidGenerator implements Comparable<LiquidGenerator> {
+public class SelfFluidGenerator implements IFluidGenerator {
 
-    public static final Codec<LiquidGenerator> CODEC = RecordCodecBuilder.<LiquidGenerator>create(
+
+    public static final String NAME = "target_self";
+    public static final Codec<SelfFluidGenerator> CODEC = RecordCodecBuilder.<SelfFluidGenerator>create(
             instance -> instance.group(
-                    Registry.FLUID.byNameCodec().fieldOf("fluid").forGetter(LiquidGenerator::getLiquid),
-                    BlockState.CODEC.fieldOf("generate").forGetter(LiquidGenerator::getGrowth),
+                    Registry.FLUID.byNameCodec().fieldOf("fluid").forGetter(SelfFluidGenerator::getFluid),
+                    BlockState.CODEC.fieldOf("generate").forGetter(SelfFluidGenerator::getGrowth),
                     Codec.simpleMap(Side.CODEC, RuleTest.CODEC, StringRepresentable.keys(Side.values()))
-                            .fieldOf("neighbors").forGetter(LiquidGenerator::getNeighborBlocks),
-                    RuleTest.CODEC.optionalFieldOf("target_other").forGetter(LiquidGenerator::targetsOther),
-                    PositionRuleTest.CODEC.listOf().optionalFieldOf("additional_checks", List.of()).forGetter(LiquidGenerator::getPositionTests),
-                    Codec.INT.optionalFieldOf("priority", 0).forGetter(LiquidGenerator::getPriority)
-            ).apply(instance, LiquidGenerator::new)).comapFlatMap(arg -> {
+                            .fieldOf("neighbors").forGetter(SelfFluidGenerator::getNeighborBlocks),
+                    PositionRuleTest.CODEC.listOf().optionalFieldOf("additional_checks", List.of()).forGetter(SelfFluidGenerator::getPositionTests),
+                    Codec.INT.optionalFieldOf("priority", 0).forGetter(SelfFluidGenerator::getPriority)
+            ).apply(instance, SelfFluidGenerator::new)).comapFlatMap(arg -> {
         if (arg.neighborBlocks.isEmpty()) {
             return DataResult.error("Neighbor predicate map must not be empty");
         }
         return DataResult.success(arg);
     }, Function.identity());
-    ;
 
-    private final Fluid owners;
+    public static final IFluidGenerator.Type<SelfFluidGenerator> TYPE = new Type<>(CODEC, NAME);
+
+    private final Fluid fluid;
     private final BlockState growth;
     private final Map<Side, RuleTest> neighborBlocks;
-    private final Optional<RuleTest> targetOther;
     private final List<PositionRuleTest> positionTests;
     private final int priority;
 
-    public LiquidGenerator(Fluid owner, BlockState growth, Map<Side, RuleTest> neighborBlocks,
-                           Optional<RuleTest> targetOther, List<PositionRuleTest> positionRuleTests, int priority) {
-        this.owners = owner;
+    public SelfFluidGenerator(Fluid fluid, BlockState growth, Map<Side, RuleTest> neighborBlocks,
+                             List<PositionRuleTest> positionRuleTests, int priority) {
+        this.fluid = fluid;
         this.growth = growth;
         this.neighborBlocks = neighborBlocks;
-        this.targetOther = targetOther;
         this.positionTests = positionRuleTests;
         this.priority = priority;
     }
 
-    public Optional<RuleTest> targetsOther() {
-        return targetOther;
+    @Override
+    public Type<?> getType() {
+        return TYPE;
     }
 
-    public Fluid getLiquid() {
-        return owners;
+    public Fluid getFluid() {
+        return fluid;
     }
 
     public BlockState getGrowth() {
@@ -79,11 +79,6 @@ public class LiquidGenerator implements Comparable<LiquidGenerator> {
 
     public int getPriority() {
         return priority;
-    }
-
-    @Override
-    public int compareTo(@NotNull LiquidGenerator o) {
-        return Integer.compare(this.priority, o.priority);
     }
 
     public Optional<BlockPos> tryGenerating(List<Direction> possibleFlowDir, BlockPos pos, Level level, Map<Direction, BlockState> neighborCache) {
@@ -125,21 +120,13 @@ public class LiquidGenerator implements Comparable<LiquidGenerator> {
             }
         }
 
-        if (targetOther.isPresent()) {
-            for (Direction d : Direction.values()) {
-                BlockPos p = pos.relative(d);
-                BlockState state = neighborCache.computeIfAbsent(d, c -> level.getBlockState(p));
-                if (targetOther.get().test(state, level.random)) {
-                    level.setBlockAndUpdate(p, this.growth);
-                    return Optional.of(p);
-                }
-            }
-        } else if (targetPos != null) {
+        if (targetPos != null) {
             level.setBlockAndUpdate(targetPos, this.growth);
             return Optional.of(pos);
         }
         return Optional.empty();
     }
+
 
     public enum Side implements StringRepresentable {
         SIDES("sides"), UP("up"), DOWN("down");

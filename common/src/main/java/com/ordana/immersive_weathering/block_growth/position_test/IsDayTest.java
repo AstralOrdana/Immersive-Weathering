@@ -13,11 +13,11 @@ record IsDayTest(boolean day) implements PositionRuleTest {
     public static final Codec<IsDayTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.BOOL.fieldOf("day").forGetter(IsDayTest::day)
     ).apply(instance, IsDayTest::new));
-    static final PositionRuleTestType<IsDayTest> TYPE =
-            new PositionRuleTestType<>(IsDayTest.CODEC, IsDayTest.NAME);
+    static final Type<IsDayTest> TYPE =
+            new Type<>(IsDayTest.CODEC, IsDayTest.NAME);
 
     @Override
-    public PositionRuleTestType<IsDayTest> getType() {
+    public Type<IsDayTest> getType() {
         return TYPE;
     }
 

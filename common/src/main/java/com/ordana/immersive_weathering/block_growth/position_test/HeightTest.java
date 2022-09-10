@@ -16,8 +16,8 @@ public class HeightTest implements PositionRuleTest {
             Codec.INT.fieldOf("tolerance").forGetter(HeightTest::getTolerance)
     ).apply(i, HeightTest::new));
 
-    static final PositionRuleTestType<HeightTest> TYPE =
-            new PositionRuleTestType<>(HeightTest.CODEC, HeightTest.NAME);
+    static final Type<HeightTest> TYPE =
+            new Type<>(HeightTest.CODEC, HeightTest.NAME);
 
 
     private final HeightProvider height;
@@ -44,7 +44,7 @@ public class HeightTest implements PositionRuleTest {
     }
 
     @Override
-    public PositionRuleTestType<?> getType() {
+    public Type<?> getType() {
         return TYPE;
     }
 }

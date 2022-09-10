@@ -3,24 +3,13 @@ package com.ordana.immersive_weathering.forge;
 
 import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
 
-import com.ordana.immersive_weathering.block_growth.liquid_generators.LiquidGeneratorHandler;
-import com.ordana.immersive_weathering.client.ParticleHelper;
-import net.minecraft.world.InteractionHand;
+import com.ordana.immersive_weathering.block_growth.liquid_generators.FluidGeneratorsHandler;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import java.util.logging.Level;
 
 @Mod.EventBusSubscriber(modid = ImmersiveWeatheringForge.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
@@ -30,7 +19,7 @@ public class ModEvents {
     @SubscribeEvent
     public static void onTagUpdated(TagsUpdatedEvent event) {
         BlockGrowthHandler.RELOAD_INSTANCE.rebuild(event.getTagManager());
-        LiquidGeneratorHandler.RELOAD_INSTANCE.rebuild(event.getTagManager());
+        FluidGeneratorsHandler.RELOAD_INSTANCE.rebuild(event.getTagManager());
     }
 
 

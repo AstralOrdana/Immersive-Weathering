@@ -28,11 +28,11 @@ record TemperatureMatchTest(float max, float min, boolean useLocalPos) implement
     }, Function.identity());
 
 
-    static final PositionRuleTestType<TemperatureMatchTest> TYPE =
-            new PositionRuleTestType<>(TemperatureMatchTest.C, TemperatureMatchTest.NAME);
+    static final Type<TemperatureMatchTest> TYPE =
+            new Type<>(TemperatureMatchTest.C, TemperatureMatchTest.NAME);
 
     @Override
-    public PositionRuleTestType<TemperatureMatchTest> getType() {
+    public Type<TemperatureMatchTest> getType() {
 
         return TYPE;
     }

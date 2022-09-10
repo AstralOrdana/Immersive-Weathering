@@ -25,8 +25,8 @@ public class EntityTest implements PositionRuleTest {
             Codec.INT.optionalFieldOf("offset").forGetter(EntityTest::getOffset)
     ).apply(i, EntityTest::new));
 
-    static final PositionRuleTestType<EntityTest> TYPE =
-            new PositionRuleTestType<>(EntityTest.CODEC, EntityTest.NAME);
+    static final Type<EntityTest> TYPE =
+            new Type<>(EntityTest.CODEC, EntityTest.NAME);
 
 
     private final HolderSet<EntityType<?>> targets;
@@ -95,7 +95,7 @@ public class EntityTest implements PositionRuleTest {
     }
 
     @Override
-    public PositionRuleTestType<?> getType() {
+    public Type<?> getType() {
         return TYPE;
     }
 }

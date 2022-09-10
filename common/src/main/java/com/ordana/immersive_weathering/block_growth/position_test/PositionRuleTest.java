@@ -23,16 +23,16 @@ public interface PositionRuleTest {
         }
 
         @Override
-        public PositionRuleTestType<?> getType() {
+        public Type<?> getType() {
             return null;
         }
     };
 
-    Codec<PositionRuleTest> CODEC = PositionRuleTestType.CODEC
-            .dispatch("type", PositionRuleTest::getType, PositionRuleTestType::codec);
+    Codec<PositionRuleTest> CODEC = Type.CODEC
+            .dispatch("type", PositionRuleTest::getType, Type::codec);
 
 
-    Map<String, PositionRuleTestType<?>> TYPES = new HashMap<>(){{
+    Map<String, Type<?>> TYPES = new HashMap<>(){{
         put(TemperatureMatchTest.TYPE.name, TemperatureMatchTest.TYPE);
         put(PrecipitationTest.TYPE.name, PrecipitationTest.TYPE);
         put(PosRandomTest.TYPE.name, PosRandomTest.TYPE);
@@ -47,13 +47,13 @@ public interface PositionRuleTest {
     }};
 
 
-    static <B extends PositionRuleTestType<?>> B register(B newType){
+    static <B extends Type<?>> B register(B newType){
         TYPES.put(newType.name(), newType);
         return newType;
     }
 
 
-    static Optional<? extends PositionRuleTestType<? extends PositionRuleTest>> get(String name) {
+    static Optional<? extends Type<? extends PositionRuleTest>> get(String name) {
         var r = TYPES.get(name);
         return r == null ? Optional.empty() : Optional.of(r);
     }
@@ -61,12 +61,13 @@ public interface PositionRuleTest {
 
     boolean test(Holder<Biome> biome, BlockPos pos, Level level);
 
-    PositionRuleTestType<?> getType();
+    Type<?> getType();
 
 
 
-    record PositionRuleTestType<T extends PositionRuleTest>(Codec<T> codec, String name) {
-        public static Codec<PositionRuleTestType<?>> CODEC = Codec.STRING.flatXmap(
+    record Type<T extends PositionRuleTest>(Codec<T> codec, String name) {
+
+        private static final Codec<Type<?>> CODEC = Codec.STRING.flatXmap(
                 (name) -> get(name).map(DataResult::success).orElseGet(
                         () -> DataResult.error("Unknown Position Predicate: " + name)),
                 (t) -> DataResult.success(t.name()));

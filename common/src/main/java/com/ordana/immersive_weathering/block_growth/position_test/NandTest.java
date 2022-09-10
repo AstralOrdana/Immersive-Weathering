@@ -16,11 +16,11 @@ record NandTest(List<PositionRuleTest> predicates) implements PositionRuleTest {
             PositionRuleTest.CODEC.listOf().fieldOf("predicates").forGetter(NandTest::predicates)
     ).apply(instance, NandTest::new));
 
-    static final PositionRuleTestType<NandTest> TYPE =
-            new PositionRuleTestType<>(NandTest.CODEC, NandTest.NAME);
+    static final Type<NandTest> TYPE =
+            new Type<>(NandTest.CODEC, NandTest.NAME);
 
     @Override
-    public PositionRuleTestType<NandTest> getType() {
+    public Type<NandTest> getType() {
         return TYPE;
     }
 

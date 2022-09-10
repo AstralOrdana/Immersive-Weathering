@@ -17,11 +17,11 @@ record OrTest(List<PositionRuleTest> predicates) implements PositionRuleTest {
             PositionRuleTest.CODEC.listOf().fieldOf("predicates").forGetter(OrTest::predicates)
     ).apply(instance, OrTest::new));
 
-    static final PositionRuleTestType<OrTest> TYPE =
-            new PositionRuleTestType<>(OrTest.CODEC, OrTest.NAME);
+    static final Type<OrTest> TYPE =
+            new Type<>(OrTest.CODEC, OrTest.NAME);
 
     @Override
-    public PositionRuleTestType<OrTest> getType() {
+    public Type<OrTest> getType() {
         return TYPE;
     }
 

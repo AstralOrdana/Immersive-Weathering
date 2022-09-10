@@ -17,8 +17,8 @@ public record PosRandomTest(int rarity) implements PositionRuleTest {
             Codec.intRange(0, 10000).fieldOf("rarity").forGetter(PosRandomTest::rarity)
     ).apply(instance, PosRandomTest::new));
 
-    static final PositionRuleTestType<PosRandomTest> TYPE =
-            new PositionRuleTestType<>(PosRandomTest.CODEC, PosRandomTest.NAME);
+    static final Type<PosRandomTest> TYPE =
+            new Type<>(PosRandomTest.CODEC, PosRandomTest.NAME);
 
     @Override
     public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
@@ -27,7 +27,7 @@ public record PosRandomTest(int rarity) implements PositionRuleTest {
     }
 
     @Override
-    public PositionRuleTestType<?> getType() {
+    public Type<?> getType() {
         return TYPE;
     }
 }

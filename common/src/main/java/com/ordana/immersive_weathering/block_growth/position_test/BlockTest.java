@@ -8,8 +8,6 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
-import net.minecraft.world.level.levelgen.structure.templatesystem.BlockStateMatchTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 
 import java.util.Random;
@@ -23,11 +21,11 @@ record BlockTest(Vec3i offset, RuleTest predicate) implements PositionRuleTest {
             RuleTest.CODEC.fieldOf("predicate").forGetter(BlockTest::predicate)
     ).apply(instance, BlockTest::new));
 
-    static final PositionRuleTestType<BlockTest> TYPE =
-            new PositionRuleTestType<>(BlockTest.CODEC, BlockTest.NAME);
+    static final Type<BlockTest> TYPE =
+            new Type<>(BlockTest.CODEC, BlockTest.NAME);
 
     @Override
-    public PositionRuleTestType<BlockTest> getType() {
+    public Type<BlockTest> getType() {
         return TYPE;
     }
 

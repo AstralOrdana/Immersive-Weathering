@@ -30,19 +30,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-public class LiquidGeneratorHandler extends SimpleJsonResourceReloadListener {
+public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create(); //json object that will write stuff
 
-    public static final LiquidGeneratorHandler RELOAD_INSTANCE = new LiquidGeneratorHandler();
+    public static final FluidGeneratorsHandler RELOAD_INSTANCE = new FluidGeneratorsHandler();
 
     private static final Map<ResourceLocation, JsonElement> TO_PARSE = new HashMap<>();
 
-    private static final Map<Fluid, ImmutableList<LiquidGenerator>> GENERATORS = new HashMap<>();
+    private static final Map<Fluid, ImmutableList<SelfFluidGenerator>> GENERATORS = new HashMap<>();
     private boolean needsRefresh;
 
-    public LiquidGeneratorHandler() {
-        super(GSON, "liquid_generators");
+    public FluidGeneratorsHandler() {
+        super(GSON, "fluid_generators");
     }
 
     @Override
@@ -53,9 +53,9 @@ public class LiquidGeneratorHandler extends SimpleJsonResourceReloadListener {
             TO_PARSE.put(e.getKey(), e.getValue().deepCopy());
         }
 
-        var b = new LiquidGenerator(Fluids.LAVA, Blocks.ACACIA_LOG.defaultBlockState(),
-                Map.of(LiquidGenerator.Side.SIDES, new BlockStateMatchTest(Blocks.CAKE.defaultBlockState())
-                ), Optional.empty(), List.of(), 0);
+        var b = new SelfFluidGenerator(Fluids.LAVA, Blocks.ACACIA_LOG.defaultBlockState(),
+                Map.of(SelfFluidGenerator.Side.SIDES, new BlockStateMatchTest(Blocks.CAKE.defaultBlockState())
+                ), List.of(), 0);
 
         saveGeneartor(b);
     }
@@ -66,16 +66,16 @@ public class LiquidGeneratorHandler extends SimpleJsonResourceReloadListener {
         if (this.needsRefresh) {
             this.needsRefresh = false;
 
-            List<LiquidGenerator> generators = new ArrayList<>();
+            List<SelfFluidGenerator> generators = new ArrayList<>();
 
             for (var e : TO_PARSE.entrySet()) {
                 var json = e.getValue();
 
-                var result = LiquidGenerator.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
+                var result = SelfFluidGenerator.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
 
                 var o = result.resultOrPartial(error -> ImmersiveWeathering.LOGGER.error("Failed to read block growth JSON object for {} : {}", e.getKey(), error));
                 if (o.isPresent()) {
-                    LiquidGenerator g = o.get();
+                    SelfFluidGenerator g = o.get();
                     generators.add(g);
                 }
                 o.ifPresent(generators::add);
@@ -84,11 +84,11 @@ public class LiquidGeneratorHandler extends SimpleJsonResourceReloadListener {
 
             GENERATORS.clear();
 
-            Map<Fluid, List<LiquidGenerator>> tempMap = new HashMap<>();
+            Map<Fluid, List<SelfFluidGenerator>> tempMap = new HashMap<>();
 
             for (var g : generators) {
 
-                var list = tempMap.computeIfAbsent(g.getLiquid(), e -> new ArrayList<>());
+                var list = tempMap.computeIfAbsent(g.getFluid(), e -> new ArrayList<>());
 
                 list.add(g);
                 Collections.sort(list);
@@ -114,7 +114,7 @@ public class LiquidGeneratorHandler extends SimpleJsonResourceReloadListener {
     //debug
 
 
-    public void saveGeneartor(LiquidGenerator song) {
+    public void saveGeneartor(SelfFluidGenerator song) {
 
         File folder = PlatformHelper.getGamePath().resolve("test").toFile();
 
@@ -134,8 +134,8 @@ public class LiquidGeneratorHandler extends SimpleJsonResourceReloadListener {
 
     }
 
-    private void writeToFile(final LiquidGenerator obj, FileWriter writer) {
-        DataResult<JsonElement> r = LiquidGenerator.CODEC.encodeStart(JsonOps.INSTANCE, obj);
+    private void writeToFile(final SelfFluidGenerator obj, FileWriter writer) {
+        DataResult<JsonElement> r = SelfFluidGenerator.CODEC.encodeStart(JsonOps.INSTANCE, obj);
         r.result().ifPresent(a -> GSON.toJson(sortJson(a.getAsJsonObject()), writer));
     }
 

@@ -13,11 +13,11 @@ record BiomeSetMatchTest(HolderSet<Biome> biomes) implements PositionRuleTest {
             RegistryCodecs.homogeneousList(Registry.BIOME_REGISTRY).fieldOf("biomes").forGetter(BiomeSetMatchTest::biomes)
     ).apply(instance, BiomeSetMatchTest::new));
 
-    static final PositionRuleTestType<BiomeSetMatchTest> TYPE =
-            new PositionRuleTestType<>(BiomeSetMatchTest.CODEC, BiomeSetMatchTest.NAME);
+    static final Type<BiomeSetMatchTest> TYPE =
+            new Type<>(BiomeSetMatchTest.CODEC, BiomeSetMatchTest.NAME);
 
     @Override
-    public PositionRuleTestType<BiomeSetMatchTest> getType() {
+    public Type<BiomeSetMatchTest> getType() {
         return TYPE;
     }
 

@@ -2,7 +2,7 @@ package com.ordana.immersive_weathering.mixins;
 
 import com.google.common.collect.ImmutableList;
 import com.ordana.immersive_weathering.IWPlatformStuff;
-import com.ordana.immersive_weathering.block_growth.liquid_generators.LiquidGeneratorHandler;
+import com.ordana.immersive_weathering.block_growth.liquid_generators.FluidGeneratorsHandler;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModTags;
@@ -61,7 +61,7 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
     private void shouldSpreadLiquid(Level world, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
         var fluid = this.getOwnFluid();
 
-        Optional<BlockPos> successPos = LiquidGeneratorHandler.applyGenerators(fluid, POSSIBLE_FLOW_DIRECTIONS, pos, world);
+        Optional<BlockPos> successPos = FluidGeneratorsHandler.applyGenerators(fluid, POSSIBLE_FLOW_DIRECTIONS, pos, world);
         if(successPos.isPresent()){
             this.fizz(world, successPos.get());
             cir.setReturnValue(false);

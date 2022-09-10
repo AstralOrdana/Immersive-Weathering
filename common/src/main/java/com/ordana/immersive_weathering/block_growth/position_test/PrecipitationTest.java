@@ -17,11 +17,11 @@ record PrecipitationTest(Biome.Precipitation precipitation) implements PositionR
             Biome.Precipitation.CODEC.fieldOf("precipitation").forGetter(PrecipitationTest::precipitation)
     ).apply(instance, PrecipitationTest::new));
 
-    static final PositionRuleTestType<PrecipitationTest> TYPE =
-            new PositionRuleTestType<>(PrecipitationTest.CODEC, PrecipitationTest.NAME);
+    static final Type<PrecipitationTest> TYPE =
+            new Type<>(PrecipitationTest.CODEC, PrecipitationTest.NAME);
 
     @Override
-    public PositionRuleTestType<PrecipitationTest> getType() {
+    public Type<PrecipitationTest> getType() {
         return TYPE;
     }
 

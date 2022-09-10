@@ -22,11 +22,11 @@ record LightTest(int targetLight, Operator operator, Optional<Vec3i> offset) imp
             Vec3i.offsetCodec(16).optionalFieldOf("offset").forGetter(LightTest::offset)
     ).apply(instance, LightTest::new));
 
-    static final PositionRuleTestType<LightTest> TYPE =
-            new PositionRuleTestType<>(LightTest.CODEC, LightTest.NAME);
+    static final Type<LightTest> TYPE =
+            new Type<>(LightTest.CODEC, LightTest.NAME);
 
     @Override
-    public PositionRuleTestType<LightTest> getType() {
+    public Type<LightTest> getType() {
         return TYPE;
     }
 
