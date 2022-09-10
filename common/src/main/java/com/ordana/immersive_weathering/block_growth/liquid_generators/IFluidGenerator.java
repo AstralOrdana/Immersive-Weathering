@@ -16,6 +16,9 @@ import java.util.Optional;
 
 public interface IFluidGenerator extends Comparable<IFluidGenerator> {
 
+    static void register() {
+    }
+
     Optional<BlockPos> tryGenerating(List<Direction> possibleFlowDir, BlockPos pos, Level level, Map<Direction, BlockState> neighborCache);
 
     Fluid getFluid();
@@ -37,8 +40,7 @@ public interface IFluidGenerator extends Comparable<IFluidGenerator> {
     }};
 
     static Optional<? extends IFluidGenerator.Type<? extends IFluidGenerator>> get(String name) {
-        var r = TYPES.get(name);
-        return r == null ? Optional.empty() : Optional.of(r);
+        return Optional.ofNullable(TYPES.get(name));
     }
 
     record Type<T extends IFluidGenerator>(Codec<T> codec, String name) {

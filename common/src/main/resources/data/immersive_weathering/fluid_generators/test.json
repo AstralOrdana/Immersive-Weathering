@@ -1,4 +1,5 @@
 {
+  "type": "target_self",
   "fluid": "minecraft:lava",
   "generate": {
     "Name": "minecraft:acacia_log",

@@ -22,8 +22,6 @@ import java.util.function.Function;
 
 public class SelfFluidGenerator implements IFluidGenerator {
 
-
-    public static final String NAME = "target_self";
     public static final Codec<SelfFluidGenerator> CODEC = RecordCodecBuilder.<SelfFluidGenerator>create(
             instance -> instance.group(
                     Registry.FLUID.byNameCodec().fieldOf("fluid").forGetter(SelfFluidGenerator::getFluid),
@@ -39,7 +37,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
         return DataResult.success(arg);
     }, Function.identity());
 
-    public static final IFluidGenerator.Type<SelfFluidGenerator> TYPE = new Type<>(CODEC, NAME);
+    public static final IFluidGenerator.Type<SelfFluidGenerator> TYPE = new Type<>(CODEC, "target_self");
 
     private final Fluid fluid;
     private final BlockState growth;

@@ -54,8 +54,7 @@ public interface PositionRuleTest {
 
 
     static Optional<? extends Type<? extends PositionRuleTest>> get(String name) {
-        var r = TYPES.get(name);
-        return r == null ? Optional.empty() : Optional.of(r);
+        return Optional.ofNullable(TYPES.get(name));
     }
 
 

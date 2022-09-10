@@ -23,7 +23,6 @@ import java.util.function.Function;
 
 public class OtherFluidGenerator implements IFluidGenerator {
 
-    public static final String NAME = "target_other";
     public static final Codec<OtherFluidGenerator> CODEC = RecordCodecBuilder.<OtherFluidGenerator>create(
             instance -> instance.group(
                     Registry.FLUID.byNameCodec().fieldOf("fluid").forGetter(OtherFluidGenerator::getFluid),
@@ -33,7 +32,7 @@ public class OtherFluidGenerator implements IFluidGenerator {
                     Codec.INT.optionalFieldOf("priority", 0).forGetter(OtherFluidGenerator::getPriority)
             ).apply(instance, OtherFluidGenerator::new));
 
-    public static final IFluidGenerator.Type<OtherFluidGenerator> TYPE = new IFluidGenerator.Type<>(CODEC, NAME);
+    public static final IFluidGenerator.Type<OtherFluidGenerator> TYPE = new IFluidGenerator.Type<>(CODEC, "target_other");
 
     private final Fluid fluid;
     private final BlockState growth;

@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering;
 
 import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
 import com.ordana.immersive_weathering.block_growth.liquid_generators.FluidGeneratorsHandler;
+import com.ordana.immersive_weathering.block_growth.liquid_generators.IFluidGenerator;
 import com.ordana.immersive_weathering.block_growth.position_test.PositionRuleTest;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
@@ -49,6 +50,7 @@ public class ImmersiveWeathering {
     public static void commonSetup() {
         //TODO: move to regHelper
         PositionRuleTest.register();
+        IFluidGenerator.register();
         //rule tests
         ModCompostable.register();
     }
