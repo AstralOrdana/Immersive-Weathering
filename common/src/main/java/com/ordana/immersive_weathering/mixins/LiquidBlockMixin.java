@@ -2,7 +2,7 @@ package com.ordana.immersive_weathering.mixins;
 
 import com.google.common.collect.ImmutableList;
 import com.ordana.immersive_weathering.IWPlatformStuff;
-import com.ordana.immersive_weathering.block_growth.liquid_generators.FluidGeneratorsHandler;
+import com.ordana.immersive_weathering.data.fluid_generators.FluidGeneratorsHandler;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModTags;

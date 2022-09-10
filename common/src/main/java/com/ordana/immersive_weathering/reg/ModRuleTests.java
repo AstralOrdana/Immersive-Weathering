@@ -2,7 +2,9 @@ package com.ordana.immersive_weathering.reg;
 
 import com.mojang.serialization.Codec;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.block_growth.rute_test.*;
+import com.ordana.immersive_weathering.data.block_growths.rute_test.*;
+import com.ordana.immersive_weathering.data.rute_tests.*;
+import com.ordana.immersive_weathering.rute_test.*;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;

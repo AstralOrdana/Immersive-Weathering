@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.mixins;
 
-import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
-import com.ordana.immersive_weathering.block_growth.TickSource;
+import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
+import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;

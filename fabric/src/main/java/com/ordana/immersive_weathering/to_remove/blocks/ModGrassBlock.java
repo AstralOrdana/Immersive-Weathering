@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.to_remove.blocks;
 
-import com.ordana.immersive_weathering.block_growth.IConditionalGrowingBlock;
+import com.ordana.immersive_weathering.data.block_growths.IConditionalGrowingBlock;
 
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.utils.WeatheringHelper;

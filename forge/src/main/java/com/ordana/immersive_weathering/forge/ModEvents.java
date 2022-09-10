@@ -1,9 +1,9 @@
 package com.ordana.immersive_weathering.forge;
 
 
-import com.ordana.immersive_weathering.block_growth.BlockGrowthHandler;
+import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
 
-import com.ordana.immersive_weathering.block_growth.liquid_generators.FluidGeneratorsHandler;
+import com.ordana.immersive_weathering.data.fluid_generators.FluidGeneratorsHandler;
 import net.minecraft.world.InteractionResult;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;

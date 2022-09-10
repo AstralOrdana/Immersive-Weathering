@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.blocks.soil;
 
-import com.ordana.immersive_weathering.block_growth.IConditionalGrowingBlock;
+import com.ordana.immersive_weathering.data.block_growths.IConditionalGrowingBlock;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import net.minecraft.core.BlockPos;
