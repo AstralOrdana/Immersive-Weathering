@@ -1,9 +1,12 @@
 {
   "fluid": "minecraft:water",
-  "generate": "//blockstate here",
+  "generate": {
+    "Name": "minecraft:diamond_block"
+  },
   "neighbors": {
-    "sides": "rule test",
-    "up": "rule test",
-    "down": "rule test"
+    "sides": {
+      "block": "minecraft:",
+      "predicate_type": "minecraft:emerald_block"
+    }
   }
 }

@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.block_growth.liquid_generators;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -9,37 +8,27 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.block_growth.IConditionalGrowingBlock;
-import com.ordana.immersive_weathering.block_growth.TickSource;
-import com.ordana.immersive_weathering.block_growth.growths.ConfigurableBlockGrowth;
-import com.ordana.immersive_weathering.block_growth.growths.IBlockGrowth;
-import com.ordana.immersive_weathering.block_growth.growths.builtin.BuiltinBlockGrowth;
-import com.ordana.immersive_weathering.block_growth.growths.builtin.NoOpBlockGrowth;
-import com.ordana.immersive_weathering.configs.CommonConfigs;
+import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockStateMatchTest;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 
+import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
-import java.util.function.Supplier;
 
 public class LiquidGeneratorHandler extends SimpleJsonResourceReloadListener {
 
@@ -63,6 +52,12 @@ public class LiquidGeneratorHandler extends SimpleJsonResourceReloadListener {
         for (var e : jsons.entrySet()) {
             TO_PARSE.put(e.getKey(), e.getValue().deepCopy());
         }
+
+        var b = new LiquidGenerator(Fluids.LAVA, Blocks.ACACIA_LOG.defaultBlockState(),
+                Map.of(LiquidGenerator.Side.SIDES, new BlockStateMatchTest(Blocks.CAKE.defaultBlockState())
+                ), Optional.empty(), List.of(), 0);
+
+        saveGeneartor(b);
     }
 
     //called after all tags are reloaded
@@ -76,7 +71,7 @@ public class LiquidGeneratorHandler extends SimpleJsonResourceReloadListener {
             for (var e : TO_PARSE.entrySet()) {
                 var json = e.getValue();
 
-               var result = LiquidGenerator.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
+                var result = LiquidGenerator.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
 
                 var o = result.resultOrPartial(error -> ImmersiveWeathering.LOGGER.error("Failed to read block growth JSON object for {} : {}", e.getKey(), error));
                 if (o.isPresent()) {
@@ -104,13 +99,13 @@ public class LiquidGeneratorHandler extends SimpleJsonResourceReloadListener {
         }
     }
 
-    public static Optional<BlockPos> applyGenerators(FlowingFluid fluidState, List<Direction> possibleFlowDir, BlockPos pos, Level level){
+    public static Optional<BlockPos> applyGenerators(FlowingFluid fluidState, List<Direction> possibleFlowDir, BlockPos pos, Level level) {
         var list = GENERATORS.get(fluidState.getSource());
-        if(list != null && !list.isEmpty()) {
-            Map<Direction,BlockState> neighborCache = new EnumMap<>(Direction.class);
-            for(var generator : list){
+        if (list != null && !list.isEmpty()) {
+            Map<Direction, BlockState> neighborCache = new EnumMap<>(Direction.class);
+            for (var generator : list) {
                 var res = generator.tryGenerating(possibleFlowDir, pos, level, neighborCache);
-                if(res.isPresent())return res;
+                if (res.isPresent()) return res;
             }
         }
         return Optional.empty();
@@ -119,8 +114,28 @@ public class LiquidGeneratorHandler extends SimpleJsonResourceReloadListener {
     //debug
 
 
-    private void writeToFile(final ConfigurableBlockGrowth obj, FileWriter writer) {
-        DataResult<JsonElement> r = ConfigurableBlockGrowth.CODEC.encodeStart(JsonOps.INSTANCE, obj);
+    public void saveGeneartor(LiquidGenerator song) {
+
+        File folder = PlatformHelper.getGamePath().resolve("test").toFile();
+
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+
+        File exportPath = new File(folder, "template" + ".json");
+
+        try {
+            try (FileWriter writer = new FileWriter(exportPath)) {
+                writeToFile(song, writer);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void writeToFile(final LiquidGenerator obj, FileWriter writer) {
+        DataResult<JsonElement> r = LiquidGenerator.CODEC.encodeStart(JsonOps.INSTANCE, obj);
         r.result().ifPresent(a -> GSON.toJson(sortJson(a.getAsJsonObject()), writer));
     }
 

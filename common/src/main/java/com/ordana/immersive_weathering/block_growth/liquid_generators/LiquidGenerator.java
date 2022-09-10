@@ -78,7 +78,7 @@ public class LiquidGenerator implements Comparable<LiquidGenerator> {
     }
 
     public Optional<BlockPos> tryGenerating(List<Direction> possibleFlowDir, BlockPos pos, Level level, Map<Direction, BlockState> neighborCache) {
-
+        if(this.neighborBlocks.isEmpty())return Optional.empty();
         for (var e : this.neighborBlocks.entrySet()) {
             Side s = e.getKey();
             switch (s) {
