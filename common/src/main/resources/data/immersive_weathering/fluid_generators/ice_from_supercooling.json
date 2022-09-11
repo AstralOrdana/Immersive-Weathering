@@ -5,7 +5,7 @@
     "Name": "minecraft:ice"
   },
   "adjacent_blocks": {
-    "sides": [
+    "all": [
       {
         "block_state": {
           "Name": "minecraft:blue_ice"
