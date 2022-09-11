@@ -5,11 +5,13 @@
     "Name": "minecraft:ice"
   },
   "adjacent_blocks": {
-    "sides": {
-      "block_state": {
-        "Name": "minecraft:blue_ice"
-      },
-      "predicate_type": "minecraft:blockstate_match"
-    }
+    "sides": [
+      {
+        "block_state": {
+          "Name": "minecraft:blue_ice"
+        },
+        "predicate_type": "minecraft:blockstate_match"
+      }
+    ]
   }
 }

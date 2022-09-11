@@ -63,7 +63,9 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
 
         Optional<BlockPos> successPos = FluidGeneratorsHandler.applyGenerators(fluid, POSSIBLE_FLOW_DIRECTIONS, pos, world);
         if(successPos.isPresent()){
-            this.fizz(world, successPos.get());
+            if(fluid.is(FluidTags.LAVA)) {
+                this.fizz(world, successPos.get());
+            }
             cir.setReturnValue(false);
             return;
         }

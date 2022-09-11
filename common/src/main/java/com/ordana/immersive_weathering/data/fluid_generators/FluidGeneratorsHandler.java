@@ -53,7 +53,12 @@ public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
             TO_PARSE.put(e.getKey(), e.getValue().deepCopy());
         }
 
+        var b = new SelfFluidGenerator(Fluids.LAVA, Blocks.ACACIA_LOG.defaultBlockState(),
+                new SelfFluidGenerator.AdjacentBlocks(List.of(new BlockStateMatchTest(Blocks.CAKE.defaultBlockState())),
+                        List.of(), Optional.of(new BlockStateMatchTest(Blocks.GLASS.defaultBlockState())), Optional.empty())
+                , List.of(), 0);
 
+        saveGeneartor(b);
     }
 
     //called after all tags are reloaded

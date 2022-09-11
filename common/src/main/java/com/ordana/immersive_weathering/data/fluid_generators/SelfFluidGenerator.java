@@ -96,18 +96,14 @@ public class SelfFluidGenerator implements IFluidGenerator {
     }
 
 
-    private static class AdjacentBlocks {
+    public static class AdjacentBlocks {
 
         public static final Codec<AdjacentBlocks> CODEC = RecordCodecBuilder.<AdjacentBlocks>create(
                 instance -> instance.group(
-                        RuleTest.CODEC.listOf().optionalFieldOf("sides", List.of())
-                                .forGetter(a -> a.sidesBlocks),
-                        RuleTest.CODEC.listOf().optionalFieldOf("sides", List.of())
-                                .fieldOf("any").forGetter(a -> a.anyBlocks),
-                        RuleTest.CODEC.optionalFieldOf("up")
-                                .fieldOf("up").forGetter(a -> Optional.ofNullable(a.upBlock)),
-                        RuleTest.CODEC.optionalFieldOf("down")
-                                .fieldOf("up").forGetter(a -> Optional.ofNullable(a.downBlock))
+                        RuleTest.CODEC.listOf().optionalFieldOf("sides", List.of()).forGetter(a -> a.sidesBlocks),
+                        RuleTest.CODEC.listOf().optionalFieldOf("sides", List.of()).forGetter(a -> a.anyBlocks),
+                        RuleTest.CODEC.optionalFieldOf("up").forGetter(a -> Optional.ofNullable(a.upBlock)),
+                        RuleTest.CODEC.optionalFieldOf("down").forGetter(a -> Optional.ofNullable(a.downBlock))
 
                 ).apply(instance, AdjacentBlocks::new)).comapFlatMap(arg -> {
             if (arg.sidesBlocks.isEmpty() && arg.anyBlocks.isEmpty() && arg.upBlock == null && arg.downBlock == null) {
