@@ -26,30 +26,25 @@ public class SelfFluidGenerator implements IFluidGenerator {
             instance -> instance.group(
                     Registry.FLUID.byNameCodec().fieldOf("fluid").forGetter(SelfFluidGenerator::getFluid),
                     BlockState.CODEC.fieldOf("generate").forGetter(SelfFluidGenerator::getGrowth),
-                    Codec.simpleMap(Side.CODEC, RuleTest.CODEC, StringRepresentable.keys(Side.values()))
-                            .fieldOf("adjacent_blocks").forGetter(SelfFluidGenerator::getNeighborBlocks),
+                    AdjacentBlocks.CODEC.fieldOf("adjacent_blocks").forGetter(SelfFluidGenerator::getAdjacentBlocksCondition),
                     PositionRuleTest.CODEC.listOf().optionalFieldOf("additional_checks", List.of()).forGetter(SelfFluidGenerator::getPositionTests),
                     Codec.INT.optionalFieldOf("priority", 0).forGetter(SelfFluidGenerator::getPriority)
-            ).apply(instance, SelfFluidGenerator::new)).comapFlatMap(arg -> {
-        if (arg.neighborBlocks.isEmpty()) {
-            return DataResult.error("Neighbor predicate map must not be empty");
-        }
-        return DataResult.success(arg);
-    }, Function.identity());
+            ).apply(instance, SelfFluidGenerator::new));
 
     public static final IFluidGenerator.Type<SelfFluidGenerator> TYPE = new Type<>(CODEC, "target_self");
 
     private final Fluid fluid;
     private final BlockState growth;
-    private final Map<Side, RuleTest> neighborBlocks;
     private final List<PositionRuleTest> positionTests;
     private final int priority;
+    private final AdjacentBlocks adjacentBlocksCondition;
 
-    public SelfFluidGenerator(Fluid fluid, BlockState growth, Map<Side, RuleTest> neighborBlocks,
-                             List<PositionRuleTest> positionRuleTests, int priority) {
+    public SelfFluidGenerator(Fluid fluid, BlockState growth,
+                              AdjacentBlocks adjacentBlocks,
+                              List<PositionRuleTest> positionRuleTests, int priority) {
         this.fluid = fluid;
         this.growth = growth;
-        this.neighborBlocks = neighborBlocks;
+        this.adjacentBlocksCondition = adjacentBlocks;
         this.positionTests = positionRuleTests;
         this.priority = priority;
     }
@@ -59,6 +54,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
         return TYPE;
     }
 
+    @Override
     public Fluid getFluid() {
         return fluid;
     }
@@ -67,50 +63,24 @@ public class SelfFluidGenerator implements IFluidGenerator {
         return growth;
     }
 
-    public Map<Side, RuleTest> getNeighborBlocks() {
-        return neighborBlocks;
-    }
-
     public List<PositionRuleTest> getPositionTests() {
         return positionTests;
     }
 
+    @Override
     public int getPriority() {
         return priority;
     }
 
-    public Optional<BlockPos> tryGenerating(List<Direction> possibleFlowDir, BlockPos pos, Level level, Map<Direction, BlockState> neighborCache) {
-        if (this.neighborBlocks.isEmpty()) return Optional.empty();
-        BlockPos targetPos = pos;
-        for (var e : this.neighborBlocks.entrySet()) {
-            Side s = e.getKey();
-            switch (s) {
-                case SIDES -> {
-                    for (var d : possibleFlowDir) {
-                        targetPos = null;
-                        if (d.getAxis().isHorizontal()) {
-                            BlockPos side = pos.relative(d);
-                            BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(side));
-                            if (e.getValue().test(state, level.random)) {
-                                targetPos = pos;
-                                break;
-                            }
-                        }
-                    }
-                }
-                case UP -> {
-                    Direction d = Direction.UP;
-                    BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(pos.relative(d)));
-                    if (!e.getValue().test(state, level.random)) return Optional.empty();
-                }
-                case DOWN -> {
-                    Direction d = Direction.DOWN;
-                    BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(pos.relative(d)));
-                    if (!e.getValue().test(state, level.random)) return Optional.empty();
-                }
-            }
+    public AdjacentBlocks getAdjacentBlocksCondition() {
+        return adjacentBlocksCondition;
+    }
 
-        }
+    @Override
+    public Optional<BlockPos> tryGenerating(List<Direction> possibleFlowDir, BlockPos pos, Level level, Map<Direction, BlockState> neighborCache) {
+
+        if(!adjacentBlocksCondition.isMet(possibleFlowDir, pos, level, neighborCache))return Optional.empty();
+
         if (!this.positionTests.isEmpty()) {
             var biome = level.getBiome(pos);
             for (var a : this.positionTests) {
@@ -118,38 +88,96 @@ public class SelfFluidGenerator implements IFluidGenerator {
             }
         }
 
-        if (targetPos != null) {
-            level.setBlockAndUpdate(targetPos, this.growth);
-            return Optional.of(targetPos);
+        if (pos != null) {
+            level.setBlockAndUpdate(pos, this.growth);
+            return Optional.of(pos);
         }
         return Optional.empty();
     }
 
 
-    public enum Side implements StringRepresentable {
-        SIDES("sides"), UP("up"), DOWN("down");
+    private static class AdjacentBlocks {
 
-        private final String name;
+        public static final Codec<AdjacentBlocks> CODEC = RecordCodecBuilder.<AdjacentBlocks>create(
+                instance -> instance.group(
+                        RuleTest.CODEC.listOf().optionalFieldOf("sides", List.of())
+                                .forGetter(a -> a.sidesBlocks),
+                        RuleTest.CODEC.listOf().optionalFieldOf("sides", List.of())
+                                .fieldOf("any").forGetter(a -> a.anyBlocks),
+                        RuleTest.CODEC.optionalFieldOf("up")
+                                .fieldOf("up").forGetter(a -> Optional.ofNullable(a.upBlock)),
+                        RuleTest.CODEC.optionalFieldOf("down")
+                                .fieldOf("up").forGetter(a -> Optional.ofNullable(a.downBlock))
 
-        Side(String name) {
-            this.name = name;
+                ).apply(instance, AdjacentBlocks::new)).comapFlatMap(arg -> {
+            if (arg.sidesBlocks.isEmpty() && arg.anyBlocks.isEmpty() && arg.upBlock == null && arg.downBlock == null) {
+                return DataResult.error("Adjacent Blocks must contain at least one predicate");
+            }
+            return DataResult.success(arg);
+        }, Function.identity());
+
+        private final List<RuleTest> anyBlocks;
+        private final List<RuleTest> sidesBlocks;
+        private final RuleTest upBlock;
+        private final RuleTest downBlock;
+
+        public AdjacentBlocks(List<RuleTest> sidesBlocks,
+                              List<RuleTest> anyBlocks,
+                              Optional<RuleTest> upBlock,
+                              Optional<RuleTest> downBlock) {
+            this.sidesBlocks = sidesBlocks;
+            this.anyBlocks = anyBlocks;
+            this.upBlock = upBlock.orElse(null);
+            this.downBlock = downBlock.orElse(null);
+
         }
 
-        @Override
-        public String getSerializedName() {
-            return name;
+        public boolean isMet(List<Direction> possibleFlowDir, BlockPos pos, Level level, Map<Direction, BlockState> neighborCache) {
+
+            for(var r : anyBlocks){
+                boolean atLeastOnceSuccess = false;
+
+                for (var d : Direction.values()) {
+                    BlockPos side = pos.relative(d);
+                    BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(side));
+                    if (r.test(state, level.random)) {
+                        atLeastOnceSuccess = true;
+                        break;
+                    }
+                }
+                if(!atLeastOnceSuccess)return false;
+            }
+
+            for(var r : sidesBlocks){
+                boolean atLeastOnceSuccess = false;
+
+                for (var d : possibleFlowDir) {
+                    if (d.getAxis().isHorizontal()) {
+                        BlockPos side = pos.relative(d);
+                        BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(side));
+                        if (r.test(state, level.random)) {
+                            atLeastOnceSuccess = true;
+                            break;
+                        }
+                    }
+                }
+                if(!atLeastOnceSuccess)return false;
+            }
+
+            if(upBlock != null){
+                Direction d = Direction.UP;
+                BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(pos.relative(d)));
+                if (!upBlock.test(state, level.random)) return false;
+            }
+
+            if(downBlock != null){
+                Direction d = Direction.DOWN;
+                BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(pos.relative(d)));
+                if (!downBlock.test(state, level.random)) return false;
+            }
+
+            return true;
         }
 
-        @Nullable
-        public static Side byName(String string) {
-            return switch (string.toLowerCase(Locale.ROOT)) {
-                default -> null;
-                case "sides" -> SIDES;
-                case "up" -> UP;
-                case "down" -> DOWN;
-            };
-        }
-
-        private static final Codec<Side> CODEC = StringRepresentable.fromEnum(Side::values, Side::byName);
     }
 }
