@@ -101,7 +101,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
         public static final Codec<AdjacentBlocks> CODEC = RecordCodecBuilder.<AdjacentBlocks>create(
                 instance -> instance.group(
                         RuleTest.CODEC.listOf().optionalFieldOf("sides", List.of()).forGetter(a -> a.sidesBlocks),
-                        RuleTest.CODEC.listOf().optionalFieldOf("sides", List.of()).forGetter(a -> a.anyBlocks),
+                        RuleTest.CODEC.listOf().optionalFieldOf("any", List.of()).forGetter(a -> a.anyBlocks),
                         RuleTest.CODEC.optionalFieldOf("up").forGetter(a -> Optional.ofNullable(a.upBlock)),
                         RuleTest.CODEC.optionalFieldOf("down").forGetter(a -> Optional.ofNullable(a.downBlock))
 

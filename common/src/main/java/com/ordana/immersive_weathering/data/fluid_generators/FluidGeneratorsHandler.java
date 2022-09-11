@@ -73,12 +73,8 @@ public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
                 var json = e.getValue();
 
                 var result = SelfFluidGenerator.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
-
                 var o = result.resultOrPartial(error -> ImmersiveWeathering.LOGGER.error("Failed to read block growth JSON object for {} : {}", e.getKey(), error));
-                if (o.isPresent()) {
-                    SelfFluidGenerator g = o.get();
-                    generators.add(g);
-                }
+
                 o.ifPresent(generators::add);
             }
             ImmersiveWeathering.LOGGER.info("Loaded {} liquid generators configurations", TO_PARSE.size());
