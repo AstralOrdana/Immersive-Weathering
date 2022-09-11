@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
@@ -26,6 +27,13 @@ public interface IFluidGenerator extends Comparable<IFluidGenerator> {
     Type<?> getType();
 
     int getPriority();
+
+    //NYI
+    default SoundEvent getSound() {
+        return null;
+    }
+
+    ;
 
     default int compareTo(@NotNull IFluidGenerator o) {
         return Integer.compare(this.getPriority(), o.getPriority());

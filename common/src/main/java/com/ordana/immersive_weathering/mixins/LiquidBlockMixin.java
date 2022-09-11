@@ -61,104 +61,12 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
     private void shouldSpreadLiquid(Level world, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
         var fluid = this.getOwnFluid();
 
-        Optional<BlockPos> successPos = FluidGeneratorsHandler.applyGenerators(fluid, POSSIBLE_FLOW_DIRECTIONS, pos, world);
+        var successPos = FluidGeneratorsHandler.applyGenerators(fluid, POSSIBLE_FLOW_DIRECTIONS, pos, world);
         if(successPos.isPresent()){
             if(fluid.is(FluidTags.LAVA)) {
-                this.fizz(world, successPos.get());
+                this.fizz(world, successPos.get().getFirst());
             }
             cir.setReturnValue(false);
-            return;
-        }
-        if(true)return;
-
-        if (fluid != null && fluid.is(FluidTags.LAVA)) {
-            boolean hasWater = false;
-            boolean blueIceDown = false;
-            boolean blueIceUp = false;
-            boolean hasBlueIce = false;
-            boolean hasQuartz = false;
-            boolean hasDiorite = false;
-            boolean hasAsh = false;
-            boolean hasMagma = false;
-            boolean hasBubbles = false;
-            boolean hasSoulfire = false;
-            boolean hasClay = false;
-            boolean hasSand = false;
-
-            BlockState downState = world.getBlockState(pos.below());
-
-            if (downState.is(Blocks.BLUE_ICE)) {
-                blueIceDown = true;
-            } else if (downState.is(Blocks.BUBBLE_COLUMN)) {
-                hasBubbles = true;
-            }
-
-            if (world.getBlockState(pos.above()).is(Blocks.BLUE_ICE)) {
-                blueIceUp = true;
-            }
-
-            for (Direction direction : POSSIBLE_FLOW_DIRECTIONS) {
-                BlockPos blockPos = pos.relative(direction.getOpposite());
-                BlockState currentState = world.getBlockState(blockPos);
-
-                if (currentState.getFluidState().is(FluidTags.WATER)) {
-                    hasWater = true;
-                }
-                if (currentState.is(Blocks.SMOOTH_QUARTZ)) {
-                    hasQuartz = true;
-                } else if (currentState.is(Blocks.DIORITE)) {
-                    hasDiorite = true;
-                } else if (currentState.is(ModBlocks.ASH_BLOCK.get())) {
-                    hasAsh = true;
-                } else if (currentState.is(Blocks.BLUE_ICE)) {
-                    hasBlueIce = true;
-                } else if (currentState.is(Blocks.MAGMA_BLOCK)) {
-                    hasMagma = true;
-                } else if (currentState.is(Blocks.SOUL_FIRE)) {
-                    hasSoulfire = true;
-                } else if (currentState.is(Blocks.CLAY)) {
-                    hasClay = true;
-                } else if (currentState.is(BlockTags.SAND)) {
-                    hasSand = true;
-                }
-
-
-                BlockState newState = null;
-
-                if (hasWater && hasQuartz && hasDiorite) {
-                    newState = Blocks.GRANITE.defaultBlockState();
-                } else if (blueIceDown && blueIceUp) {
-                    newState = Blocks.DEEPSLATE.defaultBlockState();
-                } else if (hasWater && hasQuartz) {
-                    newState = Blocks.DIORITE.defaultBlockState();
-                } else if (hasWater && hasDiorite) {
-                    newState = Blocks.ANDESITE.defaultBlockState();
-                } else if (hasWater && hasAsh) {
-                    newState = Blocks.TUFF.defaultBlockState();
-                } else if (hasMagma && hasBlueIce) {
-                    newState = Blocks.BLACKSTONE.defaultBlockState();
-                }
-                if (hasWater && hasSoulfire) {
-                    newState = Blocks.CRYING_OBSIDIAN.defaultBlockState();
-                } else if (hasBubbles) {
-                    newState = Blocks.MAGMA_BLOCK.defaultBlockState();
-                } else if (hasSoulfire) {
-                    newState = Blocks.CRYING_OBSIDIAN.defaultBlockState();
-                } else if (hasClay) {
-                    pos = pos.relative(direction.getOpposite());
-                    newState = Blocks.TERRACOTTA.defaultBlockState();
-                } else if (hasSand) {
-                    pos = pos.relative(direction.getOpposite());
-                    newState = ModBlocks.VITRIFIED_SAND.get().defaultBlockState();
-                }
-
-                if (newState != null) {
-                    world.setBlockAndUpdate(pos, newState);
-                    this.fizz(world, pos);
-                    cir.setReturnValue(false);
-                    return;
-                }
-            }
         }
     }
 

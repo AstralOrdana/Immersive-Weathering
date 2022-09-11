@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
@@ -16,6 +17,7 @@ import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -24,6 +26,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.BlockStateMat
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -38,7 +41,7 @@ public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
 
     private static final Map<ResourceLocation, JsonElement> TO_PARSE = new HashMap<>();
 
-    private static final Map<Fluid, ImmutableList<SelfFluidGenerator>> GENERATORS = new HashMap<>();
+    private static final Map<Fluid, ImmutableList<IFluidGenerator>> GENERATORS = new HashMap<>();
     private boolean needsRefresh;
 
     public FluidGeneratorsHandler() {
@@ -52,13 +55,6 @@ public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
         for (var e : jsons.entrySet()) {
             TO_PARSE.put(e.getKey(), e.getValue().deepCopy());
         }
-
-        var b = new SelfFluidGenerator(Fluids.LAVA, Blocks.ACACIA_LOG.defaultBlockState(),
-                new SelfFluidGenerator.AdjacentBlocks(List.of(new BlockStateMatchTest(Blocks.CAKE.defaultBlockState())),
-                        List.of(), Optional.of(new BlockStateMatchTest(Blocks.GLASS.defaultBlockState())), Optional.empty())
-                , List.of(), 0);
-
-        saveGeneartor(b);
     }
 
     //called after all tags are reloaded
@@ -67,13 +63,13 @@ public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
         if (this.needsRefresh) {
             this.needsRefresh = false;
 
-            List<SelfFluidGenerator> generators = new ArrayList<>();
+            List<IFluidGenerator> generators = new ArrayList<>();
 
             for (var e : TO_PARSE.entrySet()) {
                 var json = e.getValue();
 
-                var result = SelfFluidGenerator.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
-                var o = result.resultOrPartial(error -> ImmersiveWeathering.LOGGER.error("Failed to read block growth JSON object for {} : {}", e.getKey(), error));
+                var result = IFluidGenerator.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
+                var o = result.resultOrPartial(error -> ImmersiveWeathering.LOGGER.error("Failed to read liquid generator JSON object for {} : {}", e.getKey(), error));
 
                 o.ifPresent(generators::add);
             }
@@ -81,7 +77,7 @@ public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
 
             GENERATORS.clear();
 
-            Map<Fluid, List<SelfFluidGenerator>> tempMap = new HashMap<>();
+            Map<Fluid, List<IFluidGenerator>> tempMap = new HashMap<>();
 
             for (var g : generators) {
 
@@ -96,13 +92,13 @@ public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
         }
     }
 
-    public static Optional<BlockPos> applyGenerators(FlowingFluid fluidState, List<Direction> possibleFlowDir, BlockPos pos, Level level) {
+    public static Optional<Pair<BlockPos, @Nullable SoundEvent>> applyGenerators(FlowingFluid fluidState, List<Direction> possibleFlowDir, BlockPos pos, Level level) {
         var list = GENERATORS.get(fluidState.getSource());
         if (list != null && !list.isEmpty()) {
             Map<Direction, BlockState> neighborCache = new EnumMap<>(Direction.class);
             for (var generator : list) {
                 var res = generator.tryGenerating(possibleFlowDir, pos, level, neighborCache);
-                if (res.isPresent()) return res;
+                if (res.isPresent()) return res.map(a -> Pair.of(a, generator.getSound()));
             }
         }
         return Optional.empty();
@@ -111,7 +107,7 @@ public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
     //debug
 
 
-    public void saveGeneartor(SelfFluidGenerator song) {
+    public void saveGeneartor(IFluidGenerator song) {
 
         File folder = PlatformHelper.getGamePath().resolve("test").toFile();
 
@@ -131,8 +127,8 @@ public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
 
     }
 
-    private void writeToFile(final SelfFluidGenerator obj, FileWriter writer) {
-        DataResult<JsonElement> r = SelfFluidGenerator.CODEC.encodeStart(JsonOps.INSTANCE, obj);
+    private void writeToFile(final IFluidGenerator obj, FileWriter writer) {
+        DataResult<JsonElement> r = IFluidGenerator.CODEC.encodeStart(JsonOps.INSTANCE, obj);
         r.result().ifPresent(a -> GSON.toJson(sortJson(a.getAsJsonObject()), writer));
     }
 
