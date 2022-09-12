@@ -22,6 +22,7 @@ public class OtherFluidGenerator implements IFluidGenerator {
     public static final Codec<OtherFluidGenerator> CODEC = RecordCodecBuilder.<OtherFluidGenerator>create(
             instance -> instance.group(
                     Registry.FLUID.byNameCodec().fieldOf("fluid").forGetter(OtherFluidGenerator::getFluid),
+                    FluidType.CODEC.optionalFieldOf("fluid_type", FluidType.BOTH).forGetter(OtherFluidGenerator::getFluidType),
                     BlockState.CODEC.fieldOf("generate").forGetter(OtherFluidGenerator::getGrowth),
                     RuleTest.CODEC.fieldOf("target").forGetter(OtherFluidGenerator::getTarget),
                     PositionRuleTest.CODEC.optionalFieldOf("additional_target_check").forGetter(OtherFluidGenerator::getExtraCheck),
@@ -31,18 +32,25 @@ public class OtherFluidGenerator implements IFluidGenerator {
     public static final IFluidGenerator.Type<OtherFluidGenerator> TYPE = new IFluidGenerator.Type<>(CODEC, "target_other");
 
     private final Fluid fluid;
+    private final FluidType fluidType;
     private final BlockState growth;
     private final RuleTest target;
     private final Optional<PositionRuleTest> extraCheck;
     private final int priority;
 
-    public OtherFluidGenerator(Fluid fluid, BlockState growth,
+    public OtherFluidGenerator(Fluid fluid,FluidType fluidType, BlockState growth,
                                RuleTest target, Optional<PositionRuleTest> positionRuleTests, int priority) {
         this.fluid = fluid;
+        this.fluidType = fluidType;
         this.growth = growth;
         this.target = target;
         this.extraCheck = positionRuleTests;
         this.priority = priority;
+    }
+
+    @Override
+    public FluidType getFluidType() {
+        return fluidType;
     }
 
     @Override

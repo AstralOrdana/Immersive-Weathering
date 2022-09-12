@@ -20,12 +20,9 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.structure.templatesystem.BlockStateMatchTest;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -41,7 +38,10 @@ public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
 
     private static final Map<ResourceLocation, JsonElement> TO_PARSE = new HashMap<>();
 
-    private static final Map<Fluid, ImmutableList<IFluidGenerator>> GENERATORS = new HashMap<>();
+    private static final Map<Fluid, ImmutableList<IFluidGenerator>> STILL_GENERATORS = new HashMap<>();
+    private static final Map<Fluid, ImmutableList<IFluidGenerator>> FLOWING_GENERATORS = new HashMap<>();
+    private static final Set<Fluid> HAS_GENERATOR = new HashSet<>();
+
     private boolean needsRefresh;
 
     public FluidGeneratorsHandler() {
@@ -75,30 +75,46 @@ public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
             }
             ImmersiveWeathering.LOGGER.info("Loaded {} liquid generators configurations", TO_PARSE.size());
 
-            GENERATORS.clear();
+            STILL_GENERATORS.clear();
+            FLOWING_GENERATORS.clear();
+            HAS_GENERATOR.clear();
 
-            Map<Fluid, List<IFluidGenerator>> tempMap = new HashMap<>();
+            Map<Fluid, List<IFluidGenerator>> flowingMap = new HashMap<>();
+            Map<Fluid, List<IFluidGenerator>> stillMap = new HashMap<>();
 
             for (var g : generators) {
 
-                var list = tempMap.computeIfAbsent(g.getFluid(), e -> new ArrayList<>());
+                if (g.getFluidType().isFlowing()) {
+                    var list = flowingMap.computeIfAbsent(g.getFluid(), e -> new ArrayList<>());
 
-                list.add(g);
-                Collections.sort(list);
+                    list.add(g);
+                    Collections.sort(list);
+                }
+
+                if (g.getFluidType().isStill()) {
+                    var list = stillMap.computeIfAbsent(g.getFluid(), e -> new ArrayList<>());
+
+                    list.add(g);
+                    Collections.sort(list);
+                }
             }
-            tempMap.forEach((key, value) -> GENERATORS.put(key, ImmutableList.copyOf(value)));
+            flowingMap.forEach((key, value) -> FLOWING_GENERATORS.put(key, ImmutableList.copyOf(value)));
+            stillMap.forEach((key, value) -> STILL_GENERATORS.put(key, ImmutableList.copyOf(value)));
 
             TO_PARSE.clear();
         }
     }
 
-    public static Optional<Pair<BlockPos, @Nullable SoundEvent>> applyGenerators(FlowingFluid fluidState, List<Direction> possibleFlowDir, BlockPos pos, Level level) {
-        var list = GENERATORS.get(fluidState.getSource());
-        if (list != null && !list.isEmpty()) {
-            Map<Direction, BlockState> neighborCache = new EnumMap<>(Direction.class);
-            for (var generator : list) {
-                var res = generator.tryGenerating(possibleFlowDir, pos, level, neighborCache);
-                if (res.isPresent()) return res.map(a -> Pair.of(a, generator.getSound()));
+    public static Optional<Pair<BlockPos, @Nullable SoundEvent>> applyGenerators(FlowingFluid fluid, List<Direction> possibleFlowDir, BlockPos pos, Level level) {
+        var source = fluid.getSource();
+        if (HAS_GENERATOR.contains(source)) {
+            var list = level.getFluidState(pos).isSource() ? STILL_GENERATORS.get(source) : FLOWING_GENERATORS.get(source);
+            if (list != null && !list.isEmpty()) {
+                Map<Direction, BlockState> neighborCache = new EnumMap<>(Direction.class);
+                for (var generator : list) {
+                    var res = generator.tryGenerating(possibleFlowDir, pos, level, neighborCache);
+                    if (res.isPresent()) return res.map(a -> Pair.of(a, generator.getSound()));
+                }
             }
         }
         return Optional.empty();

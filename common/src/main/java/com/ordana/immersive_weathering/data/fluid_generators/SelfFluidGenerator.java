@@ -27,6 +27,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
     public static final Codec<SelfFluidGenerator> CODEC = RecordCodecBuilder.<SelfFluidGenerator>create(
             instance -> instance.group(
                     Registry.FLUID.byNameCodec().fieldOf("fluid").forGetter(SelfFluidGenerator::getFluid),
+                    FluidType.CODEC.optionalFieldOf("fluid_type", FluidType.BOTH).forGetter(SelfFluidGenerator::getFluidType),
                     BlockState.CODEC.fieldOf("generate").forGetter(SelfFluidGenerator::getGrowth),
                     AdjacentBlocks.CODEC.fieldOf("adjacent_blocks").forGetter(SelfFluidGenerator::getAdjacentBlocksCondition),
                     PositionRuleTest.CODEC.optionalFieldOf("additional_target_check").forGetter(SelfFluidGenerator::getPositionTests),
@@ -36,19 +37,26 @@ public class SelfFluidGenerator implements IFluidGenerator {
     public static final IFluidGenerator.Type<SelfFluidGenerator> TYPE = new Type<>(CODEC, "target_self");
 
     private final Fluid fluid;
+    private final FluidType fluidType;
     private final BlockState growth;
     private final Optional<PositionRuleTest> positionTests;
     private final int priority;
     private final AdjacentBlocks adjacentBlocksCondition;
 
-    public SelfFluidGenerator(Fluid fluid, BlockState growth,
+    public SelfFluidGenerator(Fluid fluid,FluidType fluidType, BlockState growth,
                               AdjacentBlocks adjacentBlocks,
                               Optional<PositionRuleTest> positionRuleTests, int priority) {
         this.fluid = fluid;
+        this.fluidType = fluidType;
         this.growth = growth;
         this.adjacentBlocksCondition = adjacentBlocks;
         this.positionTests = positionRuleTests;
         this.priority = priority;
+    }
+
+    @Override
+    public FluidType getFluidType() {
+        return fluidType;
     }
 
     @Override
