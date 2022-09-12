@@ -6,9 +6,11 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.data.position_tests.PositionRuleTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.material.Fluid;
@@ -27,7 +29,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
                     Registry.FLUID.byNameCodec().fieldOf("fluid").forGetter(SelfFluidGenerator::getFluid),
                     BlockState.CODEC.fieldOf("generate").forGetter(SelfFluidGenerator::getGrowth),
                     AdjacentBlocks.CODEC.fieldOf("adjacent_blocks").forGetter(SelfFluidGenerator::getAdjacentBlocksCondition),
-                    PositionRuleTest.CODEC.listOf().optionalFieldOf("additional_checks", List.of()).forGetter(SelfFluidGenerator::getPositionTests),
+                    PositionRuleTest.CODEC.optionalFieldOf("additional_check").forGetter(SelfFluidGenerator::getPositionTests),
                     Codec.INT.optionalFieldOf("priority", 0).forGetter(SelfFluidGenerator::getPriority)
             ).apply(instance, SelfFluidGenerator::new));
 
@@ -35,13 +37,13 @@ public class SelfFluidGenerator implements IFluidGenerator {
 
     private final Fluid fluid;
     private final BlockState growth;
-    private final List<PositionRuleTest> positionTests;
+    private final Optional<PositionRuleTest> positionTests;
     private final int priority;
     private final AdjacentBlocks adjacentBlocksCondition;
 
     public SelfFluidGenerator(Fluid fluid, BlockState growth,
                               AdjacentBlocks adjacentBlocks,
-                              List<PositionRuleTest> positionRuleTests, int priority) {
+                              Optional<PositionRuleTest> positionRuleTests, int priority) {
         this.fluid = fluid;
         this.growth = growth;
         this.adjacentBlocksCondition = adjacentBlocks;
@@ -63,7 +65,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
         return growth;
     }
 
-    public List<PositionRuleTest> getPositionTests() {
+    public Optional<PositionRuleTest> getPositionTests() {
         return positionTests;
     }
 
@@ -79,14 +81,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
     @Override
     public Optional<BlockPos> tryGenerating(List<Direction> possibleFlowDir, BlockPos pos, Level level, Map<Direction, BlockState> neighborCache) {
 
-        if(!adjacentBlocksCondition.isMet(possibleFlowDir, pos, level, neighborCache))return Optional.empty();
-
-        if (!this.positionTests.isEmpty()) {
-            var biome = level.getBiome(pos);
-            for (var a : this.positionTests) {
-                if (!a.test(biome, pos, level)) return Optional.empty();
-            }
-        }
+        if(!adjacentBlocksCondition.isMet(possibleFlowDir, pos, level, neighborCache, positionTests))return Optional.empty();
 
         if (pos != null) {
             level.setBlockAndUpdate(pos, this.growth);
@@ -128,8 +123,10 @@ public class SelfFluidGenerator implements IFluidGenerator {
 
         }
 
-        public boolean isMet(List<Direction> possibleFlowDir, BlockPos pos, Level level, Map<Direction, BlockState> neighborCache) {
+        public boolean isMet(List<Direction> possibleFlowDir, BlockPos pos, Level level,
+                             Map<Direction, BlockState> neighborCache, Optional<PositionRuleTest> extraCheck) {
 
+            Holder<Biome> b = extraCheck.isPresent() ? level.getBiome(pos) : null;
             for(var r : anyBlocks){
                 boolean atLeastOnceSuccess = false;
 
@@ -137,6 +134,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
                     BlockPos side = pos.relative(d);
                     BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(side));
                     if (r.test(state, level.random)) {
+                        if(b != null && !extraCheck.get().test(b, side, level)) continue;
                         atLeastOnceSuccess = true;
                         break;
                     }
@@ -146,12 +144,12 @@ public class SelfFluidGenerator implements IFluidGenerator {
 
             for(var r : sidesBlocks){
                 boolean atLeastOnceSuccess = false;
-
                 for (var d : possibleFlowDir) {
                     if (d.getAxis().isHorizontal()) {
                         BlockPos side = pos.relative(d);
                         BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(side));
                         if (r.test(state, level.random)) {
+                            if(b != null && !extraCheck.get().test(b, side, level)) continue;
                             atLeastOnceSuccess = true;
                             break;
                         }
@@ -162,14 +160,18 @@ public class SelfFluidGenerator implements IFluidGenerator {
 
             if(upBlock != null){
                 Direction d = Direction.UP;
-                BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(pos.relative(d)));
+                BlockPos target = pos.relative(d);
+                BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(target));
                 if (!upBlock.test(state, level.random)) return false;
+                if(b != null && !extraCheck.get().test(b, pos, level)) return false;
             }
 
             if(downBlock != null){
                 Direction d = Direction.DOWN;
-                BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(pos.relative(d)));
+                BlockPos target = pos.relative(d);
+                BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(target));
                 if (!downBlock.test(state, level.random)) return false;
+                if(b != null && !extraCheck.get().test(b, target, level)) return false;
             }
 
             return true;

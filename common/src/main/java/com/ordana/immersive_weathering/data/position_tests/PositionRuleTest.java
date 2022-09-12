@@ -38,6 +38,7 @@ public interface PositionRuleTest {
         put(PosRandomTest.TYPE.name, PosRandomTest.TYPE);
         put(OrTest.TYPE.name, OrTest.TYPE);
         put(NandTest.TYPE.name, NandTest.TYPE);
+        put(AndTest.TYPE.name, AndTest.TYPE);
         put(IsDayTest.TYPE.name, IsDayTest.TYPE);
         put(HeightTest.TYPE.name, HeightTest.TYPE);
         put(EntityTest.TYPE.name, EntityTest.TYPE);
