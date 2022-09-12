@@ -1,15 +1,18 @@
 {
   "type": "target_self",
   "fluid": "minecraft:lava",
+  "priority": 0,
   "generate": {
     "Name": "minecraft:granite"
   },
   "adjacent_blocks": {
     "sides": [
       {
-        "fluids": ["#minecraft:water"],
+        "fluids": "#minecraft:water",
         "predicate_type": "immersive_weathering:fluid_match"
-      },
+      }
+    ],
+    "any": [
       {
         "block_state": {
           "Name": "minecraft:diorite"
