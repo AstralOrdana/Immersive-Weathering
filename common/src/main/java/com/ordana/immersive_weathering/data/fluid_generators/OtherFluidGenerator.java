@@ -24,7 +24,7 @@ public class OtherFluidGenerator implements IFluidGenerator {
                     Registry.FLUID.byNameCodec().fieldOf("fluid").forGetter(OtherFluidGenerator::getFluid),
                     BlockState.CODEC.fieldOf("generate").forGetter(OtherFluidGenerator::getGrowth),
                     RuleTest.CODEC.fieldOf("target").forGetter(OtherFluidGenerator::getTarget),
-                    PositionRuleTest.CODEC.optionalFieldOf("additional_checks").forGetter(OtherFluidGenerator::getExtraCheck),
+                    PositionRuleTest.CODEC.optionalFieldOf("additional_target_check").forGetter(OtherFluidGenerator::getExtraCheck),
                     Codec.INT.optionalFieldOf("priority", 0).forGetter(OtherFluidGenerator::getPriority)
             ).apply(instance, OtherFluidGenerator::new));
 

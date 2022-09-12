@@ -29,7 +29,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
                     Registry.FLUID.byNameCodec().fieldOf("fluid").forGetter(SelfFluidGenerator::getFluid),
                     BlockState.CODEC.fieldOf("generate").forGetter(SelfFluidGenerator::getGrowth),
                     AdjacentBlocks.CODEC.fieldOf("adjacent_blocks").forGetter(SelfFluidGenerator::getAdjacentBlocksCondition),
-                    PositionRuleTest.CODEC.optionalFieldOf("additional_check").forGetter(SelfFluidGenerator::getPositionTests),
+                    PositionRuleTest.CODEC.optionalFieldOf("additional_target_check").forGetter(SelfFluidGenerator::getPositionTests),
                     Codec.INT.optionalFieldOf("priority", 0).forGetter(SelfFluidGenerator::getPriority)
             ).apply(instance, SelfFluidGenerator::new));
 
@@ -134,7 +134,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
                     BlockPos side = pos.relative(d);
                     BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(side));
                     if (r.test(state, level.random)) {
-                        if(b != null && !extraCheck.get().test(b, side, level)) continue;
+                            if(b != null && !extraCheck.get().test(b, side, level)) continue;
                         atLeastOnceSuccess = true;
                         break;
                     }
