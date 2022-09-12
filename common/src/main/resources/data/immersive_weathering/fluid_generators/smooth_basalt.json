@@ -1,9 +1,12 @@
 {
   "type": "target_self",
-  "fluid": "minecraft:lava",
-  "priority": 1,
+  "source": {
+    "fluid": "minecraft:lava",
+    "flowing": "true",
+    "still": "false"
+  },
   "generate": {
-    "Name": "minecraft:diorite"
+    "Name": "minecraft:smooth_basalt"
   },
   "adjacent_blocks": {
     "sides": [
@@ -15,10 +18,16 @@
     "any": [
       {
         "block_state": {
-          "Name": "minecraft:smooth_quartz"
+          "Name": "minecraft:blue_ice"
         },
         "predicate_type": "minecraft:blockstate_match"
       }
-    ]
+    ],
+    "down": {
+      "block_state": {
+        "Name": "minecraft:soul_soil"
+      },
+      "predicate_type": "minecraft:blockstate_match"
+    }
   }
 }

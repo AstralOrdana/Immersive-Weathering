@@ -1,0 +1,29 @@
+{
+  "type": "target_self",
+  "fluid": "minecraft:lava",
+  "generate": {
+    "Name": "minecraft:calcite"
+  },
+  "adjacent_blocks": {
+    "up":
+    {
+      "block_state": {
+        "Name": "minecraft:bone_block",
+        "Properties": {
+          "axis": "y"
+        }
+      },
+      "predicate_type": "minecraft:blockstate_match"
+    },
+    "down":
+    {
+      "block_state": {
+        "Name": "minecraft:bone_block",
+        "Properties": {
+          "axis": "y"
+        }
+      },
+      "predicate_type": "minecraft:blockstate_match"
+    }
+  }
+}

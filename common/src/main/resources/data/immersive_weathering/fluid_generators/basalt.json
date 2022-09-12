@@ -1,0 +1,16 @@
+{
+  "type": "target_self",
+  "fluid": "minecraft:lava",
+  "generate": {
+    "Name": "minecraft:basalt",
+    "Properties": {
+      "axis": "y"
+    }
+  },
+  "adjacent_blocks": {
+    "down": {
+      "fluids": ["minecraft:flowing_lava"],
+      "predicate_type": "immersive_weathering:fluid_match"
+    }
+  }
+}
