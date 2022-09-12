@@ -1,0 +1,18 @@
+{
+  "type": "target_self",
+  "fluid": "minecraft:lava",
+  "generate": {
+    "Name": "minecraft:magma_block"
+  },
+  "adjacent_blocks": {
+    "down": {
+      "block_state": {
+        "Name": "minecraft:bubble_column",
+        "Properties": {
+          "drag": "false"
+        }
+      },
+      "predicate_type": "minecraft:blockstate_match"
+    }
+  }
+}

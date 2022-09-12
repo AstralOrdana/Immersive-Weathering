@@ -2,7 +2,7 @@
   "type": "target_self",
   "fluid": "minecraft:lava",
   "generate": {
-    "Name": "minecraft:andesite"
+    "Name": "minecraft:diorite"
   },
   "adjacent_blocks": {
     "sides": [
@@ -12,7 +12,7 @@
       },
       {
         "block_state": {
-          "Name": "minecraft:diorite"
+          "Name": "minecraft:smooth_quartz"
         },
         "predicate_type": "minecraft:blockstate_match"
       }

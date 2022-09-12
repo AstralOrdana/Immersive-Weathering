@@ -21,7 +21,7 @@
   ],
   "owners": ["#minecraft:fire"],
   "replacing_target": {
-    "fluids": ["minecraft:grass_block"],
+    "block": "minecraft:grass_block",
     "predicate_type": "minecraft:block_match"
   }
 }

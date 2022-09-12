@@ -8,21 +8,19 @@
     }
   },
   "adjacent_blocks": {
-    "up": [
-      {
-        "block_state": {
-          "Name": "minecraft:blue_ice"
-        },
-        "predicate_type": "minecraft:blockstate_match"
-      }
-    ],
-    "down": [
-      {
-        "block_state": {
-          "Name": "minecraft:blue_ice"
-        },
-        "predicate_type": "minecraft:blockstate_match"
-      }
-    ]
+    "up":
+    {
+      "block_state": {
+        "Name": "minecraft:blue_ice"
+      },
+      "predicate_type": "minecraft:blockstate_match"
+    },
+    "down":
+    {
+      "block_state": {
+        "Name": "minecraft:blue_ice"
+      },
+      "predicate_type": "minecraft:blockstate_match"
+    }
   }
 }
