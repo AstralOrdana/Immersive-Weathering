@@ -2,7 +2,7 @@
   "type": "target_self",
   "fluid": "minecraft:lava",
   "generate": {
-    "Name": "minecraft:andesite"
+    "Name": "minecraft:crying_obsidian"
   },
   "adjacent_blocks": {
     "sides": [
@@ -12,7 +12,7 @@
       },
       {
         "block_state": {
-          "Name": "minecraft:diorite"
+          "Name": "minecraft:soul_fire"
         },
         "predicate_type": "minecraft:blockstate_match"
       }

@@ -1,0 +1,14 @@
+{
+  "type": "target_other",
+  "fluid": "minecraft:lava",
+  "generate": {
+    "Name": "minecraft:terracotta"
+  },
+  "target":
+  {
+    "block_state": {
+      "Name": "minecraft:clay"
+    },
+    "predicate_type": "minecraft:blockstate_match"
+  }
+}

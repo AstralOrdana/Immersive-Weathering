@@ -1,0 +1,12 @@
+{
+  "type": "target_other",
+  "fluid": "minecraft:lava",
+  "generate": {
+    "Name": "minecraft:tuff"
+  },
+  "target":
+  {
+    "predicate_type": "minecraft:tag_match",
+    "tag": "immersive_weathering:ash"
+  }
+}
