@@ -83,6 +83,7 @@ public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
             Map<Fluid, List<IFluidGenerator>> stillMap = new HashMap<>();
 
             for (var g : generators) {
+                HAS_GENERATOR.add(g.getFluid());
 
                 if (g.getFluidType().isFlowing()) {
                     var list = flowingMap.computeIfAbsent(g.getFluid(), e -> new ArrayList<>());
