@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 
-public class MossableBlock extends MossyBlock{
+public class    MossableBlock extends MossyBlock{
 
     public MossableBlock(MossLevel mossLevel, Properties settings) {
         super(mossLevel, settings);

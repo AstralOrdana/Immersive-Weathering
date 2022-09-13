@@ -1,10 +1,6 @@
 {
   "type": "target_self",
-  "source": {
-    "fluid": "minecraft:lava",
-    "flowing": "true",
-    "still": "false"
-  },
+  "fluid": "minecraft:lava",
   "generate": {
     "Name": "minecraft:smooth_basalt"
   },

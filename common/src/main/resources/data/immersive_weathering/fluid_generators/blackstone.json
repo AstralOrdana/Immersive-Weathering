@@ -1,6 +1,7 @@
 {
   "type": "target_self",
   "fluid": "minecraft:lava",
+  "priority": 1,
   "generate": {
     "Name": "minecraft:blackstone"
   },
