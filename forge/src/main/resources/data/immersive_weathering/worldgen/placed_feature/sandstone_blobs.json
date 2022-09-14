@@ -22,7 +22,7 @@
     },
     {
       "type":"immersive_weathering:biome_tag",
-      "tag":"underground_desert"
+      "tag":"immersive_weathering:underground_desert"
     }
   ]
 }

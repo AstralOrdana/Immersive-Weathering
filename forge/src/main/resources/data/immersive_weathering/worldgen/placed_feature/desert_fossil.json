@@ -16,13 +16,13 @@
           "above_bottom": 64
         },
         "max_inclusive": {
-          "absolute": 92
+          "absolute": 128
         }
       }
     },
     {
       "type":"immersive_weathering:biome_tag",
-      "tag":"has_lakebed"
+      "tag":"immersive_weathering:has_lakebed"
     }
   ]
 }

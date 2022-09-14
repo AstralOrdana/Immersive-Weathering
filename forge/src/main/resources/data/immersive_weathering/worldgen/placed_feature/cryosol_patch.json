@@ -16,6 +16,9 @@
       "noise_offset": 0.2
     },
     {
+      "type": "minecraft:in_square"
+    },
+    {
       "type":"immersive_weathering:biome_tag",
       "tag":"immersive_weathering:icy"
     }

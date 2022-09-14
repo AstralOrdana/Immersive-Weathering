@@ -22,7 +22,7 @@
     },
     {
       "type":"immersive_weathering:biome_tag",
-      "tag":"has_lakebed"
+      "tag":"immersive_weathering:has_lakebed"
     }
   ]
 }

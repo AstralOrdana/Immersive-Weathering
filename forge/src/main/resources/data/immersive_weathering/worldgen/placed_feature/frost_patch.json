@@ -35,10 +35,9 @@
         }
       }
     },
-
     {
       "type":"immersive_weathering:biome_tag",
-      "tag":"icy"
+      "tag":"immersive_weathering:icy"
     }
   ]
 }
