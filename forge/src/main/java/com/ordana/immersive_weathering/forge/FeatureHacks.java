@@ -10,6 +10,7 @@ import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -180,15 +181,16 @@ public class FeatureHacks {
     public static class HardcodedBiomeFilter extends PlacementFilter {
 
         private final TagKey<Biome> tag;
-
-
-
+        
         public static final Codec<HardcodedBiomeFilter> CODEC = RecordCodecBuilder.create((i) -> i.group(
                 TagKey.codec(Registry.BIOME_REGISTRY).fieldOf("tag").forGetter(e -> e.tag)
         ).apply(i, HardcodedBiomeFilter::new));
 
         private HardcodedBiomeFilter(TagKey<Biome> tag) {
             this.tag = tag;
+            if(BuiltinRegistries.BIOME.getTag(tag).isEmpty()){
+                ImmersiveWeathering.LOGGER.error("Biome tag for structure placement {} was empty! check for spelling errors", tag);
+            }
         }
 
         @Override
