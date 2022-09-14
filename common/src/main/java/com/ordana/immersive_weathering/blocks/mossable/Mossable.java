@@ -26,6 +26,7 @@ public interface Mossable extends Weatherable {
                 .put(Blocks.STONE_STAIRS, ModBlocks.MOSSY_STONE_STAIRS.get())
                 .put(Blocks.STONE_SLAB, ModBlocks.MOSSY_STONE_SLAB.get())
                 .put(Blocks.COBBLESTONE, Blocks.MOSSY_COBBLESTONE)
+                .put(ModBlocks.STONE_WALL.get(), ModBlocks.MOSSY_STONE_WALL.get())
                 .put(Blocks.COBBLESTONE_STAIRS, Blocks.MOSSY_COBBLESTONE_STAIRS)
                 .put(Blocks.COBBLESTONE_SLAB, Blocks.MOSSY_COBBLESTONE_SLAB)
                 .put(Blocks.COBBLESTONE_WALL, Blocks.MOSSY_COBBLESTONE_WALL)

@@ -7,6 +7,7 @@
     "accessors.RandomBlockMatchTestAccessor"
   ],
   "mixins": [
+    "CropBlockMixin",
     "BeeMixin",
     "BlocksMixin",
     "BushBlockBlockMixin",

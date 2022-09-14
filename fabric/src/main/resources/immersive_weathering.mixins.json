@@ -6,7 +6,6 @@
   "client": [
   ],
   "mixins": [
-    "CropBlockMixin",
     "DataPackContentMixin",
     "FarmlandBlockMixin",
     "FireMixin",
