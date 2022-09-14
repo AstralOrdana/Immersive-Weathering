@@ -44,6 +44,7 @@ public class FeatureHacks {
 
     static{
         add("icicles");
+        add("frost_patch");
         add("cryosol_patch");
         add("humus_patch");
         add("rooted_ceiling");
@@ -53,6 +54,12 @@ public class FeatureHacks {
         add("silt_disk");
         add("dry_lakebed");
         add("dry_lakebed_large");
+        add("sandstone_blobs");
+        add("sand_patch");
+        add("sandy_clay_patch");
+        add("sand_pile");
+        add("desert_fossil");
+        add("terracotta_blobs");
         add("vertisol_patch");
         add("ivy_patch");
     }
