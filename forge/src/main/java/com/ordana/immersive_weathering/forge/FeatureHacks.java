@@ -3,10 +3,11 @@ package com.ordana.immersive_weathering.forge;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.events.ModEvents;
 import com.ordana.immersive_weathering.reg.ModTags;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -20,6 +21,9 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.placement.PlacementContext;
+import net.minecraft.world.level.levelgen.placement.PlacementFilter;
+import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import net.minecraftforge.common.util.NonNullLazy;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -28,21 +32,23 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.function.Supplier;
 
 //remove in 1.19
 //credits to Tslat
 public class FeatureHacks {
 
-    public static void init(){}
+    public static void init() {
+    }
 
     public static final Supplier<Feature<?>> VANILLA_JSON_FEATURE = RegHelper.registerFeature(
             ImmersiveWeathering.res("vanilla_json"),
             () -> new VanillaJsonFeature(VanillaJsonFeature.VanillaJsonFeatureConfig.CODEC));
 
-    public static final Map<String,FeatureContainer> FEATURE_PLACERS = new HashMap<>();
+    public static final Map<String, FeatureContainer> FEATURE_PLACERS = new HashMap<>();
 
-    static{
+    static {
         add("icicles");
         add("cryosol_patch");
         add("humus_patch");
@@ -59,16 +65,17 @@ public class FeatureHacks {
 
     @NotNull
     private static void add(String n) {
-        FEATURE_PLACERS.put(n,FeatureContainer.vanillaJsonFeature(ImmersiveWeathering.res(n)));
+        FEATURE_PLACERS.put(n, FeatureContainer.vanillaJsonFeature(ImmersiveWeathering.res(n)));
     }
 
+    private static final Map<ResourceKey<?>, TagKey<?>> FEATURES_PER_BIOME = new HashMap<>();
 
     public static void registerVanillaBiomeFeatures(final BiomeLoadingEvent ev, TagKey<Biome> biomeTagKey,
                                                     ResourceKey<PlacedFeature> resourceKey, GenerationStep.Decoration step) {
         if (ev.getName() == null)
             return;
-
-        if(isTagged(biomeTagKey, ev.getName())) {
+        FEATURES_PER_BIOME.put(resourceKey, biomeTagKey);
+        if (isTagged(biomeTagKey, ev.getName())) {
             BiomeGenerationSettingsBuilder builder = ev.getGeneration();
             var f = FEATURE_PLACERS.get(resourceKey.location().getPath());
             if (f != null) {
@@ -78,7 +85,9 @@ public class FeatureHacks {
 
     }
 
-    public record FeatureContainer(Supplier<? extends Feature<? extends FeatureConfiguration>> feature, NonNullLazy<ConfiguredFeature<? extends FeatureConfiguration, ? extends Feature<? extends FeatureConfiguration>>> configuredFeature, NonNullLazy<PlacedFeature> placedFeature) {
+    public record FeatureContainer(Supplier<? extends Feature<? extends FeatureConfiguration>> feature,
+                                   NonNullLazy<ConfiguredFeature<? extends FeatureConfiguration, ? extends Feature<? extends FeatureConfiguration>>> configuredFeature,
+                                   NonNullLazy<PlacedFeature> placedFeature) {
 
         static FeatureContainer vanillaJsonFeature(ResourceLocation placedFeatureId) {
             NonNullLazy<ConfiguredFeature<? extends FeatureConfiguration, ? extends Feature<? extends FeatureConfiguration>>> configuredFeature = NonNullLazy.of(() -> new ConfiguredFeature(VANILLA_JSON_FEATURE.get(), new VanillaJsonFeature.VanillaJsonFeatureConfig(ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, placedFeatureId))));
@@ -147,12 +156,42 @@ public class FeatureHacks {
             ModTags.UNDERGROUND_DESERT, ImmutableList.of("minecraft:desert")
     );
 
-    public static boolean isTagged(TagKey<Biome> tag, ResourceLocation biome){
+    public static boolean isTagged(TagKey<Biome> tag, ResourceLocation biome) {
         var l = BUILTIN_TAGS.get(tag);
-        if(l == null){
+        if (l == null) {
             int a = 1;
             return false;
         }
-       return l.contains(biome.toString());
+        return l.contains(biome.toString());
+    }
+
+
+    public static Supplier<PlacementModifierType<HardcodedBiomeFilter>> TYPE = RegHelper.register(ImmersiveWeathering.res("biome_tag"),
+            () -> () -> HardcodedBiomeFilter.CODEC
+            , Registry.PLACEMENT_MODIFIERS);
+
+    public static class HardcodedBiomeFilter extends PlacementFilter {
+
+        private final TagKey<Biome> tag;
+
+
+
+        public static final Codec<HardcodedBiomeFilter> CODEC = RecordCodecBuilder.create((i) -> i.group(
+                TagKey.codec(Registry.BIOME_REGISTRY).fieldOf("tag").forGetter(e -> e.tag)
+        ).apply(i, HardcodedBiomeFilter::new));
+
+        private HardcodedBiomeFilter(TagKey<Biome> tag) {
+            this.tag = tag;
+        }
+
+        @Override
+        protected boolean shouldPlace(PlacementContext context, Random random, BlockPos pos) {
+            Holder<Biome> holder = context.getLevel().getBiome(pos);
+            return holder.is(tag);
+        }
+
+        public PlacementModifierType<?> type() {
+            return TYPE.get();
+        }
     }
 }

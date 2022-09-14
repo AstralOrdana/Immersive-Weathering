@@ -80,17 +80,6 @@ public class IWPlatformStuffImpl {
         // }
     }
 
-    public static boolean isMobGriefingOn(Level level, Entity entity) {
-        return ForgeEventFactory.getMobGriefingEvent(level, entity);
-    }
-
-    public static boolean isAreaLoaded(Level level, BlockPos pos, int maxRange) {
-        return level.isAreaLoaded(pos, maxRange);
-    }
-
-    public static int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction face) {
-        return state.getFlammability(level, pos, face);
-    }
 
     public static FlowingFluid getFlowingFluid(LiquidBlock block) {
         return block.getFluid();
