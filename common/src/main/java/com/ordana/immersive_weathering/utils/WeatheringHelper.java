@@ -56,7 +56,7 @@ import java.util.stream.Collectors;
 
 public class WeatheringHelper {
 
-    private static void addOptional(ImmutableBiMap.Builder<Block, Block> map,
+    public static void addOptional(ImmutableBiMap.Builder<Block, Block> map,
                                     String moddedId, String moddedId2){
         var o1 = Registry.BLOCK.getOptional(new ResourceLocation(moddedId));
         var o2 = Registry.BLOCK.getOptional(new ResourceLocation(moddedId2));

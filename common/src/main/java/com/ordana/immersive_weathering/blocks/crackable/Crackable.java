@@ -7,6 +7,7 @@ import com.ordana.immersive_weathering.blocks.PatchSpreader;
 import com.ordana.immersive_weathering.blocks.Weatherable;
 import com.ordana.immersive_weathering.IWPlatformStuff;
 import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
@@ -59,6 +60,14 @@ public interface Crackable extends Weatherable {
                 .put(Blocks.DEEPSLATE_TILE_WALL, ModBlocks.CRACKED_DEEPSLATE_TILE_WALL.get())
                 .put(ModBlocks.PRISMARINE_BRICK_WALL.get(), ModBlocks.CRACKED_PRISMARINE_BRICK_WALL.get())
                 .put(Blocks.END_STONE_BRICK_WALL, ModBlocks.CRACKED_END_STONE_BRICK_WALL.get());
+        WeatheringHelper.addOptional(builder,"quark:vertical_brick_slab", "immersive_weathering:vertical_cracked_brick_slab");
+        WeatheringHelper.addOptional(builder,"quark:vertical_stone_brick_slab", "immersive_weathering:vertical_cracked_stone_brick_slab");
+        WeatheringHelper.addOptional(builder,"quark:vertical_polished_blackstone_brick_slab", "immersive_weathering:vertical_cracked_polished_blackstone_brick_slab");
+        WeatheringHelper.addOptional(builder,"quark:vertical_nether_brick_slab", "immersive_weathering:vertical_cracked_nether_brick_slab");
+        WeatheringHelper.addOptional(builder,"quark:vertical_deepslate_brick_slab", "immersive_weathering:vertical_cracked_deepslate_brick_slab");
+        WeatheringHelper.addOptional(builder,"quark:vertical_deepslate_tile_slab", "immersive_weathering:vertical_cracked_deepslate_tile_slab");
+        WeatheringHelper.addOptional(builder,"quark:vertical_end_stone_brick_slab", "immersive_weathering:vertical_cracked_end_stone_brick_slab");
+        WeatheringHelper.addOptional(builder,"quark:vertical_prismarine_brick_slab", "immersive_weathering:vertical_cracked_prismarine_brick_slab");
 
         IWPlatformStuff.addExtraCrackedBlocks(builder);
 

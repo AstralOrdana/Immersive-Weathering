@@ -7,7 +7,10 @@ import com.ordana.immersive_weathering.blocks.PatchSpreader;
 import com.ordana.immersive_weathering.blocks.Weatherable;
 import com.ordana.immersive_weathering.IWPlatformStuff;
 import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -38,6 +41,10 @@ public interface Mossable extends Weatherable {
                 .put(Blocks.BRICK_STAIRS, ModBlocks.MOSSY_BRICK_STAIRS.get())
                 .put(Blocks.BRICK_SLAB, ModBlocks.MOSSY_BRICK_SLAB.get())
                 .put(Blocks.BRICK_WALL, ModBlocks.MOSSY_BRICK_WALL.get());
+        WeatheringHelper.addOptional(builder,"quark:vertical_brick_slab", "immersive_weathering:vertical_mossy_brick_slab");
+        WeatheringHelper.addOptional(builder,"quark:vertical_cobblestone_slab", "quark:vertical_mossy_cobblestone_slab");
+        WeatheringHelper.addOptional(builder,"quark:vertical_stone_brick_slab", "quark:vertical_mossy_stone_brick_slab");
+        WeatheringHelper.addOptional(builder,"immersive_weathering:vertical_stone_slab", "immersive_weathering:vertical_mossy_stone_slab");
 
         IWPlatformStuff.addExtraMossyBlocks(builder);
         return builder.build();
