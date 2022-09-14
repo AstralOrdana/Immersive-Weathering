@@ -29,6 +29,10 @@
     {
       "type": "minecraft:surface_relative_threshold_filter",
       "heightmap": "MOTION_BLOCKING_NO_LEAVES"
+    },
+    {
+      "type":"immersive_weathering:biome_tag",
+      "tag":"has_ivy"
     }
   ]
 }

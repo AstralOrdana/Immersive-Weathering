@@ -19,6 +19,10 @@
           "absolute": 64
         }
       }
+    },
+    {
+      "type":"immersive_weathering:biome_tag",
+      "tag":"underground_desert"
     }
   ]
 }

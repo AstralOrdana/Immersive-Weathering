@@ -34,6 +34,11 @@
           "absolute": 256
         }
       }
+    },
+
+    {
+      "type":"immersive_weathering:biome_tag",
+      "tag":"icy"
     }
   ]
 }

@@ -14,6 +14,10 @@
       "noise_to_count_ratio": 2,
       "noise_factor": 25,
       "noise_offset": 0.2
+    },
+    {
+      "type":"immersive_weathering:biome_tag",
+      "tag":"icy"
     }
   ]
 }

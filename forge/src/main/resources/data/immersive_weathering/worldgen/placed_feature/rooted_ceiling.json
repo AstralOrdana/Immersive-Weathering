@@ -36,6 +36,10 @@
       "type": "minecraft:random_offset",
       "xz_spread": 0,
       "y_spread": -1
+    },
+    {
+      "type":"immersive_weathering:biome_tag",
+      "tag":"has_humus"
     }
   ]
 }

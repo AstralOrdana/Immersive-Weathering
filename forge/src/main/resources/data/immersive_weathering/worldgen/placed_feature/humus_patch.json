@@ -13,6 +13,10 @@
     {
       "type": "minecraft:heightmap",
       "heightmap": "MOTION_BLOCKING"
+    },
+    {
+      "type":"immersive_weathering:biome_tag",
+      "tag":"has_humus"
     }
   ]
 }

@@ -13,6 +13,10 @@
     {
       "type": "minecraft:heightmap",
       "heightmap": "OCEAN_FLOOR_WG"
+    },
+    {
+      "type":"immersive_weathering:biome_tag",
+      "tag":"has_fluvisol"
     }
   ]
 }

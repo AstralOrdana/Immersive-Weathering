@@ -21,7 +21,8 @@
       }
     },
     {
-      "type": "minecraft:biome"
+      "type":"immersive_weathering:biome_tag",
+      "tag":"has_lakebed"
     }
   ]
 }
