@@ -16,7 +16,7 @@
     },
     {
       "type":"immersive_weathering:biome_tag",
-      "tag":"has_humus"
+      "tag":"immersive_weathering:has_humus"
     }
   ]
 }

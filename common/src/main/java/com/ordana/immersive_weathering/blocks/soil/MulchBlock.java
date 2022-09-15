@@ -9,6 +9,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -140,15 +142,16 @@ public class MulchBlock extends FarmBlock {
 
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!player.isSecondaryUseActive()) {
             // empty bucket into mulch
             if (player.getItemInHand(hand).is(Items.WATER_BUCKET) && !isSoaked(state)) {
                 if (!player.isCreative()) {
                     player.setItemInHand(hand, new ItemStack(Items.BUCKET));
                 }
-                world.setBlockAndUpdate(pos, state.setValue(MOISTURE, 7));
-                world.playSound(player, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
+                level.setBlockAndUpdate(pos, state.setValue(MOISTURE, 7));
+                level.playSound(player, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
                 return InteractionResult.SUCCESS;
             }
             // fill bucket from mulch
@@ -156,11 +159,12 @@ public class MulchBlock extends FarmBlock {
                 if (!player.isCreative()) {
                     player.setItemInHand(hand, new ItemStack(Items.WATER_BUCKET));
                 }
-                world.setBlockAndUpdate(pos, state.setValue(MOISTURE, 7));
-                world.playSound(player, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0f, 1.0f);
+                level.setBlockAndUpdate(pos, state.setValue(MOISTURE, 0));
+                level.playSound(player, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0f, 1.0f);
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
                 return InteractionResult.SUCCESS;
             }
         }
-        return super.use(state, world, pos, player, hand, hit);
+        return super.use(state, level, pos, player, hand, hit);
     }
 }
