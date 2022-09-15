@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import dev.architectury.injectables.annotations.PlatformOnly;
+import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -60,6 +61,11 @@ public class FlowerCrownItem extends ArmorItem {
     @PlatformOnly(PlatformOnly.FORGE)
     //@Override
     public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+        return getModelTexture(stack);
+    }
+
+    @Nullable
+    public static String getModelTexture(ItemStack stack) {
         if (stack.hasCustomHoverName()) {
             var name = stack.getHoverName().getContents();
             var m = SUPPORTERS_LIST.get(name);
@@ -73,6 +79,7 @@ public class FlowerCrownItem extends ArmorItem {
             "Ordana", Pair.of(ImmersiveWeathering.res("aaa").toString(), 1),
             "MehVahdJukaar", Pair.of(ImmersiveWeathering.res("aaa").toString(), 2)
     );
+    HumanoidArmorLayer
 
     public static int getItemTextureIndex(ItemStack stack) {
         if (stack.hasCustomHoverName()) {
