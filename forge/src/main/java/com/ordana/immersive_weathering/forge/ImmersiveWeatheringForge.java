@@ -3,9 +3,11 @@ package com.ordana.immersive_weathering.forge;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.client.ImmersiveWeatheringClient;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModWaxables;
 import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.packs.PackType;
@@ -59,6 +61,11 @@ public class ImmersiveWeatheringForge {
         bus.addListener(ImmersiveWeatheringForge::setup);
         bus.addListener(ImmersiveWeatheringForge::addPackFinders);
         bus.addGenericListener(Item.class, ImmersiveWeatheringForge::registerOverrides);
+
+
+        if (PlatformHelper.getEnv().isClient()) {
+            ImmersiveWeatheringClient.init();
+        }
     }
 
     public static void registerOverrides(RegistryEvent.Register<Item> event) {

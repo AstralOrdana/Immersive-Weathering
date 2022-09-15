@@ -6,9 +6,15 @@
   "overrides": [
     {
       "predicate": {
-        "ordana": 1
+        "immersive_weathering:supporter": 1
       },
       "model": "immersive_weathering:item/flower_crown_bee"
+    },
+    {
+      "predicate": {
+        "immersive_weathering:supporter": 2
+      },
+      "model": "immersive_weathering:item/flower_crown_jar"
     }
   ]
 }

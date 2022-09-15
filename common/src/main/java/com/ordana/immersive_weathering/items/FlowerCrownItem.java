@@ -1,6 +1,9 @@
 package com.ordana.immersive_weathering.items;
 
+import com.mojang.datafixers.util.Pair;
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.reg.ModParticles;
+import dev.architectury.injectables.annotations.PlatformOnly;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -10,6 +13,9 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Map;
 
 public class FlowerCrownItem extends ArmorItem {
 
@@ -47,5 +53,33 @@ public class FlowerCrownItem extends ArmorItem {
             }
         }*/
         super.inventoryTick(stack, level, entity, slot, selected);
+    }
+
+
+    @Nullable
+    @PlatformOnly(PlatformOnly.FORGE)
+    //@Override
+    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+        if (stack.hasCustomHoverName()) {
+            var name = stack.getHoverName().getContents();
+            var m = SUPPORTERS_LIST.get(name);
+            if (m != null) return m.getFirst();
+        }
+        return null;
+    }
+
+    //pair of item name, entity model texture location and item model index
+    private static final Map<String, Pair<String, Integer>> SUPPORTERS_LIST = Map.of(
+            "Ordana", Pair.of(ImmersiveWeathering.res("aaa").toString(), 1),
+            "MehVahdJukaar", Pair.of(ImmersiveWeathering.res("aaa").toString(), 2)
+    );
+
+    public static int getItemTextureIndex(ItemStack stack) {
+        if (stack.hasCustomHoverName()) {
+            var name = stack.getHoverName().getContents();
+            var m = SUPPORTERS_LIST.get(name);
+            if (m != null) return m.getSecond();
+        }
+        return 0;
     }
 }

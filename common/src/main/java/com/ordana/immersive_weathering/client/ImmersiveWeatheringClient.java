@@ -1,9 +1,12 @@
 package com.ordana.immersive_weathering.client;
 
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.client.particles.EmberParticle;
 import com.ordana.immersive_weathering.client.particles.LeafParticle;
+import com.ordana.immersive_weathering.items.FlowerCrownItem;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModEntities;
+import com.ordana.immersive_weathering.reg.ModItems;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
 import net.minecraft.client.color.block.BlockColor;
@@ -11,28 +14,25 @@ import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.GlowParticle;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.GrassColor;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-
-import java.util.function.Function;
 
 public class ImmersiveWeatheringClient {
 
-    public static void initClient() {
+    public static void init() {
+        ClientPlatformHelper.addEntityRenderersRegistration(ImmersiveWeatheringClient::registerEntityRenderers);
+        ClientPlatformHelper.addBlockColorsRegistration(ImmersiveWeatheringClient::registerBlockColors);
+        ClientPlatformHelper.addItemColorsRegistration(ImmersiveWeatheringClient::registerItemColors);
+        ClientPlatformHelper.addParticleRegistration(ImmersiveWeatheringClient::registerParticles);
+    }
+
+    public static void setup() {
 
         ClientPlatformHelper.registerRenderType(ModBlocks.ROOTED_GRASS_BLOCK.get(), RenderType.cutout());
         ClientPlatformHelper.registerRenderType(Blocks.MOSSY_COBBLESTONE, RenderType.cutout());
@@ -111,24 +111,18 @@ public class ImmersiveWeatheringClient {
         ClientPlatformHelper.registerRenderType(ModBlocks.THIN_ICE.get(), RenderType.translucent());
 
         ClientPlatformHelper.registerRenderType(ModBlocks.HANGING_ROOTS_WALL.get(), RenderType.cutout());
+
+        ClientPlatformHelper.registerItemProperty(ModItems.FLOWER_CROWN.get(), ImmersiveWeathering.res("supporter"),
+                (stack, world, entity, s) -> FlowerCrownItem.getItemTextureIndex(stack));
     }
 
-    @FunctionalInterface
-    public interface EntityRendererReg {
-        <E extends Entity> void register(EntityType<? extends E> entity, EntityRendererProvider<E> renderer);
-    }
 
-    public static void onRegisterEntityRenderTypes(EntityRendererReg event) {
+    private static void registerEntityRenderers(ClientPlatformHelper.EntityRendererEvent event) {
         event.register(ModEntities.FALLING_ICICLE.get(), FallingBlockRendererGeneric::new);
         event.register(ModEntities.FALLING_LAYER.get(), FallingBlockRendererGeneric::new);
     }
 
-    @FunctionalInterface
-    public interface ParticleRendererReg {
-        <T extends ParticleOptions> void register(ParticleType<T> type, Function<SpriteSet, ParticleProvider<T>> particleFactory);
-    }
-
-    public static void onRegisterParticles(ParticleRendererReg event) {
+    private static void registerParticles(ClientPlatformHelper.ParticleEvent event) {
         event.register(ModParticles.EMBERSPARK.get(), EmberParticle.EmberFactory::new);
         event.register(ModParticles.EMBER.get(), EmberParticle.EmberFactory::new);
 
@@ -180,12 +174,7 @@ public class ImmersiveWeatheringClient {
         }
     }
 
-    @FunctionalInterface
-    public interface BlockColorReg {
-        void register(BlockColor color, Block block);
-    }
-
-    public static void onRegisterBlockColors(BlockColorReg event) {
+    private static void registerBlockColors(ClientPlatformHelper.BlockColorEvent event) {
 
         final BlockColor defaultGrassColor = (state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos) : GrassColor.get(0D, 0D);
         final BlockColor defaultFoliageColor = (state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageFoliageColor(world, pos) : FoliageColor.getDefaultColor();
@@ -224,12 +213,8 @@ public class ImmersiveWeatheringClient {
 
     }
 
-    @FunctionalInterface
-    public interface ItemColorReg {
-        void register(ItemColor color, ItemLike... block);
-    }
 
-    public static void onRegisterItemColors(ItemColorReg event) {
+    private static void registerItemColors(ClientPlatformHelper.ItemColorEvent event) {
         final ItemColor defaultGrassColor = (stack, tintIndex) -> GrassColor.get(0.5D, 0.5D);
         event.register(defaultGrassColor, ModBlocks.ROOTED_GRASS_BLOCK.get());
         event.register(defaultGrassColor, Items.MOSSY_COBBLESTONE, Items.MOSSY_COBBLESTONE_SLAB);

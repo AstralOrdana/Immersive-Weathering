@@ -8,6 +8,8 @@ import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.forge.FeatureHacks;
 import com.ordana.immersive_weathering.forge.rustable.*;
+import com.ordana.immersive_weathering.integration.IntegrationHandler;
+import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -69,15 +71,15 @@ public class IWPlatformStuffImpl {
     }
 
     public static void addExtraMossyBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
-        //if (IntegrationHandler.quark) {
-        //    QuarkPlugin.addAllVerticalSlabs(builder);
-        // }
+        if (IntegrationHandler.quark) {
+            QuarkPlugin.addAllVerticalSlabs(builder);
+         }
     }
 
     public static void addExtraCrackedBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
-        // if (IntegrationHandler.quark) {
-        //    QuarkPlugin.addAllVerticalSlabs(builder);
-        // }
+         if (IntegrationHandler.quark) {
+            QuarkPlugin.addAllVerticalSlabs(builder);
+         }
     }
 
 

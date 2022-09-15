@@ -19,11 +19,8 @@ public class ImmersiveWeatheringClientFabric implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ImmersiveWeatheringClient.initClient();
-        ImmersiveWeatheringClient.onRegisterEntityRenderTypes(EntityRendererRegistry::register);
-        ImmersiveWeatheringClient.onRegisterBlockColors(ColorProviderRegistry.BLOCK::register);
-        ImmersiveWeatheringClient.onRegisterItemColors(ColorProviderRegistry.ITEM::register);
-        ImmersiveWeatheringClient.onRegisterParticles(ImmersiveWeatheringClientFabric::registerParticle);
+        ImmersiveWeatheringClient.init();
+        ImmersiveWeatheringClient.setup();
 
         ClientSpriteRegistryCallback.event(InventoryMenu.BLOCK_ATLAS).register(((atlasTexture, registry) -> {
             registry.register(ImmersiveWeathering.res("particle/ember_0"));
