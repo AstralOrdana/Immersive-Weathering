@@ -7,6 +7,7 @@
     "ArmorLayerMixin"
   ],
   "mixins": [
+    "CropBlockMixin",
     "DataPackContentMixin",
     "FarmlandBlockMixin",
     "FireMixin",

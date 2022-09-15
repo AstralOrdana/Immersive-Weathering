@@ -77,9 +77,10 @@ public class FlowerCrownItem extends ArmorItem {
     //pair of item name, entity model texture location and item model index
     private static final Map<String, Pair<String, Integer>> SUPPORTERS_LIST = Map.of(
             "Ordana", Pair.of(ImmersiveWeathering.res("aaa").toString(), 1),
-            "MehVahdJukaar", Pair.of(ImmersiveWeathering.res("aaa").toString(), 2)
+            "MehVahdJukaar", Pair.of(ImmersiveWeathering.res("aaa").toString(), 2),
+            "Bee Crown", Pair.of(ImmersiveWeathering.res("bee_crown").toString(), 3)
     );
-    HumanoidArmorLayer
+    //HumanoidArmorLayer
 
     public static int getItemTextureIndex(ItemStack stack) {
         if (stack.hasCustomHoverName()) {

@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.mixins;
+package com.ordana.immersive_weathering.mixins.fabric;
 
 import com.ordana.immersive_weathering.blocks.soil.MulchBlock;
 import com.ordana.immersive_weathering.reg.ModBlocks;
