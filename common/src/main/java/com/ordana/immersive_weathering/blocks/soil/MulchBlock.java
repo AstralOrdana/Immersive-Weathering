@@ -2,6 +2,9 @@ package com.ordana.immersive_weathering.blocks.soil;
 
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModTags;
+import dev.architectury.injectables.annotations.ExpectPlatform;
+import dev.architectury.injectables.annotations.PlatformOnly;
+import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -166,5 +169,11 @@ public class MulchBlock extends FarmBlock {
             }
         }
         return super.use(state, level, pos, player, hand, hit);
+    }
+
+    //@Override
+    @PlatformOnly(PlatformOnly.FORGE)
+    public boolean isFertile(BlockState state, BlockGetter world, BlockPos pos) {
+        return true;
     }
 }

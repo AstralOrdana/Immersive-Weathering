@@ -80,7 +80,6 @@ public class FlowerCrownItem extends ArmorItem {
             "MehVahdJukaar", Pair.of(ImmersiveWeathering.res("aaa").toString(), 2),
             "Bee Crown", Pair.of(ImmersiveWeathering.res("bee_crown").toString(), 3)
     );
-    //HumanoidArmorLayer
 
     public static int getItemTextureIndex(ItemStack stack) {
         if (stack.hasCustomHoverName()) {

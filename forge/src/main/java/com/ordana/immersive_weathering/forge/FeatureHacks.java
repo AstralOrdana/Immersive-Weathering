@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.reg.ModTags;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.core.BlockPos;
@@ -15,10 +14,6 @@ import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -34,7 +29,6 @@ import net.minecraftforge.common.util.NonNullLazy;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -187,15 +181,15 @@ public class FeatureHacks {
     public static class HardcodedBiomeFilter extends PlacementFilter {
 
         private final TagKey<Biome> tag;
-        
+
         public static final Codec<HardcodedBiomeFilter> CODEC = RecordCodecBuilder.create((i) -> i.group(
                 TagKey.codec(Registry.BIOME_REGISTRY).fieldOf("tag").forGetter(e -> e.tag)
         ).apply(i, HardcodedBiomeFilter::new));
 
         private HardcodedBiomeFilter(TagKey<Biome> tag) {
             this.tag = tag;
-            if(BuiltinRegistries.BIOME.getTag(tag).isEmpty()){
-                ImmersiveWeathering.LOGGER.error("Biome tag for structure placement {} was empty! check for spelling errors", tag);
+            if (BuiltinRegistries.BIOME.getTag(tag).isEmpty()) {
+                //  ImmersiveWeathering.LOGGER.error("Biome tag for structure placement {} was empty! check for spelling errors", tag);
             }
         }
 
@@ -210,11 +204,4 @@ public class FeatureHacks {
         }
     }
 
-    public static class aa extends ArmorItem{
-        @Nullable
-        @Override
-        public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-            return super.getArmorTexture(stack, entity, slot, type);
-        }
-    }
 }
