@@ -15,6 +15,54 @@
         "immersive_weathering:supporter": 2
       },
       "model": "immersive_weathering:item/flower_crown_jar"
+    },
+    {
+      "predicate": {
+        "immersive_weathering:supporter": 3
+      },
+      "model": "immersive_weathering:item/flower_crown_ace"
+    },
+    {
+      "predicate": {
+        "immersive_weathering:supporter": 4
+      },
+      "model": "immersive_weathering:item/flower_crown_aro"
+    },
+    {
+      "predicate": {
+        "immersive_weathering:supporter": 5
+      },
+      "model": "immersive_weathering:item/flower_crown_bi"
+    },
+    {
+      "predicate": {
+        "immersive_weathering:supporter": 6
+      },
+      "model": "immersive_weathering:item/flower_crown_enby"
+    },
+    {
+      "predicate": {
+        "immersive_weathering:supporter": 7
+      },
+      "model": "immersive_weathering:item/flower_crown_gay"
+    },
+    {
+      "predicate": {
+        "immersive_weathering:supporter": 8
+      },
+      "model": "immersive_weathering:item/flower_crown_lesbian"
+    },
+    {
+      "predicate": {
+        "immersive_weathering:supporter": 9
+      },
+      "model": "immersive_weathering:item/flower_crown_rainbow"
+    },
+    {
+      "predicate": {
+        "immersive_weathering:supporter": 10
+      },
+      "model": "immersive_weathering:item/flower_crown_trans"
     }
   ]
 }

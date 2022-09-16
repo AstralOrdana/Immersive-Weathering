@@ -76,9 +76,16 @@ public class FlowerCrownItem extends ArmorItem {
 
     //pair of item name, entity model texture location and item model index
     private static final Map<String, Pair<String, Integer>> SUPPORTERS_LIST = Map.of(
-            "Ordana", Pair.of(ImmersiveWeathering.res("aaa").toString(), 1),
+            "Ordana", Pair.of(ImmersiveWeathering.res("textures/models/armor/bee.png").toString(), 1),
             "MehVahdJukaar", Pair.of(ImmersiveWeathering.res("aaa").toString(), 2),
-            "Bee Crown", Pair.of(ImmersiveWeathering.res("bee_crown").toString(), 3)
+            "Asexual", Pair.of(ImmersiveWeathering.res("textures/models/armor/ace.png").toString(), 3),
+            "Aromantic", Pair.of(ImmersiveWeathering.res("textures/models/armor/aro.png").toString(), 4),
+            "Bisexual", Pair.of(ImmersiveWeathering.res("textures/models/armor/bi.png").toString(), 5),
+            "Non-binary", Pair.of(ImmersiveWeathering.res("textures/models/armor/enby.png").toString(), 6),
+            "Gay", Pair.of(ImmersiveWeathering.res("textures/models/armor/gay.png").toString(), 7),
+            "Lesbian", Pair.of(ImmersiveWeathering.res("textures/models/armor/lesbian.png").toString(), 8),
+            "Rainbow", Pair.of(ImmersiveWeathering.res("textures/models/armor/rainbow.png").toString(), 9),
+            "Trans", Pair.of(ImmersiveWeathering.res("textures/models/armor/trans.png").toString(), 10)
     );
     //HumanoidArmorLayer
 
