@@ -11,6 +11,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,5 +46,8 @@ public class ForgeHelper {
         throw new AssertionError();
     }
 
-
+    @ExpectPlatform
+    public static void setPoolName(LootPool.Builder pool, String s) {
+        throw new AssertionError();
+    }
 }

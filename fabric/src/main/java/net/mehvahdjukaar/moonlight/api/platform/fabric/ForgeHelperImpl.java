@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,6 +38,9 @@ public class ForgeHelperImpl {
 
     public static float getFriction(BlockState state, LevelReader level, BlockPos pos, @Nullable Entity entity) {
         return state.getBlock().getFriction();
+    }
+
+    public static void setPoolName(LootPool.Builder pool, String s) {
     }
 
 }

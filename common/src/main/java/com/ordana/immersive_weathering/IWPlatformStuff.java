@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.FlowingFluid;
+import net.minecraft.world.level.storage.loot.LootPool;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,6 +27,11 @@ public class IWPlatformStuff {
     @Contract
     @ExpectPlatform
     public static FlowingFluid getFlowingFluid(LiquidBlock liquidBlock) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static void setPoolName(LootPool.Builder pool, String s) {
         throw new AssertionError();
     }
 

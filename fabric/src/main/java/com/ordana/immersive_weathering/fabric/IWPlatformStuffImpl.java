@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.FlowingFluid;
+import net.minecraft.world.level.storage.loot.LootPool;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -80,6 +81,7 @@ public class IWPlatformStuffImpl {
     public static FlowingFluid getFlowingFluid(LiquidBlock liquidBlock) {
         return null;
     }
+
 
 
 }

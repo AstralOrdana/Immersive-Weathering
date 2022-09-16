@@ -10,6 +10,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.ICondition;
@@ -54,6 +55,10 @@ public class ForgeHelperImpl {
 
     public static float getFriction(BlockState state, LevelReader level, BlockPos pos, @Nullable Entity entity) {
         return state.getFriction(level, pos, entity);
+    }
+
+    public static void setPoolName(LootPool.Builder pool, String s) {
+        pool.name(s);
     }
 
 }

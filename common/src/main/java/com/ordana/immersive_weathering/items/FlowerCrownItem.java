@@ -15,6 +15,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class FlowerCrownItem extends ArmorItem {
@@ -67,24 +68,27 @@ public class FlowerCrownItem extends ArmorItem {
     public static String getModelTexture(ItemStack stack) {
         if (stack.hasCustomHoverName()) {
             var name = stack.getHoverName().getContents();
-            var m = SUPPORTERS_LIST.get(name);
+            var m = SUPPORTERS_LIST.get(name.toLowerCase(Locale.ROOT));
             if (m != null) return m.getFirst();
         }
         return null;
     }
 
+
     //pair of item name, entity model texture location and item model index
+    //KEEP THESE LOWERCASE
     private static final Map<String, Pair<String, Integer>> SUPPORTERS_LIST = new HashMap<>() {{
-        put("Ordana", Pair.of("textures/models/armor/bee.png", 1));
-        put("MehVahdJukaar", Pair.of("gib me a texture pls", 2));
-        put("Asexual", Pair.of("textures/models/armor/ace.png", 3));
-        put("Aromantic", Pair.of("textures/models/armor/aro.png", 4));
-        put("Bisexual", Pair.of("textures/models/armor/bi.png", 5));
-        put("Non-binary", Pair.of("textures/models/armor/enby.png", 6));
-        put("Gay", Pair.of("textures/models/armor/gay.png", 7));
-        put("Lesbian", Pair.of("textures/models/armor/lesbian.png", 8));
-        put("Rainbow", Pair.of("textures/models/armor/rainbow.png", 9));
-        put("Trans", Pair.of("textures/models/armor/trans.png", 10));
+        put("ordana", Pair.of("textures/models/armor/bee.png", 1));
+        put("mehvahdjukaar", Pair.of("gib me a texture pls", 2));
+        put("asexual", Pair.of("textures/models/armor/ace.png", 3));
+        put("aromantic", Pair.of("textures/models/armor/aro.png", 4));
+        put("bisexual", Pair.of("textures/models/armor/bi.png", 5));
+        put("non-binary", Pair.of("textures/models/armor/enby.png", 6));
+        put("gay", Pair.of("textures/models/armor/gay.png", 7));
+        put("lesbian", Pair.of("textures/models/armor/lesbian.png", 8));
+        put("rainbow", Pair.of("textures/models/armor/rainbow.png", 9));
+        put("pride", Pair.of("textures/models/armor/rainbow.png", 9));
+        put("trans", Pair.of("textures/models/armor/trans.png", 10));
     }};
 
     public static int getItemTextureIndex(ItemStack stack) {
