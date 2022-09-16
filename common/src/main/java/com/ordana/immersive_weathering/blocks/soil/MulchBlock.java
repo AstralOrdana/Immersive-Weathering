@@ -170,10 +170,4 @@ public class MulchBlock extends FarmBlock {
         }
         return super.use(state, level, pos, player, hand, hit);
     }
-
-    //@Override
-    @PlatformOnly(PlatformOnly.FORGE)
-    public boolean isFertile(BlockState state, BlockGetter world, BlockPos pos) {
-        return true;
-    }
 }

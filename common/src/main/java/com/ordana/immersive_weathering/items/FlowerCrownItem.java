@@ -1,10 +1,8 @@
 package com.ordana.immersive_weathering.items;
 
 import com.mojang.datafixers.util.Pair;
-import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import dev.architectury.injectables.annotations.PlatformOnly;
-import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -16,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class FlowerCrownItem extends ArmorItem {
@@ -75,18 +74,18 @@ public class FlowerCrownItem extends ArmorItem {
     }
 
     //pair of item name, entity model texture location and item model index
-    private static final Map<String, Pair<String, Integer>> SUPPORTERS_LIST = Map.of(
-            "Ordana", Pair.of(ImmersiveWeathering.res("textures/models/armor/bee.png").toString(), 1),
-            "MehVahdJukaar", Pair.of(ImmersiveWeathering.res("aaa").toString(), 2),
-            "Asexual", Pair.of(ImmersiveWeathering.res("textures/models/armor/ace.png").toString(), 3),
-            "Aromantic", Pair.of(ImmersiveWeathering.res("textures/models/armor/aro.png").toString(), 4),
-            "Bisexual", Pair.of(ImmersiveWeathering.res("textures/models/armor/bi.png").toString(), 5),
-            "Non-binary", Pair.of(ImmersiveWeathering.res("textures/models/armor/enby.png").toString(), 6),
-            "Gay", Pair.of(ImmersiveWeathering.res("textures/models/armor/gay.png").toString(), 7),
-            "Lesbian", Pair.of(ImmersiveWeathering.res("textures/models/armor/lesbian.png").toString(), 8),
-            "Rainbow", Pair.of(ImmersiveWeathering.res("textures/models/armor/rainbow.png").toString(), 9),
-            "Trans", Pair.of(ImmersiveWeathering.res("textures/models/armor/trans.png").toString(), 10)
-    );
+    private static final Map<String, Pair<String, Integer>> SUPPORTERS_LIST = new HashMap<>() {{
+        put("Ordana", Pair.of("textures/models/armor/bee.png", 1));
+        put("MehVahdJukaar", Pair.of("gib me a texture pls", 2));
+        put("Asexual", Pair.of("textures/models/armor/ace.png", 3));
+        put("Aromantic", Pair.of("textures/models/armor/aro.png", 4));
+        put("Bisexual", Pair.of("textures/models/armor/bi.png", 5));
+        put("Non-binary", Pair.of("textures/models/armor/enby.png", 6));
+        put("Gay", Pair.of("textures/models/armor/gay.png", 7));
+        put("Lesbian", Pair.of("textures/models/armor/lesbian.png", 8));
+        put("Rainbow", Pair.of("textures/models/armor/rainbow.png", 9));
+        put("Trans", Pair.of("textures/models/armor/trans.png", 10));
+    }};
 
     public static int getItemTextureIndex(ItemStack stack) {
         if (stack.hasCustomHoverName()) {
