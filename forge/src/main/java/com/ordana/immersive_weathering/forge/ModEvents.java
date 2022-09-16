@@ -4,7 +4,9 @@ package com.ordana.immersive_weathering.forge;
 import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
 
 import com.ordana.immersive_weathering.data.fluid_generators.FluidGeneratorsHandler;
+import com.ordana.immersive_weathering.events.ModLootInjects;
 import net.minecraft.world.InteractionResult;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -25,11 +27,16 @@ public class ModEvents {
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        var ret = com.ordana.immersive_weathering.events.ModEvents.invokeEvents(event.getItemStack(), event.getPlayer(), event.getWorld(), event.getHand(), event.getHitVec());
+        var ret = com.ordana.immersive_weathering.events.ModEvents.onBlockCLicked(event.getItemStack(), event.getPlayer(), event.getWorld(), event.getHand(), event.getHitVec());
         if (ret != InteractionResult.PASS) {
             event.setCanceled(true);
             event.setCancellationResult(ret);
         }
+    }
+
+    @SubscribeEvent
+    public static void onAddLootTables(LootTableLoadEvent event) {
+        ModLootInjects.onLootInject(event.getLootTableManager(), event.getName(), (b) -> event.getTable().addPool(b.build()));
     }
 
 

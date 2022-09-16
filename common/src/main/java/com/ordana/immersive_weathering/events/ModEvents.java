@@ -3,7 +3,6 @@ package com.ordana.immersive_weathering.events;
 import com.ordana.immersive_weathering.blocks.Weatherable;
 import com.ordana.immersive_weathering.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.blocks.mossable.Mossable;
-import com.ordana.immersive_weathering.client.ParticleHelper;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
@@ -16,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -33,10 +33,13 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 
 public class ModEvents {
@@ -64,7 +67,7 @@ public class ModEvents {
     }
 
 
-    public static InteractionResult invokeEvents(ItemStack stack, Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+    public static InteractionResult onBlockCLicked(ItemStack stack, Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if(stack.isEmpty())return InteractionResult.PASS;
         Item i = stack.getItem();
         BlockPos pos = hitResult.getBlockPos();
@@ -246,6 +249,7 @@ public class ModEvents {
 
 
 
+    //TODO: add
     private static InteractionResult axeStripping(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                                    Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if(item instanceof AxeItem && CommonConfigs.AXE_STRIPPING.get()) {
@@ -261,6 +265,9 @@ public class ModEvents {
     private static boolean doStripLog(ItemStack stack, BlockPos pos, BlockState state, Player player, Level level, InteractionHand hand, Direction dir) {
         throw new AssertionError();
     }
+
+
+
 
 
 
