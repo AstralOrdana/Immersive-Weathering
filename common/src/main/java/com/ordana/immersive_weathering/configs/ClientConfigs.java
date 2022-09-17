@@ -16,6 +16,7 @@ public class ClientConfigs {
 
     public static Supplier<Boolean> LEAF_DECAY_PARTICLES;
     public static Supplier<Boolean> FALLING_LEAF_PARTICLES;
+    public static Supplier<Boolean> CREATIVE_TAB;
 
     public static void init() {
         ConfigBuilder builder = ConfigBuilder.create(ImmersiveWeathering.res("client"), ConfigType.CLIENT);
@@ -23,9 +24,14 @@ public class ClientConfigs {
         builder.push("general");
         LEAF_DECAY_PARTICLES = builder.define("leaves_decay_particles", true);
         FALLING_LEAF_PARTICLES = builder.define("falling_leaf_particles", true);
+        CREATIVE_TAB = builder.define("creative_tab", false);
         builder.pop();
 
         CLIENT_SPEC = builder.buildAndRegister();
+
+        //load early
+        CLIENT_SPEC.loadFromFile();
+
     }
 
 }
