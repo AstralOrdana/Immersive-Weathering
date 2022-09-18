@@ -32,13 +32,13 @@ import java.util.Random;
 
 public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
 
-    public static final IntegerProperty DISTANCE;
+    public static final IntegerProperty OVERHANG;
     public static final BooleanProperty SUPPORTED;
     private static final int TICK_DELAY = 1;
 
     public CharredPillarBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.Y).setValue(SMOLDERING, false).setValue(SUPPORTED, false).setValue(DISTANCE, 4));
+        this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.Y).setValue(SMOLDERING, false).setValue(SUPPORTED, false).setValue(OVERHANG, 3));
     }
 
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
@@ -48,15 +48,15 @@ public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
     }
 
     private int getDistanceAt(BlockState neighbor) {
-        if (neighbor.hasProperty(DISTANCE)) {
-            return neighbor.is(ModTags.CHARRED_BLOCKS) ? neighbor.getValue(DISTANCE) : 3;
+        if (neighbor.hasProperty(OVERHANG)) {
+            return neighbor.is(ModTags.CHARRED_BLOCKS) ? neighbor.getValue(OVERHANG) : 3;
         }
         return 0;
     }
 
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos currentPos, BlockPos neighborPos) {
         int i = getDistanceAt(neighborState) + 1;
-        if (i != 1 || state.getValue(DISTANCE) != i) {
+        if (i != 1 || state.getValue(OVERHANG) != i) {
             level.scheduleTick(currentPos, this, 1);
         }
         if (i == 0 && level.getBlockState(currentPos.below()).isFaceSturdy(level, currentPos.below(), Direction.UP)) {
@@ -73,18 +73,18 @@ public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
     public static int getDistance(BlockGetter level, BlockPos pos) {
         BlockPos.MutableBlockPos mutableBlockPos = pos.mutable().move(Direction.DOWN);
         BlockState blockState = level.getBlockState(mutableBlockPos);
-        int i = 4;
+        int i = 3;
 
         for (Direction direction : Direction.Plane.HORIZONTAL) {
-            if (blockState.hasProperty(DISTANCE) && blockState.is(ModTags.CHARRED_BLOCKS)) {
-                i = blockState.getValue(DISTANCE);
+            if (blockState.hasProperty(OVERHANG) && blockState.is(ModTags.CHARRED_BLOCKS)) {
+                i = blockState.getValue(OVERHANG);
 
             } else if (blockState.isFaceSturdy(level, mutableBlockPos, Direction.UP)) {
                 return 0;
             }
             BlockState blockState2 = level.getBlockState(mutableBlockPos.setWithOffset(pos, direction));
-            if (blockState2.hasProperty(DISTANCE) && blockState2.is(ModTags.CHARRED_BLOCKS)) {
-                i = Math.min(i, blockState2.getValue(DISTANCE) + 1);
+            if (blockState2.hasProperty(OVERHANG) && blockState2.is(ModTags.CHARRED_BLOCKS)) {
+                i = Math.min(i, blockState2.getValue(OVERHANG) + 1);
                 if (i == 1) {
                     break;
                 }
@@ -97,20 +97,20 @@ public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
         BlockPos blockPos = context.getClickedPos();
         Level level = context.getLevel();
         int i = getDistance(level, blockPos);
-        return (this.defaultBlockState()).setValue(AXIS, context.getClickedFace().getAxis()).setValue(DISTANCE, i).setValue(SUPPORTED, this.isSupported(level, blockPos));
+        return (this.defaultBlockState()).setValue(AXIS, context.getClickedFace().getAxis()).setValue(OVERHANG, i).setValue(SUPPORTED, this.isSupported(level, blockPos));
     }
 
     public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
         int i = getDistance(level, pos);
         BlockPos belowPos = pos.below();
-        BlockState blockState = state.setValue(DISTANCE, i).setValue(SUPPORTED, this.isSupported(level, pos));
+        BlockState blockState = state.setValue(OVERHANG, i).setValue(SUPPORTED, this.isSupported(level, pos));
         if (level.getBlockState(belowPos).isFaceSturdy(level, belowPos, Direction.UP) || level.getBlockState(belowPos).is(BlockTags.LEAVES)) {
             level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(SUPPORTED, true), 0);
         }
         else level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(SUPPORTED, false), 0);
 
-        if (level.getBlockState(pos).getValue(DISTANCE) != 1 && !state.getValue(SUPPORTED)) {
-            level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(DISTANCE, 0), 0);
+        if (level.getBlockState(pos).getValue(OVERHANG) != 1 && !state.getValue(SUPPORTED)) {
+            level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(OVERHANG, 0), 0);
             FallingBlockEntity.fall(level, pos, blockState);
         }
     }
@@ -122,7 +122,7 @@ public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
 
 
     static {
-        DISTANCE = BlockStateProperties.STABILITY_DISTANCE;
+        OVERHANG = ModBlockProperties.OVERHANG;
         SUPPORTED = ModBlockProperties.SUPPORTED;
     }
 
@@ -130,7 +130,7 @@ public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
         super.createBlockStateDefinition(stateManager);
-        stateManager.add(SMOLDERING, SUPPORTED, DISTANCE);
+        stateManager.add(SMOLDERING, SUPPORTED, OVERHANG);
     }
 
     @Override

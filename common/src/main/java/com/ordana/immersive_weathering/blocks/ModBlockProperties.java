@@ -14,5 +14,6 @@ public class ModBlockProperties {
     public static final BooleanProperty CAN_EXPAND = BooleanProperty.create("can_expand");
     public static final IntegerProperty LEAF_LAYERS = IntegerProperty.create("layers", 0, 8);
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 10);
+    public static final IntegerProperty OVERHANG = IntegerProperty.create("overhang", 0, 3);
 
 }
