@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
+import static com.ordana.immersive_weathering.reg.ModItems.getTab;
+
 @SuppressWarnings("unused")
 public class ModBlocks {
 
@@ -43,7 +45,7 @@ public class ModBlocks {
     }
 
     public static <T extends Block> Supplier<T> regWithItem(String name, Supplier<T> block) {
-        return regWithItem(name, block, CreativeModeTab.TAB_BUILDING_BLOCKS);
+        return regWithItem(name, block, getTab(CreativeModeTab.TAB_BUILDING_BLOCKS));
     }
 
     public static <T extends Block> Supplier<T> regWithItem(String name, Supplier<T> blockFactory, CreativeModeTab tab) {
@@ -53,7 +55,7 @@ public class ModBlocks {
     }
 
     public static <T extends Block> Supplier<T> regWithItem(String name, Supplier<T> block, String requiredMod) {
-        CreativeModeTab tab = PlatformHelper.isModLoaded(requiredMod) ? CreativeModeTab.TAB_BUILDING_BLOCKS : null;
+        CreativeModeTab tab = PlatformHelper.isModLoaded(requiredMod) ? getTab(CreativeModeTab.TAB_BUILDING_BLOCKS) : null;
         return regWithItem(name, block, tab);
     }
 
@@ -141,7 +143,7 @@ public class ModBlocks {
     public static final Supplier<Block> WEEDS = regWithItem("weeds", () ->
                     new WeedsBlock(Properties.of(Material.PLANT).noCollission()
                             .instabreak().sound(SoundType.GRASS)),
-            CreativeModeTab.TAB_DECORATIONS);
+            getTab(CreativeModeTab.TAB_DECORATIONS));
 
     public static final Supplier<Block> HANGING_ROOTS_WALL = regBlock("hanging_roots_wall", () ->
             new WallRootsBlock(Properties.copy(Blocks.HANGING_ROOTS)));
@@ -443,25 +445,25 @@ public class ModBlocks {
 
     public static final Supplier<Block> EXPOSED_IRON_DOOR = regWithItem("exposed_iron_door", () ->
             IWPlatformStuff.createSpecialBlock(BlockType.RUSTABLE_DOOR, Properties.copy(Blocks.IRON_DOOR),
-                    Rustable.RustLevel.EXPOSED), CreativeModeTab.TAB_DECORATIONS);
+                    Rustable.RustLevel.EXPOSED), getTab(CreativeModeTab.TAB_DECORATIONS));
     public static final Supplier<Block> WEATHERED_IRON_DOOR = regWithItem("weathered_iron_door", () ->
             IWPlatformStuff.createSpecialBlock(BlockType.RUSTABLE_DOOR, Properties.copy(EXPOSED_IRON_DOOR.get()),
-                    Rustable.RustLevel.WEATHERED), CreativeModeTab.TAB_DECORATIONS);
+                    Rustable.RustLevel.WEATHERED), getTab(CreativeModeTab.TAB_DECORATIONS));
     public static final Supplier<Block> RUSTED_IRON_DOOR = regWithItem("rusted_iron_door", () ->
             IWPlatformStuff.createSpecialBlock(BlockType.RUSTABLE_DOOR, Properties.copy(EXPOSED_IRON_DOOR.get()),
-                    Rustable.RustLevel.RUSTED), CreativeModeTab.TAB_DECORATIONS);
+                    Rustable.RustLevel.RUSTED), getTab(CreativeModeTab.TAB_DECORATIONS));
 
     //iron trapdoor
 
     public static final Supplier<Block> EXPOSED_IRON_TRAPDOOR = regWithItem("exposed_iron_trapdoor", () ->
             IWPlatformStuff.createSpecialBlock(BlockType.RUSTABLE_TRAPDOOR, Properties.copy(Blocks.IRON_TRAPDOOR),
-                    Rustable.RustLevel.EXPOSED), CreativeModeTab.TAB_DECORATIONS);
+                    Rustable.RustLevel.EXPOSED), getTab(CreativeModeTab.TAB_DECORATIONS));
     public static final Supplier<Block> WEATHERED_IRON_TRAPDOOR = regWithItem("weathered_iron_trapdoor", () ->
             IWPlatformStuff.createSpecialBlock(BlockType.RUSTABLE_TRAPDOOR, Properties.copy(EXPOSED_IRON_TRAPDOOR.get()),
-                    Rustable.RustLevel.WEATHERED), CreativeModeTab.TAB_DECORATIONS);
+                    Rustable.RustLevel.WEATHERED), getTab(CreativeModeTab.TAB_DECORATIONS));
     public static final Supplier<Block> RUSTED_IRON_TRAPDOOR = regWithItem("rusted_iron_trapdoor", () ->
             IWPlatformStuff.createSpecialBlock(BlockType.RUSTABLE_TRAPDOOR, Properties.copy(EXPOSED_IRON_TRAPDOOR.get()),
-                    Rustable.RustLevel.RUSTED), CreativeModeTab.TAB_DECORATIONS);
+                    Rustable.RustLevel.RUSTED), getTab(CreativeModeTab.TAB_DECORATIONS));
 
     //iron bars
 
