@@ -104,6 +104,9 @@ public class ModItems {
     public static final Supplier<Item> TALLOW = regItem("tallow",
             () -> new HoneycombItem(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
 
+    public static final Supplier<Item> STEEL_WOOL = regItem("steel_wool", () ->
+            new Item(new Item.Properties().defaultDurability(128).tab(CreativeModeTab.TAB_TOOLS)));
+
     public static final Supplier<Item> ICE_SICKLE = regItem("ice_sickle", () ->
             new IceSickleItem(IcicleToolMaterial.INSTANCE, 5, -1f,
                     new Item.Properties().food(ModFoods.ICICLE).tab(CreativeModeTab.TAB_COMBAT)));

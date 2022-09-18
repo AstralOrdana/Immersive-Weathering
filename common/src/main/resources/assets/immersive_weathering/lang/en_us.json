@@ -158,6 +158,23 @@
 
   "subtitles.block.icicle.land": "Icicle crashes down",
 
+  "tag.immersive_weathering.weathered_iron": "Weathered Iron",
+  "tag.immersive_weathering.exposed_iron": "Exposed Iron",
+  "tag.immersive_weathering.clean_iron": "Clean Iron",
+  "tag.immersive_weathering.rusted_iron": "Rusted Iron",
+  "tag.immersive_weathering.weathered_iron_smelting": "Weathered Iron for Smelting",
+  "tag.immersive_weathering.exposed_iron_smelting": "Exposed Iron for Smelting",
+  "tag.immersive_weathering.clean_iron_smelting": "Clean Iron for Smelting",
+  "tag.immersive_weathering.rusted_iron_smelting": "Rusted Iron for Smelting",
+  "tag.immersive_weathering.non_flammable_planks": "Non-flammable Planks",
+  "tag.immersive_weathering.non_flammable_fence_gates": "Non-flammable Fence Gates",
+  "tag.immersive_weathering.non_flammable_stairs": "Non-flammable Stairs",
+  "tag.immersive_weathering.non_flammable_slabs": "Non-flammable Slabs",
+  "tag.immersive_weathering.non_flammable_fences": "Non-flammable Fences",
+  "tag.immersive_weathering.bark": "Tree Bark",
+  "tag.immersive_weathering.scales": "Fungus Scales",
+  "tag.immersive_weathering.wax": "Wax",
+
   "block.immersive_weathering.icicle": "Icicle",
   "item.immersive_weathering.ice_sickle": "Ice Sickle",
   "block.immersive_weathering.frost": "Frost",

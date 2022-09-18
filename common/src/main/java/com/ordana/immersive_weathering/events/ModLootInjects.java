@@ -1,6 +1,5 @@
 package com.ordana.immersive_weathering.events;
 
-import com.ordana.immersive_weathering.IWPlatformStuff;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import net.mehvahdjukaar.moonlight.api.platform.ForgeHelper;
 import net.minecraft.resources.ResourceLocation;
@@ -37,15 +36,6 @@ public class ModLootInjects {
             {
                 LootPool.Builder pool = LootPool.lootPool();
                 String id = "hoglin_tallow";
-                pool.add(LootTableReference.lootTableReference(ImmersiveWeathering.res("injects/" + id)));
-                ForgeHelper.setPoolName(pool, "IW_" + id);
-                builderConsumer.accept(pool);
-            }
-        }
-        if (name.equals(new ResourceLocation("minecraft", "chests/nether_bridge"))) {
-            {
-                LootPool.Builder pool = LootPool.lootPool();
-                String id = "nether_fortress";
                 pool.add(LootTableReference.lootTableReference(ImmersiveWeathering.res("injects/" + id)));
                 ForgeHelper.setPoolName(pool, "IW_" + id);
                 builderConsumer.accept(pool);

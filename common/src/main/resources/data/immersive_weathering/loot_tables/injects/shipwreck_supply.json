@@ -9,26 +9,16 @@
           "children": [
             {
               "type": "minecraft:item",
-              "name": "minecraft:nether_brick"
-            },
-            {
-              "type": "minecraft:item",
-              "name": "immersive_weathering:moss_clump"
-            }
-          ],
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 5,
-                "max": 11
-              }
-            }
-          ],
-          "conditions": [
-            {
-              "condition": "minecraft:random_chance",
-              "chance": 0.75
+              "name": "immersive_weathering:moss_clump",
+              "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": {
+                    "min": 5,
+                    "max": 11
+                  }
+                }
+              ]
             }
           ]
         }

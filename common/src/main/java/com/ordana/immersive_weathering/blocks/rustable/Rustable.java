@@ -152,7 +152,4 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
         }
 
     }
-
-
-
 }
