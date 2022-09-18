@@ -109,8 +109,10 @@ public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
         }
         else level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(SUPPORTED, false), 0);
 
-        if (level.getBlockState(pos).getValue(OVERHANG) != 1 && !state.getValue(SUPPORTED)) {
+        if (state.getValue(SUPPORTED)) {
             level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(OVERHANG, 0), 0);
+        }
+        if (level.getBlockState(pos).getValue(OVERHANG) != 1 && !state.getValue(SUPPORTED)) {
             FallingBlockEntity.fall(level, pos, blockState);
         }
     }
