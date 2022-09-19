@@ -77,27 +77,35 @@ public class FlowerCrownItem extends ArmorItem {
 
     //pair of item name, entity model texture location and item model index
     //KEEP THESE LOWERCASE
-    private static final Map<String, Pair<String, Integer>> SUPPORTERS_LIST = new HashMap<>() {{
-        put("ordana", Pair.of("textures/models/armor/bee.png", 1));
-        put("mehvahdjukaar", Pair.of("gib me a texture pls", 2));
-        put("asexual", Pair.of("textures/models/armor/ace.png", 3));
-        put("aromantic", Pair.of("textures/models/armor/aro.png", 4));
-        put("bisexual", Pair.of("textures/models/armor/bi.png", 5));
-        put("non-binary", Pair.of("textures/models/armor/enby.png", 6));
-        put("gay", Pair.of("textures/models/armor/gay.png", 7));
-        put("lesbian", Pair.of("textures/models/armor/lesbian.png", 8));
-        put("rainbow", Pair.of("textures/models/armor/rainbow.png", 9));
-        put("pride", Pair.of("textures/models/armor/rainbow.png", 9));
-        put("trans", Pair.of("textures/models/armor/trans.png", 10));
-        put("flax", Pair.of("textures/models/armor/flax.png", 11));
+    private static final Map<String, Pair<String, Float>> SUPPORTERS_LIST = new HashMap<>() {{
+        put("ordana", Pair.of("textures/models/armor/bee.png", 1f));
+        put("mehvahdjukaar", Pair.of("gib me a texture pls", 2f));
+        put("asexual", Pair.of("textures/models/armor/ace.png", 3f));
+        put("ace", Pair.of("textures/models/armor/ace.png", 3f));
+        put("aromantic", Pair.of("textures/models/armor/aro.png", 4f));
+        put("aro", Pair.of("textures/models/armor/aro.png", 4f));
+        put("bisexual", Pair.of("textures/models/armor/bi.png", 5f));
+        put("bi", Pair.of("textures/models/armor/bi.png", 5f));
+        put("non-binary", Pair.of("textures/models/armor/enby.png", 6f));
+        put("nb", Pair.of("textures/models/armor/enby.png", 6f));
+        put("enby", Pair.of("textures/models/armor/enby.png", 6f));
+        put("gay", Pair.of("textures/models/armor/gay.png", 7f));
+        put("mlm", Pair.of("textures/models/armor/gay.png", 7f));
+        put("lesbian", Pair.of("textures/models/armor/lesbian.png", 8f));
+        put("wlw", Pair.of("textures/models/armor/lesbian.png", 8f));
+        put("rainbow", Pair.of("textures/models/armor/rainbow.png", 9f));
+        put("pride", Pair.of("textures/models/armor/rainbow.png", 9f));
+        put("trans", Pair.of("textures/models/armor/trans.png", 10f));
+        put("transgender", Pair.of("textures/models/armor/trans.png", 10f));
+        put("flax", Pair.of("textures/models/armor/flax.png", 11f));
     }};
 
-    public static int getItemTextureIndex(ItemStack stack) {
+    public static Float getItemTextureIndex(ItemStack stack) {
         if (stack.hasCustomHoverName()) {
             var name = stack.getHoverName().getContents();
             var m = SUPPORTERS_LIST.get(name);
             if (m != null) return m.getSecond();
         }
-        return 0;
+        return 0f;
     }
 }
