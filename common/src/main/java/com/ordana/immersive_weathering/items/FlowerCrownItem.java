@@ -89,6 +89,7 @@ public class FlowerCrownItem extends ArmorItem {
         put("rainbow", Pair.of("textures/models/armor/rainbow.png", 9));
         put("pride", Pair.of("textures/models/armor/rainbow.png", 9));
         put("trans", Pair.of("textures/models/armor/trans.png", 10));
+        put("flax", Pair.of("textures/models/armor/flax.png", 11));
     }};
 
     public static int getItemTextureIndex(ItemStack stack) {

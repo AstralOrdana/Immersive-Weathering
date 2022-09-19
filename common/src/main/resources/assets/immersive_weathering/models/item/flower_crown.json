@@ -63,6 +63,12 @@
         "immersive_weathering:supporter": 10
       },
       "model": "immersive_weathering:item/flower_crown_trans"
+    },
+    {
+      "predicate": {
+        "immersive_weathering:supporter": 11
+      },
+      "model": "immersive_weathering:item/flower_crown_flax"
     }
   ]
 }
