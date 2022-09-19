@@ -1,13 +1,11 @@
 package com.ordana.immersive_weathering.blocks.charred;
 
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
-import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -15,124 +13,99 @@ import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FallingBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Random;
 
 public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
 
-    public static final IntegerProperty OVERHANG;
-    public static final BooleanProperty SUPPORTED;
-    private static final int TICK_DELAY = 1;
+    public static final IntegerProperty OVERHANG = ModBlockProperties.OVERHANG;
 
     public CharredPillarBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.Y).setValue(SMOLDERING, false).setValue(SUPPORTED, false).setValue(OVERHANG, 3));
+        this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.Y).setValue(SMOLDERING, false)
+                .setValue(OVERHANG, 0));
     }
 
+    @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (!level.isClientSide) {
             level.scheduleTick(pos, this, 1);
         }
     }
 
-    private int getDistanceAt(BlockState neighbor) {
-        if (neighbor.hasProperty(OVERHANG)) {
-            return neighbor.is(ModTags.CHARRED_BLOCKS) ? neighbor.getValue(OVERHANG) : 3;
+    @Override
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+        super.neighborChanged(state, level, pos, block, fromPos, isMoving);
+
+        int supported = getOverhang(level, pos);
+        if (supported != state.getValue(OVERHANG)) {
+            level.setBlockAndUpdate(pos, state.setValue(OVERHANG, supported));
         }
-        return 0;
+        if (supported==2) {
+            level.scheduleTick(pos, this, 1);
+        }
     }
 
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos currentPos, BlockPos neighborPos) {
-        int i = getDistanceAt(neighborState) + 1;
-        if (i != 1 || state.getValue(OVERHANG) != i) {
-            level.scheduleTick(currentPos, this, 1);
-        }
-        if (i == 0 && level.getBlockState(currentPos.below()).isFaceSturdy(level, currentPos.below(), Direction.UP)) {
-            level.scheduleTick(currentPos, this, 1);
-        }
-
-        return state;
-    }
-
-    private boolean isSupported(BlockGetter level, BlockPos pos) {
-        return level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP) || level.getBlockState(pos.below()).is(BlockTags.LEAVES);
-    }
-
-    public static int getDistance(BlockGetter level, BlockPos pos) {
-        BlockPos.MutableBlockPos mutableBlockPos = pos.mutable().move(Direction.DOWN);
-        BlockState blockState = level.getBlockState(mutableBlockPos);
-        int i = 3;
-
-        for (Direction direction : Direction.Plane.HORIZONTAL) {
-            if (blockState.hasProperty(OVERHANG) && blockState.is(ModTags.CHARRED_BLOCKS)) {
-                i = blockState.getValue(OVERHANG);
-
-            } else if (blockState.isFaceSturdy(level, mutableBlockPos, Direction.UP)) {
-                return 0;
+    private int getOverhang(Level level, BlockPos pos) {
+        int overhang = 2;
+        for (var dir : Direction.values()) {
+            if (dir == Direction.DOWN) {
+                var free = FallingBlock.isFree(level.getBlockState(pos.below())) && pos.getY() >= level.getMinBuildHeight();
+                if (!free) {
+                    overhang = 0;
+                    break;
+                }
             }
-            BlockState blockState2 = level.getBlockState(mutableBlockPos.setWithOffset(pos, direction));
-            if (blockState2.hasProperty(OVERHANG) && blockState2.is(ModTags.CHARRED_BLOCKS)) {
-                i = Math.min(i, blockState2.getValue(OVERHANG) + 1);
-                if (i == 1) {
+            else if (dir != Direction.UP) {
+                BlockPos neighborPos = pos.relative(dir);
+                var neighbor = level.getBlockState(neighborPos);
+                if (neighbor.hasProperty(OVERHANG)) {
+                    if(neighbor.getValue(OVERHANG) == 0){
+                        overhang = 1;
+                        break;
+                    }
+                }
+                else if(neighbor.isFaceSturdy(level, neighborPos, dir.getOpposite())){
+                    overhang = 1;
                     break;
                 }
             }
         }
-        return i;
+        return overhang;
     }
 
+    @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockPos blockPos = context.getClickedPos();
         Level level = context.getLevel();
-        int i = getDistance(level, blockPos);
-        return (this.defaultBlockState()).setValue(AXIS, context.getClickedFace().getAxis()).setValue(OVERHANG, i).setValue(SUPPORTED, this.isSupported(level, blockPos));
+        return this.defaultBlockState().setValue(AXIS, context.getClickedFace().getAxis()).setValue(OVERHANG, this.getOverhang(level, blockPos));
     }
 
+    @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
-        int i = getDistance(level, pos);
-        BlockPos belowPos = pos.below();
-        BlockState blockState = state.setValue(OVERHANG, i).setValue(SUPPORTED, this.isSupported(level, pos));
-        if (level.getBlockState(belowPos).isFaceSturdy(level, belowPos, Direction.UP) || level.getBlockState(belowPos).is(BlockTags.LEAVES)) {
-            level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(SUPPORTED, true), 0);
-        }
-        else level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(SUPPORTED, false), 0);
-
-        if (state.getValue(SUPPORTED)) {
-            level.setBlock(pos, blockState.getBlock().withPropertiesOf(blockState).setValue(OVERHANG, 0), 0);
-        }
-        if (level.getBlockState(pos).getValue(OVERHANG) != 1 && !state.getValue(SUPPORTED)) {
-            FallingBlockEntity.fall(level, pos, blockState);
+        if (state.getValue(OVERHANG)==2) {
+            FallingBlockEntity.fall(level, pos, state.setValue(OVERHANG, 0));
         }
     }
 
-
+    @Override
     public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         return true;
     }
 
-
-    static {
-        OVERHANG = ModBlockProperties.OVERHANG;
-        SUPPORTED = ModBlockProperties.SUPPORTED;
-    }
-
-
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
         super.createBlockStateDefinition(stateManager);
-        stateManager.add(SMOLDERING, SUPPORTED, OVERHANG);
+        stateManager.add(SMOLDERING, OVERHANG);
     }
 
     @Override
