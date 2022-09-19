@@ -78,26 +78,31 @@ public class FlowerCrownItem extends ArmorItem {
     //pair of item name, entity model texture location and item model index
     //KEEP THESE LOWERCASE
     private static final Map<String, Pair<String, Float>> SUPPORTERS_LIST = new HashMap<>() {{
-        put("ordana", Pair.of("textures/models/armor/bee.png", 1f));
-        put("mehvahdjukaar", Pair.of("gib me a texture pls", 2f));
-        put("asexual", Pair.of("textures/models/armor/ace.png", 3f));
-        put("ace", Pair.of("textures/models/armor/ace.png", 3f));
-        put("aromantic", Pair.of("textures/models/armor/aro.png", 4f));
-        put("aro", Pair.of("textures/models/armor/aro.png", 4f));
-        put("bisexual", Pair.of("textures/models/armor/bi.png", 5f));
-        put("bi", Pair.of("textures/models/armor/bi.png", 5f));
-        put("non-binary", Pair.of("textures/models/armor/enby.png", 6f));
-        put("nb", Pair.of("textures/models/armor/enby.png", 6f));
-        put("enby", Pair.of("textures/models/armor/enby.png", 6f));
-        put("gay", Pair.of("textures/models/armor/gay.png", 7f));
-        put("mlm", Pair.of("textures/models/armor/gay.png", 7f));
-        put("lesbian", Pair.of("textures/models/armor/lesbian.png", 8f));
-        put("wlw", Pair.of("textures/models/armor/lesbian.png", 8f));
-        put("rainbow", Pair.of("textures/models/armor/rainbow.png", 9f));
-        put("pride", Pair.of("textures/models/armor/rainbow.png", 9f));
-        put("trans", Pair.of("textures/models/armor/trans.png", 10f));
-        put("transgender", Pair.of("textures/models/armor/trans.png", 10f));
-        put("flax", Pair.of("textures/models/armor/flax.png", 11f));
+        //dev and gift crowns
+        put("ordana", Pair.of("textures/models/armor/bee.png", 0.10f));
+        put("mehvahdjukaar", Pair.of("textures/models/armor/jar.png", 0.11f));
+
+        //pride crowns
+        put("asexual", Pair.of("textures/models/armor/ace.png", 0.20f));
+        put("ace", Pair.of("textures/models/armor/ace.png", 0.20f));
+        put("aromantic", Pair.of("textures/models/armor/aro.png", 0.21f));
+        put("aro", Pair.of("textures/models/armor/aro.png", 0.21f));
+        put("bisexual", Pair.of("textures/models/armor/bi.png", 0.22f));
+        put("bi", Pair.of("textures/models/armor/bi.png", 0.22f));
+        put("non-binary", Pair.of("textures/models/armor/enby.png", 0.23f));
+        put("nb", Pair.of("textures/models/armor/enby.png", 0.23f));
+        put("enby", Pair.of("textures/models/armor/enby.png", 0.23f));
+        put("gay", Pair.of("textures/models/armor/gay.png", 0.24f));
+        put("mlm", Pair.of("textures/models/armor/gay.png", 0.24f));
+        put("lesbian", Pair.of("textures/models/armor/lesbian.png", 0.25f));
+        put("wlw", Pair.of("textures/models/armor/lesbian.png", 0.25f));
+        put("rainbow", Pair.of("textures/models/armor/rainbow.png", 0.26f));
+        put("pride", Pair.of("textures/models/armor/rainbow.png", 0.26f));
+        put("trans", Pair.of("textures/models/armor/trans.png", 0.27f));
+        put("transgender", Pair.of("textures/models/armor/trans.png", 0.27f));
+
+        //supporter crowns
+        put("flax", Pair.of("textures/models/armor/flax.png", 0.30f));
     }};
 
     public static Float getItemTextureIndex(ItemStack stack) {
