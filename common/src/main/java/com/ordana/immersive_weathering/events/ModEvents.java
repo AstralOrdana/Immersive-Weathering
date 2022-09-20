@@ -6,6 +6,7 @@ import com.ordana.immersive_weathering.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
+import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModItems;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.utils.WeatheringHelper;
@@ -15,7 +16,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -30,21 +30,20 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 
 public class ModEvents {
 
-
+//TODO: missing events: bark on and off, wet sponge, spawn ash
 
     @FunctionalInterface
     public interface InteractionEvent {
@@ -64,11 +63,12 @@ public class ModEvents {
         EVENTS.add(ModEvents::brickRepair);
         EVENTS.add(ModEvents::burnMoss);
         EVENTS.add(ModEvents::shearShearing);
+        EVENTS.add(ModEvents::spawnAsh);
     }
 
 
     public static InteractionResult onBlockCLicked(ItemStack stack, Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
-        if(stack.isEmpty())return InteractionResult.PASS;
+        if (stack.isEmpty()) return InteractionResult.PASS;
         Item i = stack.getItem();
         BlockPos pos = hitResult.getBlockPos();
         BlockState state = level.getBlockState(pos);
@@ -81,8 +81,8 @@ public class ModEvents {
 
 
     private static InteractionResult burnMoss(Item item, ItemStack stack, BlockPos pos, BlockState state,
-                                               Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
-        if(item instanceof FlintAndSteelItem && CommonConfigs.MOSS_BURNING.get()){
+                                              Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        if (item instanceof FlintAndSteelItem && CommonConfigs.MOSS_BURNING.get()) {
             BlockState s = Mossable.getUnaffectedMossBlock(state);
             if (s != state) {
                 ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.FLAME, UniformInt.of(3, 5));
@@ -102,6 +102,16 @@ public class ModEvents {
         return InteractionResult.PASS;
     }
 
+    private static InteractionResult spawnAsh(Item item, ItemStack stack, BlockPos pos, BlockState state,
+                                              Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        if (item instanceof ShovelItem && CommonConfigs.ASH_ITEM_SPAWN.get()) {
+            if (state.getBlock() instanceof CampfireBlock && state.getValue(BlockStateProperties.LIT)) {
+                Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModBlocks.SOOT.get()));
+                //no need to cancel
+            }
+        }
+        return InteractionResult.PASS;
+    }
 
     private static InteractionResult slimePistons(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                                   Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
@@ -118,7 +128,7 @@ public class ModEvents {
             }
             return InteractionResult.PASS;
         }
-        if(item == Items.SHEARS && CommonConfigs.PISTON_SLIMING.get()){
+        if (item == Items.SHEARS && CommonConfigs.PISTON_SLIMING.get()) {
             if (state.is(Blocks.STICKY_PISTON) && !state.getValue(PistonBaseBlock.EXTENDED)) {
                 level.playSound(player, pos, SoundEvents.SLIME_SQUISH, SoundSource.BLOCKS, 1.0f, 1.0f);
                 ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.ITEM_SLIME, UniformInt.of(3, 5));
@@ -172,7 +182,8 @@ public class ModEvents {
 
 
     //well this could very well be in each crackable classes...
-    private static InteractionResult brickRepair(Item item, ItemStack stack, BlockPos pos, BlockState state, Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+    private static InteractionResult brickRepair(Item item, ItemStack stack, BlockPos pos, BlockState state, Player
+            player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if (state.getBlock() instanceof Crackable crackable && crackable.getRepairItem(state) == item) {
             //Fix cracked stuff
             BlockState fixedBlock = crackable.getPreviousCracked(state).orElse(null);
@@ -202,12 +213,12 @@ public class ModEvents {
     }
 
     private static InteractionResult shearShearing(Item item, ItemStack stack, BlockPos pos, BlockState state,
-                                                     Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+                                                   Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
 
         if (item instanceof ShearsItem) {
             //azalea shearing
             BlockState newState = null;
-            if(CommonConfigs.AZALEA_SHEARING.get()){
+            if (CommonConfigs.AZALEA_SHEARING.get()) {
                 newState = WeatheringHelper.getAzaleaSheared(state).orElse(null);
                 if (newState != null) {
                     if (level.isClientSide) {
@@ -218,16 +229,16 @@ public class ModEvents {
                 }
             }
             //moss shearing
-            if(newState == null && CommonConfigs.MOSS_SHEARING.get()){
+            if (newState == null && CommonConfigs.MOSS_SHEARING.get()) {
                 newState = Mossable.getUnaffectedMossBlock(state);
                 if (newState != state) {
                     if (IntegrationHandler.quark) newState = QuarkPlugin.fixVerticalSlab(newState, state);
                     if (!level.isClientSide) {
                         Block.popResourceFromFace(level, pos, hitResult.getDirection(), new ItemStack(ModItems.MOSS_CLUMP.get()));
-                    }else{
+                    } else {
                         ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.MOSS.get(), UniformInt.of(3, 5));
                     }
-                }else newState = null;
+                } else newState = null;
             }
             //common logic
             if (newState != null) {
@@ -248,27 +259,24 @@ public class ModEvents {
     }
 
 
-
     //TODO: add
     private static InteractionResult axeStripping(Item item, ItemStack stack, BlockPos pos, BlockState state,
-                                                   Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
-        if(item instanceof AxeItem && CommonConfigs.AXE_STRIPPING.get()) {
+                                                  Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        if (item instanceof AxeItem && CommonConfigs.AXE_STRIPPING.get()) {
 
             if (true) { //bark enabled
-                if (doStripLog(stack, pos, state, player, level, hand, hitResult.getDirection())) return InteractionResult.sidedSuccess(level.isClientSide);
+                if (doStripLog(stack, pos, state, player, level, hand, hitResult.getDirection()))
+                    return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
         return InteractionResult.PASS;
     }
 
     @ExpectPlatform
-    private static boolean doStripLog(ItemStack stack, BlockPos pos, BlockState state, Player player, Level level, InteractionHand hand, Direction dir) {
+    private static boolean doStripLog(ItemStack stack, BlockPos pos, BlockState state, Player player, Level
+            level, InteractionHand hand, Direction dir) {
         throw new AssertionError();
     }
-
-
-
-
 
 
 }

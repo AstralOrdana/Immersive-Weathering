@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.configs;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.data.block_growths.area_condition.AreaCondition;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigBuilder;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigSpec;
@@ -9,6 +10,7 @@ import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigType;
 import java.util.function.Supplier;
 
 public class CommonConfigs {
+
 
 
     public static ConfigSpec SERVER_SPEC;
@@ -52,7 +54,7 @@ public class CommonConfigs {
     public static Supplier<Boolean> SPONGE_RUSTING;
     public static Supplier<Boolean> AXE_STRIPPING;
     public static Supplier<Boolean> AXE_SCRAPING;
-
+    public static Supplier<Boolean> ASH_ITEM_SPAWN;
 
     public static Supplier<Boolean> CRYOSOL_FEATURE;
     public static Supplier<Boolean> HUMUS_FEATURE;
@@ -157,6 +159,8 @@ public class CommonConfigs {
         SPONGE_RUSTING = builder.define("sponge_rusting", true);
         AXE_STRIPPING = builder.define("axe_stripping", true);
         AXE_SCRAPING = builder.define("axe_rusting", true);
+        ASH_ITEM_SPAWN = builder.comment("allows ash to spawn when extinguishing campfires")
+                .define("ash_item_spawn",true);
         builder.pop();
 
         builder.push("food");

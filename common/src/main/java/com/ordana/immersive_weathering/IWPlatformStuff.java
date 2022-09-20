@@ -8,6 +8,8 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -30,15 +32,12 @@ public class IWPlatformStuff {
         throw new AssertionError();
     }
 
-    @ExpectPlatform
-    public static void setPoolName(LootPool.Builder pool, String s) {
-        throw new AssertionError();
-    }
 
     public enum BlockType {
         RUSTABLE_BARS, RUSTABLE_BLOCK, RUSTABLE_DOOR, RUSTABLE_SLAB,
         RUSTABLE_STAIRS, RUSTABLE_TRAPDOOR, RUSTABLE_VERTICAL_SLAB;
     }
+
 
     @ExpectPlatform
     public static Block createSpecialBlock(BlockType type, BlockBehaviour.Properties properties, Object ...extraParams) {
