@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.blocks.charred;
 
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
+import com.ordana.immersive_weathering.reg.ModParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -106,6 +107,19 @@ public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
         super.createBlockStateDefinition(stateManager);
         stateManager.add(SMOLDERING, OVERHANG);
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+        if (state.getValue(SMOLDERING)) {
+            int i = pos.getX();
+            int j = pos.getY();
+            int k = pos.getZ();
+            double d = (double) i + random.nextDouble();
+            double e = (double) j + random.nextDouble();
+            double f = (double) k + random.nextDouble();
+            level.addParticle(ModParticles.EMBERSPARK.get(), d, e, f, 0.1D, 3D, 0.1D);
+        }
     }
 
     @Override

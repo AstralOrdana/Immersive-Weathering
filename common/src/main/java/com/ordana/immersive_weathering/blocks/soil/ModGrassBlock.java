@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.blocks.soil;
 
 import com.ordana.immersive_weathering.data.block_growths.IConditionalGrowingBlock;
+import com.ordana.immersive_weathering.reg.ModParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -38,6 +39,22 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
         super.createBlockStateDefinition(builder);
         builder.add(FERTILE);
     }
+
+    /*
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+        if (state.getValue(FERTILE)) {
+            int i = pos.getX();
+            int j = pos.getY();
+            int k = pos.getZ();
+            double d = (double) i + random.nextDouble();
+            double e = (double) j + random.nextDouble();
+            double f = (double) k + random.nextDouble();
+            level.addParticle(ModParticles.AZALEA_FLOWER.get(), d, e, f, 0.1D, 3D, 0.1D);
+        }
+    }
+
+     */
 
     @Override
     public boolean isRandomlyTicking(BlockState state) {
