@@ -6,67 +6,67 @@
   "overrides": [
     {
       "predicate": {
-        "immersive_weathering:supporter": 1
+        "immersive_weathering:supporter": 0.10
       },
       "model": "immersive_weathering:item/flower_crown_bee"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 2
+        "immersive_weathering:supporter": 0.11
       },
       "model": "immersive_weathering:item/flower_crown_jar"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 3
+        "immersive_weathering:supporter": 0.20
       },
       "model": "immersive_weathering:item/flower_crown_ace"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 4
+        "immersive_weathering:supporter": 0.21
       },
       "model": "immersive_weathering:item/flower_crown_aro"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 5
+        "immersive_weathering:supporter": 0.22
       },
       "model": "immersive_weathering:item/flower_crown_bi"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 6
+        "immersive_weathering:supporter": 0.23
       },
       "model": "immersive_weathering:item/flower_crown_enby"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 7
+        "immersive_weathering:supporter": 0.24
       },
       "model": "immersive_weathering:item/flower_crown_gay"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 8
+        "immersive_weathering:supporter": 0.25
       },
       "model": "immersive_weathering:item/flower_crown_lesbian"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 9
+        "immersive_weathering:supporter": 0.26
       },
       "model": "immersive_weathering:item/flower_crown_rainbow"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 10
+        "immersive_weathering:supporter": 0.27
       },
       "model": "immersive_weathering:item/flower_crown_trans"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 11
+        "immersive_weathering:supporter": 0.30
       },
       "model": "immersive_weathering:item/flower_crown_flax"
     }

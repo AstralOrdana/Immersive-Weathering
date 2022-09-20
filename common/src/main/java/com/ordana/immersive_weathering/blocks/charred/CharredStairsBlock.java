@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.blocks.charred;
 
+import com.ordana.immersive_weathering.reg.ModParticles;
 import net.mehvahdjukaar.moonlight.api.block.ModStairBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,6 +17,7 @@ import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraft.world.phys.BlockHitResult;
 
+import java.util.Random;
 import java.util.function.Supplier;
 
 public class CharredStairsBlock extends ModStairBlock implements Charred {
@@ -30,6 +32,19 @@ public class CharredStairsBlock extends ModStairBlock implements Charred {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
         super.createBlockStateDefinition(stateManager);
         stateManager.add(SMOLDERING);
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+        if (state.getValue(SMOLDERING)) {
+            int i = pos.getX();
+            int j = pos.getY();
+            int k = pos.getZ();
+            double d = (double) i + random.nextDouble();
+            double e = (double) j + random.nextDouble();
+            double f = (double) k + random.nextDouble();
+            level.addParticle(ModParticles.EMBERSPARK.get(), d, e, f, 0.1D, 3D, 0.1D);
+        }
     }
 
     @Override

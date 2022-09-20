@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "minecraft:stone_bricks"
+  },
+  "result": "immersive_weathering:stone_brick",
+  "count": 4
+}
