@@ -3,7 +3,10 @@ package com.ordana.immersive_weathering.client.particles;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
+import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.world.level.FoliageColor;
 
 public class LeafParticle extends TextureSheetParticle {
     private final float rotationSpeed;
@@ -48,12 +51,26 @@ public class LeafParticle extends TextureSheetParticle {
     }
 
     public record ColoredLeafParticle(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
-
         @Override
-        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double g, double color, double i) {
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientLevel, double x, double y, double z, double dx, double dy, double dz) {
+            return new LeafParticle(clientLevel, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+                    BiomeColors.getAverageFoliageColor(clientLevel, new BlockPos(x,y,z)));
+        }
+    }
 
-            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
-                    (int) color);
+    public record SpruceLeafParticle(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
+        @Override
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientLevel, double x, double y, double z, double dx, double dy, double dz) {
+            return new LeafParticle(clientLevel, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+                    FoliageColor.getEvergreenColor());
+        }
+    }
+
+    public record BirchLeafParticle(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
+        @Override
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientLevel, double x, double y, double z, double dx, double dy, double dz) {
+            return new LeafParticle(clientLevel, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+                    FoliageColor.getBirchColor());
         }
     }
 

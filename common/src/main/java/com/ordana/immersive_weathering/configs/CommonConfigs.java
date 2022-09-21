@@ -46,6 +46,7 @@ public class CommonConfigs {
     public static Supplier<Boolean> BRICK_REPAIRING;
     public static Supplier<Boolean> PISTON_SLIMING;
     public static Supplier<Boolean> SOIL_SHEARING;
+    public static Supplier<Boolean> GRASS_FLINTING;
     public static Supplier<Boolean> AZALEA_SHEARING;
     public static Supplier<Boolean> MOSS_SHEARING;
     public static Supplier<Boolean> MOSS_BURNING;
@@ -151,6 +152,7 @@ public class CommonConfigs {
         BRICK_REPAIRING = builder.define("brick_breaking", true);
         PISTON_SLIMING = builder.define("piston_sliming", true);
         SOIL_SHEARING = builder.define("soil_shearing", true);
+        GRASS_FLINTING = builder.define("grass_flinting", true);
         AZALEA_SHEARING = builder.define("azalea_shearing", true);
         MOSS_SHEARING = builder.define("moss_shearing", true);
         MOSS_BURNING = builder.define("moss_burning", true);

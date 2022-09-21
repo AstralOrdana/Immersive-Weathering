@@ -1,4 +1,7 @@
 {
+  "tick_sources": [
+    "clear_sky"
+  ],
   "area_condition": {
     "must_have": {
       "block_state": {

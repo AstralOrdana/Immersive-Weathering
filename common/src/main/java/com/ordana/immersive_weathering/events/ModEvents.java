@@ -64,6 +64,7 @@ public class ModEvents {
         EVENTS.add(ModEvents::burnMoss);
         EVENTS.add(ModEvents::shearShearing);
         EVENTS.add(ModEvents::spawnAsh);
+        EVENTS.add(ModEvents::grassFlinting);
     }
 
 
@@ -102,6 +103,37 @@ public class ModEvents {
         return InteractionResult.PASS;
     }
 
+
+    private static InteractionResult grassFlinting(Item item, ItemStack stack, BlockPos pos, BlockState state,
+                                                   Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        if (item == Items.FLINT && CommonConfigs.GRASS_FLINTING.get()) {
+            if (state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.MYCELIUM) || state.is(Blocks.PODZOL) || state.is(ModBlocks.HUMUS.get()) || state.is(ModBlocks.FLUVISOL.get())) {
+                level.playSound(player, pos, SoundEvents.GRASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.BLOCK, state), UniformInt.of(3, 5));
+                if (player instanceof ServerPlayer) {
+                    if (!player.getAbilities().instabuild) stack.shrink(1);
+                    level.setBlockAndUpdate(pos, Blocks.DIRT.defaultBlockState());
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                }
+                return InteractionResult.SUCCESS;
+            }
+            if (state.is(Blocks.DIRT)) {
+                level.playSound(player, pos, SoundEvents.GRAVEL_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.BLOCK, state), UniformInt.of(3, 5));
+                if (player instanceof ServerPlayer) {
+                    if (!player.getAbilities().instabuild) stack.shrink(1);
+                    level.setBlockAndUpdate(pos, Blocks.COARSE_DIRT.defaultBlockState());
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                }
+                return InteractionResult.SUCCESS;
+            }
+            return InteractionResult.PASS;
+        }
+        return InteractionResult.PASS;
+    }
+
+
+
     private static InteractionResult spawnAsh(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                               Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if (item instanceof ShovelItem && CommonConfigs.ASH_ITEM_SPAWN.get()) {
@@ -109,6 +141,7 @@ public class ModEvents {
                 Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModBlocks.SOOT.get()));
                 //no need to cancel
             }
+            return InteractionResult.PASS;
         }
         return InteractionResult.PASS;
     }

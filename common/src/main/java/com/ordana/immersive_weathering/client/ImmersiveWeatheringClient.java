@@ -129,8 +129,8 @@ public class ImmersiveWeatheringClient {
         event.register(ModParticles.SOOT.get(), LeafParticle.SimpleLeafParticle::new);
 
         event.register(ModParticles.OAK_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
-        event.register(ModParticles.SPRUCE_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
-        event.register(ModParticles.BIRCH_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
+        event.register(ModParticles.SPRUCE_LEAF.get(), LeafParticle.SpruceLeafParticle::new);
+        event.register(ModParticles.BIRCH_LEAF.get(), LeafParticle.BirchLeafParticle::new);
         event.register(ModParticles.JUNGLE_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
         event.register(ModParticles.ACACIA_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
         event.register(ModParticles.DARK_OAK_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
@@ -142,12 +142,12 @@ public class ImmersiveWeatheringClient {
 
         event.register(ModParticles.SCRAPE_RUST.get(), ScrapeRustFactory::new);
 
-        event.register(ModParticles.OAK_BARK.get(), LeafParticle.ColoredLeafParticle::new);
-        event.register(ModParticles.BIRCH_BARK.get(), LeafParticle.ColoredLeafParticle::new);
-        event.register(ModParticles.SPRUCE_BARK.get(), LeafParticle.ColoredLeafParticle::new);
-        event.register(ModParticles.DARK_OAK_BARK.get(), LeafParticle.ColoredLeafParticle::new);
-        event.register(ModParticles.JUNGLE_BARK.get(), LeafParticle.ColoredLeafParticle::new);
-        event.register(ModParticles.ACACIA_BARK.get(), LeafParticle.ColoredLeafParticle::new);
+        event.register(ModParticles.OAK_BARK.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.BIRCH_BARK.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.SPRUCE_BARK.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.DARK_OAK_BARK.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.JUNGLE_BARK.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.ACACIA_BARK.get(), LeafParticle.SimpleLeafParticle::new);
         event.register(ModParticles.NETHER_SCALE.get(), LeafParticle.SimpleLeafParticle::new);
 
         event.register(ModParticles.MOSS.get(), LeafParticle.SimpleLeafParticle::new);

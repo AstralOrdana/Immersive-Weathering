@@ -110,19 +110,6 @@ public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
-        if (state.getValue(SMOLDERING)) {
-            int i = pos.getX();
-            int j = pos.getY();
-            int k = pos.getZ();
-            double d = (double) i + random.nextDouble();
-            double e = (double) j + random.nextDouble();
-            double f = (double) k + random.nextDouble();
-            level.addParticle(ModParticles.EMBERSPARK.get(), d, e, f, 0.1D, 3D, 0.1D);
-        }
-    }
-
-    @Override
     public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity) {
         onEntityStepOn(state, entity);
         super.stepOn(world, pos, state, entity);
@@ -147,15 +134,24 @@ public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
     }
 
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
-        Charred.super.animateTick(state, world, pos, random);
+    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+        Charred.super.animateTick(state, level, pos, random);
         //TODO: CHECK
         BlockPos blockPos;
-        if (random.nextInt(16) == 0 && FallingBlock.isFree(world.getBlockState(pos.below()))) {
+        if (state.getValue(SMOLDERING)) {
+            int i = pos.getX();
+            int j = pos.getY();
+            int k = pos.getZ();
+            double d = (double) i + random.nextDouble();
+            double e = (double) j + random.nextDouble();
+            double f = (double) k + random.nextDouble();
+            level.addParticle(ModParticles.EMBERSPARK.get(), d, e, f, 0.1D, 3D, 0.1D);
+        }
+        if (random.nextInt(16) == 0 && FallingBlock.isFree(level.getBlockState(pos.below()))) {
             double d = (double) pos.getX() + random.nextDouble();
             double e = (double) pos.getY() - 0.05;
             double f = (double) pos.getZ() + random.nextDouble();
-            world.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state), d, e, f, 0.0, 0.0, 0.0);
+            level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state), d, e, f, 0.0, 0.0, 0.0);
         }
     }
 
