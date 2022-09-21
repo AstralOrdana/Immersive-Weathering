@@ -1,37 +1,86 @@
-package com.ordana.immersive_weathering.forge.rustable;
+package com.ordana.immersive_weathering.blocks.rustable;
 
-import com.ordana.immersive_weathering.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.reg.ModTags;
-import com.ordana.immersive_weathering.reg.ModWaxables;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public class RustableBarsBlock extends IronBarsBlock implements Rustable {
+public class RustableTrapdoorBlock extends TrapDoorBlock implements Rustable {
     private final RustLevel rustLevel;
 
-    public RustableBarsBlock(RustLevel rustLevel, Properties settings) {
+    public RustableTrapdoorBlock(RustLevel rustLevel, Properties settings) {
         super(settings);
         this.rustLevel = rustLevel;
     }
 
-    //TODO: review and optimize this. base it off copper block. also merge
+    public void playOpenCloseSound(Level world, BlockPos pos, boolean open) {
+        world.levelEvent(null, open ? 1011 : 1006, pos, 0);
+    }
+
+    @Override
+    public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
+        boolean hasPower = world.hasNeighborSignal(pos);
+        if (hasPower != state.getValue(POWERED)) { // checks if redstone input has changed
+            switch (this.getAge()) {
+                case UNAFFECTED -> {
+                    if (!this.defaultBlockState().is(block) && hasPower != state.getValue(POWERED)) {
+                        if (hasPower != state.getValue(OPEN)) {
+                            this.playOpenCloseSound(world, pos, hasPower);
+                            world.gameEvent(hasPower ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+                        }
+                        world.setBlock(pos, state.setValue(POWERED, hasPower).setValue(OPEN, hasPower), 2);
+                    }
+                }
+                case EXPOSED -> {
+                    if (hasPower) { // if the door is now being powered, open right away
+                        world.scheduleTick(pos, this, 1); // 1-tick
+                    } else {
+                        world.scheduleTick(pos, this, 10); // 1 second
+                    }
+                    world.setBlock(pos, state.setValue(POWERED, hasPower), Block.UPDATE_CLIENTS);
+                }
+                case WEATHERED -> {
+                    if (hasPower) { // if the door is now being powered, open right away
+                        world.scheduleTick(pos, this, 1); // 1-tick
+                    } else {
+                        world.scheduleTick(pos, this, 20); // 1 second
+                    }
+                    world.setBlock(pos, state.setValue(POWERED, hasPower), Block.UPDATE_CLIENTS);
+                }
+                case RUSTED -> {
+                    if (hasPower && !state.getValue(POWERED)) { // if its recieving power but the blockstate says unpowered, that means it has just been powered on this tick
+                        state = state.cycle(OPEN);
+                        this.playOpenCloseSound(world, pos, state.getValue(OPEN));
+                        world.gameEvent(state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+                    }
+                    world.setBlock(pos, state.setValue(POWERED, hasPower).setValue(OPEN, state.getValue(OPEN)), Block.UPDATE_CLIENTS);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+        if (this.getAge() == RustLevel.EXPOSED || this.getAge() == RustLevel.WEATHERED) {
+            state = state.cycle(OPEN);
+            this.playOpenCloseSound(world, pos, state.getValue(OPEN)); // if it is powered, play open sound, else play close sound
+            world.gameEvent(state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
+            world.setBlock(pos, state.setValue(OPEN, state.getValue(OPEN)), Block.UPDATE_CLIENTS); // set open to match the powered state (powered true, open true)
+        }
+    }
+
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         if (world.getBlockState(pos).is(ModTags.CLEAN_IRON)) {
@@ -83,6 +132,7 @@ public class RustableBarsBlock extends IronBarsBlock implements Rustable {
                     this.onRandomTick(state, world, pos, random);
                 }
                 if (world.getBlockState(pos.relative(direction)).is(Blocks.BUBBLE_COLUMN)) {
+                    float f = 0.07f;
                     if (random.nextFloat() > 0.07f) {
                         this.applyChangeOverTime(state, world, pos, random);
                     }
@@ -101,7 +151,6 @@ public class RustableBarsBlock extends IronBarsBlock implements Rustable {
         return this.rustLevel;
     }
 
-
     @Override
     public boolean triggerEvent(BlockState state, Level level, BlockPos pos, int i, int i1) {
         if (i == 1) {
@@ -113,24 +162,4 @@ public class RustableBarsBlock extends IronBarsBlock implements Rustable {
         return super.triggerEvent(state, level, pos, i, i1);
     }
 
-    @Nullable
-    @Override
-    public BlockState getToolModifiedState(BlockState state, Level level, BlockPos pos, Player player, ItemStack stack, ToolAction toolAction) {
-        if (this.getAge() != RustLevel.RUSTED && ToolActions.AXE_SCRAPE.equals(toolAction)) {
-            return this.getPrevious(state).orElse(null);
-        } else if (ToolActions.AXE_WAX_OFF.equals(toolAction)) {
-            var v = ModWaxables.getUnWaxed(state);
-            if (v.isPresent()) {
-                return v.get();
-            }
-        }
-        return super.getToolModifiedState(state, level, pos, player, stack, toolAction);
-    }
-
-    @Nullable
-    @Override
-    public BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction, boolean simulate) {
-
-        return super.getToolModifiedState(state, context, toolAction, simulate);
-    }
 }

@@ -32,19 +32,6 @@ public class IWPlatformStuff {
         throw new AssertionError();
     }
 
-
-    public enum BlockType {
-        RUSTABLE_BARS, RUSTABLE_BLOCK, RUSTABLE_DOOR, RUSTABLE_SLAB,
-        RUSTABLE_STAIRS, RUSTABLE_TRAPDOOR, RUSTABLE_VERTICAL_SLAB;
-    }
-
-
-    @ExpectPlatform
-    public static Block createSpecialBlock(BlockType type, BlockBehaviour.Properties properties, Object ...extraParams) {
-        throw new AssertionError();
-    }
-
-
     @ExpectPlatform
     public static void addFeatureToBiome(GenerationStep.Decoration step, TagKey<Biome> tagKey, ResourceKey<PlacedFeature> feature) {
         throw new AssertionError();

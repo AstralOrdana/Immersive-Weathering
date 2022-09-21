@@ -89,7 +89,7 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
         return Rustable.getIncreasedRustBlock(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
-    default public float getChanceModifier() {
+    default float getChanceModifier() {
         if (this.getAge() == RustLevel.UNAFFECTED) {
             return 0.75f;
         }
@@ -101,7 +101,6 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
         EXPOSED,
         WEATHERED,
         RUSTED;
-
     }
 
     default int getInfluenceRadius(){
@@ -150,6 +149,6 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
                 serverLevel.setBlockAndUpdate(pos, p_153039_);
             });
         }
-
     }
+
 }

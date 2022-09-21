@@ -1,6 +1,5 @@
-package com.ordana.immersive_weathering.fabric.rustable;
+package com.ordana.immersive_weathering.blocks.rustable;
 
-import com.ordana.immersive_weathering.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.reg.ModTags;
 import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
@@ -20,7 +19,7 @@ public class RustableVerticalSlabBlock extends VerticalSlabBlock implements Rust
 
     private final RustLevel rustLevel;
 
-    public RustableVerticalSlabBlock(RustLevel rustLevel, Properties properties) {
+    public RustableVerticalSlabBlock(Rustable.RustLevel rustLevel, Properties properties) {
         super(properties);
         this.rustLevel = rustLevel;
     }
@@ -105,6 +104,4 @@ public class RustableVerticalSlabBlock extends VerticalSlabBlock implements Rust
         }
         return super.triggerEvent(state, level, pos, i, i1);
     }
-
-
 }

@@ -8,6 +8,7 @@
   "mixins": [
     "SelfNulchMixin",
     "SelfMulchMixin",
+    "SelfRustableMixin",
     "FireMixin",
     "WebMixin"
   ],

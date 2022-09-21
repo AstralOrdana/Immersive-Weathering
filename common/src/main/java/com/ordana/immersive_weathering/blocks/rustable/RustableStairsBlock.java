@@ -1,33 +1,27 @@
-package com.ordana.immersive_weathering.forge.rustable;
+package com.ordana.immersive_weathering.blocks.rustable;
 
-import com.ordana.immersive_weathering.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.reg.ModTags;
-import com.ordana.immersive_weathering.reg.ModWaxables;
-import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
+import net.mehvahdjukaar.moonlight.api.block.ModStairBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
+import java.util.function.Supplier;
 
-public class RustableVerticalSlabBlock extends VerticalSlabBlock implements Rustable {
-
+public class RustableStairsBlock extends ModStairBlock implements Rustable {
     private final RustLevel rustLevel;
 
-    public RustableVerticalSlabBlock(Rustable.RustLevel rustLevel, Properties properties) {
-        super(properties);
+    public RustableStairsBlock(RustLevel rustLevel, Supplier<Block> baseBlockState, Properties settings) {
+        super(baseBlockState, settings);
         this.rustLevel = rustLevel;
     }
 
@@ -110,19 +104,5 @@ public class RustableVerticalSlabBlock extends VerticalSlabBlock implements Rust
             return true;
         }
         return super.triggerEvent(state, level, pos, i, i1);
-    }
-
-    @Nullable
-    @Override
-    public BlockState getToolModifiedState(BlockState state, Level level, BlockPos pos, Player player, ItemStack stack, ToolAction toolAction) {
-        if (this.getAge() != RustLevel.RUSTED && ToolActions.AXE_SCRAPE.equals(toolAction)) {
-            return this.getPrevious(state).orElse(null);
-        } else if (ToolActions.AXE_WAX_OFF.equals(toolAction)) {
-            var v = ModWaxables.getUnWaxed(state);
-            if (v.isPresent()) {
-                return v.get();
-            }
-        }
-        return super.getToolModifiedState(state, level, pos, player, stack, toolAction);
     }
 }

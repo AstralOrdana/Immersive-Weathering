@@ -1,11 +1,13 @@
-package com.ordana.immersive_weathering.fabric.rustable;
+package com.ordana.immersive_weathering.blocks.rustable;
 
-import com.ordana.immersive_weathering.blocks.rustable.Rustable;
-import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -14,8 +16,6 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
 
 import java.util.Random;
 
@@ -44,15 +44,7 @@ public class RustableDoorBlock extends DoorBlock implements Rustable {
     }
 
     public void playSound(Level world, BlockPos pos, boolean open) {
-        world.levelEvent(null, open ? this.getOpenSound() : this.getCloseSound(), pos, 0);
-    }
-
-    private int getOpenSound() {
-        return this.material == Material.METAL ? 1011 : 1012;
-    }
-
-    private int getCloseSound() {
-        return this.material == Material.METAL ? 1005 : 1006;
+        world.levelEvent(null, open ? 1011 : 1005, pos, 0);
     }
 
     @Override
@@ -109,15 +101,39 @@ public class RustableDoorBlock extends DoorBlock implements Rustable {
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
-        if (CommonConfigs.RUSTING.get()) {
-            if (world.getBlockState(pos).is(ModTags.CLEAN_IRON)) {
-                for (Direction direction : Direction.values()) {
-                    var targetPos = pos.relative(direction);
-                    BlockState neighborState = world.getBlockState(targetPos);
-                    if (world.getBlockState(pos.relative(direction)).is(Blocks.AIR) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
-                        this.onRandomTick(state, world, pos, random);
+        if (world.getBlockState(pos).is(ModTags.CLEAN_IRON)) {
+            for (Direction direction : Direction.values()) {
+                var targetPos = pos.relative(direction);
+                BlockState neighborState = world.getBlockState(targetPos);
+                if (world.getBlockState(pos.relative(direction)).is(Blocks.AIR) || neighborState.getFluidState().is(FluidTags.WATER)) {
+                    this.onRandomTick(state, world, pos, random);
+                }
+                if (world.getBlockState(pos.relative(direction)).is(Blocks.BUBBLE_COLUMN)) {
+                    float f = 0.06f;
+                    if (random.nextFloat() > 0.06f) {
+                        this.applyChangeOverTime(state, world, pos, random);
                     }
-                    if (world.getBlockState(pos.relative(direction)).is(Blocks.BUBBLE_COLUMN)) {
+                }
+            }
+        }
+        if (world.getBlockState(pos).is(ModTags.EXPOSED_IRON)) {
+            for (Direction direction : Direction.values()) {
+                var targetPos = pos.relative(direction);
+                BlockState neighborState = world.getBlockState(targetPos);
+                if (world.isRainingAt(pos.above()) || neighborState.getFluidState().is(FluidTags.WATER)) {
+                    this.onRandomTick(state, world, pos, random);
+                }
+                if (world.getBlockState(pos.relative(direction)).is(Blocks.BUBBLE_COLUMN)) {
+                    float f = 0.06f;
+                    if (random.nextFloat() > 0.06f) {
+                        this.applyChangeOverTime(state, world, pos, random);
+                    }
+                }
+                if (world.isRainingAt(pos.relative(direction)) && world.getBlockState(pos.above()).is(ModTags.WEATHERED_IRON)) {
+                    if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
+                            .map(world::getBlockState)
+                            .filter(b -> b.is(ModTags.WEATHERED_IRON))
+                            .toList().size() <= 9) {
                         float f = 0.06f;
                         if (random.nextFloat() > 0.06f) {
                             this.applyChangeOverTime(state, world, pos, random);
@@ -125,43 +141,18 @@ public class RustableDoorBlock extends DoorBlock implements Rustable {
                     }
                 }
             }
-            if (world.getBlockState(pos).is(ModTags.EXPOSED_IRON)) {
-                for (Direction direction : Direction.values()) {
-                    var targetPos = pos.relative(direction);
-                    BlockState neighborState = world.getBlockState(targetPos);
-                    if (world.isRainingAt(pos.above()) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
-                        this.onRandomTick(state, world, pos, random);
-                    }
-                    if (world.getBlockState(pos.relative(direction)).is(Blocks.BUBBLE_COLUMN)) {
-                        float f = 0.06f;
-                        if (random.nextFloat() > 0.06f) {
-                            this.applyChangeOverTime(state, world, pos, random);
-                        }
-                    }
-                    if (world.isRainingAt(pos.relative(direction)) && world.getBlockState(pos.above()).is(ModTags.WEATHERED_IRON)) {
-                        if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
-                                .map(world::getBlockState)
-                                .filter(b -> b.is(ModTags.WEATHERED_IRON))
-                                .toList().size() <= 9) {
-                            float f = 0.06f;
-                            if (random.nextFloat() > 0.06f) {
-                                this.applyChangeOverTime(state, world, pos, random);
-                            }
-                        }
-                    }
+        }
+        if (world.getBlockState(pos).is(ModTags.WEATHERED_IRON)) {
+            for (Direction direction : Direction.values()) {
+                var targetPos = pos.relative(direction);
+                BlockState neighborState = world.getBlockState(targetPos);
+                if (neighborState.getFluidState().is(FluidTags.WATER)) {
+                    this.onRandomTick(state, world, pos, random);
                 }
-            }
-            if (world.getBlockState(pos).is(ModTags.WEATHERED_IRON)) {
-                for (Direction direction : Direction.values()) {
-                    var targetPos = pos.relative(direction);
-                    BlockState neighborState = world.getBlockState(targetPos);
-                    if (neighborState.getFluidState().getType() == Fluids.WATER || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER) {
-                        this.onRandomTick(state, world, pos, random);
-                    }
-                    if (world.getBlockState(pos.relative(direction)).is(Blocks.BUBBLE_COLUMN)) {
-                        if (random.nextFloat() > 0.07f) {
-                            this.applyChangeOverTime(state, world, pos, random);
-                        }
+                if (world.getBlockState(pos.relative(direction)).is(Blocks.BUBBLE_COLUMN)) {
+                    float f = 0.07f;
+                    if (random.nextFloat() > 0.07f) {
+                        this.applyChangeOverTime(state, world, pos, random);
                     }
                 }
             }
@@ -175,7 +166,18 @@ public class RustableDoorBlock extends DoorBlock implements Rustable {
 
     @Override
     public RustLevel getAge() {
-        return this.rustLevel;
+        return rustLevel;
     }
 
+    @Override
+    public boolean triggerEvent(BlockState state, Level level, BlockPos pos, int i, int i1) {
+        if (i == 1) {
+            if (level.isClientSide) {
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
+            }
+            return true;
+        }
+
+        return super.triggerEvent(state, level, pos, i, i1);
+    }
 }
