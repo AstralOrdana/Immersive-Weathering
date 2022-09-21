@@ -27,38 +27,4 @@ public class ModStairBlock extends StairBlock {
             }
         }
     }
-
-    public static StairsShape getStairsShape(BlockState state, BlockGetter level, BlockPos pos) {
-        Direction direction = (Direction)state.getValue(FACING);
-        BlockState blockState = level.getBlockState(pos.relative(direction));
-        if (isStairs(blockState) && state.getValue(HALF) == blockState.getValue(HALF)) {
-            Direction direction2 = (Direction)blockState.getValue(FACING);
-            if (direction2.getAxis() != ((Direction)state.getValue(FACING)).getAxis() && canTakeShape(state, level, pos, direction2.getOpposite())) {
-                if (direction2 == direction.getCounterClockWise()) {
-                    return StairsShape.OUTER_LEFT;
-                }
-
-                return StairsShape.OUTER_RIGHT;
-            }
-        }
-
-        BlockState blockState2 = level.getBlockState(pos.relative(direction.getOpposite()));
-        if (isStairs(blockState2) && state.getValue(HALF) == blockState2.getValue(HALF)) {
-            Direction direction3 = (Direction)blockState2.getValue(FACING);
-            if (direction3.getAxis() != ((Direction)state.getValue(FACING)).getAxis() && canTakeShape(state, level, pos, direction3)) {
-                if (direction3 == direction.getCounterClockWise()) {
-                    return StairsShape.INNER_LEFT;
-                }
-
-                return StairsShape.INNER_RIGHT;
-            }
-        }
-
-        return StairsShape.STRAIGHT;
-    }
-
-    private static boolean canTakeShape(BlockState state, BlockGetter level, BlockPos pos, Direction face) {
-        BlockState blockState = level.getBlockState(pos.relative(face));
-        return !isStairs(blockState) || blockState.getValue(FACING) != state.getValue(FACING) || blockState.getValue(HALF) != state.getValue(HALF);
-    }
 }
