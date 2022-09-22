@@ -1,16 +1,13 @@
 package com.ordana.immersive_weathering.items;
 
-import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import dev.architectury.injectables.annotations.PlatformOnly;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
@@ -28,39 +25,34 @@ public class FlowerCrownItem extends ArmorItem {
     public FlowerCrownItem(ArmorMaterial material, EquipmentSlot slot, Properties settings) {
         super(material, slot, settings);
     }
+    @PlatformOnly(PlatformOnly.FORGE)
+    //@Override
+    public void onArmorTick(ItemStack stack, Level level, Player player){
+        if (level.isClientSide) {
+            spawnParticles(stack, level, player, level);
+        }
+    }
 
+    @PlatformOnly(PlatformOnly.FABRIC)
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
-        if (level instanceof ServerLevel serverLevel) {
-            if (level.random.nextFloat() < 0.05) {
-                if (entity instanceof LivingEntity livingEntity) {
-                    if (livingEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == this) {
-
-
-                        Vec3 v = entity.getViewVector(1).scale(entity.isSwimming() ? 1.8 : -0.15f);
-
-
-
-                        //TODO: fix particles
-                        serverLevel.sendParticles(getParticle(stack),
-                                v.x + entity.getRandomX(0.675D),
-                                v.y + entity.getY() + entity.getEyeHeight() + 0.15D,
-                                v.z + entity.getRandomZ(0.675D),
-                                1,
-                                0, 0, 0, 0);
-                    }
-                }
+        if (level.isClientSide && entity instanceof LivingEntity livingEntity) {
+            if (livingEntity.getItemBySlot(EquipmentSlot.HEAD) == stack) {
+                spawnParticles(stack, level, entity, level);
             }
-        }/* else if (level.random.nextFloat() < 0.001) {
-            if (entity instanceof LivingEntity livingEntity) {
-                if (livingEntity.getItemBySlot(EquipmentSlot.HEAD).getItem() == this) {
-                    if (!livingEntity.hasEffect(MobEffects.REGENERATION)) {
-                        livingEntity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 0, false, false, false));
-                    }
-                }
-            }
-        }*/
+        }
         super.inventoryTick(stack, level, entity, slot, selected);
+    }
+
+    private static void spawnParticles(ItemStack stack, Level level, Entity entity, Level serverLevel) {
+        if (level.random.nextFloat() < 0.05) {
+            Vec3 v = entity.getViewVector(1).scale(entity.isSwimming() ? 1.8 : -0.15f);
+
+            serverLevel.addParticle(getParticle(stack),
+                    v.x + entity.getRandomX(0.675D),
+                    v.y + entity.getY() + entity.getEyeHeight() + 0.15D,
+                    v.z + entity.getRandomZ(0.675D),0,0,0);
+        }
     }
 
 
@@ -83,13 +75,13 @@ public class FlowerCrownItem extends ArmorItem {
 
     public static SimpleParticleType getParticle(ItemStack stack) {
         var type = getSpecialType(stack);
-        if(type != null)return type.particle.get();
+        if (type != null) return type.particle.get();
         return ModParticles.AZALEA_FLOWER.get();
     }
 
     public static float getItemTextureIndex(ItemStack stack) {
         var type = getSpecialType(stack);
-        if(type != null)return type.itemModelIndex;
+        if (type != null) return type.itemModelIndex;
         return 0f;
     }
 
@@ -110,6 +102,8 @@ public class FlowerCrownItem extends ArmorItem {
         put("ordana", new SpecialType("textures/models/armor/bee.png",
                 0.10f, ModParticles.FLOWER_BEE));
         put("mehvahdjukaar", new SpecialType("textures/models/armor/jar.png",
+                0.11f, ModParticles.FLOWER_JAR));
+        put("jar", new SpecialType("textures/models/armor/jar.png",
                 0.11f, ModParticles.FLOWER_JAR));
 
         //pride crowns
@@ -154,7 +148,10 @@ public class FlowerCrownItem extends ArmorItem {
     }};
 
     public record SpecialType(String textureLocation, float itemModelIndex,
-                              Supplier<SimpleParticleType> particle){};
+                              Supplier<SimpleParticleType> particle) {
+    }
+
+    ;
 
 
 }
