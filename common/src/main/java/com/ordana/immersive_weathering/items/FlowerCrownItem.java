@@ -3,6 +3,10 @@ package com.ordana.immersive_weathering.items;
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import dev.architectury.injectables.annotations.PlatformOnly;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -17,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class FlowerCrownItem extends ArmorItem {
 
@@ -34,8 +39,10 @@ public class FlowerCrownItem extends ArmorItem {
 
                         Vec3 v = entity.getViewVector(1).scale(entity.isSwimming() ? 1.8 : -0.15f);
 
+
+
                         //TODO: fix particles
-                        serverLevel.sendParticles(ModParticles.AZALEA_FLOWER.get(),
+                        serverLevel.sendParticles(            getParticle(stack),
                                 v.x + entity.getRandomX(0.675D),
                                 v.y + entity.getY() + entity.getEyeHeight() + 0.15D,
                                 v.z + entity.getRandomZ(0.675D),
@@ -69,17 +76,39 @@ public class FlowerCrownItem extends ArmorItem {
         if (stack.hasCustomHoverName()) {
             var name = stack.getHoverName().getContents();
             var m = SUPPORTERS_LIST.get(name.toLowerCase(Locale.ROOT));
-            if (m != null) return m.getFirst();
+            if (m != null) return m.textureLocation;
         }
         return null;
     }
 
+    public static SimpleParticleType getParticle(ItemStack stack) {
+        var type = getSpecialType(stack);
+        if(type != null)return type.particle.get();
+        return ModParticles.AZALEA_FLOWER.get();
+    }
+
+    public static float getItemTextureIndex(ItemStack stack) {
+        var type = getSpecialType(stack);
+        if(type != null)return type.itemModelIndex;
+        return 0f;
+    }
+
+
+    @Nullable
+    public static SpecialType getSpecialType(ItemStack stack) {
+        if (stack.hasCustomHoverName()) {
+            var name = stack.getHoverName().getContents();
+            return SUPPORTERS_LIST.get(name.toLowerCase(Locale.ROOT));
+        }
+        return null;
+    }
 
     //pair of item name, entity model texture location and item model index
     //KEEP THESE LOWERCASE
-    private static final Map<String, Pair<String, Float>> SUPPORTERS_LIST = new HashMap<>() {{
+    private static final Map<String, SpecialType> SUPPORTERS_LIST = new HashMap<>() {{
         //dev and gift crowns
-        put("ordana", Pair.of("textures/models/armor/bee.png", 0.10f));
+        put("ordana", new SpecialType("textures/models/armor/bee.png",
+                0.10f, ModParticles.AZALEA_FLOWER));
         put("mehvahdjukaar", Pair.of("textures/models/armor/jar.png", 0.11f));
 
         //pride crowns
@@ -105,12 +134,8 @@ public class FlowerCrownItem extends ArmorItem {
         put("flax", Pair.of("textures/models/armor/flax.png", 0.30f));
     }};
 
-    public static Float getItemTextureIndex(ItemStack stack) {
-        if (stack.hasCustomHoverName()) {
-            var name = stack.getHoverName().getContents();
-            var m = SUPPORTERS_LIST.get(name);
-            if (m != null) return m.getSecond();
-        }
-        return 0f;
-    }
+    public record SpecialType(String textureLocation, float itemModelIndex,
+                              Supplier<SimpleParticleType> particle){};
+
+
 }
