@@ -42,7 +42,7 @@ public class FlowerCrownItem extends ArmorItem {
 
 
                         //TODO: fix particles
-                        serverLevel.sendParticles(            getParticle(stack),
+                        serverLevel.sendParticles(getParticle(stack),
                                 v.x + entity.getRandomX(0.675D),
                                 v.y + entity.getY() + entity.getEyeHeight() + 0.15D,
                                 v.z + entity.getRandomZ(0.675D),
@@ -108,30 +108,49 @@ public class FlowerCrownItem extends ArmorItem {
     private static final Map<String, SpecialType> SUPPORTERS_LIST = new HashMap<>() {{
         //dev and gift crowns
         put("ordana", new SpecialType("textures/models/armor/bee.png",
-                0.10f, ModParticles.AZALEA_FLOWER));
-        put("mehvahdjukaar", Pair.of("textures/models/armor/jar.png", 0.11f));
+                0.10f, ModParticles.FLOWER_BEE));
+        put("mehvahdjukaar", new SpecialType("textures/models/armor/jar.png",
+                0.11f, ModParticles.FLOWER_JAR));
 
         //pride crowns
-        put("asexual", Pair.of("textures/models/armor/ace.png", 0.20f));
-        put("ace", Pair.of("textures/models/armor/ace.png", 0.20f));
-        put("aromantic", Pair.of("textures/models/armor/aro.png", 0.21f));
-        put("aro", Pair.of("textures/models/armor/aro.png", 0.21f));
-        put("bisexual", Pair.of("textures/models/armor/bi.png", 0.22f));
-        put("bi", Pair.of("textures/models/armor/bi.png", 0.22f));
-        put("non-binary", Pair.of("textures/models/armor/enby.png", 0.23f));
-        put("nb", Pair.of("textures/models/armor/enby.png", 0.23f));
-        put("enby", Pair.of("textures/models/armor/enby.png", 0.23f));
-        put("gay", Pair.of("textures/models/armor/gay.png", 0.24f));
-        put("mlm", Pair.of("textures/models/armor/gay.png", 0.24f));
-        put("lesbian", Pair.of("textures/models/armor/lesbian.png", 0.25f));
-        put("wlw", Pair.of("textures/models/armor/lesbian.png", 0.25f));
-        put("rainbow", Pair.of("textures/models/armor/rainbow.png", 0.26f));
-        put("pride", Pair.of("textures/models/armor/rainbow.png", 0.26f));
-        put("trans", Pair.of("textures/models/armor/trans.png", 0.27f));
-        put("transgender", Pair.of("textures/models/armor/trans.png", 0.27f));
+        put("asexual", new SpecialType("textures/models/armor/ace.png",
+                0.20f, ModParticles.FLOWER_ACE));
+        put("ace", new SpecialType("textures/models/armor/ace.png",
+                0.20f, ModParticles.FLOWER_ACE));
+        put("aromantic", new SpecialType("textures/models/armor/aro.png",
+                0.21f, ModParticles.FLOWER_ARO));
+        put("aro", new SpecialType("textures/models/armor/aro.png",
+                0.21f, ModParticles.FLOWER_ARO));
+        put("bisexual", new SpecialType("textures/models/armor/bi.png",
+                0.22f, ModParticles.FLOWER_BI));
+        put("bi", new SpecialType("textures/models/armor/bi.png",
+                0.22f, ModParticles.FLOWER_BI));
+        put("non-binary", new SpecialType("textures/models/armor/enby.png",
+                0.23f, ModParticles.FLOWER_ENBY));
+        put("nb", new SpecialType("textures/models/armor/enby.png",
+                0.23f, ModParticles.FLOWER_ENBY));
+        put("enby", new SpecialType("textures/models/armor/enby.png",
+                0.23f, ModParticles.FLOWER_ENBY));
+        put("gay", new SpecialType("textures/models/armor/gay.png",
+                0.24f, ModParticles.FLOWER_GAY));
+        put("mlm", new SpecialType("textures/models/armor/gay.png",
+                0.24f, ModParticles.FLOWER_GAY));
+        put("lesbian", new SpecialType("textures/models/armor/lesbian.png",
+                0.25f, ModParticles.FLOWER_LESBIAN));
+        put("wlw", new SpecialType("textures/models/armor/lesbian.png",
+                0.25f, ModParticles.FLOWER_LESBIAN));
+        put("rainbow", new SpecialType("textures/models/armor/rainbow.png",
+                0.26f, ModParticles.FLOWER_RAINBOW));
+        put("pride", new SpecialType("textures/models/armor/rainbow.png",
+                0.26f, ModParticles.FLOWER_RAINBOW));
+        put("trans", new SpecialType("textures/models/armor/trans.png",
+                0.27f, ModParticles.FLOWER_TRANS));
+        put("transgender", new SpecialType("textures/models/armor/trans.png",
+                0.27f, ModParticles.FLOWER_TRANS));
 
         //supporter crowns
-        put("flax", Pair.of("textures/models/armor/flax.png", 0.30f));
+        put("flax", new SpecialType("textures/models/armor/flax.png",
+                0.30f, ModParticles.FLOWER_FLAX));
     }};
 
     public record SpecialType(String textureLocation, float itemModelIndex,
