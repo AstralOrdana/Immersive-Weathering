@@ -151,7 +151,18 @@ public class ImmersiveWeatheringClient {
         event.register(ModParticles.NETHER_SCALE.get(), LeafParticle.SimpleLeafParticle::new);
 
         event.register(ModParticles.MOSS.get(), LeafParticle.SimpleLeafParticle::new);
-        // event.register(ModParticles.CROWN_BEE.get(), LeafParticle.SimpleLeafParticle::new);
+
+        event.register(ModParticles.FLOWER_BEE.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.FLOWER_ACE.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.FLOWER_ARO.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.FLOWER_BI.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.FLOWER_ENBY.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.FLOWER_GAY.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.FLOWER_LESBIAN.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.FLOWER_RAINBOW.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.FLOWER_TRANS.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.FLOWER_FLAX.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.FLOWER_JAR.get(), LeafParticle.SimpleLeafParticle::new);
     }
 
     private static class ScrapeRustFactory extends GlowParticle.ScrapeProvider {

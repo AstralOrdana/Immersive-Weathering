@@ -1,6 +1,6 @@
 {
     "parent": "immersive_weathering:block/vertical_slab",
     "textures": {
-        "all": "immersive_weathering:block/mossy_stone"
+        "all": "immersive_weathering:block/mossy_stone_side"
     }
 }
