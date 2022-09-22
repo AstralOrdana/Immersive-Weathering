@@ -32,6 +32,7 @@ import java.util.function.Supplier;
 
 public class IWPlatformStuffImpl {
 
+    /*
     public static Block createSpecialBlock(IWPlatformStuff.BlockType type, BlockBehaviour.Properties properties, Object... extraParams) {
         return switch (type) {
             case RUSTABLE_BLOCK -> new RustableBlock((Rustable.RustLevel) extraParams[0], properties);
@@ -44,6 +45,8 @@ public class IWPlatformStuffImpl {
             case RUSTABLE_VERTICAL_SLAB -> new RustableVerticalSlabBlock((Rustable.RustLevel) extraParams[0], properties);
         };
     }
+
+     */
 
     public static void addExtraFloweryBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
 

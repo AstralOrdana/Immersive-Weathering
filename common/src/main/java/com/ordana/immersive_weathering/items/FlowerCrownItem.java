@@ -35,7 +35,7 @@ public class FlowerCrownItem extends ArmorItem {
                         Vec3 v = entity.getViewVector(1).scale(entity.isSwimming() ? 1.8 : -0.15f);
 
                         //TODO: fix particles
-                        serverLevel.sendParticles(ModParticles.AZALEA_FLOWER.get(),
+                        serverLevel.sendParticles(ModParticles.FLOWER_ENBY.get(),
                                 v.x + entity.getRandomX(0.675D),
                                 v.y + entity.getY() + entity.getEyeHeight() + 0.15D,
                                 v.z + entity.getRandomZ(0.675D),
@@ -80,7 +80,9 @@ public class FlowerCrownItem extends ArmorItem {
     private static final Map<String, Pair<String, Float>> SUPPORTERS_LIST = new HashMap<>() {{
         //dev and gift crowns
         put("ordana", Pair.of("textures/models/armor/bee.png", 0.10f));
+        put("bee", Pair.of("textures/models/armor/bee.png", 0.10f));
         put("mehvahdjukaar", Pair.of("textures/models/armor/jar.png", 0.11f));
+        put("jar", Pair.of("textures/models/armor/jar.png", 0.11f));
 
         //pride crowns
         put("asexual", Pair.of("textures/models/armor/ace.png", 0.20f));

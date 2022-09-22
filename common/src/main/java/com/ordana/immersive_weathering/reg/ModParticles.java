@@ -49,7 +49,22 @@ public class ModParticles {
 
     //custom flower crowns
 
-    //public static final Supplier<SimpleParticleType> CROWN_BEE = registerParticle("crown_bee");
+    //pride particles
+    public static final Supplier<SimpleParticleType> FLOWER_ACE = registerParticle("flower_ace");
+    public static final Supplier<SimpleParticleType> FLOWER_ARO = registerParticle("flower_aro");
+    public static final Supplier<SimpleParticleType> FLOWER_BI = registerParticle("flower_bi");
+    public static final Supplier<SimpleParticleType> FLOWER_ENBY = registerParticle("flower_enby");
+    public static final Supplier<SimpleParticleType> FLOWER_GAY = registerParticle("flower_gay");
+    public static final Supplier<SimpleParticleType> FLOWER_LESBIAN = registerParticle("flower_lesbian");
+    public static final Supplier<SimpleParticleType> FLOWER_RAINBOW = registerParticle("flower_rainbow");
+    public static final Supplier<SimpleParticleType> FLOWER_TRANS = registerParticle("flower_trans");
+
+    //supporter particles
+    public static final Supplier<SimpleParticleType> FLOWER_FLAX = registerParticle("flower_flax");
+
+    //dev and gift particles
+    public static final Supplier<SimpleParticleType> FLOWER_BEE = registerParticle("flower_bee");
+    public static final Supplier<SimpleParticleType> FLOWER_JAR = registerParticle("flower_jar");
 
 
 }
