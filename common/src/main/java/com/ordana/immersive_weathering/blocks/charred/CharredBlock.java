@@ -52,6 +52,11 @@ public class CharredBlock extends Block implements Charred {
     }
 
     @Override
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+        Charred.super.randomTick(state, level, pos, random);
+    }
+
+    @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockPos blockPos = context.getClickedPos();
         Level level = context.getLevel();

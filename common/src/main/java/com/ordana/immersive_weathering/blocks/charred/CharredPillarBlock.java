@@ -90,4 +90,16 @@ public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
             interactWithProjectile(worldIn, state, projectile, pos);
         }
     }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+        Charred.super.animateTick(state, level, pos, random);
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+        Charred.super.randomTick(state, level, pos, random);
+    }
 }
+
+

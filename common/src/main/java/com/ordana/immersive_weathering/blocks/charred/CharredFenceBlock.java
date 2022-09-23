@@ -54,10 +54,20 @@ public class CharredFenceBlock extends FenceBlock implements Charred {
     }
 
     @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+        Charred.super.animateTick(state, level, pos, random);
+    }
+
+    @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
         if (state.getValue(OVERHANG)==2) {
             FallingBlockEntity.fall(level, pos, state.setValue(OVERHANG, 0));
         }
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+        Charred.super.randomTick(state, level, pos, random);
     }
 
     @Override

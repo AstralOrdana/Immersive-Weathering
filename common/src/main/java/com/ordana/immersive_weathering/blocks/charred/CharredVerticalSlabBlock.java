@@ -61,6 +61,16 @@ public class CharredVerticalSlabBlock extends VerticalSlabBlock implements Charr
     }
 
     @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+        Charred.super.animateTick(state, level, pos, random);
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+        Charred.super.randomTick(state, level, pos, random);
+    }
+
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
         super.createBlockStateDefinition(stateManager);
         stateManager.add(SMOLDERING, OVERHANG);
