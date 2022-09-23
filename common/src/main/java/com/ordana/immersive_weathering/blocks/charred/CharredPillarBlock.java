@@ -26,7 +26,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Random;
 
-public class CharredPillarBlock extends RotatedPillarBlock implements OverhangCharred {
+public class CharredPillarBlock extends RotatedPillarBlock implements Charred {
 
     public CharredPillarBlock(Properties properties) {
         super(properties);

@@ -6,6 +6,8 @@ import com.ordana.immersive_weathering.reg.ModTags;
 import net.mehvahdjukaar.moonlight.api.block.ILightable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -16,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Fluids;
 
 import java.util.Random;
@@ -51,6 +54,13 @@ public interface Charred extends ILightable {
     }
 
     default void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
+        if (random.nextInt(16) == 0 && FallingBlock.isFree(world.getBlockState(pos.below()))) {
+            double d = (double) pos.getX() + random.nextDouble();
+            double e = (double) pos.getY() - 0.05;
+            double f = (double) pos.getZ() + random.nextDouble();
+            world.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state), d, e, f, 0.0, 0.0, 0.0);
+        }
+
         if (isLit(state)) {
             int i = pos.getX();
             int j = pos.getY();
@@ -80,4 +90,45 @@ public interface Charred extends ILightable {
         return state.setValue(SMOLDERING, lit);
     }
 
+
+
+    IntegerProperty OVERHANG = ModBlockProperties.OVERHANG;
+
+    default int getOverhang(Level level, BlockPos pos) {
+        int overhang = 2;
+        for (var dir : Direction.values()) {
+            if (dir == Direction.DOWN) {
+                var free = FallingBlock.isFree(level.getBlockState(pos.below())) && pos.getY() >= level.getMinBuildHeight();
+                if (!free) {
+                    overhang = 0;
+                    break;
+                }
+            }
+            else if (dir != Direction.UP) {
+                BlockPos neighborPos = pos.relative(dir);
+                var neighbor = level.getBlockState(neighborPos);
+                if (neighbor.hasProperty(OVERHANG)) {
+                    if(neighbor.getValue(OVERHANG) == 0){
+                        overhang = 1;
+                        break;
+                    }
+                }
+                else if(neighbor.isFaceSturdy(level, neighborPos, dir.getOpposite())){
+                    overhang = 1;
+                    break;
+                }
+            }
+        }
+        return overhang;
+    }
+
+    default void updateOverhang(BlockState state, Level level, BlockPos pos) {
+        int supported = getOverhang(level, pos);
+        if (supported != state.getValue(OVERHANG)) {
+            level.setBlockAndUpdate(pos, state.setValue(OVERHANG, supported));
+        }
+        if (supported==2) {
+            level.scheduleTick(pos, state.getBlock(), 1);
+        }
+    }
 }

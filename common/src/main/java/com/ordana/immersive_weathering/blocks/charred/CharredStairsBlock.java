@@ -32,7 +32,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import java.util.Random;
 import java.util.function.Supplier;
 
-public class CharredStairsBlock extends ModStairBlock implements OverhangCharred {
+public class CharredStairsBlock extends ModStairBlock implements Charred {
 
     public CharredStairsBlock(Supplier<Block> baseBlockState, Properties settings) {
         super(baseBlockState, settings);

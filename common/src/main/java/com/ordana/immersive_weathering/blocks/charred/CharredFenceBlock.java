@@ -26,7 +26,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Random;
 
-public class CharredFenceBlock extends FenceBlock implements OverhangCharred {
+public class CharredFenceBlock extends FenceBlock implements Charred {
 
     public CharredFenceBlock(Properties settings) {
         super(settings);

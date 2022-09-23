@@ -27,7 +27,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import java.util.Random;
 
 //TODO: add these
-public class CharredVerticalSlabBlock extends VerticalSlabBlock implements OverhangCharred {
+public class CharredVerticalSlabBlock extends VerticalSlabBlock implements Charred {
 
     public CharredVerticalSlabBlock(Properties properties) {
         super(properties);

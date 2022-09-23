@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public class CharredSlabBlock extends SlabBlock implements OverhangCharred {
+public class CharredSlabBlock extends SlabBlock implements Charred {
 
     public CharredSlabBlock(Properties settings) {
         super(settings);

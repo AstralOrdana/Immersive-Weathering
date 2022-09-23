@@ -21,11 +21,12 @@ import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.levelgen.RandomSource;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Random;
 
-public class CharredBlock extends Block implements OverhangCharred {
+public class CharredBlock extends Block implements Charred {
 
     public CharredBlock(Properties settings) {
         super(settings);
@@ -45,6 +46,10 @@ public class CharredBlock extends Block implements OverhangCharred {
         updateOverhang(state, level, pos);
     }
 
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+        Charred.super.animateTick(state, level, pos, random);
+    }
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
