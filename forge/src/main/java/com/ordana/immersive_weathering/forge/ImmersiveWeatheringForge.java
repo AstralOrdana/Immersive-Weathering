@@ -26,12 +26,16 @@ import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forgespi.locating.IModFile;
 import net.minecraftforge.resource.PathResourcePack;
+import top.theillusivec4.curios.api.SlotTypeMessage;
 
 import java.io.IOException;
 
@@ -45,6 +49,7 @@ public class ImmersiveWeatheringForge {
     public ImmersiveWeatheringForge() {
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus.register(this);
         //ModDynamicRegistry.init(bus);
 
         ImmersiveWeathering.commonInit();
@@ -61,25 +66,29 @@ public class ImmersiveWeatheringForge {
         //TODO: fix layers texture generation
         //TODO: fix grass growth replacing double plants and add tag
 
-        bus.addListener(ImmersiveWeatheringForge::setup);
-        bus.addListener(ImmersiveWeatheringForge::addPackFinders);
-        bus.addGenericListener(Item.class, ImmersiveWeatheringForge::registerOverrides);
-
 
         if (PlatformHelper.getEnv().isClient()) {
             ImmersiveWeatheringClient.init();
         }
     }
 
-    public static void registerOverrides(RegistryEvent.Register<Item> event) {
+    @SubscribeEvent
+    public void interModCommunication(InterModEnqueueEvent event){
+        event.enqueueWork(()->{
+         //   InterModComms.sendTo("curios", "REGISTER_TYPE", () -> new SlotTypeMessage.Builder("head").build());
+        });
+    }
+
+    @SubscribeEvent
+    public  void registerOverrides(RegistryEvent.Register<Item> event) {
         //override
         event.getRegistry().register(
                 new CeilingAndWallBlockItem(Blocks.HANGING_ROOTS, ModBlocks.HANGING_ROOTS_WALL.get(),
                         new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)).setRegistryName("minecraft:hanging_roots"));
     }
 
-
-    public static void setup(final FMLCommonSetupEvent event) {
+    @SubscribeEvent
+    public void setup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             ImmersiveWeathering.commonSetup();
             registerWaxables();
@@ -102,7 +111,8 @@ public class ImmersiveWeatheringForge {
 
     }
 
-    public static void addPackFinders(AddPackFindersEvent event) {
+    @SubscribeEvent
+    public void addPackFinders(AddPackFindersEvent event) {
 
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
             registerBuiltinResourcePack(event, new TextComponent("Better Brick Items"), "better_brick_items");

@@ -154,7 +154,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         return Shapes.empty();
     }
 
-    //just used for placement
+    //just used for placement by blockItem
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
         return !shouldFall(state, world.getBlockState(pos.below()));
@@ -178,13 +178,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
     public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
         int i = state.getValue(LAYERS);
         if (context.getItemInHand().is(this.asItem()) && i < 8 && i > 0) {
-
-            //TODO: something is wrong here causing a stack overflow
-            // if (context.replacingClickedOnBlock()) {
-            //     return context.getClickedFace() == Direction.UP;
-            // } else {
             return true;
-            // }
         } else {
             return i < 3;
         }
