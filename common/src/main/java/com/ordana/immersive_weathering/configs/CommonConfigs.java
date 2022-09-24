@@ -258,12 +258,6 @@ public class CommonConfigs {
 
     //food
 
-    //these will be data driven
-    public boolean lightningCreateMagma = true; //bg
-    public boolean lightningCreateLava = true; //bg
-    public boolean lightningCreateVitrifiedSand = true;
-
-
     public static boolean VITRIFIED_LAVA;
 
     //here are forge old config values. only here for their old descriptionKey

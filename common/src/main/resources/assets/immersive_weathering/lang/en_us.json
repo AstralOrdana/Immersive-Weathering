@@ -239,6 +239,7 @@
   "block.immersive_weathering.charred_log": "Charred Log",
   "block.immersive_weathering.charred_planks": "Charred Planks",
   "block.immersive_weathering.charred_slab": "Charred Slab",
+  "block.immersive_weathering.vertical_charred_slab": "Vertical Charred Slab",
   "block.immersive_weathering.charred_stairs": "Charred Stairs",
   "block.immersive_weathering.charred_fence": "Charred Fence",
   "block.immersive_weathering.charred_fence_gate": "Charred Fence Gate",
@@ -246,6 +247,7 @@
   "block.immersive_weathering.rotten_log": "Rotten Log",
   "block.immersive_weathering.rotten_planks": "Rotten Planks",
   "block.immersive_weathering.rotten_slab": "Rotten Slab",
+  "block.immersive_weathering.vertical_rotten_slab": "Vertical Rotten Slab",
   "block.immersive_weathering.rotten_stairs": "Rotten Stairs",
   "block.immersive_weathering.rotten_fence": "Rotten Fence",
   "block.immersive_weathering.rotten_fence_gate": "Rotten Fence Gate",
@@ -253,22 +255,26 @@
   "block.immersive_weathering.mossy_bricks": "Mossy Bricks",
   "block.immersive_weathering.mossy_brick_stairs": "Mossy Brick Stairs",
   "block.immersive_weathering.mossy_brick_slab": "Mossy Brick Slab",
+  "block.immersive_weathering.vertical_mossy_brick_slab": "Vertical Mossy Brick Slab",
   "block.immersive_weathering.mossy_brick_wall": "Mossy Brick Wall",
 
   "block.immersive_weathering.mossy_stone": "Mossy Stone",
   "block.immersive_weathering.mossy_stone_stairs": "Mossy Stone Stairs",
   "block.immersive_weathering.mossy_stone_slab": "Mossy Stone Slab",
+  "block.immersive_weathering.vertical_mossy_stone_slab": "Vertical Mossy Stone Slab",
   "block.immersive_weathering.mossy_stone_wall": "Mossy Stone Wall",
   "block.immersive_weathering.stone_wall": "Stone Wall",
 
   "block.immersive_weathering.cracked_bricks": "Cracked Bricks",
   "block.immersive_weathering.cracked_brick_stairs": "Cracked Brick Stairs",
   "block.immersive_weathering.cracked_brick_slab": "Cracked Brick Slab",
+  "block.immersive_weathering.vertical_cracked_brick_slab": "Vertical Cracked Brick Slab",
   "block.immersive_weathering.cracked_brick_wall": "Cracked Brick Wall",
 
   "block.immersive_weathering.cracked_prismarine_bricks": "Cracked Prismarine Bricks",
   "block.immersive_weathering.cracked_prismarine_brick_stairs": "Cracked Prismarine Brick Stairs",
   "block.immersive_weathering.cracked_prismarine_brick_slab": "Cracked Prismarine Brick Slab",
+  "block.immersive_weathering.vertical_cracked_prismarine_brick_slab": "Vertical Cracked Prismarine Brick Slab",
   "block.immersive_weathering.cracked_prismarine_brick_wall": "Cracked Prismarine Brick Wall",
   "block.immersive_weathering.prismarine_brick_wall": "Prismarine Brick Wall",
   "block.immersive_weathering.dark_prismarine_wall": "Dark Prismarine Wall",
@@ -277,26 +283,32 @@
   "block.immersive_weathering.cracked_end_stone_bricks": "Cracked End Stone Bricks",
   "block.immersive_weathering.cracked_end_stone_brick_stairs": "Cracked End Stone Brick Stairs",
   "block.immersive_weathering.cracked_end_stone_brick_slab": "Cracked End Stone Brick Slab",
+  "block.immersive_weathering.vertical_cracked_end_stone_brick_slab": "Vertical Cracked End Stone Brick Slab",
   "block.immersive_weathering.cracked_end_stone_brick_wall": "Cracked End Stone Brick Wall",
 
   "block.immersive_weathering.cracked_stone_brick_stairs": "Cracked Stone Brick Stairs",
   "block.immersive_weathering.cracked_stone_brick_slab": "Cracked Stone Brick Slab",
+  "block.immersive_weathering.vertical_cracked_stone_brick_slab": "Vertical Cracked Stone Brick Slab",
   "block.immersive_weathering.cracked_stone_brick_wall": "Cracked Stone Brick Wall",
 
   "block.immersive_weathering.cracked_nether_brick_stairs": "Cracked Nether Brick Stairs",
   "block.immersive_weathering.cracked_nether_brick_slab": "Cracked Nether Brick Slab",
+  "block.immersive_weathering.vertical_cracked_nether_brick_slab": "Vertical Cracked Nether Brick Slab",
   "block.immersive_weathering.cracked_nether_brick_wall": "Cracked Nether Brick Wall",
 
   "block.immersive_weathering.cracked_deepslate_brick_stairs": "Cracked Deepslate Brick Stairs",
   "block.immersive_weathering.cracked_deepslate_brick_slab": "Cracked Deepslate Brick Slab",
+  "block.immersive_weathering.vertical_cracked_deepslate_brick_slab": "Vertical Cracked Deepslate Brick Slab",
   "block.immersive_weathering.cracked_deepslate_brick_wall": "Cracked Deepslate Brick Wall",
 
   "block.immersive_weathering.cracked_deepslate_tile_stairs": "Cracked Deepslate Tile Stairs",
   "block.immersive_weathering.cracked_deepslate_tile_slab": "Cracked Deepslate Tile Slab",
+  "block.immersive_weathering.vertical_cracked_deepslate_tile_slab": "Vertical Cracked Deepslate Tile Slab",
   "block.immersive_weathering.cracked_deepslate_tile_wall": "Cracked Deepslate Tile Wall",
 
   "block.immersive_weathering.cracked_polished_blackstone_brick_stairs": "Cracked Polished Blackstone Brick Stairs",
   "block.immersive_weathering.cracked_polished_blackstone_brick_slab": "Cracked Polished Blackstone Brick Slab",
+  "block.immersive_weathering.vertical_cracked_polished_blackstone_brick_slab": "Vertical Cracked Polished Blackstone Brick Slab",
   "block.immersive_weathering.cracked_polished_blackstone_brick_wall": "Cracked Polished Blackstone Brick Wall",
 
   "item.immersive_weathering.stone_brick": "Stone Brick",
@@ -323,6 +335,11 @@
   "block.immersive_weathering.weathered_cut_iron_slab": "Weathered Cut Iron Slab",
   "block.immersive_weathering.rusted_cut_iron_slab": "Rusted Cut Iron Slab",
 
+  "block.immersive_weathering.vertical_cut_iron_slab": "Vertical Cut Iron Slab",
+  "block.immersive_weathering.vertical_exposed_cut_iron_slab": "Vertical Exposed Cut Iron Slab",
+  "block.immersive_weathering.vertical_weathered_cut_iron_slab": "Vertical Weathered Cut Iron Slab",
+  "block.immersive_weathering.vertical_rusted_cut_iron_slab": "Vertical Rusted Cut Iron Slab",
+
   "block.immersive_weathering.waxed_cut_iron": "Waxed Cut Iron",
   "block.immersive_weathering.waxed_exposed_cut_iron": "Waxed Exposed Cut Iron",
   "block.immersive_weathering.waxed_weathered_cut_iron": "Waxed Weathered Cut Iron",
@@ -337,6 +354,11 @@
   "block.immersive_weathering.waxed_exposed_cut_iron_slab": "Waxed Exposed Cut Iron Slab",
   "block.immersive_weathering.waxed_weathered_cut_iron_slab": "Waxed Weathered Cut Iron Slab",
   "block.immersive_weathering.waxed_rusted_cut_iron_slab": "Waxed Rusted Cut Iron Slab",
+
+  "block.immersive_weathering.vertical_waxed_cut_iron_slab": "Vertical Waxed Cut Iron Slab",
+  "block.immersive_weathering.vertical_waxed_exposed_cut_iron_slab": "Vertical Waxed Exposed Cut Iron Slab",
+  "block.immersive_weathering.vertical_waxed_weathered_cut_iron_slab": "Vertical Waxed Weathered Cut Iron Slab",
+  "block.immersive_weathering.vertical_waxed_rusted_cut_iron_slab": "Vertical Waxed Rusted Cut Iron Slab",
 
   "block.immersive_weathering.plate_iron": "Plate Iron",
   "block.immersive_weathering.exposed_plate_iron": "Exposed Plate Iron",
@@ -353,6 +375,11 @@
   "block.immersive_weathering.weathered_plate_iron_slab": "Weathered Plate Iron Slab",
   "block.immersive_weathering.rusted_plate_iron_slab": "Rusted Plate Iron Slab",
 
+  "block.immersive_weathering.vertical_plate_iron_slab": "Vertical Plate Iron Slab",
+  "block.immersive_weathering.vertical_exposed_plate_iron_slab": "Vertical Exposed Plate Iron Slab",
+  "block.immersive_weathering.vertical_weathered_plate_iron_slab": "Vertical Weathered Plate Iron Slab",
+  "block.immersive_weathering.vertical_rusted_plate_iron_slab": "Vertical Rusted Plate Iron Slab",
+
   "block.immersive_weathering.waxed_plate_iron": "Waxed Plate Iron",
   "block.immersive_weathering.waxed_exposed_plate_iron": "Waxed Exposed Plate Iron",
   "block.immersive_weathering.waxed_weathered_plate_iron": "Waxed Weathered Plate Iron",
@@ -367,6 +394,11 @@
   "block.immersive_weathering.waxed_exposed_plate_iron_slab": "Waxed Exposed Plate Iron Slab",
   "block.immersive_weathering.waxed_weathered_plate_iron_slab": "Waxed Weathered Plate Iron Slab",
   "block.immersive_weathering.waxed_rusted_plate_iron_slab": "Waxed Rusted Plate Iron Slab",
+
+  "block.immersive_weathering.vertical_waxed_plate_iron_slab": "Vertical Waxed Plate Iron Slab",
+  "block.immersive_weathering.vertical_waxed_exposed_plate_iron_slab": "Vertical Waxed Exposed Plate Iron Slab",
+  "block.immersive_weathering.vertical_waxed_weathered_plate_iron_slab": "Vertical Waxed Weathered Plate Iron Slab",
+  "block.immersive_weathering.vertical_waxed_rusted_plate_iron_slab": "Vertical Waxed Rusted Plate Iron Slab",
 
   "block.immersive_weathering.exposed_iron_door": "Exposed Iron Door",
   "block.immersive_weathering.weathered_iron_door": "Weathered Iron Door",

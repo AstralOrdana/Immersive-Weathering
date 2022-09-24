@@ -101,10 +101,24 @@ public class FlowerCrownItem extends ArmorItem {
         //dev and gift crowns
         put("ordana", new SpecialType("textures/models/armor/bee.png",
                 0.10f, ModParticles.FLOWER_BEE));
+        put("bee", new SpecialType("textures/models/armor/bee.png",
+                0.10f, ModParticles.FLOWER_BEE));
         put("mehvahdjukaar", new SpecialType("textures/models/armor/jar.png",
                 0.11f, ModParticles.FLOWER_JAR));
         put("jar", new SpecialType("textures/models/armor/jar.png",
                 0.11f, ModParticles.FLOWER_JAR));
+        /*
+        put("key", new SpecialType("textures/models/armor/key.png",
+                0.12f, ModParticles.FLOWER_KEY));
+        put("keybounce", new SpecialType("textures/models/armor/key.png",
+                0.12f, ModParticles.FLOWER_KEY));
+        put("keyb0unce", new SpecialType("textures/models/armor/key.png",
+                0.12f, ModParticles.FLOWER_KEY));
+        put("bob", new SpecialType("textures/models/armor/bob.png",
+                0.13f, ModParticles.FLOWER_BOB));
+        put("bobisnotaperson", new SpecialType("textures/models/armor/bob.png",
+                0.13f, ModParticles.FLOWER_BOB));
+         */
 
         //pride crowns
         put("asexual", new SpecialType("textures/models/armor/ace.png",
@@ -145,6 +159,12 @@ public class FlowerCrownItem extends ArmorItem {
         //supporter crowns
         put("flax", new SpecialType("textures/models/armor/flax.png",
                 0.30f, ModParticles.FLOWER_FLAX));
+        /*
+        put("neko", new SpecialType("textures/models/armor/neko.png",
+                0.30f, ModParticles.FLOWER_NEKO));
+        put("nekomaster", new SpecialType("textures/models/armor/neko.png",
+                0.30f, ModParticles.FLOWER_NEKO));
+         */
     }};
 
     public record SpecialType(String textureLocation, float itemModelIndex,
