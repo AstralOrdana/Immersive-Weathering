@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "immersive_weathering:weeds",
+    "minecraft:grass",
+    "minecraft:tall_grass",
+    "minecraft:fern",
+    "minecraft:large_fern"
+  ]
+}

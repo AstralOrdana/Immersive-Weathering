@@ -1,10 +1,8 @@
 {
   "area_condition": {
     "must_have": {
-      "block_state": {
-        "Name": "minecraft:grass"
-      },
-      "predicate_type": "minecraft:blockstate_match"
+      "blocks": "#immersive_weathering:grass_spread_source",
+      "predicate_type": "immersive_weathering:block_set_match"
     },
     "radiusX": 2,
     "radiusY": 2,
