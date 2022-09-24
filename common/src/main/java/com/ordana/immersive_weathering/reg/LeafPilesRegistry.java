@@ -22,7 +22,7 @@ public class LeafPilesRegistry {
 
                 Map<Block, LeafPileBlock> piles = IWPlatformStuff.getDynamicLeafPiles();
 
-                return Objects.requireNonNullElseGet(piles, () -> ImmutableMap.<Block, LeafPileBlock>builder()
+                var builder = ImmutableMap.<Block, LeafPileBlock>builder()
                         .put(Blocks.OAK_LEAVES, ModBlocks.OAK_LEAF_PILE.get())
                         .put(Blocks.DARK_OAK_LEAVES, ModBlocks.DARK_OAK_LEAF_PILE.get())
                         .put(Blocks.SPRUCE_LEAVES, ModBlocks.SPRUCE_LEAF_PILE.get())
@@ -30,8 +30,10 @@ public class LeafPilesRegistry {
                         .put(Blocks.JUNGLE_LEAVES, ModBlocks.JUNGLE_LEAF_PILE.get())
                         .put(Blocks.ACACIA_LEAVES, ModBlocks.ACACIA_LEAF_PILE.get())
                         .put(Blocks.AZALEA_LEAVES, ModBlocks.AZALEA_LEAF_PILE.get())
-                        .put(Blocks.FLOWERING_AZALEA_LEAVES, ModBlocks.FLOWERING_AZALEA_LEAF_PILE.get())
-                        .build());
+                        .put(Blocks.FLOWERING_AZALEA_LEAVES, ModBlocks.FLOWERING_AZALEA_LEAF_PILE.get());
+
+                builder.putAll(piles);
+                return builder.build();
             }
     );
 
