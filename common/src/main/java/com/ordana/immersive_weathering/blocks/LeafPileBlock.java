@@ -154,9 +154,10 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         return Shapes.empty();
     }
 
+    //just used for placement
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-        return state.getValue(LAYERS) != 0 || world.getFluidState(pos.below()).is(Fluids.WATER);
+        return !shouldFall(state, world.getBlockState(pos.below()));
     }
 
     @Override
@@ -170,7 +171,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         if (direction == Direction.DOWN && state.getValue(LAYERS) <= 1) {
             state = state.setValue(LAYERS, neighborState.is(Blocks.WATER) ? 0 : 1);
         }
-        return !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+        return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
     }
 
     @Override
