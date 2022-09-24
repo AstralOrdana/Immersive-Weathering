@@ -150,8 +150,4 @@ public class FlowerCrownItem extends ArmorItem {
     public record SpecialType(String textureLocation, float itemModelIndex,
                               Supplier<SimpleParticleType> particle) {
     }
-
-    ;
-
-
 }

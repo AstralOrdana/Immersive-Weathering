@@ -14,7 +14,7 @@ public class LeafParticle extends TextureSheetParticle {
     LeafParticle(ClientLevel world, SpriteSet spriteProvider, double x, double y, double z,
                  double velocityX, double velocityY, double velocityZ, int color) {
         super(world, x, y, z, velocityX, velocityY, velocityZ);
-        this.setSize(0.001F, 0.001F);
+        this.setSize(1.0F, 1.0F);
         this.pickSprite(spriteProvider);
         this.quadSize *= this.random.nextFloat() * 0.6F + 0.4F;
         this.lifetime = (int) (16.0D / (Math.random() * 0.8D + 0.2D));
@@ -75,11 +75,9 @@ public class LeafParticle extends TextureSheetParticle {
     }
 
     public record SimpleLeafParticle(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
-
         @Override
-        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double vel, double color, double i) {
-            if (vel == 0) vel = -3;
-            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, vel, 0.0D,
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double dx, double dy, double dz) {
+            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
                     -1);
         }
     }

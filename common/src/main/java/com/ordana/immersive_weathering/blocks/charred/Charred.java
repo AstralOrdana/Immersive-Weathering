@@ -60,7 +60,6 @@ public interface Charred extends ILightable {
             double f = (double) pos.getZ() + random.nextDouble();
             world.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state), d, e, f, 0.0, 0.0, 0.0);
         }
-
         if (isLit(state)) {
             int i = pos.getX();
             int j = pos.getY();
