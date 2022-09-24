@@ -17,10 +17,13 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.StringUtil;
 import net.minecraft.world.item.ItemStack;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Main config screen
@@ -234,7 +237,7 @@ public class ClothConfigListScreen extends Screen {
         }
 
         protected ConfigButton(ConfigSpec spec, int width, int buttonWidth) {
-            this(new Button(width / 2 - buttonWidth / 2, 0, buttonWidth, 20, new TextComponent(spec.getFileName()), (b) ->
+            this(new Button(width / 2 - buttonWidth / 2, 0, buttonWidth, 20, new TranslatableComponent(spec.getFileName()), (b) ->
                     Minecraft.getInstance().setScreen(ClothConfigCompat.makeScreen(
                             ClothConfigListScreen.this, (FabricConfigSpec) spec, ClothConfigListScreen.this.background))));
         }

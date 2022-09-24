@@ -12,8 +12,12 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class ClothConfigCompat {
 
@@ -36,7 +40,7 @@ public class ClothConfigCompat {
         for (var en : spec.getMainEntry().getEntries()) {
             //skips stray config values
             if (!(en instanceof net.mehvahdjukaar.moonlight.api.platform.configs.fabric.ConfigCategory c)) continue;
-            ConfigCategory mainCat = builder.getOrCreateCategory(new TranslatableComponent(c.getName()));
+            ConfigCategory mainCat = builder.getOrCreateCategory(new TranslatableComponent(getReadableName(c.getName())));
             for (var entry : c.getEntries()) {
                 if (entry instanceof net.mehvahdjukaar.moonlight.api.platform.configs.fabric.ConfigCategory subCat) {
                     var subBuilder = builder.entryBuilder().startSubCategory(new TranslatableComponent(subCat.getName()));
@@ -50,6 +54,11 @@ public class ClothConfigCompat {
 
         }
         return builder.build();
+    }
+
+    public static String getReadableName(String name) {
+        return Arrays.stream((name).replace(":", "_").split("_"))
+                .map(StringUtils::capitalize).collect(Collectors.joining(" "));
     }
 
     private static void addEntriesRecursive(ConfigBuilder builder, SubCategoryBuilder subCategoryBuilder, net.mehvahdjukaar.moonlight.api.platform.configs.fabric.ConfigCategory c) {
