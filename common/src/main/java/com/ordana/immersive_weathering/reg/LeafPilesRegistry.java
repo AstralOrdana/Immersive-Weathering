@@ -16,6 +16,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+//TODO: rethinnk on 1.19
 public class LeafPilesRegistry {
 
     public static final Supplier<Map<Block, LeafPileBlock>> LEAF_PILES = Suppliers.memoize(() -> {

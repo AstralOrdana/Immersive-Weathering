@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.events;
 
+import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.blocks.Weatherable;
 import com.ordana.immersive_weathering.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.blocks.mossable.Mossable;
@@ -65,6 +66,8 @@ public class ModEvents {
         EVENTS.add(ModEvents::shearShearing);
         EVENTS.add(ModEvents::spawnAsh);
         EVENTS.add(ModEvents::grassFlinting);
+        EVENTS.add(ModEvents::axeStripping);
+        EVENTS.add(ModEvents::barkRepairing);
     }
 
 
@@ -131,7 +134,6 @@ public class ModEvents {
         }
         return InteractionResult.PASS;
     }
-
 
 
     private static InteractionResult spawnAsh(Item item, ItemStack stack, BlockPos pos, BlockState state,
@@ -245,6 +247,31 @@ public class ModEvents {
         return InteractionResult.PASS;
     }
 
+
+    private static InteractionResult barkRepairing(Item item, ItemStack stack, BlockPos pos, BlockState state, Player
+            player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        Pair<Item, Block> fixedLog = WeatheringHelper.getBarkForStrippedLog(state).orElse(null);
+        if (fixedLog != null && stack.getItem() == fixedLog.getFirst()) {
+            BlockState fixedState = fixedLog.getSecond().withPropertiesOf(state);
+
+            level.playSound(player, pos, fixedState.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
+
+            if (player != null) {
+                if (!player.isCreative()) stack.shrink(1);
+            }
+
+            if (player instanceof ServerPlayer serverPlayer) {
+                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
+                player.awardStat(Stats.ITEM_USED.get(item));
+            }
+
+            level.setBlockAndUpdate(pos, fixedState);
+
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
+        return InteractionResult.PASS;
+    }
+
     private static InteractionResult shearShearing(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                                    Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
 
@@ -292,24 +319,30 @@ public class ModEvents {
     }
 
 
-    //TODO: add
     private static InteractionResult axeStripping(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                                   Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if (item instanceof AxeItem && CommonConfigs.AXE_STRIPPING.get()) {
+            var bark =  WeatheringHelper.getBarkToStrip(state);
+            if (bark != null) {
 
-            if (true) { //bark enabled
-                if (doStripLog(stack, pos, state, player, level, hand, hitResult.getDirection()))
-                    return InteractionResult.sidedSuccess(level.isClientSide);
+                Block.popResourceFromFace(level, pos, hitResult.getDirection(), bark.getDefaultInstance());
+                level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0f, 1.0f);
+
+                var barkParticle = ModParticles.OAK_BARK.get();
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, barkParticle, UniformInt.of(3, 5));
+
+                if (player != null) {
+                    stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                }
+
+                if (player instanceof ServerPlayer) {
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+                }
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
         return InteractionResult.PASS;
     }
-
-    @ExpectPlatform
-    private static boolean doStripLog(ItemStack stack, BlockPos pos, BlockState state, Player player, Level
-            level, InteractionHand hand, Direction dir) {
-        throw new AssertionError();
-    }
-
 
 }

@@ -115,6 +115,8 @@ public class ImmersiveWeatheringForge {
     public void addPackFinders(AddPackFindersEvent event) {
 
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
+            registerBuiltinResourcePack(event, new TextComponent("Biome Tinted Mossy Blocks"), "biome_tinted_mossy_blocks");
+
             registerBuiltinResourcePack(event, new TextComponent("Better Brick Items"), "better_brick_items");
             registerBuiltinResourcePack(event, new TextComponent("Better Brick blocks"), "better_brick_blocks");
             registerBuiltinResourcePack(event, new TextComponent("Visual Waxed Iron Items"), "visual_waxed_iron_items");

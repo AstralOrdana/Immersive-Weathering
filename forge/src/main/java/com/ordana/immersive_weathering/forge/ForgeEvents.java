@@ -109,26 +109,7 @@ public class ForgeEvents {
 
          else {
             //fix logs
-            Pair<Item, Block> fixedLog = WeatheringHelper.getBarkForStrippedLog(state).orElse(null);
-            if (fixedLog != null && stack.getItem() == fixedLog.getFirst()) {
-                BlockState fixedState = fixedLog.getSecond().withPropertiesOf(state);
 
-                level.playSound(player, pos, fixedState.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
-
-                if (player != null) {
-                    if (!player.isCreative()) stack.shrink(1);
-                }
-
-                if (player instanceof ServerPlayer serverPlayer) {
-                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
-                    player.awardStat(Stats.ITEM_USED.get(i));
-                }
-
-                level.setBlockAndUpdate(pos, fixedState);
-
-                event.setCanceled(true);
-                event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
-            }
         }
     }
 

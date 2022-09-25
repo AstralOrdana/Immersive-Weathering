@@ -8,6 +8,7 @@ import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.blocks.charred.CharredBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.mixins.accessors.BiomeAccessor;
+import com.ordana.immersive_weathering.reg.LeafPilesRegistry;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.reg.ModTags;
@@ -57,11 +58,11 @@ import java.util.stream.Collectors;
 public class WeatheringHelper {
 
     public static void addOptional(ImmutableBiMap.Builder<Block, Block> map,
-                                    String moddedId, String moddedId2){
+                                   String moddedId, String moddedId2) {
         var o1 = Registry.BLOCK.getOptional(new ResourceLocation(moddedId));
         var o2 = Registry.BLOCK.getOptional(new ResourceLocation(moddedId2));
-        if(o1.isPresent() && o2.isPresent()){
-            map.put(o1.get(),o2.get());
+        if (o1.isPresent() && o2.isPresent()) {
+            map.put(o1.get(), o2.get());
         }
     }
 
@@ -70,12 +71,10 @@ public class WeatheringHelper {
                 .put(Blocks.FLOWERING_AZALEA, Blocks.AZALEA)
                 .put(Blocks.FLOWERING_AZALEA_LEAVES, Blocks.AZALEA_LEAVES)
                 .put(ModBlocks.FLOWERING_AZALEA_LEAF_PILE.get(), ModBlocks.AZALEA_LEAF_PILE.get());
-        addOptional(builder,"quark:flowering_azalea_hedge", "quark:azalea_hedge");
-        addOptional(builder,"quark:flowering_azalea_leaf_carpet", "quark:azalea_leaf_carpet");
+        addOptional(builder, "quark:flowering_azalea_hedge", "quark:azalea_hedge");
+        addOptional(builder, "quark:flowering_azalea_leaf_carpet", "quark:azalea_leaf_carpet");
         return builder.build();
     });
-
-
 
 
     public static Optional<BlockState> getAzaleaGrowth(BlockState state) {
@@ -88,22 +87,31 @@ public class WeatheringHelper {
                 .map(block -> block.withPropertiesOf(state));
     }
 
-    public static Optional<Pair<Item, Block>> getBarkForStrippedLog(BlockState log) {
-        /*
-        var pair = Optional.ofNullable(LeafPilesRegistry.STRIPPED_TO_BARK.get().get(log.getBlock()));
 
-        if (pair.isPresent()) {
-            String s = ServerConfigs.GENERIC_BARK.get();
-            if (!s.isEmpty()) {
-                ResourceLocation res = new ResourceLocation(s);
-                if (ForgeRegistries.ITEMS.containsKey(res)) {
-                    return Optional.of(Pair.of(ForgeRegistries.ITEMS.getValue(res), pair.get().getSecond()));
-                }
+    public static Item getBarkToStrip(BlockState normalLog) {
+        for(var e : LeafPilesRegistry.STRIPPED_TO_BARK.get().values()){
+            if(e.getSecond() == normalLog.getBlock()){
+                return e.getFirst();
             }
         }
-        return pair;
-        */
-        //TODO: re add
+        return null;
+
+    }
+
+    public static Optional<Pair<Item, Block>> getBarkForStrippedLog(BlockState normalLog) {
+        var pair = Optional.ofNullable(LeafPilesRegistry.STRIPPED_TO_BARK.get().get(normalLog.getBlock()));
+
+        if (pair.isPresent()) {
+            String s = CommonConfigs.GENERIC_BARK.get();
+            if (!s.isEmpty()) {
+                ResourceLocation res = new ResourceLocation(s);
+                var bark = Registry.ITEM.getOptional(res);
+                if (bark.isPresent()) {
+                    return Optional.of(Pair.of(bark.get(), pair.get().getSecond()));
+                }
+            }
+            return pair;
+        }
         return Optional.empty();
     }
 
@@ -325,30 +333,5 @@ public class WeatheringHelper {
     }
 
 
-    public static InteractionResult handleSoakedBlocksInteraction(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand) {
-        if (player.isSecondaryUseActive()) return InteractionResult.PASS;
-        ItemStack stack = player.getItemInHand(hand);
-        if (stack.getItem() == Items.WATER_BUCKET && state.getValue(ModBlockProperties.SOAKED)) {
-            level.playSound(player, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
-            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
-            if (player instanceof ServerPlayer) {
-                ItemStack itemStack2 = ItemUtils.createFilledResult(stack, player, Items.BUCKET.getDefaultInstance());
-                player.setItemInHand(hand, itemStack2);
-                level.setBlockAndUpdate(pos, state.setValue(ModBlockProperties.SOAKED, true));
-                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
-            }
-            return InteractionResult.sidedSuccess(level.isClientSide);
-        } else if (stack.getItem() == Items.BUCKET && !state.getValue(ModBlockProperties.SOAKED)) {
-            level.playSound(player, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0f, 1.0f);
-            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
-            if (player instanceof ServerPlayer) {
-                ItemStack itemStack2 = ItemUtils.createFilledResult(stack, player, Items.WATER_BUCKET.getDefaultInstance());
-                player.setItemInHand(hand, itemStack2);
-                level.setBlockAndUpdate(pos, state.setValue(ModBlockProperties.SOAKED, false));
-                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
-            }
-            return InteractionResult.sidedSuccess(level.isClientSide);
-        }
-        return InteractionResult.PASS;
-    }
+
 }
