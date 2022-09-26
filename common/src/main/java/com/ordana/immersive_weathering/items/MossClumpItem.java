@@ -11,16 +11,18 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class MossClumpItem extends Item {
+public class MossClumpItem extends BlockItem {
 
-    public MossClumpItem(Properties properties) {
-        super(properties);
+    public MossClumpItem(Block block, Properties properties) {
+        super(block, properties);
     }
 
     @Override
