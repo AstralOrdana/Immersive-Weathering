@@ -4,12 +4,14 @@ import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.blocks.Weatherable;
 import com.ordana.immersive_weathering.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.blocks.mossable.Mossable;
+import com.ordana.immersive_weathering.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModItems;
 import com.ordana.immersive_weathering.reg.ModParticles;
+import com.ordana.immersive_weathering.reg.ModTags;
 import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -32,6 +34,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.WetSpongeBlock;
 import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -39,7 +42,9 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 
 public class ModEvents {
@@ -57,6 +62,8 @@ public class ModEvents {
     }
 
     private static final List<InteractionEvent> EVENTS = new ArrayList<>();
+    private static final HashMap<Block, Block> RUSTED_BLOCKS = new HashMap<>();
+    private static final HashMap<Block, Block> STRIPPED_BLOCKS = new HashMap<>();
 
     static {
         EVENTS.add(ModEvents::slimePistons);
@@ -68,6 +75,53 @@ public class ModEvents {
         EVENTS.add(ModEvents::grassFlinting);
         EVENTS.add(ModEvents::axeStripping);
         EVENTS.add(ModEvents::barkRepairing);
+        EVENTS.add(ModEvents::rustScraping);
+        EVENTS.add(ModEvents::rustSponging);
+
+        RUSTED_BLOCKS.put(ModBlocks.CUT_IRON.get(), ModBlocks.EXPOSED_CUT_IRON.get());
+        RUSTED_BLOCKS.put(ModBlocks.EXPOSED_CUT_IRON.get(), ModBlocks.WEATHERED_CUT_IRON.get());
+        RUSTED_BLOCKS.put(ModBlocks.WEATHERED_CUT_IRON.get(), ModBlocks.RUSTED_CUT_IRON.get());
+        RUSTED_BLOCKS.put(ModBlocks.CUT_IRON_STAIRS.get(), ModBlocks.EXPOSED_CUT_IRON_STAIRS.get());
+        RUSTED_BLOCKS.put(ModBlocks.EXPOSED_CUT_IRON_STAIRS.get(), ModBlocks.WEATHERED_CUT_IRON_STAIRS.get());
+        RUSTED_BLOCKS.put(ModBlocks.WEATHERED_CUT_IRON_STAIRS.get(), ModBlocks.RUSTED_CUT_IRON_STAIRS.get());
+        RUSTED_BLOCKS.put(ModBlocks.CUT_IRON_SLAB.get(), ModBlocks.EXPOSED_CUT_IRON_SLAB.get());
+        RUSTED_BLOCKS.put(ModBlocks.EXPOSED_CUT_IRON_SLAB.get(), ModBlocks.WEATHERED_CUT_IRON_SLAB.get());
+        RUSTED_BLOCKS.put(ModBlocks.WEATHERED_CUT_IRON_SLAB.get(), ModBlocks.RUSTED_CUT_IRON_SLAB.get());
+        RUSTED_BLOCKS.put(ModBlocks.PLATE_IRON.get(), ModBlocks.EXPOSED_PLATE_IRON.get());
+        RUSTED_BLOCKS.put(ModBlocks.EXPOSED_PLATE_IRON.get(), ModBlocks.WEATHERED_PLATE_IRON.get());
+        RUSTED_BLOCKS.put(ModBlocks.WEATHERED_PLATE_IRON.get(), ModBlocks.RUSTED_PLATE_IRON.get());
+        RUSTED_BLOCKS.put(ModBlocks.PLATE_IRON_STAIRS.get(), ModBlocks.EXPOSED_PLATE_IRON_STAIRS.get());
+        RUSTED_BLOCKS.put(ModBlocks.EXPOSED_PLATE_IRON_STAIRS.get(), ModBlocks.WEATHERED_PLATE_IRON_STAIRS.get());
+        RUSTED_BLOCKS.put(ModBlocks.WEATHERED_PLATE_IRON_STAIRS.get(), ModBlocks.RUSTED_PLATE_IRON_STAIRS.get());
+        RUSTED_BLOCKS.put(ModBlocks.PLATE_IRON_SLAB.get(), ModBlocks.EXPOSED_PLATE_IRON_SLAB.get());
+        RUSTED_BLOCKS.put(ModBlocks.EXPOSED_PLATE_IRON_SLAB.get(), ModBlocks.WEATHERED_PLATE_IRON_SLAB.get());
+        RUSTED_BLOCKS.put(ModBlocks.WEATHERED_PLATE_IRON_SLAB.get(), ModBlocks.RUSTED_PLATE_IRON_SLAB.get());
+        RUSTED_BLOCKS.put(Blocks.IRON_DOOR, ModBlocks.EXPOSED_IRON_DOOR.get());
+        RUSTED_BLOCKS.put(ModBlocks.EXPOSED_IRON_DOOR.get(), ModBlocks.WEATHERED_IRON_DOOR.get());
+        RUSTED_BLOCKS.put(ModBlocks.WEATHERED_IRON_DOOR.get(), ModBlocks.RUSTED_IRON_DOOR.get());
+        RUSTED_BLOCKS.put(Blocks.IRON_TRAPDOOR, ModBlocks.EXPOSED_IRON_TRAPDOOR.get());
+        RUSTED_BLOCKS.put(ModBlocks.EXPOSED_IRON_TRAPDOOR.get(), ModBlocks.WEATHERED_IRON_TRAPDOOR.get());
+        RUSTED_BLOCKS.put(ModBlocks.WEATHERED_IRON_TRAPDOOR.get(), ModBlocks.RUSTED_IRON_TRAPDOOR.get());
+        RUSTED_BLOCKS.put(Blocks.IRON_BARS, ModBlocks.EXPOSED_IRON_BARS.get());
+        RUSTED_BLOCKS.put(ModBlocks.EXPOSED_IRON_BARS.get(), ModBlocks.WEATHERED_IRON_BARS.get());
+        RUSTED_BLOCKS.put(ModBlocks.WEATHERED_IRON_BARS.get(), ModBlocks.RUSTED_IRON_BARS.get());
+
+        STRIPPED_BLOCKS.put(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG);
+        STRIPPED_BLOCKS.put(Blocks.SPRUCE_LOG, Blocks.STRIPPED_SPRUCE_LOG);
+        STRIPPED_BLOCKS.put(Blocks.JUNGLE_LOG, Blocks.STRIPPED_JUNGLE_LOG);
+        STRIPPED_BLOCKS.put(Blocks.BIRCH_LOG, Blocks.STRIPPED_BIRCH_LOG);
+        STRIPPED_BLOCKS.put(Blocks.DARK_OAK_LOG, Blocks.STRIPPED_DARK_OAK_LOG);
+        STRIPPED_BLOCKS.put(Blocks.ACACIA_LOG, Blocks.STRIPPED_ACACIA_LOG);
+        STRIPPED_BLOCKS.put(Blocks.WARPED_STEM, Blocks.STRIPPED_WARPED_STEM);
+        STRIPPED_BLOCKS.put(Blocks.CRIMSON_STEM, Blocks.STRIPPED_CRIMSON_STEM);
+        STRIPPED_BLOCKS.put(Blocks.OAK_WOOD, Blocks.STRIPPED_OAK_WOOD);
+        STRIPPED_BLOCKS.put(Blocks.SPRUCE_WOOD, Blocks.STRIPPED_SPRUCE_WOOD);
+        STRIPPED_BLOCKS.put(Blocks.JUNGLE_WOOD, Blocks.STRIPPED_JUNGLE_WOOD);
+        STRIPPED_BLOCKS.put(Blocks.BIRCH_WOOD, Blocks.STRIPPED_BIRCH_WOOD);
+        STRIPPED_BLOCKS.put(Blocks.DARK_OAK_WOOD, Blocks.STRIPPED_DARK_OAK_WOOD);
+        STRIPPED_BLOCKS.put(Blocks.ACACIA_WOOD, Blocks.STRIPPED_ACACIA_WOOD);
+        STRIPPED_BLOCKS.put(Blocks.WARPED_HYPHAE, Blocks.STRIPPED_WARPED_HYPHAE);
+        STRIPPED_BLOCKS.put(Blocks.CRIMSON_HYPHAE, Blocks.STRIPPED_CRIMSON_HYPHAE);
     }
 
 
@@ -83,6 +137,83 @@ public class ModEvents {
         return InteractionResult.PASS;
     }
 
+    private static InteractionResult rustSponging(Item item, ItemStack stack, BlockPos pos, BlockState state,
+                                                  Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        if (item == Items.WET_SPONGE && CommonConfigs.SPONGE_RUSTING.get()) {
+            if (state.is(ModTags.RUSTABLE)) {
+                level.playSound(player, pos, SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundSource.BLOCKS, 1.0f, 1.0f);
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
+                if (player instanceof ServerPlayer) {
+                    ItemStack itemStack2 = ItemUtils.createFilledResult(stack, player, Items.SPONGE.getDefaultInstance());
+                    player.setItemInHand(hand, itemStack2);
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+
+                    level.setBlockAndUpdate(pos, RUSTED_BLOCKS.get(state.getBlock()).withPropertiesOf(state));
+                    return InteractionResult.sidedSuccess(level.isClientSide);
+                }
+                return InteractionResult.SUCCESS;
+            }
+        }
+        return InteractionResult.PASS;
+    }
+
+    private static InteractionResult rustScraping(Item item, ItemStack stack, BlockPos pos, BlockState state,
+                                                  Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        if (item instanceof AxeItem && CommonConfigs.AXE_SCRAPING.get()) {
+            if (state.is(ModTags.WEATHERED_IRON) || state.is(ModTags.RUSTED_IRON)) {
+                level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
+                level.playSound(player, pos, SoundEvents.SHIELD_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SMOKE, UniformInt.of(3, 5));
+                if (player instanceof ServerPlayer) {
+                    stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                    player.awardStat(Stats.ITEM_USED.get(item));
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    return InteractionResult.sidedSuccess(level.isClientSide);
+                }
+                return InteractionResult.SUCCESS;
+            }
+
+            if (state.is(ModTags.EXPOSED_IRON)) {
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
+                level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
+
+                if (player instanceof ServerPlayer) {
+                    stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                    //todo
+                    //if (IntegrationHandler.quark) s = QuarkPlugin.fixVerticalSlab(s, state);
+                    player.awardStat(Stats.ITEM_USED.get(item));
+                    RUSTED_BLOCKS.forEach((clean, rusty) -> {
+                        if (state.is(rusty)) {
+                            level.setBlockAndUpdate(pos, clean.withPropertiesOf(state));
+                        }
+                    });
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                }
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            }
+        }
+        if (item == ModItems.STEEL_WOOL.get() && CommonConfigs.AXE_SCRAPING.get()) {
+            if (state.is(ModTags.WEATHERED_IRON) || state.is(ModTags.RUSTED_IRON) || state.is(ModTags.EXPOSED_IRON)) {
+                level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
+                if (player instanceof ServerPlayer) {
+                    stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    player.awardStat(Stats.ITEM_USED.get(item));
+                    RUSTED_BLOCKS.forEach((clean, rusty) -> {
+                        if (state.is(rusty)) {
+                            level.setBlockAndUpdate(pos, clean.withPropertiesOf(state));
+                        }
+                    });
+                    return InteractionResult.sidedSuccess(level.isClientSide);
+                }
+                return InteractionResult.SUCCESS;
+            }
+        }
+        return InteractionResult.PASS;
+    }
 
     private static InteractionResult burnMoss(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                               Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
@@ -339,6 +470,13 @@ public class ModEvents {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                 }
+
+                STRIPPED_BLOCKS.forEach((raw, stripped) -> {
+                    if (state.is(raw)) {
+                        level.setBlockAndUpdate(pos, stripped.withPropertiesOf(state));
+                    }
+                });
+
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }

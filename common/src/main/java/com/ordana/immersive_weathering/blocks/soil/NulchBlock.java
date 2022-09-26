@@ -140,11 +140,11 @@ public class NulchBlock extends Block {
             // fill bucket from mulch
             else if (stack.is(Items.BUCKET) && state.getValue(MOLTEN)) {
                 level.playSound(player, pos, SoundEvents.BUCKET_FILL_LAVA, SoundSource.BLOCKS, 1.0f, 1.0f);
-                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.LAVA, UniformInt.of(3, 5));
                 if (player instanceof ServerPlayer) {
                     ItemStack itemStack2 = ItemUtils.createFilledResult(stack, player, Items.LAVA_BUCKET.getDefaultInstance());
                     player.setItemInHand(hand, itemStack2);
-                    level.setBlockAndUpdate(pos, state.setValue(MOLTEN, true));
+                    level.setBlockAndUpdate(pos, state.setValue(MOLTEN, false));
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                 }
                 return InteractionResult.SUCCESS;

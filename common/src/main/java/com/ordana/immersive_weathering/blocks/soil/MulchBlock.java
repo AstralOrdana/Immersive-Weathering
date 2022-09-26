@@ -20,6 +20,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -160,7 +161,9 @@ public class MulchBlock extends FarmBlock {
             // fill bucket from mulch
             else if (player.getItemInHand(hand).is(Items.BUCKET) && isSoaked(state)) {
                 if (!player.isCreative()) {
-                    player.setItemInHand(hand, new ItemStack(Items.WATER_BUCKET));
+                    ItemStack stack = player.getItemInHand(hand);
+                    ItemStack itemStack2 = ItemUtils.createFilledResult(stack, player, Items.WATER_BUCKET.getDefaultInstance());
+                    player.setItemInHand(hand, itemStack2);
                 }
                 level.setBlockAndUpdate(pos, state.setValue(MOISTURE, 0));
                 level.playSound(player, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0f, 1.0f);
