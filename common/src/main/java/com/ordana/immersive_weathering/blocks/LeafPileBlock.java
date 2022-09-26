@@ -1,15 +1,13 @@
 package com.ordana.immersive_weathering.blocks;
 
+import com.ordana.immersive_weathering.WeatheringHelper;
 import com.ordana.immersive_weathering.entities.FallingLayerEntity;
 import com.ordana.immersive_weathering.reg.ModTags;
-import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import dev.architectury.injectables.annotations.PlatformOnly;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -38,7 +36,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.text.html.BlockView;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -166,18 +163,19 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         return Shapes.empty();
     }
 
-    /*
+
     //just used for placement by blockItem
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        if (state.getValue(LAYERS) != 0 && !world.getBlockState(pos.below()).isFaceSturdy(world, pos.below(), Direction.UP)) return false;
         return !shouldFall(state, world.getBlockState(pos.below()));
     }
 
-     */
 
     @Override
     public boolean shouldFall(BlockState state, BlockState belowState) {
-        if ((state.getValue(LAYERS) == 0 && belowState.is(Blocks.WATER)) || belowState.is(ModTags.LEAF_PILES)) return false;
+        if ((state.getValue(LAYERS) == 0 && belowState.is(Blocks.WATER)) || belowState.is(ModTags.LEAF_PILES))
+            return false;
         return super.shouldFall(state, belowState);
     }
 
@@ -251,9 +249,9 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         if (random.nextInt(16) == 0) {
             BlockPos blockPos = pos.below();
             if (isFree(level.getBlockState(blockPos))) {
-                double d = (double)pos.getX() + random.nextDouble();
-                double e = (double)pos.getY() - 0.05D;
-                double f = (double)pos.getZ() + random.nextDouble();
+                double d = (double) pos.getX() + random.nextDouble();
+                double e = (double) pos.getY() - 0.05D;
+                double f = (double) pos.getZ() + random.nextDouble();
                 for (var p : particles) {
                     level.addParticle(p.get(), d, e, f, 0.0D, 0.0D, 0.0D);
                 }

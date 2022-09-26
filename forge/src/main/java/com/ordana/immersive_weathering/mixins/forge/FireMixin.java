@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.mixins.forge;
 
 import com.ordana.immersive_weathering.reg.ModTags;
-import com.ordana.immersive_weathering.utils.WeatheringHelper;
+import com.ordana.immersive_weathering.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;

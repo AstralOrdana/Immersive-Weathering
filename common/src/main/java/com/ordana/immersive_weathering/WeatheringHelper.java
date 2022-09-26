@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.utils;
+package com.ordana.immersive_weathering;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
@@ -175,7 +175,7 @@ public class WeatheringHelper {
     public static boolean isLog(BlockState state) {
         return state.is(BlockTags.LOGS) && (!state.hasProperty(RotatedPillarBlock.AXIS) ||
                 state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y) &&
-                !CommonUtils.getID(state.getBlock()).getPath().contains("stripped");
+                !Registry.BLOCK.getKey(state.getBlock()).getPath().contains("stripped");
     }
 
     public static boolean isIciclePos(BlockPos pos) {

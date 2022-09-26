@@ -6,7 +6,7 @@ import com.ordana.immersive_weathering.configs.ClientConfigs;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.LeafPilesRegistry;
 import com.ordana.immersive_weathering.reg.ModBlocks;
-import com.ordana.immersive_weathering.utils.WeatheringHelper;
+import com.ordana.immersive_weathering.WeatheringHelper;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

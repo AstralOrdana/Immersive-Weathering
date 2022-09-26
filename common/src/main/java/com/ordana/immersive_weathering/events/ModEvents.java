@@ -11,10 +11,8 @@ import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModItems;
 import com.ordana.immersive_weathering.reg.ModParticles;
-import com.ordana.immersive_weathering.reg.ModTags;
-import com.ordana.immersive_weathering.utils.WeatheringHelper;
+import com.ordana.immersive_weathering.WeatheringHelper;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -41,7 +39,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 

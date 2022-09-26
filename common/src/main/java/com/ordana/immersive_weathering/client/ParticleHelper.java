@@ -1,10 +1,7 @@
 package com.ordana.immersive_weathering.client;
 
-import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.reg.LeafPilesRegistry;
 import com.ordana.immersive_weathering.reg.ModTags;
-import com.ordana.immersive_weathering.utils.CommonUtils;
-import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;

@@ -3,7 +3,7 @@ package com.ordana.immersive_weathering.blocks.soil;
 import com.ordana.immersive_weathering.blocks.Soaked;
 import com.ordana.immersive_weathering.data.block_growths.IConditionalGrowingBlock;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
-import com.ordana.immersive_weathering.utils.WeatheringHelper;
+import com.ordana.immersive_weathering.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;

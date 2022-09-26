@@ -13,8 +13,11 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Fallable;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -23,7 +26,7 @@ import net.minecraft.world.level.material.Fluids;
 
 import java.util.Random;
 
-public interface Charred extends ILightable {
+public interface Charred extends ILightable, Fallable {
 
     BooleanProperty SMOLDERING = ModBlockProperties.SMOLDERING;
 
@@ -129,5 +132,10 @@ public interface Charred extends ILightable {
         if (supported==2) {
             level.scheduleTick(pos, state.getBlock(), 1);
         }
+    }
+
+
+    @Override
+    default void onLand(Level level, BlockPos pos, BlockState blockState, BlockState blockState2, FallingBlockEntity fallingBlock) {
     }
 }
