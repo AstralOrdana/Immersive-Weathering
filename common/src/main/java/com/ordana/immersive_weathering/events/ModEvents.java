@@ -13,8 +13,8 @@ import com.ordana.immersive_weathering.reg.ModItems;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.reg.ModTags;
 import com.ordana.immersive_weathering.utils.WeatheringHelper;
-import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -34,7 +34,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
-import net.minecraft.world.level.block.WetSpongeBlock;
 import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -44,12 +43,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 
 public class ModEvents {
 
-//TODO: missing events: bark on and off, wet sponge, spawn ash
+//TODO: missing events:wet sponge
 
     @FunctionalInterface
     public interface InteractionEvent {
@@ -160,60 +158,60 @@ public class ModEvents {
 
     private static InteractionResult rustScraping(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                                   Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
-        if (item instanceof AxeItem && CommonConfigs.AXE_SCRAPING.get()) {
-            if (state.is(ModTags.WEATHERED_IRON) || state.is(ModTags.RUSTED_IRON)) {
-                level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                level.playSound(player, pos, SoundEvents.SHIELD_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
-                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
-                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SMOKE, UniformInt.of(3, 5));
-                if (player instanceof ServerPlayer) {
-                    stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
-                    player.awardStat(Stats.ITEM_USED.get(item));
-                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+        if (CommonConfigs.AXE_SCRAPING.get() && state.getBlock() instanceof Rustable rustable) {
+            Rustable.RustLevel rustLevel = rustable.getAge();
+
+            if(item instanceof AxeItem) {
+                if (!rustLevel.canScrape()) {
+                    level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
+                    level.playSound(player, pos, SoundEvents.SHIELD_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
+                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SMOKE, UniformInt.of(3, 5));
+                    if (player instanceof ServerPlayer) {
+                        stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                        player.awardStat(Stats.ITEM_USED.get(item));
+                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                        return InteractionResult.sidedSuccess(level.isClientSide);
+                    }
+                    return InteractionResult.SUCCESS;
+                }
+
+                if (state.is(ModTags.EXPOSED_IRON)) {
+                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
+                    level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
+
+                    if (player instanceof ServerPlayer) {
+                        stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                        //todo
+                        //if (IntegrationHandler.quark) s = QuarkPlugin.fixVerticalSlab(s, state);
+                        player.awardStat(Stats.ITEM_USED.get(item));
+                        RUSTED_BLOCKS.forEach((clean, rusty) -> {
+                            if (state.is(rusty)) {
+                                level.setBlockAndUpdate(pos, clean.withPropertiesOf(state));
+                            }
+                        });
+                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    }
                     return InteractionResult.sidedSuccess(level.isClientSide);
                 }
-                return InteractionResult.SUCCESS;
             }
-
-            if (state.is(ModTags.EXPOSED_IRON)) {
-                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
-                level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
-
-                if (player instanceof ServerPlayer) {
-                    stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
-                    //todo
-                    //if (IntegrationHandler.quark) s = QuarkPlugin.fixVerticalSlab(s, state);
-                    player.awardStat(Stats.ITEM_USED.get(item));
-                    RUSTED_BLOCKS.forEach((clean, rusty) -> {
-                        if (state.is(rusty)) {
-                            level.setBlockAndUpdate(pos, clean.withPropertiesOf(state));
-                        }
-                    });
-                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                }
-                return InteractionResult.sidedSuccess(level.isClientSide);
-            }
-        }
-        if (item == ModItems.STEEL_WOOL.get() && CommonConfigs.AXE_SCRAPING.get()) {
-            if (state.is(ModTags.WEATHERED_IRON) || state.is(ModTags.RUSTED_IRON) || state.is(ModTags.EXPOSED_IRON)) {
-                level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
-                if (player instanceof ServerPlayer) {
-                    stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
-                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                    player.awardStat(Stats.ITEM_USED.get(item));
-                    RUSTED_BLOCKS.forEach((clean, rusty) -> {
-                        if (state.is(rusty)) {
-                            level.setBlockAndUpdate(pos, clean.withPropertiesOf(state));
-                        }
-                    });
+            else if (item == ModItems.STEEL_WOOL.get()) {
+                if (rustLevel != Rustable.RustLevel.RUSTED) {
+                    level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
+                    if (player instanceof ServerPlayer) {
+                        stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                        player.awardStat(Stats.ITEM_USED.get(item));
+                        level.setBlockAndUpdate(pos, Rustable.getUnaffectedRustState(state));
+                    }
                     return InteractionResult.sidedSuccess(level.isClientSide);
                 }
-                return InteractionResult.SUCCESS;
             }
         }
         return InteractionResult.PASS;
     }
+
 
     private static InteractionResult burnMoss(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                               Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
@@ -453,7 +451,7 @@ public class ModEvents {
     private static InteractionResult axeStripping(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                                   Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if (item instanceof AxeItem && CommonConfigs.AXE_STRIPPING.get()) {
-            var bark =  WeatheringHelper.getBarkToStrip(state);
+            var bark = WeatheringHelper.getBarkToStrip(state);
             if (bark != null) {
 
                 Block.popResourceFromFace(level, pos, hitResult.getDirection(), bark.getDefaultInstance());

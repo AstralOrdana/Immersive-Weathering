@@ -64,31 +64,7 @@ public class ForgeEvents {
         //break crackable stuff
 
         //spawn bark
-        else if (i instanceof AxeItem) {
 
-
-            if (state.getBlock() instanceof Rustable r && r.getAge() != Rustable.RustLevel.RUSTED) {
-                var unRusted = r.getPrevious(state).orElse(null);
-                if (unRusted != null) {
-
-                    level.setBlockAndUpdate(pos, unRusted);
-                    level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    level.blockEvent(pos, unRusted.getBlock(), 1, 0);
-                    if (player != null) {
-                        stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(event.getHand()));
-                    }
-
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                        player.awardStat(Stats.ITEM_USED.get(i));
-                    }
-                    event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
-                    event.setCanceled(true);
-                    return;
-                }
-            }
-
-        }
         //rust stuff
         else if (i == Items.WET_SPONGE && b instanceof Rustable rustable) {
             BlockState rusted = rustable.getNext(state).orElse(null);

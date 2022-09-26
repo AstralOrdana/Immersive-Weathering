@@ -101,6 +101,10 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
         EXPOSED,
         WEATHERED,
         RUSTED;
+
+        public boolean canScrape() {
+            return this != WEATHERED && this != RUSTED;
+        }
     }
 
     default int getInfluenceRadius(){
