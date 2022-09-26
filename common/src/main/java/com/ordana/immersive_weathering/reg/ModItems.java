@@ -2,7 +2,7 @@ package com.ordana.immersive_weathering.reg;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
-import com.ordana.immersive_weathering.configs.ClientConfigs;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.items.*;
 import com.ordana.immersive_weathering.items.materials.FlowerCrownMaterial;
 import com.ordana.immersive_weathering.items.materials.IcicleToolMaterial;
@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 
 public class ModItems {
 
-    public static final CreativeModeTab MOD_TAB =  !ClientConfigs.CREATIVE_TAB.get() ? null :
+    public static final CreativeModeTab MOD_TAB =  !CommonConfigs.CREATIVE_TAB.get() ? null :
             PlatformHelper.createModTab(ImmersiveWeathering.res(ImmersiveWeathering.MOD_ID),
                     ()-> ModBlocks.IVY.get().asItem().getDefaultInstance(), false);
     

@@ -16,6 +16,7 @@ public class CommonConfigs {
     public static ConfigSpec SERVER_SPEC;
 
     public static Supplier<Boolean> BLOCK_GROWTHS;
+    public static Supplier<Boolean> CREATIVE_TAB;
 
     public static Supplier<Double> MOSS_INTERESTS_FOR_FACE;
     public static Supplier<Double> MOSS_PATCHINESS;
@@ -97,6 +98,7 @@ public class CommonConfigs {
 
         builder.push("general");
         BLOCK_GROWTHS = builder.define("block_growths", true);
+        CREATIVE_TAB = builder.define("creative_tab", false);
         builder.pop();
 
         builder.push("mossy_blocks");
