@@ -32,7 +32,7 @@
       ]
     }
   ],
-  "owners": "#mmersive_weathering:spruce_leaf_pile",
+  "owners": "#immersive_weathering:coniferous_leaf_piles",
   "replacing_target": {
     "blocks": "#minecraft:dirt",
     "predicate_type": "immersive_weathering:block_set_match",

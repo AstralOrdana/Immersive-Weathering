@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "immersive_weathering:nulch_block"
+    "immersive_weathering:nulch_block",
+    "immersive_weathering:nether_wart_block"
   ]
 }
