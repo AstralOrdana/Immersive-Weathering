@@ -118,7 +118,7 @@ public class ModBlocks {
             new LeafPileBlock(Properties.copy(AZALEA_LEAF_PILE.get()), true, false, false,
                     List.of(ModParticles.AZALEA_FLOWER)));
 
-    //later stuff
+    //layer stuff
 
     public static final Supplier<Block> SAND_LAYER_BLOCK = regWithItem("sand_layer_block", () ->
             new SandLayerBlock(14406560, Properties.of(Material.TOP_SNOW, MaterialColor.SAND).strength(0.5f)
@@ -135,6 +135,9 @@ public class ModBlocks {
             new AshBlock(Properties.of(Material.SNOW, MaterialColor.COLOR_BLACK).instabreak().sound(SoundType.SNOW)));
     public static final Supplier<Block> SOOT = regWithItem("soot", () ->
             new SootBlock(Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_BLACK).noCollission().instabreak().sound(SoundType.SNOW).randomTicks()));
+    public static final Supplier<Block> MOSS = regBlock("moss", () ->
+            new MossMultifaceBlock(Properties.of(Material.MOSS).randomTicks().instabreak().sound(SoundType.MOSS_CARPET).noOcclusion().noCollission()));
+
 
     //vegetation
 
@@ -275,7 +278,6 @@ public class ModBlocks {
 
     //mulch
 
-    //TODO: remove particles
     public static final Supplier<Block> MULCH_BLOCK = regWithItem("mulch_block", () ->
             new MulchBlock(Properties.of(Material.DIRT).strength(1f, 1f)
                             .sound(SoundType.ROOTED_DIRT).randomTicks()));

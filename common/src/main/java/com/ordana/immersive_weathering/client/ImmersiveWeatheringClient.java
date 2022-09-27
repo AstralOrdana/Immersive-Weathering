@@ -98,6 +98,7 @@ public class ImmersiveWeatheringClient {
         ClientPlatformHelper.registerRenderType(ModBlocks.WEEDS.get(), RenderType.cutout());
         ClientPlatformHelper.registerRenderType(ModBlocks.IVY.get(), RenderType.cutout());
 
+        ClientPlatformHelper.registerRenderType(ModBlocks.MOSS.get(), RenderType.cutout());
         ClientPlatformHelper.registerRenderType(ModBlocks.SOOT.get(), RenderType.cutout());
         ClientPlatformHelper.registerRenderType(ModBlocks.SOOT.get(), RenderType.translucent());
         ClientPlatformHelper.registerRenderType(ModBlocks.FROST.get(), RenderType.cutout());

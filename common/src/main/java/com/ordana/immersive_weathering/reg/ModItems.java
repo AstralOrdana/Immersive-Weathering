@@ -78,7 +78,7 @@ public class ModItems {
                     new Item.Properties().tab(getTab(CreativeModeTab.TAB_TOOLS))));
 
     public static final Supplier<Item> MOSS_CLUMP = regItem("moss_clump", () ->
-            new MossClumpItem(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS)).food(ModFoods.MOSS_CLUMP)));
+            new MossClumpItem(ModBlocks.MOSS.get(), new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS)).food(ModFoods.MOSS_CLUMP)));
 
     public static final Supplier<Item> GOLDEN_MOSS_CLUMP = regItem("golden_moss_clump", () ->
             new Item(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS)).food(ModFoods.GOLDEN_MOSS_CLUMP)));
