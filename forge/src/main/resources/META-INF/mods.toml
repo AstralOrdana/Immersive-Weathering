@@ -1,18 +1,18 @@
 modLoader = "javafml"
 loaderVersion = "[40,)"
 #issueTrackerURL = ""
-license = "Insert License Here"
+license = "LGPLv3"
 
 
 [[mods]]
 modId = "immersive_weathering"
 version = "${version}"
 displayName = "Immersive Weathering"
-authors = "Me!"
+authors = "Ordana, MehVahdJukaar, Keybounce"
 
 logoFile="icon.png" #optional
 description = '''
-This is an example description! Tell everyone what your mod is about!
+An abundance of new natural systems to make your world feel more alive than ever.
 '''
 #logoFile = ""
 
