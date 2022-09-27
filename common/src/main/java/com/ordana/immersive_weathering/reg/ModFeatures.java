@@ -2,10 +2,7 @@ package com.ordana.immersive_weathering.reg;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
-import com.ordana.immersive_weathering.features.FrostFeature;
-import com.ordana.immersive_weathering.features.IcicleClusterFeature;
-import com.ordana.immersive_weathering.features.IcicleClusterFeatureConfig;
-import com.ordana.immersive_weathering.features.IvyFeature;
+import com.ordana.immersive_weathering.features.*;
 import com.ordana.immersive_weathering.IWPlatformStuff;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.core.Registry;
@@ -31,6 +28,10 @@ public class ModFeatures {
     public static final Supplier<Feature<GlowLichenConfiguration>> FROST_FEATURE = RegHelper.registerFeature(
             ImmersiveWeathering.res("frost_feature"), () ->
             new FrostFeature(GlowLichenConfiguration.CODEC));
+
+    public static final Supplier<Feature<GlowLichenConfiguration>> MOSS_FEATURE = RegHelper.registerFeature(
+            ImmersiveWeathering.res("moss_feature"), () ->
+                    new MossFeature(GlowLichenConfiguration.CODEC));
 
     public static void init() {
 
@@ -115,6 +116,10 @@ public class ModFeatures {
         ResourceKey<PlacedFeature> ivy_patch = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
                 ImmersiveWeathering.res("ivy_patch"));
         IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.VEGETAL_DECORATION, ModTags.HAS_IVY, ivy_patch);
+
+        ResourceKey<PlacedFeature> moss_patch = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
+                ImmersiveWeathering.res("moss_patch"));
+        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.VEGETAL_DECORATION, ModTags.HAS_MOSS, moss_patch);
 
     }
 }
