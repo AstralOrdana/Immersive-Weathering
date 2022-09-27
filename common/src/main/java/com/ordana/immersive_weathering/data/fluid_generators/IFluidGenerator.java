@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.data.fluid_generators;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
+import com.ordana.immersive_weathering.data.fluid_generators.builtin.BurnMossGenerator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
@@ -46,6 +47,7 @@ public interface IFluidGenerator extends Comparable<IFluidGenerator> {
     Map<String, IFluidGenerator.Type<?>> TYPES = new HashMap<>() {{
         put(SelfFluidGenerator.TYPE.name, SelfFluidGenerator.TYPE);
         put(OtherFluidGenerator.TYPE.name, OtherFluidGenerator.TYPE);
+        put(BurnMossGenerator.TYPE.name, BurnMossGenerator.TYPE);
     }};
 
     static Optional<? extends IFluidGenerator.Type<? extends IFluidGenerator>> get(String name) {

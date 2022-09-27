@@ -54,9 +54,7 @@ public class ImmersiveWeathering {
         ModCompostable.register();
     }
 
-    //farmers plant on mulch
-    //hanging roots item override (mixin for fabric override for forge)
-    //RE add lightning strike growths
+    // dispenser interactions like de rusting
     //TODO: disabled conditional growth. add command system
     //figure out thin ice situation
     //thin ice repair and solidify when snow??
@@ -65,7 +63,6 @@ public class ImmersiveWeathering {
     //block sounds
     //thin ice crack sounds
     //TODO: add wet test
-    //add forge loot table modifiers
 
 
     {
