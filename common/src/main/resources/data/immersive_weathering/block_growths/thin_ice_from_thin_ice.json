@@ -5,6 +5,10 @@
   "growth_chance": 0.1,
   "position_predicates": [
     {
+      "biomes": "#immersive_weathering:icy",
+      "type": "biome_match"
+    },
+    {
       "type": "block_test",
       "predicate": {
         "predicate_type": "immersive_weathering:block_property_test",

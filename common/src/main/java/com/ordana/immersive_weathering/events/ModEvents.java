@@ -5,6 +5,7 @@ import com.ordana.immersive_weathering.blocks.Weatherable;
 import com.ordana.immersive_weathering.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.blocks.rustable.Rustable;
+import com.ordana.immersive_weathering.blocks.soil.MulchBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
@@ -12,6 +13,7 @@ import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModItems;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.WeatheringHelper;
+import com.ordana.immersive_weathering.reg.ModSoundEvents;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -219,6 +221,13 @@ public class ModEvents {
         if (item instanceof ShovelItem && CommonConfigs.ASH_ITEM_SPAWN.get()) {
             if (state.getBlock() instanceof CampfireBlock && state.getValue(BlockStateProperties.LIT)) {
                 Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModBlocks.SOOT.get()));
+                //no need to cancel
+            }
+            return InteractionResult.PASS;
+        }
+        if (item == Items.APPLE) {
+            if (state.getBlock() instanceof MulchBlock) {
+                level.playSound(player, pos, ModSoundEvents.YUMMY, SoundSource.BLOCKS, 1.0f, 1.0f);
                 //no need to cancel
             }
             return InteractionResult.PASS;

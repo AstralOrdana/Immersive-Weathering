@@ -69,6 +69,7 @@ public class FeatureHacks {
         add("terracotta_blobs");
         add("vertisol_patch");
         add("ivy_patch");
+        add("moss_patch");
     }
 
     @NotNull
@@ -162,7 +163,7 @@ public class FeatureHacks {
                     "minecraft:jungle",
                     "minecraft:sparse_jungle"),
             ModTags.UNDERGROUND_DESERT, ImmutableList.of("minecraft:desert"),
-            ModTags.HAS_MOSS, ImmutableList.of("minecraft:lush_cave")
+            ModTags.HAS_MOSS, ImmutableList.of("minecraft:lush_caves")
     );
 
     public static boolean isTagged(TagKey<Biome> tag, ResourceLocation biome) {
