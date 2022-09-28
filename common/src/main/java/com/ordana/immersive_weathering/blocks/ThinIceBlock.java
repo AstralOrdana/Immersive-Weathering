@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.blocks;
 
 import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.reg.ModSoundEvents;
 import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -132,19 +133,22 @@ public class ThinIceBlock extends IceBlock implements LiquidBlockContainer {
         }
         if (!world.isClientSide && world.random.nextFloat() < fallDistance - 0.5f && (entity instanceof Player || world.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) && entity.getBbWidth() * entity.getBbWidth() * entity.getBbHeight() > 0.512f) {
             if (world.random.nextBoolean()) {
-                world.setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
+                world.setBlockAndUpdate(pos, ThinIceBlock.pushEntitiesUp(state, Blocks.WATER.defaultBlockState(), world, pos));
+                world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
             } else if (i < 3) {
                 world.setBlockAndUpdate(pos, state.setValue(CRACKED, i + 1));
+                world.playSound(null, pos, ModSoundEvents.ICICLE_CRACK, SoundSource.BLOCKS, 1.0f, 1.0f);
             } else if (i == 3) {
-                world.setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
+                world.setBlockAndUpdate(pos, ThinIceBlock.pushEntitiesUp(state, Blocks.WATER.defaultBlockState(), world, pos));
+                world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
             }
-            world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
         }
         for (Direction direction : Direction.values()) {
             BlockState targetState = world.getBlockState(pos.relative(direction));
             if (world.getBlockState(pos.relative(direction)).is(this)) {
-                if (world.random.nextBoolean() && i < 3) {
-                    world.setBlockAndUpdate(pos.relative(direction), this.withPropertiesOf(targetState).setValue(CRACKED, i + 1));
+                int j = targetState.getValue(CRACKED);
+                if (world.random.nextBoolean() && j < 3) {
+                    world.setBlockAndUpdate(pos.relative(direction), this.withPropertiesOf(targetState).setValue(CRACKED, j + 1));
                 }
             }
         }
@@ -160,14 +164,13 @@ public class ThinIceBlock extends IceBlock implements LiquidBlockContainer {
             //TODO: merge check and optimize
             if (world.random.nextInt(15) == 0) {
                 int i = state.getValue(CRACKED);
-                if (world.random.nextInt(3) == 0) {
-                    world.setBlockAndUpdate(pos, ThinIceBlock.pushEntitiesUp(state, Blocks.WATER.defaultBlockState(), world, pos));
-                } else if (i < 3) {
+                if (i < 3) {
                     world.setBlockAndUpdate(pos, state.setValue(CRACKED, i + 1));
+                    world.playSound(null, pos, ModSoundEvents.ICICLE_CRACK, SoundSource.BLOCKS, 1.0f, 1.0f);
                 } else if (i == 3) {
                     world.setBlockAndUpdate(pos, ThinIceBlock.pushEntitiesUp(state, Blocks.WATER.defaultBlockState(), world, pos));
+                    world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
                 }
-                world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
             }
         }
         super.stepOn(world, pos, state, entity);

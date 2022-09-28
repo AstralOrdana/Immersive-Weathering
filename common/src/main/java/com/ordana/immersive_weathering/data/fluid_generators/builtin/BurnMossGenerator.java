@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.data.fluid_generators.builtin;
 
 import com.mojang.serialization.Codec;
+import com.ordana.immersive_weathering.blocks.Weatherable;
 import com.ordana.immersive_weathering.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.data.fluid_generators.IFluidGenerator;
 import net.minecraft.core.BlockPos;
@@ -32,7 +33,7 @@ public class BurnMossGenerator implements IFluidGenerator {
             BlockState state = neighborCache.computeIfAbsent(d, c -> level.getBlockState(p));
             var s = Mossable.getUnaffectedMossBlock(state);
             if (s != state) {
-                level.setBlockAndUpdate(p, s);
+                level.setBlockAndUpdate(p, s.setValue(Mossable.WEATHERABLE, Weatherable.WeatheringState.STABLE));
                 return Optional.of(p);
             }
         }

@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "immersive_weathering:moss",
+          "name": "immersive_weathering:moss_clump",
           "functions": [
             {
               "function": "minecraft:set_count",

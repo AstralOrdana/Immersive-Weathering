@@ -6,6 +6,7 @@ import com.ordana.immersive_weathering.data.fluid_generators.IFluidGenerator;
 import com.ordana.immersive_weathering.data.position_tests.PositionRuleTest;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.reg.ModSoundEvents;
 import com.ordana.immersive_weathering.reg.*;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.network.ModMessages;
@@ -40,7 +41,7 @@ public class ImmersiveWeathering {
         ModParticles.init();
         ModRuleTests.init();
         ModFeatures.init();
-
+        ModSoundEvents.init();
 
 
         PlatformHelper.addServerReloadListener(BlockGrowthHandler.RELOAD_INSTANCE, res("block_growths"));

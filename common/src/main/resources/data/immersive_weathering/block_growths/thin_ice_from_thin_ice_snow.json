@@ -2,8 +2,20 @@
   "tick_sources": [
     "rain","snow"
   ],
+  "area_condition": {
+    "type": "generate_if_not_too_many",
+    "radiusX": 3,
+    "radiusY": 1,
+    "radiusZ": 3,
+    "requiredAmount": 7,
+    "includes": "minecraft:ice"
+  },
   "growth_chance": 0.1,
   "position_predicates": [
+    {
+      "biomes": "#immersive_weathering:icy",
+      "type": "biome_match"
+    },
     {
       "type": "block_test",
       "predicate": {
