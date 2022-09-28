@@ -68,14 +68,14 @@ public class IWPlatformStuffImpl {
     }
 
     public static Map<Block, LeafPileBlock> getDynamicLeafPiles() {
-        return Map.of();
+        return null;
     }
 
     public static void addExtraBark(ImmutableMap.Builder<Block, Pair<Item, Block>> builder) {
     }
 
     public static Map<Block, SimpleParticleType> getDynamicLeafParticles() {
-        return Map.of();
+        return null;
     }
 
     public static FlowingFluid getFlowingFluid(LiquidBlock liquidBlock) {

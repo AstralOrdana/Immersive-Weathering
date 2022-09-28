@@ -161,7 +161,8 @@ public class FeatureHacks {
             ModTags.WET, ImmutableList.of("minecraft:swamp",
                     "minecraft:jungle",
                     "minecraft:sparse_jungle"),
-            ModTags.UNDERGROUND_DESERT, ImmutableList.of("minecraft:desert")
+            ModTags.UNDERGROUND_DESERT, ImmutableList.of("minecraft:desert"),
+            ModTags.HAS_MOSS, ImmutableList.of("minecraft:lush_cave")
     );
 
     public static boolean isTagged(TagKey<Biome> tag, ResourceLocation biome) {

@@ -6,6 +6,7 @@ import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.IWPlatformStuff;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.blocks.rustable.*;
+import com.ordana.immersive_weathering.forge.dynamic.ModDynamicRegistry;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -93,18 +94,16 @@ public class IWPlatformStuffImpl {
     }
 
     public static Map<Block, LeafPileBlock> getDynamicLeafPiles() {
-        return Map.of();
-        //  return ModDynamicRegistry.getLeafToLeafPileMap();
+         return ImmersiveWeatheringForge.hasDynamic ? ModDynamicRegistry.getLeafToLeafPileMap() : null;
     }
 
 
     public static Map<Block, SimpleParticleType> getDynamicLeafParticles() {
-        return Map.of();
-        //  return ModDynamicRegistry.getLeavesToParticleMap();
+         return ImmersiveWeatheringForge.hasDynamic ? ModDynamicRegistry.getLeavesToParticleMap() : null;
     }
 
     public static void addExtraBark(ImmutableMap.Builder<Block, Pair<Item, Block>> builder) {
-        // builder.putAll(ModDynamicRegistry.getBarkMap());
+        if(ImmersiveWeatheringForge.hasDynamic) builder.putAll(ModDynamicRegistry.getBarkMap());
     }
 
 

@@ -4,6 +4,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.client.ImmersiveWeatheringClient;
+import com.ordana.immersive_weathering.forge.dynamic.ModDynamicRegistry;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModWaxables;
 import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
@@ -46,6 +47,8 @@ import java.io.IOException;
 public class ImmersiveWeatheringForge {
     public static final String MOD_ID = ImmersiveWeathering.MOD_ID;
 
+    public static boolean hasDynamic = ModList.get().isLoaded("selene");
+
     public ImmersiveWeatheringForge() {
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -55,6 +58,9 @@ public class ImmersiveWeatheringForge {
         ImmersiveWeathering.commonInit();
         FeatureHacks.init();
 
+        if(hasDynamic) {
+            ModDynamicRegistry.init();
+        }
         /**
          * Update stuff:
          * Configs
