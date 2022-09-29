@@ -227,7 +227,7 @@ public class ModEvents {
         }
         if (item == Items.APPLE) {
             if (state.getBlock() instanceof MulchBlock) {
-                level.playSound(player, pos, ModSoundEvents.YUMMY, SoundSource.BLOCKS, 1.0f, 1.0f);
+                level.playSound(player, pos, ModSoundEvents.YUMMY.get(), SoundSource.BLOCKS, 1.0f, 1.0f);
                 //no need to cancel
             }
             return InteractionResult.PASS;

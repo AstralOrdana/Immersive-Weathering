@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.forge.dynamic;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.selene.block_set.BlockType;
 import net.mehvahdjukaar.selene.client.asset_generators.LangBuilder;
 import net.mehvahdjukaar.selene.client.asset_generators.textures.Palette;
@@ -22,7 +23,7 @@ public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider
 
     public ClientDynamicResourcesHandler() {
         super(new DynamicTexturePack(ImmersiveWeathering.res("generated_pack")));
-        this.dynamicPack.generateDebugResources = false;
+        this.dynamicPack.generateDebugResources = PlatformHelper.isDev();
     }
 
     @Override
@@ -43,7 +44,7 @@ public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider
     @Override
     public void generateStaticAssetsOnStartup(ResourceManager manager) {
         //generate static resources
-        this.dynamicPack.generateDebugResources = false;//ClientConfigs.SAVE_GENERATED_RESOURCES.get();
+
         // LangBuilder langBuilder = new LangBuilder();
 
         //------leaf piles------

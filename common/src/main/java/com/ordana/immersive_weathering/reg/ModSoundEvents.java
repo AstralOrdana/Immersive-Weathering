@@ -10,14 +10,15 @@ import net.minecraft.sounds.SoundEvent;
 import java.util.function.Supplier;
 
 public class ModSoundEvents {
-    public static void init() {}
+    public static void init() {
+    }
 
     public static Supplier<SoundEvent> YUMMY = registerSoundEvent("yummy");
     public static Supplier<SoundEvent> ICICLE_CRACK = registerSoundEvent("icicle_crack");
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {
         ResourceLocation id = ImmersiveWeathering.res(name);
-        return RegHelper.registerSound(id,()-> new SoundEvent(id));
+        return RegHelper.registerSound(id, () -> new SoundEvent(id));
     }
 
 }

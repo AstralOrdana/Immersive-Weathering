@@ -3,7 +3,8 @@
   "minVersion": "0.8",
   "package": "com.ordana.immersive_weathering.mixins",
   "compatibilityLevel": "JAVA_17",
-  "client": [],
+  "client": [
+  ],
   "mixins": [
     "BeeMixin",
     "BlocksMixin",

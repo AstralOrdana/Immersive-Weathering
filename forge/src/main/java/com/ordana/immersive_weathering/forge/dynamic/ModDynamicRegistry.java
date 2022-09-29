@@ -54,7 +54,7 @@ public class ModDynamicRegistry {
         Map<Block, Pair<Item, Block>> map = new HashMap<>();
         MODDED_BARK.forEach((wood, item) -> {
             Block log = wood.log;
-            Block stripped = wood.getBlockOfThis("strippedLog");
+            Block stripped = wood.getBlockOfThis("stripped_log");
             if (stripped != null) {
                 map.put(stripped, Pair.of(item, log));
             }

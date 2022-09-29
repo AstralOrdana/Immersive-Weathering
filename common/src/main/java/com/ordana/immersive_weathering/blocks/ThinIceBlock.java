@@ -137,7 +137,7 @@ public class ThinIceBlock extends IceBlock implements LiquidBlockContainer {
                 world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
             } else if (i < 3) {
                 world.setBlockAndUpdate(pos, state.setValue(CRACKED, i + 1));
-                world.playSound(null, pos, ModSoundEvents.ICICLE_CRACK, SoundSource.BLOCKS, 1.0f, 1.0f);
+                world.playSound(null, pos, ModSoundEvents.ICICLE_CRACK.get(), SoundSource.BLOCKS, 1.0f, 1.0f);
             } else if (i == 3) {
                 world.setBlockAndUpdate(pos, ThinIceBlock.pushEntitiesUp(state, Blocks.WATER.defaultBlockState(), world, pos));
                 world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -166,7 +166,7 @@ public class ThinIceBlock extends IceBlock implements LiquidBlockContainer {
                 int i = state.getValue(CRACKED);
                 if (i < 3) {
                     world.setBlockAndUpdate(pos, state.setValue(CRACKED, i + 1));
-                    world.playSound(null, pos, ModSoundEvents.ICICLE_CRACK, SoundSource.BLOCKS, 1.0f, 1.0f);
+                    world.playSound(null, pos, ModSoundEvents.ICICLE_CRACK.get(), SoundSource.BLOCKS, 1.0f, 1.0f);
                 } else if (i == 3) {
                     world.setBlockAndUpdate(pos, ThinIceBlock.pushEntitiesUp(state, Blocks.WATER.defaultBlockState(), world, pos));
                     world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
