@@ -152,12 +152,11 @@ public class ModDynamicRegistry {
             var clientRes = new ClientDynamicResourcesHandler();
 
             clientRes.register(bus);
-            initClient();
         });
     }
 
 
-    public static void initClient() {
+    public static void setupClient() {
         for (var e : TYPE_TO_LEAF_PARTICLE.entrySet()) {
             if (!e.getKey().isVanilla()) {
                 ClientPlatformHelper.addParticleRegistration(ModDynamicRegistry::registerParticlesRenderers);

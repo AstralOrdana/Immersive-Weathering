@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.forge;
 
 import com.ordana.immersive_weathering.client.ImmersiveWeatheringClient;
+import com.ordana.immersive_weathering.forge.dynamic.ModDynamicRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleProvider;
@@ -24,5 +25,7 @@ public class ImmersiveWeatheringForgeClient {
     @SubscribeEvent
     public static void init(final FMLClientSetupEvent event) {
         ImmersiveWeatheringClient.setup();
+
+        if(ImmersiveWeatheringForge.hasDynamic) ModDynamicRegistry.setupClient();
     }
 }
