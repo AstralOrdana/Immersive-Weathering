@@ -322,15 +322,16 @@ public class ModEvents {
                 level.playSound(player, pos, placeSound, SoundSource.BLOCKS, 1.0f, 1.0f);
 
 
-                if (!player.getAbilities().instabuild) {
-                    stack.shrink(1);
-                }
-
                 if (player instanceof ServerPlayer) {
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                     level.setBlockAndUpdate(pos, fixedBlock);
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                 }
+
+                if (!player.getAbilities().instabuild) {
+                    stack.shrink(1);
+                }
+
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
