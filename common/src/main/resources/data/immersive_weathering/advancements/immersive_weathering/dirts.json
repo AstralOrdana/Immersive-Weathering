@@ -1,0 +1,157 @@
+{
+  "display": {
+    "icon": {
+      "item": "immersive_weathering:humus"
+    },
+    "title": {
+      "translate": "advancements.immersive_weathering.dirts.title"
+    },
+    "description": {
+      "translate": "advancements.immersive_weathering.dirts.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "minecraft:adventure/root",
+  "criteria": {
+    "dirt": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:dirt"
+            ]
+          }
+        ]
+      }
+    },
+    "grass": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:grass_block"
+            ]
+          }
+        ]
+      }
+    },
+    "mycelium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:mycelium"
+            ]
+          }
+        ]
+      }
+    },
+    "podzol": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:podzol"
+            ]
+          }
+        ]
+      }
+    },
+    "soul soil": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:soul_soil"
+            ]
+          }
+        ]
+      }
+    },
+    "humus": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:humus"
+            ]
+          }
+        ]
+      }
+    },
+    "fluvisol": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:fluvisol"
+            ]
+          }
+        ]
+      }
+    },
+    "cryosol": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:cryosol"
+            ]
+          }
+        ]
+      }
+    },
+    "vertisol": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:vertisol"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "dirt"
+    ],
+    [
+      "grass"
+    ],
+    [
+      "mycelium"
+    ],
+    [
+      "podzol"
+    ],
+    [
+      "humus"
+    ],
+    [
+      "fluvisol"
+    ],
+    [
+      "cryosol"
+    ],
+    [
+      "vertisol"
+    ],
+    [
+      "soul soil"
+    ]
+  ]
+}

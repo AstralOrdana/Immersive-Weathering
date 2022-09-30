@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "immersive_weathering:rusted_cut_iron_slab",
+      "immersive_weathering:rusted_cut_iron_stairs",
+      "immersive_weathering:rusted_cut_iron_slab_from_rusted_cut_iron_stonecutting",
+      "immersive_weathering:rusted_cut_iron_stairs_from_rusted_cut_iron_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_copper_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:rusted_cut_iron"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "immersive_weathering:rusted_cut_iron_slab"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_copper_block",
+      "has_the_recipe"
+    ]
+  ]
+}

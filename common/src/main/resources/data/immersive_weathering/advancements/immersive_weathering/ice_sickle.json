@@ -1,0 +1,58 @@
+{
+  "display": {
+    "icon": {
+      "item": "immersive_weathering:ice_sickle"
+    },
+    "title": {
+      "translate": "advancements.immersive_weathering.ice_sickle.title"
+    },
+    "description": {
+      "translate": "advancements.immersive_weathering.ice_sickle.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "immersive_weathering:immersive_weathering/icicle",
+  "criteria": {
+    "apple": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "equipment": {
+                "mainhand": {
+                  "items": [
+                    "immersive_weathering:ice_sickle"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecraft:blaze"
+            }
+          }
+        ],
+        "killing_blow": {}
+      }
+    }
+  },
+  "requirements": [
+    [
+      "apple"
+    ]
+  ],
+  "rewards": {
+    "experience": 300
+  }
+}

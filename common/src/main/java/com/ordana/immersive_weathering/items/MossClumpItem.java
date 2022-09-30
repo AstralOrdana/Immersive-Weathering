@@ -4,6 +4,7 @@ import com.ordana.immersive_weathering.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -41,12 +42,13 @@ public class MossClumpItem extends BlockItem {
                     stack.shrink(1);
                 }
 
-                if (player instanceof ServerPlayer) {
+                if (player instanceof ServerPlayer serverPlayer) {
                     //todo
                     //if (IntegrationHandler.quark) mossy = QuarkPlugin.fixVerticalSlab(mossy, state);
 
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                     level.setBlockAndUpdate(pos, mossy);
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
                 }
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }

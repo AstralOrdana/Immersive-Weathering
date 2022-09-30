@@ -31,7 +31,7 @@ public class ModFoods {
             .effect(new MobEffectInstance(MobEffects.CONFUSION, 100, 2), 1F)
             .effect(new MobEffectInstance(MobEffects.HUNGER, 1200, 1), 1F)
             .effect(new MobEffectInstance(MobEffects.POISON, 300, 2), 1F)
-            .effect(new MobEffectInstance(MobEffects.BLINDNESS, 600, 2), 1F)
+            .effect(new MobEffectInstance(MobEffects.BLINDNESS, 20000000, 2), 1F)
             .effect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 1200, 2), 1F)
             .effect(new MobEffectInstance(MobEffects.WEAKNESS, 1600, 2), 1F)
             .build();

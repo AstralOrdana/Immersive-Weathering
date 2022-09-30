@@ -46,8 +46,6 @@ import java.util.List;
 
 public class ModEvents {
 
-//TODO: missing events:wet sponge
-
     @FunctionalInterface
     public interface InteractionEvent {
         InteractionResult run(Item i, ItemStack stack,
@@ -98,10 +96,11 @@ public class ModEvents {
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
                     if (player instanceof ServerPlayer serverPlayer) {
-                        ItemStack itemStack2 = ItemUtils.createFilledResult(stack, player, Items.SPONGE.getDefaultInstance());
-                        player.setItemInHand(hand, itemStack2);
+                        if (CommonConfigs.SPONGE_RUST_DRYING.get()) {
+                            ItemStack itemStack2 = ItemUtils.createFilledResult(stack, player, Items.SPONGE.getDefaultInstance());
+                            player.setItemInHand(hand, itemStack2);
+                        }
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
-
                         level.setBlockAndUpdate(pos, rusted.get());
                     }
                     return InteractionResult.sidedSuccess(level.isClientSide);
@@ -153,7 +152,7 @@ public class ModEvents {
                         stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                         player.awardStat(Stats.ITEM_USED.get(item));
-                        level.setBlockAndUpdate(pos, Rustable.getUnaffectedRustState(state));
+                        level.setBlockAndUpdate(pos, rustable.getPrevious(state).get());
                     }
                     return InteractionResult.sidedSuccess(level.isClientSide);
                 }

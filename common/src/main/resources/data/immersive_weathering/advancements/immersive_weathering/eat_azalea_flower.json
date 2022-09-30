@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "item": "immersive_weathering:azalea_flowers"
+    },
+    "title": {
+      "translate": "advancements.immersive_weathering.eat_azalea_flower.title"
+    },
+    "description": {
+      "translate": "advancements.immersive_weathering.eat_azalea_flower.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "immersive_weathering:immersive_weathering/flower_crown",
+  "criteria": {
+    "apple": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": [
+            "immersive_weathering:azalea_flowers"
+          ]
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "apple"
+    ]
+  ]
+}

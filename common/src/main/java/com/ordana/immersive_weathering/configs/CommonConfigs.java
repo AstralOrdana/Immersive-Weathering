@@ -55,6 +55,7 @@ public class CommonConfigs {
     public static Supplier<Boolean> CHARRED_BLOCK_IGNITING;
     public static Supplier<Boolean> SHOVEL_EXTINGUISH;
     public static Supplier<Boolean> SPONGE_RUSTING;
+    public static Supplier<Boolean> SPONGE_RUST_DRYING;
     public static Supplier<Boolean> AXE_STRIPPING;
     public static Supplier<Boolean> AXE_SCRAPING;
     public static Supplier<Boolean> ASH_ITEM_SPAWN;
@@ -164,6 +165,7 @@ public class CommonConfigs {
         CHARRED_BLOCK_IGNITING = builder.define("charred_block_igniting", true);
         SHOVEL_EXTINGUISH = builder.define("shovel_extinguish", true);
         SPONGE_RUSTING = builder.define("sponge_rusting", true);
+        SPONGE_RUST_DRYING = builder.define("sponge_rust_drying", false);
         AXE_STRIPPING = builder.define("axe_stripping", true);
         AXE_SCRAPING = builder.define("axe_rusting", true);
         ASH_ITEM_SPAWN = builder.comment("allows ash to spawn when extinguishing campfires")
