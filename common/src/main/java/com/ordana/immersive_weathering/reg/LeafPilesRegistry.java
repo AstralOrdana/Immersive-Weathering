@@ -5,6 +5,8 @@ import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.IWPlatformStuff;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -80,8 +82,8 @@ public class LeafPilesRegistry {
 
     public static Optional<Block> getFallenLeafPile(BlockState state) {
         Block b = state.getBlock();
-        //  if (ServerConfigs.LEAF_PILES_BLACKLIST.get().contains(b.getRegistryName().toString()))
-        //      return Optional.empty();
+        if (CommonConfigs.LEAF_PILES_BLACKLIST.get().contains(Registry.BLOCK.getKey(b).toString()))
+            return Optional.empty();
         return Optional.ofNullable(LEAF_PILES.get().get(b));
     }
 

@@ -404,7 +404,7 @@
   "block.immersive_weathering.waxed_weathered_iron_bars": "Waxed Weathered Iron Bars",
   "block.immersive_weathering.waxed_rusted_iron_bars": "Waxed Rusted Iron Bars",
 
-  "item.immersive_weathering.bark": "Bark",
-  "particle.immersive_weathering.leaf_pile": "Leaf Pile",
-  "block.immersive_weathering.leaf_pile": "Leaf Pile"
+  "item.immersive_weathering.bark": "%s Bark",
+  "particle.immersive_weathering.leaf_pile": "%s Leaf Pile",
+  "block.immersive_weathering.leaf_pile": "%s Leaf Pile"
 }

@@ -1,14 +1,13 @@
 package com.ordana.immersive_weathering.client;
 
+import ca.weblite.objc.Client;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.client.particles.EmberParticle;
 import com.ordana.immersive_weathering.client.particles.LeafParticle;
 import com.ordana.immersive_weathering.items.FlowerCrownItem;
-import com.ordana.immersive_weathering.reg.ModBlocks;
-import com.ordana.immersive_weathering.reg.ModEntities;
-import com.ordana.immersive_weathering.reg.ModItems;
-import com.ordana.immersive_weathering.reg.ModParticles;
+import com.ordana.immersive_weathering.reg.*;
 import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -85,15 +84,8 @@ public class ImmersiveWeatheringClient {
         ClientPlatformHelper.registerRenderType(ModBlocks.ICICLE.get(), RenderType.cutout());
         ClientPlatformHelper.registerRenderType(ModBlocks.FULGURITE.get(), RenderType.cutout());
 
-        ClientPlatformHelper.registerRenderType(ModBlocks.OAK_LEAF_PILE.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.SPRUCE_LEAF_PILE.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.BIRCH_LEAF_PILE.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.JUNGLE_LEAF_PILE.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.ACACIA_LEAF_PILE.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.DARK_OAK_LEAF_PILE.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.AZALEA_LEAF_PILE.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.FLOWERING_AZALEA_LEAF_PILE.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.AZALEA_FLOWER_PILE.get(), RenderType.cutout());
+        LeafPilesRegistry.LEAF_PILES.get().values().forEach(b->
+                ClientPlatformHelper.registerRenderType(b, RenderType.cutout()));
 
         ClientPlatformHelper.registerRenderType(ModBlocks.WEEDS.get(), RenderType.cutout());
         ClientPlatformHelper.registerRenderType(ModBlocks.IVY.get(), RenderType.cutout());
@@ -191,12 +183,15 @@ public class ImmersiveWeatheringClient {
         final BlockColor defaultGrassColor = (state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos) : GrassColor.get(0D, 0D);
         final BlockColor defaultFoliageColor = (state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageFoliageColor(world, pos) : FoliageColor.getDefaultColor();
 
-        event.register(defaultFoliageColor, ModBlocks.OAK_LEAF_PILE.get());
-        event.register((state, world, pos, tintIndex) -> FoliageColor.getEvergreenColor(), ModBlocks.SPRUCE_LEAF_PILE.get());
-        event.register((state, world, pos, tintIndex) -> FoliageColor.getBirchColor(), ModBlocks.BIRCH_LEAF_PILE.get());
-        event.register(defaultFoliageColor, ModBlocks.JUNGLE_LEAF_PILE.get());
-        event.register(defaultFoliageColor, ModBlocks.ACACIA_LEAF_PILE.get());
-        event.register(defaultFoliageColor, ModBlocks.DARK_OAK_LEAF_PILE.get());
+        if(PlatformHelper.getPlatform().isFabric()) {
+            LeafPilesRegistry.LEAF_PILES.get().values().forEach(p->{
+                event.register(defaultFoliageColor, p);
+            });
+            event.register((state, world, pos, tintIndex) -> FoliageColor.getEvergreenColor(), ModBlocks.SPRUCE_LEAF_PILE.get());
+            event.register((state, world, pos, tintIndex) -> FoliageColor.getBirchColor(), ModBlocks.BIRCH_LEAF_PILE.get());
+        }
+
+
 
         event.register(defaultGrassColor, ModBlocks.FROSTY_GRASS.get());
         event.register(defaultGrassColor, ModBlocks.FROSTY_FERN.get());

@@ -7,10 +7,10 @@ import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigBuilder;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigSpec;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigType;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public class CommonConfigs {
-
 
 
     public static ConfigSpec SERVER_SPEC;
@@ -82,6 +82,8 @@ public class CommonConfigs {
     public static Supplier<Double> LEAF_PILES_CHANCE;
     public static Supplier<Integer> LEAF_PILE_MAX_HEIGHT;
     public static Supplier<Integer> LEAF_PILES_REACH;
+    public static Supplier<List<String>> LEAF_PILES_BLACKLIST;
+
 
     public static Supplier<Boolean> THIN_ICE_MELTING;
 
@@ -188,6 +190,7 @@ public class CommonConfigs {
         LEAF_PILES_CHANCE = builder.define("leaf_piles_spawn_chance", 0.005, 0, 1);
         LEAF_PILES_REACH = builder.define("reach", 12, 1, 256);
         LEAF_PILE_MAX_HEIGHT = builder.define("max_pile_height", 3, 1, 8);
+        LEAF_PILES_BLACKLIST = builder.comment("leaves that wont spawn leaf piles") .define("leaf_piles_blacklist",List.of());
         builder.pop();
 
         builder.push("thin_ice");
