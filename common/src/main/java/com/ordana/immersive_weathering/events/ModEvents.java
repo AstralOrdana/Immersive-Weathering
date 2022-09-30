@@ -412,12 +412,9 @@ public class ModEvents {
                 Block.popResourceFromFace(level, pos, hitResult.getDirection(), bark.getDefaultInstance());
                 level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0f, 1.0f);
 
-                var barkParticle = WeatheringHelper.getBarkParticle(state).orElse(null);
-                if (state.is(ModTags.RAW_LOGS)) {
-                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos, barkParticle, UniformInt.of(3, 5));
-                } else {
-                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.BLOCK, state), UniformInt.of(3, 5));
-                }
+                var barkParticle = WeatheringHelper.getBarkParticle(state).orElse(new BlockParticleOption(ParticleTypes.BLOCK, state));
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, barkParticle, UniformInt.of(3, 5));
+
                 if (player != null) {
                     stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
                 }
