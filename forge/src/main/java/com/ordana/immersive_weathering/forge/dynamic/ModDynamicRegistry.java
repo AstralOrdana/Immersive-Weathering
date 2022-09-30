@@ -5,6 +5,7 @@ import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.client.particles.LeafParticle;
+import com.ordana.immersive_weathering.forge.ImmersiveWeatheringForge;
 import com.ordana.immersive_weathering.items.BurnableItem;
 import com.ordana.immersive_weathering.items.LeafPileBlockItem;
 import com.ordana.immersive_weathering.reg.ModBlocks;
@@ -152,16 +153,10 @@ public class ModDynamicRegistry {
             var clientRes = new ClientDynamicResourcesHandler();
 
             clientRes.register(bus);
+
+
+            ClientPlatformHelper.addParticleRegistration(ModDynamicRegistry::registerParticlesRenderers);
         });
-    }
-
-
-    public static void setupClient() {
-        for (var e : TYPE_TO_LEAF_PARTICLE.entrySet()) {
-            if (!e.getKey().isVanilla()) {
-                ClientPlatformHelper.addParticleRegistration(ModDynamicRegistry::registerParticlesRenderers);
-            }
-        }
     }
 
     private static void registerParticlesRenderers(ClientPlatformHelper.ParticleEvent particleEvent) {

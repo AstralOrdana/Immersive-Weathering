@@ -26,6 +26,5 @@ public class ImmersiveWeatheringForgeClient {
     public static void init(final FMLClientSetupEvent event) {
         ImmersiveWeatheringClient.setup();
 
-        if(ImmersiveWeatheringForge.hasDynamic) ModDynamicRegistry.setupClient();
     }
 }
