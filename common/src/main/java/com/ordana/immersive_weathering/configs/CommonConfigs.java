@@ -17,6 +17,7 @@ public class CommonConfigs {
 
     public static Supplier<Boolean> BLOCK_GROWTHS;
     public static Supplier<Boolean> CREATIVE_TAB;
+    public static Supplier<Boolean> CREATIVE_DROP;
 
     public static Supplier<Double> MOSS_INTERESTS_FOR_FACE;
     public static Supplier<Double> MOSS_PATCHINESS;
@@ -167,6 +168,7 @@ public class CommonConfigs {
         AXE_SCRAPING = builder.define("axe_rusting", true);
         ASH_ITEM_SPAWN = builder.comment("allows ash to spawn when extinguishing campfires")
                 .define("ash_item_spawn",true);
+        CREATIVE_DROP = builder.comment("Drop stuff when in creative").define("drop_in_creative",false);
         builder.pop();
 
         builder.push("food");

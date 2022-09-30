@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.events;
 
 import com.mojang.datafixers.util.Pair;
+import com.ordana.immersive_weathering.WeatheringHelper;
 import com.ordana.immersive_weathering.blocks.Weatherable;
 import com.ordana.immersive_weathering.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.blocks.mossable.Mossable;
@@ -9,8 +10,10 @@ import com.ordana.immersive_weathering.blocks.soil.MulchBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
-import com.ordana.immersive_weathering.reg.*;
-import com.ordana.immersive_weathering.WeatheringHelper;
+import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.reg.ModItems;
+import com.ordana.immersive_weathering.reg.ModParticles;
+import com.ordana.immersive_weathering.reg.ModSoundEvents;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -90,7 +93,7 @@ public class ModEvents {
             if (state.getBlock() instanceof Rustable rustable) {
                 var rusted = rustable.getPrevious(state);
 
-                if(rusted.isPresent()) {
+                if (rusted.isPresent()) {
                     level.playSound(player, pos, SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundSource.BLOCKS, 1.0f, 1.0f);
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
@@ -113,7 +116,7 @@ public class ModEvents {
         if (CommonConfigs.AXE_SCRAPING.get() && state.getBlock() instanceof Rustable rustable) {
             Rustable.RustLevel rustLevel = rustable.getAge();
 
-            if(item instanceof AxeItem) {
+            if (item instanceof AxeItem) {
                 if (!rustLevel.canScrape()) {
                     level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
                     level.playSound(player, pos, SoundEvents.SHIELD_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -137,13 +140,12 @@ public class ModEvents {
                         //todo
                         //if (IntegrationHandler.quark) s = QuarkPlugin.fixVerticalSlab(s, state);
                         player.awardStat(Stats.ITEM_USED.get(item));
-                                level.setBlockAndUpdate(pos, rustable.getPrevious(state).get());
+                        level.setBlockAndUpdate(pos, rustable.getPrevious(state).get());
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
                     }
                     return InteractionResult.sidedSuccess(level.isClientSide);
                 }
-            }
-            else if (item == ModItems.STEEL_WOOL.get()) {
+            } else if (item == ModItems.STEEL_WOOL.get()) {
                 if (rustLevel != Rustable.RustLevel.UNAFFECTED) {
                     level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
@@ -217,7 +219,9 @@ public class ModEvents {
                                               Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if (item instanceof ShovelItem && CommonConfigs.ASH_ITEM_SPAWN.get()) {
             if (state.getBlock() instanceof CampfireBlock && state.getValue(BlockStateProperties.LIT)) {
-                Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModBlocks.SOOT.get()));
+                if (         !player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
+                    Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModBlocks.SOOT.get()));
+                }
                 //no need to cancel
             }
             return InteractionResult.PASS;
@@ -254,7 +258,9 @@ public class ModEvents {
                 stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
                 level.setBlockAndUpdate(pos, Blocks.PISTON.withPropertiesOf(state));
 
-                Block.popResourceFromFace(level, pos, hitResult.getDirection(), Items.SLIME_BALL.getDefaultInstance());
+                if (         !player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
+                    Block.popResourceFromFace(level, pos, hitResult.getDirection(), Items.SLIME_BALL.getDefaultInstance());
+                }
                 if (player instanceof ServerPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                     level.gameEvent(player, GameEvent.SHEAR, pos);
@@ -278,7 +284,7 @@ public class ModEvents {
             BlockState newBlock = Crackable.getCrackedBlock(state);
             if (newBlock != state) {
                 if (IntegrationHandler.quark) newBlock = QuarkPlugin.fixVerticalSlab(newBlock, state);
-                if (!player.getAbilities().instabuild) {
+                if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
                     if (state.getBlock() instanceof Crackable crackable) {
                         Block.popResourceFromFace(level, pos, hitResult.getDirection(), crackable.getRepairItem(state).getDefaultInstance());
                     }
@@ -368,7 +374,9 @@ public class ModEvents {
                     if (level.isClientSide) {
                         ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.AZALEA_FLOWER.get(), UniformInt.of(4, 6));
                     } else {
-                        Block.popResourceFromFace(level, pos, hitResult.getDirection(), new ItemStack(ModItems.AZALEA_FLOWERS.get()));
+                        if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
+                            Block.popResourceFromFace(level, pos, hitResult.getDirection(), new ItemStack(ModItems.AZALEA_FLOWERS.get()));
+                        }
                     }
                 }
             }
@@ -378,7 +386,9 @@ public class ModEvents {
                 if (newState != state) {
                     if (IntegrationHandler.quark) newState = QuarkPlugin.fixVerticalSlab(newState, state);
                     if (!level.isClientSide) {
-                        Block.popResourceFromFace(level, pos, hitResult.getDirection(), new ItemStack(ModItems.MOSS_CLUMP.get()));
+                        if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
+                            Block.popResourceFromFace(level, pos, hitResult.getDirection(), new ItemStack(ModItems.MOSS_CLUMP.get()));
+                        }
                     } else {
                         ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.MOSS.get(), UniformInt.of(3, 5));
                     }
