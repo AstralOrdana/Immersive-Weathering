@@ -91,7 +91,7 @@ public class ModEvents {
                                                   Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if (item == Items.WET_SPONGE && CommonConfigs.SPONGE_RUSTING.get()) {
             if (state.getBlock() instanceof Rustable rustable) {
-                var rusted = rustable.getPrevious(state);
+                var rusted = rustable.getNext(state);
 
                 if (rusted.isPresent()) {
                     level.playSound(player, pos, SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundSource.BLOCKS, 1.0f, 1.0f);
