@@ -122,8 +122,8 @@ public class ImmersiveWeatheringClient {
         event.register(ModParticles.SOOT.get(), LeafParticle.SimpleLeafParticle::new);
 
         event.register(ModParticles.OAK_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
-        event.register(ModParticles.SPRUCE_LEAF.get(), LeafParticle.SpruceLeafParticle::new);
-        event.register(ModParticles.BIRCH_LEAF.get(), LeafParticle.BirchLeafParticle::new);
+        event.register(ModParticles.SPRUCE_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
+        event.register(ModParticles.BIRCH_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
         event.register(ModParticles.JUNGLE_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
         event.register(ModParticles.ACACIA_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
         event.register(ModParticles.DARK_OAK_LEAF.get(), LeafParticle.ColoredLeafParticle::new);
@@ -183,7 +183,7 @@ public class ImmersiveWeatheringClient {
         final BlockColor defaultGrassColor = (state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos) : GrassColor.get(0D, 0D);
         final BlockColor defaultFoliageColor = (state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageFoliageColor(world, pos) : FoliageColor.getDefaultColor();
 
-        if(PlatformHelper.getPlatform().isFabric()) {
+        if(PlatformHelper.getPlatform().isFabric() || !ImmersiveWeathering.hasDynamic) {
             LeafPilesRegistry.LEAF_PILES.get().values().forEach(p->{
                 event.register(defaultFoliageColor, p);
             });

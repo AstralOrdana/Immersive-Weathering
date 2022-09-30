@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 public class ImmersiveWeathering {
 
     public static final String MOD_ID = "immersive_weathering";
+    public static boolean hasDynamic = PlatformHelper.isModLoaded("selene");
 
     public static final Logger LOGGER = LogManager.getLogger();
 
