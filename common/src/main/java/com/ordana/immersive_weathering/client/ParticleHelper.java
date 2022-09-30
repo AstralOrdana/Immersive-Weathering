@@ -44,14 +44,14 @@ public class ParticleHelper {
     }
 
 
-    public static void spawnLeavesParticles(BlockState state, Level world, BlockPos pos, Random random) {
+    public static void spawnLeavesParticles(BlockState state, Level level, BlockPos pos, Random random) {
         var leafParticle = LeafPilesRegistry.getFallenLeafParticle(state).orElse(null);
         if (leafParticle == null) return;
         //TODO: fix
 
         if(state.is(ModTags.VANILLA_LEAVES) && !state.getValue(LeavesBlock.PERSISTENT)) {
-            if (random.nextInt(32) == 0 && !world.getBlockState(pos.below()).isRedstoneConductor(world, pos)) {
-                ParticleUtils.spawnParticlesOnBlockFaces(world, pos, leafParticle, UniformInt.of(0, 1));
+            if (random.nextInt(32) == 0 && !level.getBlockState(pos.below()).isCollisionShapeFullBlock(level, pos)) {
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, leafParticle, UniformInt.of(0, 1));
             }
         }
     }
