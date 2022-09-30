@@ -112,6 +112,7 @@
   "config.immersive_weathering.item_interaction.charred_block_igniting": "Charred Block Igniting",
   "config.immersive_weathering.item_interaction.shovel_extinguish": "Shovel Extinguishing",
   "config.immersive_weathering.item_interaction.sponge_rusting": "Sponge Rusting",
+  "config.immersive_weathering.item_interaction.sponge_rust_drying": "Sponges Dry from Rusting",
   "config.immersive_weathering.item_interaction.axe_stripping": "Axe Stripping",
   "config.immersive_weathering.item_interaction.axe_rusting": "Axe Rusting",
   "config.immersive_weathering.item_interaction.ash_item_spawn": "Ash Item Spawning",
