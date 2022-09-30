@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.blocks.charred.CharredBlock;
@@ -16,6 +17,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -114,6 +117,29 @@ public class WeatheringHelper {
         }
         return Optional.empty();
     }
+
+    public static final Supplier<Map<Block, ParticleOptions>> BARK_PARTICLES = Suppliers.memoize(() -> ImmutableMap.<Block, ParticleOptions>builder()
+            .put(Blocks.OAK_LOG, ModParticles.OAK_BARK.get())
+            .put(Blocks.DARK_OAK_LOG, ModParticles.DARK_OAK_BARK.get())
+            .put(Blocks.SPRUCE_LOG, ModParticles.SPRUCE_BARK.get())
+            .put(Blocks.BIRCH_LOG, ModParticles.BIRCH_BARK.get())
+            .put(Blocks.JUNGLE_LOG, ModParticles.JUNGLE_BARK.get())
+            .put(Blocks.ACACIA_LOG, ModParticles.ACACIA_BARK.get())
+            .put(Blocks.CRIMSON_STEM, ModParticles.NETHER_SCALE.get())
+            .put(Blocks.WARPED_STEM, ModParticles.NETHER_SCALE.get())
+            .put(Blocks.OAK_WOOD, ModParticles.OAK_BARK.get())
+            .put(Blocks.DARK_OAK_WOOD, ModParticles.DARK_OAK_BARK.get())
+            .put(Blocks.SPRUCE_WOOD, ModParticles.SPRUCE_BARK.get())
+            .put(Blocks.BIRCH_WOOD, ModParticles.BIRCH_BARK.get())
+            .put(Blocks.JUNGLE_WOOD, ModParticles.JUNGLE_BARK.get())
+            .put(Blocks.ACACIA_WOOD, ModParticles.ACACIA_BARK.get())
+            .put(Blocks.CRIMSON_HYPHAE, ModParticles.NETHER_SCALE.get())
+            .put(Blocks.WARPED_HYPHAE, ModParticles.NETHER_SCALE.get())
+            .build());
+    public static Optional<ParticleOptions> getBarkParticle(BlockState state) {
+        return Optional.ofNullable(BARK_PARTICLES.get().get(state.getBlock()));
+    }
+
 
     /**
      * Grabs block positions around center pos. Order of these is random and depends on current blockpos

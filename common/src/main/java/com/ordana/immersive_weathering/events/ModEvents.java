@@ -9,11 +9,8 @@ import com.ordana.immersive_weathering.blocks.soil.MulchBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
-import com.ordana.immersive_weathering.reg.ModBlocks;
-import com.ordana.immersive_weathering.reg.ModItems;
-import com.ordana.immersive_weathering.reg.ModParticles;
+import com.ordana.immersive_weathering.reg.*;
 import com.ordana.immersive_weathering.WeatheringHelper;
-import com.ordana.immersive_weathering.reg.ModSoundEvents;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -415,9 +412,12 @@ public class ModEvents {
                 Block.popResourceFromFace(level, pos, hitResult.getDirection(), bark.getDefaultInstance());
                 level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0f, 1.0f);
 
-                var barkParticle = ModParticles.OAK_BARK.get();
-                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, barkParticle, UniformInt.of(3, 5));
-
+                var barkParticle = WeatheringHelper.getBarkParticle(state).orElse(null);
+                if (state.is(ModTags.RAW_LOGS)) {
+                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos, barkParticle, UniformInt.of(3, 5));
+                } else {
+                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.BLOCK, state), UniformInt.of(3, 5));
+                }
                 if (player != null) {
                     stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
                 }
