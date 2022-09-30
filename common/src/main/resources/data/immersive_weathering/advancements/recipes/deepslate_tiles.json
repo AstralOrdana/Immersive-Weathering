@@ -1,0 +1,41 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "immersive_weathering:deepslate_tiles_from_stonecutting",
+      "immersive_weathering:deepslate_tiles_from_tile",
+      "immersive_weathering:cracked_deepslate_tile_slab",
+      "immersive_weathering:cracked_deepslate_tile_slab_from_smelting",
+      "immersive_weathering:cracked_deepslate_tile_stairs",
+      "immersive_weathering:cracked_deepslate_tile_stairs_from_smelting",
+      "immersive_weathering:cracked_deepslate_tile_wall",
+      "immersive_weathering:cracked_deepslate_tile_wall_from_smelting"
+    ]
+  },
+  "criteria": {
+    "has_copper_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:deepslate_tiles"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "immersive_weathering:deepslate_tiles_from_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_copper_block",
+      "has_the_recipe"
+    ]
+  ]
+}

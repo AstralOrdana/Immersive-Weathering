@@ -1,0 +1,39 @@
+{
+  "display": {
+    "icon": {
+      "item": "immersive_weathering:enchanted_golden_moss_clump"
+    },
+    "title": {
+      "translate": "advancements.immersive_weathering.moss.title",
+      "color": "dark_green"
+    },
+    "description": {
+      "translate": "advancements.immersive_weathering.moss.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "minecraft:husbandry/root",
+  "criteria": {
+    "apple": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": [
+            "immersive_weathering:enchanted_golden_moss_clump"
+          ]
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "apple"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  }
+}

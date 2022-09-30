@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "item": "immersive_weathering:pond_water"
+    },
+    "title": {
+      "translate": "advancements.immersive_weathering.pond_water.title"
+    },
+    "description": {
+      "translate": "advancements.immersive_weathering.pond_water.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "minecraft:husbandry/root",
+  "criteria": {
+    "apple": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": [
+            "immersive_weathering:pond_water"
+          ]
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "apple"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  }
+}

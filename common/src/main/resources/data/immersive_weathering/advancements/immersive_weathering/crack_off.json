@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "item": "immersive_weathering:stone_brick"
+    },
+    "title": {
+      "translate": "advancements.immersive_weathering.crack_off.title"
+    },
+    "description": {
+      "translate": "advancements.immersive_weathering.crack_off.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "immersive_weathering:immersive_weathering/crack_on",
+  "criteria": {
+    "stone_brick_repair": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "item": {
+          "tag": "immersive_weathering:bricks"
+        },
+        "location": {
+          "block": {
+            "tag": "immersive_weathering:cracked"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "stone_brick_repair"
+    ]
+  ]
+}

@@ -71,7 +71,7 @@ public class ModItems {
     //flowers
 
     public static final Supplier<Item> AZALEA_FLOWERS = regItem("azalea_flowers", () ->
-            new AzaleaFlowersItem(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS))));
+            new AzaleaFlowersItem(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS)).food(ModFoods.AZALEA_FLOWER)));
 
     public static final Supplier<Item> FLOWER_CROWN = regItem("flower_crown", () ->
             new FlowerCrownItem(FlowerCrownMaterial.INSTANCE, EquipmentSlot.HEAD,
