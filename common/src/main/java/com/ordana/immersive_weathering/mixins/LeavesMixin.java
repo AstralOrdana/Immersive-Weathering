@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.mixins;
 
 import com.ordana.immersive_weathering.data.block_growths.growths.builtin.LeavesGrowth;
-import com.ordana.immersive_weathering.client.ParticleHelper;
 import com.ordana.immersive_weathering.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -37,7 +36,7 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
 
     @Inject(method = "animateTick", at = @At("HEAD"))
     public void randomDisplayTick(BlockState state, Level world, BlockPos pos, Random random, CallbackInfo ci) {
-        LeavesGrowth.spawnLeavesParticles(state, world, pos, random);
+        LeavesGrowth.spawnFallingLeavesParticles(state, world, pos, random);
     }
 
     @Override

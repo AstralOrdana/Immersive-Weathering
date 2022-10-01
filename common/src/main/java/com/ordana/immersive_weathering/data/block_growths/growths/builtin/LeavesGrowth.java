@@ -133,7 +133,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
 
 
     //called from mixin. Client Side
-    public static void spawnLeavesParticles(BlockState state, Level level, BlockPos pos, Random random) {
+    public static void spawnFallingLeavesParticles(BlockState state, Level level, BlockPos pos, Random random) {
         if (ClientConfigs.FALLING_LEAF_PARTICLES.get()) {
             if (!state.getValue(LeavesBlock.PERSISTENT)) {
                 var leafParticle = LeafPilesRegistry.getFallenLeafParticle(state).orElse(null);
@@ -146,6 +146,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
                     double e = (double) pos.getY() - 0.05;
                     double f = (double) pos.getZ() + random.nextDouble();
                     level.addParticle(leafParticle, d, e, f, 0.0, color, 0.0);
+
                 }
             }
         }
