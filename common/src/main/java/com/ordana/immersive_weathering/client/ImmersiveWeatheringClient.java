@@ -86,6 +86,7 @@ public class ImmersiveWeatheringClient {
 
         LeafPilesRegistry.LEAF_PILES.get().values().forEach(b->
                 ClientPlatformHelper.registerRenderType(b, RenderType.cutout()));
+        ClientPlatformHelper.registerRenderType(ModBlocks.AZALEA_FLOWER_PILE.get(), RenderType.cutout());
 
         ClientPlatformHelper.registerRenderType(ModBlocks.WEEDS.get(), RenderType.cutout());
         ClientPlatformHelper.registerRenderType(ModBlocks.IVY.get(), RenderType.cutout());

@@ -116,6 +116,7 @@
   "config.immersive_weathering.item_interaction.axe_stripping": "Axe Stripping",
   "config.immersive_weathering.item_interaction.axe_rusting": "Axe Rusting",
   "config.immersive_weathering.item_interaction.ash_item_spawn": "Ash Item Spawning",
+  "config.immersive_weathering.item_interaction.drop_n_creative": "Interaction Items Drop in Creative",
 
   "config.immersive_weathering.food.icicle_food": "Edible Icicle",
   "config.immersive_weathering.food.icicle_fire_resistance": "Fire-res From Icicle",
@@ -132,6 +133,7 @@
   "config.immersive_weathering.leaf_piles.leaf_piles_spawn_chance": "Pile Formation Chance",
   "config.immersive_weathering.leaf_piles.reach": "Ground Detection Range",
   "config.immersive_weathering.leaf_piles.max_pile_height": "Max Natural Pile Height",
+  "config.immersive_weathering.leaf_piles.leaf_piles_blacklist": "Leaf Piles Blacklist",
 
   "config.immersive_weathering.thin_ice.natural_melting": "Natural Melting",
 
@@ -417,5 +419,8 @@
 
   "item.immersive_weathering.bark": "%s Bark",
   "particle.immersive_weathering.leaf_pile": "%s Leaf Pile",
-  "block.immersive_weathering.leaf_pile": "%s Leaf Pile"
+  "block.immersive_weathering.leaf_pile": "%s Leaf Pile",
+
+  "sound.immersive_weathering.yummy": "poidobioq eats an apple sticker",
+  "sound.immersive_weathering.ice.crack": "Thin Ice cracks"
 }
