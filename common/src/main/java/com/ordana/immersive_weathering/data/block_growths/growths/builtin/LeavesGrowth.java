@@ -1,13 +1,14 @@
 package com.ordana.immersive_weathering.data.block_growths.growths.builtin;
 
-import com.ordana.immersive_weathering.data.block_growths.TickSource;
+import com.ordana.immersive_weathering.WeatheringHelper;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.reg.LeafPilesRegistry;
 import com.ordana.immersive_weathering.reg.ModBlocks;
-import com.ordana.immersive_weathering.WeatheringHelper;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -16,6 +17,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -130,20 +132,40 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
     }
 
 
+    //called from mixin. Client Side
+    public static void spawnLeavesParticles(BlockState state, Level level, BlockPos pos, Random random) {
+        if (ClientConfigs.FALLING_LEAF_PARTICLES.get()) {
+            if (!state.getValue(LeavesBlock.PERSISTENT)) {
+                var leafParticle = LeafPilesRegistry.getFallenLeafParticle(state).orElse(null);
+                if (leafParticle == null) return;
+                int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
+                BlockPos blockPos = pos.below();
+                BlockState blockState = level.getBlockState(blockPos);
+                if (!blockState.canOcclude() || !blockState.isFaceSturdy(level, blockPos, Direction.UP)) {
+                    double d = (double) pos.getX() + random.nextDouble();
+                    double e = (double) pos.getY() - 0.05;
+                    double f = (double) pos.getZ() + random.nextDouble();
+                    level.addParticle(leafParticle, d, e, f, 0.0, color, 0.0);
+                }
+            }
+        }
+    }
 
-    //called from mixin
     public static void decayLeavesPile(BlockState state, ServerLevel level, BlockPos pos) {
+        //this is server side, cant access client configs. Also meed to send color and send particles doesnt support that
+        /*
         if (ClientConfigs.LEAF_DECAY_PARTICLES.get()) {
+            int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
+
             var leafParticle = LeafPilesRegistry.getFallenLeafParticle(state);
-            leafParticle.ifPresent(p -> level.sendParticles(
+            leafParticle.ifPresent(p -> level.addParticle(
                     p,
                     (double) pos.getX() + 0.5D,
                     (double) pos.getY() + 0.5D,
                     (double) pos.getZ() + 0.5D,
                     10,
-                    0.5D, 0.5D, 0.5D,
-                    0.0D));
-        }
+                    0.5D, color, 0.5D));
+        }*/
 
         if (CommonConfigs.LEAF_DECAY_SOUND.get()) {
             level.playSound(null, pos, SoundEvents.AZALEA_LEAVES_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);

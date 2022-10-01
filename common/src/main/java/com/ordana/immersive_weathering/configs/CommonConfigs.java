@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.configs;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.client.particles.LeafParticle;
 import com.ordana.immersive_weathering.data.block_growths.area_condition.AreaCondition;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigBuilder;

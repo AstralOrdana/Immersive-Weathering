@@ -37,7 +37,7 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
 
     @Inject(method = "animateTick", at = @At("HEAD"))
     public void randomDisplayTick(BlockState state, Level world, BlockPos pos, Random random, CallbackInfo ci) {
-        ParticleHelper.spawnLeavesParticles(state, world, pos, random);
+        LeavesGrowth.spawnLeavesParticles(state, world, pos, random);
     }
 
     @Override
