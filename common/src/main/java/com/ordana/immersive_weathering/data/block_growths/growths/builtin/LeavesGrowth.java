@@ -123,7 +123,6 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
                             level.setBlock(targetPos, baseLeaf.setValue(LeafPileBlock.LAYERS, pileHeight), 2);
                         }
                     }
-
                 }
             }
 
