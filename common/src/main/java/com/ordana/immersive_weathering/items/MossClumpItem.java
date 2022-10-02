@@ -32,23 +32,24 @@ public class MossClumpItem extends BlockItem {
             Level level = context.getLevel();
             BlockPos pos = context.getClickedPos();
             BlockState state = level.getBlockState(pos);
-            BlockState mossy = Mossable.getMossyBlock(state);
-            if (mossy != state) {
+            BlockState newBlock = Mossable.getMossyBlock(state);
+
+
+            if (newBlock != state) {
                 ItemStack stack = context.getItemInHand();
                 Player player = context.getPlayer();
                 level.playSound(player, pos, SoundEvents.MOSS_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
+                if (IntegrationHandler.quark) newBlock = QuarkPlugin.fixVerticalSlab(newBlock, state);
 
-                if (player != null && !player.getAbilities().instabuild) {
-                    stack.shrink(1);
-                }
-
-                if (player instanceof ServerPlayer serverPlayer) {
-                    //todo
-                    //if (IntegrationHandler.quark) mossy = QuarkPlugin.fixVerticalSlab(mossy, state);
-
+                if (level.isClientSide) {
+                    level.playSound(player, pos, newBlock.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
+                } else {
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
-                    level.setBlockAndUpdate(pos, mossy);
-                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
+                    level.setBlockAndUpdate(pos, newBlock);
+                    if (!player.getAbilities().instabuild) {
+                        stack.shrink(1);
+                    }
                 }
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }

@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.blocks;
 
 import com.ordana.immersive_weathering.WeatheringHelper;
 import com.ordana.immersive_weathering.entities.FallingLayerEntity;
+import com.ordana.immersive_weathering.reg.LeafPilesRegistry;
 import com.ordana.immersive_weathering.reg.ModTags;
 import dev.architectury.injectables.annotations.PlatformOnly;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
@@ -23,10 +24,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.SupportType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Fluids;
@@ -168,8 +166,9 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
     //just used for placement by blockItem
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-        if (state.getValue(LAYERS) != 0 && !world.getBlockState(pos.below()).isFaceSturdy(world, pos.below(), Direction.UP)) return false;
-        return !shouldFall(state, world.getBlockState(pos.below()));
+        BlockState bottomState = world.getBlockState(pos.below());
+        if (state.getValue(LAYERS) != 0 && !bottomState.isFaceSturdy(world, pos.below(), Direction.UP)) return false;
+        return (bottomState.getBlock() instanceof LeavesBlock) || !shouldFall(state, world.getBlockState(pos.below()));
     }
 
 
@@ -250,11 +249,16 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         if (random.nextInt(16) == 0) {
             BlockPos blockPos = pos.below();
             if (isFree(level.getBlockState(blockPos))) {
-                double d = (double) pos.getX() + random.nextDouble();
-                double e = (double) pos.getY() - 0.05D;
-                double f = (double) pos.getZ() + random.nextDouble();
+                var leafParticle = LeafPilesRegistry.getFallenLeafParticle(state).orElse(null);
+                if (leafParticle == null) return;
+                int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
                 for (var p : particles) {
-                    level.addParticle(p.get(), d, e, f, 0.0D, 0.0D, 0.0D);
+                    if (random.nextFloat() < 0.2) {
+                        double d = (double) pos.getX() + random.nextDouble();
+                        double e = (double) pos.getY() - 0.05;
+                        double f = (double) pos.getZ() + random.nextDouble();
+                        level.addParticle(leafParticle, d, e, f, 0.0, color, 0.0);
+                    }
                 }
             }
         }

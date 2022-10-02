@@ -116,7 +116,7 @@
   "config.immersive_weathering.item_interaction.axe_stripping": "Axe Stripping",
   "config.immersive_weathering.item_interaction.axe_rusting": "Axe Rusting",
   "config.immersive_weathering.item_interaction.ash_item_spawn": "Ash Item Spawning",
-  "config.immersive_weathering.item_interaction.drop_n_creative": "Interaction Items Drop in Creative",
+  "config.immersive_weathering.item_interaction.drop_in_creative": "Interaction Items Drop in Creative",
 
   "config.immersive_weathering.food.icicle_food": "Edible Icicle",
   "config.immersive_weathering.food.icicle_fire_resistance": "Fire-res From Icicle",
