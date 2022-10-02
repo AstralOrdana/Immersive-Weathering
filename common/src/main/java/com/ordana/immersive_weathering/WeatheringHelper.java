@@ -5,7 +5,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
-import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.blocks.charred.CharredBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.mixins.accessors.BiomeAccessor;
@@ -18,29 +17,17 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.util.ParticleUtils;
-import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -92,8 +79,8 @@ public class WeatheringHelper {
 
 
     public static Item getBarkToStrip(BlockState normalLog) {
-        for(var e : LeafPilesRegistry.STRIPPED_TO_BARK.get().values()){
-            if(e.getSecond() == normalLog.getBlock()){
+        for (var e : LeafPilesRegistry.STRIPPED_LOG_TO_BARK.get().values()) {
+            if (e.getSecond() == normalLog.getBlock()) {
                 return e.getFirst();
             }
         }
@@ -102,7 +89,7 @@ public class WeatheringHelper {
     }
 
     public static Optional<Pair<Item, Block>> getBarkForStrippedLog(BlockState normalLog) {
-        var pair = Optional.ofNullable(LeafPilesRegistry.STRIPPED_TO_BARK.get().get(normalLog.getBlock()));
+        var pair = Optional.ofNullable(LeafPilesRegistry.STRIPPED_LOG_TO_BARK.get().get(normalLog.getBlock()));
 
         if (pair.isPresent()) {
             String s = CommonConfigs.GENERIC_BARK.get();
@@ -136,6 +123,7 @@ public class WeatheringHelper {
             .put(Blocks.CRIMSON_HYPHAE, ModParticles.NETHER_SCALE.get())
             .put(Blocks.WARPED_HYPHAE, ModParticles.NETHER_SCALE.get())
             .build());
+
     public static Optional<ParticleOptions> getBarkParticle(BlockState state) {
         return Optional.ofNullable(BARK_PARTICLES.get().get(state.getBlock()));
     }
@@ -357,7 +345,6 @@ public class WeatheringHelper {
         }
         world.setBlockAndUpdate(targetPos, newState);
     }
-
 
 
 }

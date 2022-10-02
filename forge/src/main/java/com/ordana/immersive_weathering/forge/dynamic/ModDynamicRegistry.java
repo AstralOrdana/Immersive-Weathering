@@ -59,6 +59,10 @@ public class ModDynamicRegistry {
             if (stripped != null) {
                 map.put(stripped, Pair.of(item, log));
             }
+            Block stripped_wood = wood.getBlockOfThis("stripped_wood");
+            if (stripped_wood != null) {
+                map.put(stripped_wood, Pair.of(item, wood.getBlockOfThis("wood")));
+            }
         });
         return map;
     }

@@ -38,7 +38,7 @@ public class LeafPilesRegistry {
             }
     );
 
-    public static final Supplier<Map<Block, Pair<Item, Block>>> STRIPPED_TO_BARK = Suppliers.memoize(() -> {
+    public static final Supplier<Map<Block, Pair<Item, Block>>> STRIPPED_LOG_TO_BARK = Suppliers.memoize(() -> {
 
         var builder = ImmutableMap.<Block, Pair<Item, Block>>builder()
                 .put(Blocks.STRIPPED_OAK_LOG, Pair.of(ModItems.OAK_BARK.get(), Blocks.OAK_LOG))
