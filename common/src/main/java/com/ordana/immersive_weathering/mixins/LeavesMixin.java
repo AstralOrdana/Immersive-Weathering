@@ -30,7 +30,7 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
             shift = At.Shift.AFTER,
             target = "Lnet/minecraft/server/level/ServerLevel;removeBlock(Lnet/minecraft/core/BlockPos;Z)Z"))
     public void randomDisplayTick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, Random random, CallbackInfo ci) {
-        LeavesGrowth.decayLeavesPile(blockState, serverLevel, blockPos);
+        LeavesGrowth.decayLeavesPile(blockState, serverLevel, blockPos, random);
     }
 
 

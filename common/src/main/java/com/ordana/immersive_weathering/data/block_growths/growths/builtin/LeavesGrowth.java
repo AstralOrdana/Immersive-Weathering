@@ -140,32 +140,39 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
                 int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
                 BlockPos blockPos = pos.below();
                 BlockState blockState = level.getBlockState(blockPos);
-                if (!blockState.canOcclude() || !blockState.isFaceSturdy(level, blockPos, Direction.UP)) {
-                    double d = (double) pos.getX() + random.nextDouble();
-                    double e = (double) pos.getY() - 0.05;
-                    double f = (double) pos.getZ() + random.nextDouble();
-                    level.addParticle(leafParticle, d, e, f, 0.0, color, 0.0);
-
+                float rate = 0.01f;
+                if (!blockState.canOcclude() || !blockState.isCollisionShapeFullBlock(level, blockPos)) {
+                    if (level.isRaining()) {
+                        rate = 0.4f;
+                    }
+                    if (random.nextFloat() < rate) {
+                        double d = (double) pos.getX() + random.nextDouble();
+                        double e = (double) pos.getY() - 0.05;
+                        double f = (double) pos.getZ() + random.nextDouble();
+                        level.addParticle(leafParticle, d, e, f, 0.0, color, 0.0);
+                    }
                 }
             }
         }
     }
 
-    public static void decayLeavesPile(BlockState state, ServerLevel level, BlockPos pos) {
+    public static void decayLeavesPile(BlockState state, ServerLevel level, BlockPos pos, Random random) {
         //this is server side, cant access client configs. Also meed to send color and send particles doesnt support that
-        /*
-        if (ClientConfigs.LEAF_DECAY_PARTICLES.get()) {
-            int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
 
-            var leafParticle = LeafPilesRegistry.getFallenLeafParticle(state);
-            leafParticle.ifPresent(p -> level.addParticle(
-                    p,
-                    (double) pos.getX() + 0.5D,
-                    (double) pos.getY() + 0.5D,
-                    (double) pos.getZ() + 0.5D,
-                    10,
-                    0.5D, color, 0.5D));
-        }*/
+        if (ClientConfigs.LEAF_DECAY_PARTICLES.get()) {
+            var leafParticle = LeafPilesRegistry.getFallenLeafParticle(state).orElse(null);
+            if (leafParticle == null) return;
+            int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
+            BlockPos blockPos = pos.below();
+            BlockState blockState = level.getBlockState(blockPos);
+            if (!blockState.canOcclude() || !blockState.isFaceSturdy(level, blockPos, Direction.UP)) {
+                double d = (double) pos.getX() + random.nextDouble();
+                double e = (double) pos.getY() - 0.05;
+                double f = (double) pos.getZ() + random.nextDouble();
+                level.addParticle(leafParticle, d, e, f, 0.0, color, 0.0);
+
+            }
+        }
 
         if (CommonConfigs.LEAF_DECAY_SOUND.get()) {
             level.playSound(null, pos, SoundEvents.AZALEA_LEAVES_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
