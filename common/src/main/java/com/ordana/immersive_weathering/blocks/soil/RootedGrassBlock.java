@@ -113,9 +113,9 @@ public class RootedGrassBlock extends ModGrassBlock implements BonemealableBlock
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         if (state.getValue(FERTILE)) {
             if (!canBeGrass(state, world, pos)) {
-                world.setBlockAndUpdate(pos, Blocks.DIRT.defaultBlockState());
+                world.setBlockAndUpdate(pos, Blocks.ROOTED_DIRT.defaultBlockState());
             }
-            if (state.is(Blocks.DIRT)) return;
+            if (state.is(Blocks.ROOTED_DIRT)) return;
             else if (world.getMaxLocalRawBrightness(pos.above()) >= 9) {
                 BlockState blockState = this.defaultBlockState();
                 for(int i = 0; i < 4; ++i) {
@@ -123,21 +123,10 @@ public class RootedGrassBlock extends ModGrassBlock implements BonemealableBlock
                     if ((world.getBlockState(blockPos).is(Blocks.DIRT) || (world.getBlockState(blockPos).is(Blocks.MYCELIUM))) && canPropagate(blockState, world, blockPos)) {
                         world.setBlockAndUpdate(blockPos, Blocks.GRASS_BLOCK.defaultBlockState().setValue(SNOWY, world.getBlockState(blockPos.above()).is(Blocks.SNOW)));
                     }
-                    else if ((world.getBlockState(blockPos).is(Blocks.ROOTED_DIRT)) && canPropagate(blockState, world, blockPos)) {
+                    if ((world.getBlockState(blockPos).is(Blocks.ROOTED_DIRT)) && canPropagate(blockState, world, blockPos)) {
                         world.setBlockAndUpdate(blockPos, this.defaultBlockState().setValue(SNOWY, world.getBlockState(blockPos.above()).is(Blocks.SNOW)));
                     }
                 }
-            }
-        }
-        //fire turns this to dirt
-        //gets the block again because we are injecting at tail and it could already be dirt
-        state = world.getBlockState(pos);
-        if (state.is(Blocks.DIRT)) return;
-        if (world.random.nextFloat() < 0.1f) {
-            if (!world.hasChunkAt(pos)) return;
-            if (WeatheringHelper.hasEnoughBlocksFacingMe(pos, world, b -> b.is(BlockTags.FIRE), 1)) {
-                world.setBlockAndUpdate(pos, Blocks.DIRT.defaultBlockState());
-                return;
             }
         }
     }

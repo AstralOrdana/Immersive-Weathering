@@ -2,9 +2,8 @@
   "growth_chance": 0.0005,
   "position_predicates": [
     {
-      "type": "temperature_range",
-      "max": 10,
-      "min": 1.1
+      "biomes":"#immersive_weathering:hot",
+      "type": "biome_match"
     }
   ],
   "growth_for_face": [

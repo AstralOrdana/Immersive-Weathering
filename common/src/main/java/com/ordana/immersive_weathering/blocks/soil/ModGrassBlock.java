@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.blocks.soil;
 
 import com.ordana.immersive_weathering.data.block_growths.IConditionalGrowingBlock;
+import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -128,8 +129,11 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
 
                 for(int i = 0; i < 4; ++i) {
                     BlockPos blockPos = pos.offset(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
-                    if (level.getBlockState(blockPos).is(Blocks.DIRT) && canPropagate(blockState, level, blockPos)) {
-                        level.setBlockAndUpdate(blockPos, blockState.setValue(SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)).setValue(FERTILE, false));
+                    if ((level.getBlockState(blockPos).is(Blocks.DIRT) || (level.getBlockState(blockPos).is(Blocks.MYCELIUM))) && canPropagate(blockState, level, blockPos)) {
+                        level.setBlockAndUpdate(blockPos, this.defaultBlockState().setValue(SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)));
+                    }
+                    if ((level.getBlockState(blockPos).is(Blocks.ROOTED_DIRT)) && canPropagate(blockState, level, blockPos)) {
+                        level.setBlockAndUpdate(blockPos, ModBlocks.ROOTED_GRASS_BLOCK.get().defaultBlockState().setValue(SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)));
                     }
                 }
             }

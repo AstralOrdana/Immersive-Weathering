@@ -45,7 +45,8 @@
     }
   ],
   "owners": [
-    "minecraft:grass_block"
+    "minecraft:grass_block",
+    "immersive_weathering:rooted_grass_block"
   ],
   "replacing_target": {
     "block": "minecraft:air",
