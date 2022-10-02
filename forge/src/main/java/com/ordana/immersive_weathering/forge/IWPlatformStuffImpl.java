@@ -3,21 +3,23 @@ package com.ordana.immersive_weathering.forge;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
-import com.ordana.immersive_weathering.IWPlatformStuff;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
-import com.ordana.immersive_weathering.blocks.rustable.*;
 import com.ordana.immersive_weathering.forge.dynamic.ModDynamicRegistry;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
+import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
+import net.minecraft.client.color.block.BlockColor;
+import net.minecraft.client.color.item.ItemColor;
+import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.FlowingFluid;
@@ -26,12 +28,14 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Collection;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class IWPlatformStuffImpl {
+    public static final IdentityHashMap<Block, Block> COPY_BLOCK_COLORS = new IdentityHashMap<>();
+    public static final IdentityHashMap<Item, Item> COPY_ITEM_COLORS = new IdentityHashMap<>();
 
     /*
     public static Block createSpecialBlock(IWPlatformStuff.BlockType type, BlockBehaviour.Properties properties, Object... extraParams) {
@@ -106,6 +110,11 @@ public class IWPlatformStuffImpl {
         if(ImmersiveWeatheringForge.hasDynamic) builder.putAll(ModDynamicRegistry.getBarkMap());
     }
 
-
+    public static void copyColorFrom(ClientPlatformHelper.BlockColorEvent event, Block block, Block colorFrom, BlockColor fallbackColor) {
+        COPY_BLOCK_COLORS.put(block, colorFrom);
+    }
+    public static void copyColorFrom(ClientPlatformHelper.ItemColorEvent event, ItemLike block, ItemLike colorFrom, ItemColor fallbackColor) {
+        COPY_ITEM_COLORS.put(block.asItem(), colorFrom.asItem());
+    }
 
 }
