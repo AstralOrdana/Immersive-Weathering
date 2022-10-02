@@ -14,6 +14,7 @@ import java.util.function.Supplier;
 public final class ModWaxables {
 
     private static final Supplier<BiMap<Block, Block>> WAXABLES = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
+            .put(ModBlocks.PLATE_IRON.get(), ModBlocks.WAXED_PLATE_IRON.get())
             .put(ModBlocks.EXPOSED_PLATE_IRON.get(), ModBlocks.WAXED_EXPOSED_PLATE_IRON.get())
             .put(ModBlocks.WEATHERED_PLATE_IRON.get(), ModBlocks.WAXED_WEATHERED_PLATE_IRON.get())
             .put(ModBlocks.RUSTED_PLATE_IRON.get(), ModBlocks.WAXED_RUSTED_PLATE_IRON.get())
