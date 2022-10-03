@@ -17,6 +17,8 @@ public class CommonConfigs {
     public static ConfigSpec SERVER_SPEC;
 
     public static Supplier<Boolean> BLOCK_GROWTHS;
+    public static Supplier<Boolean> DESIRE_PATHS;
+    public static Supplier<Double> DESIRE_PATH_RATE;
     public static Supplier<Boolean> CREATIVE_TAB;
     public static Supplier<Boolean> CREATIVE_DROP;
 
@@ -80,6 +82,7 @@ public class CommonConfigs {
     public static Supplier<Boolean> LEGGINGS_PREVENTS_THORN_DAMAGE;
     public static Supplier<String> GENERIC_BARK;
 
+    public static Supplier<Boolean> LEAF_PILES_SLOW;
     public static Supplier<Double> LEAF_PILES_FROM_DECAY_CHANCE;
     public static Supplier<Boolean> LEAF_DECAY_SOUND;
     public static Supplier<Double> LEAF_PILES_CHANCE;
@@ -103,6 +106,8 @@ public class CommonConfigs {
 
         builder.push("general");
         BLOCK_GROWTHS = builder.define("block_growths", true);
+        DESIRE_PATHS = builder.define("desire_paths", true);
+        DESIRE_PATH_RATE = builder.define("desire_path_rate", 0.05, 0, 1d);
         CREATIVE_TAB = builder.define("creative_tab", false);
         builder.pop();
 
@@ -189,6 +194,7 @@ public class CommonConfigs {
         builder.pop();
 
         builder.push("leaf_piles");
+        LEAF_PILES_SLOW = builder.define("leaf_piles_slow", true);
         LEAF_PILES_FROM_DECAY_CHANCE = builder.define("spawn_entity_from_decay", 0.3, 0, 1);
         LEAF_DECAY_SOUND = builder.define("decay_sound", true);
 

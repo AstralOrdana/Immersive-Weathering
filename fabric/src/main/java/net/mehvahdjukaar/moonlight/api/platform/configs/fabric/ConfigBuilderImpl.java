@@ -75,7 +75,6 @@ public class ConfigBuilderImpl extends ConfigBuilder {
         return config;
     }
 
-
     @Override
     public Supplier<Double> define(String name, double defaultValue, double min, double max) {
         var config = new DoubleConfigValue(name, defaultValue, min, max);

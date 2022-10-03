@@ -84,23 +84,6 @@ public class NulchBlock extends Block {
                 entity.hurt(DamageSource.HOT_FLOOR, 1.0F);
             }
         }
-        super.stepOn(level, pos, state, entity);
-        if (!(entity instanceof LivingEntity) || entity.getFeetBlockState().is(this)) {
-            if (level.isClientSide) {
-                Random random = level.getRandom();
-                boolean bl = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
-                if (bl && random.nextBoolean()) {
-
-                    level.addParticle(ModParticles.NULCH.get(),
-                            entity.getX() + Mth.randomBetween(random, -0.2f, 0.2f),
-                            pos.getY() + 1.025,
-                            entity.getZ() + Mth.randomBetween(random, -0.2f, 0.2f),
-                            Mth.randomBetween(random, -0.9f, -1),
-                            -1,
-                            0);
-                }
-            }
-        }
     }
 
 

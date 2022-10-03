@@ -67,6 +67,7 @@ public final class ModTags {
      * For water permafrost and icicles. All animals with fur or that live near cold biomes
      */
     public static final TagKey<EntityType<?>> LIGHT_FREEZE_IMMUNE = registerEntityTag("light_freeze_immune");
+    public static final TagKey<EntityType<?>> TRAMPLES_PATHS = registerEntityTag("tramples_paths");
 
     //fabric only.
     //TODO: remove unneded from forge

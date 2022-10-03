@@ -41,6 +41,8 @@
   "config.immersive_weathering.general.block_growths.descriptionKey": "Should any block growth mechanics occur?",
   "config.immersive_weathering.general.leaves_decay_particles": "Leaf Decay Particles",
   "config.immersive_weathering.general.falling_leaf_particles": "Falling Leaf Particles",
+  "config.immersive_weathering.general.desire_paths": "Desire Paths",
+  "config.immersive_weathering.general.desire_path_rate": "Desire Paths Rate",
   "config.immersive_weathering.general.creative_tab": "IW Creative Tab",
 
   "config.immersive_weathering.mossy_blocks.interest_for_face": "Interest for face",
@@ -128,6 +130,7 @@
   "config.immersive_weathering.misc.feather_falling_farmers": "Feather Falling Prevents Trampling",
   "config.immersive_weathering.misc.leggings_prevents_thorn_damage": "Leggings Prevent Bramble Damage",
 
+  "config.immersive_weathering.leaf_piles.leaf_piles_slow": "Leaf Piles Slowness",
   "config.immersive_weathering.leaf_piles.spawn_entity_from_decay": "Decaying Leaves Fall",
   "config.immersive_weathering.leaf_piles.decay_sound": "Leaf Decay Sound",
   "config.immersive_weathering.leaf_piles.leaf_piles_spawn_chance": "Pile Formation Chance",
