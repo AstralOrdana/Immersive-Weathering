@@ -210,6 +210,7 @@ public class CommonConfigs {
         VITRIFIED_LIGHTNING = builder.define("vitrified_lightning", true);
         FULGURITE_CHANCE = builder.comment("chance that a lightning strike on sand creates fulgurite")
                 .define("fulgurite_chance", 0.4,0,1);
+
         builder.pop();
 
         builder.push("rusting");
