@@ -1,16 +1,15 @@
 package com.ordana.immersive_weathering.data.block_growths.growths.builtin;
 
-import com.ordana.immersive_weathering.data.block_growths.TickSource;
+import com.ordana.immersive_weathering.blocks.FulguriteBlock;
 import com.ordana.immersive_weathering.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModTags;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
+import net.minecraft.core.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -66,17 +65,29 @@ public class LightningGrowth extends BuiltinBlockGrowth {
         }
     }
 
-    private boolean isValidTarget(Level level, BlockPos pos){
+    private boolean isValidTarget(Level level, BlockPos pos) {
         var state = level.getBlockState(pos);
         return state.is(ModTags.CRACKABLE) || state.is(BlockTags.SAND);
     }
 
-    private void convert(Level level, BlockPos pos){
+    public static final SimpleWeightedRandomList<Direction> list = SimpleWeightedRandomList.<Direction>builder().add(Direction.UP, 7)
+            .add(Direction.DOWN, 1).add(Direction.NORTH, 1)
+            .add(Direction.EAST, 1).add(Direction.WEST, 1)
+            .add(Direction.SOUTH, 1).build();
+
+    private void convert(Level level, BlockPos pos) {
         var state = level.getBlockState(pos);
-        if(state instanceof Crackable){
-            level.setBlock(pos, Crackable.getCrackedBlock(state),3);
-        }else if(state.is(BlockTags.SAND)){
-            level.setBlock(pos, ModBlocks.VITRIFIED_SAND.get().defaultBlockState(),3);
+        if (state instanceof Crackable) {
+            level.setBlock(pos, Crackable.getCrackedBlock(state), 3);
+        } else if (state.is(BlockTags.SAND)) {
+            level.setBlock(pos, ModBlocks.VITRIFIED_SAND.get().defaultBlockState(), 3);
+            if (level.random.nextFloat() < CommonConfigs.FULGURITE_CHANCE.get()) {
+                var dir = list.getRandom(level.random).get().getData();
+                var offset = pos.relative(dir);
+                if(level.getBlockState(offset).isAir()){
+                    level.setBlock(pos, ModBlocks.FULGURITE.get().defaultBlockState().setValue(FulguriteBlock.FACING, dir).setValue(FulguriteBlock.POWERED, true),3);
+                };
+            }
         }
     }
 
