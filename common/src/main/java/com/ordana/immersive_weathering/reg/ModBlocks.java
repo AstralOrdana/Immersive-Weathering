@@ -459,7 +459,6 @@ public class ModBlocks {
             new DoorBlock(Properties.copy(WAXED_IRON_DOOR.get())){});
 
     //waxed trapdoor
-//TODO: fix the rest like this
     public static final Supplier<Block> WAXED_IRON_TRAPDOOR = regWithItem("waxed_iron_trapdoor", () ->
             new TrapDoorBlock(Properties.copy(Blocks.IRON_TRAPDOOR)){});
     public static final Supplier<Block> WAXED_EXPOSED_IRON_TRAPDOOR = regWithItem("waxed_exposed_iron_trapdoor", () ->
@@ -473,13 +472,13 @@ public class ModBlocks {
 
     //TODO: rethink sound since its diff that iron bars
     public static final Supplier<Block> WAXED_IRON_BARS = regWithItem("waxed_iron_bars", () ->
-            new RustableBarsBlock(Rustable.RustLevel.UNAFFECTED, Properties.copy(EXPOSED_IRON_BARS.get())));
+            new IronBarsBlock(Properties.copy(EXPOSED_IRON_BARS.get())){});
     public static final Supplier<Block> WAXED_EXPOSED_IRON_BARS = regWithItem("waxed_exposed_iron_bars", () ->
-            new RustableBarsBlock(Rustable.RustLevel.EXPOSED, Properties.copy(EXPOSED_IRON_BARS.get())));
+            new IronBarsBlock(Properties.copy(EXPOSED_IRON_BARS.get())){});
     public static final Supplier<Block> WAXED_WEATHERED_IRON_BARS = regWithItem("waxed_weathered_iron_bars", () ->
-            new RustableBarsBlock(Rustable.RustLevel.WEATHERED, Properties.copy(EXPOSED_IRON_BARS.get())));
+            new IronBarsBlock(Properties.copy(EXPOSED_IRON_BARS.get())){});
     public static final Supplier<Block> WAXED_RUSTED_IRON_BARS = regWithItem("waxed_rusted_iron_bars", () ->
-            new RustableBarsBlock(Rustable.RustLevel.RUSTED, Properties.copy(EXPOSED_IRON_BARS.get())));
+            new IronBarsBlock(Properties.copy(EXPOSED_IRON_BARS.get())){});
 
     //cracked end stone
 

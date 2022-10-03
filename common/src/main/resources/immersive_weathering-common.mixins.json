@@ -10,6 +10,7 @@
     "BlocksMixin",
     "BushBlockBlockMixin",
     "CampfireMixin",
+    "EatBlockGoalMixin",
     "IceMixin",
     "LeavesMixin",
     "LevelChunkMixin",
