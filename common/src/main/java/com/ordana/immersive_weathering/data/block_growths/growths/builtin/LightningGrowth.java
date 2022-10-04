@@ -88,7 +88,7 @@ public class LightningGrowth extends BuiltinBlockGrowth {
                 var dir = list.getRandom(level.random).get().getData();
                 var offset = pos.relative(dir);
                 if(level.getBlockState(offset).isAir()){
-                    level.setBlock(pos, ModBlocks.FULGURITE.get().defaultBlockState().setValue(FulguriteBlock.FACING, dir).setValue(FulguriteBlock.POWERED, true),3);
+                    level.setBlock(offset, ModBlocks.FULGURITE.get().defaultBlockState().setValue(FulguriteBlock.FACING, dir).setValue(FulguriteBlock.POWERED, true),3);
                 };
             }
         }
