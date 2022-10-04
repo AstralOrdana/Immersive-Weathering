@@ -6,6 +6,7 @@ import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
 import com.ordana.immersive_weathering.data.fluid_generators.FluidGeneratorsHandler;
 import com.ordana.immersive_weathering.events.ModLootInjects;
 import com.ordana.immersive_weathering.mixins.EatBlockGoalMixin;
+import net.mehvahdjukaar.selene.Selene;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.ai.goal.EatBlockGoal;
 import net.minecraftforge.event.LootTableLoadEvent;
