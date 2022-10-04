@@ -140,7 +140,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
                 int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
                 BlockPos blockPos = pos.below();
                 BlockState blockState = level.getBlockState(blockPos);
-                float rate = 0.01f;
+                float rate = 0.08f;
                 if (!blockState.canOcclude() || !blockState.isCollisionShapeFullBlock(level, blockPos)) {
                     if (level.isRaining()) {
                         rate = 0.4f;
@@ -163,9 +163,9 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
             var leafParticle = LeafPilesRegistry.getFallenLeafParticle(state).orElse(null);
             if (leafParticle == null) return;
             int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
-            BlockPos blockPos = pos.below();
-            BlockState blockState = level.getBlockState(blockPos);
-            if (!blockState.canOcclude() || !blockState.isFaceSturdy(level, blockPos, Direction.UP)) {
+            BlockPos downPos = pos.below();
+            BlockState downState = level.getBlockState(downPos);
+            if (!downState.canOcclude() || !downState.isFaceSturdy(level, downPos, Direction.UP)) {
                 double d = (double) pos.getX() + random.nextDouble();
                 double e = (double) pos.getY() - 0.05;
                 double f = (double) pos.getZ() + random.nextDouble();

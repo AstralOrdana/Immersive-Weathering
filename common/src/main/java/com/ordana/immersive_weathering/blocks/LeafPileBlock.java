@@ -30,7 +30,9 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
@@ -165,13 +167,17 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         return Shapes.empty();
     }
 
+    @Override
+    public VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return SHAPE_BY_LAYER_L[getLayers(state)];
+    }
+
 
     //just used for placement by blockItem
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
         BlockState bottomState = world.getBlockState(pos.below());
-        if(bottomState.getBlock() instanceof LeavesBlock)return true;
-        if (state.getValue(LAYERS) != 0 && !bottomState.isFaceSturdy(world, pos.below(), Direction.UP)) return false;
+        if (bottomState.getBlock() instanceof LeavesBlock || state.getValue(LAYERS) != 0 || world.getFluidState(pos.below()).is(Fluids.WATER) || bottomState.isFaceSturdy(world, pos.below(), Direction.UP)) return true;
         return !shouldFall(state, world.getBlockState(pos.below()));
     }
 

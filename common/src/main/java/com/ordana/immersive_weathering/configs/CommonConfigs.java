@@ -110,7 +110,7 @@ public class CommonConfigs {
 
         builder.push("general");
         BLOCK_GROWTHS = builder.define("block_growths", true);
-        DESIRE_PATHS = builder.define("desire_paths", true);
+        DESIRE_PATHS = builder.define("desire_paths", false);
         DESIRE_PATH_RATE = builder.define("desire_path_rate", 0.05, 0, 1d);
         CREATIVE_TAB = builder.define("creative_tab", false);
         builder.pop();
