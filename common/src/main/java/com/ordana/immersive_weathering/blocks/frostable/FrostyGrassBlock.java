@@ -15,7 +15,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class FrostyGrassBlock extends BushBlock implements Frosty {
 
@@ -43,7 +43,7 @@ public class FrostyGrassBlock extends BushBlock implements Frosty {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         tryUnFrost(state, world, pos);
     }
 

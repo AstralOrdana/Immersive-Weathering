@@ -42,7 +42,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 import java.util.function.Supplier;
 
 public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
@@ -231,12 +231,12 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
     }
 
     @Override
-    public boolean isBonemealSuccess(Level world, Random random, BlockPos pos, BlockState state) {
+    public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
         return this.hasFlowers;
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state) {
+    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
         for (var direction : Direction.values()) {
             if (random.nextFloat() > 0.5f) {
                 var targetPos = pos.relative(direction);
@@ -256,7 +256,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (random.nextInt(16) == 0) {
             BlockPos blockPos = pos.below();
             if (isFree(level.getBlockState(blockPos))) {

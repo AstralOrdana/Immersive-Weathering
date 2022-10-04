@@ -35,7 +35,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.lighting.LayerLightEngine;
 import net.minecraft.world.phys.BlockHitResult;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class ModGrassBlock extends GrassBlock implements BonemealableBlock, IConditionalGrowingBlock {
     public static final BooleanProperty FERTILE = SoilBlock.FERTILE;
@@ -55,7 +55,7 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
 
     /*
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (state.getValue(FERTILE)) {
             int i = pos.getX();
             int j = pos.getY();
@@ -93,7 +93,7 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
     }
 
     @Override
-    public void performBonemeal(ServerLevel level, Random random, BlockPos pos, BlockState state) {
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
         if (!SoilBlock.isFertile(state)) {
             state = state.setValue(FERTILE, true);
             level.setBlock(pos, state, 3);
@@ -144,7 +144,7 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
         return canBeGrass(state, level, pos) && !level.getFluidState(blockPos).is(FluidTags.WATER);
     }
 
-    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (state.getValue(AGE) == 10) {
             level.setBlockAndUpdate(pos, Blocks.DIRT_PATH.defaultBlockState());
         }

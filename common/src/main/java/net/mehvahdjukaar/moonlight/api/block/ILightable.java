@@ -26,7 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 /**
  * Author: MehVahdJukaar

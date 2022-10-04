@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 import java.util.function.Supplier;
 
 //remove in 1.19
@@ -196,7 +196,7 @@ public class FeatureHacks {
         }
 
         @Override
-        protected boolean shouldPlace(PlacementContext context, Random random, BlockPos pos) {
+        protected boolean shouldPlace(PlacementContext context, RandomSource random, BlockPos pos) {
             Holder<Biome> holder = context.getLevel().getBiome(pos);
             return holder.is(tag);
         }

@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.RootedDirtBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 @Mixin(RootedDirtBlock.class)
 public abstract class RootedDirtBlockMixin extends Block implements BonemealableBlock {
@@ -26,12 +26,12 @@ public abstract class RootedDirtBlockMixin extends Block implements Bonemealable
     }
 
     @Override
-    public boolean isBonemealSuccess(Level p_50901_, Random p_50902_, BlockPos p_50903_, BlockState p_50904_) {
+    public boolean isBonemealSuccess(Level p_50901_, RandomSource p_50902_, BlockPos p_50903_, BlockState p_50904_) {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state) {
+    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
         WeatheringHelper.growHangingRoots(world, random, pos);
     }
 

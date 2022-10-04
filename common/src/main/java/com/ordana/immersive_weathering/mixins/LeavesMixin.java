@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 @Mixin(LeavesBlock.class)
 public abstract class LeavesMixin extends Block implements BonemealableBlock {
@@ -29,13 +29,13 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
     @Inject(method = "randomTick", at = @At(value = "INVOKE",
             shift = At.Shift.AFTER,
             target = "Lnet/minecraft/server/level/ServerLevel;removeBlock(Lnet/minecraft/core/BlockPos;Z)Z"))
-    public void randomDisplayTick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, Random random, CallbackInfo ci) {
+    public void randomDisplayTick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource random, CallbackInfo ci) {
         LeavesGrowth.decayLeavesPile(blockState, serverLevel, blockPos, random);
     }
 
 
     @Inject(method = "animateTick", at = @At("HEAD"))
-    public void randomDisplayTick(BlockState state, Level world, BlockPos pos, Random random, CallbackInfo ci) {
+    public void randomDisplayTick(BlockState state, Level world, BlockPos pos, RandomSource random, CallbackInfo ci) {
         LeavesGrowth.spawnFallingLeavesParticles(state, world, pos, random);
     }
 
@@ -45,12 +45,12 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
     }
 
     @Override
-    public boolean isBonemealSuccess(Level world, Random random, BlockPos pos, BlockState state) {
+    public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
         return state.is(Blocks.FLOWERING_AZALEA_LEAVES);
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state) {
+    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
         for (var direction : Direction.values()) {
             if (random.nextFloat() > 0.5f) {
                 var targetPos = pos.relative(direction);

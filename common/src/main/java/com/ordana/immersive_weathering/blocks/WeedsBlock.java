@@ -20,7 +20,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class WeedsBlock extends CropBlock {
 
@@ -43,7 +43,7 @@ public class WeedsBlock extends CropBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         int i = this.getAge(state);
         if (i < this.getMaxAge()) {
             float f = getGrowthSpeed(this, world, pos);
@@ -59,7 +59,7 @@ public class WeedsBlock extends CropBlock {
     }
 
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
         if (this.getAge(state) == this.getMaxAge() && random.nextInt(10) == 0) {
             double r = 0.3;
             double x = (double) pos.getX() + 0.5 + (random.nextDouble() - 0.5) * r;

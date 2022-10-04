@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class ParticleHelper {
 

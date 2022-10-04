@@ -24,7 +24,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 //TODO: add these
 public class CharredVerticalSlabBlock extends VerticalSlabBlock implements Charred {
@@ -54,19 +54,19 @@ public class CharredVerticalSlabBlock extends VerticalSlabBlock implements Charr
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (state.getValue(OVERHANG)==2) {
             FallingBlockEntity.fall(level, pos, state.setValue(OVERHANG, 0));
         }
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         Charred.super.animateTick(state, level, pos, random);
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         Charred.super.randomTick(state, level, pos, random);
     }
 

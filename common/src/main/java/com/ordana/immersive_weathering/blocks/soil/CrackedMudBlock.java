@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class CrackedMudBlock extends Block implements IConditionalGrowingBlock, Soaked {
 
@@ -31,7 +31,7 @@ public class CrackedMudBlock extends Block implements IConditionalGrowingBlock, 
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (state.getValue(SOAKED)) {
             if (random.nextInt(25) == 1) {
                 BlockPos blockpos = pos.below();
@@ -47,7 +47,7 @@ public class CrackedMudBlock extends Block implements IConditionalGrowingBlock, 
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         boolean newState = WeatheringHelper.shouldGetWet(world, pos);
         if (state.getValue(SOAKED) != newState) {
             world.setBlockAndUpdate(pos, state.setValue(SOAKED, newState));

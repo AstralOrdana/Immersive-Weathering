@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.IceBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 @Mixin(IceBlock.class)
 abstract public class IceMixin extends Block {
@@ -27,7 +27,7 @@ abstract public class IceMixin extends Block {
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (random.nextInt(25) == 1) {
             if (this.canMelt(state, level, pos)) {
 

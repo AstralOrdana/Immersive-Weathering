@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 @Mixin(CropBlock.class)
 public abstract class CropBlockMixin extends Block {
@@ -31,7 +31,7 @@ public abstract class CropBlockMixin extends Block {
     }
 
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random, CallbackInfo ci) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random, CallbackInfo ci) {
         BlockState soilState = world.getBlockState(pos.below());
         if (soilState.is(ModBlocks.MULCH_BLOCK.get()) && soilState.getValue(MulchBlock.MOISTURE) == 0) ci.cancel();
     }

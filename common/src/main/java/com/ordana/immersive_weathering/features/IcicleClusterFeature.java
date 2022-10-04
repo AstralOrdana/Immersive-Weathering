@@ -20,7 +20,7 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.OptionalInt;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
     public IcicleClusterFeature(Codec<IcicleClusterFeatureConfig> codec) {
@@ -54,7 +54,7 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
         }
     }
 
-    private void generate(WorldGenLevel world, Random random, BlockPos pos, int localX, int localZ, float wetness, double icicleChance, int height, float density, IcicleClusterFeatureConfig config) {
+    private void generate(WorldGenLevel world, RandomSource random, BlockPos pos, int localX, int localZ, float wetness, double icicleChance, int height, float density, IcicleClusterFeatureConfig config) {
         Optional<Column> optional = Column.scan(world, pos, config.floorToCeilingSearchRange, IcicleHelper::canGenerate, IcicleHelper::canReplaceOrLava);
         if (optional.isPresent()) {
             OptionalInt optionalInt = optional.get().getCeiling();

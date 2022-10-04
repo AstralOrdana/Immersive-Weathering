@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.lighting.LayerLightEngine;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class ModMyceliumBlock extends MyceliumBlock implements BonemealableBlock, IConditionalGrowingBlock {
     public static final BooleanProperty FERTILE = BooleanProperty.create("fertile");
@@ -59,7 +59,7 @@ public class ModMyceliumBlock extends MyceliumBlock implements BonemealableBlock
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (state.getValue(FERTILE)) {
             if (!canBeGrass(state, world, pos)) {
                 world.setBlockAndUpdate(pos, Blocks.DIRT.defaultBlockState());
@@ -83,12 +83,12 @@ public class ModMyceliumBlock extends MyceliumBlock implements BonemealableBlock
     }
 
     @Override
-    public boolean isBonemealSuccess(Level world, Random random, BlockPos pos, BlockState state) {
+    public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state) {
+    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
         world.setBlockAndUpdate(pos, Blocks.MYCELIUM.defaultBlockState().setValue(FERTILE, true));
     }
 }

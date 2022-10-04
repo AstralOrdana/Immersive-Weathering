@@ -35,7 +35,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 import java.util.function.Predicate;
 
 public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
@@ -118,7 +118,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
 
 
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
         if (canDrip(state)) {
             float f = random.nextFloat();
             if (!(f > 0.12F)) {
@@ -133,7 +133,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (isIcicleFacingDirection(state, Direction.UP) && !this.canSurvive(state, world, pos)) {
             world.destroyBlock(pos, true);
         } else {
@@ -142,7 +142,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         maybeFillCauldron(state, world, pos, random.nextFloat());
         if (random.nextFloat() < 0.2F && isIcicleTip(state, world, pos)) {
             growStalactiteOrStalagmiteIfPossible(state, world, pos, random);
@@ -237,7 +237,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
         }
     }
 
-    public static void growStalactiteOrStalagmiteIfPossible(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public static void growStalactiteOrStalagmiteIfPossible(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         BlockState blockState = world.getBlockState(pos.above(1));
         BlockState blockState2 = world.getBlockState(pos.above(2));
         if (canGrow(blockState, blockState2) && world.isDay() && !world.isRaining() && !world.isThundering()) {

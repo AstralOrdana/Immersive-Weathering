@@ -29,12 +29,12 @@ public class MossySlabBlock extends SlabBlock implements Mossable, BonemealableB
     }
 
     @Override
-    public boolean isBonemealSuccess(Level world, Random random, BlockPos pos, BlockState state) {
+    public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state) {
+    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
         MossSpreader.growNeighbors(world, random, pos);
     }
 

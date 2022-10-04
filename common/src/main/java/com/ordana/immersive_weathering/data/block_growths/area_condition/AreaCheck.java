@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 
 import java.util.Optional;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 record AreaCheck(int rX, int rY, int rZ, int requiredAmount, Optional<Integer> yOffset,
                  Optional<RuleTest> mustHavePredicate,

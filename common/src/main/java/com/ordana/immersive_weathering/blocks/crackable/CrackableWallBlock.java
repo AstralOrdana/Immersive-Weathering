@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 import java.util.function.Supplier;
 
 public class CrackableWallBlock extends CrackedWallBlock {
@@ -55,12 +55,12 @@ public class CrackableWallBlock extends CrackedWallBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random) {
         this.tryWeather(state, serverLevel, pos, random);
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         level.updateNeighborsAt(pos, this);
     }
 }

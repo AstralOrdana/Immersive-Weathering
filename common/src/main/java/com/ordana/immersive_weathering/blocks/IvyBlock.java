@@ -73,12 +73,12 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 	}
 
 	@Override
-	public boolean isBonemealSuccess(Level world, Random random, BlockPos pos, BlockState state) {
+	public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
 		return this.canGrowPseudoAdjacent(world, pos, state) || this.canGrowAdjacent(world, pos, state) || this.canGrowExternal(world, pos, state);
 	}
 
 	@Override
-	public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+	public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
 		int method = random.nextInt(3);
 
 		if (method == 0) {
@@ -134,7 +134,7 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 	}
 
 	@Override
-	public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state) {
+	public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
 		world.setBlockAndUpdate(pos, state.getBlock().withPropertiesOf(state).setValue(AGE, 0));
 		int method = random.nextInt(3);
 
@@ -198,7 +198,7 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return facing;
 	}
 
-	public boolean growPseudoAdjacent(Level world, Random random, BlockPos pos, BlockState state) {
+	public boolean growPseudoAdjacent(Level world, RandomSource random, BlockPos pos, BlockState state) {
 		BlockState newStateHere = state;
 
 		List<Direction> shuffledDirections = Lists.newArrayList(Direction.values());
@@ -232,7 +232,7 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return false;
 	}
 
-	public boolean growAdjacent(Level world, Random random, BlockPos pos, BlockState state) {
+	public boolean growAdjacent(Level world, RandomSource random, BlockPos pos, BlockState state) {
 		List<Direction> facing = getFacingDirections(state);
 		Collections.shuffle(facing, random);
 
@@ -292,7 +292,7 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return false;
 	}
 
-	public boolean growExternal(Level world, Random random, BlockPos pos, BlockState state) {
+	public boolean growExternal(Level world, RandomSource random, BlockPos pos, BlockState state) {
 		List<Direction> facing = getFacingDirections(state);
 		Collections.shuffle(facing, random);
 

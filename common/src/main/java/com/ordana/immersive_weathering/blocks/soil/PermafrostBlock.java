@@ -20,7 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class PermafrostBlock extends Block {
 
@@ -32,7 +32,7 @@ public class PermafrostBlock extends Block {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         BlockState upState = world.getBlockState(pos.above());
         BlockState downState = world.getBlockState(pos.below());
         if (upState.is(BlockTags.DIRT)) {

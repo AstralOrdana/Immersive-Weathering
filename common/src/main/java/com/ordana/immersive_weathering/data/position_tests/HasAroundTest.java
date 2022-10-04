@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 record HasAroundTest(PositionRuleTest predicate) implements PositionRuleTest {
 

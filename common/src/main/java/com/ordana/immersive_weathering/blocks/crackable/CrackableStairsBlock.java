@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 
 import java.util.Properties;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 import java.util.function.Supplier;
 
 public class CrackableStairsBlock extends CrackedStairsBlock {
@@ -48,12 +48,12 @@ public class CrackableStairsBlock extends CrackedStairsBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random) {
         this.tryWeather(state, serverLevel, pos, random);
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         level.updateNeighborsAt(pos, this);
     }
 }

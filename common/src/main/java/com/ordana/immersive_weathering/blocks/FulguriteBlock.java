@@ -29,7 +29,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class FulguriteBlock extends AmethystClusterBlock {
 
@@ -67,13 +67,13 @@ public class FulguriteBlock extends AmethystClusterBlock {
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         world.setBlock(pos, state.setValue(POWERED, false), 3);
         this.updateNeighbors(state, world, pos);
     }
 
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
         if (world.isThundering() && (long) world.random.nextInt(200) <= world.getGameTime() % 200L && pos.getY() == world.getHeight(Heightmap.Types.WORLD_SURFACE, pos.getX(), pos.getZ()) - 1) {
             ParticleUtils.spawnParticlesAlongAxis(state.getValue(FACING).getAxis(), world, pos, 0.125D, ParticleTypes.ELECTRIC_SPARK, UniformInt.of(1, 2));
         }

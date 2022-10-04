@@ -10,7 +10,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 //this class determines how moss patches spread
 public class MossSpreader implements PatchSpreader<Mossable.MossLevel> {
@@ -60,7 +60,7 @@ public class MossSpreader implements PatchSpreader<Mossable.MossLevel> {
     }
 
     //utility to grow stuff
-    static void growNeighbors(ServerLevel world, Random random, BlockPos pos) {
+    static void growNeighbors(ServerLevel world, RandomSource random, BlockPos pos) {
         for (var direction : Direction.values()) {
             if (random.nextFloat() > 0.5f) {
                 var targetPos = pos.relative(direction);

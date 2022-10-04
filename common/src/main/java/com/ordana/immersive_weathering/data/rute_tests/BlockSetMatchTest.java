@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class BlockSetMatchTest extends RuleTest {
 
@@ -29,7 +29,7 @@ public class BlockSetMatchTest extends RuleTest {
     }
 
     @Override
-    public boolean test(BlockState state, Random random) {
+    public boolean test(BlockState state, RandomSource random) {
         return state.is(blocks) && random.nextFloat() < this.probability;
     }
 

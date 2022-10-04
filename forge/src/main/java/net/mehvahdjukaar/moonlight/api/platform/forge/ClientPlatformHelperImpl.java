@@ -42,7 +42,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 import java.util.function.Consumer;
 
 public class ClientPlatformHelperImpl {

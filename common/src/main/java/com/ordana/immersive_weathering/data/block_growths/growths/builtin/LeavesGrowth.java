@@ -28,7 +28,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class LeavesGrowth extends BuiltinBlockGrowth {
 
@@ -132,7 +132,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
 
 
     //called from mixin. Client Side
-    public static void spawnFallingLeavesParticles(BlockState state, Level level, BlockPos pos, Random random) {
+    public static void spawnFallingLeavesParticles(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (ClientConfigs.FALLING_LEAF_PARTICLES.get()) {
             if (!state.getValue(LeavesBlock.PERSISTENT)) {
                 var leafParticle = LeafPilesRegistry.getFallenLeafParticle(state).orElse(null);
@@ -156,7 +156,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
         }
     }
 
-    public static void decayLeavesPile(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+    public static void decayLeavesPile(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         //this is server side, cant access client configs. Also meed to send color and send particles doesnt support that
 
         if (ClientConfigs.LEAF_DECAY_PARTICLES.get()) {

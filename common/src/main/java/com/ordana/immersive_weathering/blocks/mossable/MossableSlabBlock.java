@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.blocks.mossable;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -40,12 +40,12 @@ public class MossableSlabBlock extends MossySlabBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random){
+    public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random){
         this.tryWeather(state, serverLevel, pos, random);
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         level.updateNeighborsAt(pos, this);
     }
 

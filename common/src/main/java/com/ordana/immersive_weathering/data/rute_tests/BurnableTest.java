@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class BurnableTest extends RuleTest {
 
@@ -16,7 +16,7 @@ public class BurnableTest extends RuleTest {
 
     public static final Codec<BurnableTest> CODEC = Codec.unit(() -> INSTANCE);
 
-    public boolean test(BlockState state, Random random) {
+    public boolean test(BlockState state, RandomSource random) {
         //hack since we don't have world and pos. hopefully mods aren't using those lol
         try {
             return PlatformHelper.getFlammability(state, null, null, Direction.UP) != 0;

@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class ModMyceliumBlock extends MyceliumBlock implements BonemealableBlock, IConditionalGrowingBlock {
     public static final BooleanProperty FERTILE = SoilBlock.FERTILE;
@@ -53,12 +53,12 @@ public class ModMyceliumBlock extends MyceliumBlock implements BonemealableBlock
     }
 
     @Override
-    public boolean isBonemealSuccess(Level p_50901_, Random p_50902_, BlockPos p_50903_, BlockState p_50904_) {
+    public boolean isBonemealSuccess(Level p_50901_, RandomSource p_50902_, BlockPos p_50903_, BlockState p_50904_) {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel level, Random random, BlockPos pos, BlockState state) {
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
         if(! SoilBlock.isFertile(state) ) {
             level.setBlock(pos, state.setValue(FERTILE, true), 3);
         }

@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 
 import java.util.Locale;
 import java.util.Optional;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 //a block that can weather
 public interface Weatherable {
@@ -48,7 +48,7 @@ public interface Weatherable {
     }
 
     //call this with random tick
-    void tryWeather(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random);
+    void tryWeather(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random);
 
     //call on
     default BlockState getWeatheredStateForPlacement(BlockState state, BlockPos pos, Level level){

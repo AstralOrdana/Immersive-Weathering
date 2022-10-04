@@ -31,7 +31,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class NulchBlock extends Block {
     //TODO: merge with Mulch
@@ -44,7 +44,7 @@ public class NulchBlock extends Block {
 
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         var biome = world.getBiome(pos);
         for (Direction direction : Direction.values()) {
             var targetPos = pos.relative(direction);
@@ -88,7 +88,7 @@ public class NulchBlock extends Block {
 
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (state.getValue(MOLTEN)) {
             if (random.nextInt(25) == 1) {
                 BlockPos blockpos = pos.below();

@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class RustableTrapdoorBlock extends TrapDoorBlock implements Rustable {
     private final RustLevel rustLevel;
@@ -72,7 +72,7 @@ public class RustableTrapdoorBlock extends TrapDoorBlock implements Rustable {
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (this.getAge() == RustLevel.EXPOSED || this.getAge() == RustLevel.WEATHERED) {
             state = state.cycle(OPEN);
             this.playOpenCloseSound(world, pos, state.getValue(OPEN)); // if it is powered, play open sound, else play close sound
@@ -82,7 +82,7 @@ public class RustableTrapdoorBlock extends TrapDoorBlock implements Rustable {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (world.getBlockState(pos).is(ModTags.CLEAN_IRON)) {
             for (Direction direction : Direction.values()) {
                 var targetPos = pos.relative(direction);

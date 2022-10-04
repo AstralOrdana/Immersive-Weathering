@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 
 @Mixin(FireBlock.class)
@@ -34,14 +34,14 @@ public abstract class FireMixin extends BaseFireBlock{
             at = @At(value = "INVOKE",
                     target = "net/minecraft/world/level/Level.removeBlock (Lnet/minecraft/core/BlockPos;Z)Z",
                     shift = At.Shift.AFTER))
-    private void afterRemoveBlock(Level level, BlockPos blockPos, int i, Random random, int j, CallbackInfo ci) {
+    private void afterRemoveBlock(Level level, BlockPos blockPos, int i, RandomSource random, int j, CallbackInfo ci) {
         WeatheringHelper.onFireBurnBlock(level, blockPos, bs);
     }
 
     @Inject(method = "checkBurnOut",
             at = @At(value = "INVOKE",
                     target = "net/minecraft/world/level/Level.removeBlock (Lnet/minecraft/core/BlockPos;Z)Z"))
-    private void beforeRemoveBlock(Level level, BlockPos blockPos, int i, Random random, int j, CallbackInfo ci) {
+    private void beforeRemoveBlock(Level level, BlockPos blockPos, int i, RandomSource random, int j, CallbackInfo ci) {
         bs = level.getBlockState(blockPos);
     }
 
@@ -53,7 +53,7 @@ public abstract class FireMixin extends BaseFireBlock{
                     target = "Lnet/minecraft/server/level/ServerLevel;removeBlock(Lnet/minecraft/core/BlockPos;Z)Z",
                     ordinal = 3,
                     shift = At.Shift.AFTER))
-    private void removeBlock(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random, CallbackInfo ci) {
+    private void removeBlock(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random, CallbackInfo ci) {
         WeatheringHelper.onFireExpired(serverLevel, pos, state);
     }
 

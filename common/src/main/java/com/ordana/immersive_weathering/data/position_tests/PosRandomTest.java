@@ -8,7 +8,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public record PosRandomTest(int rarity) implements PositionRuleTest {
 

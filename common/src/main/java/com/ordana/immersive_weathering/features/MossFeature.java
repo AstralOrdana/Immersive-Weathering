@@ -17,7 +17,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.GlowLichenConfi
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 import java.util.stream.Collectors;
 
 public class MossFeature extends Feature<GlowLichenConfiguration> {
@@ -61,7 +61,7 @@ public class MossFeature extends Feature<GlowLichenConfiguration> {
         }
     }
 
-    public static boolean generate(WorldGenLevel world, BlockPos pos, BlockState state, GlowLichenConfiguration config, Random random, List<Direction> directions) {
+    public static boolean generate(WorldGenLevel world, BlockPos pos, BlockState state, GlowLichenConfiguration config, RandomSource random, List<Direction> directions) {
         BlockPos.MutableBlockPos mutable = pos.mutable();
         Iterator<Direction> var7 = directions.iterator();
 
@@ -91,13 +91,13 @@ public class MossFeature extends Feature<GlowLichenConfiguration> {
         }
     }
 
-    public static List<Direction> shuffleDirections(GlowLichenConfiguration config, Random random) {
+    public static List<Direction> shuffleDirections(GlowLichenConfiguration config, RandomSource random) {
         List<Direction> list = Lists.newArrayList(config.validDirections);
         Collections.shuffle(list, random);
         return list;
     }
 
-    public static List<Direction> shuffleDirections(GlowLichenConfiguration config, Random random, Direction excluded) {
+    public static List<Direction> shuffleDirections(GlowLichenConfiguration config, RandomSource random, Direction excluded) {
         List<Direction> list = config.validDirections.stream().filter((direction) -> direction != excluded).collect(Collectors.toList());
         Collections.shuffle(list, random);
         return list;

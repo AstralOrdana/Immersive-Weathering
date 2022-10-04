@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Optional;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 import java.util.function.Supplier;
 
 public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
@@ -113,7 +113,7 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
 
     //same as the base one but has configurable radius
     @Override
-    default void applyChangeOverTime(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
+    default void applyChangeOverTime(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random) {
         int age = this.getAge().ordinal();
         int j = 0;
         int k = 0;

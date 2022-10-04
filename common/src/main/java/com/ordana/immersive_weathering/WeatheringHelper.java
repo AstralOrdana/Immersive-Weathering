@@ -333,7 +333,7 @@ public class WeatheringHelper {
         }
     }
 
-    public static void growHangingRoots(ServerLevel world, Random random, BlockPos pos) {
+    public static void growHangingRoots(ServerLevel world, RandomSource random, BlockPos pos) {
         Direction dir = Direction.values()[1 + random.nextInt(5)].getOpposite();
         BlockPos targetPos = pos.relative(dir);
         BlockState targetState = world.getBlockState(targetPos);

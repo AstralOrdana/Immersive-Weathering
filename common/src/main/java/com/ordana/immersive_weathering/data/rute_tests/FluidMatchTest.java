@@ -11,7 +11,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
 import net.minecraft.world.level.material.Fluid;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class FluidMatchTest extends RuleTest {
 
@@ -30,7 +30,7 @@ public class FluidMatchTest extends RuleTest {
     }
 
     @Override
-    public boolean test(BlockState state, Random random) {
+    public boolean test(BlockState state, RandomSource random) {
         return state.getFluidState().is(fluids) && random.nextFloat() < this.probability;
     }
 

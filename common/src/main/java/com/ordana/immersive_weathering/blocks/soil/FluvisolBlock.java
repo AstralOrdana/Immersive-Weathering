@@ -33,7 +33,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class FluvisolBlock extends SoilBlock implements Soaked {
 
@@ -71,7 +71,7 @@ public class FluvisolBlock extends SoilBlock implements Soaked {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
 
         //world gen hax to speed up turning those blocks to dirt
         BlockState downState = world.getBlockState(pos.below());

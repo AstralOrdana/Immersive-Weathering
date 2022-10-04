@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 import java.util.function.Supplier;
 
 public class CrackableBlock extends CrackedBlock {
@@ -42,12 +42,12 @@ public class CrackableBlock extends CrackedBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random) {
         this.tryWeather(state, serverLevel, pos, random);
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         level.updateNeighborsAt(pos, this);
         //level.blockEvent(pos,this,6,1);
     }
@@ -67,7 +67,7 @@ public class CrackableBlock extends CrackedBlock {
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, Random p_49891_) {
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource p_49891_) {
         super.animateTick(state, level, pos, p_49891_);
         if(state.getValue(WEATHERABLE).isWeathering())
         ModParticles.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.HAPPY_VILLAGER, UniformInt.of(5,7));

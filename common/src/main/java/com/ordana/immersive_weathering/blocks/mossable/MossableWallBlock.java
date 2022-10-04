@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class MossableWallBlock extends MossyWallBlock {
 
@@ -53,13 +53,13 @@ public class MossableWallBlock extends MossyWallBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random) {
         this.tryWeather(state, serverLevel, pos, random);
 
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         level.updateNeighborsAt(pos, this);
     }
 }

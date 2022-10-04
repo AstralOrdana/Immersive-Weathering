@@ -10,6 +10,7 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,13 +25,13 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Fluids;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public interface Charred extends ILightable, Fallable {
 
     BooleanProperty SMOLDERING = ModBlockProperties.SMOLDERING;
 
-    default void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    default void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         int temperature = 0;
         boolean isTouchingWater = false;
         for (Direction direction : Direction.values()) {
@@ -56,7 +57,7 @@ public interface Charred extends ILightable, Fallable {
         }
     }
 
-    default void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
+    default void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
         if (random.nextInt(16) == 0 && FallingBlock.isFree(world.getBlockState(pos.below()))) {
             double d = (double) pos.getX() + random.nextDouble();
             double e = (double) pos.getY() - 0.05;

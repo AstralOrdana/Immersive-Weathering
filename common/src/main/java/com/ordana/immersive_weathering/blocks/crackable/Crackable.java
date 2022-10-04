@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Optional;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 import java.util.function.Supplier;
 
 public interface Crackable extends Weatherable {
@@ -144,7 +144,7 @@ public interface Crackable extends Weatherable {
     }
 
     @Override
-    default void tryWeather(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
+    default void tryWeather(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random) {
         if (random.nextFloat() < this.getWeatherChanceSpeed()) {
             Optional<BlockState> opt = Optional.empty();
             if (this.getCrackSpreader().getWantedWeatheringState(true, pos, serverLevel)) {

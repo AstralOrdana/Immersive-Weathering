@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 
 @Mixin(FireBlock.class)
@@ -35,14 +35,14 @@ public abstract class FireMixin extends BaseFireBlock{
             at = @At(value = "INVOKE",
                     target = "net/minecraft/world/level/Level.removeBlock (Lnet/minecraft/core/BlockPos;Z)Z",
                     shift = At.Shift.AFTER))
-    private void afterRemoveBlock(Level pLevel, BlockPos pPos, int pChance, Random pRandom, int pAge, Direction face, CallbackInfo ci) {
+    private void afterRemoveBlock(Level pLevel, BlockPos pPos, int pChance, RandomSource pRandom, int pAge, Direction face, CallbackInfo ci) {
         WeatheringHelper.onFireBurnBlock(pLevel, pPos, bs);
     }
 
     @Inject(method = "tryCatchFire",
             at = @At(value = "INVOKE",
                     target = "net/minecraft/world/level/Level.removeBlock (Lnet/minecraft/core/BlockPos;Z)Z"))
-    private void beforeRemoveBlock(Level pLevel, BlockPos pPos, int pChance, Random pRandom, int pAge, Direction face, CallbackInfo ci) {
+    private void beforeRemoveBlock(Level pLevel, BlockPos pPos, int pChance, RandomSource pRandom, int pAge, Direction face, CallbackInfo ci) {
         bs = pLevel.getBlockState(pPos);
     }
 
@@ -54,7 +54,7 @@ public abstract class FireMixin extends BaseFireBlock{
                     target = "Lnet/minecraft/server/level/ServerLevel;removeBlock(Lnet/minecraft/core/BlockPos;Z)Z",
                     ordinal = 3,
                     shift = At.Shift.AFTER))
-    private void removeBlock(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random, CallbackInfo ci) {
+    private void removeBlock(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random, CallbackInfo ci) {
         WeatheringHelper.onFireExpired(serverLevel, pos, state);
     }
 

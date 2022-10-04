@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class RustableVerticalSlabBlock extends VerticalSlabBlock implements Rustable {
 
@@ -25,7 +25,7 @@ public class RustableVerticalSlabBlock extends VerticalSlabBlock implements Rust
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (world.getBlockState(pos).is(ModTags.CLEAN_IRON)) {
             for (Direction direction : Direction.values()) {
                 var targetPos = pos.relative(direction);

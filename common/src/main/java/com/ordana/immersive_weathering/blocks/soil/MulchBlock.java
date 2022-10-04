@@ -39,7 +39,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class MulchBlock extends FarmBlock {
 
@@ -71,7 +71,7 @@ public class MulchBlock extends FarmBlock {
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (isSoaked(state)) {
             if (random.nextInt(25) == 1) {
                 BlockPos blockpos = pos.below();
@@ -87,7 +87,7 @@ public class MulchBlock extends FarmBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
 
         BlockState cropState = world.getBlockState(pos.above());
         if (CommonConfigs.MULCH_GROWS_CROPS.get()) {

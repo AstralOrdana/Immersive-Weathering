@@ -23,7 +23,7 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.lighting.LayerLightEngine;
 
 import java.util.List;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class ModGrassBlock extends GrassBlock implements BonemealableBlock, IConditionalGrowingBlock {
     public static final BooleanProperty FERTILE = BooleanProperty.create("fertile");
@@ -68,7 +68,7 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (state.getValue(FERTILE)) {
             if (!canBeGrass(state, world, pos)) {
                 world.setBlockAndUpdate(pos, Blocks.DIRT.defaultBlockState());
@@ -99,7 +99,7 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state) {
+    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
         BlockPos blockPos = pos.above();
         BlockState blockState = Blocks.GRASS.defaultBlockState();
         world.setBlockAndUpdate(pos, Blocks.GRASS_BLOCK.defaultBlockState().setValue(FERTILE, true));

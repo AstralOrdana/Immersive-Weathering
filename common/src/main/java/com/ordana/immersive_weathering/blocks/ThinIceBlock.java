@@ -30,7 +30,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 public class ThinIceBlock extends IceBlock implements LiquidBlockContainer {
 
@@ -92,7 +92,7 @@ public class ThinIceBlock extends IceBlock implements LiquidBlockContainer {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         //TODO: move to block growth
         /*
         if (state.getValue(HAS_ICE)) {

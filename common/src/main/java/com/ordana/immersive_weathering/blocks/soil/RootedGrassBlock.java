@@ -22,7 +22,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConf
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.lighting.LayerLightEngine;
 import java.util.List;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 
 
 public class RootedGrassBlock extends ModGrassBlock implements BonemealableBlock, IConditionalGrowingBlock {
@@ -39,13 +39,13 @@ public class RootedGrassBlock extends ModGrassBlock implements BonemealableBlock
         return true;
     }
 
-    public boolean isBonemealSuccess(Level world, Random random, BlockPos pos, BlockState state) {
+    public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
         return true;
     }
 
     //TODO: check this whole class
     @Override
-    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state) {
+    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
 
         WeatheringHelper.growHangingRoots(world, random, pos);
 
@@ -110,7 +110,7 @@ public class RootedGrassBlock extends ModGrassBlock implements BonemealableBlock
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (state.getValue(FERTILE)) {
             if (!canBeGrass(state, world, pos)) {
                 world.setBlockAndUpdate(pos, Blocks.ROOTED_DIRT.defaultBlockState());

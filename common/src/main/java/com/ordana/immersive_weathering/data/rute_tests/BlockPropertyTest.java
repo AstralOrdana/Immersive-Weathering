@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
+import net.minecraft.util.RandomSource;
 import java.util.function.Predicate;
 
 public class BlockPropertyTest extends RuleTest {
@@ -31,7 +31,7 @@ public class BlockPropertyTest extends RuleTest {
     }
 
     @Override
-    public boolean test(BlockState state, Random random) {
+    public boolean test(BlockState state, RandomSource random) {
         for(var p : propPredicates){
             if(!p.test(state))return false;
         }
