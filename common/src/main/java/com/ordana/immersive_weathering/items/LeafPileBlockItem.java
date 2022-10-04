@@ -6,11 +6,13 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class LeafPileBlockItem extends BlockItem {
@@ -28,5 +30,10 @@ public class LeafPileBlockItem extends BlockItem {
             return new InteractionResultHolder<>(interactionResult, player.getItemInHand(hand));
         }
         return super.use(level, player, hand);
+    }
+
+    @Override
+    protected boolean canPlace(BlockPlaceContext context, BlockState state) {
+        return super.canPlace(context, state) && context.getLevel().getFluidState(context.getClickedPos()).isEmpty();
     }
 }

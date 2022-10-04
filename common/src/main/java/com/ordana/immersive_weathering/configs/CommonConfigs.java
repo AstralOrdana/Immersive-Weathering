@@ -94,10 +94,14 @@ public class CommonConfigs {
     public static Supplier<Boolean> THIN_ICE_MELTING;
 
     public static Supplier<Boolean> VITRIFIED_LIGHTNING;
+    public static Supplier<Double> FULGURITE_CHANCE;
+
 
     public static Supplier<Boolean> RUSTING;
 
     public static Supplier<Boolean> MULCH_GROWS_CROPS;
+
+
 
     public static void init() {
         ConfigBuilder builder = ConfigBuilder.create(ImmersiveWeathering.res("common"), ConfigType.COMMON);
@@ -210,6 +214,8 @@ public class CommonConfigs {
 
         builder.push("lightning_growths"); //TODO:move to data
         VITRIFIED_LIGHTNING = builder.define("vitrified_lightning", true);
+        FULGURITE_CHANCE = builder.comment("chance that a lightning strike on sand creates fulgurite")
+                .define("fulgurite_chance", 0.4,0,1);
         builder.pop();
 
         builder.push("rusting");

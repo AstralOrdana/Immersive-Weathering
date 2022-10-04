@@ -228,31 +228,36 @@ public class ImmersiveWeatheringClient {
         final ItemColor defaultGrassColor = (stack, tintIndex) -> GrassColor.get(0.5D, 0.5D);
         //todo: REPLACE ALL OF THESE LIKE THIS
         IWPlatformStuff.copyColorFrom(event, ModBlocks.ROOTED_GRASS_BLOCK.get(), Blocks.GRASS_BLOCK, defaultGrassColor);
-        event.register(defaultGrassColor, Items.MOSSY_COBBLESTONE, Items.MOSSY_COBBLESTONE_SLAB);
-        event.register(defaultGrassColor, Items.MOSSY_COBBLESTONE_STAIRS);
-        event.register(defaultGrassColor, Items.MOSSY_COBBLESTONE_WALL);
-        event.register(defaultGrassColor, Items.INFESTED_MOSSY_STONE_BRICKS);
-        event.register(defaultGrassColor, Items.MOSSY_STONE_BRICKS);
-        event.register(defaultGrassColor, Items.MOSSY_STONE_BRICK_SLAB);
-        event.register(defaultGrassColor, Items.MOSSY_STONE_BRICK_STAIRS);
-        event.register(defaultGrassColor, Items.MOSSY_STONE_BRICK_WALL);
-        event.register(defaultGrassColor, ModBlocks.MOSSY_BRICKS.get());
-        event.register(defaultGrassColor, ModBlocks.MOSSY_BRICK_SLAB.get());
-        event.register(defaultGrassColor, ModBlocks.MOSSY_BRICK_STAIRS.get());
-        event.register(defaultGrassColor, ModBlocks.MOSSY_BRICK_WALL.get());
-        event.register(defaultGrassColor, ModBlocks.MOSSY_STONE.get());
-        event.register(defaultGrassColor, ModBlocks.MOSSY_STONE_SLAB.get());
-        event.register(defaultGrassColor, ModBlocks.MOSSY_STONE_STAIRS.get());
-        event.register(defaultGrassColor, ModBlocks.MOSSY_STONE_WALL.get());
+        IWPlatformStuff.copyColorFrom(event, Items.MOSSY_COBBLESTONE,Blocks.GRASS_BLOCK,defaultGrassColor );
+        IWPlatformStuff.copyColorFrom(event, Items.MOSSY_COBBLESTONE_SLAB,Blocks.GRASS_BLOCK, defaultGrassColor);
+        IWPlatformStuff.copyColorFrom(event, Items.MOSSY_COBBLESTONE_STAIRS,Blocks.GRASS_BLOCK, defaultGrassColor);
+        IWPlatformStuff.copyColorFrom(event, Items.MOSSY_COBBLESTONE_WALL,Blocks.GRASS_BLOCK, defaultGrassColor);
+        IWPlatformStuff.copyColorFrom(event, Items.INFESTED_MOSSY_STONE_BRICKS,Blocks.GRASS_BLOCK, defaultGrassColor);
+        IWPlatformStuff.copyColorFrom(event, Items.MOSSY_STONE_BRICKS,Blocks.GRASS_BLOCK, defaultGrassColor);
+        IWPlatformStuff.copyColorFrom(event, Items.MOSSY_STONE_BRICK_SLAB,Blocks.GRASS_BLOCK, defaultGrassColor);
+        IWPlatformStuff.copyColorFrom(event, Items.MOSSY_STONE_BRICK_STAIRS,Blocks.GRASS_BLOCK, defaultGrassColor);
+        IWPlatformStuff.copyColorFrom(event, Items.MOSSY_STONE_BRICK_WALL,Blocks.GRASS_BLOCK, defaultGrassColor);
+        IWPlatformStuff.copyColorFrom(event, ModBlocks.MOSSY_BRICKS.get(),Blocks.GRASS_BLOCK, defaultGrassColor);
+        IWPlatformStuff.copyColorFrom(event, ModBlocks.MOSSY_BRICK_SLAB.get(),Blocks.GRASS_BLOCK, defaultGrassColor);
+        IWPlatformStuff.copyColorFrom(event, ModBlocks.MOSSY_BRICK_STAIRS.get(),Blocks.GRASS_BLOCK, defaultGrassColor);
+        IWPlatformStuff.copyColorFrom(event, ModBlocks.MOSSY_BRICK_WALL.get(),Blocks.GRASS_BLOCK, defaultGrassColor);
+        IWPlatformStuff.copyColorFrom(event, ModBlocks.MOSSY_STONE.get(),Blocks.GRASS_BLOCK, defaultGrassColor);
+        IWPlatformStuff.copyColorFrom(event, ModBlocks.MOSSY_STONE_SLAB.get(),Blocks.GRASS_BLOCK, defaultGrassColor);
+        IWPlatformStuff.copyColorFrom(event, ModBlocks.MOSSY_STONE_STAIRS.get(),Blocks.GRASS_BLOCK, defaultGrassColor);
+        IWPlatformStuff.copyColorFrom(event, ModBlocks.MOSSY_STONE_WALL.get(),Blocks.GRASS_BLOCK, defaultGrassColor);
+
 
         final ItemColor defaultFoliageColor = (stack, tintIndex) -> FoliageColor.getDefaultColor();
 
-        event.register(defaultFoliageColor, ModBlocks.OAK_LEAF_PILE.get());
-        event.register((stack, tintIndex) -> FoliageColor.getEvergreenColor(), ModBlocks.SPRUCE_LEAF_PILE.get());
-        event.register((stack, tintIndex) -> FoliageColor.getBirchColor(), ModBlocks.BIRCH_LEAF_PILE.get());
-        event.register(defaultFoliageColor, ModBlocks.JUNGLE_LEAF_PILE.get());
-        event.register(defaultFoliageColor, ModBlocks.ACACIA_LEAF_PILE.get());
-        event.register(defaultFoliageColor, ModBlocks.DARK_OAK_LEAF_PILE.get());
+        LeafPilesRegistry.LEAF_PILES.get().forEach((leaf, leafPile) -> {
+            if (leaf == Blocks.BIRCH_LEAVES) {
+                IWPlatformStuff.copyColorFrom(event, leafPile, leaf, (s,i) -> FoliageColor.getBirchColor());
+            } else if (leaf == Blocks.SPRUCE_LEAVES) {
+                IWPlatformStuff.copyColorFrom(event, leafPile, leaf, (s, tintIndex) -> FoliageColor.getEvergreenColor());
+            } else {
+                IWPlatformStuff.copyColorFrom(event, leafPile, leaf, defaultFoliageColor);
+            }
+        });
 
     }
 
