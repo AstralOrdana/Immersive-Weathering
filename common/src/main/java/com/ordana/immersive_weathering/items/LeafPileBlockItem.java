@@ -34,6 +34,14 @@ public class LeafPileBlockItem extends BlockItem {
 
     @Override
     protected boolean canPlace(BlockPlaceContext context, BlockState state) {
-        return super.canPlace(context, state) && context.getLevel().getFluidState(context.getClickedPos()).isEmpty();
+        return super.canPlace(context, state) &&
+                context.getLevel().getFluidState(context.getClickedPos()).isEmpty();
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        var ret = super.useOn(context);
+        if (ret == InteractionResult.FAIL) return InteractionResult.PASS;
+        return ret;
     }
 }

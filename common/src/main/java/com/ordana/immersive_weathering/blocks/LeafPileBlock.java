@@ -177,7 +177,8 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
         BlockState bottomState = world.getBlockState(pos.below());
-        if (bottomState.getBlock() instanceof LeavesBlock || state.getValue(LAYERS) != 0 || world.getFluidState(pos.below()).is(Fluids.WATER) || bottomState.isFaceSturdy(world, pos.below(), Direction.UP)) return true;
+        if(bottomState.getBlock() instanceof LeavesBlock)return true;
+        if (state.getValue(LAYERS) != 0 && !bottomState.isFaceSturdy(world, pos.below(), Direction.UP)) return false;
         return !shouldFall(state, world.getBlockState(pos.below()));
     }
 
