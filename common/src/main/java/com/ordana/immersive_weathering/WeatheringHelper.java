@@ -5,18 +5,20 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
+import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.blocks.charred.CharredBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.mixins.accessors.BiomeAccessor;
-import com.ordana.immersive_weathering.reg.LeafPilesRegistry;
-import com.ordana.immersive_weathering.reg.ModBlocks;
-import com.ordana.immersive_weathering.reg.ModParticles;
-import com.ordana.immersive_weathering.reg.ModTags;
+import com.ordana.immersive_weathering.reg.*;
+import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesTypeRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -61,7 +63,8 @@ public class WeatheringHelper {
         var builder = ImmutableBiMap.<Block, Block>builder()
                 .put(Blocks.FLOWERING_AZALEA, Blocks.AZALEA)
                 .put(Blocks.FLOWERING_AZALEA_LEAVES, Blocks.AZALEA_LEAVES)
-                .put(ModBlocks.FLOWERING_AZALEA_LEAF_PILE.get(), ModBlocks.AZALEA_LEAF_PILE.get());
+                .put(ModBlocks.LEAF_PILES.get(LeavesTypeRegistry.getValue(new ResourceLocation("flowering_azalea"))),
+                        ModBlocks.LEAF_PILES.get(LeavesTypeRegistry.getValue(new ResourceLocation("azalea"))));
         addOptional(builder, "quark:flowering_azalea_hedge", "quark:azalea_hedge");
         addOptional(builder, "quark:flowering_azalea_leaf_carpet", "quark:azalea_leaf_carpet");
         return builder.build();
@@ -79,18 +82,87 @@ public class WeatheringHelper {
     }
 
 
+
+    public static final Supplier<Map<Block, LeafPileBlock>> LEAVES_TO_PILES = Suppliers.memoize(() -> {
+                var b = ImmutableMap.<Block, LeafPileBlock>builder();
+                ModBlocks.LEAF_PILES.forEach((key, value) -> b.put(key.leaves, value));
+                return b.build();
+            }
+    );
+
+    public static final Supplier<Map<Block, SimpleParticleType>> LEAVES_TO_PARTICLE = Suppliers.memoize(() -> {
+                var b = ImmutableMap.<Block, SimpleParticleType>builder();
+                b.put(Blocks.FLOWERING_AZALEA_LEAVES, ModParticles.AZALEA_FLOWER.get());
+
+                ModParticles.FALLING_LEAVES.forEach((key, value) -> b.put(key.leaves, value));
+                return b.build();
+            }
+    );
+
+    public static final Supplier<Map<Block, Pair<Item, Block>>> STRIPPED_LOG_TO_BARK = Suppliers.memoize(() -> {
+        var b = ImmutableMap.<Block, Pair<Item, Block>>builder();
+        ModItems.BARK.forEach((key, value) -> {
+            var stripped = key.getBlockOfThis("stripped_log");
+            if (stripped != null) b.put(stripped, Pair.of(value, key.log));
+            var stripped_wood = key.getBlockOfThis("stripped_wood");
+            var wood = key.getBlockOfThis("wood");
+            if (wood != null && stripped_wood != null) b.put(stripped_wood, Pair.of(value, wood));
+        });
+        return b.build();
+    });
+
+    //merge to weathering helper
+
+    public static final Supplier<Map<Block, ParticleOptions>> LOG_TO_PARTICLES = Suppliers.memoize(() ->
+            ImmutableMap.<Block, ParticleOptions>builder()
+                    .put(Blocks.OAK_LOG, ModParticles.OAK_BARK.get())
+                    .put(Blocks.DARK_OAK_LOG, ModParticles.DARK_OAK_BARK.get())
+                    .put(Blocks.SPRUCE_LOG, ModParticles.SPRUCE_BARK.get())
+                    .put(Blocks.BIRCH_LOG, ModParticles.BIRCH_BARK.get())
+                    .put(Blocks.JUNGLE_LOG, ModParticles.JUNGLE_BARK.get())
+                    .put(Blocks.ACACIA_LOG, ModParticles.ACACIA_BARK.get())
+                    .put(Blocks.CRIMSON_STEM, ModParticles.NETHER_SCALE.get())
+                    .put(Blocks.WARPED_STEM, ModParticles.NETHER_SCALE.get())
+                    .put(Blocks.OAK_WOOD, ModParticles.OAK_BARK.get())
+                    .put(Blocks.DARK_OAK_WOOD, ModParticles.DARK_OAK_BARK.get())
+                    .put(Blocks.SPRUCE_WOOD, ModParticles.SPRUCE_BARK.get())
+                    .put(Blocks.BIRCH_WOOD, ModParticles.BIRCH_BARK.get())
+                    .put(Blocks.JUNGLE_WOOD, ModParticles.JUNGLE_BARK.get())
+                    .put(Blocks.ACACIA_WOOD, ModParticles.ACACIA_BARK.get())
+                    .put(Blocks.CRIMSON_HYPHAE, ModParticles.NETHER_SCALE.get())
+                    .put(Blocks.WARPED_HYPHAE, ModParticles.NETHER_SCALE.get())
+                    .build());
+
+    public static ParticleOptions getBarkParticle(BlockState state) {
+        return LOG_TO_PARTICLES.get().getOrDefault(state.getBlock(), new BlockParticleOption(ParticleTypes.BLOCK, state));
+    }
+
+
+    public static Optional<Block> getFallenLeafPile(BlockState state) {
+        Block b = state.getBlock();
+        if (CommonConfigs.LEAF_PILES_BLACKLIST.get().contains(Registry.BLOCK.getKey(b).toString()))
+            return Optional.empty();
+        return Optional.ofNullable(LEAVES_TO_PILES.get().get(b));
+    }
+
+    public static Optional<SimpleParticleType> getFallenLeafParticle(BlockState state) {
+        Block b = state.getBlock();
+        return Optional.ofNullable(LEAVES_TO_PARTICLE.get().get(b));
+    }
+
+
+    @Nullable
     public static Item getBarkToStrip(BlockState normalLog) {
-        for (var e : LeafPilesRegistry.STRIPPED_LOG_TO_BARK.get().values()) {
+        for (var e : STRIPPED_LOG_TO_BARK.get().values()) {
             if (e.getSecond() == normalLog.getBlock()) {
                 return e.getFirst();
             }
         }
         return null;
-
     }
 
     public static Optional<Pair<Item, Block>> getBarkForStrippedLog(BlockState normalLog) {
-        var pair = Optional.ofNullable(LeafPilesRegistry.STRIPPED_LOG_TO_BARK.get().get(normalLog.getBlock()));
+        var pair = Optional.ofNullable(STRIPPED_LOG_TO_BARK.get().get(normalLog.getBlock()));
 
         if (pair.isPresent()) {
             String s = CommonConfigs.GENERIC_BARK.get();
@@ -104,29 +176,6 @@ public class WeatheringHelper {
             return pair;
         }
         return Optional.empty();
-    }
-
-    public static final Supplier<Map<Block, ParticleOptions>> BARK_PARTICLES = Suppliers.memoize(() -> ImmutableMap.<Block, ParticleOptions>builder()
-            .put(Blocks.OAK_LOG, ModParticles.OAK_BARK.get())
-            .put(Blocks.DARK_OAK_LOG, ModParticles.DARK_OAK_BARK.get())
-            .put(Blocks.SPRUCE_LOG, ModParticles.SPRUCE_BARK.get())
-            .put(Blocks.BIRCH_LOG, ModParticles.BIRCH_BARK.get())
-            .put(Blocks.JUNGLE_LOG, ModParticles.JUNGLE_BARK.get())
-            .put(Blocks.ACACIA_LOG, ModParticles.ACACIA_BARK.get())
-            .put(Blocks.CRIMSON_STEM, ModParticles.NETHER_SCALE.get())
-            .put(Blocks.WARPED_STEM, ModParticles.NETHER_SCALE.get())
-            .put(Blocks.OAK_WOOD, ModParticles.OAK_BARK.get())
-            .put(Blocks.DARK_OAK_WOOD, ModParticles.DARK_OAK_BARK.get())
-            .put(Blocks.SPRUCE_WOOD, ModParticles.SPRUCE_BARK.get())
-            .put(Blocks.BIRCH_WOOD, ModParticles.BIRCH_BARK.get())
-            .put(Blocks.JUNGLE_WOOD, ModParticles.JUNGLE_BARK.get())
-            .put(Blocks.ACACIA_WOOD, ModParticles.ACACIA_BARK.get())
-            .put(Blocks.CRIMSON_HYPHAE, ModParticles.NETHER_SCALE.get())
-            .put(Blocks.WARPED_HYPHAE, ModParticles.NETHER_SCALE.get())
-            .build());
-
-    public static Optional<ParticleOptions> getBarkParticle(BlockState state) {
-        return Optional.ofNullable(BARK_PARTICLES.get().get(state.getBlock()));
     }
 
 

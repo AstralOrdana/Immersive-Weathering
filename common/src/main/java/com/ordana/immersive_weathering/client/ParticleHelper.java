@@ -1,19 +1,12 @@
 package com.ordana.immersive_weathering.client;
 
-import com.ordana.immersive_weathering.reg.LeafPilesRegistry;
-import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.util.Mth;
-import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.LeavesBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-
-import net.minecraft.util.RandomSource;
 
 public class ParticleHelper {
 

@@ -5,7 +5,7 @@ import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
-import com.ordana.immersive_weathering.reg.LeafPilesRegistry;
+import com.ordana.immersive_weathering.reg.LeafPilesHelper;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.minecraft.client.Minecraft;
@@ -46,7 +46,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
         if ((!state.hasProperty(LeavesBlock.PERSISTENT) || !state.getValue(LeavesBlock.PERSISTENT))
                 && random.nextFloat() < CommonConfigs.LEAF_PILES_REACH.get()) {
 
-            var leafPile = LeafPilesRegistry.getFallenLeafPile(state).orElse(null);
+            var leafPile = LeafPilesHelper.getFallenLeafPile(state).orElse(null);
             if (leafPile != null && level.getBlockState(pos.below()).isAir()) {
 
 
@@ -135,7 +135,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
     public static void spawnFallingLeavesParticles(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (ClientConfigs.FALLING_LEAF_PARTICLES.get()) {
             if (!state.getValue(LeavesBlock.PERSISTENT)) {
-                var leafParticle = LeafPilesRegistry.getFallenLeafParticle(state).orElse(null);
+                var leafParticle = LeafPilesHelper.getFallenLeafParticle(state).orElse(null);
                 if (leafParticle == null) return;
                 int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
                 BlockPos blockPos = pos.below();
@@ -160,7 +160,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
         //this is server side, cant access client configs. Also meed to send color and send particles doesnt support that
 
         if (ClientConfigs.LEAF_DECAY_PARTICLES.get()) {
-            var leafParticle = LeafPilesRegistry.getFallenLeafParticle(state).orElse(null);
+            var leafParticle = LeafPilesHelper.getFallenLeafParticle(state).orElse(null);
             if (leafParticle == null) return;
             int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
             BlockPos downPos = pos.below();
@@ -179,7 +179,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
         }
 
         if (CommonConfigs.LEAF_PILES_FROM_DECAY_CHANCE.get() > level.random.nextFloat()) {
-            Block leafPile = LeafPilesRegistry.getFallenLeafPile(state).orElse(null);
+            Block leafPile = LeafPilesHelper.getFallenLeafPile(state).orElse(null);
             if (leafPile == null) return;
             BlockState baseLeaf = leafPile.defaultBlockState();
 

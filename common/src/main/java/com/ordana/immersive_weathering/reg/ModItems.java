@@ -6,24 +6,35 @@ import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.items.*;
 import com.ordana.immersive_weathering.items.materials.FlowerCrownMaterial;
 import com.ordana.immersive_weathering.items.materials.IcicleToolMaterial;
+import net.mehvahdjukaar.moonlight.api.item.WoodBasedItem;
+import net.mehvahdjukaar.moonlight.api.misc.Registrator;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
+import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
+import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
+import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
+import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class ModItems {
 
-    public static final CreativeModeTab MOD_TAB =  !CommonConfigs.CREATIVE_TAB.get() ? null :
+    public static final CreativeModeTab MOD_TAB = !CommonConfigs.CREATIVE_TAB.get() ? null :
             PlatformHelper.createModTab(ImmersiveWeathering.res(ImmersiveWeathering.MOD_ID),
-                    ()-> ModBlocks.IVY.get().asItem().getDefaultInstance(), false);
-    
-    public static CreativeModeTab getTab(CreativeModeTab tab){
-        return MOD_TAB == null  ? tab : MOD_TAB;
+                    () -> ModBlocks.IVY.get().asItem().getDefaultInstance(), false);
+
+    public static CreativeModeTab getTab(CreativeModeTab tab) {
+        return MOD_TAB == null ? tab : MOD_TAB;
     }
 
     public static void init() {
+        BlockSetAPI.addDynamicItemRegistration(ModItems::registerLeafPilesItems, LeavesType.class);
+        BlockSetAPI.addDynamicItemRegistration(ModItems::registerBark, WoodType.class);
     }
 
     public static <T extends Item> Supplier<T> regItem(String name, Supplier<T> itemSup) {
@@ -42,15 +53,7 @@ public class ModItems {
             ModBlocks.ICICLE.get(), new Item.Properties().food(ModFoods.ICICLE).tab(getTab(CreativeModeTab.TAB_DECORATIONS))));
 
     //leaf pile
-
-    public static final Supplier<BlockItem> OAK_LEAF_PILE = regLeafPile("oak_leaf_pile", ModBlocks.OAK_LEAF_PILE);
-    public static final Supplier<BlockItem> SPRUCE_LEAF_PILE = regLeafPile("spruce_leaf_pile", ModBlocks.SPRUCE_LEAF_PILE);
-    public static final Supplier<BlockItem> BIRCH_LEAF_PILE = regLeafPile("birch_leaf_pile", ModBlocks.BIRCH_LEAF_PILE);
-    public static final Supplier<BlockItem> JUNGLE_LEAF_PILE = regLeafPile("jungle_leaf_pile", ModBlocks.JUNGLE_LEAF_PILE);
-    public static final Supplier<BlockItem> ACACIA_LEAF_PILE = regLeafPile("acacia_leaf_pile", ModBlocks.ACACIA_LEAF_PILE);
-    public static final Supplier<BlockItem> DARK_OAK_LEAF_PILE = regLeafPile("dark_oak_leaf_pile", ModBlocks.DARK_OAK_LEAF_PILE);
-    public static final Supplier<BlockItem> AZALEA_LEAF_PILE = regLeafPile("azalea_leaf_pile", ModBlocks.AZALEA_LEAF_PILE);
-    public static final Supplier<BlockItem> FLOWERING_AZALEA_LEAF_PILE = regLeafPile("flowering_azalea_leaf_pile", ModBlocks.FLOWERING_AZALEA_LEAF_PILE);
+    public static final Map<LeavesType, BlockItem> LEAF_PILES = new LinkedHashMap<>();
     public static final Supplier<BlockItem> AZALEA_FLOWER_PILE = regLeafPile("azalea_flower_pile", ModBlocks.AZALEA_FLOWER_PILE);
 
     //bricks
@@ -94,22 +97,7 @@ public class ModItems {
 
     //bark
 
-    public static final Supplier<Item> OAK_BARK = regItem("oak_bark", () ->
-            new BurnableItem(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS)), 200));
-    public static final Supplier<Item> BIRCH_BARK = regItem("birch_bark", () ->
-            new BurnableItem(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS)), 200));
-    public static final Supplier<Item> SPRUCE_BARK = regItem("spruce_bark", () ->
-            new BurnableItem(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS)), 200));
-    public static final Supplier<Item> JUNGLE_BARK = regItem("jungle_bark", () ->
-            new BurnableItem(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS)), 200));
-    public static final Supplier<Item> DARK_OAK_BARK = regItem("dark_oak_bark", () ->
-            new BurnableItem(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS)), 200));
-    public static final Supplier<Item> ACACIA_BARK = regItem("acacia_bark", () ->
-            new BurnableItem(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS)), 200));
-    public static final Supplier<Item> CRIMSON_SCALES = regItem("crimson_scales", () ->
-            new Item(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS))));
-    public static final Supplier<Item> WARPED_SCALES = regItem("warped_scales", () ->
-            new Item(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS))));
+    public static final Map<WoodType, Item> BARK = new LinkedHashMap<>();
 
     public static final Supplier<Item> TALLOW = regItem("tallow",
             () -> new HoneycombItem(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS))));
@@ -127,4 +115,25 @@ public class ModItems {
     public static final Supplier<Item> FROST_ITEM = regItem("frost", () ->
             new FrostItem(ModBlocks.FROST.get(), new Item.Properties().tab(getTab(CreativeModeTab.TAB_DECORATIONS))));
 
+
+    private static void registerBark(Registrator<Item> event, Collection<WoodType> woodTypes) {
+        for (WoodType type : woodTypes) {
+            String name = type.getNamespace() + "/" + type.getTypeName() +
+                    ((!type.canBurn() && type.isVanilla()) ? "_scale" : "_bark");
+
+            Item item = new WoodBasedItem(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS), type, 200);
+            event.register(ImmersiveWeathering.res(name), item);
+            BARK.put(type, item);
+            type.addChild("iw/bark", item);
+        }
+    }
+
+    private static void registerLeafPilesItems(Registrator<Item> event, Collection<LeavesType> leavesTypes) {
+        for (LeavesType type : leavesTypes) {
+            var b = ModBlocks.LEAF_PILES.get(type);
+            BlockItem i = new LeafPileBlockItem(b, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
+            event.register(Utils.getID(b), i);
+            LEAF_PILES.put(type,i);
+        }
+    }
 }

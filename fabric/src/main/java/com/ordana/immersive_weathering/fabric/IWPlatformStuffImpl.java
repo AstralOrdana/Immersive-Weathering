@@ -61,18 +61,9 @@ public class IWPlatformStuffImpl {
     public static void addExtraCrackedBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
     }
 
-
-    public static Collection<LeafPileBlock> getLeafPiles() {
-        return List.of();
-    }
-
     public static void addFeatureToBiome(GenerationStep.Decoration step, TagKey<Biome> tagKey, ResourceKey<PlacedFeature> feature) {
         BiomeModifications.addFeature(BiomeSelectors.tag(tagKey), step, feature);
 
-    }
-
-    public static Map<Block, LeafPileBlock> getDynamicLeafPiles() {
-        return null;
     }
 
     public static void addExtraBark(ImmutableMap.Builder<Block, Pair<Item, Block>> builder) {

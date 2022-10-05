@@ -20,7 +20,9 @@ import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
+import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesTypeRegistry;
 import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -44,8 +46,7 @@ public class ModBlocks {
 
     public static void init() {
         BlockSetAPI.addDynamicBlockRegistration(ModBlocks::registerLeafPiles, LeavesType.class);
-        BlockSetAPI.addDynamicItemRegistration(ModDynamicRegistry::registerLeafPilesItems, Item.class, LeavesType.class);
-        BlockSetAPI.addDynamicItemRegistration(ModDynamicRegistry::registerBarks, Item.class, WoodType.class);
+
     }
 
 
@@ -99,8 +100,7 @@ public class ModBlocks {
 
 
     public static final Supplier<LeafPileBlock> AZALEA_FLOWER_PILE = regBlock("azalea_flower_pile", () ->
-            new LeafPileBlock(Properties.copy(LEAF_PILES.get().get()), true, false, false,
-                    List.of(ModParticles.AZALEA_FLOWER)));
+            new LeafPileBlock(Properties.copy(LEAF_PILES.get(LeavesTypeRegistry.getValue(new ResourceLocation("azalea")))), LeavesTypeRegistry.OAK_TYPE));
 
     //layer stuff
 
@@ -648,16 +648,6 @@ public class ModBlocks {
             new CharredFenceGateBlock(Properties.copy(CHARRED_LOG.get())));
 
 
-    private static void registerBarks(Registrator<Item> event, Collection<WoodType> woodTypes) {
-        for (WoodType type : woodTypes) {
-            String name = type.getNamespace() + "/" + type.getTypeName() + "_bark";
-
-            Item item = new WoodBasedItem(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS),type, 200)
-            event.register(ImmersiveWeathering.res(name),item);
-            BARKS.put(type, item);
-            type.addChild("iw/bark", item);
-        }
-    }
 
     private static void registerLeafPiles(Registrator<Block> event, Collection<LeavesType> leavesTypes) {
         for (LeavesType type : leavesTypes) {

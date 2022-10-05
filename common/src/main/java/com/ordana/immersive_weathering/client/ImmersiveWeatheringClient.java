@@ -7,7 +7,6 @@ import com.ordana.immersive_weathering.client.particles.LeafParticle;
 import com.ordana.immersive_weathering.items.FlowerCrownItem;
 import com.ordana.immersive_weathering.reg.*;
 import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
-import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -20,7 +19,6 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.GrassColor;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 public class ImmersiveWeatheringClient {
@@ -85,7 +83,7 @@ public class ImmersiveWeatheringClient {
         ClientPlatformHelper.registerRenderType(ModBlocks.ICICLE.get(), RenderType.cutout());
         ClientPlatformHelper.registerRenderType(ModBlocks.FULGURITE.get(), RenderType.cutout());
 
-        LeafPilesRegistry.LEAF_PILES.get().values().forEach(b ->
+        LeafPilesHelper.LEAVES_TO_PILES.get().values().forEach(b ->
                 ClientPlatformHelper.registerRenderType(b, RenderType.cutout()));
         ClientPlatformHelper.registerRenderType(ModBlocks.AZALEA_FLOWER_PILE.get(), RenderType.cutout());
 
@@ -186,7 +184,7 @@ public class ImmersiveWeatheringClient {
         final BlockColor defaultFoliageColor = (state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageFoliageColor(world, pos) : FoliageColor.getDefaultColor();
 
 
-        LeafPilesRegistry.LEAF_PILES.get().forEach((leaf, leafPile) -> {
+        LeafPilesHelper.LEAVES_TO_PILES.get().forEach((leaf, leafPile) -> {
             if (leaf == Blocks.BIRCH_LEAVES) {
                 IWPlatformStuff.copyColorFrom(event, leafPile, leaf, (state, world, pos, tintIndex) -> FoliageColor.getBirchColor());
 
@@ -249,7 +247,7 @@ public class ImmersiveWeatheringClient {
 
         final ItemColor defaultFoliageColor = (stack, tintIndex) -> FoliageColor.getDefaultColor();
 
-        LeafPilesRegistry.LEAF_PILES.get().forEach((leaf, leafPile) -> {
+        LeafPilesHelper.LEAVES_TO_PILES.get().forEach((leaf, leafPile) -> {
             if (leaf == Blocks.BIRCH_LEAVES) {
                 IWPlatformStuff.copyColorFrom(event, leafPile, leaf, (s,i) -> FoliageColor.getBirchColor());
             } else if (leaf == Blocks.SPRUCE_LEAVES) {

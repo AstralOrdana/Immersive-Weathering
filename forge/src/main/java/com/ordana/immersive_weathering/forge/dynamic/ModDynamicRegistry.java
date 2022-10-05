@@ -65,17 +65,7 @@ public class ModDynamicRegistry {
 
 
 
-    private static void registerLeafPilesItems(RegistryEvent.Register<Item> event, Collection<LeavesType> leavesTypes) {
 
-        for (LeavesType type : leavesTypes) {
-            if (!type.isVanilla()) {
-                Item i = new LeafPileBlockItem(TYPE_TO_LEAF.get(type),
-                        new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
-                i.setRegistryName(TYPE_TO_LEAF.get(type).getRegistryName());
-                event.getRegistry().register(i);
-            }
-        }
-    }
 
     private static void registerLeafPilesParticles(RegistryEvent.Register<ParticleType<?>> event) {
         TYPE_TO_LEAF_PARTICLE.put(LeavesTypeRegistry.fromNBT("oak"), ModParticles.OAK_LEAF.get());

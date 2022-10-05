@@ -2,8 +2,11 @@ package com.ordana.immersive_weathering.reg;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
+import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
 import net.minecraft.core.particles.SimpleParticleType;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class ModParticles {
@@ -15,13 +18,7 @@ public class ModParticles {
         return RegHelper.registerParticle(ImmersiveWeathering.res(name));
     }
 
-    public static final Supplier<SimpleParticleType> OAK_LEAF = registerParticle("oak_leaf");
-    public static final Supplier<SimpleParticleType> BIRCH_LEAF = registerParticle("birch_leaf");
-    public static final Supplier<SimpleParticleType> SPRUCE_LEAF = registerParticle("spruce_leaf");
-    public static final Supplier<SimpleParticleType> JUNGLE_LEAF = registerParticle("jungle_leaf");
-    public static final Supplier<SimpleParticleType> ACACIA_LEAF = registerParticle("acacia_leaf");
-    public static final Supplier<SimpleParticleType> DARK_OAK_LEAF = registerParticle("dark_oak_leaf");
-    public static final Supplier<SimpleParticleType> AZALEA_LEAF = registerParticle("azalea_leaf");
+    public static Map<LeavesType,SimpleParticleType> FALLING_LEAVES = new LinkedHashMap<>();
     public static final Supplier<SimpleParticleType> AZALEA_FLOWER = registerParticle("azalea_flower");
 
     public static final Supplier<SimpleParticleType> MULCH = registerParticle("mulch");

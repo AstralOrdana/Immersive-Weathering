@@ -37,7 +37,6 @@ public class IWPlatformStuff {
         throw new AssertionError();
     }
 
-
     @ExpectPlatform
     public static void addExtraMossyBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
         throw new AssertionError();
@@ -48,23 +47,6 @@ public class IWPlatformStuff {
         throw new AssertionError();
     }
 
-    @Nullable
-    @ExpectPlatform
-    public static Map<Block, LeafPileBlock> getDynamicLeafPiles() {
-        throw new AssertionError();
-    }
-
-    @Nullable
-    @ExpectPlatform
-    public static Map<Block, SimpleParticleType> getDynamicLeafParticles() {
-        throw new AssertionError();
-    }
-
-
-    @ExpectPlatform
-    public static void addExtraBark(ImmutableMap.Builder<Block, Pair<Item, Block>> builder) {
-        throw new AssertionError();
-    }
 
     @ExpectPlatform
     public static void copyColorFrom(ClientPlatformHelper.BlockColorEvent event, Block block, Block colorFrom, BlockColor fallbackColor) {

@@ -3,7 +3,7 @@ package com.ordana.immersive_weathering.blocks;
 import com.ordana.immersive_weathering.WeatheringHelper;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.entities.FallingLayerEntity;
-import com.ordana.immersive_weathering.reg.LeafPilesRegistry;
+import com.ordana.immersive_weathering.reg.LeafPilesHelper;
 import com.ordana.immersive_weathering.reg.ModTags;
 import dev.architectury.injectables.annotations.PlatformOnly;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
@@ -31,9 +31,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
@@ -263,7 +261,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         if (random.nextInt(16) == 0) {
             BlockPos blockPos = pos.below();
             if (isFree(level.getBlockState(blockPos))) {
-                var leafParticle = LeafPilesRegistry.getFallenLeafParticle(state).orElse(null);
+                var leafParticle = LeafPilesHelper.getFallenLeafParticle(state).orElse(null);
                 if (leafParticle == null) return;
                 int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
                 for (var p : particles) {
