@@ -136,9 +136,9 @@ public class CommonConfigs {
 
         builder.push("freezing");
         //all these are disabled when at 0 of course
-        FREEZING_WATER_SEVERITY = builder.define("water_severity", 200, 0, 1000);
+        FREEZING_WATER_SEVERITY = builder.comment("same as powder snow. If below 2 it will match natural unfreezing so will stay constant").define("water_increment", 3, 0, 5);
         FREEZING_ICICLE_SEVERITY = builder.define("icicle", 300, 0, 1000);
-        FREEZING_PERMAFROST_SEVERITY = builder.define("permafrost", 300, 0, 1000);
+        FREEZING_PERMAFROST_SEVERITY = builder.define("permafrost_increment", 2, 0, 5);
         builder.pop();
 
         builder.push("charring");

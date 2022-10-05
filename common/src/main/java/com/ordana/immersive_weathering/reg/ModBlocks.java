@@ -534,7 +534,7 @@ public class ModBlocks {
     //vitrified sand
 
     public static final Supplier<Block> FULGURITE = regWithItem("fulgurite", () ->
-            new FulguriteBlock(7, 3, Properties.copy(Blocks.GLASS)
+            new FulguriteBlock(9, 4, Properties.copy(Blocks.GLASS)
                     .instabreak().lightLevel((s) -> s.getValue(FulguriteBlock.POWERED) ? 5 : 0)
                     .dynamicShape().requiresCorrectToolForDrops()));
 

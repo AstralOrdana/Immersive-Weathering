@@ -35,6 +35,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.PowderSnowBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -313,15 +314,15 @@ public class WeatheringHelper {
         return temperature < 0 || isTouchingWater;
     }
 
-    public static void applyFreezing(Entity entity, int freezing) {
-        applyFreezing(entity, freezing, false);
+    public static void applyFreezing(Entity entity, int freezingIncrement) {
+        applyFreezing(entity, freezingIncrement, false);
     }
 
-    public static void applyFreezing(Entity entity, int freezing, boolean inWater) {
+    public static void applyFreezing(Entity entity, int freezingIncrement, boolean inWater) {
         if (entity instanceof Player) {
             int a = 1; //TODO: this isnt working
         }
-        if (freezing != 0 && entity.canFreeze() && (entity instanceof LivingEntity le) &&
+        if (freezingIncrement != 0 && entity.canFreeze() && (entity instanceof LivingEntity le) &&
                 !(EnchantmentHelper.getEnchantmentLevel(Enchantments.FROST_WALKER, le) > 0) &&
                 !entity.getType().is(ModTags.LIGHT_FREEZE_IMMUNE)) {
             if (inWater) {
@@ -329,7 +330,7 @@ public class WeatheringHelper {
             } else {
                 if (le.hasEffect(MobEffects.CONDUIT_POWER)) return;
             }
-            entity.setTicksFrozen(freezing);
+            entity.setTicksFrozen(Math.min(entity.getTicksRequiredToFreeze(), entity.getTicksFrozen()+freezingIncrement));
         }
     }
 

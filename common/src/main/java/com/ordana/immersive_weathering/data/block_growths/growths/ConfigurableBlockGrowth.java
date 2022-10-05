@@ -40,15 +40,15 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
             List.of(), false, false);
 
     public static final Codec<ConfigurableBlockGrowth> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            TickSource.CODEC.listOf().optionalFieldOf("tick_sources",List.of(TickSource.BLOCK_TICK)).forGetter(ConfigurableBlockGrowth::getTickSources),
+            TickSource.CODEC.listOf().optionalFieldOf("tick_sources", List.of(TickSource.BLOCK_TICK)).forGetter(ConfigurableBlockGrowth::getTickSources),
             Codec.FLOAT.fieldOf("growth_chance").forGetter(ConfigurableBlockGrowth::getGrowthChance),
             RuleTest.CODEC.fieldOf("replacing_target").forGetter(ConfigurableBlockGrowth::getTargetPredicate),
-            AreaCondition.CODEC.optionalFieldOf("area_condition",AreaCondition.EMPTY).forGetter(ConfigurableBlockGrowth::getAreaCondition),
+            AreaCondition.CODEC.optionalFieldOf("area_condition", AreaCondition.EMPTY).forGetter(ConfigurableBlockGrowth::getAreaCondition),
             DirectionalList.CODEC.listOf().fieldOf("growth_for_face").forGetter(ConfigurableBlockGrowth::encodeRandomLists),
             RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).optionalFieldOf("owners").forGetter(b -> Optional.ofNullable(b.owners)),
-            PositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates",List.of()).forGetter(ConfigurableBlockGrowth::getPositionTests),
-            Codec.BOOL.optionalFieldOf("target_self",false).forGetter(ConfigurableBlockGrowth::targetSelf),
-            Codec.BOOL.optionalFieldOf("destroy_target",false).forGetter(ConfigurableBlockGrowth::destroyTarget)
+            PositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates", List.of()).forGetter(ConfigurableBlockGrowth::getPositionTests),
+            Codec.BOOL.optionalFieldOf("target_self", false).forGetter(ConfigurableBlockGrowth::targetSelf),
+            Codec.BOOL.optionalFieldOf("destroy_target", false).forGetter(ConfigurableBlockGrowth::destroyTarget)
     ).apply(instance, ConfigurableBlockGrowth::new));
 
     @Nullable //null for universal ones
@@ -71,7 +71,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
                                    List<DirectionalList> growthForDirection,
                                    Optional<HolderSet<Block>> owners, List<PositionRuleTest> biomePredicates,
                                    Boolean targetSelf, Boolean destroyTarget) {
-        this.tickSources =  sources;
+        this.tickSources = sources;
         this.growthChance = growthChance;
         this.owners = owners.orElse(null);
         this.positionTests = biomePredicates;
@@ -191,7 +191,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
     @Nullable
     @Override
     public Iterable<Block> getOwners() {
-        if(owners == null)return null;
+        if (owners == null) return null;
         return this.owners.stream().map(Holder::value).collect(Collectors.toList());
     }
 
@@ -229,12 +229,15 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
                         if (areaCondition.test(pos, level, this)) {
 
                             if (destroyTarget) level.destroyBlock(targetPos, true);
-                            level.setBlock(targetPos, setWaterIfNeeded(toPlace.getFirst(), target), 2);
+                            var bb = setWaterIfNeeded(toPlace.getFirst(), target);
+                            bb = Block.updateFromNeighbourShapes(bb, level, targetPos);
+                            level.setBlock(targetPos, bb, 2);
                             if (db) {
                                 if (destroyTarget) level.destroyBlock(targetPos2, true);
-                                level.setBlock(targetPos2, setWaterIfNeeded(toPlace.getSecond(), target2), 2);
+                                var bb2 = setWaterIfNeeded(toPlace.getFirst(), target2);
+                                bb2 = Block.updateFromNeighbourShapes(bb2, level, targetPos2);
+                                level.setBlock(targetPos2, bb2, 2);
                             }
-                            return;
                         }
                     }
                 }
