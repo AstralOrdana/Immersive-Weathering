@@ -10,11 +10,11 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:shears"
+          "name": "minecraft:honeycomb"
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:honeycomb"
+          "name": "immersive_weathering:steel_wool"
         }
       ]
     }
