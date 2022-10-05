@@ -21,18 +21,6 @@ public class ModFeatures {
             ImmersiveWeathering.res("icicle_cluster"), () ->
             new IcicleClusterFeature(IcicleClusterFeatureConfig.CODEC));
 
-    public static final Supplier<Feature<GlowLichenConfiguration>> IVY_FEATURE = RegHelper.registerFeature(
-            ImmersiveWeathering.res("ivy_feature"), () ->
-            new IvyFeature(GlowLichenConfiguration.CODEC));
-
-    public static final Supplier<Feature<GlowLichenConfiguration>> FROST_FEATURE = RegHelper.registerFeature(
-            ImmersiveWeathering.res("frost_feature"), () ->
-            new FrostFeature(GlowLichenConfiguration.CODEC));
-
-    public static final Supplier<Feature<GlowLichenConfiguration>> MOSS_FEATURE = RegHelper.registerFeature(
-            ImmersiveWeathering.res("moss_feature"), () ->
-                    new MossFeature(GlowLichenConfiguration.CODEC));
-
     public static void init() {
 
         ResourceKey<PlacedFeature> icicles = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
