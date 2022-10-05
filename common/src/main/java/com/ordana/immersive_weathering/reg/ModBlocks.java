@@ -13,11 +13,14 @@ import com.ordana.immersive_weathering.blocks.rustable.*;
 import com.ordana.immersive_weathering.blocks.soil.*;
 import net.mehvahdjukaar.moonlight.api.block.ModStairBlock;
 import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
-import net.mehvahdjukaar.moonlight.api.misc.RegSupplier;
+import net.mehvahdjukaar.moonlight.api.item.WoodBasedBlockItem;
+import net.mehvahdjukaar.moonlight.api.item.WoodBasedItem;
+import net.mehvahdjukaar.moonlight.api.misc.Registrator;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
+import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
+import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
+import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -30,8 +33,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
@@ -40,7 +42,12 @@ import static com.ordana.immersive_weathering.reg.ModItems.getTab;
 @SuppressWarnings("unused")
 public class ModBlocks {
 
-    public static void init(){}
+    public static void init() {
+        BlockSetAPI.addDynamicBlockRegistration(ModBlocks::registerLeafPiles, LeavesType.class);
+        BlockSetAPI.addDynamicItemRegistration(ModDynamicRegistry::registerLeafPilesItems, Item.class, LeavesType.class);
+        BlockSetAPI.addDynamicItemRegistration(ModDynamicRegistry::registerBarks, Item.class, WoodType.class);
+    }
+
 
     public static <T extends Block> Supplier<T> regBlock(String name, Supplier<T> block) {
         return RegHelper.registerBlock(ImmersiveWeathering.res(name), block);
@@ -62,10 +69,9 @@ public class ModBlocks {
     }
 
     private static boolean isCompatBlockEanbled(String requiredMod) {
-        if(Objects.equals(requiredMod, "quark") && PlatformHelper.getPlatform().isFabric()){
+        if (Objects.equals(requiredMod, "quark") && PlatformHelper.getPlatform().isFabric()) {
             return requiredMod.equals("amogus");
-        }
-        else return PlatformHelper.isModLoaded(requiredMod);
+        } else return PlatformHelper.isModLoaded(requiredMod);
     }
 
 
@@ -89,44 +95,11 @@ public class ModBlocks {
     private static final BlockBehaviour.StatePredicate NEVER = (s, w, p) -> false;
 
 
-    //leaves piles
-    public static final Supplier<LeafPileBlock> OAK_LEAF_PILE = regBlock("oak_leaf_pile", () ->
-            new LeafPileBlock(Properties.of(Material.REPLACEABLE_PLANT)
-                    .randomTicks().instabreak().sound(SoundType.GRASS)
-                    .noOcclusion().isValidSpawn(CAN_SPAWN_ON_LEAVES)
-                    .isSuffocating(NEVER).isViewBlocking(NEVER),
-                    false, false, true, List.of(ModParticles.OAK_LEAF)));
+    public static final Map<LeavesType, LeafPileBlock> LEAF_PILES = new LinkedHashMap<>();
 
-    public static final Supplier<LeafPileBlock> BIRCH_LEAF_PILE = regBlock("birch_leaf_pile", () ->
-            new LeafPileBlock(Properties.copy(OAK_LEAF_PILE.get()), false, false, true,
-                    List.of(ModParticles.BIRCH_LEAF)));
-
-    public static final Supplier<LeafPileBlock> SPRUCE_LEAF_PILE = regBlock("spruce_leaf_pile", () ->
-            new LeafPileBlock(Properties.copy(OAK_LEAF_PILE.get()), false, true, false,
-                    List.of(ModParticles.SPRUCE_LEAF)));
-
-    public static final Supplier<LeafPileBlock> JUNGLE_LEAF_PILE = regBlock("jungle_leaf_pile", () ->
-            new LeafPileBlock(Properties.copy(OAK_LEAF_PILE.get()), false, false, true,
-                    List.of(ModParticles.JUNGLE_LEAF)));
-
-    public static final Supplier<LeafPileBlock> ACACIA_LEAF_PILE = regBlock("acacia_leaf_pile", () ->
-            new LeafPileBlock(Properties.copy(OAK_LEAF_PILE.get()), false, false, false,
-                    List.of(ModParticles.ACACIA_LEAF)));
-
-    public static final Supplier<LeafPileBlock> DARK_OAK_LEAF_PILE = regBlock("dark_oak_leaf_pile", () ->
-            new LeafPileBlock(Properties.copy(OAK_LEAF_PILE.get()), false, false, true,
-                    List.of(ModParticles.DARK_OAK_LEAF)));
-
-    public static final Supplier<LeafPileBlock> AZALEA_LEAF_PILE = regBlock("azalea_leaf_pile", () ->
-            new LeafPileBlock(Properties.copy(OAK_LEAF_PILE.get()).sound(SoundType.AZALEA_LEAVES), false, false, false,
-                    List.of(ModParticles.AZALEA_LEAF)));
-
-    public static final Supplier<LeafPileBlock> FLOWERING_AZALEA_LEAF_PILE = regBlock("flowering_azalea_leaf_pile", () ->
-            new LeafPileBlock(Properties.copy(AZALEA_LEAF_PILE.get()), true, false, false,
-                    List.of(ModParticles.AZALEA_LEAF, ModParticles.AZALEA_FLOWER)));
 
     public static final Supplier<LeafPileBlock> AZALEA_FLOWER_PILE = regBlock("azalea_flower_pile", () ->
-            new LeafPileBlock(Properties.copy(AZALEA_LEAF_PILE.get()), true, false, false,
+            new LeafPileBlock(Properties.copy(LEAF_PILES.get().get()), true, false, false,
                     List.of(ModParticles.AZALEA_FLOWER)));
 
     //layer stuff
@@ -137,7 +110,7 @@ public class ModBlocks {
                     .isViewBlocking((blockState, blockView, blockPos) -> blockState.getValue(LayerBlock.LAYERS_8) >= 8)
                     .noOcclusion()));
     public static final Supplier<Block> RED_SAND_LAYER_BLOCK = regWithItem("red_sand_layer_block", () ->
-            new SandLayerBlock( 11098145, Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_ORANGE)
+            new SandLayerBlock(11098145, Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_ORANGE)
                     .strength(0.5f).sound(SoundType.SAND).isSuffocating(NEVER).noOcclusion()));
     public static final Supplier<Block> ASH_LAYER_BLOCK = regWithItem("ash_layer_block", () ->
             new LayerBlock(Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_BLACK).instabreak()
@@ -189,9 +162,9 @@ public class ModBlocks {
             new MossySlabBlock(Mossable.MossLevel.MOSSY, Properties.copy(MOSSY_STONE.get())));
     public static final Supplier<Block> MOSSY_STONE_VERTICAL_SLAB = regWithItem("mossy_stone_vertical_slab", () ->
             new MossyVerticalSlabBlock(Mossable.MossLevel.MOSSY, Properties.copy(MOSSY_STONE_STAIRS.get())), "quark");
-    public static final Supplier<Block> MOSSY_STONE_WALL = regWithItem("mossy_stone_wall",()->
+    public static final Supplier<Block> MOSSY_STONE_WALL = regWithItem("mossy_stone_wall", () ->
             new MossyWallBlock(Mossable.MossLevel.MOSSY, Properties.copy(Blocks.COBBLESTONE_WALL)));
-    public static final Supplier<Block> STONE_WALL = regWithItem("stone_wall",()->
+    public static final Supplier<Block> STONE_WALL = regWithItem("stone_wall", () ->
             new MossableWallBlock(Mossable.MossLevel.UNAFFECTED, Properties.copy(Blocks.COBBLESTONE_WALL)));
 
     //cracked bricks
@@ -291,7 +264,7 @@ public class ModBlocks {
 
     public static final Supplier<Block> MULCH_BLOCK = regWithItem("mulch_block", () ->
             new MulchBlock(Properties.of(Material.DIRT).strength(1f, 1f)
-                            .sound(SoundType.ROOTED_DIRT).randomTicks()));
+                    .sound(SoundType.ROOTED_DIRT).randomTicks()));
     public static final Supplier<Block> NULCH_BLOCK = regWithItem("nulch_block", () ->
             new NulchBlock(Properties.of(Material.DIRT).strength(1f, 1f)
                     .sound(SoundType.NETHER_WART).lightLevel(moltenLightLevel(10)).randomTicks()));
@@ -458,35 +431,47 @@ public class ModBlocks {
     //waxed iron door
 
     public static final Supplier<Block> WAXED_IRON_DOOR = regWithItem("waxed_iron_door", () ->
-            new DoorBlock(Properties.copy(Blocks.IRON_DOOR)){});
+            new DoorBlock(Properties.copy(Blocks.IRON_DOOR)) {
+            });
     public static final Supplier<Block> WAXED_EXPOSED_IRON_DOOR = regWithItem("waxed_exposed_iron_door", () ->
-            new DoorBlock(Properties.copy(WAXED_IRON_DOOR.get())){});
+            new DoorBlock(Properties.copy(WAXED_IRON_DOOR.get())) {
+            });
     public static final Supplier<Block> WAXED_WEATHERED_IRON_DOOR = regWithItem("waxed_weathered_iron_door", () ->
-            new DoorBlock(Properties.copy(WAXED_IRON_DOOR.get())){});
+            new DoorBlock(Properties.copy(WAXED_IRON_DOOR.get())) {
+            });
     public static final Supplier<Block> WAXED_RUSTED_IRON_DOOR = regWithItem("waxed_rusted_iron_door", () ->
-            new DoorBlock(Properties.copy(WAXED_IRON_DOOR.get())){});
+            new DoorBlock(Properties.copy(WAXED_IRON_DOOR.get())) {
+            });
 
     //waxed trapdoor
     public static final Supplier<Block> WAXED_IRON_TRAPDOOR = regWithItem("waxed_iron_trapdoor", () ->
-            new TrapDoorBlock(Properties.copy(Blocks.IRON_TRAPDOOR)){});
+            new TrapDoorBlock(Properties.copy(Blocks.IRON_TRAPDOOR)) {
+            });
     public static final Supplier<Block> WAXED_EXPOSED_IRON_TRAPDOOR = regWithItem("waxed_exposed_iron_trapdoor", () ->
-            new TrapDoorBlock(Properties.copy(WAXED_IRON_TRAPDOOR.get())){});
+            new TrapDoorBlock(Properties.copy(WAXED_IRON_TRAPDOOR.get())) {
+            });
     public static final Supplier<Block> WAXED_WEATHERED_IRON_TRAPDOOR = regWithItem("waxed_weathered_iron_trapdoor", () ->
-            new TrapDoorBlock(Properties.copy(WAXED_IRON_TRAPDOOR.get())){});
+            new TrapDoorBlock(Properties.copy(WAXED_IRON_TRAPDOOR.get())) {
+            });
     public static final Supplier<Block> WAXED_RUSTED_IRON_TRAPDOOR = regWithItem("waxed_rusted_iron_trapdoor", () ->
-            new TrapDoorBlock(Properties.copy(WAXED_IRON_TRAPDOOR.get())){});
+            new TrapDoorBlock(Properties.copy(WAXED_IRON_TRAPDOOR.get())) {
+            });
 
     //waxed iron bars
 
     //TODO: rethink sound since its diff that iron bars
     public static final Supplier<Block> WAXED_IRON_BARS = regWithItem("waxed_iron_bars", () ->
-            new IronBarsBlock(Properties.copy(EXPOSED_IRON_BARS.get())){});
+            new IronBarsBlock(Properties.copy(EXPOSED_IRON_BARS.get())) {
+            });
     public static final Supplier<Block> WAXED_EXPOSED_IRON_BARS = regWithItem("waxed_exposed_iron_bars", () ->
-            new IronBarsBlock(Properties.copy(EXPOSED_IRON_BARS.get())){});
+            new IronBarsBlock(Properties.copy(EXPOSED_IRON_BARS.get())) {
+            });
     public static final Supplier<Block> WAXED_WEATHERED_IRON_BARS = regWithItem("waxed_weathered_iron_bars", () ->
-            new IronBarsBlock(Properties.copy(EXPOSED_IRON_BARS.get())){});
+            new IronBarsBlock(Properties.copy(EXPOSED_IRON_BARS.get())) {
+            });
     public static final Supplier<Block> WAXED_RUSTED_IRON_BARS = regWithItem("waxed_rusted_iron_bars", () ->
-            new IronBarsBlock(Properties.copy(EXPOSED_IRON_BARS.get())){});
+            new IronBarsBlock(Properties.copy(EXPOSED_IRON_BARS.get())) {
+            });
 
     //cracked end stone
 
@@ -663,4 +648,30 @@ public class ModBlocks {
             new CharredFenceGateBlock(Properties.copy(CHARRED_LOG.get())));
 
 
+    private static void registerBarks(Registrator<Item> event, Collection<WoodType> woodTypes) {
+        for (WoodType type : woodTypes) {
+            String name = type.getNamespace() + "/" + type.getTypeName() + "_bark";
+
+            Item item = new WoodBasedItem(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS),type, 200)
+            event.register(ImmersiveWeathering.res(name),item);
+            BARKS.put(type, item);
+            type.addChild("iw/bark", item);
+        }
+    }
+
+    private static void registerLeafPiles(Registrator<Block> event, Collection<LeavesType> leavesTypes) {
+        for (LeavesType type : leavesTypes) {
+            String name = type.getNamespace() + "/" + type.getTypeName() + "_leaf_pile";
+
+            LeafPileBlock block = new LeafPileBlock(Properties.of(Material.REPLACEABLE_PLANT)
+                    .randomTicks().instabreak().sound(SoundType.GRASS)
+                    .noOcclusion().isValidSpawn(CAN_SPAWN_ON_LEAVES)
+                    .isSuffocating(NEVER).isViewBlocking(NEVER),
+                    type);
+            event.register(ImmersiveWeathering.res(name), block);
+
+            LEAF_PILES.put(type, block);
+            type.addChild("iw/leaf_pile", block);
+        }
+    }
 }

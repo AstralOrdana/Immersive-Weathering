@@ -1,8 +1,21 @@
-package com.ordana.immersive_weathering.forge.dynamic;
+package com.ordana.immersive_weathering.dynamicpack;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
+import net.mehvahdjukaar.moonlight.api.events.AfterLanguageLoadEvent;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.api.resources.RPUtils;
+import net.mehvahdjukaar.moonlight.api.resources.ResType;
+import net.mehvahdjukaar.moonlight.api.resources.StaticResource;
+import net.mehvahdjukaar.moonlight.api.resources.assets.LangBuilder;
+import net.mehvahdjukaar.moonlight.api.resources.pack.DynClientResourcesProvider;
+import net.mehvahdjukaar.moonlight.api.resources.pack.DynamicTexturePack;
+import net.mehvahdjukaar.moonlight.api.resources.textures.Palette;
+import net.mehvahdjukaar.moonlight.api.resources.textures.PaletteColor;
+import net.mehvahdjukaar.moonlight.api.resources.textures.Respriter;
+import net.mehvahdjukaar.moonlight.api.resources.textures.TextureImage;
+import net.mehvahdjukaar.moonlight.api.set.BlockType;
 import net.mehvahdjukaar.selene.block_set.BlockType;
 import net.mehvahdjukaar.selene.client.asset_generators.LangBuilder;
 import net.mehvahdjukaar.selene.client.asset_generators.textures.Palette;
@@ -19,16 +32,11 @@ import org.apache.logging.log4j.Logger;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider {
+public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
 
     public ClientDynamicResourcesHandler() {
         super(new DynamicTexturePack(ImmersiveWeathering.res("generated_pack")));
         this.dynamicPack.generateDebugResources = PlatformHelper.isDev();
-    }
-
-    @Override
-    public void register(IEventBus bus) {
-        super.register(bus);
     }
 
     @Override
@@ -38,7 +46,7 @@ public class ClientDynamicResourcesHandler extends RPAwareDynamicTextureProvider
 
     @Override
     public boolean dependsOnLoadedPacks() {
-        return true;//RegistryConfigs.RESOURCE_PACK_SUPPORT.get();
+        return true;
     }
 
     @Override

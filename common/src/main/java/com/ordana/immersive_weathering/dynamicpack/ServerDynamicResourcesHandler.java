@@ -1,6 +1,11 @@
-package com.ordana.immersive_weathering.forge.dynamic;
+package com.ordana.immersive_weathering.dynamicpack;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import net.mehvahdjukaar.moonlight.api.resources.ResType;
+import net.mehvahdjukaar.moonlight.api.resources.StaticResource;
+import net.mehvahdjukaar.moonlight.api.resources.pack.DynServerResourcesProvider;
+import net.mehvahdjukaar.moonlight.api.resources.pack.DynamicDataPack;
+import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
 import net.mehvahdjukaar.selene.block_set.leaves.LeavesType;
 import net.mehvahdjukaar.selene.resourcepack.DynamicDataPack;
 import net.mehvahdjukaar.selene.resourcepack.RPAwareDynamicDataProvider;
@@ -10,12 +15,13 @@ import net.mehvahdjukaar.selene.resourcepack.resources.TagBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.tags.TagBuilder;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-public class ServerDynamicResourcesHandler extends RPAwareDynamicDataProvider {
+public class ServerDynamicResourcesHandler extends DynServerResourcesProvider {
 
     public ServerDynamicResourcesHandler() {
         super(new DynamicDataPack(ImmersiveWeathering.res("generated_pack")));

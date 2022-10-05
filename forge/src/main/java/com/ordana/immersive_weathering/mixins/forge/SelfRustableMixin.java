@@ -20,7 +20,7 @@ public interface SelfRustableMixin extends IForgeBlock, ChangeOverTimeBlock<Rust
 
     @Nullable
     @Override
-    default BlockState getToolModifiedState(BlockState state, Level level, BlockPos pos, Player player, ItemStack stack, ToolAction toolAction) {
+    default BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction, boolean simulate) {
         if (this.getAge() != Rustable.RustLevel.RUSTED &&
                 this.getAge() != RustLevel.WEATHERED && ToolActions.AXE_SCRAPE.equals(toolAction)) {
             return this.getPrevious(state).orElse(null);
@@ -30,12 +30,6 @@ public interface SelfRustableMixin extends IForgeBlock, ChangeOverTimeBlock<Rust
                 return v.get();
             }
         }
-        return IForgeBlock.super.getToolModifiedState(state, level, pos, player, stack, toolAction);
-    }
-
-    @Nullable
-    @Override
-    default BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction, boolean simulate) {
-        return getToolModifiedState(state, context.getLevel(), context.getClickedPos(), context.getPlayer(), context.getItemInHand(), toolAction);
+        return IForgeBlock.super.getToolModifiedState(state, context, toolAction, simulate);
     }
 }

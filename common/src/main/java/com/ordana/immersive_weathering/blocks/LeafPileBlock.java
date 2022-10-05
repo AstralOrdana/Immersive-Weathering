@@ -7,6 +7,7 @@ import com.ordana.immersive_weathering.reg.LeafPilesRegistry;
 import com.ordana.immersive_weathering.reg.ModTags;
 import dev.architectury.injectables.annotations.PlatformOnly;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
+import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -67,11 +68,13 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
     private final boolean isLeafy; //if it can make humus
     private final List<Supplier<SimpleParticleType>> particles;
 
-    public LeafPileBlock(Properties settings, boolean hasFlowers, boolean hasThorns, boolean isLeafy,
-                         List<Supplier<SimpleParticleType>> particles) {
+    private final LeavesType leafType;
+
+    public LeafPileBlock(Properties settings, LeavesType leafType) {
         super(settings);
+        this.leafType = leafType;
         this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, 1));
-        this.hasFlowers = hasFlowers;
+        this.hasFlowers = leafType.id.getPath().contains("flower");
         this.hasThorns = hasThorns;
         this.particles = particles;
         this.isLeafy = isLeafy;

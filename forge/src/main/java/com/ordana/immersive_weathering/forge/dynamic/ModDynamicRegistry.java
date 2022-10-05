@@ -2,13 +2,11 @@ package com.ordana.immersive_weathering.forge.dynamic;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
-import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.client.particles.LeafParticle;
-import com.ordana.immersive_weathering.forge.ImmersiveWeatheringForge;
-import com.ordana.immersive_weathering.items.BurnableItem;
+import com.ordana.immersive_weathering.dynamicpack.ClientDynamicResourcesHandler;
+import com.ordana.immersive_weathering.dynamicpack.ServerDynamicResourcesHandler;
 import com.ordana.immersive_weathering.items.LeafPileBlockItem;
-import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
@@ -21,10 +19,8 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.*;
 
@@ -67,47 +63,7 @@ public class ModDynamicRegistry {
         return map;
     }
 
-    private static void registerBarks(RegistryEvent.Register<Item> event, Collection<WoodType> woodTypes) {
-        IForgeRegistry<Item> registry = event.getRegistry();
-        for (WoodType type : woodTypes) {
-            if (!type.isVanilla()) {
-                String name = type.getNamespace() + "/" + type.getTypeName() + "_bark";
 
-                Item item = new BurnableItem(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS), 200)
-                        .setRegistryName(ImmersiveWeathering.res(name));
-                registry.register(item);
-                MODDED_BARK.put(type, item);
-            }
-        }
-        LEAF_TO_TYPE.forEach((a, b) -> TYPE_TO_LEAF.put(b, a));
-    }
-
-    private static void registerLeafPiles(RegistryEvent.Register<Block> event, Collection<LeavesType> leavesTypes) {
-        LEAF_TO_TYPE.put(ModBlocks.OAK_LEAF_PILE.get(), LeavesTypeRegistry.fromNBT("oak"));
-        LEAF_TO_TYPE.put(ModBlocks.BIRCH_LEAF_PILE.get(), LeavesTypeRegistry.fromNBT("birch"));
-        LEAF_TO_TYPE.put(ModBlocks.SPRUCE_LEAF_PILE.get(), LeavesTypeRegistry.fromNBT("spruce"));
-        LEAF_TO_TYPE.put(ModBlocks.JUNGLE_LEAF_PILE.get(), LeavesTypeRegistry.fromNBT("jungle"));
-        LEAF_TO_TYPE.put(ModBlocks.ACACIA_LEAF_PILE.get(), LeavesTypeRegistry.fromNBT("acacia"));
-        LEAF_TO_TYPE.put(ModBlocks.DARK_OAK_LEAF_PILE.get(), LeavesTypeRegistry.fromNBT("dark_oak"));
-        LEAF_TO_TYPE.put(ModBlocks.AZALEA_LEAF_PILE.get(), LeavesTypeRegistry.fromNBT("azalea"));
-        LEAF_TO_TYPE.put(ModBlocks.FLOWERING_AZALEA_LEAF_PILE.get(), LeavesTypeRegistry.fromNBT("flowering_azalea"));
-
-
-        IForgeRegistry<Block> registry = event.getRegistry();
-        for (LeavesType type : leavesTypes) {
-            if (!type.isVanilla()) {
-                String name = type.getNamespace() + "/" + type.getTypeName() + "_leaf_pile";
-
-                LeafPileBlock block = (LeafPileBlock) new LeafPileBlock(
-                        BlockBehaviour.Properties.copy(ModBlocks.OAK_LEAF_PILE.get()),
-                        false, false, true, List.of(() -> (SimpleParticleType) TYPE_TO_LEAF_PARTICLE.get(type))
-                ).setRegistryName(ImmersiveWeathering.res(name));
-                registry.register(block);
-                LEAF_TO_TYPE.put(block, type);
-            }
-        }
-        LEAF_TO_TYPE.forEach((a, b) -> TYPE_TO_LEAF.put(b, a));
-    }
 
     private static void registerLeafPilesItems(RegistryEvent.Register<Item> event, Collection<LeavesType> leavesTypes) {
 
@@ -143,9 +99,6 @@ public class ModDynamicRegistry {
 
     public static void init() {
 
-        BlockSetManager.addBlockSetRegistrationCallback(ModDynamicRegistry::registerLeafPiles, Block.class, LeavesType.class);
-        BlockSetManager.addBlockSetRegistrationCallback(ModDynamicRegistry::registerLeafPilesItems, Item.class, LeavesType.class);
-        BlockSetManager.addBlockSetRegistrationCallback(ModDynamicRegistry::registerBarks, Item.class, WoodType.class);
 
         var bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addGenericListener(ParticleType.class, ModDynamicRegistry::registerLeafPilesParticles);
