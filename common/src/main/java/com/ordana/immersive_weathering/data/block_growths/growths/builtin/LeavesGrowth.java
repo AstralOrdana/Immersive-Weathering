@@ -125,9 +125,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
                     }
                 }
             }
-
         }
-
     }
 
 
@@ -158,7 +156,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
 
     public static void decayLeavesPile(BlockState state, ServerLevel level, BlockPos pos, Random random) {
         //this is server side, cant access client configs. Also meed to send color and send particles doesnt support that
-
+        /* //TODO: dont uncomment unless you know how to send a packet as this needs to happen on client
         if (ClientConfigs.LEAF_DECAY_PARTICLES.get()) {
             var leafParticle = LeafPilesRegistry.getFallenLeafParticle(state).orElse(null);
             if (leafParticle == null) return;
@@ -185,6 +183,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
 
             level.setBlock(pos, baseLeaf.setValue(LeafPileBlock.LAYERS, Mth.randomBetweenInclusive(level.random, 1, 5)), 2);
         }
+        */
     }
 
 
