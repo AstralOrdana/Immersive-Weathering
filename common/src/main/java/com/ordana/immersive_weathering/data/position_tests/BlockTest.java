@@ -31,6 +31,6 @@ record BlockTest(Vec3i offset, RuleTest predicate) implements PositionRuleTest {
 
     @Override
     public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
-        return predicate.test(level.getBlockState(pos.offset(offset)), new Random(Mth.getSeed(pos)));
+        return predicate.test(level.getBlockState(pos.offset(offset)), RandomSource.create(Mth.getSeed(pos)));
     }
 }

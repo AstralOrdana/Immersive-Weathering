@@ -14,8 +14,7 @@ public enum TickSource implements StringRepresentable {
     LIGHTNING("lightning_strike"),
     CLEAR_SKY("clear_sky");
 
-    public static final Codec<TickSource> CODEC = StringRepresentable.fromEnum(TickSource::values, TickSource::byName);
-    private static final Map<String, TickSource> BY_NAME = Arrays.stream(values()).collect(Collectors.toMap(TickSource::getName, (source) -> source));
+    public static final Codec<TickSource> CODEC = StringRepresentable.fromEnum(TickSource::values);
 
     private final String name;
 
@@ -25,10 +24,6 @@ public enum TickSource implements StringRepresentable {
 
     public String getName() {
         return this.name;
-    }
-
-    public static TickSource byName(String s) {
-        return BY_NAME.get(s);
     }
 
     @Override

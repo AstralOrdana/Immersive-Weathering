@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.blocks;
 import com.ordana.immersive_weathering.WeatheringHelper;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.entities.FallingLayerEntity;
+import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.reg.ModTags;
 import dev.architectury.injectables.annotations.PlatformOnly;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
@@ -38,6 +39,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.minecraft.util.RandomSource;
@@ -60,9 +62,8 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
 
     private static final float[] COLLISIONS = new float[]{1, 0.999f, 0.998f, 0.997f, 0.996f, 0.994f, 0.993f, 0.992f};
 
-    private final boolean hasFlowers; //if it can be boneMealed
-    private final boolean hasThorns; //if it can hurt & make podzol
-    private final boolean isLeafy; //if it can make humus
+    private final boolean canBeBonemealed; //if it can be boneMealed
+    private final boolean hasThorns; //if it can hurt
     private final List<Supplier<SimpleParticleType>> particles;
 
     private final LeavesType leafType;
@@ -71,13 +72,17 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         super(settings);
         this.leafType = leafType;
         this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, 1));
-        this.hasFlowers = leafType.id.getPath().contains("flower");
-        this.hasThorns = hasThorns;
-        this.particles = particles;
-        this.isLeafy = isLeafy;
+        String name = leafType.id.getPath();
+        this.canBeBonemealed = name.contains("flower");
+        this.hasThorns = name.equals("dark_oak") || name.equals("spruce");
+        if(canBeBonemealed) this.particles = List.of(()->ModParticles.FALLING_LEAVES.get(leafType), ModParticles.AZALEA_FLOWER);
+        else this.particles = List.of(()->ModParticles.FALLING_LEAVES.get(leafType));
         RegHelper.registerBlockFlammability(this, FIRE_SPREAD, FLAMMABILITY);
     }
 
+    public LeavesType getLeafType() {
+        return leafType;
+    }
 
     @PlatformOnly(PlatformOnly.FORGE)
     public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
@@ -136,7 +141,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         //particles
         if (layers > 0 && level.isClientSide && (entity instanceof LivingEntity && entity.getFeetBlockState().is(this))) {
 
-            Random random = level.getRandom();
+            RandomSource random = level.getRandom();
             boolean bl = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
             if (bl && random.nextBoolean()) {
                 //double yOff = (layers < 5) ? 0.5 : 1;
@@ -227,12 +232,12 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
 
     @Override
     public boolean isValidBonemealTarget(BlockGetter world, BlockPos pos, BlockState state, boolean isClient) {
-        return this.hasFlowers;
+        return this.canBeBonemealed;
     }
 
     @Override
     public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
-        return this.hasFlowers;
+        return this.canBeBonemealed;
     }
 
     @Override
@@ -248,19 +253,12 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         }
     }
 
-
-    @Override
-    public boolean isRandomlyTicking(BlockState state) {
-        int layers = this.getLayers(state);
-        return layers > 1 && (this.isLeafy || this.hasThorns);
-    }
-
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (random.nextInt(16) == 0) {
             BlockPos blockPos = pos.below();
             if (isFree(level.getBlockState(blockPos))) {
-                var leafParticle = LeafPilesHelper.getFallenLeafParticle(state).orElse(null);
+                var leafParticle = WeatheringHelper.getFallenLeafParticle(state).orElse(null);
                 if (leafParticle == null) return;
                 int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
                 for (var p : particles) {

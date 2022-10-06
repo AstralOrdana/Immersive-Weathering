@@ -38,11 +38,6 @@ public class FrostyGrassBlock extends BushBlock implements Frosty {
     }
 
     @Override
-    public OffsetType getOffsetType() {
-        return OffsetType.XYZ;
-    }
-
-    @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         tryUnFrost(state, world, pos);
     }

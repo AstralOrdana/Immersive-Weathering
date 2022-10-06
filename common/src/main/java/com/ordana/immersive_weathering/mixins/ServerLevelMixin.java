@@ -24,9 +24,8 @@ import java.util.function.Supplier;
 @Mixin(ServerLevel.class)
 public abstract class ServerLevelMixin extends Level {
 
-
-    protected ServerLevelMixin(WritableLevelData levelData, ResourceKey<Level> key, Holder<DimensionType> typeHolder, Supplier<ProfilerFiller> supplier, boolean aSuper, boolean aSuper1, long aSuper2) {
-        super(levelData, key, typeHolder, supplier, aSuper, aSuper1, aSuper2);
+    protected ServerLevelMixin(WritableLevelData writableLevelData, ResourceKey<Level> resourceKey, Holder<DimensionType> holder, Supplier<ProfilerFiller> supplier, boolean bl, boolean bl2, long l, int i) {
+        super(writableLevelData, resourceKey, holder, supplier, bl, bl2, l, i);
     }
 
     @ModifyVariable(method = "tickChunk",

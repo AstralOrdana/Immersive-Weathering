@@ -53,10 +53,11 @@ public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
         return null;
     }
 
+
     @Nullable
     @Override
-    public <T extends BlockEntity> GameEventListener getListener(Level level, T tile) {
-        return tile instanceof IcicleBlockEntity t ? t : null;
+    public <T extends BlockEntity> GameEventListener getListener(ServerLevel serverLevel, T blockEntity) {
+        return blockEntity instanceof IcicleBlockEntity t ? t : null;
     }
 
     @Override
