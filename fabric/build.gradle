@@ -24,7 +24,7 @@ dependencies {
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
 
-    modImplementation("net.mehvahdjukaar:moonlight-fabric:${rootProject.moonlight_version}")
+    modImplementation("net.mehvahdjukaar:moonlight:${rootProject.moonlight_version}-fabric")
 
     modImplementation(include("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}")) {
         exclude group: 'net.fabricmc.fabric-api'

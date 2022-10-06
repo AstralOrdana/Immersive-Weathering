@@ -32,7 +32,7 @@ configurations {
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
 
-    modImplementation("net.mehvahdjukaar:moonlight-forge:${rootProject.moonlight_version}")
+    modImplementation("net.mehvahdjukaar:moonlight:${rootProject.moonlight_version}")
 
 
     modImplementation("curse.maven:jei-238222:3928388")
