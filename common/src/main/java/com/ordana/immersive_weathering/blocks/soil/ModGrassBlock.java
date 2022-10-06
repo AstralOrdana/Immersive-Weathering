@@ -144,6 +144,7 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
         return canBeGrass(state, level, pos) && !level.getFluidState(blockPos).is(FluidTags.WATER);
     }
 
+    @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (state.getValue(AGE) == 10) {
             level.setBlockAndUpdate(pos, Blocks.DIRT_PATH.defaultBlockState());
@@ -159,12 +160,14 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
                 BlockState blockState = this.defaultBlockState();
 
                 for(int i = 0; i < 4; ++i) {
-                    BlockPos blockPos = pos.offset(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
-                    if ((level.getBlockState(blockPos).is(Blocks.DIRT) || (level.getBlockState(blockPos).is(Blocks.MYCELIUM))) && canPropagate(blockState, level, blockPos)) {
-                        level.setBlockAndUpdate(blockPos, this.defaultBlockState().setValue(SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)));
+                    BlockPos offsetPos = pos.offset(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
+                    BlockState offsetState = level.getBlockState(offsetPos);
+
+                    if (offsetState.is(Blocks.DIRT) && canPropagate(blockState, level, offsetPos)) {
+                        level.setBlockAndUpdate(offsetPos, this.defaultBlockState().setValue(SNOWY, level.getBlockState(offsetPos.above()).is(Blocks.SNOW)));
                     }
-                    if ((level.getBlockState(blockPos).is(Blocks.ROOTED_DIRT)) && canPropagate(blockState, level, blockPos)) {
-                        level.setBlockAndUpdate(blockPos, ModBlocks.ROOTED_GRASS_BLOCK.get().defaultBlockState().setValue(SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)));
+                    else if (offsetState.is(Blocks.ROOTED_DIRT) && canPropagate(blockState, level, offsetPos)) {
+                        level.setBlockAndUpdate(offsetPos, ModBlocks.ROOTED_GRASS_BLOCK.get().defaultBlockState().setValue(SNOWY, level.getBlockState(offsetPos.above()).is(Blocks.SNOW)));
                     }
                 }
             }
