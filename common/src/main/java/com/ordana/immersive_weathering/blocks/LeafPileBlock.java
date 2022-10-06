@@ -3,7 +3,6 @@ package com.ordana.immersive_weathering.blocks;
 import com.ordana.immersive_weathering.WeatheringHelper;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.entities.FallingLayerEntity;
-import com.ordana.immersive_weathering.reg.LeafPilesHelper;
 import com.ordana.immersive_weathering.reg.ModTags;
 import dev.architectury.injectables.annotations.PlatformOnly;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;

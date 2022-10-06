@@ -22,7 +22,7 @@ public class SootBlock extends MultifaceBlock {
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (!(entity instanceof LivingEntity) || entity.getFeetBlockState().is(this)) {
             if (world.isClientSide) {
-                Random random = world.getRandom();
+                RandomSource random = world.getRandom();
                 boolean bl = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
                 if (bl && random.nextBoolean()) {
                     world.addParticle(ModParticles.SOOT.get(),

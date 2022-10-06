@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.mixins;
 
 import com.ordana.immersive_weathering.reg.ModBlocks;
+import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.EatBlockGoal;
@@ -35,12 +36,11 @@ public abstract class EatBlockGoalMixin extends Goal {
     private void eatRootedGrass(CallbackInfo ci) {
         BlockPos blockPos2 = this.mob.blockPosition().below();
         if (this.level.getBlockState(blockPos2).is(ModBlocks.ROOTED_GRASS_BLOCK.get())) {
-            if (this.level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+            if (PlatformHelper.isMobGriefingOn(level, this.mob)) {
                 this.level.levelEvent(2001, blockPos2, Block.getId(Blocks.GRASS_BLOCK.defaultBlockState()));
                 this.level.setBlock(blockPos2, Blocks.DIRT.defaultBlockState(), 2);
             }
             this.mob.ate();
-            this.mob.gameEvent(GameEvent.EAT, this.mob.eyeBlockPosition());
         }
     }
 

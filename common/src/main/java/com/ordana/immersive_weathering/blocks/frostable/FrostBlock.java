@@ -21,6 +21,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.MultifaceBlock;
+import net.minecraft.world.level.block.MultifaceSpreader;
 import net.minecraft.world.level.block.PumpkinBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -45,6 +46,11 @@ public class FrostBlock extends MultifaceBlock implements Frosty {
     @Override
     public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
         return !context.getItemInHand().is(this.asItem()) || super.canBeReplaced(state, context);
+    }
+
+    @Override
+    public MultifaceSpreader getSpreader() {
+        return null;
     }
 
     @Override

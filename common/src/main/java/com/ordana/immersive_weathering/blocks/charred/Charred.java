@@ -48,7 +48,7 @@ public interface Charred extends ILightable, Fallable {
             }
         }
         if (temperature < 0 || isTouchingWater) {
-            if (isLit(state)) {
+            if (isLitUp(state)) {
                 //TODO: extinguish
                 world.setBlockAndUpdate(pos, state.setValue(SMOLDERING, false));
             }
@@ -64,7 +64,7 @@ public interface Charred extends ILightable, Fallable {
             double f = (double) pos.getZ() + random.nextDouble();
             world.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state), d, e, f, 0.0, 0.0, 0.0);
         }
-        if (isLit(state)) {
+        if (isLitUp(state)) {
             int i = pos.getX();
             int j = pos.getY();
             int k = pos.getZ();
@@ -76,15 +76,16 @@ public interface Charred extends ILightable, Fallable {
     }
 
     default void onEntityStepOn(BlockState state, Entity entity) {
-        if (isLit(state)) {
+        if (isLitUp(state)) {
             if (!entity.fireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
                 entity.hurt(DamageSource.HOT_FLOOR, 1.0F);
             }
         }
     }
 
+
     @Override
-    default boolean isLit(BlockState state) {
+    default boolean isLitUp(BlockState state) {
         return state.getValue(SMOLDERING);
     }
 

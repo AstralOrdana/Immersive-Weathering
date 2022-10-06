@@ -6,9 +6,13 @@ import com.ordana.immersive_weathering.data.fluid_generators.IFluidGenerator;
 import com.ordana.immersive_weathering.data.position_tests.PositionRuleTest;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.dynamicpack.ClientDynamicResourcesHandler;
+import com.ordana.immersive_weathering.dynamicpack.ServerDynamicResourcesHandler;
 import com.ordana.immersive_weathering.reg.ModSoundEvents;
 import com.ordana.immersive_weathering.reg.*;
+import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.core.Moonlight;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,6 +48,12 @@ public class ImmersiveWeathering {
 
         PlatformHelper.addServerReloadListener(BlockGrowthHandler.RELOAD_INSTANCE, res("block_growths"));
         PlatformHelper.addServerReloadListener(FluidGeneratorsHandler.RELOAD_INSTANCE, res("fluid_generators"));
+
+        ServerDynamicResourcesHandler.INSTANCE.register();
+
+        if (PlatformHelper.getEnv().isClient()) {
+            ClientDynamicResourcesHandler.INSTANCE.register();
+        }
     }
 
     public static void commonSetup() {

@@ -67,8 +67,7 @@ public interface IFluidGenerator extends Comparable<IFluidGenerator> {
         FLOWING("flowing"),
         STILL("still");
 
-        public static final Codec<FluidType> CODEC = StringRepresentable.fromEnum(FluidType::values, FluidType::byName);
-        private static final Map<String, FluidType> BY_NAME = Arrays.stream(values()).collect(Collectors.toMap(FluidType::getName, (source) -> source));
+        public static final Codec<FluidType> CODEC = StringRepresentable.fromEnum(FluidType::values);
 
         private final String name;
 
@@ -80,9 +79,6 @@ public interface IFluidGenerator extends Comparable<IFluidGenerator> {
             return this.name;
         }
 
-        public static FluidType byName(String s) {
-            return BY_NAME.get(s);
-        }
 
         @Override
         public String getSerializedName() {

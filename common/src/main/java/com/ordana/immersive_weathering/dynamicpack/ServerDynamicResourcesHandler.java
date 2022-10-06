@@ -1,17 +1,15 @@
 package com.ordana.immersive_weathering.dynamicpack;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.reg.ModItems;
 import net.mehvahdjukaar.moonlight.api.resources.ResType;
+import net.mehvahdjukaar.moonlight.api.resources.SimpleTagBuilder;
 import net.mehvahdjukaar.moonlight.api.resources.StaticResource;
 import net.mehvahdjukaar.moonlight.api.resources.pack.DynServerResourcesProvider;
 import net.mehvahdjukaar.moonlight.api.resources.pack.DynamicDataPack;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
-import net.mehvahdjukaar.selene.block_set.leaves.LeavesType;
-import net.mehvahdjukaar.selene.resourcepack.DynamicDataPack;
-import net.mehvahdjukaar.selene.resourcepack.RPAwareDynamicDataProvider;
-import net.mehvahdjukaar.selene.resourcepack.ResType;
-import net.mehvahdjukaar.selene.resourcepack.StaticResource;
-import net.mehvahdjukaar.selene.resourcepack.resources.TagBuilder;
+import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -22,6 +20,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public class ServerDynamicResourcesHandler extends DynServerResourcesProvider {
+
+    public static final ServerDynamicResourcesHandler INSTANCE = new ServerDynamicResourcesHandler();
 
     public ServerDynamicResourcesHandler() {
         super(new DynamicDataPack(ImmersiveWeathering.res("generated_pack")));
@@ -44,15 +44,15 @@ public class ServerDynamicResourcesHandler extends DynServerResourcesProvider {
         StaticResource lootTable = StaticResource.getOrLog(manager, ResType.BLOCK_LOOT_TABLES.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
         StaticResource recipe = StaticResource.getOrLog(manager, ResType.RECIPES.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
 
-        for (var e : ModDynamicRegistry.LEAF_TO_TYPE.entrySet()) {
-            LeavesType leafType = e.getValue();
+        for (var e : ModBlocks.LEAF_PILES.entrySet()) {
+            LeavesType leafType = e.getKey();
             if (!leafType.isVanilla()) {
                 var v = e.getKey();
 
                 String path = leafType.getNamespace() + "/" + leafType.getTypeName();
                 String id = path + "_leaf_pile";
 
-                String leavesId = leafType.leaves.getRegistryName().toString();
+                String leavesId = Utils.getID(leafType.leaves).toString();
 
                 //TODO: use new system
                 try {
@@ -75,50 +75,13 @@ public class ServerDynamicResourcesHandler extends DynServerResourcesProvider {
     @Override
     public void generateStaticAssetsOnStartup(ResourceManager manager) {
         //tag
-        TagBuilder leafPiles = TagBuilder.of(ImmersiveWeathering.res("leaf_piles"));
-        ModDynamicRegistry.LEAF_TO_TYPE.keySet().forEach(v->leafPiles.add(v.getRegistryName()));
-        dynamicPack.addTag(leafPiles, Registry.BLOCK_REGISTRY);
-        dynamicPack.addTag(leafPiles, Registry.ITEM_REGISTRY);
+        SimpleTagBuilder tag = SimpleTagBuilder.of(ImmersiveWeathering.res("leaf_piles"));
+        tag.addEntries(ModBlocks.LEAF_PILES.values());
+        dynamicPack.addTag(tag, Registry.BLOCK_REGISTRY);
+        dynamicPack.addTag(tag, Registry.ITEM_REGISTRY);
 
-        dynamicPack.addTag(TagBuilder.of(ImmersiveWeathering.res("bark"))
-                .addEntries(ModDynamicRegistry.MODDED_BARK.values()), Registry.ITEM_REGISTRY);
-
-        //only needed for datagen. remove later
-        /*
-        {
-            //slabs
-            List<Block> vs = new ArrayList<>();
-            StaticResource loot = getResOrLog(manager,
-                    ResType.BLOCK_LOOT_TABLES.getPath(ImmersiveWeathering.res("cut_iron_vertical_slab")));
-            StaticResource r1 = getResOrLog(manager,
-                    ResType.RECIPES.getPath(ImmersiveWeathering.res("cut_iron_vertical_slab")));
-            StaticResource r2 = getResOrLog(manager,
-                    ResType.RECIPES.getPath(ImmersiveWeathering.res("cut_iron_vertical_slab_to_slab")));
-            StaticResource r3 = getResOrLog(manager,
-                    ResType.RECIPES.getPath(ImmersiveWeathering.res("cracked_end_stone_vertical_slab_stonecutting")));
-            for (Field f : ModBlocks.class.getDeclaredFields()) {
-                try {
-                    if (RegistryObject.class.isAssignableFrom(f.getType()) &&
-                            f.getName().toLowerCase(Locale.ROOT).contains("vertical_slab")) {
-                        vs.add(((RegistryObject<Block>) f.get(null)).get());
-                    }
-                } catch (Exception ignored) {
-                }
-            }
-            for (var b : vs) {
-                String name = b.getRegistryName().getPath();
-                if(name.contains("cut_iron") || name.contains("plate_iron"))continue;
-                String base = name.replace("_vertical_slab","");
-                dynamicPack.addSimilarJsonResource(loot, "cut_iron_vertical_slab", name);
-                dynamicPack.addSimilarJsonResource(r2, "cut_iron", base);
-                dynamicPack.addSimilarJsonResource(r1, "cut_iron", base);
-                dynamicPack.addSimilarJsonResource(r3, "cracked_end_stone", base);
-            }
-            dynamicPack.addTag(ImmersiveWeathering.res("vertical_slabs"),
-                    vs.stream().map(ForgeRegistryEntry::getRegistryName).collect(Collectors.toList()),
-                    Registry.BLOCK_REGISTRY);
-        }
-        */
+        dynamicPack.addTag(SimpleTagBuilder.of(ImmersiveWeathering.res("bark"))
+                .addEntries(ModItems.BARK.values()), Registry.ITEM_REGISTRY);
     }
 
     public void addLeafPileJson(StaticResource resource, String id, String leafBlockId) {

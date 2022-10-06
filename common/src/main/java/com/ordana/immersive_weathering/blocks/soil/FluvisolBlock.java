@@ -89,7 +89,7 @@ public class FluvisolBlock extends SoilBlock implements Soaked {
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (state.getValue(SOAKED)) {
             if (world.isClientSide && (!(entity instanceof LivingEntity) || entity.getFeetBlockState().is(this))) {
-                Random random = world.getRandom();
+                RandomSource random = world.getRandom();
                 boolean bl = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
                 if (bl && random.nextBoolean()) {
                     world.addParticle(

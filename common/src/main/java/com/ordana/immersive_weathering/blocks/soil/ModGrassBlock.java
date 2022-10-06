@@ -70,7 +70,7 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
 
     @Override
     public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
-        Random random = level.getRandom();
+        RandomSource random = level.getRandom();
         int j = state.getValue(AGE);
         if (CommonConfigs.DESIRE_PATHS.get()) {
             if (entity instanceof Player || entity.getType().is(ModTags.TRAMPLES_PATHS)) {

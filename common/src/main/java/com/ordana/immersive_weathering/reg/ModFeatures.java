@@ -1,16 +1,15 @@
 package com.ordana.immersive_weathering.reg;
 
+import com.ordana.immersive_weathering.IWPlatformStuff;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
-import com.ordana.immersive_weathering.features.*;
-import com.ordana.immersive_weathering.IWPlatformStuff;
+import com.ordana.immersive_weathering.features.IcicleClusterFeature;
+import com.ordana.immersive_weathering.features.IcicleClusterFeatureConfig;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.GlowLichenConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 import java.util.function.Supplier;
@@ -19,7 +18,7 @@ public class ModFeatures {
 
     public static final Supplier<Feature<IcicleClusterFeatureConfig>> ICICLE_FEATURE = RegHelper.registerFeature(
             ImmersiveWeathering.res("icicle_cluster"), () ->
-            new IcicleClusterFeature(IcicleClusterFeatureConfig.CODEC));
+                    new IcicleClusterFeature(IcicleClusterFeatureConfig.CODEC));
 
     public static void init() {
 

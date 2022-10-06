@@ -5,7 +5,6 @@ import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
-import com.ordana.immersive_weathering.reg.LeafPilesHelper;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.minecraft.client.Minecraft;
@@ -39,14 +38,14 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
     //TODO: add particles here too
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome) {
-        Random random = level.random;
+        RandomSource random = level.random;
 
         //Drastically reduced this chance to help lag
-        //checking if it has this properties because mcreator mods...
+        //checking if it has these properties because mcreator mods...
         if ((!state.hasProperty(LeavesBlock.PERSISTENT) || !state.getValue(LeavesBlock.PERSISTENT))
                 && random.nextFloat() < CommonConfigs.LEAF_PILES_REACH.get()) {
 
-            var leafPile = LeafPilesHelper.getFallenLeafPile(state).orElse(null);
+            var leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
             if (leafPile != null && level.getBlockState(pos.below()).isAir()) {
 
 
@@ -133,9 +132,10 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
 
     //called from mixin. Client Side
     public static void spawnFallingLeavesParticles(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if(true)return;
         if (ClientConfigs.FALLING_LEAF_PARTICLES.get()) {
             if (!state.getValue(LeavesBlock.PERSISTENT)) {
-                var leafParticle = LeafPilesHelper.getFallenLeafParticle(state).orElse(null);
+                var leafParticle = WeatheringHelper.getFallenLeafParticle(state).orElse(null);
                 if (leafParticle == null) return;
                 int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
                 BlockPos blockPos = pos.below();
@@ -160,7 +160,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
         //this is server side, cant access client configs. Also meed to send color and send particles doesnt support that
 
         if (ClientConfigs.LEAF_DECAY_PARTICLES.get()) {
-            var leafParticle = LeafPilesHelper.getFallenLeafParticle(state).orElse(null);
+            var leafParticle = WeatheringHelper.getFallenLeafParticle(state).orElse(null);
             if (leafParticle == null) return;
             int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
             BlockPos downPos = pos.below();
@@ -179,7 +179,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
         }
 
         if (CommonConfigs.LEAF_PILES_FROM_DECAY_CHANCE.get() > level.random.nextFloat()) {
-            Block leafPile = LeafPilesHelper.getFallenLeafPile(state).orElse(null);
+            Block leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
             if (leafPile == null) return;
             BlockState baseLeaf = leafPile.defaultBlockState();
 

@@ -32,7 +32,7 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
         WorldGenLevel structureWorldAccess = context.level();
         BlockPos blockPos = context.origin();
         IcicleClusterFeatureConfig icicleClusterFeatureConfig = context.config();
-        Random random = context.random();
+        RandomSource random = context.random();
         if (!IcicleHelper.canGenerate(structureWorldAccess, blockPos)) {
             return false;
         } else {
@@ -135,7 +135,7 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
         return !world.getBlockState(pos).is(Blocks.LAVA);
     }
 
-    private int getHeight(Random random, int localX, int localZ, float density, int height, IcicleClusterFeatureConfig config) {
+    private int getHeight(RandomSource random, int localX, int localZ, float density, int height, IcicleClusterFeatureConfig config) {
         if (random.nextFloat() > density) {
             return 0;
         } else {
@@ -186,7 +186,7 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
         return Mth.clampedMap((float) k, 0.0F, (float) config.maxDistanceFromCenterAffectingChanceOfIcicleColumn, config.chanceOfIcicleColumnAtMaxDistanceFromCenter, 1.0F);
     }
 
-    private static float clampedGaussian(Random random, float max, float mean, float deviation) {
+    private static float clampedGaussian(RandomSource random, float max, float mean, float deviation) {
         return ClampedNormalFloat.sample(random, mean, deviation, (float) 0.0, max);
     }
 }

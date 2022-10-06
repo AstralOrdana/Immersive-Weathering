@@ -2,7 +2,9 @@ package com.ordana.immersive_weathering.dynamicpack;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.reg.ModItems;
+import com.ordana.immersive_weathering.reg.ModParticles;
 import net.mehvahdjukaar.moonlight.api.events.AfterLanguageLoadEvent;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.resources.RPUtils;
@@ -15,24 +17,18 @@ import net.mehvahdjukaar.moonlight.api.resources.textures.Palette;
 import net.mehvahdjukaar.moonlight.api.resources.textures.PaletteColor;
 import net.mehvahdjukaar.moonlight.api.resources.textures.Respriter;
 import net.mehvahdjukaar.moonlight.api.resources.textures.TextureImage;
-import net.mehvahdjukaar.moonlight.api.set.BlockType;
-import net.mehvahdjukaar.selene.block_set.BlockType;
-import net.mehvahdjukaar.selene.client.asset_generators.LangBuilder;
-import net.mehvahdjukaar.selene.client.asset_generators.textures.Palette;
-import net.mehvahdjukaar.selene.client.asset_generators.textures.PaletteColor;
-import net.mehvahdjukaar.selene.client.asset_generators.textures.Respriter;
-import net.mehvahdjukaar.selene.client.asset_generators.textures.TextureImage;
-import net.mehvahdjukaar.selene.resourcepack.*;
+import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.eventbus.api.IEventBus;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
+
+    public static ClientDynamicResourcesHandler INSTANCE = new ClientDynamicResourcesHandler();
 
     public ClientDynamicResourcesHandler() {
         super(new DynamicTexturePack(ImmersiveWeathering.res("generated_pack")));
@@ -85,7 +81,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
             StaticResource lpItemModel = StaticResource.getOrLog(manager,
                     ResType.ITEM_MODELS.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
 
-            ModDynamicRegistry.LEAF_TO_TYPE.forEach((pile, leafType) -> {
+            ModBlocks.LEAF_PILES.forEach((leafType, pile) -> {
                 if (leafType.isVanilla()) return;
 
                 String path = leafType.getNamespace() + "/" + leafType.getTypeName();
@@ -139,12 +135,10 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
             StaticResource itemModel = StaticResource.getOrLog(manager,
                     ResType.ITEM_MODELS.getPath(ImmersiveWeathering.res("oak_bark")));
 
-            ModDynamicRegistry.MODDED_BARK.forEach((woodType, bark) -> {
+            ModItems.BARK.forEach((woodType, bark) -> {
                 if (!woodType.isVanilla()) {
 
-                    String id = bark.getRegistryName().getPath();
-
-                    //  langBuilder.addEntry(bark, woodType.getVariantReadableName("bark"));
+                    String id = Utils.getID(bark).getPath();
 
                     try {
                         dynamicPack.addSimilarJsonResource(itemModel, "oak_bark", id);
@@ -154,58 +148,6 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
                 }
             });
         }
-
-        //only needed for datagen. remove later
-        /*
-        {
-            //slabs
-            List<Block> vs = new ArrayList<>();
-            StaticResource bs = getResOrLog(manager,
-                    ResType.BLOCKSTATES.getPath(ImmersiveWeathering.res("cut_iron_vertical_slab")));
-            StaticResource model = getResOrLog(manager,
-                    ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("cracked_end_stone_vertical_slab")));
-            StaticResource im = getResOrLog(manager,
-                    ResType.ITEM_MODELS.getPath(ImmersiveWeathering.res("cut_iron_vertical_slab")));
-            for (Field f : ModBlocks.class.getDeclaredFields()) {
-                try {
-                    if (RegistryObject.class.isAssignableFrom(f.getType()) &&
-                    f.getName().toLowerCase(Locale.ROOT).contains("vertical_slab")) {
-                        vs.add(((RegistryObject<Block>)f.get(null)).get());
-                    }
-                } catch (Exception ignored) {
-                }
-            }
-            for(var b : vs){
-                String name = b.getRegistryName().getPath();
-                langBuilder.addEntry(b, LangBuilder.getReadableName(name));
-                dynamicPack.addSimilarJsonResource(im, "cut_iron_vertical_slab", name);
-                {
-                    var s = name.replace("_vertical_slab", "");
-                    //bs
-                    String string = new String(model.data, StandardCharsets.UTF_8);
-                    String path = model.location.getPath().replace("cracked_end_stone", s);
-                    s = s.replace("tile","tiles");
-                    s =s.replace("brick","bricks");
-                    string = string.replace("cracked_end_stone", s);
-                    //adds modified under my namespace
-                    ResourceLocation newRes = ImmersiveWeathering.res(path);
-                    dynamicPack.addBytes(newRes, string.getBytes(), ResType.GENERIC);
-                }
-                {
-                    //bs
-                    String string = new String(bs.data, StandardCharsets.UTF_8);
-                    String path = bs.location.getPath().replace("cut_iron_vertical_slab", name);
-                    string = string.replace("cut_iron", name.replace("_vertical_slab", ""));
-                    //adds modified under my namespace
-                    ResourceLocation newRes = ImmersiveWeathering.res(path);
-                    dynamicPack.addBytes(newRes, string.getBytes(), ResType.GENERIC);
-                }
-            }
-        }
-        */
-        // dynamicPack.addLang(ImmersiveWeathering.res("en_us"), langBuilder.build());
-
-
     }
 
     public void addLeafPilesModel(StaticResource resource, String id, ResourceLocation texturePath) {
@@ -235,7 +177,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
             Respriter respriter = Respriter.of(template);
             Respriter respriter1 = Respriter.of(template1);
 
-            ModDynamicRegistry.LEAF_TO_TYPE.forEach((pile, type) -> {
+            ModParticles.FALLING_LEAVES.forEach((type, particle) -> {
                 if (type.isVanilla()) return;
 
                 String path = type.getNamespace() + "/" + type.getTypeName();
@@ -276,7 +218,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
         }
 
         //heavy leaves textures
-        ModDynamicRegistry.LEAF_TO_TYPE.forEach((pile, type) -> {
+        ModBlocks.LEAF_PILES.forEach((type, pile) -> {
             if (type.isVanilla()) return;
 
             String path = type.getNamespace() + "/heavy_" + type.getTypeName() + "_leaf_pile";
@@ -305,12 +247,12 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
         //bark textures
         try (TextureImage template = TextureImage.open(manager, ImmersiveWeathering.res("item/bark_template"))) {
 
-            ModDynamicRegistry.MODDED_BARK.forEach((type, bark) -> {
+            ModItems.BARK.forEach((type, bark) -> {
 
                 if (type.isVanilla()) return;
 
                 ResourceLocation textureRes = ImmersiveWeathering.res(
-                        "item/" + bark.getRegistryName().getPath());
+                        "item/" + Utils.getID(bark).getPath());
                 if (!alreadyHasTextureAtLocation(manager, textureRes)) {
 
                     try (TextureImage logTexture = TextureImage.open(manager,
@@ -336,7 +278,6 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
                             }
                         });
 
-
                         dynamicPack.addAndCloseTexture(textureRes, newImage);
                     } catch (Exception ex) {
                         getLogger().error("Failed to find log texture for bark {}", type, ex);
@@ -350,11 +291,11 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
 
     @Override
     public void addDynamicTranslations(AfterLanguageLoadEvent lang) {
-        ModDynamicRegistry.MODDED_BARK.forEach((type, bark) -> {
-            LangBuilder.addDynamicEntry(lang, "item.immersive_weathering.bark", (BlockType) type, bark);
+        ModItems.BARK.forEach((type, bark) -> {
+            LangBuilder.addDynamicEntry(lang, "item.immersive_weathering.bark", type, bark);
         });
-        ModDynamicRegistry.LEAF_TO_TYPE.forEach((leaf, type) -> {
-            LangBuilder.addDynamicEntry(lang, "block.immersive_weathering.leaf_pile", (BlockType) type, leaf);
+        ModBlocks.LEAF_PILES.forEach((type, leaf) -> {
+            LangBuilder.addDynamicEntry(lang, "block.immersive_weathering.leaf_pile", type, leaf);
         });
     }
 

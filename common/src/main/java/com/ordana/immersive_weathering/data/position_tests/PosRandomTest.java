@@ -10,6 +10,8 @@ import net.minecraft.world.level.biome.Biome;
 
 import net.minecraft.util.RandomSource;
 
+import java.util.Random;
+
 public record PosRandomTest(int rarity) implements PositionRuleTest {
 
     public static final String NAME = "pos_random";

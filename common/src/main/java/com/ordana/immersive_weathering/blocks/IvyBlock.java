@@ -15,6 +15,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -27,6 +28,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.MultifaceBlock;
+import net.minecraft.world.level.block.MultifaceSpreader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -34,6 +36,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
+//not touching this
 public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 	public static final IntegerProperty AGE = ModBlockProperties.AGE;
 	public static final int MAX_AGE = 10;
@@ -78,8 +81,9 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 	}
 
 	@Override
-	public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-		int method = random.nextInt(3);
+	public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource r) {
+		int method = r.nextInt(3);
+		Random random = new Random(r.nextLong());
 
 		if (method == 0) {
 			if (growPseudoAdjacent(world, random, pos, state)) {
@@ -198,7 +202,7 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return facing;
 	}
 
-	public boolean growPseudoAdjacent(Level world, RandomSource random, BlockPos pos, BlockState state) {
+	public boolean growPseudoAdjacent(Level world, Random random, BlockPos pos, BlockState state) {
 		BlockState newStateHere = state;
 
 		List<Direction> shuffledDirections = Lists.newArrayList(Direction.values());
@@ -232,7 +236,7 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return false;
 	}
 
-	public boolean growAdjacent(Level world, RandomSource random, BlockPos pos, BlockState state) {
+	public boolean growAdjacent(Level world, Random random, BlockPos pos, BlockState state) {
 		List<Direction> facing = getFacingDirections(state);
 		Collections.shuffle(facing, random);
 
@@ -292,7 +296,7 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return false;
 	}
 
-	public boolean growExternal(Level world, RandomSource random, BlockPos pos, BlockState state) {
+	public boolean growExternal(Level world, Random random, BlockPos pos, BlockState state) {
 		List<Direction> facing = getFacingDirections(state);
 		Collections.shuffle(facing, random);
 
