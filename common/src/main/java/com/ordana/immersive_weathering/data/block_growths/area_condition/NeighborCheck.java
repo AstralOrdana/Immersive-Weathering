@@ -3,9 +3,11 @@ package com.ordana.immersive_weathering.data.block_growths.area_condition;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.data.block_growths.growths.ConfigurableBlockGrowth;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.AlwaysTrueTest;
@@ -35,9 +37,9 @@ record NeighborCheck(RuleTest mustHavePredicate, RuleTest mustNotHavePredicate,
     public boolean test(BlockPos pos, Level level, ConfigurableBlockGrowth config) {
         int count = 0;
         //shuffling. provides way better result that iterating through it conventionally
-        List<Direction> list = new ArrayList<>(directions);
-        Random random = new Random(Mth.getSeed(pos));
-        Collections.shuffle(list, random);
+        RandomSource random = RandomSource.create(Mth.getSeed(pos));
+        List<Direction> list = Util.toShuffledList(directions.stream(), random);
+
         for (Direction dir : list) {
             BlockPos p = pos.relative(dir);
             BlockState state = level.getBlockState(p);

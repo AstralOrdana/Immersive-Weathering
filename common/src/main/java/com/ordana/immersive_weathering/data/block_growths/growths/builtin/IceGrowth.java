@@ -53,7 +53,7 @@ public class IceGrowth extends BuiltinBlockGrowth {
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> b) {
         Biome biome = b.value();
-        Random random = level.random;
+        RandomSource random = level.random;
 
         //move to json??
         if (random.nextFloat() < 0.003f) {

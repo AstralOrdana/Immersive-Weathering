@@ -66,7 +66,7 @@ public class FlowerCrownItem extends ArmorItem {
     @Nullable
     public static String getModelTexture(ItemStack stack) {
         if (stack.hasCustomHoverName()) {
-            var name = stack.getHoverName().getContents();
+            var name = stack.getHoverName().getString();
             var m = SUPPORTERS_LIST.get(name.toLowerCase(Locale.ROOT));
             if (m != null) return m.textureLocation;
         }
@@ -89,7 +89,7 @@ public class FlowerCrownItem extends ArmorItem {
     @Nullable
     public static SpecialType getSpecialType(ItemStack stack) {
         if (stack.hasCustomHoverName()) {
-            var name = stack.getHoverName().getContents();
+            var name = stack.getHoverName().getString();
             return SUPPORTERS_LIST.get(name.toLowerCase(Locale.ROOT));
         }
         return null;
