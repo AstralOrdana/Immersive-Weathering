@@ -56,7 +56,7 @@ public class RustableDoorBlock extends DoorBlock implements Rustable {
                 case UNAFFECTED -> {
                     if (hasPower != state.getValue(OPEN)) {
                         this.playSound(world, pos, hasPower);
-                        world.gameEvent(hasPower ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+                        world.gameEvent(null,hasPower ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
                     }
                     world.setBlock(pos, state.setValue(POWERED, hasPower).setValue(OPEN, hasPower), 2);
                 }
@@ -80,7 +80,7 @@ public class RustableDoorBlock extends DoorBlock implements Rustable {
                     if (hasPower && !state.getValue(POWERED)) { // if its recieving power but the blockstate says unpowered, that means it has just been powered on this tick
                         state = state.cycle(OPEN);
                         this.playSound(world, pos, state.getValue(OPEN));
-                        world.gameEvent(state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+                        world.gameEvent(null,state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
                     }
                     world.setBlock(pos, state.setValue(POWERED, hasPower).setValue(OPEN, state.getValue(OPEN)), Block.UPDATE_CLIENTS);
 
@@ -94,7 +94,7 @@ public class RustableDoorBlock extends DoorBlock implements Rustable {
         if (this.getAge() == RustLevel.EXPOSED || this.getAge() == RustLevel.WEATHERED) {
             state = state.cycle(OPEN);
             this.playSound(world, pos, state.getValue(OPEN)); // if it is powered, play open sound, else play close sound
-            world.gameEvent(state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
+            world.gameEvent(null,state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
             world.setBlock(pos, state.setValue(OPEN, state.getValue(OPEN)), Block.UPDATE_CLIENTS); // set open to match the powered state (powered true, open true)
         }
     }

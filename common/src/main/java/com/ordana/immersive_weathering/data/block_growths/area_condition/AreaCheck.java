@@ -15,6 +15,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 
 import java.util.Optional;
+import java.util.Random;
+
 import net.minecraft.util.RandomSource;
 
 record AreaCheck(int rX, int rY, int rZ, int requiredAmount, Optional<Integer> yOffset,
@@ -44,7 +46,7 @@ record AreaCheck(int rX, int rY, int rZ, int requiredAmount, Optional<Integer> y
     public boolean test(BlockPos pos, Level level, ConfigurableBlockGrowth config) {
         if (yOffset.isPresent()) pos = pos.above(yOffset.get());
         int count = 0;
-        Random random = new Random(Mth.getSeed(pos));
+        RandomSource random = RandomSource.create(Mth.getSeed(pos));
         boolean hasRequirement = this.mustHavePredicate.isEmpty();
         //shuffling. provides way better result that iterating through it conventionally
         //if(hasRequirement && requiredAmount == -1)return true;

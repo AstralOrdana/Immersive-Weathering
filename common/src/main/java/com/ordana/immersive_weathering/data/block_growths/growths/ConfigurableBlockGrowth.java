@@ -14,6 +14,7 @@ import net.minecraft.core.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.random.WeightedEntry;
 import net.minecraft.world.level.Level;
@@ -201,7 +202,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
         if (this.canGrow(pos, level, biome)) {
             Direction dir = this.growthForDirection.getRandomValue(level.random).orElse(Direction.UP);
 
-            Random seed = new Random(Mth.getSeed(pos));
+            RandomSource seed = RandomSource.create(Mth.getSeed(pos));
             BlockPos targetPos = targetSelf ? pos : pos.relative(dir);
             BlockState target = level.getBlockState(targetPos);
 

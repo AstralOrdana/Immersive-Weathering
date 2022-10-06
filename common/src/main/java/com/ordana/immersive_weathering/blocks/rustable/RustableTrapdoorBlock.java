@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -14,8 +15,6 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
-
-import net.minecraft.util.RandomSource;
 
 public class RustableTrapdoorBlock extends TrapDoorBlock implements Rustable {
     private final RustLevel rustLevel;
@@ -38,7 +37,7 @@ public class RustableTrapdoorBlock extends TrapDoorBlock implements Rustable {
                     if (!this.defaultBlockState().is(block) && hasPower != state.getValue(POWERED)) {
                         if (hasPower != state.getValue(OPEN)) {
                             this.playOpenCloseSound(world, pos, hasPower);
-                            world.gameEvent(hasPower ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+                            world.gameEvent(null, hasPower ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
                         }
                         world.setBlock(pos, state.setValue(POWERED, hasPower).setValue(OPEN, hasPower), 2);
                     }
@@ -63,7 +62,7 @@ public class RustableTrapdoorBlock extends TrapDoorBlock implements Rustable {
                     if (hasPower && !state.getValue(POWERED)) { // if its recieving power but the blockstate says unpowered, that means it has just been powered on this tick
                         state = state.cycle(OPEN);
                         this.playOpenCloseSound(world, pos, state.getValue(OPEN));
-                        world.gameEvent(state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+                        world.gameEvent(null, state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
                     }
                     world.setBlock(pos, state.setValue(POWERED, hasPower).setValue(OPEN, state.getValue(OPEN)), Block.UPDATE_CLIENTS);
                 }
@@ -76,7 +75,7 @@ public class RustableTrapdoorBlock extends TrapDoorBlock implements Rustable {
         if (this.getAge() == RustLevel.EXPOSED || this.getAge() == RustLevel.WEATHERED) {
             state = state.cycle(OPEN);
             this.playOpenCloseSound(world, pos, state.getValue(OPEN)); // if it is powered, play open sound, else play close sound
-            world.gameEvent(state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
+            world.gameEvent(null, state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
             world.setBlock(pos, state.setValue(OPEN, state.getValue(OPEN)), Block.UPDATE_CLIENTS); // set open to match the powered state (powered true, open true)
         }
     }
