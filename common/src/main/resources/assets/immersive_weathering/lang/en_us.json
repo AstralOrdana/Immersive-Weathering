@@ -44,6 +44,8 @@
   "config.immersive_weathering.general.desire_paths": "Desire Paths",
   "config.immersive_weathering.general.desire_path_rate": "Desire Paths Rate",
   "config.immersive_weathering.general.creative_tab": "IW Creative Tab",
+  "config.immersive_weathering.general.grass_over_mycelium": "Grass Spreads over Mycelium",
+  "config.immersive_weathering.general.mycelium_over_grass": "Mycelium Spreads over Grass",
 
   "config.immersive_weathering.mossy_blocks.interest_for_face": "Interest for face",
   "config.immersive_weathering.mossy_blocks.interest_for_face.descriptionKey": "How much influence should neighboring mossy blocks have on moss spreading?",
@@ -68,11 +70,11 @@
   "config.immersive_weathering.icicle.spawn_rarity": "Icicle spawn rate",
   "config.immersive_weathering.icicle.spawn_rarity.descriptionKey": "How frequently should Icicles generate?",
 
-  "config.immersive_weathering.freezing.water_severity": "Water freezing severity",
+  "config.immersive_weathering.freezing.water_increment": "Water freezing severity",
   "config.immersive_weathering.freezing.water_severity.descriptionKey": "How severe should water freezing be?",
   "config.immersive_weathering.freezing.icicle": "Icicle freezing severity",
   "config.immersive_weathering.freezing.icicle.descriptionKey": "How severe should icicle freezing be?",
-  "config.immersive_weathering.freezing.permafrost": "Permafrost freezing severity",
+  "config.immersive_weathering.freezing.permafrost_increment": "Permafrost freezing severity",
   "config.immersive_weathering.freezing.permafrost.descriptionKey": "How severe should permafrost freezing be?",
 
   "config.immersive_weathering.charring.fire_chars_wood": "Wood charring rate",
@@ -132,7 +134,7 @@
 
   "config.immersive_weathering.leaf_piles.leaf_piles_slow": "Leaf Piles Slowness",
   "config.immersive_weathering.leaf_piles.spawn_entity_from_decay": "Decaying Leaves Fall",
-  "config.immersive_weathering.leaf_piles.decay_sound": "Leaf Decay Sound",
+  "config.immersive_weathering.general.decay_sound": "Leaf Decay Sound",
   "config.immersive_weathering.leaf_piles.leaf_piles_spawn_chance": "Pile Formation Chance",
   "config.immersive_weathering.leaf_piles.reach": "Ground Detection Range",
   "config.immersive_weathering.leaf_piles.max_pile_height": "Max Natural Pile Height",
@@ -141,6 +143,7 @@
   "config.immersive_weathering.thin_ice.natural_melting": "Natural Melting",
 
   "config.immersive_weathering.lightning_growths.vitrified_lightning": "Fulgurite Formation",
+  "config.immersive_weathering.lightning_growths.fulgurite_chance": "Fulgurite Formation Chance",
 
   "config.immersive_weathering.rusting.rusting": "Iron Rusting Enabled",
 

@@ -21,6 +21,8 @@ public class CommonConfigs {
     public static Supplier<Double> DESIRE_PATH_RATE;
     public static Supplier<Boolean> CREATIVE_TAB;
     public static Supplier<Boolean> CREATIVE_DROP;
+    public static Supplier<Boolean> GRASS_OVER_MYCELIUM;
+    public static Supplier<Boolean> MYCELIUM_OVER_GRASS;
 
     public static Supplier<Double> MOSS_INTERESTS_FOR_FACE;
     public static Supplier<Double> MOSS_PATCHINESS;
@@ -84,7 +86,6 @@ public class CommonConfigs {
 
     public static Supplier<Boolean> LEAF_PILES_SLOW;
     public static Supplier<Double> LEAF_PILES_FROM_DECAY_CHANCE;
-    public static Supplier<Boolean> LEAF_DECAY_SOUND;
     public static Supplier<Double> LEAF_PILES_CHANCE;
     public static Supplier<Integer> LEAF_PILE_MAX_HEIGHT;
     public static Supplier<Integer> LEAF_PILES_REACH;
@@ -110,9 +111,9 @@ public class CommonConfigs {
 
         builder.push("general");
         BLOCK_GROWTHS = builder.define("block_growths", true);
-        DESIRE_PATHS = builder.define("desire_paths", false);
-        DESIRE_PATH_RATE = builder.define("desire_path_rate", 0.05, 0, 1d);
         CREATIVE_TAB = builder.define("creative_tab", false);
+        GRASS_OVER_MYCELIUM = builder.define("grass_over_mycelium", true);
+        MYCELIUM_OVER_GRASS = builder.define("mycelium_over_grass", true);
         builder.pop();
 
         builder.push("mossy_blocks");
@@ -185,7 +186,7 @@ public class CommonConfigs {
 
         builder.push("food");
         ICICLE_FOOD = builder.define("icicle_food", true);
-        ICICLE_FIRE_RESISTANCE = builder.define("icicle_fire_resistance", false);
+        ICICLE_FIRE_RESISTANCE = builder.define("icicle_fire_resistance", true);
         MUDDY_WATER_ENABLED = builder.define("muddy_water_enabled", true);
         builder.pop();
 
@@ -195,12 +196,13 @@ public class CommonConfigs {
         GENERIC_BARK = builder.define("generic_bark", "");
         FEATHER_FALLING_FARMERS = builder.define("feather_falling_farmers", true);
         LEGGINGS_PREVENTS_THORN_DAMAGE = builder.define("leggings_prevents_thorn_damage", true);
+        DESIRE_PATHS = builder.define("desire_paths", false);
+        DESIRE_PATH_RATE = builder.define("desire_path_rate", 0.05, 0, 1d);
         builder.pop();
 
         builder.push("leaf_piles");
         LEAF_PILES_SLOW = builder.define("leaf_piles_slow", true);
         LEAF_PILES_FROM_DECAY_CHANCE = builder.define("spawn_entity_from_decay", 0.3, 0, 1);
-        LEAF_DECAY_SOUND = builder.define("decay_sound", true);
 
         LEAF_PILES_CHANCE = builder.define("leaf_piles_spawn_chance", 0.005, 0, 1);
         LEAF_PILES_REACH = builder.define("reach", 12, 1, 256);
@@ -209,13 +211,12 @@ public class CommonConfigs {
         builder.pop();
 
         builder.push("thin_ice");
-        THIN_ICE_MELTING = builder.define("natural_melting", true);
+        THIN_ICE_MELTING = builder.define("natural_melting", false);
         builder.pop();
 
         builder.push("lightning_growths"); //TODO:move to data
         VITRIFIED_LIGHTNING = builder.define("vitrified_lightning", true);
-        FULGURITE_CHANCE = builder.comment("chance that a lightning strike on sand creates fulgurite")
-                .define("fulgurite_chance", 0.4,0,1);
+        FULGURITE_CHANCE = builder.define("fulgurite_chance", 0.4,0,1);
         builder.pop();
 
         builder.push("rusting");

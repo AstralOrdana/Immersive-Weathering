@@ -1,7 +1,9 @@
 package com.ordana.immersive_weathering.blocks.soil;
 
+import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.data.block_growths.IConditionalGrowingBlock;
 import com.ordana.immersive_weathering.WeatheringHelper;
+import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -110,21 +112,27 @@ public class RootedGrassBlock extends ModGrassBlock implements BonemealableBlock
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
-        if (state.getValue(FERTILE)) {
-            if (!canBeGrass(state, world, pos)) {
-                world.setBlockAndUpdate(pos, Blocks.ROOTED_DIRT.defaultBlockState());
-            }
-            if (state.is(Blocks.ROOTED_DIRT)) return;
-            else if (world.getMaxLocalRawBrightness(pos.above()) >= 9) {
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+        if (state.getValue(AGE) == 10) {
+            level.setBlockAndUpdate(pos, Blocks.DIRT_PATH.defaultBlockState());
+        }
+        if (state.getValue(AGE) < 10 && state.getValue(AGE) > 1) {
+            int j = state.getValue(AGE);
+            level.setBlock(pos, state.setValue(AGE, j - 1), 3);
+        }
+        if (!canBeGrass(state, level, pos)) {
+            level.setBlockAndUpdate(pos, Blocks.ROOTED_DIRT.defaultBlockState());
+        } else {
+            if (level.getMaxLocalRawBrightness(pos.above()) >= 9) {
                 BlockState blockState = this.defaultBlockState();
+
                 for(int i = 0; i < 4; ++i) {
                     BlockPos blockPos = pos.offset(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
-                    if ((world.getBlockState(blockPos).is(Blocks.DIRT) || (world.getBlockState(blockPos).is(Blocks.MYCELIUM))) && canPropagate(blockState, world, blockPos)) {
-                        world.setBlockAndUpdate(blockPos, Blocks.GRASS_BLOCK.defaultBlockState().setValue(SNOWY, world.getBlockState(blockPos.above()).is(Blocks.SNOW)));
+                    if ((level.getBlockState(blockPos).is(Blocks.DIRT) || (CommonConfigs.GRASS_OVER_MYCELIUM.get() && (level.getBlockState(blockPos).is(Blocks.MYCELIUM)))) && canPropagate(blockState, level, blockPos)) {
+                        level.setBlockAndUpdate(blockPos, Blocks.GRASS_BLOCK.defaultBlockState().setValue(SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)));
                     }
-                    if ((world.getBlockState(blockPos).is(Blocks.ROOTED_DIRT)) && canPropagate(blockState, world, blockPos)) {
-                        world.setBlockAndUpdate(blockPos, this.defaultBlockState().setValue(SNOWY, world.getBlockState(blockPos.above()).is(Blocks.SNOW)));
+                    else if ((level.getBlockState(blockPos).is(Blocks.ROOTED_DIRT)) && canPropagate(blockState, level, blockPos)) {
+                        level.setBlockAndUpdate(blockPos, ModBlocks.ROOTED_GRASS_BLOCK.get().defaultBlockState().setValue(SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)));
                     }
                 }
             }
