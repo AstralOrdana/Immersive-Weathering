@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.forge;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
+import com.ordana.immersive_weathering.network.NetworkHandler;
 import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;

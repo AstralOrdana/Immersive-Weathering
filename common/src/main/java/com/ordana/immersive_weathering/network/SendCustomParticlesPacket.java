@@ -16,6 +16,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class SendCustomParticlesPacket implements Message {
@@ -25,9 +26,9 @@ public class SendCustomParticlesPacket implements Message {
     private final BlockPos pos;
 
     public SendCustomParticlesPacket(FriendlyByteBuf buffer) {
+        this.extraData = buffer.readInt();
         this.type = EventType.values()[buffer.readByte()];
         this.pos = buffer.readBlockPos();
-        this.extraData = buffer.readInt();
     }
 
     public SendCustomParticlesPacket(EventType type, BlockPos pos, int extraData) {
@@ -38,9 +39,9 @@ public class SendCustomParticlesPacket implements Message {
 
     @Override
     public void writeToBuffer(FriendlyByteBuf buf) {
+        buf.writeInt(this.extraData);
         buf.writeByte(type.ordinal());
         buf.writeBlockPos(pos);
-        buf.writeInt(this.extraData);
     }
 
     @Override
