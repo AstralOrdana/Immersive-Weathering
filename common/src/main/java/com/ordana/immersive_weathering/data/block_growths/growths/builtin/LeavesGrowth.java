@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.data.block_growths.growths.builtin;
 
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.WeatheringHelper;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
@@ -134,6 +135,10 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
 
     //called from mixin random tick
     public static void spawnFallingLeavesParticle(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if(!(state.getBlock() instanceof LeavesBlock)){
+            ImmersiveWeathering.LOGGER.error("Some mod tried to call leaves random tick without passing a leaf block blockstate as expected. This should be fixed on their end. Given blockstate : {}", state);
+            return;
+        }
         if (ClientConfigs.FALLING_LEAF_PARTICLES.get()) {
             if (!state.getValue(LeavesBlock.PERSISTENT)) {
                 var leafParticle = WeatheringHelper.getFallenLeafParticle(state).orElse(null);
@@ -158,8 +163,11 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
     }
 
     public static void decayLeavesPile(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        //this is server side, cant access client configs. Also meed to send color and send particles doesnt support that
-
+        //this is server side, cant access client configs. Also meet to send color and send particles doesn't support that
+        if(!(state.getBlock() instanceof LeavesBlock)){
+            ImmersiveWeathering.LOGGER.error("Some mod tried to call leaves random tick without passing a leaf block blockstate as expected. This should be fixed on their end. Given blockstate : {}", state);
+            return;
+        }
         if (CommonConfigs.LEAF_PILES_FROM_DECAY_CHANCE.get() > level.random.nextFloat()) {
             Block leafPile = WeatheringHelper.getFallenLeafPile(state).orElse(null);
             if (leafPile == null) return;

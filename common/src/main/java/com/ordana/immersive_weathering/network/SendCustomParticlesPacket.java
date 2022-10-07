@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.network;
 import com.ordana.immersive_weathering.WeatheringHelper;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.mixins.LeavesMixin;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.mehvahdjukaar.moonlight.api.platform.network.ChannelHandler;
@@ -34,7 +35,6 @@ public class SendCustomParticlesPacket implements Message {
         this.pos = pos;
         this.extraData = extraData;
     }
-
 
     @Override
     public void writeToBuffer(FriendlyByteBuf buf) {
