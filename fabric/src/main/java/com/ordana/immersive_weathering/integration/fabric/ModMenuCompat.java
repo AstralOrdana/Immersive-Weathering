@@ -19,7 +19,7 @@ public class ModMenuCompat implements ModMenuApi {
         return ModConfigScreen::new;
     }
 
-    private static class ModConfigScreen extends ClothConfigListScreen {
+        private static class ModConfigScreen extends ClothConfigListScreen {
 
         public ModConfigScreen(Screen parent) {
             super(ImmersiveWeathering.MOD_ID, ModBlocks.IVY.get().asItem().getDefaultInstance(),
