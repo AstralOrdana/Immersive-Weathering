@@ -6,11 +6,11 @@ import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import net.mehvahdjukaar.moonlight.api.cloth_config.ClothConfigListScreen;
+import net.mehvahdjukaar.moonlight.api.platform.configs.fabric.FabricConfigListScreen;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 
 public class ModMenuCompat implements ModMenuApi {
 
@@ -19,11 +19,11 @@ public class ModMenuCompat implements ModMenuApi {
         return ModConfigScreen::new;
     }
 
-    private static class ModConfigScreen extends ClothConfigListScreen {
+    private static class ModConfigScreen extends FabricConfigListScreen {
 
         public ModConfigScreen(Screen parent) {
             super(ImmersiveWeathering.MOD_ID, ModBlocks.IVY.get().asItem().getDefaultInstance(),
-                    new TextComponent("\u00A76Immersive Weathering Configs"),
+                    Component.literal("\u00A76Immersive Weathering Configs"),
                     ImmersiveWeathering.res("textures/block/cracked_bricks.png"),
                     parent, ClientConfigs.CLIENT_SPEC, CommonConfigs.SERVER_SPEC);
         }

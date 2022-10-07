@@ -6,6 +6,7 @@ import com.ordana.immersive_weathering.client.particles.EmberParticle;
 import com.ordana.immersive_weathering.client.particles.LeafParticle;
 import com.ordana.immersive_weathering.items.FlowerCrownItem;
 import com.ordana.immersive_weathering.reg.*;
+import net.mehvahdjukaar.moonlight.api.client.renderer.FallingBlockRendererGeneric;
 import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;

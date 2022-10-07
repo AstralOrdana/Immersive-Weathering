@@ -26,23 +26,6 @@ public class IWPlatformStuffImpl {
     public static final IdentityHashMap<Block, Block> COPY_BLOCK_COLORS = new IdentityHashMap<>();
     public static final IdentityHashMap<Item, Item> COPY_ITEM_COLORS = new IdentityHashMap<>();
 
-
-    public static void addExtraFloweryBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
-
-        Block a = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("quark:flowering_azalea_hedge"));
-        Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("quark:azalea_hedge"));
-        if (a != null && b != null) {
-            builder.put(a, b);
-        }
-        Block c = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("quark:flowering_azalea_leaf_carpet"));
-        Block d = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("quark:azalea_leaf_carpet"));
-        if (c != null && d != null) {
-            builder.put(c, d);
-        }
-
-
-    }
-
     public static void addExtraMossyBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
         if (IntegrationHandler.quark) {
             QuarkPlugin.addAllVerticalSlabs(builder);

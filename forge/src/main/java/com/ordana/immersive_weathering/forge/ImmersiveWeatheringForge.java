@@ -4,50 +4,43 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.client.ImmersiveWeatheringClient;
-import com.ordana.immersive_weathering.forge.dynamic.ModDynamicRegistry;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModWaxables;
-import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.event.AddPackFindersEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forgespi.locating.IModFile;
-import net.minecraftforge.resource.PathResourcePack;
-import top.theillusivec4.curios.api.SlotTypeMessage;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
+import net.minecraftforge.resource.PathPackResources;
 
 import java.io.IOException;
 
 /**
- * Author: Ordana, Keybounce, MehVahdJukaar
+ * Author: MehVahdJukaar, Ordana, Keybounce,
  */
 @Mod(ImmersiveWeathering.MOD_ID)
 public class ImmersiveWeatheringForge {
     public static final String MOD_ID = ImmersiveWeathering.MOD_ID;
-
-    public static boolean hasDynamic = ModList.get().isLoaded("selene");
 
     public ImmersiveWeatheringForge() {
 
@@ -56,11 +49,7 @@ public class ImmersiveWeatheringForge {
         //ModDynamicRegistry.init(bus);
 
         ImmersiveWeathering.commonInit();
-        FeatureHacks.init();
 
-        if(hasDynamic) {
-            ModDynamicRegistry.init();
-        }
         /**
          * Update stuff:
          * Configs
@@ -79,18 +68,19 @@ public class ImmersiveWeatheringForge {
     }
 
     @SubscribeEvent
-    public void interModCommunication(InterModEnqueueEvent event){
-        event.enqueueWork(()->{
-         //   InterModComms.sendTo("curios", "REGISTER_TYPE", () -> new SlotTypeMessage.Builder("head").build());
+    public void interModCommunication(InterModEnqueueEvent event) {
+        event.enqueueWork(() -> {
+            //   InterModComms.sendTo("curios", "REGISTER_TYPE", () -> new SlotTypeMessage.Builder("head").build());
         });
     }
 
     @SubscribeEvent
-    public  void registerOverrides(RegistryEvent.Register<Item> event) {
+    public void registerOverrides(RegisterEvent event) {
         //override
-        event.getRegistry().register(
-                new CeilingAndWallBlockItem(Blocks.HANGING_ROOTS, ModBlocks.HANGING_ROOTS_WALL.get(),
-                        new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)).setRegistryName("minecraft:hanging_roots"));
+        if (event.getRegistryKey() == ForgeRegistries.ITEMS.getRegistryKey())
+            event.getForgeRegistry().register(new ResourceLocation("minecraft:hanging_roots"),
+                    new CeilingAndWallBlockItem(Blocks.HANGING_ROOTS, ModBlocks.HANGING_ROOTS_WALL.get(),
+                            new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
     }
 
     @SubscribeEvent
@@ -121,11 +111,11 @@ public class ImmersiveWeatheringForge {
     public void addPackFinders(AddPackFindersEvent event) {
 
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
-            registerBuiltinResourcePack(event, new TextComponent("Biome Tinted Mossy Blocks"), "biome_tinted_mossy_blocks");
+            registerBuiltinResourcePack(event, Component.literal("Biome Tinted Mossy Blocks"), "biome_tinted_mossy_blocks");
 
-            registerBuiltinResourcePack(event, new TextComponent("Better Brick Items"), "better_brick_items");
-            registerBuiltinResourcePack(event, new TextComponent("Better Brick blocks"), "better_brick_blocks");
-            registerBuiltinResourcePack(event, new TextComponent("Visual Waxed Iron Items"), "visual_waxed_iron_items");
+            registerBuiltinResourcePack(event, Component.literal("Better Brick Items"), "better_brick_items");
+            registerBuiltinResourcePack(event, Component.literal("Better Brick blocks"), "better_brick_blocks");
+            registerBuiltinResourcePack(event, Component.literal("Visual Waxed Iron Items"), "visual_waxed_iron_items");
         }
     }
 
@@ -133,7 +123,7 @@ public class ImmersiveWeatheringForge {
         event.addRepositorySource((consumer, constructor) -> {
             String path = ImmersiveWeathering.res(folder).toString();
             IModFile file = ModList.get().getModFileById(ImmersiveWeatheringForge.MOD_ID).getFile();
-            try (PathResourcePack pack = new PathResourcePack(
+            try (PathPackResources pack = new PathPackResources(
                     path,
                     file.findResource("resourcepacks/" + folder));) {
 
