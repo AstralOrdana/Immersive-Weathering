@@ -84,7 +84,6 @@ public class CommonConfigs {
 
     public static Supplier<Boolean> LEAF_PILES_SLOW;
     public static Supplier<Double> LEAF_PILES_FROM_DECAY_CHANCE;
-    public static Supplier<Boolean> LEAF_DECAY_SOUND;
     public static Supplier<Double> LEAF_PILES_CHANCE;
     public static Supplier<Integer> LEAF_PILE_MAX_HEIGHT;
     public static Supplier<Integer> LEAF_PILES_REACH;
@@ -200,7 +199,7 @@ public class CommonConfigs {
         builder.push("leaf_piles");
         LEAF_PILES_SLOW = builder.define("leaf_piles_slow", true);
         LEAF_PILES_FROM_DECAY_CHANCE = builder.define("spawn_entity_from_decay", 0.3, 0, 1);
-        LEAF_DECAY_SOUND = builder.define("decay_sound", true);
+
 
         LEAF_PILES_CHANCE = builder.define("leaf_piles_spawn_chance", 0.005, 0, 1);
         LEAF_PILES_REACH = builder.define("reach", 12, 1, 256);

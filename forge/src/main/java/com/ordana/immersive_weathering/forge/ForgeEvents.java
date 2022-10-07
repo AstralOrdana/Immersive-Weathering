@@ -2,20 +2,15 @@ package com.ordana.immersive_weathering.forge;
 
 
 import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
-
 import com.ordana.immersive_weathering.data.fluid_generators.FluidGeneratorsHandler;
 import com.ordana.immersive_weathering.events.ModLootInjects;
-import com.ordana.immersive_weathering.mixins.EatBlockGoalMixin;
-import net.mehvahdjukaar.selene.Selene;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.ai.goal.EatBlockGoal;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 
 @Mod.EventBusSubscriber(modid = ImmersiveWeatheringForge.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEvents {
@@ -24,13 +19,14 @@ public class ForgeEvents {
     //hacky but eh
     @SubscribeEvent
     public static void onTagUpdated(TagsUpdatedEvent event) {
-        BlockGrowthHandler.RELOAD_INSTANCE.rebuild(event.getTagManager());
-        FluidGeneratorsHandler.RELOAD_INSTANCE.rebuild(event.getTagManager());
+        BlockGrowthHandler.RELOAD_INSTANCE.rebuild(event.getRegistryAccess());
+        FluidGeneratorsHandler.RELOAD_INSTANCE.rebuild(event.getRegistryAccess());
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        var ret = com.ordana.immersive_weathering.events.ModEvents.onBlockCLicked(event.getItemStack(), event.getPlayer(), event.getWorld(), event.getHand(), event.getHitVec());
+        var ret = com.ordana.immersive_weathering.events.ModEvents.onBlockCLicked(event.getItemStack(),
+                event.getEntity(), event.getLevel(), event.getHand(), event.getHitVec());
         if (ret != InteractionResult.PASS) {
             event.setCanceled(true);
             event.setCancellationResult(ret);
@@ -41,7 +37,6 @@ public class ForgeEvents {
     public static void onAddLootTables(LootTableLoadEvent event) {
         ModLootInjects.onLootInject(event.getLootTableManager(), event.getName(), (b) -> event.getTable().addPool(b.build()));
     }
-
 
 
     //old stuff

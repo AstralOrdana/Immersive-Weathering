@@ -221,7 +221,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
                         if (db) {
                             targetPos2 = targetPos.relative(dir);
                             target2 = level.getBlockState(targetPos2);
-                            seed = new Random(Mth.getSeed(pos));
+                            seed = RandomSource.create(Mth.getSeed(pos));
                             if (!targetPredicate.test(target2, seed)) {
                                 return;
                             }

@@ -8,6 +8,7 @@ import com.ordana.immersive_weathering.configs.ClientConfigs;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.dynamicpack.ClientDynamicResourcesHandler;
 import com.ordana.immersive_weathering.dynamicpack.ServerDynamicResourcesHandler;
+import com.ordana.immersive_weathering.network.NetworkHandler;
 import com.ordana.immersive_weathering.reg.ModSoundEvents;
 import com.ordana.immersive_weathering.reg.*;
 import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
@@ -32,6 +33,7 @@ public class ImmersiveWeathering {
     public static void commonInit() {
 
         CommonConfigs.init();
+        NetworkHandler.registerMessages();
 
         if(PlatformHelper.getEnv().isClient()){
             ClientConfigs.init();

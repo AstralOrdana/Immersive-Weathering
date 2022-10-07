@@ -29,14 +29,14 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
     @Inject(method = "randomTick", at = @At(value = "INVOKE",
             shift = At.Shift.AFTER,
             target = "Lnet/minecraft/server/level/ServerLevel;removeBlock(Lnet/minecraft/core/BlockPos;Z)Z"))
-    public void randomDisplayTick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource random, CallbackInfo ci) {
+    public void onRemoved(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource random, CallbackInfo ci) {
         LeavesGrowth.decayLeavesPile(blockState, serverLevel, blockPos, random);
     }
 
 
     @Inject(method = "animateTick", at = @At("HEAD"))
     public void randomDisplayTick(BlockState state, Level world, BlockPos pos, RandomSource random, CallbackInfo ci) {
-        LeavesGrowth.spawnFallingLeavesParticles(state, world, pos, random);
+        LeavesGrowth.spawnFallingLeavesParticle(state, world, pos, random);
     }
 
     @Override

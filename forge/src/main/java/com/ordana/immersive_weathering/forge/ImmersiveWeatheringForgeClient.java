@@ -1,6 +1,5 @@
 package com.ordana.immersive_weathering.forge;
 
-import com.ordana.immersive_weathering.IWPlatformStuff;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.client.ImmersiveWeatheringClient;
 import com.ordana.immersive_weathering.mixins.forge.AccessorBlockColor;
@@ -10,6 +9,7 @@ import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.color.item.ItemColors;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -19,7 +19,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.registries.IRegistryDelegate;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Map;
 
@@ -43,11 +43,11 @@ public class ImmersiveWeatheringForgeClient {
                 // if(ModList.get().isLoaded("quark")) QuarkPlugin.onFirstClientTick();
                 try {
                     BlockColors bc = Minecraft.getInstance().getBlockColors();
-                    Map<IRegistryDelegate<Block>, BlockColor> blockColorMap =((AccessorBlockColor) bc).getBlockColors();
+                    Map<Holder.Reference<Block>, BlockColor> blockColorMap = ((AccessorBlockColor) bc).getBlockColors();
 
                     IWPlatformStuffImpl.COPY_BLOCK_COLORS.forEach((block, colorFrom) -> {
                         BlockState leafState = colorFrom.defaultBlockState();
-                        BlockColor color = blockColorMap.get(colorFrom.delegate);
+                        BlockColor color = blockColorMap.get((ForgeRegistries.BLOCKS.getDelegateOrThrow(colorFrom)));
                         if (color != null) {
                             BlockColor newBc = (s, t, p, i) -> color.getColor(leafState, t, p, i);
                             bc.register(newBc, block);
@@ -59,11 +59,11 @@ public class ImmersiveWeatheringForgeClient {
 
                 try {
                     ItemColors ic = Minecraft.getInstance().getItemColors();
-                    Map<IRegistryDelegate<Item>, ItemColor> itemColorMap = ((AccessorItemColor) ic).getItemColors();
+                    Map<Holder.Reference<Item>, ItemColor> itemColorMap = ((AccessorItemColor) ic).getItemColors();
 
                     IWPlatformStuffImpl.COPY_ITEM_COLORS.forEach((item, colorFrom) -> {
                         ItemStack leafItem = new ItemStack(colorFrom);
-                        ItemColor baseColor = itemColorMap.get(leafItem.getItem().delegate);
+                        ItemColor baseColor = itemColorMap.get(ForgeRegistries.ITEMS.getDelegateOrThrow(leafItem.getItem()));
                         if (baseColor != null) {
                             ItemColor newIc = (s, i) -> baseColor.getColor(leafItem, i);
                             ic.register(newIc, item);
