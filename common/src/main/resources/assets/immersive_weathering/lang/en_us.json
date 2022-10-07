@@ -44,6 +44,8 @@
   "config.immersive_weathering.general.desire_paths": "Desire Paths",
   "config.immersive_weathering.general.desire_path_rate": "Desire Paths Rate",
   "config.immersive_weathering.general.creative_tab": "IW Creative Tab",
+  "config.immersive_weathering.general.grass_over_mycelium": "Grass Spreads over Mycelium",
+  "config.immersive_weathering.general.mycelium_over_grass": "Mycelium Spreads over Grass",
 
   "config.immersive_weathering.mossy_blocks.interest_for_face": "Interest for face",
   "config.immersive_weathering.mossy_blocks.interest_for_face.descriptionKey": "How much influence should neighboring mossy blocks have on moss spreading?",

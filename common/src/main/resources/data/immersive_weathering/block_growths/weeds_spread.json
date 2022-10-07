@@ -2,6 +2,7 @@
   "tick_sources": [
     "clear_sky"
   ],
+  "growth_chance": 0.01,
   "area_condition": {
     "must_have": {
       "block_state": {
@@ -18,7 +19,6 @@
     "requiredAmount": -1,
     "type": "generate_if_not_too_many"
   },
-  "growth_chance": 0.001,
   "growth_for_face": [
     {
       "direction": "up",

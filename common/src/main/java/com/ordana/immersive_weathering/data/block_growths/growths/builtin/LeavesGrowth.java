@@ -76,6 +76,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
                 if (dist < maxFallenLeavesReach) {
 
                     BlockState replaceState = level.getBlockState(targetPos);
+                    BlockState groundState = level.getBlockState(targetPos.below());
 
                     boolean isOnLeaf = replaceState.getBlock() instanceof LeafPileBlock;
                     int pileHeight = 1;
@@ -87,7 +88,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
                     BlockState baseLeaf = leafPile.defaultBlockState().setValue(LeafPileBlock.LAYERS, 0);
                     //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
                     if (isOnLeaf ||
-                            (replaceState.getMaterial().isReplaceable() && baseLeaf.canSurvive(level, targetPos)
+                            (groundState.isFaceSturdy(level, targetPos.below(), Direction.UP) && replaceState.getMaterial().isReplaceable() && baseLeaf.canSurvive(level, targetPos)
                                     && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 2, 2,
                                     level, b -> b.getBlock() instanceof LeafPileBlock, 6))) {
 
@@ -171,6 +172,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
 
             }
         }
+        */
 
         if (CommonConfigs.LEAF_DECAY_SOUND.get()) {
             level.playSound(null, pos, SoundEvents.AZALEA_LEAVES_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -183,7 +185,6 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
 
             level.setBlock(pos, baseLeaf.setValue(LeafPileBlock.LAYERS, Mth.randomBetweenInclusive(level.random, 1, 5)), 2);
         }
-        */
     }
 
 
