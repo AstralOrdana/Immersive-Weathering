@@ -11,7 +11,7 @@ public class NetworkHandler {
 
     public static void registerMessages() {
 
-        CHANNEL = ChannelHandler.createChannel(ImmersiveWeathering.res("network"));
+        CHANNEL = ChannelHandler.createChannel(ImmersiveWeathering.res("network1"));
 
 
         CHANNEL.register(NetworkDir.PLAY_TO_CLIENT,

@@ -43,7 +43,7 @@ public class ChannelHandlerImpl extends ChannelHandler {
             Class<M> messageClass,
             Function<FriendlyByteBuf, M> decoder) {
 
-        ResourceLocation res = new ResourceLocation(this.channelName.getNamespace(), "" + id++);
+        ResourceLocation res = new ResourceLocation(this.channelName.getNamespace(), this.channelName.getPath()+"" + id++);
         ID_MAP.put(messageClass, res);
 
         if (direction == NetworkDir.PLAY_TO_SERVER) {
