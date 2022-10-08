@@ -20,4 +20,8 @@ public class QuarkPluginImpl {
         return fixedBlock;
     }
 
+    public static boolean isVerticalSlabsOn() {
+        return false;
+    }
+
 }

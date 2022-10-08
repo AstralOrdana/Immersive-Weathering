@@ -11,6 +11,8 @@ import com.ordana.immersive_weathering.blocks.frostable.FrostyGrassBlock;
 import com.ordana.immersive_weathering.blocks.mossable.*;
 import com.ordana.immersive_weathering.blocks.rustable.*;
 import com.ordana.immersive_weathering.blocks.soil.*;
+import com.ordana.immersive_weathering.integration.IntegrationHandler;
+import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import net.mehvahdjukaar.moonlight.api.block.ModStairBlock;
 import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
 import net.mehvahdjukaar.moonlight.api.misc.RegSupplier;
@@ -62,10 +64,14 @@ public class ModBlocks {
     }
 
     private static boolean isCompatBlockEanbled(String requiredMod) {
-        if(Objects.equals(requiredMod, "quark") && PlatformHelper.getPlatform().isFabric()){
-            return requiredMod.equals("amogus");
+        if(Objects.equals(requiredMod, "quark")) {
+            if (PlatformHelper.getPlatform().isFabric()) {
+                return requiredMod.equals("amogus");
+            }else{
+                return IntegrationHandler.quark && QuarkPlugin.isVerticalSlabsOn();
+            }
         }
-        else return PlatformHelper.isModLoaded(requiredMod);
+        return PlatformHelper.isModLoaded(requiredMod);
     }
 
 
