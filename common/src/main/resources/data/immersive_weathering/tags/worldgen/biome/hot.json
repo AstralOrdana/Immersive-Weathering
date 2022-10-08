@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     {
-      "id": "forge:is_hot",
+      "id": "#forge:is_hot",
       "required": false
     },
     "minecraft:badlands",

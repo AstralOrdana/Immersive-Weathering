@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     {
-      "id": "forge:is_snowy",
+      "id": "#forge:is_snowy",
       "required": false
     },
     "minecraft:ice_spikes",
