@@ -42,6 +42,7 @@ import org.jetbrains.annotations.Nullable;
 public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 	public static final IntegerProperty AGE = ModBlockProperties.AGE;
 	public static final int MAX_AGE = 10;
+	private final MultifaceSpreader spreader = new MultifaceSpreader(this);
 
 	public IvyBlock(Properties settings) {
 		super(settings);
@@ -68,13 +69,18 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 	}
 
 	@Override
+	public MultifaceSpreader getSpreader() {
+		return this.spreader;
+	}
+
+	@Override
 	public boolean isRandomlyTicking(BlockState state) {
 		return state.getValue(AGE) < MAX_AGE;
 	}
 
 	@Override
 	public boolean isValidBonemealTarget(BlockGetter world, BlockPos pos, BlockState state, boolean isClient) {
-		return Stream.of(DIRECTIONS).anyMatch(direction -> this.canSpread(state, world, pos, direction.getOpposite()));
+		return Stream.of(DIRECTIONS).anyMatch(direction -> this.isValidStateForPlacement(world, state, pos, direction.getOpposite()));
 	}
 
 	@Override
@@ -140,9 +146,10 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 	}
 
 	@Override
-	public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
+	public void performBonemeal(ServerLevel world, RandomSource r, BlockPos pos, BlockState state) {
 		world.setBlockAndUpdate(pos, state.getBlock().withPropertiesOf(state).setValue(AGE, 0));
-		int method = random.nextInt(3);
+		Random random = new Random(r.nextLong());
+		int method = r.nextInt(3);
 
 			if (method == 0) {
 				if (growPseudoAdjacent(world, random, pos, state)) {
@@ -359,7 +366,7 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 				ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.BLOCK, state), UniformInt.of(3,5));
 				if (player instanceof ServerPlayer) {
 
-					if (!player.getAbilities().instabuild) stack.hurt(1, new Random(), null);
+					if (!player.getAbilities().instabuild) stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
 					level.setBlockAndUpdate(pos, state.setValue(IvyBlock.AGE, IvyBlock.MAX_AGE));
 					player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
 				}

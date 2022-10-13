@@ -5,13 +5,20 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.GlowLichenBlock;
 import net.minecraft.world.level.block.MultifaceBlock;
+import net.minecraft.world.level.block.MultifaceSpreader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 public class MossMultifaceBlock extends GlowLichenBlock {
+    private final MultifaceSpreader spreader = new MultifaceSpreader(this);
 
     public MossMultifaceBlock(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public MultifaceSpreader getSpreader() {
+        return this.spreader;
     }
 
     public boolean canBeReplaced(BlockState state, BlockPlaceContext useContext) {
