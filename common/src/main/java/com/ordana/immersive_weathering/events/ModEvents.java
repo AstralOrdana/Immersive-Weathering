@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.events;
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.WeatheringHelper;
 import com.ordana.immersive_weathering.blocks.Weatherable;
+import com.ordana.immersive_weathering.blocks.charred.CharredBlock;
 import com.ordana.immersive_weathering.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.blocks.rustable.Rustable;
@@ -11,13 +12,15 @@ import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import com.ordana.immersive_weathering.reg.*;
+import net.mehvahdjukaar.moonlight.api.events.IFireConsumeBlockEvent;
+import net.mehvahdjukaar.moonlight.api.misc.EventCalled;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -192,7 +195,7 @@ public class ModEvents {
                                               Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if (item instanceof ShovelItem && CommonConfigs.ASH_ITEM_SPAWN.get()) {
             if (state.getBlock() instanceof CampfireBlock && state.getValue(BlockStateProperties.LIT)) {
-                if (         !player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
+                if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
                     Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModBlocks.SOOT.get()));
                 }
                 //no need to cancel
@@ -420,4 +423,46 @@ public class ModEvents {
         }
         return InteractionResult.PASS;
     }
+
+
+
+
+    @EventCalled
+    public static boolean onFireConsume(IFireConsumeBlockEvent event) {
+        var level = event.getLevel();
+        if (level instanceof ServerLevel serverLevel) {
+            var pos = event.getPos();
+            var state = event.getState();
+            double charChance = CommonConfigs.FIRE_CHARS_WOOD_CHANCE.get();
+            double ashChance = CommonConfigs.ASH_SPAWNS_CHANCE.get();
+            if (charChance != 0 || ashChance != 0) {
+                BlockState newState = null;
+                BlockState charred = charChance != 0 ? WeatheringHelper.getCharredState(state) : null;
+                if (charred != null) {
+                    if (serverLevel.random.nextFloat() < charChance) {
+                        newState = charred.setValue(CharredBlock.SMOLDERING, serverLevel.random.nextBoolean());
+                    }
+                }
+                if (charred == null) {
+                    if (serverLevel.random.nextFloat() < ashChance) {
+                        //TODO: set random layer height and do similar to supp??
+                        newState = ModBlocks.ASH_LAYER_BLOCK.get().defaultBlockState();
+                    }
+                }
+                if (newState != null) {
+                    serverLevel.sendParticles(ModParticles.SOOT.get(),
+                            pos.getX() + 0.5D,
+                            pos.getY() + 0.5D,
+                            pos.getZ() + 0.5D,
+                            10,
+                            0.5D, 0.5D, 0.5D,
+                            0.0D);
+
+                    return serverLevel.setBlock(pos, newState, 3);
+                }
+            }
+        }
+        return false;
+    }
+
 }

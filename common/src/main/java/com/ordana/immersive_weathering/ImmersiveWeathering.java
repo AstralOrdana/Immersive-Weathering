@@ -8,9 +8,12 @@ import com.ordana.immersive_weathering.configs.ClientConfigs;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.dynamicpack.ClientDynamicResourcesHandler;
 import com.ordana.immersive_weathering.dynamicpack.ServerDynamicResourcesHandler;
+import com.ordana.immersive_weathering.events.ModEvents;
 import com.ordana.immersive_weathering.network.NetworkHandler;
 import com.ordana.immersive_weathering.reg.ModSoundEvents;
 import com.ordana.immersive_weathering.reg.*;
+import net.mehvahdjukaar.moonlight.api.events.IFireConsumeBlockEvent;
+import net.mehvahdjukaar.moonlight.api.events.MoonlightEventsHelper;
 import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.core.Moonlight;
@@ -38,7 +41,7 @@ public class ImmersiveWeathering {
         if(PlatformHelper.getEnv().isClient()){
             ClientConfigs.init();
         }
-
+        MoonlightEventsHelper.addListener(ModEvents::onFireConsume, IFireConsumeBlockEvent.class);
         ModBlocks.init();
         ModItems.init();
         ModEntities.init();

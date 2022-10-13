@@ -10,10 +10,7 @@
     "CropBlockMixin",
     "DataPackContentMixin",
     "FarmlandBlockMixin",
-    "FireMixin",
     "FungusBlockMixin",
-    "ItemsMixin",
-    "LevelChunkMixin",
     "NetherWartBlockMixin",
     "SproutsBlockMixin",
     "SugarCaneBlockMixin"

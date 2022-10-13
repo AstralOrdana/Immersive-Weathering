@@ -1,9 +1,8 @@
-package com.ordana.immersive_weathering.mixins.forge;
+package com.ordana.immersive_weathering.mixins;
 
 import com.ordana.immersive_weathering.reg.ModTags;
 import com.ordana.immersive_weathering.WeatheringHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -31,23 +30,6 @@ public abstract class FireMixin extends BaseFireBlock{
     }
 
 
-    @Inject(method = "tryCatchFire",
-            at = @At(value = "INVOKE",
-                    target = "net/minecraft/world/level/Level.removeBlock (Lnet/minecraft/core/BlockPos;Z)Z",
-                    shift = At.Shift.AFTER))
-    private void afterRemoveBlock(Level pLevel, BlockPos pPos, int pChance, RandomSource pRandom, int pAge, Direction face, CallbackInfo ci) {
-        WeatheringHelper.onFireBurnBlock(pLevel, pPos, bs);
-    }
-
-    @Inject(method = "tryCatchFire",
-            at = @At(value = "INVOKE",
-                    target = "net/minecraft/world/level/Level.removeBlock (Lnet/minecraft/core/BlockPos;Z)Z"))
-    private void beforeRemoveBlock(Level pLevel, BlockPos pPos, int pChance, RandomSource pRandom, int pAge, Direction face, CallbackInfo ci) {
-        bs = pLevel.getBlockState(pPos);
-    }
-
-
-
     //expired fire turns into soot
     @Inject(method = "tick",
             at = @At(value = "INVOKE",
@@ -58,9 +40,8 @@ public abstract class FireMixin extends BaseFireBlock{
         WeatheringHelper.onFireExpired(serverLevel, pos, state);
     }
 
-
     //fire can replace soot
-    @Inject(method = "getFireOdds",
+    @Inject(method = "getIgniteOdds(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;)I",
             at = @At(value = "HEAD"), cancellable = true)
     private void canFireReplace(LevelReader reader, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
         if (reader.getBlockState(pos).is(ModTags.FIRE_REPLACEABLE)) cir.setReturnValue(0);

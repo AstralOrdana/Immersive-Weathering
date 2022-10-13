@@ -2,8 +2,6 @@ package com.ordana.immersive_weathering.network;
 
 import com.ordana.immersive_weathering.WeatheringHelper;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
-import com.ordana.immersive_weathering.configs.CommonConfigs;
-import com.ordana.immersive_weathering.mixins.LeavesMixin;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.mehvahdjukaar.moonlight.api.platform.network.ChannelHandler;
@@ -14,9 +12,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class SendCustomParticlesPacket implements Message {
@@ -50,9 +46,9 @@ public class SendCustomParticlesPacket implements Message {
     }
 
     @Environment(EnvType.CLIENT)
-    public void clientStuff(Player player,  EventType type, BlockPos pos, int extraData){
+    public void clientStuff(Player player, EventType type, BlockPos pos, int extraData) {
         var level = player.level;
-        if(type == EventType.DECAY_LEAVES){
+        if (type == EventType.DECAY_LEAVES) {
             if (ClientConfigs.LEAF_DECAY_PARTICLES.get()) {
                 BlockState state = Block.stateById(extraData);
                 var leafParticle = WeatheringHelper.getFallenLeafParticle(state).orElse(null);
@@ -73,7 +69,7 @@ public class SendCustomParticlesPacket implements Message {
         }
     }
 
-    public enum EventType{
+    public enum EventType {
         DECAY_LEAVES
     }
 }
