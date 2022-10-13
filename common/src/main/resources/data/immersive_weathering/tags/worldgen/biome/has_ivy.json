@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     {
-      "id": "forge:is_wet",
+      "id": "#c:forest",
       "required": false
     },
     "minecraft:forest",

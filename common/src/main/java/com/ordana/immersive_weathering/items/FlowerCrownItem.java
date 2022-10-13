@@ -120,41 +120,52 @@ public class FlowerCrownItem extends ArmorItem {
                 0.13f, ModParticles.FLOWER_BOB));
          */
 
-        //pride crowns
         put("asexual", new SpecialType("textures/models/armor/ace.png",
-                0.20f, ModParticles.FLOWER_ACE));
+                0.200f, ModParticles.FLOWER_ACE));
         put("ace", new SpecialType("textures/models/armor/ace.png",
-                0.20f, ModParticles.FLOWER_ACE));
+                0.200f, ModParticles.FLOWER_ACE));
         put("aromantic", new SpecialType("textures/models/armor/aro.png",
-                0.21f, ModParticles.FLOWER_ARO));
+                0.201f, ModParticles.FLOWER_ARO));
         put("aro", new SpecialType("textures/models/armor/aro.png",
-                0.21f, ModParticles.FLOWER_ARO));
+                0.201f, ModParticles.FLOWER_ARO));
         put("bisexual", new SpecialType("textures/models/armor/bi.png",
-                0.22f, ModParticles.FLOWER_BI));
+                0.202f, ModParticles.FLOWER_BI));
         put("bi", new SpecialType("textures/models/armor/bi.png",
-                0.22f, ModParticles.FLOWER_BI));
+                0.202f, ModParticles.FLOWER_BI));
         put("non-binary", new SpecialType("textures/models/armor/enby.png",
-                0.23f, ModParticles.FLOWER_ENBY));
+                0.203f, ModParticles.FLOWER_ENBY));
         put("nb", new SpecialType("textures/models/armor/enby.png",
-                0.23f, ModParticles.FLOWER_ENBY));
+                0.203f, ModParticles.FLOWER_ENBY));
         put("enby", new SpecialType("textures/models/armor/enby.png",
-                0.23f, ModParticles.FLOWER_ENBY));
+                0.203f, ModParticles.FLOWER_ENBY));
         put("gay", new SpecialType("textures/models/armor/gay.png",
-                0.24f, ModParticles.FLOWER_GAY));
+                0.204f, ModParticles.FLOWER_GAY));
         put("mlm", new SpecialType("textures/models/armor/gay.png",
-                0.24f, ModParticles.FLOWER_GAY));
+                0.204f, ModParticles.FLOWER_GAY));
         put("lesbian", new SpecialType("textures/models/armor/lesbian.png",
-                0.25f, ModParticles.FLOWER_LESBIAN));
+                0.205f, ModParticles.FLOWER_LESBIAN));
         put("wlw", new SpecialType("textures/models/armor/lesbian.png",
-                0.25f, ModParticles.FLOWER_LESBIAN));
+                0.205f, ModParticles.FLOWER_LESBIAN));
         put("rainbow", new SpecialType("textures/models/armor/rainbow.png",
-                0.26f, ModParticles.FLOWER_RAINBOW));
+                0.206f, ModParticles.FLOWER_RAINBOW));
         put("pride", new SpecialType("textures/models/armor/rainbow.png",
-                0.26f, ModParticles.FLOWER_RAINBOW));
+                0.206f, ModParticles.FLOWER_RAINBOW));
         put("trans", new SpecialType("textures/models/armor/trans.png",
-                0.27f, ModParticles.FLOWER_TRANS));
+                0.207f, ModParticles.FLOWER_TRANS));
         put("transgender", new SpecialType("textures/models/armor/trans.png",
-                0.27f, ModParticles.FLOWER_TRANS));
+                0.207f, ModParticles.FLOWER_TRANS));
+        put("pan", new SpecialType("textures/models/armor/pan.png",
+                0.208f, ModParticles.FLOWER_PAN));
+        put("pansexual", new SpecialType("textures/models/armor/pan.png",
+                0.208f, ModParticles.FLOWER_PAN));
+        put("intersex", new SpecialType("textures/models/armor/intersex.png",
+                0.209f, ModParticles.FLOWER_INTERSEX));
+        put("genderqueer", new SpecialType("textures/models/armor/genderqueer.png",
+                0.210f, ModParticles.FLOWER_GENDERQUEER));
+        put("genderfluid", new SpecialType("textures/models/armor/fluid.png",
+                0.211f, ModParticles.FLOWER_FLUID));
+        put("fluid", new SpecialType("textures/models/armor/fluid.png",
+                0.211f, ModParticles.FLOWER_FLUID));
 
         //supporter crowns
         put("flax", new SpecialType("textures/models/armor/flax.png",

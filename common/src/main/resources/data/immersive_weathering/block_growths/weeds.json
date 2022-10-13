@@ -2,7 +2,7 @@
   "tick_sources": [
     "clear_sky"
   ],
-  "growth_chance": 0.01,
+  "growth_chance": 0.005,
   "growth_for_face": [
     {
       "direction": "up",

@@ -2,7 +2,11 @@
   "replace": false,
   "values": [
     {
-      "id": "forge:is_snowy",
+      "id": "#forge:is_snowy",
+      "required": false
+    },
+    {
+      "id": "#c:climate_cold",
       "required": false
     },
     "minecraft:ice_spikes",
@@ -13,42 +17,6 @@
     "minecraft:snowy_taiga",
     "minecraft:frozen_ocean",
     "minecraft:deep_frozen_ocean",
-    "minecraft:frozen_river",
-    {
-      "id": "terralith:frozen_cliffs",
-      "required": false
-    },
-    {
-      "id": "terralith:ice_marsh",
-      "required": false
-    },
-    {
-      "id": "terralith:snowy_shield",
-      "required": false
-    },
-    {
-      "id": "terralith:wintry_forest",
-      "required": false
-    },
-    {
-      "id": "terralith:glacial_chasm",
-      "required": false
-    },
-    {
-      "id": "terralith:snowy_badlands",
-      "required": false
-    },
-    {
-      "id": "terralith:snowy_maple_forest",
-      "required": false
-    },
-    {
-      "id": "terralith:skylands_winter",
-      "required": false
-    },
-    {
-      "id": "terralith:ice_caves",
-      "required": false
-    }
+    "minecraft:frozen_river"
   ]
 }

@@ -2,36 +2,15 @@
   "replace": false,
   "values": [
     {
-      "id": "forge:is_wet",
+      "id": "#forge:is_wet",
+      "required": false
+    },
+    {
+      "id": "#c:climate_wet",
       "required": false
     },
     "minecraft:swamp",
     "minecraft:jungle",
-    "minecraft:sparse_jungle",
-
-    {
-      "id": "terralith:amethyst_rainforest",
-      "required": false
-    },
-    {
-      "id": "terralith:jungle_mountains",
-      "required": false
-    },
-    {
-      "id": "terralith:orchid_swamp",
-      "required": false
-    },
-    {
-      "id": "terralith:tropical_jungle",
-      "required": false
-    },
-    {
-      "id": "terralith:rocky_jungle",
-      "required": false
-    },
-    {
-      "id": "terralith:thermal_caves",
-      "required": false
-    }
+    "minecraft:sparse_jungle"
   ]
 }
