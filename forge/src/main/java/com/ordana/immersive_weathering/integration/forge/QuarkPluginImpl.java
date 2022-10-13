@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.integration.forge;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
+import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
@@ -32,8 +33,8 @@ public class QuarkPluginImpl {
         var map = builder.build();
         for (var e : map.entrySet()) {
             if (e.getKey() instanceof SlabBlock) {
-                String vsName = e.getKey().getRegistryName().getPath().replace("slab", "vertical_slab");
-                String vsAltName = e.getValue().getRegistryName().getPath().replace("slab", "vertical_slab");
+                String vsName = Utils.getID(e.getKey()).getPath().replace("slab", "vertical_slab");
+                String vsAltName = Utils.getID(e.getValue()).getPath().replace("slab", "vertical_slab");
                 Block vs = null;
                 Block vsAlt = null;
                 ResourceLocation vsRes = new ResourceLocation("quark", vsName);
@@ -77,7 +78,7 @@ public class QuarkPluginImpl {
     }
 
     public static void addVerticalSlabPair(ImmutableBiMap.Builder<Block, Block> builder, java.util.function.Supplier<Block> altered) {
-        String name = altered.get().getRegistryName().getPath();
+        String name = Utils.getID(altered.get()).getPath();
         name = name.replace("cracked_", "");
         name = name.replace("mossy_", "");
         ResourceLocation res = new ResourceLocation("quark", name);
