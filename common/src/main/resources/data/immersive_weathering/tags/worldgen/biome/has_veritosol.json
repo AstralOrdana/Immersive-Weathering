@@ -1,6 +1,14 @@
 {
   "replace": false,
   "values": [
+    {
+      "id": "#c:badlands",
+      "required": false
+    },
+    {
+      "id": "#c:mesa",
+      "required": false
+    },
     "minecraft:badlands",
     "minecraft:eroded_badlands",
     "minecraft:wooded_badlands"

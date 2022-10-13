@@ -21,6 +21,8 @@ public class CommonConfigs {
     public static Supplier<Double> DESIRE_PATH_RATE;
     public static Supplier<Boolean> CREATIVE_TAB;
     public static Supplier<Boolean> CREATIVE_DROP;
+    public static Supplier<Boolean> GRASS_OVER_MYCELIUM;
+    public static Supplier<Boolean> MYCELIUM_OVER_GRASS;
 
     public static Supplier<Double> MOSS_INTERESTS_FOR_FACE;
     public static Supplier<Double> MOSS_PATCHINESS;
@@ -112,6 +114,8 @@ public class CommonConfigs {
         DESIRE_PATHS = builder.define("desire_paths", false);
         DESIRE_PATH_RATE = builder.define("desire_path_rate", 0.05, 0, 1d);
         CREATIVE_TAB = builder.define("creative_tab", false);
+        GRASS_OVER_MYCELIUM = builder.define("grass_over_mycelium", true);
+        MYCELIUM_OVER_GRASS = builder.define("mycelium_over_grass", true);
         builder.pop();
 
         builder.push("mossy_blocks");
@@ -184,7 +188,7 @@ public class CommonConfigs {
 
         builder.push("food");
         ICICLE_FOOD = builder.define("icicle_food", true);
-        ICICLE_FIRE_RESISTANCE = builder.define("icicle_fire_resistance", false);
+        ICICLE_FIRE_RESISTANCE = builder.define("icicle_fire_resistance", true);
         MUDDY_WATER_ENABLED = builder.define("muddy_water_enabled", true);
         builder.pop();
 
@@ -208,7 +212,7 @@ public class CommonConfigs {
         builder.pop();
 
         builder.push("thin_ice");
-        THIN_ICE_MELTING = builder.define("natural_melting", true);
+        THIN_ICE_MELTING = builder.define("natural_melting", false);
         builder.pop();
 
         builder.push("lightning_growths"); //TODO:move to data

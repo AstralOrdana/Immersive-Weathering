@@ -10,24 +10,10 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraftforge.registries.ForgeRegistries;
+import vazkii.quark.base.module.ModuleLoader;
+import vazkii.quark.content.building.module.VerticalSlabsModule;
 
 public class QuarkPluginImpl {
-
-    public static void onFirstClientTick() {
-/*
-        try {
-            if (ModuleLoader.INSTANCE.isModuleEnabled(GreenerGrassModule.class)) {
-                Method method = ObfuscationReflectionHelper.findMethod(GreenerGrassModule.class, "registerGreenerColor", Iterable.class, boolean.class);
-                List<String> leaves = List.of("immersive_weathering:oak_leaf_pile", "immersive_weathering:dark_oak_leaf_pile",
-                        "immersive_weathering:acacia_leaf_pile", "immersive_weathering:jungle_leaf_pile",
-                        "immersive_weathering:spruce_leaf_pile", "immersive_weathering:birch_leaf_pile");
-                method.setAccessible(true);
-                method.invoke(ModuleLoader.INSTANCE.getModuleInstance(GreenerGrassModule.class), leaves, true);
-            }
-        } catch (Exception ignored) {
-        }*/
-    }
-
 
     public static void addAllVerticalSlabs(ImmutableBiMap.Builder<Block, Block> builder) {
         var map = builder.build();
@@ -90,6 +76,10 @@ public class QuarkPluginImpl {
                 builder.put(ForgeRegistries.BLOCKS.getValue(res), altered.get());
             }
         }
+    }
+
+    public static boolean isVerticalSlabsOn() {
+        return ModuleLoader.INSTANCE.isModuleEnabled(VerticalSlabsModule.class);
     }
 
 }

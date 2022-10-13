@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
+    {
+      "id": "#c:swamp",
+      "required": false
+    },
     "minecraft:swamp",
     "minecraft:river"
   ]

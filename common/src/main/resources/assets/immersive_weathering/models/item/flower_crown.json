@@ -18,51 +18,75 @@
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 0.20
+        "immersive_weathering:supporter": 0.200
       },
       "model": "immersive_weathering:item/flower_crown_ace"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 0.21
+        "immersive_weathering:supporter": 0.201
       },
       "model": "immersive_weathering:item/flower_crown_aro"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 0.22
+        "immersive_weathering:supporter": 0.202
       },
       "model": "immersive_weathering:item/flower_crown_bi"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 0.23
+        "immersive_weathering:supporter": 0.203
       },
       "model": "immersive_weathering:item/flower_crown_enby"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 0.24
+        "immersive_weathering:supporter": 0.204
       },
       "model": "immersive_weathering:item/flower_crown_gay"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 0.25
+        "immersive_weathering:supporter": 0.205
       },
       "model": "immersive_weathering:item/flower_crown_lesbian"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 0.26
+        "immersive_weathering:supporter": 0.206
       },
       "model": "immersive_weathering:item/flower_crown_rainbow"
     },
     {
       "predicate": {
-        "immersive_weathering:supporter": 0.27
+        "immersive_weathering:supporter": 0.207
       },
       "model": "immersive_weathering:item/flower_crown_trans"
+    },
+    {
+      "predicate": {
+        "immersive_weathering:supporter": 0.208
+      },
+      "model": "immersive_weathering:item/flower_crown_pan"
+    },
+    {
+      "predicate": {
+        "immersive_weathering:supporter": 0.209
+      },
+      "model": "immersive_weathering:item/flower_crown_intersex"
+    },
+    {
+      "predicate": {
+        "immersive_weathering:supporter": 0.210
+      },
+      "model": "immersive_weathering:item/flower_crown_genderqueer"
+    },
+    {
+      "predicate": {
+        "immersive_weathering:supporter": 0.211
+      },
+      "model": "immersive_weathering:item/flower_crown_fluid"
     },
     {
       "predicate": {
