@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.fabric.RegHelperImpl;
 import net.mehvahdjukaar.moonlight.fabric.FabricSetupCallbacks;
 import net.mehvahdjukaar.moonlight.fabric.MoonlightFabric;
@@ -61,6 +62,11 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
         LootTableEvents.MODIFY.register((m, t, r, b, s) -> ModLootInjects.onLootInject(t, r, b::withPool));
 
         FabricSetupCallbacks.COMMON_SETUP.add(ImmersiveWeatheringFabric::onSetup);
+        if(PlatformHelper.getEnv().isClient()){
+            FabricSetupCallbacks.CLIENT_SETUP.add(ImmersiveWeatheringClientFabric::initClient);
+        }
+
+
     }
 
     public static void onSetup(){

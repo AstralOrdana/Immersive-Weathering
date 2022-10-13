@@ -46,7 +46,6 @@ public class ModBlocks {
 
     public static void init() {
         BlockSetAPI.addDynamicBlockRegistration(ModBlocks::registerLeafPiles, LeavesType.class);
-
     }
 
 

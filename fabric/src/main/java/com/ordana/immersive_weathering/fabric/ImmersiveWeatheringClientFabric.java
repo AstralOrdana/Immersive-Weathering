@@ -15,10 +15,9 @@ import net.minecraft.world.inventory.InventoryMenu;
 
 import java.util.function.Function;
 
-public class ImmersiveWeatheringClientFabric implements ClientModInitializer {
+public class ImmersiveWeatheringClientFabric implements ClientModInitializer{
 
-    @Override
-    public void onInitializeClient() {
+    public static void initClient() {
         ImmersiveWeatheringClient.init();
         ImmersiveWeatheringClient.setup();
 
@@ -84,5 +83,10 @@ public class ImmersiveWeatheringClientFabric implements ClientModInitializer {
     private static <T extends ParticleOptions> void registerParticle(ParticleType<T> type, Function<SpriteSet,
             ParticleProvider<T>> registration) {
         ParticleFactoryRegistry.getInstance().register(type, registration::apply);
+    }
+
+    @Override
+    public void onInitializeClient() {
+        //dont use
     }
 }
