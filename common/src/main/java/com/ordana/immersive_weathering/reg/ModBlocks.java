@@ -96,11 +96,17 @@ public class ModBlocks {
     private static final BlockBehaviour.StatePredicate NEVER = (s, w, p) -> false;
 
 
+    public static Properties LEAF_PILE_PROPERTIES = Properties.of(Material.REPLACEABLE_PLANT)
+            .randomTicks().instabreak().sound(SoundType.GRASS)
+            .noOcclusion().isValidSpawn(CAN_SPAWN_ON_LEAVES)
+            .isSuffocating(NEVER).isViewBlocking(NEVER);
+
+
     public static final Map<LeavesType, LeafPileBlock> LEAF_PILES = new LinkedHashMap<>();
 
 
     public static final Supplier<LeafPileBlock> AZALEA_FLOWER_PILE = regBlock("azalea_flower_pile", () ->
-            new LeafPileBlock(Properties.copy(LEAF_PILES.get(LeavesTypeRegistry.getValue(new ResourceLocation("azalea")))), LeavesTypeRegistry.OAK_TYPE));
+            new LeafPileBlock(LEAF_PILE_PROPERTIES.sound(SoundType.AZALEA), LeavesTypeRegistry.OAK_TYPE));
 
     //layer stuff
 
@@ -653,11 +659,7 @@ public class ModBlocks {
         for (LeavesType type : leavesTypes) {
             String name = type.getNamespace() + "/" + type.getTypeName() + "_leaf_pile";
 
-            LeafPileBlock block = new LeafPileBlock(Properties.of(Material.REPLACEABLE_PLANT)
-                    .randomTicks().instabreak().sound(SoundType.GRASS)
-                    .noOcclusion().isValidSpawn(CAN_SPAWN_ON_LEAVES)
-                    .isSuffocating(NEVER).isViewBlocking(NEVER),
-                    type);
+            LeafPileBlock block = new LeafPileBlock(LEAF_PILE_PROPERTIES, type);
             event.register(ImmersiveWeathering.res(name), block);
 
             LEAF_PILES.put(type, block);
