@@ -12,8 +12,6 @@
     "FarmlandBlockMixin",
     "FireMixin",
     "FungusBlockMixin",
-    "ItemsMixin",
-    "LevelChunkMixin",
     "NetherWartBlockMixin",
     "SproutsBlockMixin",
     "SugarCaneBlockMixin"
