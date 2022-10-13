@@ -316,7 +316,7 @@ public class ModEvents {
 
         if (item instanceof FlintAndSteelItem && CommonConfigs.MOSS_BURNING.get()) {
             BlockState newBlock = Mossable.getUnaffectedMossBlock(state);
-            if (newBlock != null) {
+            if (newBlock != state) {
                 newBlock = Weatherable.setStable(newBlock);
                 if (level.isClientSide) {
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.FLAME, UniformInt.of(3, 5));
