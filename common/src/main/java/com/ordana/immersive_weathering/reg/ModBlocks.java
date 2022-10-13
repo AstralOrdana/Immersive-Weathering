@@ -656,7 +656,7 @@ public class ModBlocks {
 
     private static void registerLeafPiles(Registrator<Block> event, Collection<LeavesType> leavesTypes) {
         for (LeavesType type : leavesTypes) {
-            String name = type.getNamespace() + "/" + type.getTypeName() + "_leaf_pile";
+            String name = type.getVariantId("leaf_pile");
 
             LeafPileBlock block = new LeafPileBlock(LEAF_PILE_PROPERTIES, type);
             event.register(ImmersiveWeathering.res(name), block);
