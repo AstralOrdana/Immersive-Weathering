@@ -13,7 +13,6 @@
     "EatBlockGoalMixin",
     "IceMixin",
     "LeavesMixin",
-    "LevelChunkMixin",
     "LightningEntityMixin",
     "LiquidBlockMixin",
     "RabbitEatGoalMixin",

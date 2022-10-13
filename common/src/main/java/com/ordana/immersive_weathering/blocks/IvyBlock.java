@@ -25,7 +25,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.MultifaceBlock;
+import net.minecraft.world.level.block.MultifaceSpreader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -39,16 +42,11 @@ import org.jetbrains.annotations.Nullable;
 public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 	public static final IntegerProperty AGE = ModBlockProperties.AGE;
 	public static final int MAX_AGE = 10;
-	private MultifaceSpreader spreader = new MultifaceSpreader(this);
+	private final MultifaceSpreader spreader = new MultifaceSpreader(this);
 
 	public IvyBlock(Properties settings) {
 		super(settings);
 		this.registerDefaultState(this.defaultBlockState().setValue(AGE, 7));
-	}
-
-	@Override
-	public MultifaceSpreader getSpreader() {
-		return spreader;
 	}
 
 	@Override
@@ -71,29 +69,23 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 	}
 
 	@Override
+	public MultifaceSpreader getSpreader() {
+		return this.spreader;
+	}
+
+	@Override
 	public boolean isRandomlyTicking(BlockState state) {
 		return state.getValue(AGE) < MAX_AGE;
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-		ItemStack stack = player.getItemInHand(hand);
-		if(stack.getItem() instanceof FlintAndSteelItem){
-			if (state.getValue(IvyBlock.AGE) < IvyBlock.MAX_AGE) {
-				level.playSound(player, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
-				ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.BLOCK, state), UniformInt.of(3,5));
-				if (player instanceof ServerPlayer) {
+	public boolean isValidBonemealTarget(BlockGetter world, BlockPos pos, BlockState state, boolean isClient) {
+		return Stream.of(DIRECTIONS).anyMatch(direction -> this.isValidStateForPlacement(world, state, pos, direction.getOpposite()));
+	}
 
-					if (!player.getAbilities().instabuild){
-						stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
-					}
-					level.setBlockAndUpdate(pos, state.setValue(IvyBlock.AGE, IvyBlock.MAX_AGE));
-					player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
-				}
-				return InteractionResult.sidedSuccess(level.isClientSide);
-			}
-		}
-		return super.use(state, level, pos, player, hand, hit);
+	@Override
+	public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
+		return this.canGrowPseudoAdjacent(world, pos, state) || this.canGrowAdjacent(world, pos, state) || this.canGrowExternal(world, pos, state);
 	}
 
 	@Override
@@ -153,38 +145,11 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return posRandom.nextInt(2) == 0;
 	}
 
-
-	public boolean isValidBonemealTarget(BlockGetter level, BlockPos pos, BlockState state, boolean isClient) {
-		return Direction.stream().anyMatch(direction -> this.spreader.canSpreadInAnyDirection(state, level, pos, direction.getOpposite()));
-	}
-
-	public boolean isBonemealSuccess(Level level, RandomSource randomSource, BlockPos blockPos, BlockState blockState) {
-		return true;
-	}
-
-
-
-
 	@Override
-	public void performBonemeal(ServerLevel serverLevel, RandomSource randomSource, BlockPos blockPos, BlockState blockState) {
-		this.spreader.spreadFromRandomFaceTowardRandomDirection(blockState, serverLevel, blockPos, randomSource);
-	}
-
-	/*
-
-		@Override
-	public boolean isValidBonemealTarget(BlockGetter world, BlockPos pos, BlockState state, boolean isClient) {
-		return Stream.of(DIRECTIONS).anyMatch(direction -> this.canSpread(state, world, pos, direction.getOpposite()));
-	}
-	@Override
-	public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
-		return this.canGrowPseudoAdjacent(world, pos, state) || this.canGrowAdjacent(world, pos, state) || this.canGrowExternal(world, pos, state);
-	}
-
-	@Override
-	public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
+	public void performBonemeal(ServerLevel world, RandomSource r, BlockPos pos, BlockState state) {
 		world.setBlockAndUpdate(pos, state.getBlock().withPropertiesOf(state).setValue(AGE, 0));
-		int method = random.nextInt(3);
+		Random random = new Random(r.nextLong());
+		int method = r.nextInt(3);
 
 			if (method == 0) {
 				if (growPseudoAdjacent(world, random, pos, state)) {
@@ -246,7 +211,7 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return facing;
 	}
 
-	public boolean growPseudoAdjacent(Level world, RandomSource random, BlockPos pos, BlockState state) {
+	public boolean growPseudoAdjacent(Level world, Random random, BlockPos pos, BlockState state) {
 		BlockState newStateHere = state;
 
 		List<Direction> shuffledDirections = Lists.newArrayList(Direction.values());
@@ -280,7 +245,7 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return false;
 	}
 
-	public boolean growAdjacent(Level world, RandomSource random, BlockPos pos, BlockState state) {
+	public boolean growAdjacent(Level world, Random random, BlockPos pos, BlockState state) {
 		List<Direction> facing = getFacingDirections(state);
 		Collections.shuffle(facing, random);
 
@@ -391,6 +356,23 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return false;
 	}
 
- */
 
+	@Override
+	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		ItemStack stack = player.getItemInHand(hand);
+		if(stack.getItem() instanceof FlintAndSteelItem){
+			if (state.getValue(IvyBlock.AGE) < IvyBlock.MAX_AGE) {
+				level.playSound(player, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
+				ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.BLOCK, state), UniformInt.of(3,5));
+				if (player instanceof ServerPlayer) {
+
+					if (!player.getAbilities().instabuild) stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+					level.setBlockAndUpdate(pos, state.setValue(IvyBlock.AGE, IvyBlock.MAX_AGE));
+					player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+				}
+				return InteractionResult.sidedSuccess(level.isClientSide);
+			}
+		}
+		return super.use(state, level, pos, player, hand, hit);
+	}
 }

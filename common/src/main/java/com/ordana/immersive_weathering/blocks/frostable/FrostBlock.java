@@ -32,9 +32,16 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.util.RandomSource;
 
 public class FrostBlock extends MultifaceBlock implements Frosty {
+    private final MultifaceSpreader spreader = new MultifaceSpreader(this);
+
     public FrostBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.defaultBlockState().setValue(NATURAL, false));
+    }
+
+    @Override
+    public MultifaceSpreader getSpreader() {
+        return this.spreader;
     }
 
     @Override
@@ -46,11 +53,6 @@ public class FrostBlock extends MultifaceBlock implements Frosty {
     @Override
     public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
         return !context.getItemInHand().is(this.asItem()) || super.canBeReplaced(state, context);
-    }
-
-    @Override
-    public MultifaceSpreader getSpreader() {
-        return null;
     }
 
     @Override

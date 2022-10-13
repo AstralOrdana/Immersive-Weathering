@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#immersive_weathering:icy",
+  "features": [
+    "immersive_weathering:icicles",
+    "immersive_weathering:frost_patch"
+  ],
+  "step": "top_layer_modification"
+}
