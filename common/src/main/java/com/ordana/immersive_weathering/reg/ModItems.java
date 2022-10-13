@@ -118,7 +118,7 @@ public class ModItems {
 
     private static void registerBark(Registrator<Item> event, Collection<WoodType> woodTypes) {
         for (WoodType type : woodTypes) {
-            String name = !type.canBurn() ? type.getVariantId("bark") : type.getVariantId("scales");
+            String name = !type.canBurn() ? type.getVariantId("bark",false) : type.getVariantId("scales",false);
 
             Item item = new WoodBasedItem(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS), type, 200);
             event.register(ImmersiveWeathering.res(name), item);
