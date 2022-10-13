@@ -196,7 +196,7 @@ public class ModEvents {
         if (item instanceof ShovelItem && CommonConfigs.ASH_ITEM_SPAWN.get()) {
             if (state.getBlock() instanceof CampfireBlock && state.getValue(BlockStateProperties.LIT)) {
                 if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
-                    Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModBlocks.SOOT.get()));
+                    Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModBlocks.ASH_LAYER_BLOCK.get()));
                 }
                 //no need to cancel
             }
@@ -205,7 +205,18 @@ public class ModEvents {
         if (item == Items.APPLE) {
             if (state.getBlock() instanceof MulchBlock) {
                 level.playSound(player, pos, ModSoundEvents.YUMMY.get(), SoundSource.BLOCKS, 1.0f, 1.0f);
-                //no need to cancel
+            }
+            return InteractionResult.PASS;
+        }
+        if (item == Items.GOLDEN_APPLE) {
+            if (state.getBlock() instanceof MulchBlock) {
+                level.playSound(player, pos, ModSoundEvents.YUMMY.get(), SoundSource.BLOCKS, 1.0f, 2.0f);
+            }
+            return InteractionResult.PASS;
+        }
+        if (item == Items.ENCHANTED_GOLDEN_APPLE) {
+            if (state.getBlock() instanceof MulchBlock) {
+                level.playSound(player, pos, ModSoundEvents.YUMMY.get(), SoundSource.BLOCKS, 2.0f, 0.3f);
             }
             return InteractionResult.PASS;
         }

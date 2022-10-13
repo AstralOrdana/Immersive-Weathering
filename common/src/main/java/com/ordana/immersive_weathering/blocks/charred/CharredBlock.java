@@ -1,14 +1,28 @@
 package com.ordana.immersive_weathering.blocks.charred;
 
+import com.ordana.immersive_weathering.blocks.soil.FluvisolBlock;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.reg.ModItems;
+import com.ordana.immersive_weathering.reg.ModParticles;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -74,8 +88,33 @@ public class CharredBlock extends Block implements Charred {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-        return interactWithPlayer(state, worldIn, pos, player, handIn);
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        ItemStack stack = player.getItemInHand(hand);
+        Item item = stack.getItem();
+        if (item instanceof ShovelItem && state.getValue(SMOLDERING)) {
+            level.playSound(player, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0f, 1.0f);
+            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.EMBERSPARK.get(), UniformInt.of(3, 5));
+            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+            if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
+                Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModBlocks.ASH_LAYER_BLOCK.get()));
+            }
+            if (player instanceof ServerPlayer) {
+                level.setBlockAndUpdate(pos, state.setValue(SMOLDERING, Boolean.FALSE));
+                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
+        if (item instanceof FlintAndSteelItem && !state.getValue(SMOLDERING)) {
+            level.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
+            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.EMBERSPARK.get(), UniformInt.of(3, 5));
+            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+            if (player instanceof ServerPlayer) {
+                level.setBlockAndUpdate(pos, state.setValue(SMOLDERING, Boolean.TRUE));
+                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
+        return super.use(state, level, pos, player, hand, hitResult);
     }
 
     @Override
