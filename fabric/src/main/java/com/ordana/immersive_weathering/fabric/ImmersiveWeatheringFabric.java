@@ -15,6 +15,8 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.mehvahdjukaar.moonlight.api.platform.fabric.RegHelperImpl;
+import net.mehvahdjukaar.moonlight.fabric.FabricSetupCallbacks;
+import net.mehvahdjukaar.moonlight.fabric.MoonlightFabric;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -41,7 +43,6 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
 
         //fabric only stuff here
 
-        ModWaxables.getValues().forEach(OxidizableBlocksRegistry::registerWaxableBlockPair);
 
         if (CommonConfigs.FLAMMABLE_COBWEBS.get()) {
             FlammableBlockRegistry.getDefaultInstance().add(Blocks.COBWEB, 100, 100);
@@ -58,6 +59,12 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
         UseBlockCallback.EVENT.register(ImmersiveWeatheringFabric::onRightClickBlock);
 
         LootTableEvents.MODIFY.register((m, t, r, b, s) -> ModLootInjects.onLootInject(t, r, b::withPool));
+
+        FabricSetupCallbacks.COMMON_SETUP.add(ImmersiveWeatheringFabric::onSetup);
+    }
+
+    public static void onSetup(){
+        ModWaxables.getValues().forEach(OxidizableBlocksRegistry::registerWaxableBlockPair);
     }
 
     public static InteractionResult onRightClickBlock(Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
