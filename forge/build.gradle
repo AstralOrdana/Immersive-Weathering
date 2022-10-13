@@ -42,7 +42,7 @@ dependencies {
     modCompileOnly("curse.maven:quark-243121:3933816")
 
 
-    modImplementation("curse.maven:supplementaries-412082:4012521")
+    modImplementation("curse.maven:supplementaries-412082:4027165")
 
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }

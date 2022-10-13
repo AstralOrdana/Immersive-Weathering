@@ -34,8 +34,6 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
 
         //loads registries
         ImmersiveWeathering.commonInit();
-        //registers stuff
-        RegHelperImpl.registerEntries();
 
         //runs everything else
 
