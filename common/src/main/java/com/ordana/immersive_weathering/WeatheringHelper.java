@@ -121,14 +121,17 @@ public class WeatheringHelper {
                     .put(Blocks.BIRCH_LOG, ModParticles.BIRCH_BARK.get())
                     .put(Blocks.JUNGLE_LOG, ModParticles.JUNGLE_BARK.get())
                     .put(Blocks.ACACIA_LOG, ModParticles.ACACIA_BARK.get())
+                    .put(Blocks.MANGROVE_LOG, ModParticles.MANGROVE_BARK.get())
                     .put(Blocks.CRIMSON_STEM, ModParticles.NETHER_SCALE.get())
                     .put(Blocks.WARPED_STEM, ModParticles.NETHER_SCALE.get())
+
                     .put(Blocks.OAK_WOOD, ModParticles.OAK_BARK.get())
                     .put(Blocks.DARK_OAK_WOOD, ModParticles.DARK_OAK_BARK.get())
                     .put(Blocks.SPRUCE_WOOD, ModParticles.SPRUCE_BARK.get())
                     .put(Blocks.BIRCH_WOOD, ModParticles.BIRCH_BARK.get())
                     .put(Blocks.JUNGLE_WOOD, ModParticles.JUNGLE_BARK.get())
                     .put(Blocks.ACACIA_WOOD, ModParticles.ACACIA_BARK.get())
+                    .put(Blocks.MANGROVE_WOOD, ModParticles.MANGROVE_BARK.get())
                     .put(Blocks.CRIMSON_HYPHAE, ModParticles.NETHER_SCALE.get())
                     .put(Blocks.WARPED_HYPHAE, ModParticles.NETHER_SCALE.get())
                     .build());

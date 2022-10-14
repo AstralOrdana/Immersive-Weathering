@@ -140,6 +140,7 @@ public class ImmersiveWeatheringClient {
         event.register(ModParticles.DARK_OAK_BARK.get(), LeafParticle.SimpleLeafParticle::new);
         event.register(ModParticles.JUNGLE_BARK.get(), LeafParticle.SimpleLeafParticle::new);
         event.register(ModParticles.ACACIA_BARK.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.MANGROVE_BARK.get(), LeafParticle.SimpleLeafParticle::new);
         event.register(ModParticles.NETHER_SCALE.get(), LeafParticle.SimpleLeafParticle::new);
 
         event.register(ModParticles.MOSS.get(), LeafParticle.SimpleLeafParticle::new);
