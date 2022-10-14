@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -17,12 +18,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
 
-import net.minecraft.util.RandomSource;
-
-public class RustableDoorBlock extends DoorBlock implements Rustable {
+public class WaxedRustableDoorBlock extends DoorBlock implements Rustable {
     private final RustLevel rustLevel;
 
-    public RustableDoorBlock(RustLevel rustLevel, Properties settings) {
+    public WaxedRustableDoorBlock(RustLevel rustLevel, Properties settings) {
         super(settings);
         this.rustLevel = rustLevel;
     }
@@ -32,7 +31,7 @@ public class RustableDoorBlock extends DoorBlock implements Rustable {
         DoubleBlockHalf doubleBlockHalf = state.getValue(HALF);
         if ((direction == Direction.UP && doubleBlockHalf == DoubleBlockHalf.LOWER) ||
                 (direction == Direction.DOWN && doubleBlockHalf == DoubleBlockHalf.UPPER)) {
-            if (neighborState.getBlock() instanceof RustableDoorBlock) {
+            if (neighborState.getBlock() instanceof WaxedRustableDoorBlock) {
                 state = neighborState.getBlock().withPropertiesOf(state);
             }
         }
@@ -100,68 +99,8 @@ public class RustableDoorBlock extends DoorBlock implements Rustable {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-        if (world.getBlockState(pos).is(ModTags.CLEAN_IRON)) {
-            for (Direction direction : Direction.values()) {
-                var targetPos = pos.relative(direction);
-                BlockState neighborState = world.getBlockState(targetPos);
-                if (world.getBlockState(pos.relative(direction)).is(Blocks.AIR) || neighborState.getFluidState().is(FluidTags.WATER)) {
-                    this.onRandomTick(state, world, pos, random);
-                }
-                if (world.getBlockState(pos.relative(direction)).is(Blocks.BUBBLE_COLUMN)) {
-                    float f = 0.06f;
-                    if (random.nextFloat() > 0.06f) {
-                        this.applyChangeOverTime(state, world, pos, random);
-                    }
-                }
-            }
-        }
-        if (world.getBlockState(pos).is(ModTags.EXPOSED_IRON)) {
-            for (Direction direction : Direction.values()) {
-                var targetPos = pos.relative(direction);
-                BlockState neighborState = world.getBlockState(targetPos);
-                if (world.isRainingAt(pos.above()) || neighborState.getFluidState().is(FluidTags.WATER)) {
-                    this.onRandomTick(state, world, pos, random);
-                }
-                if (world.getBlockState(pos.relative(direction)).is(Blocks.BUBBLE_COLUMN)) {
-                    float f = 0.06f;
-                    if (random.nextFloat() > 0.06f) {
-                        this.applyChangeOverTime(state, world, pos, random);
-                    }
-                }
-                if (world.isRainingAt(pos.relative(direction)) && world.getBlockState(pos.above()).is(ModTags.WEATHERED_IRON)) {
-                    if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
-                            .map(world::getBlockState)
-                            .filter(b -> b.is(ModTags.WEATHERED_IRON))
-                            .toList().size() <= 9) {
-                        float f = 0.06f;
-                        if (random.nextFloat() > 0.06f) {
-                            this.applyChangeOverTime(state, world, pos, random);
-                        }
-                    }
-                }
-            }
-        }
-        if (world.getBlockState(pos).is(ModTags.WEATHERED_IRON)) {
-            for (Direction direction : Direction.values()) {
-                var targetPos = pos.relative(direction);
-                BlockState neighborState = world.getBlockState(targetPos);
-                if (neighborState.getFluidState().is(FluidTags.WATER)) {
-                    this.onRandomTick(state, world, pos, random);
-                }
-                if (world.getBlockState(pos.relative(direction)).is(Blocks.BUBBLE_COLUMN)) {
-                    float f = 0.07f;
-                    if (random.nextFloat() > 0.07f) {
-                        this.applyChangeOverTime(state, world, pos, random);
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
     public boolean isRandomlyTicking(BlockState state) {
-        return Rustable.getIncreasedRustBlock(state.getBlock()).isPresent();
+        return false;
     }
 
     @Override

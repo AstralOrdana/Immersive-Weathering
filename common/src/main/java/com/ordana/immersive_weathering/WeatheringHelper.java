@@ -113,6 +113,71 @@ public class WeatheringHelper {
 
     //merge to weathering helper
 
+    public static final Supplier<Map<Block, Block>> UNWAXED_BLOCKS = Suppliers.memoize(() ->
+            ImmutableMap.<Block, Block>builder()
+
+                    .put(ModBlocks.WAXED_CUT_IRON.get(), ModBlocks.CUT_IRON.get())
+                    .put(ModBlocks.WAXED_EXPOSED_CUT_IRON.get(), ModBlocks.EXPOSED_CUT_IRON.get())
+                    .put(ModBlocks.WAXED_WEATHERED_CUT_IRON.get(), ModBlocks.WEATHERED_CUT_IRON.get())
+                    .put(ModBlocks.WAXED_RUSTED_CUT_IRON.get(), ModBlocks.RUSTED_CUT_IRON.get())
+                    .put(ModBlocks.WAXED_CUT_IRON_STAIRS.get(), ModBlocks.CUT_IRON_STAIRS.get())
+                    .put(ModBlocks.WAXED_EXPOSED_CUT_IRON_STAIRS.get(), ModBlocks.EXPOSED_CUT_IRON_STAIRS.get())
+                    .put(ModBlocks.WAXED_WEATHERED_CUT_IRON_STAIRS.get(), ModBlocks.WEATHERED_CUT_IRON_STAIRS.get())
+                    .put(ModBlocks.WAXED_RUSTED_CUT_IRON_STAIRS.get(), ModBlocks.RUSTED_CUT_IRON_STAIRS.get())
+                    .put(ModBlocks.WAXED_CUT_IRON_SLAB.get(), ModBlocks.CUT_IRON_SLAB.get())
+                    .put(ModBlocks.WAXED_EXPOSED_CUT_IRON_SLAB.get(), ModBlocks.EXPOSED_CUT_IRON_SLAB.get())
+                    .put(ModBlocks.WAXED_WEATHERED_CUT_IRON_SLAB.get(), ModBlocks.WEATHERED_CUT_IRON_SLAB.get())
+                    .put(ModBlocks.WAXED_RUSTED_CUT_IRON_SLAB.get(), ModBlocks.RUSTED_CUT_IRON_SLAB.get())
+
+                    .put(ModBlocks.WAXED_PLATE_IRON.get(), ModBlocks.PLATE_IRON.get())
+                    .put(ModBlocks.WAXED_EXPOSED_PLATE_IRON.get(), ModBlocks.EXPOSED_PLATE_IRON.get())
+                    .put(ModBlocks.WAXED_WEATHERED_PLATE_IRON.get(), ModBlocks.WEATHERED_PLATE_IRON.get())
+                    .put(ModBlocks.WAXED_RUSTED_PLATE_IRON.get(), ModBlocks.RUSTED_PLATE_IRON.get())
+                    .put(ModBlocks.WAXED_PLATE_IRON_STAIRS.get(), ModBlocks.PLATE_IRON_STAIRS.get())
+                    .put(ModBlocks.WAXED_EXPOSED_PLATE_IRON_STAIRS.get(), ModBlocks.EXPOSED_PLATE_IRON_STAIRS.get())
+                    .put(ModBlocks.WAXED_WEATHERED_PLATE_IRON_STAIRS.get(), ModBlocks.WEATHERED_PLATE_IRON_STAIRS.get())
+                    .put(ModBlocks.WAXED_RUSTED_PLATE_IRON_STAIRS.get(), ModBlocks.RUSTED_PLATE_IRON_STAIRS.get())
+                    .put(ModBlocks.WAXED_PLATE_IRON_SLAB.get(), ModBlocks.PLATE_IRON_SLAB.get())
+                    .put(ModBlocks.WAXED_EXPOSED_PLATE_IRON_SLAB.get(), ModBlocks.EXPOSED_PLATE_IRON_SLAB.get())
+                    .put(ModBlocks.WAXED_WEATHERED_PLATE_IRON_SLAB.get(), ModBlocks.WEATHERED_PLATE_IRON_SLAB.get())
+                    .put(ModBlocks.WAXED_RUSTED_PLATE_IRON_SLAB.get(), ModBlocks.RUSTED_PLATE_IRON_SLAB.get())
+
+                    .put(ModBlocks.WAXED_IRON_DOOR.get(), Blocks.IRON_DOOR)
+                    .put(ModBlocks.WAXED_EXPOSED_IRON_DOOR.get(), ModBlocks.EXPOSED_IRON_DOOR.get())
+                    .put(ModBlocks.WAXED_WEATHERED_IRON_DOOR.get(), ModBlocks.WEATHERED_IRON_DOOR.get())
+                    .put(ModBlocks.WAXED_RUSTED_IRON_DOOR.get(), ModBlocks.RUSTED_IRON_DOOR.get())
+                    .put(ModBlocks.WAXED_IRON_TRAPDOOR.get(), Blocks.IRON_TRAPDOOR)
+                    .put(ModBlocks.WAXED_EXPOSED_IRON_TRAPDOOR.get(), ModBlocks.EXPOSED_IRON_TRAPDOOR.get())
+                    .put(ModBlocks.WAXED_WEATHERED_IRON_TRAPDOOR.get(), ModBlocks.WEATHERED_IRON_TRAPDOOR.get())
+                    .put(ModBlocks.WAXED_RUSTED_IRON_TRAPDOOR.get(), ModBlocks.RUSTED_IRON_TRAPDOOR.get())
+                    .put(ModBlocks.WAXED_IRON_BARS.get(), Blocks.IRON_BARS)
+                    .put(ModBlocks.WAXED_EXPOSED_IRON_BARS.get(), ModBlocks.EXPOSED_IRON_BARS.get())
+                    .put(ModBlocks.WAXED_WEATHERED_IRON_BARS.get(), ModBlocks.WEATHERED_IRON_BARS.get())
+                    .put(ModBlocks.WAXED_RUSTED_IRON_BARS.get(), ModBlocks.RUSTED_IRON_BARS.get())
+
+                    .put(Blocks.WAXED_COPPER_BLOCK, Blocks.COPPER_BLOCK)
+                    .put(Blocks.WAXED_EXPOSED_COPPER, Blocks.EXPOSED_COPPER)
+                    .put(Blocks.WAXED_WEATHERED_COPPER, Blocks.WEATHERED_COPPER)
+                    .put(Blocks.WAXED_OXIDIZED_COPPER, Blocks.OXIDIZED_COPPER)
+                    .put(Blocks.WAXED_CUT_COPPER, Blocks.CUT_COPPER)
+                    .put(Blocks.WAXED_EXPOSED_CUT_COPPER, Blocks.EXPOSED_CUT_COPPER)
+                    .put(Blocks.WAXED_WEATHERED_CUT_COPPER, Blocks.WEATHERED_CUT_COPPER)
+                    .put(Blocks.WAXED_OXIDIZED_CUT_COPPER, Blocks.OXIDIZED_CUT_COPPER)
+                    .put(Blocks.WAXED_CUT_COPPER_SLAB, Blocks.CUT_COPPER_SLAB)
+                    .put(Blocks.WAXED_EXPOSED_CUT_COPPER_SLAB, Blocks.EXPOSED_CUT_COPPER_SLAB)
+                    .put(Blocks.WAXED_WEATHERED_CUT_COPPER_SLAB, Blocks.WEATHERED_CUT_COPPER_SLAB)
+                    .put(Blocks.WAXED_OXIDIZED_CUT_COPPER_SLAB, Blocks.OXIDIZED_CUT_COPPER_SLAB)
+                    .put(Blocks.WAXED_CUT_COPPER_STAIRS, Blocks.CUT_COPPER_STAIRS)
+                    .put(Blocks.WAXED_EXPOSED_CUT_COPPER_STAIRS, Blocks.EXPOSED_CUT_COPPER_STAIRS)
+                    .put(Blocks.WAXED_WEATHERED_CUT_COPPER_STAIRS, Blocks.WEATHERED_CUT_COPPER_STAIRS)
+                    .put(Blocks.WAXED_OXIDIZED_CUT_COPPER_STAIRS, Blocks.OXIDIZED_CUT_COPPER_STAIRS)
+                    .build());
+
+    public static Optional<BlockState> getUnwaxedBlock(BlockState state) {
+        return Optional.ofNullable(UNWAXED_BLOCKS.get().get(state.getBlock()))
+                .map(block -> block.withPropertiesOf(state));
+    }
+
     public static final Supplier<Map<Block, ParticleOptions>> LOG_TO_PARTICLES = Suppliers.memoize(() ->
             ImmutableMap.<Block, ParticleOptions>builder()
                     .put(Blocks.OAK_LOG, ModParticles.OAK_BARK.get())

@@ -34,6 +34,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -112,10 +113,10 @@ public class ModEvents {
 
     private static InteractionResult rustScraping(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                                   Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
-        if (CommonConfigs.AXE_SCRAPING.get() && state.getBlock() instanceof Rustable rustable) {
-            Rustable.RustLevel rustLevel = rustable.getAge();
+        if (CommonConfigs.AXE_SCRAPING.get()) {
 
-            if (item instanceof AxeItem) {
+            if (item instanceof AxeItem && state.getBlock() instanceof Rustable rustable && !state.is(ModTags.WAXED_BLOCKS)) {
+                Rustable.RustLevel rustLevel = rustable.getAge();
                 if (!rustLevel.canScrape()) {
                     level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
                     level.playSound(player, pos, SoundEvents.SHIELD_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -144,15 +145,42 @@ public class ModEvents {
                     }
                     return InteractionResult.sidedSuccess(level.isClientSide);
                 }
-            } else if (item == ModItems.STEEL_WOOL.get()) {
-                if (rustLevel != Rustable.RustLevel.UNAFFECTED) {
-                    level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
+            }
+            else if (item == ModItems.STEEL_WOOL.get()) {
+                if (state.getBlock() instanceof Rustable rustable && !state.is(ModTags.WAXED_BLOCKS)) {
+                    Rustable.RustLevel rustLevel = rustable.getAge();
+                    if (rustLevel != Rustable.RustLevel.UNAFFECTED) {
+                        level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
+                        ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
+                        if (player instanceof ServerPlayer) {
+                            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                            player.awardStat(Stats.ITEM_USED.get(item));
+                            level.setBlockAndUpdate(pos, rustable.getPrevious(state).get());
+                        }
+                        return InteractionResult.sidedSuccess(level.isClientSide);
+                    }
+                }
+
+                if (state.is(ModTags.WAXED_BLOCKS)) {
+                    level.playSound(player, pos, SoundEvents.AXE_WAX_OFF, SoundSource.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
                     if (player instanceof ServerPlayer) {
                         stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                         player.awardStat(Stats.ITEM_USED.get(item));
-                        level.setBlockAndUpdate(pos, rustable.getPrevious(state).get());
+                        level.setBlockAndUpdate(pos, WeatheringHelper.getUnwaxedBlock(state).orElse(null));
+                    }
+                    return InteractionResult.sidedSuccess(level.isClientSide);
+                }
+                if (state.is(ModTags.COPPER)) {
+                    level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
+                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SCRAPE, UniformInt.of(3, 5));
+                    if (player instanceof ServerPlayer) {
+                        stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                        player.awardStat(Stats.ITEM_USED.get(item));
+                        WeatheringCopper.getPrevious(state).ifPresent(o-> level.setBlockAndUpdate(pos, o));
                     }
                     return InteractionResult.sidedSuccess(level.isClientSide);
                 }

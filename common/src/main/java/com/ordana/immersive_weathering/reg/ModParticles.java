@@ -18,7 +18,7 @@ public class ModParticles {
         return RegHelper.registerParticle(ImmersiveWeathering.res(name));
     }
 
-    public static Map<LeavesType,SimpleParticleType> FALLING_LEAVES = new LinkedHashMap<>();
+    public static Map<LeavesType, SimpleParticleType> FALLING_LEAVES = new LinkedHashMap<>();
     public static final Supplier<SimpleParticleType> AZALEA_FLOWER = registerParticle("azalea_flower");
 
     public static final Supplier<SimpleParticleType> MULCH = registerParticle("mulch");
