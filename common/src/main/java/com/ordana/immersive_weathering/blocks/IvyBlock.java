@@ -3,7 +3,6 @@ package com.ordana.immersive_weathering.blocks;
 import java.util.*;
 import java.util.stream.Stream;
 
-import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -20,19 +19,16 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.FlintAndSteelItem;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.MultifaceBlock;
-import net.minecraft.world.level.block.MultifaceSpreader;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import com.google.common.collect.Lists;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
@@ -80,7 +76,7 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 
 	@Override
 	public boolean isValidBonemealTarget(BlockGetter world, BlockPos pos, BlockState state, boolean isClient) {
-		return Stream.of(DIRECTIONS).anyMatch(direction -> this.isValidStateForPlacement(world, state, pos, direction.getOpposite()));
+		return state.getValue(AGE) < 0 || Stream.of(DIRECTIONS).anyMatch(direction -> this.isValidStateForPlacement(world, state, pos, direction.getOpposite()));
 	}
 
 	@Override
@@ -195,7 +191,6 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 			} else {
 				growExternal(world, random, pos, state);
 			}
-
 
 	}
 
@@ -356,23 +351,20 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return false;
 	}
 
-
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 		ItemStack stack = player.getItemInHand(hand);
-		if(stack.getItem() instanceof FlintAndSteelItem){
-			if (state.getValue(IvyBlock.AGE) < IvyBlock.MAX_AGE) {
-				level.playSound(player, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
-				ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.BLOCK, state), UniformInt.of(3,5));
-				if (player instanceof ServerPlayer) {
-
-					if (!player.getAbilities().instabuild) stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
-					level.setBlockAndUpdate(pos, state.setValue(IvyBlock.AGE, IvyBlock.MAX_AGE));
-					player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
-				}
-				return InteractionResult.sidedSuccess(level.isClientSide);
+		if (stack.getItem() instanceof ShearsItem && state.getValue(AGE) < MAX_AGE) {
+			level.playSound(player, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
+			ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.BLOCK, state), UniformInt.of(3, 5));
+			if (player instanceof ServerPlayer) {
+				if (!player.getAbilities().instabuild) stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+				player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+				level.gameEvent(player, GameEvent.SHEAR, pos);
+				level.setBlockAndUpdate(pos, state.setValue(AGE, MAX_AGE));
 			}
+			return InteractionResult.sidedSuccess(level.isClientSide);
 		}
-		return super.use(state, level, pos, player, hand, hit);
+		return super.use(state, level, pos, player, hand, hitResult);
 	}
 }
