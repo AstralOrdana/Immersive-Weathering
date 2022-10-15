@@ -95,14 +95,4 @@ public class RustableStairsBlock extends ModStairBlock implements Rustable {
         return this.rustLevel;
     }
 
-    @Override
-    public boolean triggerEvent(BlockState state, Level level, BlockPos pos, int i, int i1) {
-        if (i == 1) {
-            if (level.isClientSide) {
-                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
-            }
-            return true;
-        }
-        return super.triggerEvent(state, level, pos, i, i1);
-    }
 }

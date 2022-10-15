@@ -91,7 +91,10 @@
       ]
     }
   ],
-  "owners": [ "minecraft:rooted_dirt"],
+  "owners": [
+    "immersive_weathering:rooted_grass_block",
+    "minecraft:rooted_dirt"
+  ],
   "replacing_target": {
     "blocks": [
       "minecraft:air",

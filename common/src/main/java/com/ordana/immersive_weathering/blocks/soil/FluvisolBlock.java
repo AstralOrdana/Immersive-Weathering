@@ -5,7 +5,9 @@ import com.ordana.immersive_weathering.blocks.Soaked;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModItems;
+import com.ordana.immersive_weathering.reg.ModParticles;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,9 +22,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUtils;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -107,6 +107,7 @@ public class FluvisolBlock extends SoilBlock implements Soaked {
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         ItemStack stack = player.getItemInHand(hand);
+        Item item = stack.getItem();
         if (stack.getItem() == Items.GLASS_BOTTLE && state.getValue(FluvisolBlock.SOAKED) && CommonConfigs.MUDDY_WATER_ENABLED.get()) {
             level.playSound(player, pos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0f, 1.0f);
             ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
@@ -114,6 +115,15 @@ public class FluvisolBlock extends SoilBlock implements Soaked {
                 ItemStack itemStack2 = ItemUtils.createFilledResult(stack, player, ModItems.POND_WATER.get().getDefaultInstance());
                 player.setItemInHand(hand, itemStack2);
                 level.setBlockAndUpdate(pos, state.setValue(FluvisolBlock.SOAKED, Boolean.FALSE));
+                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
+        if (item instanceof ShovelItem && !state.getValue(SOAKED) && !state.getValue(SNOWY)) {
+            level.playSound(player, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0f, 1.0f);
+            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+            if (player instanceof ServerPlayer) {
+                level.setBlockAndUpdate(pos, Blocks.DIRT_PATH.defaultBlockState());
                 player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
             }
             return InteractionResult.sidedSuccess(level.isClientSide);

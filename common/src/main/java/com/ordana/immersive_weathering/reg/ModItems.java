@@ -91,6 +91,7 @@ public class ModItems {
                     .rarity(Rarity.EPIC).food(ModFoods.ENCHANTED_GOLDEN_MOSS_CLUMP)));
 
     //I hate pond water ;_;
+    //cry and go blind about it ~o
     public static final Supplier<Item> POND_WATER = regItem("pond_water", () ->
             new PondWaterItem(new Item.Properties().tab(getTab(CreativeModeTab.TAB_FOOD)).food(ModFoods.POND_WATER).stacksTo(16)));
 
@@ -118,7 +119,7 @@ public class ModItems {
 
     private static void registerBark(Registrator<Item> event, Collection<WoodType> woodTypes) {
         for (WoodType type : woodTypes) {
-            String name = type.canBurn() ? type.getVariantId("bark", false) : type.getVariantId("scales", false);
+            String name = !type.canBurn() ? type.getVariantId("scales",false) : type.getVariantId("bark",false);
 
             Item item = new WoodBasedItem(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS), type, 200);
             event.register(ImmersiveWeathering.res(name), item);

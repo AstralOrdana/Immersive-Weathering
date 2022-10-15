@@ -45,8 +45,9 @@ public class ModParticles {
     public static final Supplier<SimpleParticleType> BIRCH_BARK = registerParticle("birch_bark");
     public static final Supplier<SimpleParticleType> SPRUCE_BARK = registerParticle("spruce_bark");
     public static final Supplier<SimpleParticleType> JUNGLE_BARK = registerParticle("jungle_bark");
-    public static final Supplier<SimpleParticleType> ACACIA_BARK = registerParticle("acacia_bark");
     public static final Supplier<SimpleParticleType> DARK_OAK_BARK = registerParticle("dark_oak_bark");
+    public static final Supplier<SimpleParticleType> ACACIA_BARK = registerParticle("acacia_bark");
+    public static final Supplier<SimpleParticleType> MANGROVE_BARK = registerParticle("mangrove_bark");
     public static final Supplier<SimpleParticleType> NETHER_SCALE = registerParticle("nether_scale");
 
     public static final Supplier<SimpleParticleType> MOSS = registerParticle("moss");

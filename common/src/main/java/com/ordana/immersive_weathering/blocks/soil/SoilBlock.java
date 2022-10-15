@@ -3,17 +3,17 @@ package com.ordana.immersive_weathering.blocks.soil;
 
 import com.ordana.immersive_weathering.data.block_growths.IConditionalGrowingBlock;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
+import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.ShearsItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -76,24 +76,27 @@ public class SoilBlock extends SnowyDirtBlock implements BonemealableBlock, ICon
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if(isFertile(state)) {
-            ItemStack itemstack = player.getItemInHand(hand);
-            if (itemstack.getItem() instanceof ShearsItem) {
-                if (!level.isClientSide) {
-                    level.playSound(null, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0F, 1.0F);
-                    level.setBlock(pos, state.setValue(FERTILE, false), 11);
-
-                    itemstack.hurtAndBreak(1, player, (player1) -> player1.broadcastBreakEvent(hand));
-                    level.gameEvent(player, GameEvent.SHEAR, pos);
-                    player.awardStat(Stats.ITEM_USED.get(Items.SHEARS));
-                } else {
-                    level.addDestroyBlockEffect(pos, Blocks.GRASS.defaultBlockState());
-                    // int p = level.random.nextInt(3)+3;
-
-                    //  ModParticles.spawnParticleOnFace(level, pos,Direction.UP, BlockParticleOption.);
-                }
-                return InteractionResult.sidedSuccess(level.isClientSide);
+        ItemStack stack = player.getItemInHand(hand);
+        Item item = stack.getItem();
+        if (item instanceof ShearsItem && !state.getValue(SNOWY) && state.getValue(FERTILE)) {
+            level.playSound(player, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
+            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+            level.addDestroyBlockEffect(pos, state);
+            if (player instanceof ServerPlayer) {
+                level.setBlockAndUpdate(pos, state.setValue(FERTILE, Boolean.FALSE));
+                level.gameEvent(player, GameEvent.SHEAR, pos);
+                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
             }
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
+        if (item instanceof ShovelItem && !state.getValue(SNOWY) && !state.is(ModBlocks.SILT.get())) {
+            level.playSound(player, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0f, 1.0f);
+            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+            if (player instanceof ServerPlayer) {
+                level.setBlockAndUpdate(pos, Blocks.DIRT_PATH.defaultBlockState());
+                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
         return super.use(state,level,pos,player,hand,hitResult);
     }

@@ -446,13 +446,13 @@ public class ModBlocks {
             new DoorBlock(Properties.copy(Blocks.IRON_DOOR)) {
             });
     public static final Supplier<Block> WAXED_EXPOSED_IRON_DOOR = regWithItem("waxed_exposed_iron_door", () ->
-            new DoorBlock(Properties.copy(WAXED_IRON_DOOR.get())) {
+            new WaxedRustableDoorBlock(Rustable.RustLevel.EXPOSED, Properties.copy(WAXED_IRON_DOOR.get())) {
             });
     public static final Supplier<Block> WAXED_WEATHERED_IRON_DOOR = regWithItem("waxed_weathered_iron_door", () ->
-            new DoorBlock(Properties.copy(WAXED_IRON_DOOR.get())) {
+            new WaxedRustableDoorBlock(Rustable.RustLevel.WEATHERED, Properties.copy(WAXED_IRON_DOOR.get())) {
             });
     public static final Supplier<Block> WAXED_RUSTED_IRON_DOOR = regWithItem("waxed_rusted_iron_door", () ->
-            new DoorBlock(Properties.copy(WAXED_IRON_DOOR.get())) {
+            new WaxedRustableDoorBlock(Rustable.RustLevel.RUSTED, Properties.copy(WAXED_IRON_DOOR.get())) {
             });
 
     //waxed trapdoor
@@ -460,13 +460,13 @@ public class ModBlocks {
             new TrapDoorBlock(Properties.copy(Blocks.IRON_TRAPDOOR)) {
             });
     public static final Supplier<Block> WAXED_EXPOSED_IRON_TRAPDOOR = regWithItem("waxed_exposed_iron_trapdoor", () ->
-            new TrapDoorBlock(Properties.copy(WAXED_IRON_TRAPDOOR.get())) {
+            new WaxedRustableTrapdoorBlock(Rustable.RustLevel.EXPOSED, Properties.copy(WAXED_IRON_TRAPDOOR.get())) {
             });
     public static final Supplier<Block> WAXED_WEATHERED_IRON_TRAPDOOR = regWithItem("waxed_weathered_iron_trapdoor", () ->
-            new TrapDoorBlock(Properties.copy(WAXED_IRON_TRAPDOOR.get())) {
+            new WaxedRustableTrapdoorBlock(Rustable.RustLevel.WEATHERED, Properties.copy(WAXED_IRON_TRAPDOOR.get())) {
             });
     public static final Supplier<Block> WAXED_RUSTED_IRON_TRAPDOOR = regWithItem("waxed_rusted_iron_trapdoor", () ->
-            new TrapDoorBlock(Properties.copy(WAXED_IRON_TRAPDOOR.get())) {
+            new WaxedRustableTrapdoorBlock(Rustable.RustLevel.RUSTED, Properties.copy(WAXED_IRON_TRAPDOOR.get())) {
             });
 
     //waxed iron bars
