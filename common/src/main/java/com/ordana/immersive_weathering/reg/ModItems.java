@@ -118,7 +118,7 @@ public class ModItems {
 
     private static void registerBark(Registrator<Item> event, Collection<WoodType> woodTypes) {
         for (WoodType type : woodTypes) {
-            String name = !type.canBurn() ? type.getVariantId("bark",false) : type.getVariantId("scales",false);
+            String name = type.canBurn() ? type.getVariantId("bark", false) : type.getVariantId("scales", false);
 
             Item item = new WoodBasedItem(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS), type, 200);
             event.register(ImmersiveWeathering.res(name), item);
@@ -132,7 +132,7 @@ public class ModItems {
             var b = ModBlocks.LEAF_PILES.get(type);
             BlockItem i = new LeafPileBlockItem(b, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
             event.register(Utils.getID(b), i);
-            LEAF_PILES.put(type,i);
+            LEAF_PILES.put(type, i);
         }
     }
 }

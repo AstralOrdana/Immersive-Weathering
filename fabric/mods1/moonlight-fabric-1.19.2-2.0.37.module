@@ -1,0 +1,184 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "net.mehvahdjukaar",
+    "module": "moonlight-fabric",
+    "version": "1.19.2-2.0.37",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.4"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "net.fabricmc.fabric-api",
+          "module": "fabric-api",
+          "version": {
+            "requires": "0.59.0+1.19.2"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "moonlight-fabric-1.19.2-2.0.37-fabric.jar",
+          "url": "moonlight-fabric-1.19.2-2.0.37-fabric.jar",
+          "size": 723558,
+          "sha512": "78ecba91dd31b0f2a765eb731c85d2f72fb691acc272bc155676debf99aadf4de98a61223cca933fb4ba5a9ebb8355783c8a405fa438ee8fe1245ce19e307211",
+          "sha256": "d5e197bc92765964dc9b9913a717fbfa3cea1d79874cb526a80f06eeef3d076d",
+          "sha1": "ab5f7ac286d74b8eed887c0f88a8a557805341d0",
+          "md5": "786d372dced996c8e01b53cdb9d0d870"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "blue.endless",
+          "module": "jankson",
+          "version": {
+            "requires": "1.2.0"
+          },
+          "excludes": [
+            {
+              "group": "*",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "com.moandjiezana.toml",
+          "module": "toml4j",
+          "version": {
+            "requires": "0.7.2"
+          },
+          "excludes": [
+            {
+              "group": "*",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "org.yaml",
+          "module": "snakeyaml",
+          "version": {
+            "requires": "1.27"
+          },
+          "excludes": [
+            {
+              "group": "*",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "com.google.code.gson",
+          "module": "gson",
+          "version": {
+            "requires": "2.8.1"
+          },
+          "excludes": [
+            {
+              "group": "*",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "net.fabricmc.fabric-api",
+          "module": "fabric-api",
+          "version": {
+            "requires": "0.59.0+1.19.2"
+          }
+        },
+        {
+          "group": "net.fabricmc",
+          "module": "fabric-loader",
+          "version": {
+            "requires": "0.14.9"
+          }
+        },
+        {
+          "group": "me.shedaniel.cloth",
+          "module": "cloth-config-fabric",
+          "version": {
+            "requires": "7.0.72"
+          },
+          "excludes": [
+            {
+              "group": "net.fabricmc.fabric-api",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "curse.maven",
+          "module": "map-atlases-436298",
+          "version": {
+            "requires": "3953555"
+          }
+        },
+        {
+          "group": "curse.maven",
+          "module": "yacl-667299",
+          "version": {
+            "requires": "3987709"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "moonlight-fabric-1.19.2-2.0.37-fabric.jar",
+          "url": "moonlight-fabric-1.19.2-2.0.37-fabric.jar",
+          "size": 723558,
+          "sha512": "78ecba91dd31b0f2a765eb731c85d2f72fb691acc272bc155676debf99aadf4de98a61223cca933fb4ba5a9ebb8355783c8a405fa438ee8fe1245ce19e307211",
+          "sha256": "d5e197bc92765964dc9b9913a717fbfa3cea1d79874cb526a80f06eeef3d076d",
+          "sha1": "ab5f7ac286d74b8eed887c0f88a8a557805341d0",
+          "md5": "786d372dced996c8e01b53cdb9d0d870"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "moonlight-fabric-1.19.2-2.0.37-sources.jar",
+          "url": "moonlight-fabric-1.19.2-2.0.37-sources.jar",
+          "size": 409331,
+          "sha512": "86ffe1f2a2a23e83373692656a58b6563fab748942d3c5fadc5fedc68f762db09f09a61ee1be9663551a96b705da745c0a54354420ceaf466cc4b3aeafde306b",
+          "sha256": "ff98f8ecf6b12371461e73af7d8f31c4fb081ae8b6ba2f9e90693148251c381b",
+          "sha1": "603c41e56f4c167948b2f30928f2b02188d23199",
+          "md5": "2ffa031da4b251dc5b914c34cf51e18f"
+        }
+      ]
+    }
+  ]
+}

@@ -90,7 +90,8 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
                     BlockState baseLeaf = leafPile.defaultBlockState().setValue(LeafPileBlock.LAYERS, 0);
                     //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
                     if (isOnLeaf ||
-                            (groundState.isFaceSturdy(level, targetPos.below(), Direction.UP) && replaceState.getMaterial().isReplaceable() && baseLeaf.canSurvive(level, targetPos)
+                            (groundState.isFaceSturdy(level, targetPos.below(), Direction.UP) &&
+                                    replaceState.getMaterial().isReplaceable() && baseLeaf.canSurvive(level, targetPos)
                                     && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 2, 2,
                                     level, b -> b.getBlock() instanceof LeafPileBlock, 6))) {
 

@@ -1,10 +1,16 @@
 package com.ordana.immersive_weathering.reg;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import net.mehvahdjukaar.moonlight.api.misc.Registrator;
+import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
+import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
+import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -12,13 +18,14 @@ import java.util.function.Supplier;
 public class ModParticles {
 
     public static void init() {
+        BlockSetAPI.addDynamicRegistration(ModParticles::registerLeafParticles, LeavesType.class, Registry.PARTICLE_TYPE);
     }
 
     public static Supplier<SimpleParticleType> registerParticle(String name) {
         return RegHelper.registerParticle(ImmersiveWeathering.res(name));
     }
 
-    public static Map<LeavesType,SimpleParticleType> FALLING_LEAVES = new LinkedHashMap<>();
+    public static Map<LeavesType, SimpleParticleType> FALLING_LEAVES = new LinkedHashMap<>();
     public static final Supplier<SimpleParticleType> AZALEA_FLOWER = registerParticle("azalea_flower");
 
     public static final Supplier<SimpleParticleType> MULCH = registerParticle("mulch");
@@ -68,4 +75,11 @@ public class ModParticles {
     public static final Supplier<SimpleParticleType> FLOWER_JAR = registerParticle("flower_jar");
 
 
+    private static void registerLeafParticles(Registrator<ParticleType<?>> event, Collection<LeavesType> leavesTypes) {
+        for (LeavesType type : leavesTypes) {
+            var p = PlatformHelper.newParticle();
+            event.register(ImmersiveWeathering.res(type.getVariantId("leaf", false)), p);
+            FALLING_LEAVES.put(type, p);
+        }
+    }
 }
