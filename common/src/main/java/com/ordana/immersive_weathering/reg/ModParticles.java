@@ -79,9 +79,9 @@ public class ModParticles {
     private static void registerLeafParticles(Registrator<ParticleType<?>> event, Collection<LeavesType> leavesTypes) {
         for (LeavesType type : leavesTypes) {
             var p = PlatformHelper.newParticle();
-            if(type.getTypeName().equals("flowering_azalea")){
+            if (type.getTypeName().equals("flowering_azalea")) {
                 p = (SimpleParticleType) Registry.PARTICLE_TYPE.get(ImmersiveWeathering.res("azalea_leaf"));
-            }else{
+            } else {
                 event.register(ImmersiveWeathering.res(type.getVariantId("leaf", false)), p);
             }
             FALLING_LEAVES.put(type, p);

@@ -92,7 +92,7 @@ public class WeatheringHelper {
 
     public static final Supplier<Map<Block, SimpleParticleType>> LEAVES_TO_PARTICLE = Suppliers.memoize(() -> {
                 var b = ImmutableMap.<Block, SimpleParticleType>builder();
-                b.put(Blocks.FLOWERING_AZALEA_LEAVES, ModParticles.AZALEA_FLOWER.get());
+                //b.put(Blocks.FLOWERING_AZALEA_LEAVES, ModParticles.AZALEA_FLOWER.get());
 
                 ModParticles.FALLING_LEAVES.forEach((key, value) -> b.put(key.leaves, value));
                 return b.build();
