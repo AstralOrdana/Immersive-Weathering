@@ -16,8 +16,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
@@ -53,7 +51,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
 
 
                 //also spawns icicles
-                //TODO: mvoe out of here to data
+                //TODO: move out of here to data
                 if (random.nextBoolean() && WeatheringHelper.isIciclePos(pos) && level.getBiome(pos).value().coldEnoughToSnow(pos)) {
                     level.setBlock(pos.below(), ModBlocks.ICICLE.get().defaultBlockState()
                             .setValue(PointedDripstoneBlock.TIP_DIRECTION, Direction.DOWN), 2);
@@ -67,10 +65,12 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
                 //calculating normally if heightmap fails
                 if (dist < 0) {
                     targetPos = pos;
+                    BlockState selected;
                     do {
                         targetPos = targetPos.below();
                         dist = pos.getY() - targetPos.getY();
-                    } while (level.getBlockState(targetPos).getMaterial().isReplaceable() &&
+                        selected = level.getBlockState(targetPos);
+                    } while ((selected.getMaterial().isReplaceable() && selected.getFluidState().isEmpty()) &&
                             dist < maxFallenLeavesReach);
                     targetPos = targetPos.above();
 
@@ -81,23 +81,25 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
                     BlockState groundState = level.getBlockState(targetPos.below());
 
                     boolean isOnLeaf = replaceState.getBlock() instanceof LeafPileBlock;
+                    boolean waterBelow = groundState.is(Blocks.WATER);
                     int pileHeight = 1;
                     if (isOnLeaf) {
                         pileHeight = replaceState.getValue(LeafPileBlock.LAYERS);
                         if (pileHeight == 0 || pileHeight >= maxPileHeight) return;
                     }
 
-                    BlockState baseLeaf = leafPile.defaultBlockState().setValue(LeafPileBlock.LAYERS, 0);
+                    BlockState baseLeaf = leafPile.defaultBlockState().setValue(LeafPileBlock.LAYERS, waterBelow ? 0 : 1);
                     //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
-                    if (isOnLeaf ||
-                            (groundState.isFaceSturdy(level, targetPos.below(), Direction.UP) &&
-                                    replaceState.getMaterial().isReplaceable() && baseLeaf.canSurvive(level, targetPos)
-                                    && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 2, 2,
-                                    level, b -> b.getBlock() instanceof LeafPileBlock, 6))) {
+                    if (isOnLeaf || (
+                            replaceState.getMaterial().isReplaceable()
+                            && baseLeaf.canSurvive(level, targetPos)
+                            && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 2, 2,
+                            level, b -> b.getBlock() instanceof LeafPileBlock, 6)
+                    )) {
 
 
-                        if (level.getBlockState(targetPos.below()).is(Blocks.WATER)) {
-                            level.setBlock(targetPos, baseLeaf.setValue(LeafPileBlock.LAYERS, 0), 2);
+                        if (waterBelow) {
+                            level.setBlock(targetPos, baseLeaf, 2);
                         } else {
                             if (isOnLeaf) {
                                 int original = pileHeight;
@@ -137,7 +139,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
 
     //called from mixin random tick
     public static void spawnFallingLeavesParticle(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if(!(state.getBlock() instanceof LeavesBlock)){
+        if (!(state.getBlock() instanceof LeavesBlock)) {
             ImmersiveWeathering.LOGGER.error("Some mod tried to call leaves random tick without passing a leaf block blockstate as expected. This should be fixed on their end. Given blockstate : {}", state);
             return;
         }
@@ -166,7 +168,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
 
     public static void decayLeavesPile(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         //this is server side, cant access client configs. Also meet to send color and send particles doesn't support that
-        if(!(state.getBlock() instanceof LeavesBlock)){
+        if (!(state.getBlock() instanceof LeavesBlock)) {
             ImmersiveWeathering.LOGGER.error("Some mod tried to call leaves random tick without passing a leaf block blockstate as expected. This should be fixed on their end. Given blockstate : {}", state);
             return;
         }
