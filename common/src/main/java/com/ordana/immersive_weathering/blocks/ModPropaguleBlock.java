@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -47,7 +48,8 @@ public class ModPropaguleBlock extends MangrovePropaguleBlock implements Fallabl
         return state;
     }
 
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+    @Override
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (canFallThrough(level.getBlockState(pos.below())) && pos.getY() >= level.getMinBuildHeight() && (level.getBlockState(pos.above()).isAir() || level.getBlockState(pos.above()).is(ModTags.LEAF_PILES)) && state.getValue(HANGING) && state.getValue(AGE) == 4) {
             FallingBlockEntity fallingblockentity = FallingPropaguleEntity.fall(level, pos, state);
             this.configureFallingBlockEntity(fallingblockentity);
