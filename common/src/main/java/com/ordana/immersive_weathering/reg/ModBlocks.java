@@ -439,7 +439,7 @@ public class ModBlocks {
     //waxed iron door
 
     public static final Supplier<Block> WAXED_IRON_DOOR = regWithItem("waxed_iron_door", () ->
-            new DoorBlock(Properties.copy(Blocks.IRON_DOOR)) {
+            new RustAffectedDoorBlock(Rustable.RustLevel.UNAFFECTED, Properties.copy(Blocks.IRON_DOOR)) {
             });
     public static final Supplier<Block> WAXED_EXPOSED_IRON_DOOR = regWithItem("waxed_exposed_iron_door", () ->
             new RustAffectedDoorBlock(Rustable.RustLevel.EXPOSED, Properties.copy(WAXED_IRON_DOOR.get())) {
