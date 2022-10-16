@@ -6,6 +6,7 @@ import dev.architectury.injectables.annotations.PlatformOnly;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -41,13 +42,13 @@ public class WallRootsBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public BlockState rotate(BlockState p_49207_, Rotation p_49208_) {
-        return p_49207_.setValue(FACING, p_49208_.rotate(p_49207_.getValue(FACING)));
+    public BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @Override
-    public BlockState mirror(BlockState p_49204_, Mirror p_49205_) {
-        return p_49204_.rotate(p_49205_.getRotation(p_49204_.getValue(FACING)));
+    public BlockState mirror(BlockState state, Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
     @Override
@@ -83,8 +84,6 @@ public class WallRootsBlock extends Block implements SimpleWaterloggedBlock {
                 }
             }
         }
-
-
         return null;
     }
 
@@ -92,5 +91,15 @@ public class WallRootsBlock extends Block implements SimpleWaterloggedBlock {
     @PlatformOnly(PlatformOnly.FORGE)
     public boolean isLadder(BlockState state, LevelReader level, BlockPos pos, LivingEntity entity) {
         return true;
+    }
+
+    @Override
+    public float getMaxHorizontalOffset() {
+        return 0;
+    }
+
+    @Override
+    public float getMaxVerticalOffset() {
+        return 0.2F;
     }
 }

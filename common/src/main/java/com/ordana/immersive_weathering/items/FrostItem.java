@@ -2,6 +2,8 @@ package com.ordana.immersive_weathering.items;
 
 import com.ordana.immersive_weathering.blocks.frostable.Frosty;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.reg.ModBlocks;
+import dev.architectury.injectables.annotations.PlatformOnly;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
@@ -12,14 +14,26 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.Map;
+
 public class FrostItem extends BlockItem {
     public FrostItem(Block block, Properties properties) {
         super(block, properties);
+    }
+
+    //hack for roots
+    @PlatformOnly(PlatformOnly.FABRIC)
+    @Override
+    public void registerBlocks(Map<Block, Item> map, Item item) {
+        super.registerBlocks(map, item);
+        map.put(ModBlocks.HANGING_ROOTS_WALL.get(), Items.HANGING_ROOTS);
     }
 
     @Override
