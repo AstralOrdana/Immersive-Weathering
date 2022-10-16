@@ -15,16 +15,12 @@ import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import net.mehvahdjukaar.moonlight.api.block.ModStairBlock;
 import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
-import net.mehvahdjukaar.moonlight.api.item.WoodBasedBlockItem;
-import net.mehvahdjukaar.moonlight.api.item.WoodBasedItem;
 import net.mehvahdjukaar.moonlight.api.misc.Registrator;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesTypeRegistry;
-import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -446,13 +442,13 @@ public class ModBlocks {
             new DoorBlock(Properties.copy(Blocks.IRON_DOOR)) {
             });
     public static final Supplier<Block> WAXED_EXPOSED_IRON_DOOR = regWithItem("waxed_exposed_iron_door", () ->
-            new WaxedRustableDoorBlock(Rustable.RustLevel.EXPOSED, Properties.copy(WAXED_IRON_DOOR.get())) {
+            new RustAffectedDoorBlock(Rustable.RustLevel.EXPOSED, Properties.copy(WAXED_IRON_DOOR.get())) {
             });
     public static final Supplier<Block> WAXED_WEATHERED_IRON_DOOR = regWithItem("waxed_weathered_iron_door", () ->
-            new WaxedRustableDoorBlock(Rustable.RustLevel.WEATHERED, Properties.copy(WAXED_IRON_DOOR.get())) {
+            new RustAffectedDoorBlock(Rustable.RustLevel.WEATHERED, Properties.copy(WAXED_IRON_DOOR.get())) {
             });
     public static final Supplier<Block> WAXED_RUSTED_IRON_DOOR = regWithItem("waxed_rusted_iron_door", () ->
-            new WaxedRustableDoorBlock(Rustable.RustLevel.RUSTED, Properties.copy(WAXED_IRON_DOOR.get())) {
+            new RustAffectedDoorBlock(Rustable.RustLevel.RUSTED, Properties.copy(WAXED_IRON_DOOR.get())) {
             });
 
     //waxed trapdoor
@@ -460,13 +456,13 @@ public class ModBlocks {
             new TrapDoorBlock(Properties.copy(Blocks.IRON_TRAPDOOR)) {
             });
     public static final Supplier<Block> WAXED_EXPOSED_IRON_TRAPDOOR = regWithItem("waxed_exposed_iron_trapdoor", () ->
-            new WaxedRustableTrapdoorBlock(Rustable.RustLevel.EXPOSED, Properties.copy(WAXED_IRON_TRAPDOOR.get())) {
+            new RustAffectedTrapdoorBlock(Rustable.RustLevel.EXPOSED, Properties.copy(WAXED_IRON_TRAPDOOR.get())) {
             });
     public static final Supplier<Block> WAXED_WEATHERED_IRON_TRAPDOOR = regWithItem("waxed_weathered_iron_trapdoor", () ->
-            new WaxedRustableTrapdoorBlock(Rustable.RustLevel.WEATHERED, Properties.copy(WAXED_IRON_TRAPDOOR.get())) {
+            new RustAffectedTrapdoorBlock(Rustable.RustLevel.WEATHERED, Properties.copy(WAXED_IRON_TRAPDOOR.get())) {
             });
     public static final Supplier<Block> WAXED_RUSTED_IRON_TRAPDOOR = regWithItem("waxed_rusted_iron_trapdoor", () ->
-            new WaxedRustableTrapdoorBlock(Rustable.RustLevel.RUSTED, Properties.copy(WAXED_IRON_TRAPDOOR.get())) {
+            new RustAffectedTrapdoorBlock(Rustable.RustLevel.RUSTED, Properties.copy(WAXED_IRON_TRAPDOOR.get())) {
             });
 
     //waxed iron bars

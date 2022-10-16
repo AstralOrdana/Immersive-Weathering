@@ -1,14 +1,9 @@
 package com.ordana.immersive_weathering.blocks.rustable;
 
-import com.ordana.immersive_weathering.reg.ModParticles;
-import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -18,10 +13,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
 
-public class WaxedRustableDoorBlock extends DoorBlock implements Rustable {
-    private final RustLevel rustLevel;
+public class RustAffectedDoorBlock extends DoorBlock {
+    private final Rustable.RustLevel rustLevel;
 
-    public WaxedRustableDoorBlock(RustLevel rustLevel, Properties settings) {
+    public RustAffectedDoorBlock(Rustable.RustLevel rustLevel, Properties settings) {
         super(settings);
         this.rustLevel = rustLevel;
     }
@@ -31,7 +26,7 @@ public class WaxedRustableDoorBlock extends DoorBlock implements Rustable {
         DoubleBlockHalf doubleBlockHalf = state.getValue(HALF);
         if ((direction == Direction.UP && doubleBlockHalf == DoubleBlockHalf.LOWER) ||
                 (direction == Direction.DOWN && doubleBlockHalf == DoubleBlockHalf.UPPER)) {
-            if (neighborState.getBlock() instanceof WaxedRustableDoorBlock) {
+            if (neighborState.getBlock() instanceof RustAffectedDoorBlock) {
                 state = neighborState.getBlock().withPropertiesOf(state);
             }
         }
@@ -90,7 +85,7 @@ public class WaxedRustableDoorBlock extends DoorBlock implements Rustable {
 
     @Override
     public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-        if (this.getAge() == RustLevel.EXPOSED || this.getAge() == RustLevel.WEATHERED) {
+        if (this.getAge() == Rustable.RustLevel.EXPOSED || this.getAge() == Rustable.RustLevel.WEATHERED) {
             state = state.cycle(OPEN);
             this.playSound(world, pos, state.getValue(OPEN)); // if it is powered, play open sound, else play close sound
             world.gameEvent(null,state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
@@ -103,8 +98,7 @@ public class WaxedRustableDoorBlock extends DoorBlock implements Rustable {
         return false;
     }
 
-    @Override
-    public RustLevel getAge() {
+    public Rustable.RustLevel getAge() {
         return rustLevel;
     }
 

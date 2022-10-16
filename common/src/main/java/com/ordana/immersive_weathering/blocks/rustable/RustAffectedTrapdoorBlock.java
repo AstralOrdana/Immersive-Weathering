@@ -1,25 +1,19 @@
 package com.ordana.immersive_weathering.blocks.rustable;
 
-import com.ordana.immersive_weathering.reg.ModParticles;
-import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.Fluids;
 
-public class WaxedRustableTrapdoorBlock extends TrapDoorBlock implements Rustable {
-    private final RustLevel rustLevel;
+//affected by rust but cannot rust itself (waxed)
+public class RustAffectedTrapdoorBlock extends TrapDoorBlock {
+    private final Rustable.RustLevel rustLevel;
 
-    public WaxedRustableTrapdoorBlock(RustLevel rustLevel, Properties settings) {
+    public RustAffectedTrapdoorBlock(Rustable.RustLevel rustLevel, Properties settings) {
         super(settings);
         this.rustLevel = rustLevel;
     }
@@ -72,7 +66,7 @@ public class WaxedRustableTrapdoorBlock extends TrapDoorBlock implements Rustabl
 
     @Override
     public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-        if (this.getAge() == RustLevel.EXPOSED || this.getAge() == RustLevel.WEATHERED) {
+        if (this.getAge() == Rustable.RustLevel.EXPOSED || this.getAge() == Rustable.RustLevel.WEATHERED) {
             state = state.cycle(OPEN);
             this.playOpenCloseSound(world, pos, state.getValue(OPEN)); // if it is powered, play open sound, else play close sound
             world.gameEvent(null, state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos); // same principle here
@@ -85,8 +79,7 @@ public class WaxedRustableTrapdoorBlock extends TrapDoorBlock implements Rustabl
         return false;
     }
 
-    @Override
-    public RustLevel getAge() {
+    public Rustable.RustLevel getAge() {
         return this.rustLevel;
     }
 
