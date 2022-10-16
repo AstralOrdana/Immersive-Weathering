@@ -12,11 +12,12 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 
 import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class CeilingAndWallBlockItem extends BlockItem {
-    protected final Block wallBlock;
+    protected final Supplier<Block> wallBlock;
 
-    public CeilingAndWallBlockItem(Block ceilingBlock, Block wallBlock, Properties properties) {
+    public CeilingAndWallBlockItem(Block ceilingBlock, Supplier<Block> wallBlock, Properties properties) {
         super(ceilingBlock, properties);
         this.wallBlock = wallBlock;
     }
@@ -24,8 +25,8 @@ public class CeilingAndWallBlockItem extends BlockItem {
 
     @Nullable
     protected BlockState getPlacementState(BlockPlaceContext context) {
-        BlockState blockstate = this.wallBlock.getStateForPlacement(context);
-        BlockState blockstate1 = null;
+        BlockState blockstate = this.wallBlock.get().getStateForPlacement(context);
+        BlockState state = null;
         LevelReader levelreader = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
 
@@ -33,19 +34,20 @@ public class CeilingAndWallBlockItem extends BlockItem {
             if (direction != Direction.DOWN) {
                 BlockState blockstate2 = direction == Direction.UP ? this.getBlock().getStateForPlacement(context) : blockstate;
                 if (blockstate2 != null && blockstate2.canSurvive(levelreader, blockpos)) {
-                    blockstate1 = blockstate2;
+                    state = blockstate2;
                     break;
                 }
             }
         }
 
-        return blockstate1 != null && levelreader.isUnobstructed(blockstate1, blockpos, CollisionContext.empty()) ? blockstate1 : null;
+        return state != null && levelreader.isUnobstructed(state, blockpos, CollisionContext.empty()) ? state : null;
     }
 
     @Override
     public void registerBlocks(Map<Block, Item> map, Item item) {
         super.registerBlocks(map, item);
-        map.put(this.wallBlock, item);
+        //cant do...
+        //map.put(this.wallBlock.get(), item);
     }
 
 }
