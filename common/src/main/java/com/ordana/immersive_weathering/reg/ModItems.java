@@ -2,13 +2,11 @@ package com.ordana.immersive_weathering.reg;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
-import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.items.*;
 import com.ordana.immersive_weathering.items.materials.FlowerCrownMaterial;
 import com.ordana.immersive_weathering.items.materials.IcicleToolMaterial;
 import net.mehvahdjukaar.moonlight.api.item.WoodBasedItem;
 import net.mehvahdjukaar.moonlight.api.misc.Registrator;
-import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
@@ -22,19 +20,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import static com.ordana.immersive_weathering.reg.ModCreativeTab.getTab;
+
 public class ModItems {
-
-    public static final CreativeModeTab MOD_TAB = !CommonConfigs.CREATIVE_TAB.get() ? null :
-            PlatformHelper.createModTab(ImmersiveWeathering.res(ImmersiveWeathering.MOD_ID),
-                    () -> ModBlocks.IVY.get().asItem().getDefaultInstance(), false);
-
-    public static CreativeModeTab getTab(CreativeModeTab tab) {
-        return MOD_TAB == null ? tab : MOD_TAB;
-    }
 
     public static void init() {
         BlockSetAPI.addDynamicItemRegistration(ModItems::registerLeafPilesItems, LeavesType.class);
         BlockSetAPI.addDynamicItemRegistration(ModItems::registerBark, WoodType.class);
+
     }
 
     public static <T extends Item> Supplier<T> regItem(String name, Supplier<T> itemSup) {
@@ -44,7 +37,8 @@ public class ModItems {
     //helpers
 
     private static Supplier<BlockItem> regLeafPile(String name, Supplier<LeafPileBlock> oakLeafPile) {
-        return regItem(name, () -> new LeafPileBlockItem(oakLeafPile.get(), new Item.Properties().tab(getTab(CreativeModeTab.TAB_DECORATIONS))));
+        return regItem(name, () -> new LeafPileBlockItem(oakLeafPile.get(), new Item.Properties().tab(
+                ModCreativeTab.getTab(CreativeModeTab.TAB_DECORATIONS))));
     }
 
     //icicle
@@ -60,6 +54,8 @@ public class ModItems {
 
     public static final Supplier<Item> STONE_BRICK = regItem("stone_brick", () ->
             new Item(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS))));
+
+
     public static final Supplier<Item> PRISMARINE_BRICK = regItem("prismarine_brick", () ->
             new Item(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS))));
     public static final Supplier<Item> END_STONE_BRICK = regItem("end_stone_brick", () ->
@@ -119,7 +115,7 @@ public class ModItems {
 
     private static void registerBark(Registrator<Item> event, Collection<WoodType> woodTypes) {
         for (WoodType type : woodTypes) {
-            String name = !type.canBurn() ? type.getVariantId("scales",false) : type.getVariantId("bark",false);
+            String name = !type.canBurn() ? type.getVariantId("scales", false) : type.getVariantId("bark", false);
 
             Item item = new WoodBasedItem(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS), type, 200);
             event.register(ImmersiveWeathering.res(name), item);

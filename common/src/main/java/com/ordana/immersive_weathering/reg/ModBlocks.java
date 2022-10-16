@@ -37,7 +37,7 @@ import java.util.*;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
-import static com.ordana.immersive_weathering.reg.ModItems.getTab;
+import static com.ordana.immersive_weathering.reg.ModCreativeTab.getTab;
 
 @SuppressWarnings("unused")
 public class ModBlocks {
