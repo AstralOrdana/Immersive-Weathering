@@ -11,6 +11,7 @@
     "DataPackContentMixin",
     "FarmlandBlockMixin",
     "FungusBlockMixin",
+    "ItemsMixin",
     "NetherWartBlockMixin",
     "SproutsBlockMixin",
     "SugarCaneBlockMixin"
