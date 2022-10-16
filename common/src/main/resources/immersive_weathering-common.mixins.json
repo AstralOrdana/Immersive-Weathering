@@ -15,6 +15,7 @@
     "LeavesMixin",
     "LightningEntityMixin",
     "LiquidBlockMixin",
+    "MudBlockHitboxMixin",
     "RabbitEatGoalMixin",
     "RabbitMixin",
     "RootedDirtBlockMixin",

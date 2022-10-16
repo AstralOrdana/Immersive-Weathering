@@ -114,6 +114,7 @@ public class ImmersiveWeatheringClient {
     private static void registerEntityRenderers(ClientPlatformHelper.EntityRendererEvent event) {
         event.register(ModEntities.FALLING_ICICLE.get(), FallingBlockRendererGeneric::new);
         event.register(ModEntities.FALLING_LAYER.get(), FallingBlockRendererGeneric::new);
+        event.register(ModEntities.FALLING_PROPAGULE.get(), FallingBlockRendererGeneric::new);
     }
 
     private static void registerParticles(ClientPlatformHelper.ParticleEvent event) {

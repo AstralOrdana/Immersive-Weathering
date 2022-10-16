@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.mixins;
 
 import com.ordana.immersive_weathering.IWPlatformStuff;
+import com.ordana.immersive_weathering.blocks.ModPropaguleBlock;
 import com.ordana.immersive_weathering.blocks.crackable.*;
 import com.ordana.immersive_weathering.blocks.mossable.*;
 import com.ordana.immersive_weathering.blocks.rustable.Rustable;
@@ -24,6 +25,22 @@ import org.spongepowered.asm.mixin.injection.Slice;
 
 @Mixin(Blocks.class)
 public abstract class BlocksMixin {
+
+    @Redirect(method = "<clinit>", at = @At(
+            value = "NEW",
+            target = "net/minecraft/world/level/block/MangrovePropaguleBlock",
+            ordinal = 0
+    ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=mangrove_propagule"
+                    )
+            )
+    )
+    private static MangrovePropaguleBlock mangrovePropaguleBlock(BlockBehaviour.Properties settings) {
+        return new ModPropaguleBlock(settings);
+    }
 
     @Redirect(method = "<clinit>", at = @At(
             value = "NEW",
