@@ -1,7 +1,7 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "minecraft:deepslate"
+    "item": "minecraft:cobbled_deepslate"
   },
   "result": "immersive_weathering:deepslate_tile",
   "count": 16

@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "minecraft:stone_bricks"
+    "item": "minecraft:cobblestone"
   },
   "result": "immersive_weathering:stone_brick",
-  "count": 4
+  "count": 16
 }

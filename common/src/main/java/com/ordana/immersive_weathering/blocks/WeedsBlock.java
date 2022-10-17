@@ -85,14 +85,15 @@ public class WeedsBlock extends CropBlock {
     }
 
     //not needed on forge
+    //commented out the PlatformOnlys because it wasnt working on forge?? ~o
 
-    @PlatformOnly(PlatformOnly.FABRIC)
+    //@PlatformOnly(PlatformOnly.FABRIC)
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
         BlockPos below = pos.below();
         return this.mayPlaceOn(world.getBlockState(below), world, below);
     }
 
-    @PlatformOnly(PlatformOnly.FABRIC)
+    //@PlatformOnly(PlatformOnly.FABRIC)
     protected boolean mayPlaceOn(BlockState floor, BlockGetter world, BlockPos pos) {
         return floor.is(ModTags.FERTILE_BLOCKS) || floor.is(BlockTags.DIRT) || floor.is(ModTags.CRACKED) || floor.is(ModTags.MOSSY);
     }
