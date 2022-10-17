@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#immersive_weathering:has_ivy",
+  "features": [
+    "immersive_weathering:ivy_patch"
+  ],
+  "step": "vegetal_decoration"
+}

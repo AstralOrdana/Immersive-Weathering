@@ -20,7 +20,7 @@
         "max_inclusive": 6
       }
     },
-    "replaceable": "#minecraft:sand",
+    "replaceable": "#minecraft:red_sand",
     "ground_state": {
       "type": "minecraft:simple_state_provider",
       "state": {

@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#immersive_weathering:has_humus",
+  "features": [
+    "immersive_weathering:humus_patch",
+    "immersive_weathering:rooted_ceiling"
+  ],
+  "step": "raw_generation"
+}

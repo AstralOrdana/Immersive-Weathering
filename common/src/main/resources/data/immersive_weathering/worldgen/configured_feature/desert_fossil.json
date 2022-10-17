@@ -10,14 +10,7 @@
       "minecraft:fossil/skull_1",
       "minecraft:fossil/skull_2",
       "minecraft:fossil/skull_3",
-      "minecraft:fossil/skull_4",
-      "minecraft:nether_fossils/fossil_1",
-      "minecraft:nether_fossils/fossil_2",
-      "minecraft:nether_fossils/fossil_3",
-      "minecraft:nether_fossils/fossil_4",
-      "minecraft:nether_fossils/fossil_5",
-      "minecraft:nether_fossils/fossil_6",
-      "minecraft:nether_fossils/fossil_7"
+      "minecraft:fossil/skull_4"
     ],
     "overlay_structures": [
       "minecraft:fossil/spine_1",
@@ -27,14 +20,8 @@
       "minecraft:fossil/skull_1",
       "minecraft:fossil/skull_2",
       "minecraft:fossil/skull_3",
-      "minecraft:fossil/skull_4",
-      "minecraft:nether_fossils/fossil_1",
-      "minecraft:nether_fossils/fossil_2",
-      "minecraft:nether_fossils/fossil_3",
-      "minecraft:nether_fossils/fossil_4",
-      "minecraft:nether_fossils/fossil_5",
-      "minecraft:nether_fossils/fossil_6",
-      "minecraft:nether_fossils/fossil_7"],
+      "minecraft:fossil/skull_4"
+    ],
     "fossil_processors": "minecraft:fossil_rot",
     "overlay_processors": "minecraft:fossil_rot"
   }

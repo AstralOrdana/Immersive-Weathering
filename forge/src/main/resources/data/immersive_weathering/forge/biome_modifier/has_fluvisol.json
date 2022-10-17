@@ -1,0 +1,11 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#immersive_weathering:has_fluvisol",
+  "features": [
+    "immersive_weathering:fluvisol_patch_submerged",
+    "immersive_weathering:fluvisol_patch_surface",
+    "immersive_weathering:fluvisol_patch_dry",
+    "immersive_weathering:silt_disk"
+  ],
+  "step": "raw_generation"
+}
