@@ -39,8 +39,8 @@
   "advancements.immersive_weathering.moss_off_2.title": "我说了，除苔！",
   "advancements.immersive_weathering.moss_off_2.description": "用打火石烧掉覆苔方块上的苔藓，防止其再次生长",
 
-  "config.immersive_weathering.general.block_growths": "方块生长物",
-  "config.immersive_weathering.general.block_growths.descriptionKey": "是否启用方块生长物机制？",
+  "config.immersive_weathering.general.block_growths": "方块生长",
+  "config.immersive_weathering.general.block_growths.descriptionKey": "是否启用方块生长机制？",
   "config.immersive_weathering.general.leaves_decay_particles": "树叶枯萎粒子",
   "config.immersive_weathering.general.falling_leaf_particles": "落叶粒子",
   "config.immersive_weathering.general.desire_paths": "期望路径",
@@ -67,16 +67,16 @@
   "config.immersive_weathering.cracked_blocks.needs_air": "需要空气",
   "config.immersive_weathering.cracked_blocks.needs_air.descriptionKey": "裂纹是否只能蔓延到暴露在空气中的方块上？",
 
-  "config.immersive_weathering.icicle.react_to_vibrations": "振动反应",
-  "config.immersive_weathering.icicle.react_to_vibrations.descriptionKey": "冰凌是否应该对附近较大的噪声作出反应并落下？",
+  "config.immersive_weathering.icicle.react_to_vibrations": "对振动的反应",
+  "config.immersive_weathering.icicle.react_to_vibrations.descriptionKey": "冰凌是否应该对附近较大的噪声作出反应而落下？",
   "config.immersive_weathering.icicle.spawn_rarity": "冰凌生成率",
   "config.immersive_weathering.icicle.spawn_rarity.descriptionKey": "冰凌的生成应该有多频繁？",
 
-  "config.immersive_weathering.freezing.water_increment": "冰水冰冻程度",
+  "config.immersive_weathering.freezing.water_increment": "水的冰冻效果",
   "config.immersive_weathering.freezing.water_severity.descriptionKey": "水的冻伤效果应该有多严重？",
-  "config.immersive_weathering.freezing.icicle": "冰凌冰冻程度",
+  "config.immersive_weathering.freezing.icicle": "冰凌的冰冻效果",
   "config.immersive_weathering.freezing.icicle.descriptionKey": "冰凌的冻伤效果应该有多严重？",
-  "config.immersive_weathering.freezing.permafrost_increment": "永久冻土冰冻程度",
+  "config.immersive_weathering.freezing.permafrost_increment": "永久冻土的冰冻效果",
   "config.immersive_weathering.freezing.permafrost.descriptionKey": "永久冻土的冻伤效果应该有多严重？",
 
   "config.immersive_weathering.charring.fire_chars_wood": "木头烧焦率",
@@ -131,8 +131,8 @@
   "config.immersive_weathering.misc.mulch_grows_crops": "护根物种植作物",
   "config.immersive_weathering.misc.composter_dirt": "堆肥桶产生泥土",
   "config.immersive_weathering.misc.generic_bark": "通用树皮物品",
-  "config.immersive_weathering.misc.feather_falling_farmers": "摔落保护防止踩踏耕地",
-  "config.immersive_weathering.misc.leggings_prevents_thorn_damage": "护腿防止刺伤",
+  "config.immersive_weathering.misc.feather_falling_farmers": "摔落保护可以防止踩踏耕地",
+  "config.immersive_weathering.misc.leggings_prevents_thorn_damage": "护腿可以防止刺伤",
 
   "config.immersive_weathering.leaf_piles.leaf_piles_slow": "树叶堆缓慢效果",
   "config.immersive_weathering.leaf_piles.spawn_entity_from_decay": "枯萎树叶掉落",
