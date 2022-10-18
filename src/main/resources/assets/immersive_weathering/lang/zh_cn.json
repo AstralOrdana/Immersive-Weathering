@@ -41,17 +41,17 @@
 
   "text.autoconfig.immersive_weathering.category.leaves_config": "树叶",
   "text.autoconfig.immersive_weathering.category.fire_and_ice_config": "火与冰",
-  "text.autoconfig.immersive_weathering.category.block_growth_config": "方块生长物",
+  "text.autoconfig.immersive_weathering.category.block_growth_config": "方块生长",
   "text.autoconfig.immersive_weathering.category.generators_config": "刷石机",
   "text.autoconfig.immersive_weathering.category.item_uses_config": "物品用途",
   "text.autoconfig.immersive_weathering.category.worldgen_config": "世界生成",
 
   "text.autoconfig.immersive_weathering.option.blockGrowthConfig.weedsGrowth": "杂草是否应该自然出现在农田上？",
-  "text.autoconfig.immersive_weathering.option.blockGrowthConfig.blockGrowth": "是否启用方块生长物机制？",
+  "text.autoconfig.immersive_weathering.option.blockGrowthConfig.blockGrowth": "是否启用方块生长机制？",
   "text.autoconfig.immersive_weathering.option.blockGrowthConfig.blockCracking": "砖块是否应该随着时间推移而开裂？",
   "text.autoconfig.immersive_weathering.option.blockGrowthConfig.blockMossing": "方块是否应该随着时间推移而生苔？",
   "text.autoconfig.immersive_weathering.option.blockGrowthConfig.blockRusting": "铁块是否应该随着时间推移而生锈？",
-  "text.autoconfig.immersive_weathering.option.blockGrowthConfig.woodWeathering": "木头是否应该在其暴露在雨中时风化？（警告：无法防止木头风化，也无法将其撤销）",
+  "text.autoconfig.immersive_weathering.option.blockGrowthConfig.woodWeathering": "木头是否应该在其暴露在雨中时风化？（警告：没有办法防止木头风化，并且无法将其撤销）",
 
   "text.autoconfig.immersive_weathering.option.leavesConfig.fallingLeafParticles": "树叶是否应该在其下方创建落叶粒子？",
   "text.autoconfig.immersive_weathering.option.leavesConfig.leafPilesForm": "树叶堆是否应该堆积在活着的树木下方？",
