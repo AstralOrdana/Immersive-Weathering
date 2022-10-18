@@ -1,11 +1,16 @@
 {
   "growth_chance": 0.005,
-  "position_predicates": [
-    {
-      "predicate_type": "precipitation_test",
-      "precipitation": "rain"
-    }
-  ],
+  "area_condition": {
+    "must_have": {
+      "fluids": ["minecraft:flowing_water"],
+      "predicate_type": "immersive_weathering:fluid_match"
+    },
+    "radiusX": 1,
+    "radiusY": 1,
+    "radiusZ": 1,
+    "requiredAmount": 16,
+    "type": "generate_if_not_too_many"
+  },
   "growth_for_face": [
     {
       "direction": "down",

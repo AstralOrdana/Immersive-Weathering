@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FallingBlock;
@@ -20,17 +21,18 @@ public class AshBlock extends FallingBlock {
         super(properties);
     }
 
-    public VoxelShape getShape(BlockState pState, BlockView pLevel, BlockPos pPos, CollisionContext pContext) {
-        if (pContext instanceof EntityCollisionContext c) {
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        if (context instanceof EntityCollisionContext c) {
             var e = c.getEntity();
             if (e instanceof LivingEntity) {
                 return BOTTOM_SHAPE;
             }
         }
-        return this.getShape(pState, pLevel, pPos, pContext);
+        return this.getShape(state, level, pos, context);
     }
 
-    public int getDustColor(BlockState state, BlockView world, BlockPos pos) {
+    public int color(BlockState state, BlockView world, BlockPos pos) {
         return -1842206;
     }
 }
