@@ -154,7 +154,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
         }
     }
 
-    public static void maybeFillCauldron(BlockState state, ServerLevel world, BlockPos pos, float dripChance) {
+    public void maybeFillCauldron(BlockState state, ServerLevel world, BlockPos pos, float dripChance) {
         if (!(dripChance > 0.2F)) {
             if (isIcicleTip(state, world, pos) && world.isDay() && !world.isRaining() && !world.isThundering()) {
                 Fluid fluid = getCauldronFillFluidType(world, pos);
