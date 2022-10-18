@@ -8,8 +8,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
-import java.util.Arrays;
-
 record PrecipitationTest(Biome.Precipitation precipitation) implements PositionRuleTest {
 
     public static final String NAME = "precipitation_test";
@@ -26,15 +24,30 @@ record PrecipitationTest(Biome.Precipitation precipitation) implements PositionR
     }
 
     //tests if the condition is true in any of the neighboring blocks
+    //for none it checks if none of the neighbor have rain
     @Override
     public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
-        return switch (precipitation) {
-            case NONE -> Arrays.stream(Direction.values()).anyMatch(d ->
-                    !level.isRainingAt(pos.relative(d)));
-            case SNOW -> Arrays.stream(Direction.values()).anyMatch(d ->
-                    level.isRainingAt(pos.relative(d)) && biome.value().coldEnoughToSnow(pos.relative(d)));
-            case RAIN -> Arrays.stream(Direction.values()).anyMatch(d ->
-                    level.isRainingAt(pos.relative(d)) && biome.value().warmEnoughToRain(pos.relative(d)));
-        };
+        for (var d : Direction.values()) {
+            if (d != Direction.DOWN) {
+                switch (precipitation) {
+                    case NONE -> {
+                        if (level.isRainingAt(pos.relative(d))){
+                            return false;
+                        }
+                    }
+                    case SNOW -> {
+                        if (level.isRainingAt(pos.relative(d)) && biome.value().coldEnoughToSnow(pos.relative(d))) {
+                            return true;
+                        }
+                    }
+                    case RAIN -> {
+                        if (level.isRainingAt(pos.relative(d)) && biome.value().warmEnoughToRain(pos.relative(d))) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return precipitation == Biome.Precipitation.NONE;
     }
 }
