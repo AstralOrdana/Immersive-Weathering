@@ -30,9 +30,11 @@ versionRange = "[1.18.2,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.immersive_weathering]]
+
+[[dependencies.supplementaries]]
 modId = "moonlight"
 mandatory = true
-versionRange = "[1.19.2-2.0.30,)"
+versionRange = "[${required_moonlight_version},]"
 ordering = "NONE"
 side = "BOTH"
+

@@ -35,7 +35,7 @@
   ],
   "depends": {
     "fabric": "*",
-    "moonlight": ">=1.19.2-2.0.30",
+    "moonlight": ">=${required_moonlight_version}",
     "minecraft": ">=1.18.2"
   }
 }

@@ -42,6 +42,7 @@ allprojects {
     archivesBaseName = rootProject.mod_id
     version = rootProject.mod_version
     group = rootProject.maven_group
+    required_moonlight_version = rootProject.required_moonlight_version
 
     repositories {
         flatDir {
