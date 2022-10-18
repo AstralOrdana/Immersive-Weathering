@@ -9,7 +9,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.mehvahdjukaar</groupId>
   <artifactId>moonlight</artifactId>
-  <version>1.19.2-2.0.37</version>
+  <version>1.19.2-2.0.39</version>
   <dependencies>
     <dependency>
       <groupId>net.fabricmc</groupId>

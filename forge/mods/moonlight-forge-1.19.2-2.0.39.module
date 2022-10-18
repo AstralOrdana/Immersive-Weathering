@@ -3,7 +3,7 @@
   "component": {
     "group": "net.mehvahdjukaar",
     "module": "moonlight-forge",
-    "version": "1.19.2-2.0.37",
+    "version": "1.19.2-2.0.39",
     "attributes": {
       "org.gradle.status": "release"
     }
@@ -25,13 +25,13 @@
       },
       "files": [
         {
-          "name": "moonlight-forge-1.19.2-2.0.37.jar",
-          "url": "moonlight-forge-1.19.2-2.0.37.jar",
-          "size": 694771,
-          "sha512": "1b90e65dd1a77b0cfb8abfec527aae64bd05b32ef6c1b3cd45c2ab9034be33aaf4fbd45063f7b59fddfb3fe925234628ef882508a31dd357a52be54ea4717874",
-          "sha256": "9c014da5b9825d1b444c18c0392c7e0c860b5f3df6aa6c591b8bffb1647f1487",
-          "sha1": "123464d56d6d515b385d5637e6dab7c3c9875f70",
-          "md5": "aba26e3c2a1523f8d5d4756aca73d8a5"
+          "name": "moonlight-forge-1.19.2-2.0.39.jar",
+          "url": "moonlight-forge-1.19.2-2.0.39.jar",
+          "size": 698334,
+          "sha512": "79d0abc64bc6f556cf3cd6db23afa013cec00dd5a350b29339bdd5ffcf2d1a454c15aeffbb8afe4dc7e05a4f2993a89ebd79198c0e55b61c9daba5cc04c76377",
+          "sha256": "e4f047d1bbb558a63ec7db29f1c98a5d300cfa834e2bec1948967d9c04636489",
+          "sha1": "90de68bb89956ef59408d22699a2f2ab9423d568",
+          "md5": "d29a4d47a95eae6096f5dbd06c8c4676"
         }
       ]
     },
@@ -62,13 +62,13 @@
       ],
       "files": [
         {
-          "name": "moonlight-forge-1.19.2-2.0.37.jar",
-          "url": "moonlight-forge-1.19.2-2.0.37.jar",
-          "size": 694771,
-          "sha512": "1b90e65dd1a77b0cfb8abfec527aae64bd05b32ef6c1b3cd45c2ab9034be33aaf4fbd45063f7b59fddfb3fe925234628ef882508a31dd357a52be54ea4717874",
-          "sha256": "9c014da5b9825d1b444c18c0392c7e0c860b5f3df6aa6c591b8bffb1647f1487",
-          "sha1": "123464d56d6d515b385d5637e6dab7c3c9875f70",
-          "md5": "aba26e3c2a1523f8d5d4756aca73d8a5"
+          "name": "moonlight-forge-1.19.2-2.0.39.jar",
+          "url": "moonlight-forge-1.19.2-2.0.39.jar",
+          "size": 698334,
+          "sha512": "79d0abc64bc6f556cf3cd6db23afa013cec00dd5a350b29339bdd5ffcf2d1a454c15aeffbb8afe4dc7e05a4f2993a89ebd79198c0e55b61c9daba5cc04c76377",
+          "sha256": "e4f047d1bbb558a63ec7db29f1c98a5d300cfa834e2bec1948967d9c04636489",
+          "sha1": "90de68bb89956ef59408d22699a2f2ab9423d568",
+          "md5": "d29a4d47a95eae6096f5dbd06c8c4676"
         }
       ]
     },
@@ -82,13 +82,13 @@
       },
       "files": [
         {
-          "name": "moonlight-forge-1.19.2-2.0.37-sources.jar",
-          "url": "moonlight-forge-1.19.2-2.0.37-sources.jar",
-          "size": 389920,
-          "sha512": "9be2dacf79f996d6d1989dda1a32a01a677a6c0d709c72e4996c64b7916a6110fe7dd3dc223ae999dfb66a4a476fcd9c50c8768e532296ff10ca3dc42ebfd69b",
-          "sha256": "2949e1b7f27f3edf675f314d74c828004fb4510f2a3a2584b778f78261428b8c",
-          "sha1": "abf2b204735d904679137f10ff2689c79e3eccf1",
-          "md5": "7ea78413ac1928910b64c6cbb1276cef"
+          "name": "moonlight-forge-1.19.2-2.0.39-sources.jar",
+          "url": "moonlight-forge-1.19.2-2.0.39-sources.jar",
+          "size": 392042,
+          "sha512": "4fdaec6c52c07319ef8b097802841fa3ac49ac7f5fa3edf8ff32f321f1300714ae65ef9e32d23cb242c33db4c01598badfacfbf687b9460b5393c1882813642c",
+          "sha256": "f356f159961b457ded3d090dec164a39df9d9c926738d5ce7bf39f61fccd0ab7",
+          "sha1": "82959f586204b4fb5c46d50e558d396646b893cd",
+          "md5": "506048dd82aab8ea00ae9f744a7b556e"
         }
       ]
     }

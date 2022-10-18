@@ -3,7 +3,7 @@
   "component": {
     "group": "net.mehvahdjukaar",
     "module": "moonlight-fabric",
-    "version": "1.19.2-2.0.37",
+    "version": "1.19.2-2.0.39",
     "attributes": {
       "org.gradle.status": "release"
     }
@@ -34,13 +34,13 @@
       ],
       "files": [
         {
-          "name": "moonlight-fabric-1.19.2-2.0.37-fabric.jar",
-          "url": "moonlight-fabric-1.19.2-2.0.37-fabric.jar",
-          "size": 723558,
-          "sha512": "78ecba91dd31b0f2a765eb731c85d2f72fb691acc272bc155676debf99aadf4de98a61223cca933fb4ba5a9ebb8355783c8a405fa438ee8fe1245ce19e307211",
-          "sha256": "d5e197bc92765964dc9b9913a717fbfa3cea1d79874cb526a80f06eeef3d076d",
-          "sha1": "ab5f7ac286d74b8eed887c0f88a8a557805341d0",
-          "md5": "786d372dced996c8e01b53cdb9d0d870"
+          "name": "moonlight-fabric-1.19.2-2.0.39-fabric.jar",
+          "url": "moonlight-fabric-1.19.2-2.0.39-fabric.jar",
+          "size": 726574,
+          "sha512": "0af70ce7baf7298d1e96f23a735ad128752f45826b76aad733540002a843d3dede099e33258e3ec71646c64e32e5197e8635507ea0db7c5332f2087f2b7aedeb",
+          "sha256": "388b1e5917aa21fe99eab2e2d8ef97f2cfea74e9217735ce88076dc0780ca41f",
+          "sha1": "9be6c2752f42d11e9586f7a8868bd289fae3f995",
+          "md5": "7c257b9e0179a4bae5c5c980916f0a3b"
         }
       ]
     },
@@ -150,13 +150,13 @@
       ],
       "files": [
         {
-          "name": "moonlight-fabric-1.19.2-2.0.37-fabric.jar",
-          "url": "moonlight-fabric-1.19.2-2.0.37-fabric.jar",
-          "size": 723558,
-          "sha512": "78ecba91dd31b0f2a765eb731c85d2f72fb691acc272bc155676debf99aadf4de98a61223cca933fb4ba5a9ebb8355783c8a405fa438ee8fe1245ce19e307211",
-          "sha256": "d5e197bc92765964dc9b9913a717fbfa3cea1d79874cb526a80f06eeef3d076d",
-          "sha1": "ab5f7ac286d74b8eed887c0f88a8a557805341d0",
-          "md5": "786d372dced996c8e01b53cdb9d0d870"
+          "name": "moonlight-fabric-1.19.2-2.0.39-fabric.jar",
+          "url": "moonlight-fabric-1.19.2-2.0.39-fabric.jar",
+          "size": 726574,
+          "sha512": "0af70ce7baf7298d1e96f23a735ad128752f45826b76aad733540002a843d3dede099e33258e3ec71646c64e32e5197e8635507ea0db7c5332f2087f2b7aedeb",
+          "sha256": "388b1e5917aa21fe99eab2e2d8ef97f2cfea74e9217735ce88076dc0780ca41f",
+          "sha1": "9be6c2752f42d11e9586f7a8868bd289fae3f995",
+          "md5": "7c257b9e0179a4bae5c5c980916f0a3b"
         }
       ]
     },
@@ -170,13 +170,13 @@
       },
       "files": [
         {
-          "name": "moonlight-fabric-1.19.2-2.0.37-sources.jar",
-          "url": "moonlight-fabric-1.19.2-2.0.37-sources.jar",
-          "size": 409331,
-          "sha512": "86ffe1f2a2a23e83373692656a58b6563fab748942d3c5fadc5fedc68f762db09f09a61ee1be9663551a96b705da745c0a54354420ceaf466cc4b3aeafde306b",
-          "sha256": "ff98f8ecf6b12371461e73af7d8f31c4fb081ae8b6ba2f9e90693148251c381b",
-          "sha1": "603c41e56f4c167948b2f30928f2b02188d23199",
-          "md5": "2ffa031da4b251dc5b914c34cf51e18f"
+          "name": "moonlight-fabric-1.19.2-2.0.39-sources.jar",
+          "url": "moonlight-fabric-1.19.2-2.0.39-sources.jar",
+          "size": 411193,
+          "sha512": "82353702c8bc326ea35d2c14f10a562e75e958dd6a9f493c4d550dfb81a8f4712efeed3086146ba56673e6d0b2c08f785d3efcb5905566c463352ebaeaf0222c",
+          "sha256": "de7eccfe642633a55121706aa43501b98059e038bd798ec21be91d053b8ff908",
+          "sha1": "af6f24c20e2e72125ddd69cf92f4ff2effaef5a1",
+          "md5": "2ac96b7583d27e04447927686073132e"
         }
       ]
     }
