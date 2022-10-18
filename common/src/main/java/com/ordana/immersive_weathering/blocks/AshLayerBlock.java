@@ -20,8 +20,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-/*
-public class AshLayerBlock extends LayerBlock{
+public class AshLayerBlock extends LayerBlock {
+    private static final VoxelShape[] SHAPE_BY_LAYER = new VoxelShape[8 + 1];
+
     public AshLayerBlock(Properties properties) {
         super(properties.isViewBlocking((s, l, p) -> s.getValue(BlockStateProperties.LAYERS) == 8));
     }
@@ -39,21 +40,20 @@ public class AshLayerBlock extends LayerBlock{
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        if (pContext instanceof EntityCollisionContext c) {
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        if (context instanceof EntityCollisionContext c) {
             var e = c.getEntity();
             if (e instanceof LivingEntity) {
-                return SHAPE_BY_LAYER[pState.getValue(LAYERS) - 1];
+                return SHAPE_BY_LAYER[state.getValue(LAYERS_8) / 2];
             }
         }
-        return this.getShape(pState, pLevel, pPos, pContext);
+        return this.getShape(state, level, pos, context);
     }
 
     @Override
     public int getDustColor(BlockState state, BlockGetter reader, BlockPos pos) {
         return 0x9a9090;
     }
-
 
     private void addParticle(Entity entity, BlockPos pos, Level level, int layers, float upSpeed) {
         level.addParticle(ModParticles.SOOT.get(), entity.getX(), pos.getY() + layers * (1 / 8f), entity.getZ(),
@@ -82,4 +82,4 @@ public class AshLayerBlock extends LayerBlock{
             }
         }
     }
-}*/
+}

@@ -65,6 +65,7 @@ public class CommonConfigs {
     public static Supplier<Boolean> AXE_SCRAPING;
     public static Supplier<Boolean> ASH_ITEM_SPAWN;
 
+    /*
     public static Supplier<Boolean> CRYOSOL_FEATURE;
     public static Supplier<Boolean> HUMUS_FEATURE;
     public static Supplier<Boolean> FLUVISOL_FEATURE;
@@ -73,6 +74,7 @@ public class CommonConfigs {
     public static Supplier<Boolean> LAKEBED_FEATURE;
     public static Supplier<Boolean> ICICLE_FEATURE;
     public static Supplier<Boolean> ROOTS_FEATURE;
+     */
 
 
     public static Supplier<Boolean> ICICLE_FOOD;
@@ -151,6 +153,7 @@ public class CommonConfigs {
         FLAMMABLE_COBWEBS = builder.define("flammable_cobweb", true);
         builder.pop();
 
+        /*
         builder.push("generation");
         CRYOSOL_FEATURE = builder.define("cryosol_feature", true);
         HUMUS_FEATURE = builder.define("humus_feature", true);
@@ -161,6 +164,7 @@ public class CommonConfigs {
         ICICLE_FEATURE = builder.define("icicle_feature", true);
         ROOTS_FEATURE = builder.define("roots_feature", true);
         builder.pop();
+         */
 
 
         builder.push("item_interaction");

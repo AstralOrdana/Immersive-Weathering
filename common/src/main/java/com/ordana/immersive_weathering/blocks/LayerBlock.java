@@ -124,7 +124,7 @@ public class LayerBlock extends FallingBlock {
 
     public boolean shouldFall(BlockState state, BlockState belowState) {
         Material material = belowState.getMaterial();
-        return belowState.isAir() || belowState.is(BlockTags.FIRE) || material.isLiquid() || (material.isReplaceable() ); //&& !(belowState.is(this))
+        return belowState.isAir() || belowState.is(BlockTags.FIRE) || material.isLiquid() || (material.isReplaceable() ) && !(belowState.is(this));
     }
 
     @Override

@@ -56,7 +56,6 @@ public final class ModTags {
     public static final TagKey<Biome> HAS_HUMUS = registerBiomeTag("has_humus");
     public static final TagKey<Biome> HAS_FLUVISOL = registerBiomeTag("has_fluvisol");
     public static final TagKey<Biome> HAS_LAKEBED = registerBiomeTag("has_lakebed");
-    public static final TagKey<Biome> HAS_VERITOSOL = registerBiomeTag("has_veritosol");
     public static final TagKey<Biome> HAS_IVY = registerBiomeTag("has_ivy");
     public static final TagKey<Biome> HAS_MOSS = registerBiomeTag("has_moss");
     public static final TagKey<Biome> UNDERGROUND_DESERT = registerBiomeTag("underground_desert");
