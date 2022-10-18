@@ -6,10 +6,12 @@ import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
-import com.ordana.immersive_weathering.blocks.charred.CharredBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.mixins.accessors.BiomeAccessor;
-import com.ordana.immersive_weathering.reg.*;
+import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.reg.ModItems;
+import com.ordana.immersive_weathering.reg.ModParticles;
+import com.ordana.immersive_weathering.reg.ModTags;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesTypeRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -82,7 +84,6 @@ public class WeatheringHelper {
     }
 
 
-
     public static final Supplier<Map<Block, LeafPileBlock>> LEAVES_TO_PILES = Suppliers.memoize(() -> {
                 var b = ImmutableMap.<Block, LeafPileBlock>builder();
                 ModBlocks.LEAF_PILES.forEach((key, value) -> b.put(key.leaves, value));
@@ -103,10 +104,22 @@ public class WeatheringHelper {
         var b = ImmutableMap.<Block, Pair<Item, Block>>builder();
         ModItems.BARK.forEach((key, value) -> {
             var stripped = key.getBlockOfThis("stripped_log");
-            if (stripped != null) b.put(stripped, Pair.of(value, key.log));
+            if (stripped != null) {
+                try {
+                    //for stripped that maps to same log (flowering azalea)
+                    b.put(stripped, Pair.of(value, key.log));
+                } catch (Exception ignored) {
+                }
+                ;
+            }
             var stripped_wood = key.getBlockOfThis("stripped_wood");
             var wood = key.getBlockOfThis("wood");
-            if (wood != null && stripped_wood != null) b.put(stripped_wood, Pair.of(value, wood));
+            if (wood != null && stripped_wood != null) {
+                try {
+                    b.put(stripped_wood, Pair.of(value, wood));
+                } catch (Exception ignored) {
+                }
+            }
         });
         return b.build();
     });
@@ -322,7 +335,6 @@ public class WeatheringHelper {
     }
 
 
-
     @Nullable
     public static BlockState getCharredState(BlockState state) {
         Block charred = null;
@@ -413,7 +425,7 @@ public class WeatheringHelper {
             } else {
                 if (le.hasEffect(MobEffects.CONDUIT_POWER)) return;
             }
-            entity.setTicksFrozen(Math.min(entity.getTicksRequiredToFreeze(), entity.getTicksFrozen()+freezingIncrement));
+            entity.setTicksFrozen(Math.min(entity.getTicksRequiredToFreeze(), entity.getTicksFrozen() + freezingIncrement));
         }
     }
 
