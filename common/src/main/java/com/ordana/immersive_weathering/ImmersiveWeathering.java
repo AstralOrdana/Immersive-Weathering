@@ -16,6 +16,8 @@ import net.mehvahdjukaar.moonlight.api.events.IFireConsumeBlockEvent;
 import net.mehvahdjukaar.moonlight.api.events.MoonlightEventsHelper;
 import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
+import net.mehvahdjukaar.moonlight.api.set.BlockType;
 import net.mehvahdjukaar.moonlight.core.Moonlight;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
@@ -66,6 +68,8 @@ public class ImmersiveWeathering {
         IFluidGenerator.register();
 
         ModCompostable.register();
+        //TODO: remove
+        BlockSetAPI.getRegistries().forEach(r->r.getValues().forEach(BlockType::getChildren));
     }
 
     // dispenser interactions like de rusting

@@ -14,6 +14,7 @@ import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import com.ordana.immersive_weathering.reg.*;
 import net.mehvahdjukaar.moonlight.api.events.IFireConsumeBlockEvent;
 import net.mehvahdjukaar.moonlight.api.misc.EventCalled;
+import net.mehvahdjukaar.moonlight.api.set.wood.WoodTypeRegistry;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -145,8 +146,7 @@ public class ModEvents {
                     }
                     return InteractionResult.sidedSuccess(level.isClientSide);
                 }
-            }
-            else if (item == ModItems.STEEL_WOOL.get()) {
+            } else if (item == ModItems.STEEL_WOOL.get()) {
                 if (state.getBlock() instanceof Rustable rustable && !state.is(ModTags.WAXED_BLOCKS)) {
                     Rustable.RustLevel rustLevel = rustable.getAge();
                     if (rustLevel != Rustable.RustLevel.UNAFFECTED) {
@@ -180,7 +180,7 @@ public class ModEvents {
                         stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                         player.awardStat(Stats.ITEM_USED.get(item));
-                        WeatheringCopper.getPrevious(state).ifPresent(o-> level.setBlockAndUpdate(pos, o));
+                        WeatheringCopper.getPrevious(state).ifPresent(o -> level.setBlockAndUpdate(pos, o));
                     }
                     return InteractionResult.sidedSuccess(level.isClientSide);
                 }
@@ -442,28 +442,27 @@ public class ModEvents {
 
     private static InteractionResult barkRepairing(Item item, ItemStack stack, BlockPos pos, BlockState state, Player
             player, Level level, InteractionHand hand, BlockHitResult hitResult) {
-        Pair<Item, Block> fixedLog = WeatheringHelper.getBarkForStrippedLog(state).orElse(null);
+        if (stack.is(ModTags.BARK)) {
+            Pair<Item, Block> fixedLog = WeatheringHelper.getBarkForStrippedLog(state).orElse(null);
 
-        if (fixedLog != null && stack.getItem() == fixedLog.getFirst()) {
-            BlockState newBlock = fixedLog.getSecond().withPropertiesOf(state);
-            if (IntegrationHandler.quark) newBlock = QuarkPlugin.fixVerticalSlab(newBlock, state);
-            if (level.isClientSide) {
-                level.playSound(player, pos, newBlock.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
-            } else {
-                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
-                level.setBlockAndUpdate(pos, newBlock);
-                if (!player.getAbilities().instabuild) {
-                    stack.shrink(1);
+            if (fixedLog != null && stack.getItem() == fixedLog.getFirst()) {
+                BlockState newBlock = fixedLog.getSecond().withPropertiesOf(state);
+                if (IntegrationHandler.quark) newBlock = QuarkPlugin.fixVerticalSlab(newBlock, state);
+                if (level.isClientSide) {
+                    level.playSound(player, pos, newBlock.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
+                } else {
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+                    level.setBlockAndUpdate(pos, newBlock);
+                    if (!player.getAbilities().instabuild) {
+                        stack.shrink(1);
+                    }
                 }
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide);
-
         }
         return InteractionResult.PASS;
     }
-
-
 
 
     @EventCalled
