@@ -665,7 +665,7 @@ public class ModBlocks {
             event.register(ImmersiveWeathering.res(name), block);
 
             LEAF_PILES.put(type, block);
-            type.addChild("iw/leaf_pile", block);
+            type.addChild("immersive_weathering:leaf_pile", block);
         }
     }
 }

@@ -120,7 +120,7 @@ public class ModItems {
             Item item = new WoodBasedItem(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS), type, 200);
             event.register(ImmersiveWeathering.res(name), item);
             BARK.put(type, item);
-            type.addChild("iw/bark", item);
+            type.addChild("immersive_weathering:bark", item);
         }
     }
 

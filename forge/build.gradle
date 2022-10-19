@@ -32,8 +32,8 @@ configurations {
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
 
-    modImplementation("net.mehvahdjukaar:moonlight-forge:${rootProject.moonlight_version}")
-    //modImplementation("curse.maven:selene-499980:4029402")
+    //modImplementation("net.mehvahdjukaar:moonlight-forge:${rootProject.moonlight_version}")
+    modImplementation("curse.maven:selene-499980:4033742")
 
     modImplementation("curse.maven:jei-238222:3928388")
 

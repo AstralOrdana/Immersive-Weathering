@@ -9,10 +9,11 @@ import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.mixins.accessors.BiomeAccessor;
 import com.ordana.immersive_weathering.reg.ModBlocks;
-import com.ordana.immersive_weathering.reg.ModItems;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.reg.ModTags;
+import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesTypeRegistry;
+import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -36,6 +37,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -99,32 +101,6 @@ public class WeatheringHelper {
                 return b.build();
             }
     );
-
-    public static final Supplier<Map<Block, Pair<Item, Block>>> STRIPPED_LOG_TO_BARK = Suppliers.memoize(() -> {
-        var b = ImmutableMap.<Block, Pair<Item, Block>>builder();
-        ModItems.BARK.forEach((key, value) -> {
-            var stripped = key.getBlockOfThis("stripped_log");
-            if (stripped != null) {
-                try {
-                    //for stripped that maps to same log (flowering azalea)
-                    b.put(stripped, Pair.of(value, key.log));
-                } catch (Exception ignored) {
-                }
-                ;
-            }
-            var stripped_wood = key.getBlockOfThis("stripped_wood");
-            var wood = key.getBlockOfThis("wood");
-            if (wood != null && stripped_wood != null) {
-                try {
-                    b.put(stripped_wood, Pair.of(value, wood));
-                } catch (Exception ignored) {
-                }
-            }
-        });
-        return b.build();
-    });
-
-    //merge to weathering helper
 
     public static final Supplier<Map<Block, Block>> UNWAXED_BLOCKS = Suppliers.memoize(() ->
             ImmutableMap.<Block, Block>builder()
@@ -234,27 +210,36 @@ public class WeatheringHelper {
 
     @Nullable
     public static Item getBarkToStrip(BlockState normalLog) {
-        for (var e : STRIPPED_LOG_TO_BARK.get().values()) {
-            if (e.getSecond() == normalLog.getBlock()) {
-                return e.getFirst();
-            }
+        WoodType woodType = BlockSetAPI.getBlockTypeOf(normalLog.getBlock(), WoodType.class);
+        if (woodType != null) {
+            ItemLike bark = woodType.getChild("immersive_weathering:bark");
+            if (bark != null) return bark.asItem();
         }
         return null;
     }
 
-    public static Optional<Pair<Item, Block>> getBarkForStrippedLog(BlockState normalLog) {
-        var pair = Optional.ofNullable(STRIPPED_LOG_TO_BARK.get().get(normalLog.getBlock()));
-
-        if (pair.isPresent()) {
-            String s = CommonConfigs.GENERIC_BARK.get();
-            if (!s.isEmpty()) {
-                ResourceLocation res = new ResourceLocation(s);
-                var bark = Registry.ITEM.getOptional(res);
-                if (bark.isPresent()) {
-                    return Optional.of(Pair.of(bark.get(), pair.get().getSecond()));
+    public static Optional<Pair<Item, Block>> getBarkForStrippedLog(BlockState stripped) {
+        WoodType woodType = BlockSetAPI.getBlockTypeOf(stripped.getBlock(), WoodType.class);
+        if (woodType != null) {
+            ItemLike log = null;
+            if (woodType.getChild("stripped_log") == stripped.getBlock()) {
+                log = woodType.getChild("immersive_weathering:log");
+            } else if (woodType.getChild("stripped_wood") == stripped.getBlock()) {
+                log = woodType.getChild("immersive_weathering:wood");
+            }
+            if (log instanceof Block unStripped) {
+                String s = CommonConfigs.GENERIC_BARK.get();
+                if (!s.isEmpty()) {
+                    ResourceLocation res = new ResourceLocation(s);
+                    var bark = Registry.ITEM.getOptional(res);
+                    if (bark.isPresent()) {
+                        return Optional.of(Pair.of(bark.get(), unStripped));
+                    }
+                } else {
+                    ItemLike bark = woodType.getChild("immersive_weathering:bark");
+                    if (bark != null) return Optional.of(Pair.of(bark.asItem(), unStripped));
                 }
             }
-            return pair;
         }
         return Optional.empty();
     }
