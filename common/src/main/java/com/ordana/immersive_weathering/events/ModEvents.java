@@ -420,7 +420,7 @@ public class ModEvents {
     private static InteractionResult axeStripping(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                                   Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if (item instanceof AxeItem && CommonConfigs.AXE_STRIPPING.get()) {
-            var bark = WeatheringHelper.getBarkToStrip(state);
+            Item bark = WeatheringHelper.getBarkToStrip(state);
             if (bark != null) {
                 if (level.isClientSide) {
                     level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0f, 1.0f);

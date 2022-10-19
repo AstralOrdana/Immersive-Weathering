@@ -212,8 +212,17 @@ public class WeatheringHelper {
     public static Item getBarkToStrip(BlockState normalLog) {
         WoodType woodType = BlockSetAPI.getBlockTypeOf(normalLog.getBlock(), WoodType.class);
         if (woodType != null) {
-            ItemLike bark = woodType.getChild("immersive_weathering:bark");
-            if (bark != null) return bark.asItem();
+            boolean log = false;
+            //woodType.getChildKey(normalLog)=="log" //TODO: add
+            if (woodType.getChild("log") == normalLog.getBlock()) {
+                log = true;
+            } else if (woodType.getChild("wood") == normalLog.getBlock()) {
+                log = true;
+            }
+            if(log) {
+                ItemLike bark = woodType.getChild("immersive_weathering:bark");
+                if (bark != null) return bark.asItem();
+            }
         }
         return null;
     }
