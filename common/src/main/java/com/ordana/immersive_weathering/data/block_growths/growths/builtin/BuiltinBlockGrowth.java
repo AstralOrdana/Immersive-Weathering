@@ -19,11 +19,11 @@ import java.util.stream.Collectors;
 
 public abstract class BuiltinBlockGrowth implements IBlockGrowth {
 
-    public static Codec<BuiltinBlockGrowth> CODEC =
+    public static final Codec<BuiltinBlockGrowth> CODEC =
             Codec.STRING.partialDispatch("builtin", b -> DataResult.success(b.getName()),
-                    (name) -> {
+                    n -> {
                         var factory =
-                                BuiltinGrowthsRegistry.BUILTIN_GROWTHS.get(name);
+                                BuiltinGrowthsRegistry.BUILTIN_GROWTHS.get(n);
                         if (factory == null) {
                             return DataResult.error("Target Block has no properties");
                         }
@@ -32,7 +32,7 @@ public abstract class BuiltinBlockGrowth implements IBlockGrowth {
                                         .forGetter(b -> b.sources),
                                 RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).optionalFieldOf("owners")
                                         .forGetter(b -> Optional.ofNullable(b.owners))
-                                ).apply(i, (o, s) -> factory.create(name, s.orElse(null), o)));
+                                ).apply(i, (o, s) -> factory.create(n, s.orElse(null), o)));
                         return DataResult.success(codec);
                     });
 
@@ -41,7 +41,7 @@ public abstract class BuiltinBlockGrowth implements IBlockGrowth {
     private final String name;
     private final List<TickSource> sources;
 
-    public BuiltinBlockGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
+    protected BuiltinBlockGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
         this.owners = owners;
         this.name = name;
         this.sources = sources;

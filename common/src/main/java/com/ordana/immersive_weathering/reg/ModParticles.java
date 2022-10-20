@@ -85,6 +85,7 @@ public class ModParticles {
             } else {
                 event.register(ImmersiveWeathering.res(type.getVariantId("leaf", false)), p);
                 FALLING_LEAVES.put(type, p);
+                type.addChild("immersive_weathering:leaf_particle", p);
             }
         }
     }

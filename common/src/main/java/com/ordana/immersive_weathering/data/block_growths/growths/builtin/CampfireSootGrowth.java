@@ -22,7 +22,8 @@ public class CampfireSootGrowth extends BuiltinBlockGrowth {
 
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome) {
-        if (state.getValue(CampfireBlock.LIT)) {
+        //we are accessing with tag so always check if this is campfire
+        if (state.getBlock() instanceof CampfireBlock && state.getValue(CampfireBlock.LIT)) {
             RandomSource random = level.random;
 
             int smokeHeight = state.getValue(CampfireBlock.SIGNAL_FIRE) ? 23 : 8;
