@@ -11,6 +11,8 @@ import com.ordana.immersive_weathering.mixins.accessors.BiomeAccessor;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.reg.ModTags;
+import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesTypeRegistry;
 import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
@@ -32,6 +34,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -220,8 +223,7 @@ public class WeatheringHelper {
                 log = true;
             }
             if(log) {
-                ItemLike bark = woodType.getChild("immersive_weathering:bark");
-                if (bark != null) return bark.asItem();
+                return woodType.getItemOfThis("immersive_weathering:bark");
             }
         }
         return null;
@@ -230,7 +232,7 @@ public class WeatheringHelper {
     public static Optional<Pair<Item, Block>> getBarkForStrippedLog(BlockState stripped) {
         WoodType woodType = BlockSetAPI.getBlockTypeOf(stripped.getBlock(), WoodType.class);
         if (woodType != null) {
-            ItemLike log = null;
+            Object log = null;
             if (woodType.getChild("stripped_log") == stripped.getBlock()) {
                 log = woodType.getChild("immersive_weathering:log");
             } else if (woodType.getChild("stripped_wood") == stripped.getBlock()) {
@@ -245,8 +247,8 @@ public class WeatheringHelper {
                         return Optional.of(Pair.of(bark.get(), unStripped));
                     }
                 } else {
-                    ItemLike bark = woodType.getChild("immersive_weathering:bark");
-                    if (bark != null) return Optional.of(Pair.of(bark.asItem(), unStripped));
+                    Item bark = woodType.getItemOfThis("immersive_weathering:bark");
+                    if (bark != null) return Optional.of(Pair.of(bark, unStripped));
                 }
             }
         }
