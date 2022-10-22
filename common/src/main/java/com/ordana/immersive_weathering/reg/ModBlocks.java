@@ -646,6 +646,9 @@ public class ModBlocks {
     public static final Supplier<Block> CHARRED_SLAB = regWithItem("charred_slab", () ->
             new CharredSlabBlock(Properties.copy(CHARRED_LOG.get())));
 
+    public static final Supplier<Block> CHARRED_VERTICAL_SLAB = regWithItem("charred_vertical_slab", () ->
+            new CharredVerticalSlabBlock(Properties.copy(CHARRED_LOG.get())));
+
     public static final Supplier<Block> CHARRED_STAIRS = regWithItem("charred_stairs", () ->
             new CharredStairsBlock(CHARRED_PLANKS, Properties.copy(CHARRED_LOG.get())));
 

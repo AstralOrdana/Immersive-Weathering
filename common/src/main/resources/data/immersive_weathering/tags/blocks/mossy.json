@@ -4,18 +4,22 @@
     "minecraft:mossy_cobblestone",
     "minecraft:mossy_cobblestone_stairs",
     "minecraft:mossy_cobblestone_slab",
+    "minecraft:mossy_cobblestone_vertical_slab",
     "minecraft:mossy_cobblestone_wall",
     "minecraft:mossy_stone_bricks",
     "minecraft:mossy_stone_brick_stairs",
     "minecraft:mossy_stone_brick_slab",
+    "minecraft:mossy_stone_brick_vertical_slab",
     "minecraft:mossy_stone_brick_wall",
     "immersive_weathering:mossy_bricks",
     "immersive_weathering:mossy_brick_stairs",
     "immersive_weathering:mossy_brick_slab",
+    "immersive_weathering:mossy_brick_vertical_slab",
     "immersive_weathering:mossy_brick_wall",
     "immersive_weathering:mossy_stone",
     "immersive_weathering:mossy_stone_stairs",
     "immersive_weathering:mossy_stone_slab",
+    "immersive_weathering:mossy_stone_vertical_slab",
     "immersive_weathering:mossy_stone_wall"
   ]
 }

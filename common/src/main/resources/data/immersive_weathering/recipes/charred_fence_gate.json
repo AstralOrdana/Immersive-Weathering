@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "tag": "immersive_weathering:non_flammable_fence_gates"
+    "tag": "immersive_weathering:flammable_fence_gates"
   },
   "result": "immersive_weathering:charred_fence_gate",
   "experience": 0.15,

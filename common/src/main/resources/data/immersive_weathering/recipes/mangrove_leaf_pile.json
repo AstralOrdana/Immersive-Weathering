@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:mangrove_leaves"
+    }
+  },
+  "result": {
+    "item": "immersive_weathering:mangrove_leaf_pile",
+    "count": 6
+  }
+}

@@ -3,8 +3,11 @@ package com.ordana.immersive_weathering.blocks.rustable;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -13,6 +16,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Optional;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.material.Fluids;
+
 import java.util.function.Supplier;
 
 public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
@@ -108,7 +113,7 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
     }
 
     default int getInfluenceRadius(){
-        return 4;
+        return CommonConfigs.RUSTING_INFLUENCE_RADIUS.get();
     }
 
     //same as the base one but has configurable radius
@@ -153,6 +158,45 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
                 serverLevel.setBlockAndUpdate(pos, p_153039_);
             });
         }
+    }
+
+    default void tryWeather(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
+        if (!world.getBlockState(pos).is(ModTags.RUSTED_IRON)) {
+            for (Direction direction : Direction.values()) {
+                var targetPos = pos.relative(direction);
+                BlockState neighborState = world.getBlockState(targetPos);
+                if (world.getBlockState(targetPos).is(Blocks.BUBBLE_COLUMN) && random.nextFloat() > 0.06f) {
+                    this.applyChangeOverTime(state, world, pos, random);
+                }
+                else if (world.getBlockState(pos).is(ModTags.CLEAN_IRON)) {
+                    if (world.getBlockState(pos.relative(direction)).is(Blocks.AIR) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
+                        this.onRandomTick(state, world, pos, random);
+                    }
+                } else if (world.getBlockState(pos).is(ModTags.EXPOSED_IRON)) {
+                    if (world.isRainingAt(pos.above()) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
+                        this.onRandomTick(state, world, pos, random);
+                    }
+                    if (world.isRainingAt(pos.relative(direction)) && world.getBlockState(pos.above()).is(ModTags.WEATHERED_IRON)) {
+                        if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
+                                .map(world::getBlockState)
+                                .filter(b -> b.is(ModTags.WEATHERED_IRON))
+                                .toList().size() <= 9) {
+                            if (random.nextFloat() > 0.06f) {
+                                this.applyChangeOverTime(state, world, pos, random);
+                            }
+                        }
+                    }
+                } else if (world.getBlockState(pos).is(ModTags.WEATHERED_IRON)) {
+                    if (neighborState.getFluidState().getType() == Fluids.WATER || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER) {
+                        this.onRandomTick(state, world, pos, random);
+                    }
+                }
+            }
+        }
+    }
+
+    default boolean isRandomlyTicking(BlockState state) {
+        return Rustable.getIncreasedRustBlock(state.getBlock()).isPresent();
     }
 
 }
