@@ -116,6 +116,14 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
         return CommonConfigs.RUSTING_INFLUENCE_RADIUS.get();
     }
 
+    @Override
+    default void onRandomTick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource) {
+        if (randomSource.nextFloat() < CommonConfigs.RUSTING_RATE.get()) {
+            this.applyChangeOverTime(blockState, serverLevel, blockPos, randomSource);
+        }
+
+    }
+
     //same as the base one but has configurable radius
     @Override
     default void applyChangeOverTime(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random) {
@@ -161,34 +169,34 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
     }
 
     default void tryWeather(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-        if (!world.getBlockState(pos).is(ModTags.RUSTED_IRON)) {
+        if (!state.is(ModTags.RUSTED_IRON)) {
             for (Direction direction : Direction.values()) {
                 var targetPos = pos.relative(direction);
                 BlockState neighborState = world.getBlockState(targetPos);
-                if (world.getBlockState(targetPos).is(Blocks.BUBBLE_COLUMN) && random.nextFloat() > 0.06f) {
+                if (neighborState.is(Blocks.BUBBLE_COLUMN)) {
                     this.applyChangeOverTime(state, world, pos, random);
                 }
-                else if (world.getBlockState(pos).is(ModTags.CLEAN_IRON)) {
-                    if (world.getBlockState(pos.relative(direction)).is(Blocks.AIR) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
-                        this.onRandomTick(state, world, pos, random);
+                else if (neighborState.is(ModTags.CLEAN_IRON)) {
+                    if (neighborState.is(Blocks.AIR) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
+                        onRandomTick(state, world, pos, random);
                     }
-                } else if (world.getBlockState(pos).is(ModTags.EXPOSED_IRON)) {
-                    if (world.isRainingAt(pos.above()) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
-                        this.onRandomTick(state, world, pos, random);
+                }
+                else if (neighborState.is(ModTags.EXPOSED_IRON)) {
+                    if (world.isRainingAt(targetPos) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
+                        onRandomTick(state, world, pos, random);
                     }
-                    if (world.isRainingAt(pos.relative(direction)) && world.getBlockState(pos.above()).is(ModTags.WEATHERED_IRON)) {
+                    if (world.isRainingAt(targetPos) && world.getBlockState(pos.above()).is(ModTags.WEATHERED_IRON)) {
                         if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                                 .map(world::getBlockState)
                                 .filter(b -> b.is(ModTags.WEATHERED_IRON))
                                 .toList().size() <= 9) {
-                            if (random.nextFloat() > 0.06f) {
-                                this.applyChangeOverTime(state, world, pos, random);
-                            }
+                            this.applyChangeOverTime(state, world, pos, random);
                         }
                     }
-                } else if (world.getBlockState(pos).is(ModTags.WEATHERED_IRON)) {
+                }
+                else if (neighborState.is(ModTags.WEATHERED_IRON)) {
                     if (neighborState.getFluidState().getType() == Fluids.WATER || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER) {
-                        this.onRandomTick(state, world, pos, random);
+                        onRandomTick(state, world, pos, random);
                     }
                 }
             }

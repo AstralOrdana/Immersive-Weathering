@@ -149,7 +149,8 @@
   "config.immersive_weathering.lightning_growths.fulgurite_chance": "Fulgurite Formation Chance",
 
   "config.immersive_weathering.rusting.rusting": "Iron Rusting Enabled",
-  "config.immersive_weathering.rusting.rusting_influence_radius": "Iron Rusting Enabled",
+  "config.immersive_weathering.rusting.rusting_influence_radius": "Rusting Influence Radius",
+  "config.immersive_weathering.rusting.rusting_rate": "Rate of Rusting",
 
   "death.attack.icicle": "%1$s was impaled on an icicle",
   "death.attack.icicle.player": "%1$s was impaled on an icicle whilst fighting %2$s",
