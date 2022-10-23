@@ -13,7 +13,7 @@ import net.minecraft.world.level.biome.Biome;
 import java.util.Arrays;
 import java.util.Optional;
 
-record LightTest(int targetLight, Operator operator, Optional<Vec3i> offset) implements PositionRuleTest {
+record LightTest(int targetLight, Operator operator, Optional<Vec3i> offset) implements IPositionRuleTest {
 
     public static final String NAME = "light_test";
     public static final Codec<LightTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(

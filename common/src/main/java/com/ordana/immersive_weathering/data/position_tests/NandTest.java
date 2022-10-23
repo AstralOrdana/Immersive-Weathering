@@ -9,11 +9,11 @@ import net.minecraft.world.level.biome.Biome;
 
 import java.util.List;
 
-record NandTest(List<PositionRuleTest> predicates) implements PositionRuleTest {
+record NandTest(List<IPositionRuleTest> predicates) implements IPositionRuleTest {
 
     public static final String NAME = "nand";
     public static final Codec<NandTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            PositionRuleTest.CODEC.listOf().fieldOf("predicates").forGetter(NandTest::predicates)
+            IPositionRuleTest.CODEC.listOf().fieldOf("predicates").forGetter(NandTest::predicates)
     ).apply(instance, NandTest::new));
 
     static final Type<NandTest> TYPE =

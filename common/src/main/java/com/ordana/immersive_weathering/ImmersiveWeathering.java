@@ -3,7 +3,8 @@ package com.ordana.immersive_weathering;
 import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
 import com.ordana.immersive_weathering.data.fluid_generators.FluidGeneratorsHandler;
 import com.ordana.immersive_weathering.data.fluid_generators.IFluidGenerator;
-import com.ordana.immersive_weathering.data.position_tests.PositionRuleTest;
+import com.ordana.immersive_weathering.data.fluid_generators.ModFluidGenerators;
+import com.ordana.immersive_weathering.data.position_tests.ModPositionRuleTests;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.dynamicpack.ClientDynamicResourcesHandler;
@@ -14,11 +15,9 @@ import com.ordana.immersive_weathering.reg.ModSoundEvents;
 import com.ordana.immersive_weathering.reg.*;
 import net.mehvahdjukaar.moonlight.api.events.IFireConsumeBlockEvent;
 import net.mehvahdjukaar.moonlight.api.events.MoonlightEventsHelper;
-import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
 import net.mehvahdjukaar.moonlight.api.set.BlockType;
-import net.mehvahdjukaar.moonlight.core.Moonlight;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -64,8 +63,8 @@ public class ImmersiveWeathering {
     }
 
     public static void commonSetup() {
-        PositionRuleTest.register();
-        IFluidGenerator.register();
+        ModPositionRuleTests.register();
+        ModFluidGenerators.register();
 
         ModCompostable.register();
         //TODO: remove

@@ -3,21 +3,18 @@ package com.ordana.immersive_weathering.data.fluid_generators;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ordana.immersive_weathering.data.position_tests.PositionRuleTest;
+import com.ordana.immersive_weathering.data.position_tests.IPositionRuleTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.material.Fluid;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -30,7 +27,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
                     FluidType.CODEC.optionalFieldOf("fluid_type", FluidType.BOTH).forGetter(SelfFluidGenerator::getFluidType),
                     BlockState.CODEC.fieldOf("generate").forGetter(SelfFluidGenerator::getGrowth),
                     AdjacentBlocks.CODEC.fieldOf("adjacent_blocks").forGetter(SelfFluidGenerator::getAdjacentBlocksCondition),
-                    PositionRuleTest.CODEC.optionalFieldOf("additional_target_check").forGetter(SelfFluidGenerator::getPositionTests),
+                    IPositionRuleTest.CODEC.optionalFieldOf("additional_target_check").forGetter(SelfFluidGenerator::getPositionTests),
                     Codec.INT.optionalFieldOf("priority", 0).forGetter(SelfFluidGenerator::getPriority)
             ).apply(instance, SelfFluidGenerator::new));
 
@@ -39,13 +36,13 @@ public class SelfFluidGenerator implements IFluidGenerator {
     private final Fluid fluid;
     private final FluidType fluidType;
     private final BlockState growth;
-    private final Optional<PositionRuleTest> positionTests;
+    private final Optional<IPositionRuleTest> positionTests;
     private final int priority;
     private final AdjacentBlocks adjacentBlocksCondition;
 
-    public SelfFluidGenerator(Fluid fluid,FluidType fluidType, BlockState growth,
+    public SelfFluidGenerator(Fluid fluid, FluidType fluidType, BlockState growth,
                               AdjacentBlocks adjacentBlocks,
-                              Optional<PositionRuleTest> positionRuleTests, int priority) {
+                              Optional<IPositionRuleTest> positionRuleTests, int priority) {
         this.fluid = fluid;
         this.fluidType = fluidType;
         this.growth = growth;
@@ -73,7 +70,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
         return growth;
     }
 
-    public Optional<PositionRuleTest> getPositionTests() {
+    public Optional<IPositionRuleTest> getPositionTests() {
         return positionTests;
     }
 
@@ -132,7 +129,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
         }
 
         public boolean isMet(List<Direction> possibleFlowDir, BlockPos pos, Level level,
-                             Map<Direction, BlockState> neighborCache, Optional<PositionRuleTest> extraCheck) {
+                             Map<Direction, BlockState> neighborCache, Optional<IPositionRuleTest> extraCheck) {
 
             Holder<Biome> b = extraCheck.isPresent() ? level.getBiome(pos) : null;
             for(var r : anyBlocks){

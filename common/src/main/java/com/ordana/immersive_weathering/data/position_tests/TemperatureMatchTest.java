@@ -11,7 +11,7 @@ import net.minecraft.world.level.biome.Biome;
 
 import java.util.function.Function;
 
-record TemperatureMatchTest(float max, float min, boolean useLocalPos) implements PositionRuleTest {
+record TemperatureMatchTest(float max, float min, boolean useLocalPos) implements IPositionRuleTest {
 
     public static final String NAME = "temperature_range";
 

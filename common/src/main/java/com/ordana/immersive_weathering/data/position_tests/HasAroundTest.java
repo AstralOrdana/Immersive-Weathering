@@ -2,23 +2,18 @@ package com.ordana.immersive_weathering.data.position_tests;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.client.renderer.block.model.ItemModelGenerator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 
-import net.minecraft.util.RandomSource;
-
-record HasAroundTest(PositionRuleTest predicate) implements PositionRuleTest {
+record HasAroundTest(IPositionRuleTest predicate) implements IPositionRuleTest {
 
     public static final String NAME = "has_around";
 
     public static final Codec<HasAroundTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            PositionRuleTest.CODEC.fieldOf("predicate").forGetter(HasAroundTest::predicate)
+            IPositionRuleTest.CODEC.fieldOf("predicate").forGetter(HasAroundTest::predicate)
     ).apply(instance, HasAroundTest::new));
 
     static final Type<HasAroundTest> TYPE =

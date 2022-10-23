@@ -10,11 +10,11 @@ import net.minecraft.world.level.biome.Biome;
 import java.util.List;
 
 //just because I can
-record OrTest(List<PositionRuleTest> predicates) implements PositionRuleTest {
+record OrTest(List<IPositionRuleTest> predicates) implements IPositionRuleTest {
 
     public static final String NAME = "or";
     public static final Codec<OrTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            PositionRuleTest.CODEC.listOf().fieldOf("predicates").forGetter(OrTest::predicates)
+            IPositionRuleTest.CODEC.listOf().fieldOf("predicates").forGetter(OrTest::predicates)
     ).apply(instance, OrTest::new));
 
     static final Type<OrTest> TYPE =

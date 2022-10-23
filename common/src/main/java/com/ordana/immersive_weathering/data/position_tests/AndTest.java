@@ -9,11 +9,11 @@ import net.minecraft.world.level.biome.Biome;
 
 import java.util.List;
 
-record AndTest(List<PositionRuleTest> predicates) implements PositionRuleTest {
+record AndTest(List<IPositionRuleTest> predicates) implements IPositionRuleTest {
 
     public static final String NAME = "and";
     public static final Codec<AndTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            PositionRuleTest.CODEC.listOf().fieldOf("predicates").forGetter(AndTest::predicates)
+            IPositionRuleTest.CODEC.listOf().fieldOf("predicates").forGetter(AndTest::predicates)
     ).apply(instance, AndTest::new));
 
     static final Type<AndTest> TYPE =

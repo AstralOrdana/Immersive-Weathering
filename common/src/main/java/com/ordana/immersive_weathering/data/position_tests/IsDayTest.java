@@ -7,7 +7,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
-record IsDayTest(boolean day) implements PositionRuleTest {
+record IsDayTest(boolean day) implements IPositionRuleTest {
 
     public static final String NAME = "day_test";
     public static final Codec<IsDayTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(

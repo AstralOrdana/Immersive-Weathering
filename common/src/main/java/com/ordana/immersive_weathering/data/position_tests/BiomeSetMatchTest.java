@@ -6,7 +6,7 @@ import net.minecraft.core.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
-record BiomeSetMatchTest(HolderSet<Biome> biomes) implements PositionRuleTest {
+record BiomeSetMatchTest(HolderSet<Biome> biomes) implements IPositionRuleTest {
 
     public static final String NAME = "biome_match";
     public static final Codec<BiomeSetMatchTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(

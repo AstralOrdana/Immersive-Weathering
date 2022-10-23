@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
 
-public record HeightTest( HeightProvider height, int tolerance) implements PositionRuleTest {
+public record HeightTest( HeightProvider height, int tolerance) implements IPositionRuleTest {
 
     public static final String NAME = "height_test";
     public static final Codec<HeightTest> CODEC = RecordCodecBuilder.create((i) -> i.group(

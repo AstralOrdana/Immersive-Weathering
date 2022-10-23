@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 
 public interface IFluidGenerator extends Comparable<IFluidGenerator> {
 
-    static void register() {
-    }
+    Codec<IFluidGenerator> CODEC = Type.CODEC.dispatch("type", IFluidGenerator::getType, Type::codec);
+
 
     Optional<BlockPos> tryGenerating(List<Direction> possibleFlowDir, BlockPos pos, Level level, Map<Direction, BlockState> neighborCache);
 
@@ -42,21 +42,9 @@ public interface IFluidGenerator extends Comparable<IFluidGenerator> {
     }
 
 
-    Codec<IFluidGenerator> CODEC = Type.CODEC.dispatch("type", IFluidGenerator::getType, Type::codec);
-
-    Map<String, IFluidGenerator.Type<?>> TYPES = new HashMap<>() {{
-        put(SelfFluidGenerator.TYPE.name, SelfFluidGenerator.TYPE);
-        put(OtherFluidGenerator.TYPE.name, OtherFluidGenerator.TYPE);
-        put(BurnMossGenerator.TYPE.name, BurnMossGenerator.TYPE);
-    }};
-
-    static Optional<? extends IFluidGenerator.Type<? extends IFluidGenerator>> get(String name) {
-        return Optional.ofNullable(TYPES.get(name));
-    }
-
     record Type<T extends IFluidGenerator>(Codec<T> codec, String name) {
         private static final Codec<Type<?>> CODEC = Codec.STRING.flatXmap(
-                (name) -> get(name).map(DataResult::success).orElseGet(
+                (name) -> ModFluidGenerators.get(name).map(DataResult::success).orElseGet(
                         () -> DataResult.error("Unknown Fluid Generator type: " + name)),
                 (t) -> DataResult.success(t.name()));
 

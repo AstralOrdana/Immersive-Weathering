@@ -12,7 +12,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 
 import net.minecraft.util.RandomSource;
 
-record BlockTest(Vec3i offset, RuleTest predicate) implements PositionRuleTest {
+record BlockTest(Vec3i offset, RuleTest predicate) implements IPositionRuleTest {
 
     public static final String NAME = "block_test";
 

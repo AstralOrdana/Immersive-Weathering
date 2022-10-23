@@ -234,9 +234,9 @@ public class WeatheringHelper {
         if (woodType != null) {
             Object log = null;
             if (woodType.getChild("stripped_log") == stripped.getBlock()) {
-                log = woodType.getChild("immersive_weathering:log");
+                log = woodType.getChild("log");
             } else if (woodType.getChild("stripped_wood") == stripped.getBlock()) {
-                log = woodType.getChild("immersive_weathering:wood");
+                log = woodType.getChild("wood");
             }
             if (log instanceof Block unStripped) {
                 String s = CommonConfigs.GENERIC_BARK.get();

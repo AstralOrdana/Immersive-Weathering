@@ -7,7 +7,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.data.block_growths.BlockPair;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.data.block_growths.area_condition.AreaCondition;
-import com.ordana.immersive_weathering.data.position_tests.PositionRuleTest;
+import com.ordana.immersive_weathering.data.position_tests.IPositionRuleTest;
 import com.ordana.immersive_weathering.mixins.accessors.RandomBlockMatchTestAccessor;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.minecraft.core.*;
@@ -47,7 +47,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
             AreaCondition.CODEC.optionalFieldOf("area_condition",AreaCondition.EMPTY).forGetter(ConfigurableBlockGrowth::getAreaCondition),
             DirectionalList.CODEC.listOf().fieldOf("growth_for_face").forGetter(ConfigurableBlockGrowth::encodeRandomLists),
             RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).optionalFieldOf("owners").forGetter(b -> Optional.ofNullable(b.owners)),
-            PositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates",List.of()).forGetter(ConfigurableBlockGrowth::getPositionTests),
+            IPositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates",List.of()).forGetter(ConfigurableBlockGrowth::getPositionTests),
             Codec.BOOL.optionalFieldOf("target_self",false).forGetter(ConfigurableBlockGrowth::targetSelf),
             Codec.BOOL.optionalFieldOf("destroy_target",false).forGetter(ConfigurableBlockGrowth::destroyTarget)
     ).apply(instance, ConfigurableBlockGrowth::new));
@@ -60,7 +60,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
     private final SimpleWeightedRandomList<Direction> growthForDirection;
     private final Map<Direction, SimpleWeightedRandomList<BlockPair>> blockGrowths;
     private final Set<Block> possibleBlocks;
-    private final List<PositionRuleTest> positionTests;
+    private final List<IPositionRuleTest> positionTests;
     private final boolean targetSelf;
     private final boolean destroyTarget;
 
@@ -70,7 +70,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
     public ConfigurableBlockGrowth(List<TickSource> sources, float growthChance,
                                    RuleTest targetPredicate, AreaCondition areaCheck,
                                    List<DirectionalList> growthForDirection,
-                                   Optional<HolderSet<Block>> owners, List<PositionRuleTest> biomePredicates,
+                                   Optional<HolderSet<Block>> owners, List<IPositionRuleTest> biomePredicates,
                                    Boolean targetSelf, Boolean destroyTarget) {
         this.tickSources =  sources;
         this.growthChance = growthChance;
@@ -160,7 +160,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
         return destroyTarget;
     }
 
-    public List<PositionRuleTest> getPositionTests() {
+    public List<IPositionRuleTest> getPositionTests() {
         return this.positionTests;
     }
 
@@ -176,7 +176,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
     private boolean canGrow(BlockPos pos, Level level, Holder<Biome> biome) {
         if (this.growthChance == 0) return false;
         if (level.random.nextFloat() < this.growthChance) {
-            for (PositionRuleTest positionTest : this.positionTests) {
+            for (IPositionRuleTest positionTest : this.positionTests) {
                 //they all need to be true
                 if (!positionTest.test(biome, pos, level)) return false;
             }

@@ -8,11 +8,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
-import net.minecraft.util.RandomSource;
-
 import java.util.Random;
 
-public record PosRandomTest(int rarity) implements PositionRuleTest {
+public record PosRandomTest(int rarity) implements IPositionRuleTest {
 
     public static final String NAME = "pos_random";
     public static final Codec<PosRandomTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(

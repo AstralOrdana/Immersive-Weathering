@@ -8,7 +8,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
-record PrecipitationTest(Biome.Precipitation precipitation) implements PositionRuleTest {
+record PrecipitationTest(Biome.Precipitation precipitation) implements IPositionRuleTest {
 
     public static final String NAME = "precipitation_test";
     public static final Codec<PrecipitationTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(

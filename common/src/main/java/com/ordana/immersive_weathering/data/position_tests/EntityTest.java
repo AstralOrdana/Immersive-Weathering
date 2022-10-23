@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class EntityTest implements PositionRuleTest {
+public class EntityTest implements IPositionRuleTest {
 
     public static final String NAME = "entity_test";
     public static final Codec<EntityTest> CODEC = RecordCodecBuilder.create((i) -> i.group(
