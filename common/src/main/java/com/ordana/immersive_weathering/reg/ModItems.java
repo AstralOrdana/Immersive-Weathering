@@ -77,13 +77,13 @@ public class ModItems {
                     new Item.Properties().tab(getTab(CreativeModeTab.TAB_TOOLS))));
 
     public static final Supplier<Item> MOSS_CLUMP = regItem("moss_clump", () ->
-            new MossClumpItem(ModBlocks.MOSS.get(), new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS)).food(ModFoods.MOSS_CLUMP)));
+            new MossClumpItem(ModBlocks.MOSS.get(), new Item.Properties().tab(getTab(CreativeModeTab.TAB_FOOD)).food(ModFoods.MOSS_CLUMP)));
 
     public static final Supplier<Item> GOLDEN_MOSS_CLUMP = regItem("golden_moss_clump", () ->
-            new Item(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS)).food(ModFoods.GOLDEN_MOSS_CLUMP)));
+            new Item(new Item.Properties().tab(getTab(CreativeModeTab.TAB_FOOD)).food(ModFoods.GOLDEN_MOSS_CLUMP)));
 
     public static final Supplier<Item> ENCHANTED_GOLDEN_MOSS_CLUMP = regItem("enchanted_golden_moss_clump", () ->
-            new EnchantedGoldenMossClumpItem(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS))
+            new EnchantedGoldenMossClumpItem(new Item.Properties().tab(getTab(CreativeModeTab.TAB_FOOD))
                     .rarity(Rarity.EPIC).food(ModFoods.ENCHANTED_GOLDEN_MOSS_CLUMP)));
 
     //I hate pond water ;_;

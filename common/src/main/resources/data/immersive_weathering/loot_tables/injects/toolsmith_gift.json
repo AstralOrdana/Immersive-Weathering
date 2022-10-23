@@ -15,6 +15,10 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:honeycomb"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "immersive_weathering:steel_wool"
         }
       ]
     }

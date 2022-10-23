@@ -17,12 +17,8 @@ public class CommonConfigs {
     public static ConfigSpec SERVER_SPEC;
 
     public static Supplier<Boolean> BLOCK_GROWTHS;
-    public static Supplier<Boolean> DESIRE_PATHS;
-    public static Supplier<Double> DESIRE_PATH_RATE;
     public static Supplier<Boolean> CREATIVE_TAB;
     public static Supplier<Boolean> CREATIVE_DROP;
-    public static Supplier<Boolean> GRASS_OVER_MYCELIUM;
-    public static Supplier<Boolean> MYCELIUM_OVER_GRASS;
 
     public static Supplier<Double> MOSS_INTERESTS_FOR_FACE;
     public static Supplier<Double> MOSS_PATCHINESS;
@@ -85,6 +81,10 @@ public class CommonConfigs {
     public static Supplier<Boolean> FEATHER_FALLING_FARMERS;
     public static Supplier<Boolean> LEGGINGS_PREVENTS_THORN_DAMAGE;
     public static Supplier<String> GENERIC_BARK;
+    public static Supplier<Boolean> DESIRE_PATHS;
+    public static Supplier<Double> DESIRE_PATH_RATE;
+    public static Supplier<Boolean> GRASS_OVER_MYCELIUM;
+    public static Supplier<Boolean> MYCELIUM_OVER_GRASS;
 
     public static Supplier<Boolean> LEAF_PILES_SLOW;
     public static Supplier<Double> LEAF_PILES_FROM_DECAY_CHANCE;
@@ -101,6 +101,7 @@ public class CommonConfigs {
 
 
     public static Supplier<Boolean> RUSTING;
+    public static Supplier<Integer> RUSTING_INFLUENCE_RADIUS;
 
     public static Supplier<Boolean> MULCH_GROWS_CROPS;
 
@@ -113,11 +114,8 @@ public class CommonConfigs {
 
         builder.push("general");
         BLOCK_GROWTHS = builder.define("block_growths", true);
-        DESIRE_PATHS = builder.define("desire_paths", false);
-        DESIRE_PATH_RATE = builder.define("desire_path_rate", 0.05, 0, 1d);
         CREATIVE_TAB = builder.define("creative_tab", false);
-        GRASS_OVER_MYCELIUM = builder.define("grass_over_mycelium", true);
-        MYCELIUM_OVER_GRASS = builder.define("mycelium_over_grass", true);
+        CREATIVE_DROP = builder.comment("Drop stuff when in creative").define("drop_in_creative",false);
         builder.pop();
 
         builder.push("mossy_blocks");
@@ -187,7 +185,6 @@ public class CommonConfigs {
         AXE_SCRAPING = builder.define("axe_rusting", true);
         ASH_ITEM_SPAWN = builder.comment("allows ash to spawn when extinguishing campfires")
                 .define("ash_item_spawn",true);
-        CREATIVE_DROP = builder.comment("Drop stuff when in creative").define("drop_in_creative",false);
         builder.pop();
 
         builder.push("food");
@@ -199,6 +196,10 @@ public class CommonConfigs {
         builder.push("misc");
         MULCH_GROWS_CROPS = builder.define("mulch_grows_crops", true);
         COMPOSTER_DIRT = builder.define("composter_dirt", true);
+        DESIRE_PATHS = builder.define("desire_paths", false);
+        DESIRE_PATH_RATE = builder.define("desire_path_rate", 0.05, 0, 1d);
+        GRASS_OVER_MYCELIUM = builder.define("grass_over_mycelium", true);
+        MYCELIUM_OVER_GRASS = builder.define("mycelium_over_grass", true);
         GENERIC_BARK = builder.define("generic_bark", "");
         FEATHER_FALLING_FARMERS = builder.define("feather_falling_farmers", true);
         LEGGINGS_PREVENTS_THORN_DAMAGE = builder.define("leggings_prevents_thorn_damage", true);
@@ -227,6 +228,7 @@ public class CommonConfigs {
 
         builder.push("rusting");
         RUSTING = builder.define("rusting", true);
+        RUSTING_INFLUENCE_RADIUS = builder.define("rusting_influence_radius", 4, 1, 8);
         builder.pop();
 
         //fabric specific

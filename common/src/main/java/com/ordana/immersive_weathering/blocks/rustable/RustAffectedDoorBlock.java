@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 public class RustAffectedDoorBlock extends DoorBlock {
+
     private final Rustable.RustLevel rustLevel;
 
     public RustAffectedDoorBlock(Rustable.RustLevel rustLevel, Properties settings) {

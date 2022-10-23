@@ -80,13 +80,13 @@ public class ModParticles {
     private static void registerLeafParticles(Registrator<ParticleType<?>> event, Collection<LeavesType> leavesTypes) {
         for (LeavesType type : leavesTypes) {
             var p = PlatformHelper.newParticle();
-            if (type.getTypeName().equals("flowering_azalea")) {
-               // p = (SimpleParticleType) Registry.PARTICLE_TYPE.get(ImmersiveWeathering.res("azalea_leaf"));
-            } else {
+            //if (type.getTypeName().equals("flowering_azalea")) {
+            //    p = (SimpleParticleType) Registry.PARTICLE_TYPE.get(ImmersiveWeathering.res("azalea_leaf"));
+            //} else {
                 event.register(ImmersiveWeathering.res(type.getVariantId("leaf", false)), p);
                 FALLING_LEAVES.put(type, p);
                 type.addChild("immersive_weathering:leaf_particle", p);
-            }
+            //}
         }
     }
 }

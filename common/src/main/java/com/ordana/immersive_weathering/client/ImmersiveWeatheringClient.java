@@ -124,7 +124,7 @@ public class ImmersiveWeatheringClient {
         event.register(ModParticles.SOOT.get(), LeafParticle.SimpleLeafParticle::new);
 
         ModParticles.FALLING_LEAVES.forEach((t, p) -> {
-            if (t.id.getPath().equals("azalea")) event.register(p, LeafParticle.SimpleLeafParticle::new);
+            if (t.id.getPath().contains("azalea")) event.register(p, LeafParticle.SimpleLeafParticle::new);
             else event.register(p, LeafParticle.ColoredLeafParticle::new);
         });
 
@@ -199,6 +199,8 @@ public class ImmersiveWeatheringClient {
             } else if (leaf == Blocks.SPRUCE_LEAVES) {
                 IWPlatformStuff.copyColorFrom(event, leafPile, leaf, (state, world, pos, tintIndex) -> FoliageColor.getEvergreenColor());
 
+            } else if (leaf == Blocks.AZALEA_LEAVES || leaf == Blocks.FLOWERING_AZALEA_LEAVES) {
+                return;
             } else {
                 IWPlatformStuff.copyColorFrom(event, leafPile, leaf, defaultFoliageColor);
             }

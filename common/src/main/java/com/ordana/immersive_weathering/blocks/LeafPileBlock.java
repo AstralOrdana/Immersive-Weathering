@@ -74,9 +74,9 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, 1));
         String name = leafType.id.getPath();
         this.canBeBonemealed = name.contains("flower");
-        this.hasThorns = name.equals("dark_oak") || name.equals("spruce");
-        if(canBeBonemealed) this.particles = List.of(()->ModParticles.FALLING_LEAVES.get(leafType), ModParticles.AZALEA_FLOWER);
-        else this.particles = List.of(()->ModParticles.FALLING_LEAVES.get(leafType));
+        this.hasThorns = name.equals("spruce");
+        //if(canBeBonemealed) this.particles = List.of(()->ModParticles.FALLING_LEAVES.get(leafType), ModParticles.AZALEA_FLOWER);
+        this.particles = List.of(()->ModParticles.FALLING_LEAVES.get(leafType));
         RegHelper.registerBlockFlammability(this, FIRE_SPREAD, FLAMMABILITY);
     }
 

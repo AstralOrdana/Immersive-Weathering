@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "tag": "immersive_weathering:non_flammable_slabs"
+    "tag": "immersive_weathering:flammable_slabs"
   },
   "result": "immersive_weathering:charred_slab",
   "experience": 0.15,
