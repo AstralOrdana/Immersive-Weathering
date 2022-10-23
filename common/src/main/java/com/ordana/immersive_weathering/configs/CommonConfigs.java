@@ -102,6 +102,7 @@ public class CommonConfigs {
 
     public static Supplier<Boolean> RUSTING;
     public static Supplier<Integer> RUSTING_INFLUENCE_RADIUS;
+    public static Supplier<Double> RUSTING_RATE;
 
     public static Supplier<Boolean> MULCH_GROWS_CROPS;
 
@@ -197,7 +198,7 @@ public class CommonConfigs {
         MULCH_GROWS_CROPS = builder.define("mulch_grows_crops", true);
         COMPOSTER_DIRT = builder.define("composter_dirt", true);
         DESIRE_PATHS = builder.define("desire_paths", false);
-        DESIRE_PATH_RATE = builder.define("desire_path_rate", 0.05, 0, 1d);
+        DESIRE_PATH_RATE = builder.define("desire_path_rate", 0.05, 0, 1);
         GRASS_OVER_MYCELIUM = builder.define("grass_over_mycelium", true);
         MYCELIUM_OVER_GRASS = builder.define("mycelium_over_grass", true);
         GENERIC_BARK = builder.define("generic_bark", "");
@@ -229,6 +230,7 @@ public class CommonConfigs {
         builder.push("rusting");
         RUSTING = builder.define("rusting", true);
         RUSTING_INFLUENCE_RADIUS = builder.define("rusting_influence_radius", 4, 1, 8);
+        RUSTING_RATE = builder.define("rusting_rate", 0.06, 0, 1);
         builder.pop();
 
         //fabric specific
