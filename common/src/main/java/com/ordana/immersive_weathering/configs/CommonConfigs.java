@@ -103,6 +103,7 @@ public class CommonConfigs {
     public static Supplier<Boolean> RUSTING;
     public static Supplier<Integer> RUSTING_INFLUENCE_RADIUS;
     public static Supplier<Double> RUSTING_RATE;
+    public static Supplier<Boolean> RUST_STREAKING;
 
     public static Supplier<Boolean> MULCH_GROWS_CROPS;
 
@@ -231,6 +232,7 @@ public class CommonConfigs {
         RUSTING = builder.define("rusting", true);
         RUSTING_INFLUENCE_RADIUS = builder.define("rusting_influence_radius", 4, 1, 8);
         RUSTING_RATE = builder.define("rusting_rate", 0.06, 0, 1);
+        RUST_STREAKING = builder.define("rust_streaking", true);
         builder.pop();
 
         //fabric specific
