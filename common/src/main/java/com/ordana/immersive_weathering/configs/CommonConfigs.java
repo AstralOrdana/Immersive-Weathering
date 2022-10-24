@@ -145,6 +145,7 @@ public class CommonConfigs {
         FREEZING_ICICLE_SEVERITY = builder.define("icicle", 300, 0, 1000);
         FREEZING_PERMAFROST_SEVERITY = builder.define("permafrost_increment", 2, 0, 5);
         builder.pop();
+        builder.setSynced();
 
         builder.push("charring");
         FIRE_CHARS_WOOD_CHANCE = builder.define("fire_chars_wood", 0.3, 0, 1);
