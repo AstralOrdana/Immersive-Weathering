@@ -9,6 +9,7 @@ import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChangeOverTimeBlock;
@@ -116,95 +117,85 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
         return CommonConfigs.RUSTING_INFLUENCE_RADIUS.get();
     }
 
-    @Override
-    default void onRandomTick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource) {
-        if (randomSource.nextFloat() < CommonConfigs.RUSTING_RATE.get()) {
-            this.applyChangeOverTime(blockState, serverLevel, blockPos, randomSource);
-        }
-
-    }
-
     //same as the base one but has configurable radius
     @Override
-    default void applyChangeOverTime(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random) {
-        int age = this.getAge().ordinal();
-        int j = 0;
-        int k = 0;
-        int affectingDistance = this.getInfluenceRadius();
-        for(BlockPos blockpos : BlockPos.withinManhattan(pos, affectingDistance, affectingDistance, affectingDistance)) {
-            int distance = blockpos.distManhattan(pos);
-            if (distance > affectingDistance) {
-                break;
-            }
+    default void applyChangeOverTime(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource randomSource) {
+            int age = this.getAge().ordinal();
+            int j = 0;
+            int k = 0;
+            int affectingDistance = this.getInfluenceRadius();
+            for (BlockPos blockpos : BlockPos.withinManhattan(pos, affectingDistance, affectingDistance, affectingDistance)) {
+                int distance = blockpos.distManhattan(pos);
+                if (distance > affectingDistance) {
+                    break;
+                }
 
-            if (!blockpos.equals(pos)) {
-                BlockState blockstate = serverLevel.getBlockState(blockpos);
-                Block block = blockstate.getBlock();
-                if (block instanceof ChangeOverTimeBlock<?> changeOverTimeBlock) {
-                    Enum<?> ageEnum = changeOverTimeBlock.getAge();
-                    //checks if they are of same age class
-                    if (this.getAge().getClass() == ageEnum.getClass()) {
-                        int neighbourAge = ageEnum.ordinal();
-                        if (neighbourAge < age) {
-                            return;
-                        }
+                if (!blockpos.equals(pos)) {
+                    BlockState blockstate = serverLevel.getBlockState(blockpos);
+                    Block block = blockstate.getBlock();
+                    if (block instanceof ChangeOverTimeBlock<?> changeOverTimeBlock) {
+                        Enum<?> ageEnum = changeOverTimeBlock.getAge();
+                        //checks if they are of same age class
+                        if (this.getAge().getClass() == ageEnum.getClass()) {
+                            int neighbourAge = ageEnum.ordinal();
+                            if (neighbourAge < age) {
+                                return;
+                            }
 
-                        if (neighbourAge > age) {
-                            ++k;
-                        } else {
-                            ++j;
+                            if (neighbourAge > age) {
+                                ++k;
+                            } else {
+                                ++j;
+                            }
                         }
                     }
                 }
             }
-        }
 
-        float f = (float)(k + 1) / (float)(k + j + 1);
-        float f1 = f * f * this.getChanceModifier();
-        if (random.nextFloat() < f1) {
-            this.getNext(state).ifPresent((p_153039_) -> {
-                serverLevel.setBlockAndUpdate(pos, p_153039_);
-            });
-        }
+            float f = (float) (k + 1) / (float) (k + j + 1);
+            float f1 = f * f * this.getChanceModifier();
+            if (randomSource.nextFloat() < f1) {
+                this.getNext(state).ifPresent((p_153039_) -> {
+                    serverLevel.setBlockAndUpdate(pos, p_153039_);
+                });
+            }
+
     }
 
     default void tryWeather(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (!state.is(ModTags.RUSTED_IRON)) {
+            var canWeather = false;
             for (Direction direction : Direction.values()) {
                 var targetPos = pos.relative(direction);
                 BlockState neighborState = world.getBlockState(targetPos);
-                if (neighborState.is(Blocks.BUBBLE_COLUMN)) {
-                    this.applyChangeOverTime(state, world, pos, random);
+                if (neighborState.is(Blocks.BUBBLE_COLUMN) && random.nextFloat() < CommonConfigs.RUSTING_RATE.get()) {
+                    canWeather = true;
                 }
-                else if (neighborState.is(ModTags.CLEAN_IRON)) {
-                    if (neighborState.is(Blocks.AIR) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
-                        onRandomTick(state, world, pos, random);
+                else if (neighborState.getFluidState().is(FluidTags.WATER) && random.nextFloat() < CommonConfigs.RUSTING_RATE.get() / 1.25) {
+                    canWeather = true;
+                }
+                else if (state.is(ModTags.CLEAN_IRON)) {
+                    if (neighborState.is(Blocks.AIR) && random.nextFloat() < CommonConfigs.RUSTING_RATE.get() / 5) {
+                        canWeather = true;
                     }
                 }
-                else if (neighborState.is(ModTags.EXPOSED_IRON)) {
-                    if (world.isRainingAt(targetPos) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
-                        onRandomTick(state, world, pos, random);
+                else if (state.is(ModTags.EXPOSED_IRON) || state.is(ModTags.CLEAN_IRON) && world.isRaining() && random.nextFloat() < CommonConfigs.RUSTING_RATE.get() / 2) {
+                    if (world.isRainingAt(pos.above())) {
+                        canWeather = true;
                     }
-                    if (world.isRainingAt(targetPos) && world.getBlockState(pos.above()).is(ModTags.WEATHERED_IRON)) {
+                    else if (CommonConfigs.RUST_STREAKING.get() && world.isRainingAt(targetPos) && world.getBlockState(pos.above()).is(ModTags.WEATHERED_IRON) && random.nextFloat() < CommonConfigs.RUSTING_RATE.get() / 3) {
                         if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
                                 .map(world::getBlockState)
                                 .filter(b -> b.is(ModTags.WEATHERED_IRON))
                                 .toList().size() <= 9) {
-                            this.applyChangeOverTime(state, world, pos, random);
+                            canWeather = true;
                         }
                     }
                 }
-                else if (neighborState.is(ModTags.WEATHERED_IRON)) {
-                    if (neighborState.getFluidState().getType() == Fluids.WATER || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER) {
-                        onRandomTick(state, world, pos, random);
-                    }
-                }
+            }
+            if (canWeather) {
+                applyChangeOverTime(state, world, pos, random);
             }
         }
     }
-
-    default boolean isRandomlyTicking(BlockState state) {
-        return Rustable.getIncreasedRustBlock(state.getBlock()).isPresent();
-    }
-
 }

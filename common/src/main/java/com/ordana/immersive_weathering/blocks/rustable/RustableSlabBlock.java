@@ -30,6 +30,11 @@ public class RustableSlabBlock extends SlabBlock implements Rustable {
     }
 
     @Override
+    public boolean isRandomlyTicking(BlockState state) {
+        return Rustable.getIncreasedRustBlock(state.getBlock()).isPresent();
+    }
+
+    @Override
     public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random) {
         this.tryWeather(state, serverLevel, pos, random);
     }

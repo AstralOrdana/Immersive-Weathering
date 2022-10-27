@@ -107,6 +107,10 @@ public class FlowerCrownItem extends ArmorItem {
                 0.11f, ModParticles.FLOWER_JAR));
         put("jar", new SpecialType("textures/models/armor/jar.png",
                 0.11f, ModParticles.FLOWER_JAR));
+        put("bob", new SpecialType("textures/models/armor/bob.png",
+                0.12f, ModParticles.FLOWER_BOB));
+        put("bobisnotaperson", new SpecialType("textures/models/armor/bob.png",
+                0.12f, ModParticles.FLOWER_BOB));
         /*
         put("key", new SpecialType("textures/models/armor/key.png",
                 0.12f, ModParticles.FLOWER_KEY));
@@ -114,10 +118,6 @@ public class FlowerCrownItem extends ArmorItem {
                 0.12f, ModParticles.FLOWER_KEY));
         put("keyb0unce", new SpecialType("textures/models/armor/key.png",
                 0.12f, ModParticles.FLOWER_KEY));
-        put("bob", new SpecialType("textures/models/armor/bob.png",
-                0.13f, ModParticles.FLOWER_BOB));
-        put("bobisnotaperson", new SpecialType("textures/models/armor/bob.png",
-                0.13f, ModParticles.FLOWER_BOB));
          */
 
         put("asexual", new SpecialType("textures/models/armor/ace.png",
@@ -170,12 +170,11 @@ public class FlowerCrownItem extends ArmorItem {
         //supporter crowns
         put("flax", new SpecialType("textures/models/armor/flax.png",
                 0.30f, ModParticles.FLOWER_FLAX));
-        /*
-        put("neko", new SpecialType("textures/models/armor/neko.png",
-                0.30f, ModParticles.FLOWER_NEKO));
-        put("nekomaster", new SpecialType("textures/models/armor/neko.png",
-                0.30f, ModParticles.FLOWER_NEKO));
-         */
+        put("neko", new SpecialType("textures/models/armor/nekomaster.png",
+                0.31f, ModParticles.FLOWER_NEKOMASTER));
+        put("nekomaster", new SpecialType("textures/models/armor/nekomaster.png",
+                0.31f, ModParticles.FLOWER_NEKOMASTER));
+
     }};
 
     public record SpecialType(String textureLocation, float itemModelIndex,

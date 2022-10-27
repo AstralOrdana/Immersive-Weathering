@@ -7,6 +7,8 @@
   "advancements.immersive_weathering.icicle.description": "Cronch Cronch Cronch",
   "advancements.immersive_weathering.ice_sickle.title": "Chill Out",
   "advancements.immersive_weathering.ice_sickle.description": "Slay a Blaze using its greatest fear, an Ice Sickle",
+  "advancements.immersive_weathering.weeds.title": "Weed Wacker",
+  "advancements.immersive_weathering.weeds.description": "Pick some weeds. Build a greenhouse or use Mulch to keep them from growing.",
   "advancements.immersive_weathering.mulch.title": "Mulch Better",
   "advancements.immersive_weathering.mulch.description": "Craft some Mulch, a dedicated farmer's best friend",
   "advancements.immersive_weathering.pond_water.title": "Why would you do this???",
@@ -151,6 +153,7 @@
   "config.immersive_weathering.rusting.rusting": "Iron Rusting Enabled",
   "config.immersive_weathering.rusting.rusting_influence_radius": "Rusting Influence Radius",
   "config.immersive_weathering.rusting.rusting_rate": "Rate of Rusting",
+  "config.immersive_weathering.rusting.rust_streaking": "Rust Streaking in Rain",
 
   "death.attack.icicle": "%1$s was impaled on an icicle",
   "death.attack.icicle.player": "%1$s was impaled on an icicle whilst fighting %2$s",

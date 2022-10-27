@@ -71,10 +71,12 @@ public class ModParticles {
 
     //supporter particles
     public static final Supplier<SimpleParticleType> FLOWER_FLAX = registerParticle("flower_flax");
+    public static final Supplier<SimpleParticleType> FLOWER_NEKOMASTER = registerParticle("flower_nekomaster");
 
     //dev and gift particles
     public static final Supplier<SimpleParticleType> FLOWER_BEE = registerParticle("flower_bee");
     public static final Supplier<SimpleParticleType> FLOWER_JAR = registerParticle("flower_jar");
+    public static final Supplier<SimpleParticleType> FLOWER_BOB = registerParticle("flower_bob");
 
 
     private static void registerLeafParticles(Registrator<ParticleType<?>> event, Collection<LeavesType> leavesTypes) {
