@@ -11,8 +11,6 @@ import com.ordana.immersive_weathering.mixins.accessors.BiomeAccessor;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.reg.ModTags;
-import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesTypeRegistry;
 import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
@@ -34,13 +32,11 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -221,7 +217,14 @@ public class WeatheringHelper {
             } else if (woodType.getChild("wood") == normalLog.getBlock()) {
                 log = true;
             }
-            if(log) {
+            if (log) {
+                String s = CommonConfigs.GENERIC_BARK.get();
+                if (!s.isEmpty()) {
+                    var bark = Registry.ITEM.getOptional(new ResourceLocation(s));
+                    if (bark.isPresent()) {
+                        return bark.get();
+                    }
+                }
                 return woodType.getItemOfThis("immersive_weathering:bark");
             }
         }
@@ -240,8 +243,7 @@ public class WeatheringHelper {
             if (log instanceof Block unStripped) {
                 String s = CommonConfigs.GENERIC_BARK.get();
                 if (!s.isEmpty()) {
-                    ResourceLocation res = new ResourceLocation(s);
-                    var bark = Registry.ITEM.getOptional(res);
+                    var bark = Registry.ITEM.getOptional(new ResourceLocation(s));
                     if (bark.isPresent()) {
                         return Optional.of(Pair.of(bark.get(), unStripped));
                     }
