@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "#immersive_weathering:leaf_piles", "required": false}
+  ]
+}
