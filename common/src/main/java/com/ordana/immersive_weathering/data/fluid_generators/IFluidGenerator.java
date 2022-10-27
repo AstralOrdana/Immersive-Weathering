@@ -43,6 +43,7 @@ public interface IFluidGenerator extends Comparable<IFluidGenerator> {
 
 
     record Type<T extends IFluidGenerator>(Codec<T> codec, String name) {
+        
         private static final Codec<Type<?>> CODEC = Codec.STRING.flatXmap(
                 (name) -> ModFluidGenerators.get(name).map(DataResult::success).orElseGet(
                         () -> DataResult.error("Unknown Fluid Generator type: " + name)),

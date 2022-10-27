@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.dynamicpack;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModItems;
 import com.ordana.immersive_weathering.reg.ModParticles;
@@ -32,7 +33,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
 
     public ClientDynamicResourcesHandler() {
         super(new DynamicTexturePack(ImmersiveWeathering.res("generated_pack")));
-        this.dynamicPack.generateDebugResources = PlatformHelper.isDev();
+        this.dynamicPack.generateDebugResources = PlatformHelper.isDev() || CommonConfigs.DEBUG_RESOURCES.get();
     }
 
     @Override

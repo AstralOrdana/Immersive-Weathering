@@ -19,6 +19,7 @@ public class CommonConfigs {
     public static Supplier<Boolean> BLOCK_GROWTHS;
     public static Supplier<Boolean> CREATIVE_TAB;
     public static Supplier<Boolean> CREATIVE_DROP;
+    public static Supplier<Boolean> DEBUG_RESOURCES;
 
     public static Supplier<Double> MOSS_INTERESTS_FOR_FACE;
     public static Supplier<Double> MOSS_PATCHINESS;
@@ -117,6 +118,9 @@ public class CommonConfigs {
         BLOCK_GROWTHS = builder.define("block_growths", true);
         CREATIVE_TAB = builder.define("creative_tab", false);
         CREATIVE_DROP = builder.comment("Drop stuff when in creative").define("drop_in_creative",false);
+        DEBUG_RESOURCES = builder.comment("Save generated resources to disk in a 'debug' folder in your game directory. Mainly for debug purposes but can be used to generate assets in all wood types for your mods :0")
+                .define("debug_save_dynamic_pack", false);
+
         builder.pop();
 
         builder.push("mossy_blocks");

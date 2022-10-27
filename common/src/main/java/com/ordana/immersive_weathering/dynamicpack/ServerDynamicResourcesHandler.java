@@ -1,8 +1,10 @@
 package com.ordana.immersive_weathering.dynamicpack;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModItems;
+import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.resources.ResType;
 import net.mehvahdjukaar.moonlight.api.resources.SimpleTagBuilder;
 import net.mehvahdjukaar.moonlight.api.resources.StaticResource;
@@ -25,7 +27,7 @@ public class ServerDynamicResourcesHandler extends DynServerResourcesProvider {
 
     public ServerDynamicResourcesHandler() {
         super(new DynamicDataPack(ImmersiveWeathering.res("generated_pack")));
-        this.dynamicPack.generateDebugResources = false;
+        this.dynamicPack.generateDebugResources = PlatformHelper.isDev() || CommonConfigs.DEBUG_RESOURCES.get();
     }
 
     @Override
