@@ -18,6 +18,12 @@
     },
     {
       "predicate": {
+        "immersive_weathering:supporter": 0.12
+      },
+      "model": "immersive_weathering:item/flower_crown_bob"
+    },
+    {
+      "predicate": {
         "immersive_weathering:supporter": 0.200
       },
       "model": "immersive_weathering:item/flower_crown_ace"
@@ -93,6 +99,12 @@
         "immersive_weathering:supporter": 0.30
       },
       "model": "immersive_weathering:item/flower_crown_flax"
+    },
+    {
+      "predicate": {
+        "immersive_weathering:supporter": 0.31
+      },
+      "model": "immersive_weathering:item/flower_crown_nekomaster"
     }
   ]
 }

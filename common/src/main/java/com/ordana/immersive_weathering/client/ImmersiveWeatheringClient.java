@@ -148,6 +148,7 @@ public class ImmersiveWeatheringClient {
 
         event.register(ModParticles.FLOWER_BEE.get(), LeafParticle.SimpleLeafParticle::new);
         event.register(ModParticles.FLOWER_JAR.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.FLOWER_BOB.get(), LeafParticle.SimpleLeafParticle::new);
 
         event.register(ModParticles.FLOWER_ACE.get(), LeafParticle.SimpleLeafParticle::new);
         event.register(ModParticles.FLOWER_ARO.get(), LeafParticle.SimpleLeafParticle::new);
@@ -163,6 +164,7 @@ public class ImmersiveWeatheringClient {
         event.register(ModParticles.FLOWER_PAN.get(), LeafParticle.SimpleLeafParticle::new);
 
         event.register(ModParticles.FLOWER_FLAX.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.FLOWER_NEKOMASTER.get(), LeafParticle.SimpleLeafParticle::new);
     }
 
     private static class ScrapeRustFactory extends GlowParticle.ScrapeProvider {
