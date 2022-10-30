@@ -2,7 +2,7 @@ package com.ordana.immersive_weathering.reg;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
-import com.ordana.immersive_weathering.configs.ClientConfigs;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.items.*;
 import com.ordana.immersive_weathering.items.materials.FlowerCrownMaterial;
 import com.ordana.immersive_weathering.items.materials.IcicleToolMaterial;
@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 
 public class ModItems {
 
-    public static final CreativeModeTab MOD_TAB =  !ClientConfigs.CREATIVE_TAB.get() ? null :
+    public static final CreativeModeTab MOD_TAB =  !CommonConfigs.CREATIVE_TAB.get() ? null :
             PlatformHelper.createModTab(ImmersiveWeathering.res(ImmersiveWeathering.MOD_ID),
                     ()-> ModBlocks.IVY.get().asItem().getDefaultInstance(), false);
     
@@ -71,14 +71,14 @@ public class ModItems {
     //flowers
 
     public static final Supplier<Item> AZALEA_FLOWERS = regItem("azalea_flowers", () ->
-            new AzaleaFlowersItem(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS))));
+            new AzaleaFlowersItem(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS)).food(ModFoods.AZALEA_FLOWER)));
 
     public static final Supplier<Item> FLOWER_CROWN = regItem("flower_crown", () ->
             new FlowerCrownItem(FlowerCrownMaterial.INSTANCE, EquipmentSlot.HEAD,
                     new Item.Properties().tab(getTab(CreativeModeTab.TAB_TOOLS))));
 
     public static final Supplier<Item> MOSS_CLUMP = regItem("moss_clump", () ->
-            new MossClumpItem(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS)).food(ModFoods.MOSS_CLUMP)));
+            new MossClumpItem(ModBlocks.MOSS.get(), new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS)).food(ModFoods.MOSS_CLUMP)));
 
     public static final Supplier<Item> GOLDEN_MOSS_CLUMP = regItem("golden_moss_clump", () ->
             new Item(new Item.Properties().tab(getTab(CreativeModeTab.TAB_MATERIALS)).food(ModFoods.GOLDEN_MOSS_CLUMP)));

@@ -1,11 +1,6 @@
 package com.ordana.immersive_weathering.blocks.charred;
 
-import com.ordana.immersive_weathering.blocks.ModBlockProperties;
-import com.ordana.immersive_weathering.reg.ModParticles;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -15,13 +10,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.FallingBlock;
+import net.minecraft.world.level.block.Fallable;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Random;
@@ -60,8 +53,9 @@ public class CharredFenceBlock extends FenceBlock implements Charred {
 
     @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
-        if (state.getValue(OVERHANG)==2) {
-            FallingBlockEntity.fall(level, pos, state.setValue(OVERHANG, 0));
+        if (state.getValue(OVERHANG) == 2) {
+            FallingBlockEntity.fall(level, pos, state.setValue(OVERHANG, 0).setValue(NORTH,false)
+                    .setValue(SOUTH, false).setValue(EAST, false).setValue(WEST,false));
         }
     }
 
@@ -99,4 +93,5 @@ public class CharredFenceBlock extends FenceBlock implements Charred {
             interactWithProjectile(worldIn, state, projectile, pos);
         }
     }
+
 }

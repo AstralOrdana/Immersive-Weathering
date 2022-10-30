@@ -1,10 +1,7 @@
 package com.ordana.immersive_weathering.client;
 
-import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.reg.LeafPilesRegistry;
 import com.ordana.immersive_weathering.reg.ModTags;
-import com.ordana.immersive_weathering.utils.CommonUtils;
-import com.ordana.immersive_weathering.utils.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
@@ -47,17 +44,4 @@ public class ParticleHelper {
     }
 
 
-    public static void spawnLeavesParticles(BlockState state, Level world, BlockPos pos, Random random) {
-        var leafParticle = LeafPilesRegistry.getFallenLeafParticle(state).orElse(null);
-        if (leafParticle == null) return;
-        //TODO: readd
-
-        if(state.is(ModTags.VANILLA_LEAVES)) {
-            if (random.nextInt(32) == 0 && !world.getBlockState(pos.below()).isRedstoneConductor(world, pos)) {
-                if (!(world.getBlockState(pos.below()).getBlock() instanceof LeavesBlock) && state.is(ModTags.VANILLA_LEAVES)) {
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos, leafParticle, UniformInt.of(0, 1));
-                }
-            }
-        }
-    }
 }

@@ -51,33 +51,21 @@ public class LeafParticle extends TextureSheetParticle {
     }
 
     public record ColoredLeafParticle(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
-        @Override
-        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientLevel, double x, double y, double z, double dx, double dy, double dz) {
-            return new LeafParticle(clientLevel, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
-                    BiomeColors.getAverageFoliageColor(clientLevel, new BlockPos(x,y,z)));
-        }
-    }
 
-    public record SpruceLeafParticle(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
         @Override
-        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientLevel, double x, double y, double z, double dx, double dy, double dz) {
-            return new LeafParticle(clientLevel, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
-                    FoliageColor.getEvergreenColor());
-        }
-    }
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double g, double color, double i) {
 
-    public record BirchLeafParticle(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
-        @Override
-        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientLevel, double x, double y, double z, double dx, double dy, double dz) {
-            return new LeafParticle(clientLevel, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
-                    FoliageColor.getBirchColor());
+            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+                    (int) color);
         }
     }
 
     public record SimpleLeafParticle(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
+
         @Override
-        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double dx, double dy, double dz) {
-            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double vel, double color, double i) {
+            if (vel == 0) vel = -3;
+            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, vel, 0.0D,
                     -1);
         }
     }

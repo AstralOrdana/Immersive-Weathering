@@ -1,0 +1,40 @@
+{
+  "display": {
+    "icon": {
+      "item": "immersive_weathering:moss_clump"
+    },
+    "title": {
+      "translate": "advancements.immersive_weathering.moss_on.title"
+    },
+    "description": {
+      "translate": "advancements.immersive_weathering.moss_on.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "minecraft:husbandry/safely_harvest_honey",
+  "criteria": {
+    "wax_on": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "item": {
+          "items": [
+            "immersive_weathering:moss_clump"
+          ]
+        },
+        "location": {
+          "block": {
+            "tag": "immersive_weathering:mossable"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "wax_on"
+    ]
+  ]
+}

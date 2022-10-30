@@ -1,0 +1,41 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:flint_and_steel",
+      "nbt": "{Damage:0}"
+    },
+    "title": {
+      "translate": "advancements.immersive_weathering.moss_off_2.title"
+    },
+    "description": {
+      "translate": "advancements.immersive_weathering.moss_off_2.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "immersive_weathering:immersive_weathering/moss_off",
+  "criteria": {
+    "wax_off": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "item": {
+          "items": [
+            "minecraft:flint_and_steel"
+          ]
+        },
+        "location": {
+          "block": {
+            "tag": "immersive_weathering:mossy"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "wax_off"
+    ]
+  ]
+}

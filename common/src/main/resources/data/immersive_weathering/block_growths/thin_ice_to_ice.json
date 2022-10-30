@@ -1,10 +1,21 @@
 {
+  "area_condition": {
+    "must_have": {
+      "block": "minecraft:packed_ice",
+      "predicate_type": "minecraft:block_match"
+    },
+    "type": "neighbor_based_generation"
+  },
   "tick_sources": [
     "rain","snow","sky_access"
   ],
   "growth_chance": 0.1,
   "target_self": true,
   "position_predicates": [
+    {
+      "biomes": "#immersive_weathering:icy",
+      "type": "biome_match"
+    },
     {
       "type": "block_test",
       "predicate": {
@@ -16,11 +27,6 @@
           }
         ]
       }
-    },
-    {
-      "type": "temperature_range",
-      "max": 0.15,
-      "min": -1
     }
   ],
   "growth_for_face": [

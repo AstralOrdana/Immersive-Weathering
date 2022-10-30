@@ -3,8 +3,10 @@ package com.ordana.immersive_weathering.reg;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
-import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.IWPlatformStuff;
+import com.ordana.immersive_weathering.blocks.LeafPileBlock;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -16,13 +18,14 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+//TODO: rethinnk on 1.19
 public class LeafPilesRegistry {
 
     public static final Supplier<Map<Block, LeafPileBlock>> LEAF_PILES = Suppliers.memoize(() -> {
 
                 Map<Block, LeafPileBlock> piles = IWPlatformStuff.getDynamicLeafPiles();
 
-                var builder = ImmutableMap.<Block, LeafPileBlock>builder()
+                return Objects.requireNonNullElseGet(piles, () -> ImmutableMap.<Block, LeafPileBlock>builder()
                         .put(Blocks.OAK_LEAVES, ModBlocks.OAK_LEAF_PILE.get())
                         .put(Blocks.DARK_OAK_LEAVES, ModBlocks.DARK_OAK_LEAF_PILE.get())
                         .put(Blocks.SPRUCE_LEAVES, ModBlocks.SPRUCE_LEAF_PILE.get())
@@ -30,14 +33,12 @@ public class LeafPilesRegistry {
                         .put(Blocks.JUNGLE_LEAVES, ModBlocks.JUNGLE_LEAF_PILE.get())
                         .put(Blocks.ACACIA_LEAVES, ModBlocks.ACACIA_LEAF_PILE.get())
                         .put(Blocks.AZALEA_LEAVES, ModBlocks.AZALEA_LEAF_PILE.get())
-                        .put(Blocks.FLOWERING_AZALEA_LEAVES, ModBlocks.FLOWERING_AZALEA_LEAF_PILE.get());
-
-                builder.putAll(piles);
-                return builder.build();
+                        .put(Blocks.FLOWERING_AZALEA_LEAVES, ModBlocks.FLOWERING_AZALEA_LEAF_PILE.get())
+                        .build());
             }
     );
 
-    public static final Supplier<Map<Block, Pair<Item, Block>>> STRIPPED_TO_BARK = Suppliers.memoize(() -> {
+    public static final Supplier<Map<Block, Pair<Item, Block>>> STRIPPED_LOG_TO_BARK = Suppliers.memoize(() -> {
 
         var builder = ImmutableMap.<Block, Pair<Item, Block>>builder()
                 .put(Blocks.STRIPPED_OAK_LOG, Pair.of(ModItems.OAK_BARK.get(), Blocks.OAK_LOG))
@@ -81,8 +82,8 @@ public class LeafPilesRegistry {
 
     public static Optional<Block> getFallenLeafPile(BlockState state) {
         Block b = state.getBlock();
-        //  if (ServerConfigs.LEAF_PILES_BLACKLIST.get().contains(b.getRegistryName().toString()))
-        //      return Optional.empty();
+        if (CommonConfigs.LEAF_PILES_BLACKLIST.get().contains(Registry.BLOCK.getKey(b).toString()))
+            return Optional.empty();
         return Optional.ofNullable(LEAF_PILES.get().get(b));
     }
 

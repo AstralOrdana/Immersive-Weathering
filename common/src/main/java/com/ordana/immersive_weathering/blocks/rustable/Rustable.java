@@ -101,6 +101,10 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
         EXPOSED,
         WEATHERED,
         RUSTED;
+
+        public boolean canScrape() {
+            return this != WEATHERED && this != RUSTED;
+        }
     }
 
     default int getInfluenceRadius(){
@@ -123,7 +127,7 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
             if (!blockpos.equals(pos)) {
                 BlockState blockstate = serverLevel.getBlockState(blockpos);
                 Block block = blockstate.getBlock();
-                if (block instanceof ChangeOverTimeBlock changeOverTimeBlock) {
+                if (block instanceof ChangeOverTimeBlock<?> changeOverTimeBlock) {
                     Enum<?> ageEnum = changeOverTimeBlock.getAge();
                     //checks if they are of same age class
                     if (this.getAge().getClass() == ageEnum.getClass()) {

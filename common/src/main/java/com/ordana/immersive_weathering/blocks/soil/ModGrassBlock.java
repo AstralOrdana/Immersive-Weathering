@@ -1,7 +1,11 @@
 package com.ordana.immersive_weathering.blocks.soil;
 
+import com.ordana.immersive_weathering.blocks.ModBlockProperties;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.data.block_growths.IConditionalGrowingBlock;
+import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModParticles;
+import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -9,18 +13,24 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShearsItem;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.lighting.LayerLightEngine;
 import net.minecraft.world.phys.BlockHitResult;
@@ -29,16 +39,18 @@ import java.util.Random;
 
 public class ModGrassBlock extends GrassBlock implements BonemealableBlock, IConditionalGrowingBlock {
     public static final BooleanProperty FERTILE = SoilBlock.FERTILE;
+    public static final IntegerProperty AGE = ModBlockProperties.AGE;
 
     public ModGrassBlock(Properties settings) {
         super(settings);
-        this.registerDefaultState(this.defaultBlockState().setValue(FERTILE, true));
+        this.registerDefaultState(this.defaultBlockState().setValue(FERTILE, true).setValue(AGE, 0));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(FERTILE);
+        builder.add(AGE);
     }
 
     /*
@@ -54,8 +66,21 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
             level.addParticle(ModParticles.AZALEA_FLOWER.get(), d, e, f, 0.1D, 3D, 0.1D);
         }
     }
-
      */
+
+    @Override
+    public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
+        Random random = level.getRandom();
+        if (CommonConfigs.DESIRE_PATHS.get()) {
+            int j = state.getValue(AGE);
+            if (entity instanceof Player || entity.getType().is(ModTags.TRAMPLES_PATHS)) {
+                double rarity = CommonConfigs.DESIRE_PATH_RATE.get();
+                if (random.nextFloat() < rarity && state.getValue(AGE) < 10) {
+                    level.setBlock(pos, state.setValue(AGE, j + 1), 3);
+                }
+            }
+        }
+    }
 
     @Override
     public boolean isRandomlyTicking(BlockState state) {
@@ -104,7 +129,7 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
     private static boolean canBeGrass(BlockState state, LevelReader levelReader, BlockPos pos) {
         BlockPos blockPos = pos.above();
         BlockState blockState = levelReader.getBlockState(blockPos);
-        if (blockState.is(Blocks.SNOW) && (Integer)blockState.getValue(SnowLayerBlock.LAYERS) == 1) {
+        if (blockState.is(Blocks.SNOW) && blockState.getValue(SnowLayerBlock.LAYERS) == 1) {
             return true;
         } else if (blockState.getFluidState().getAmount() == 8) {
             return false;
@@ -120,6 +145,13 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
     }
 
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+        if (state.getValue(AGE) == 10) {
+            level.setBlockAndUpdate(pos, Blocks.DIRT_PATH.defaultBlockState());
+        }
+        if (state.getValue(AGE) < 10 && state.getValue(AGE) > 1) {
+            int j = state.getValue(AGE);
+            level.setBlock(pos, state.setValue(AGE, j - 1), 3);
+        }
         if (!canBeGrass(state, level, pos)) {
             level.setBlockAndUpdate(pos, Blocks.DIRT.defaultBlockState());
         } else {
@@ -128,8 +160,11 @@ public class ModGrassBlock extends GrassBlock implements BonemealableBlock, ICon
 
                 for(int i = 0; i < 4; ++i) {
                     BlockPos blockPos = pos.offset(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
-                    if (level.getBlockState(blockPos).is(Blocks.DIRT) && canPropagate(blockState, level, blockPos)) {
-                        level.setBlockAndUpdate(blockPos, blockState.setValue(SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)).setValue(FERTILE, false));
+                    if ((level.getBlockState(blockPos).is(Blocks.DIRT) || (CommonConfigs.GRASS_OVER_MYCELIUM.get() && (level.getBlockState(blockPos).is(Blocks.MYCELIUM)))) && canPropagate(blockState, level, blockPos)) {
+                        level.setBlockAndUpdate(blockPos, this.defaultBlockState().setValue(SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)));
+                    }
+                    else if ((level.getBlockState(blockPos).is(Blocks.ROOTED_DIRT)) && canPropagate(blockState, level, blockPos)) {
+                        level.setBlockAndUpdate(blockPos, ModBlocks.ROOTED_GRASS_BLOCK.get().defaultBlockState().setValue(SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)));
                     }
                 }
             }

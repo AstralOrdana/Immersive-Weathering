@@ -5,7 +5,10 @@ import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
 
 import com.ordana.immersive_weathering.data.fluid_generators.FluidGeneratorsHandler;
 import com.ordana.immersive_weathering.events.ModLootInjects;
+import com.ordana.immersive_weathering.mixins.EatBlockGoalMixin;
+import net.mehvahdjukaar.selene.Selene;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.ai.goal.EatBlockGoal;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -64,31 +67,7 @@ public class ForgeEvents {
         //break crackable stuff
 
         //spawn bark
-        else if (i instanceof AxeItem) {
 
-
-            if (state.getBlock() instanceof Rustable r && r.getAge() != Rustable.RustLevel.RUSTED) {
-                var unRusted = r.getPrevious(state).orElse(null);
-                if (unRusted != null) {
-
-                    level.setBlockAndUpdate(pos, unRusted);
-                    level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    level.blockEvent(pos, unRusted.getBlock(), 1, 0);
-                    if (player != null) {
-                        stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(event.getHand()));
-                    }
-
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                        player.awardStat(Stats.ITEM_USED.get(i));
-                    }
-                    event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
-                    event.setCanceled(true);
-                    return;
-                }
-            }
-
-        }
         //rust stuff
         else if (i == Items.WET_SPONGE && b instanceof Rustable rustable) {
             BlockState rusted = rustable.getNext(state).orElse(null);
@@ -109,26 +88,7 @@ public class ForgeEvents {
 
          else {
             //fix logs
-            Pair<Item, Block> fixedLog = WeatheringHelper.getBarkForStrippedLog(state).orElse(null);
-            if (fixedLog != null && stack.getItem() == fixedLog.getFirst()) {
-                BlockState fixedState = fixedLog.getSecond().withPropertiesOf(state);
 
-                level.playSound(player, pos, fixedState.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
-
-                if (player != null) {
-                    if (!player.isCreative()) stack.shrink(1);
-                }
-
-                if (player instanceof ServerPlayer serverPlayer) {
-                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
-                    player.awardStat(Stats.ITEM_USED.get(i));
-                }
-
-                level.setBlockAndUpdate(pos, fixedState);
-
-                event.setCanceled(true);
-                event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
-            }
         }
     }
 

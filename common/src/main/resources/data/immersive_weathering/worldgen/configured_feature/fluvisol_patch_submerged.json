@@ -21,10 +21,7 @@
         "Name": "minecraft:sand"
       },
       {
-        "Name": "minecraft:grass_block",
-        "Properties": {
-          "snowy": "false"
-        }
+        "Name": "minecraft:grass_block"
       },
       {
         "Name": "minecraft:gravel"

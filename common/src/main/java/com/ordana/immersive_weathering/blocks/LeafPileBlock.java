@@ -1,6 +1,10 @@
 package com.ordana.immersive_weathering.blocks;
 
-import com.ordana.immersive_weathering.utils.WeatheringHelper;
+import com.ordana.immersive_weathering.WeatheringHelper;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.entities.FallingLayerEntity;
+import com.ordana.immersive_weathering.reg.LeafPilesRegistry;
+import com.ordana.immersive_weathering.reg.ModTags;
 import dev.architectury.injectables.annotations.PlatformOnly;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.client.Minecraft;
@@ -17,18 +21,21 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
@@ -107,7 +114,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         int layers = this.getLayers(state);
 
         if (layers > 3) {
-            if (entity instanceof LivingEntity && !(entity instanceof Fox || entity instanceof Bee)) {
+            if (CommonConfigs.LEAF_PILES_SLOW.get() && entity instanceof LivingEntity && !(entity instanceof Fox || entity instanceof Bee || EnchantmentHelper.getEnchantmentLevel(Enchantments.DEPTH_STRIDER, (LivingEntity) entity) > 0)) {
                 float stuck = COLLISIONS[Math.max(0, layers - 1)];
                 entity.makeStuckInBlock(state, new Vec3(stuck, 1, stuck));
 
@@ -151,18 +158,35 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        if (context instanceof EntityCollisionContext c) {
+            var e = c.getEntity();
+            if (e instanceof FallingLayerEntity) {
+                return SHAPE_BY_LAYER_L[state.getValue(LAYERS)];
+            }
+        }
         return Shapes.empty();
     }
+
+    @Override
+    public VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return SHAPE_BY_LAYER_L[getLayers(state)];
+    }
+
 
     //just used for placement by blockItem
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        BlockState bottomState = world.getBlockState(pos.below());
+        if(bottomState.getBlock() instanceof LeavesBlock)return true;
+        if (state.getValue(LAYERS) != 0 && !bottomState.isFaceSturdy(world, pos.below(), Direction.UP)) return false;
         return !shouldFall(state, world.getBlockState(pos.below()));
     }
 
+
     @Override
     public boolean shouldFall(BlockState state, BlockState belowState) {
-        if (state.getValue(LAYERS) == 0 && belowState.is(Blocks.WATER)) return false;
+        if ((state.getValue(LAYERS) == 0 && belowState.is(Blocks.WATER)) || belowState.is(ModTags.LEAF_PILES))
+            return false;
         return super.shouldFall(state, belowState);
     }
 
@@ -231,5 +255,25 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         return layers > 1 && (this.isLeafy || this.hasThorns);
     }
 
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+        if (random.nextInt(16) == 0) {
+            BlockPos blockPos = pos.below();
+            if (isFree(level.getBlockState(blockPos))) {
+                var leafParticle = LeafPilesRegistry.getFallenLeafParticle(state).orElse(null);
+                if (leafParticle == null) return;
+                int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
+                for (var p : particles) {
+                    if (random.nextFloat() < 0.2) {
+                        double d = (double) pos.getX() + random.nextDouble();
+                        double e = (double) pos.getY() - 0.05;
+                        double f = (double) pos.getZ() + random.nextDouble();
+                        level.addParticle(leafParticle, d, e, f, 0.0, color, 0.0);
+                    }
+                }
+            }
+        }
+
+    }
 
 }

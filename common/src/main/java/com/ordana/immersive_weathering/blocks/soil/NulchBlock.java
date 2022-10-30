@@ -84,23 +84,6 @@ public class NulchBlock extends Block {
                 entity.hurt(DamageSource.HOT_FLOOR, 1.0F);
             }
         }
-        super.stepOn(level, pos, state, entity);
-        if (!(entity instanceof LivingEntity) || entity.getFeetBlockState().is(this)) {
-            if (level.isClientSide) {
-                Random random = level.getRandom();
-                boolean bl = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
-                if (bl && random.nextBoolean()) {
-
-                    level.addParticle(ModParticles.NULCH.get(),
-                            entity.getX() + Mth.randomBetween(random, -0.2f, 0.2f),
-                            pos.getY() + 1.025,
-                            entity.getZ() + Mth.randomBetween(random, -0.2f, 0.2f),
-                            Mth.randomBetween(random, -0.9f, -1),
-                            -1,
-                            0);
-                }
-            }
-        }
     }
 
 
@@ -140,11 +123,11 @@ public class NulchBlock extends Block {
             // fill bucket from mulch
             else if (stack.is(Items.BUCKET) && state.getValue(MOLTEN)) {
                 level.playSound(player, pos, SoundEvents.BUCKET_FILL_LAVA, SoundSource.BLOCKS, 1.0f, 1.0f);
-                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.LAVA, UniformInt.of(3, 5));
                 if (player instanceof ServerPlayer) {
                     ItemStack itemStack2 = ItemUtils.createFilledResult(stack, player, Items.LAVA_BUCKET.getDefaultInstance());
                     player.setItemInHand(hand, itemStack2);
-                    level.setBlockAndUpdate(pos, state.setValue(MOLTEN, true));
+                    level.setBlockAndUpdate(pos, state.setValue(MOLTEN, false));
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                 }
                 return InteractionResult.SUCCESS;

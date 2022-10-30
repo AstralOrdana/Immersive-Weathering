@@ -58,6 +58,10 @@ public class ModParticles {
     public static final Supplier<SimpleParticleType> FLOWER_LESBIAN = registerParticle("flower_lesbian");
     public static final Supplier<SimpleParticleType> FLOWER_RAINBOW = registerParticle("flower_rainbow");
     public static final Supplier<SimpleParticleType> FLOWER_TRANS = registerParticle("flower_trans");
+    public static final Supplier<SimpleParticleType> FLOWER_FLUID = registerParticle("flower_fluid");
+    public static final Supplier<SimpleParticleType> FLOWER_GENDERQUEER = registerParticle("flower_genderqueer");
+    public static final Supplier<SimpleParticleType> FLOWER_INTERSEX = registerParticle("flower_intersex");
+    public static final Supplier<SimpleParticleType> FLOWER_PAN = registerParticle("flower_pan");
 
     //supporter particles
     public static final Supplier<SimpleParticleType> FLOWER_FLAX = registerParticle("flower_flax");

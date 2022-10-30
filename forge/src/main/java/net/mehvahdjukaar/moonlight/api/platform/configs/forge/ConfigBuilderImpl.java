@@ -80,7 +80,7 @@ public class ConfigBuilderImpl extends ConfigBuilder {
     @Override
     public Supplier<String> define(String name, String defaultValue, Predicate<Object> validator) {
         maybeAddTranslationString(name);
-        ForgeConfigSpec.ConfigValue<String> stringConfig = builder.define(name, (String) defaultValue, validator);
+        ForgeConfigSpec.ConfigValue<String> stringConfig = builder.define(name, defaultValue, validator);
         return stringConfig;
     }
 

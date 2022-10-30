@@ -4,6 +4,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.client.ImmersiveWeatheringClient;
+import com.ordana.immersive_weathering.forge.dynamic.ModDynamicRegistry;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModWaxables;
 import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
@@ -35,7 +36,6 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forgespi.locating.IModFile;
 import net.minecraftforge.resource.PathResourcePack;
-import top.theillusivec4.curios.api.SlotTypeMessage;
 
 import java.io.IOException;
 
@@ -46,6 +46,8 @@ import java.io.IOException;
 public class ImmersiveWeatheringForge {
     public static final String MOD_ID = ImmersiveWeathering.MOD_ID;
 
+    public static boolean hasDynamic = ModList.get().isLoaded("selene");
+
     public ImmersiveWeatheringForge() {
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -55,6 +57,9 @@ public class ImmersiveWeatheringForge {
         ImmersiveWeathering.commonInit();
         FeatureHacks.init();
 
+        if(hasDynamic) {
+            ModDynamicRegistry.init();
+        }
         /**
          * Update stuff:
          * Configs
@@ -115,6 +120,8 @@ public class ImmersiveWeatheringForge {
     public void addPackFinders(AddPackFindersEvent event) {
 
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
+            registerBuiltinResourcePack(event, new TextComponent("Biome Tinted Mossy Blocks"), "biome_tinted_mossy_blocks");
+
             registerBuiltinResourcePack(event, new TextComponent("Better Brick Items"), "better_brick_items");
             registerBuiltinResourcePack(event, new TextComponent("Better Brick blocks"), "better_brick_blocks");
             registerBuiltinResourcePack(event, new TextComponent("Visual Waxed Iron Items"), "visual_waxed_iron_items");

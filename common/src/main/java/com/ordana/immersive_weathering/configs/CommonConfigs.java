@@ -1,21 +1,28 @@
 package com.ordana.immersive_weathering.configs;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.client.particles.LeafParticle;
 import com.ordana.immersive_weathering.data.block_growths.area_condition.AreaCondition;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigBuilder;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigSpec;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigType;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public class CommonConfigs {
 
 
-
     public static ConfigSpec SERVER_SPEC;
 
     public static Supplier<Boolean> BLOCK_GROWTHS;
+    public static Supplier<Boolean> DESIRE_PATHS;
+    public static Supplier<Double> DESIRE_PATH_RATE;
+    public static Supplier<Boolean> CREATIVE_TAB;
+    public static Supplier<Boolean> CREATIVE_DROP;
+    public static Supplier<Boolean> GRASS_OVER_MYCELIUM;
+    public static Supplier<Boolean> MYCELIUM_OVER_GRASS;
 
     public static Supplier<Double> MOSS_INTERESTS_FOR_FACE;
     public static Supplier<Double> MOSS_PATCHINESS;
@@ -53,6 +60,7 @@ public class CommonConfigs {
     public static Supplier<Boolean> CHARRED_BLOCK_IGNITING;
     public static Supplier<Boolean> SHOVEL_EXTINGUISH;
     public static Supplier<Boolean> SPONGE_RUSTING;
+    public static Supplier<Boolean> SPONGE_RUST_DRYING;
     public static Supplier<Boolean> AXE_STRIPPING;
     public static Supplier<Boolean> AXE_SCRAPING;
     public static Supplier<Boolean> ASH_ITEM_SPAWN;
@@ -76,19 +84,25 @@ public class CommonConfigs {
     public static Supplier<Boolean> LEGGINGS_PREVENTS_THORN_DAMAGE;
     public static Supplier<String> GENERIC_BARK;
 
+    public static Supplier<Boolean> LEAF_PILES_SLOW;
     public static Supplier<Double> LEAF_PILES_FROM_DECAY_CHANCE;
-    public static Supplier<Boolean> LEAF_DECAY_SOUND;
     public static Supplier<Double> LEAF_PILES_CHANCE;
     public static Supplier<Integer> LEAF_PILE_MAX_HEIGHT;
     public static Supplier<Integer> LEAF_PILES_REACH;
+    public static Supplier<List<String>> LEAF_PILES_BLACKLIST;
+
 
     public static Supplier<Boolean> THIN_ICE_MELTING;
 
     public static Supplier<Boolean> VITRIFIED_LIGHTNING;
+    public static Supplier<Double> FULGURITE_CHANCE;
+
 
     public static Supplier<Boolean> RUSTING;
 
     public static Supplier<Boolean> MULCH_GROWS_CROPS;
+
+
 
     public static void init() {
         ConfigBuilder builder = ConfigBuilder.create(ImmersiveWeathering.res("common"), ConfigType.COMMON);
@@ -97,6 +111,9 @@ public class CommonConfigs {
 
         builder.push("general");
         BLOCK_GROWTHS = builder.define("block_growths", true);
+        CREATIVE_TAB = builder.define("creative_tab", false);
+        GRASS_OVER_MYCELIUM = builder.define("grass_over_mycelium", true);
+        MYCELIUM_OVER_GRASS = builder.define("mycelium_over_grass", true);
         builder.pop();
 
         builder.push("mossy_blocks");
@@ -120,9 +137,9 @@ public class CommonConfigs {
 
         builder.push("freezing");
         //all these are disabled when at 0 of course
-        FREEZING_WATER_SEVERITY = builder.define("water_severity", 200, 0, 1000);
+        FREEZING_WATER_SEVERITY = builder.comment("same as powder snow. If below 2 it will match natural unfreezing so will stay constant").define("water_increment", 3, 0, 5);
         FREEZING_ICICLE_SEVERITY = builder.define("icicle", 300, 0, 1000);
-        FREEZING_PERMAFROST_SEVERITY = builder.define("permafrost", 300, 0, 1000);
+        FREEZING_PERMAFROST_SEVERITY = builder.define("permafrost_increment", 2, 0, 5);
         builder.pop();
 
         builder.push("charring");
@@ -159,15 +176,17 @@ public class CommonConfigs {
         CHARRED_BLOCK_IGNITING = builder.define("charred_block_igniting", true);
         SHOVEL_EXTINGUISH = builder.define("shovel_extinguish", true);
         SPONGE_RUSTING = builder.define("sponge_rusting", true);
+        SPONGE_RUST_DRYING = builder.define("sponge_rust_drying", false);
         AXE_STRIPPING = builder.define("axe_stripping", true);
         AXE_SCRAPING = builder.define("axe_rusting", true);
         ASH_ITEM_SPAWN = builder.comment("allows ash to spawn when extinguishing campfires")
                 .define("ash_item_spawn",true);
+        CREATIVE_DROP = builder.comment("Drop stuff when in creative").define("drop_in_creative",false);
         builder.pop();
 
         builder.push("food");
         ICICLE_FOOD = builder.define("icicle_food", true);
-        ICICLE_FIRE_RESISTANCE = builder.define("icicle_fire_resistance", false);
+        ICICLE_FIRE_RESISTANCE = builder.define("icicle_fire_resistance", true);
         MUDDY_WATER_ENABLED = builder.define("muddy_water_enabled", true);
         builder.pop();
 
@@ -177,23 +196,27 @@ public class CommonConfigs {
         GENERIC_BARK = builder.define("generic_bark", "");
         FEATHER_FALLING_FARMERS = builder.define("feather_falling_farmers", true);
         LEGGINGS_PREVENTS_THORN_DAMAGE = builder.define("leggings_prevents_thorn_damage", true);
+        DESIRE_PATHS = builder.define("desire_paths", false);
+        DESIRE_PATH_RATE = builder.define("desire_path_rate", 0.05, 0, 1d);
         builder.pop();
 
         builder.push("leaf_piles");
+        LEAF_PILES_SLOW = builder.define("leaf_piles_slow", true);
         LEAF_PILES_FROM_DECAY_CHANCE = builder.define("spawn_entity_from_decay", 0.3, 0, 1);
-        LEAF_DECAY_SOUND = builder.define("decay_sound", true);
 
         LEAF_PILES_CHANCE = builder.define("leaf_piles_spawn_chance", 0.005, 0, 1);
         LEAF_PILES_REACH = builder.define("reach", 12, 1, 256);
         LEAF_PILE_MAX_HEIGHT = builder.define("max_pile_height", 3, 1, 8);
+        LEAF_PILES_BLACKLIST = builder.comment("leaves that wont spawn leaf piles") .define("leaf_piles_blacklist",List.of());
         builder.pop();
 
         builder.push("thin_ice");
-        THIN_ICE_MELTING = builder.define("natural_melting", true);
+        THIN_ICE_MELTING = builder.define("natural_melting", false);
         builder.pop();
 
         builder.push("lightning_growths"); //TODO:move to data
         VITRIFIED_LIGHTNING = builder.define("vitrified_lightning", true);
+        FULGURITE_CHANCE = builder.define("fulgurite_chance", 0.4,0,1);
         builder.pop();
 
         builder.push("rusting");

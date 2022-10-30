@@ -1,12 +1,22 @@
 {
-  "type": "target_other",
+  "type": "target_self",
   "fluid": "minecraft:lava",
+  "priority": 1,
   "generate": {
     "Name": "minecraft:tuff"
   },
-  "target":
-  {
-    "predicate_type": "minecraft:tag_match",
-    "tag": "immersive_weathering:ash"
+  "adjacent_blocks": {
+    "any": [
+      {
+        "tag": "immersive_weathering:ash",
+        "predicate_type": "minecraft:tag_match"
+      },
+      {
+        "block_state": {
+          "Name": "minecraft:blue_ice"
+        },
+        "predicate_type": "minecraft:blockstate_match"
+      }
+    ]
   }
 }

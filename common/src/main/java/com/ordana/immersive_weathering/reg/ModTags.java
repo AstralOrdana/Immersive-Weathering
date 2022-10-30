@@ -58,6 +58,7 @@ public final class ModTags {
     public static final TagKey<Biome> HAS_LAKEBED = registerBiomeTag("has_lakebed");
     public static final TagKey<Biome> HAS_VERITOSOL = registerBiomeTag("has_veritosol");
     public static final TagKey<Biome> HAS_IVY = registerBiomeTag("has_ivy");
+    public static final TagKey<Biome> HAS_MOSS = registerBiomeTag("has_moss");
     public static final TagKey<Biome> UNDERGROUND_DESERT = registerBiomeTag("underground_desert");
 
 
@@ -66,6 +67,7 @@ public final class ModTags {
      * For water permafrost and icicles. All animals with fur or that live near cold biomes
      */
     public static final TagKey<EntityType<?>> LIGHT_FREEZE_IMMUNE = registerEntityTag("light_freeze_immune");
+    public static final TagKey<EntityType<?>> TRAMPLES_PATHS = registerEntityTag("tramples_paths");
 
     //fabric only.
     //TODO: remove unneded from forge

@@ -11,10 +11,15 @@ import com.ordana.immersive_weathering.blocks.frostable.FrostyGrassBlock;
 import com.ordana.immersive_weathering.blocks.mossable.*;
 import com.ordana.immersive_weathering.blocks.rustable.*;
 import com.ordana.immersive_weathering.blocks.soil.*;
+import com.ordana.immersive_weathering.integration.IntegrationHandler;
+import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import net.mehvahdjukaar.moonlight.api.block.ModStairBlock;
 import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
+import net.mehvahdjukaar.moonlight.api.misc.RegSupplier;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -28,6 +33,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
@@ -53,8 +59,19 @@ public class ModBlocks {
     }
 
     public static <T extends Block> Supplier<T> regWithItem(String name, Supplier<T> block, String requiredMod) {
-        CreativeModeTab tab = PlatformHelper.isModLoaded(requiredMod) ? getTab(CreativeModeTab.TAB_BUILDING_BLOCKS) : null;
+        CreativeModeTab tab = isCompatBlockEanbled(requiredMod) ? getTab(CreativeModeTab.TAB_BUILDING_BLOCKS) : null;
         return regWithItem(name, block, tab);
+    }
+
+    private static boolean isCompatBlockEanbled(String requiredMod) {
+        if(Objects.equals(requiredMod, "quark")) {
+            if (PlatformHelper.getPlatform().isFabric()) {
+                return requiredMod.equals("amogus");
+            }else{
+                return IntegrationHandler.quark && QuarkPlugin.isVerticalSlabsOn();
+            }
+        }
+        return PlatformHelper.isModLoaded(requiredMod);
     }
 
 
@@ -118,7 +135,7 @@ public class ModBlocks {
             new LeafPileBlock(Properties.copy(AZALEA_LEAF_PILE.get()), true, false, false,
                     List.of(ModParticles.AZALEA_FLOWER)));
 
-    //later stuff
+    //layer stuff
 
     public static final Supplier<Block> SAND_LAYER_BLOCK = regWithItem("sand_layer_block", () ->
             new SandLayerBlock(14406560, Properties.of(Material.TOP_SNOW, MaterialColor.SAND).strength(0.5f)
@@ -135,6 +152,9 @@ public class ModBlocks {
             new AshBlock(Properties.of(Material.SNOW, MaterialColor.COLOR_BLACK).instabreak().sound(SoundType.SNOW)));
     public static final Supplier<Block> SOOT = regWithItem("soot", () ->
             new SootBlock(Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_BLACK).noCollission().instabreak().sound(SoundType.SNOW).randomTicks()));
+    public static final Supplier<Block> MOSS = regBlock("moss", () ->
+            new MossMultifaceBlock(Properties.of(Material.MOSS).randomTicks().instabreak().sound(SoundType.MOSS_CARPET).noOcclusion().noCollission()));
+
 
     //vegetation
 
@@ -275,7 +295,6 @@ public class ModBlocks {
 
     //mulch
 
-    //TODO: remove particles
     public static final Supplier<Block> MULCH_BLOCK = regWithItem("mulch_block", () ->
             new MulchBlock(Properties.of(Material.DIRT).strength(1f, 1f)
                             .sound(SoundType.ROOTED_DIRT).randomTicks()));
@@ -418,63 +437,62 @@ public class ModBlocks {
     //iron door
 
     public static final Supplier<Block> EXPOSED_IRON_DOOR = regWithItem("exposed_iron_door", () ->
-            new RustableDoorBlock(Rustable.RustLevel.EXPOSED, Properties.copy(CUT_IRON.get())));
+            new RustableDoorBlock(Rustable.RustLevel.EXPOSED, Properties.copy(Blocks.IRON_DOOR)));
     public static final Supplier<Block> WEATHERED_IRON_DOOR = regWithItem("weathered_iron_door", () ->
-            new RustableDoorBlock(Rustable.RustLevel.WEATHERED, Properties.copy(CUT_IRON.get())));
+            new RustableDoorBlock(Rustable.RustLevel.WEATHERED, Properties.copy(EXPOSED_IRON_DOOR.get())));
     public static final Supplier<Block> RUSTED_IRON_DOOR = regWithItem("rusted_iron_door", () ->
-            new RustableDoorBlock(Rustable.RustLevel.RUSTED, Properties.copy(CUT_IRON.get())));
+            new RustableDoorBlock(Rustable.RustLevel.RUSTED, Properties.copy(EXPOSED_IRON_DOOR.get())));
 
     //iron trapdoor
 
     public static final Supplier<Block> EXPOSED_IRON_TRAPDOOR = regWithItem("exposed_iron_trapdoor", () ->
-            new RustableTrapdoorBlock(Rustable.RustLevel.EXPOSED, Properties.copy(CUT_IRON.get())));
+            new RustableTrapdoorBlock(Rustable.RustLevel.EXPOSED, Properties.copy(Blocks.IRON_TRAPDOOR)));
     public static final Supplier<Block> WEATHERED_IRON_TRAPDOOR = regWithItem("weathered_iron_trapdoor", () ->
-            new RustableTrapdoorBlock(Rustable.RustLevel.WEATHERED, Properties.copy(CUT_IRON.get())));
+            new RustableTrapdoorBlock(Rustable.RustLevel.WEATHERED, Properties.copy(EXPOSED_IRON_TRAPDOOR.get())));
     public static final Supplier<Block> RUSTED_IRON_TRAPDOOR = regWithItem("rusted_iron_trapdoor", () ->
-            new RustableTrapdoorBlock(Rustable.RustLevel.RUSTED, Properties.copy(CUT_IRON.get())));
+            new RustableTrapdoorBlock(Rustable.RustLevel.RUSTED, Properties.copy(EXPOSED_IRON_TRAPDOOR.get())));
 
     //iron bars
 
     public static final Supplier<Block> EXPOSED_IRON_BARS = regWithItem("exposed_iron_bars", () ->
-            new RustableBarsBlock(Rustable.RustLevel.EXPOSED, Properties.copy(CUT_IRON.get())));
+            new RustableBarsBlock(Rustable.RustLevel.EXPOSED, Properties.copy(Blocks.IRON_BARS)));
     public static final Supplier<Block> WEATHERED_IRON_BARS = regWithItem("weathered_iron_bars", () ->
-            new RustableBarsBlock(Rustable.RustLevel.WEATHERED, Properties.copy(CUT_IRON.get())));
+            new RustableBarsBlock(Rustable.RustLevel.WEATHERED, Properties.copy(EXPOSED_IRON_BARS.get())));
     public static final Supplier<Block> RUSTED_IRON_BARS = regWithItem("rusted_iron_bars", () ->
-            new RustableBarsBlock(Rustable.RustLevel.RUSTED, Properties.copy(CUT_IRON.get())));
+            new RustableBarsBlock(Rustable.RustLevel.RUSTED, Properties.copy(EXPOSED_IRON_BARS.get())));
 
     //waxed iron door
 
     public static final Supplier<Block> WAXED_IRON_DOOR = regWithItem("waxed_iron_door", () ->
-            new RustableDoorBlock(Rustable.RustLevel.UNAFFECTED, Properties.copy(CUT_IRON.get())));
+            new DoorBlock(Properties.copy(Blocks.IRON_DOOR)){});
     public static final Supplier<Block> WAXED_EXPOSED_IRON_DOOR = regWithItem("waxed_exposed_iron_door", () ->
-            new RustableDoorBlock(Rustable.RustLevel.EXPOSED, Properties.copy(CUT_IRON.get())));
+            new DoorBlock(Properties.copy(WAXED_IRON_DOOR.get())){});
     public static final Supplier<Block> WAXED_WEATHERED_IRON_DOOR = regWithItem("waxed_weathered_iron_door", () ->
-            new RustableDoorBlock(Rustable.RustLevel.WEATHERED, Properties.copy(CUT_IRON.get())));
+            new DoorBlock(Properties.copy(WAXED_IRON_DOOR.get())){});
     public static final Supplier<Block> WAXED_RUSTED_IRON_DOOR = regWithItem("waxed_rusted_iron_door", () ->
-            new RustableDoorBlock(Rustable.RustLevel.RUSTED, Properties.copy(CUT_IRON.get())));
+            new DoorBlock(Properties.copy(WAXED_IRON_DOOR.get())){});
 
     //waxed trapdoor
-
     public static final Supplier<Block> WAXED_IRON_TRAPDOOR = regWithItem("waxed_iron_trapdoor", () ->
-            new RustableTrapdoorBlock(Rustable.RustLevel.UNAFFECTED, Properties.copy(CUT_IRON.get())));
+            new TrapDoorBlock(Properties.copy(Blocks.IRON_TRAPDOOR)){});
     public static final Supplier<Block> WAXED_EXPOSED_IRON_TRAPDOOR = regWithItem("waxed_exposed_iron_trapdoor", () ->
-            new RustableTrapdoorBlock(Rustable.RustLevel.EXPOSED, Properties.copy(CUT_IRON.get())));
+            new TrapDoorBlock(Properties.copy(WAXED_IRON_TRAPDOOR.get())){});
     public static final Supplier<Block> WAXED_WEATHERED_IRON_TRAPDOOR = regWithItem("waxed_weathered_iron_trapdoor", () ->
-            new RustableTrapdoorBlock(Rustable.RustLevel.WEATHERED, Properties.copy(CUT_IRON.get())));
+            new TrapDoorBlock(Properties.copy(WAXED_IRON_TRAPDOOR.get())){});
     public static final Supplier<Block> WAXED_RUSTED_IRON_TRAPDOOR = regWithItem("waxed_rusted_iron_trapdoor", () ->
-            new RustableTrapdoorBlock(Rustable.RustLevel.RUSTED, Properties.copy(CUT_IRON.get())));
+            new TrapDoorBlock(Properties.copy(WAXED_IRON_TRAPDOOR.get())){});
 
     //waxed iron bars
 
     //TODO: rethink sound since its diff that iron bars
     public static final Supplier<Block> WAXED_IRON_BARS = regWithItem("waxed_iron_bars", () ->
-            new RustableBarsBlock(Rustable.RustLevel.UNAFFECTED, Properties.copy(CUT_IRON.get())));
+            new IronBarsBlock(Properties.copy(EXPOSED_IRON_BARS.get())){});
     public static final Supplier<Block> WAXED_EXPOSED_IRON_BARS = regWithItem("waxed_exposed_iron_bars", () ->
-            new RustableBarsBlock(Rustable.RustLevel.EXPOSED, Properties.copy(CUT_IRON.get())));
+            new IronBarsBlock(Properties.copy(EXPOSED_IRON_BARS.get())){});
     public static final Supplier<Block> WAXED_WEATHERED_IRON_BARS = regWithItem("waxed_weathered_iron_bars", () ->
-            new RustableBarsBlock(Rustable.RustLevel.WEATHERED, Properties.copy(CUT_IRON.get())));
+            new IronBarsBlock(Properties.copy(EXPOSED_IRON_BARS.get())){});
     public static final Supplier<Block> WAXED_RUSTED_IRON_BARS = regWithItem("waxed_rusted_iron_bars", () ->
-            new RustableBarsBlock(Rustable.RustLevel.RUSTED, Properties.copy(CUT_IRON.get())));
+            new IronBarsBlock(Properties.copy(EXPOSED_IRON_BARS.get())){});
 
     //cracked end stone
 
@@ -522,7 +540,7 @@ public class ModBlocks {
     //vitrified sand
 
     public static final Supplier<Block> FULGURITE = regWithItem("fulgurite", () ->
-            new FulguriteBlock(7, 3, Properties.copy(Blocks.GLASS)
+            new FulguriteBlock(9, 4, Properties.copy(Blocks.GLASS)
                     .instabreak().lightLevel((s) -> s.getValue(FulguriteBlock.POWERED) ? 5 : 0)
                     .dynamicShape().requiresCorrectToolForDrops()));
 
@@ -558,20 +576,20 @@ public class ModBlocks {
                     .strength(3F).friction(1F).sound(SoundType.TUFF).randomTicks()));
 
     public static final Supplier<Block> ROOTED_GRASS_BLOCK = regWithItem("rooted_grass_block", () ->
-            new RootedGrassBlock(Properties.of(Material.GRASS).randomTicks().strength(0.5F)
+            new RootedGrassBlock(Properties.copy(Blocks.GRASS_BLOCK).randomTicks().strength(0.5F)
                     .sound(SoundType.ROOTED_DIRT)));
 
 
     //vertical slab
 
     public static final Supplier<Block> CUT_IRON_VERTICAL_SLAB = regWithItem("cut_iron_vertical_slab", () ->
-            new RustableVerticalSlabBlock(Rustable.RustLevel.UNAFFECTED, Properties.copy(CUT_IRON.get())));
+            new RustableVerticalSlabBlock(Rustable.RustLevel.UNAFFECTED, Properties.copy(CUT_IRON.get())), "quark");
     public static final Supplier<Block> EXPOSED_CUT_IRON_VERTICAL_SLAB = regWithItem("exposed_cut_iron_vertical_slab", () ->
-            new RustableVerticalSlabBlock(Rustable.RustLevel.EXPOSED, Properties.copy(CUT_IRON.get())));
+            new RustableVerticalSlabBlock(Rustable.RustLevel.EXPOSED, Properties.copy(CUT_IRON.get())), "quark");
     public static final Supplier<Block> WEATHERED_CUT_IRON_VERTICAL_SLAB = regWithItem("weathered_cut_iron_vertical_slab", () ->
-            new RustableVerticalSlabBlock(Rustable.RustLevel.WEATHERED, Properties.copy(CUT_IRON.get())));
+            new RustableVerticalSlabBlock(Rustable.RustLevel.WEATHERED, Properties.copy(CUT_IRON.get())), "quark");
     public static final Supplier<Block> RUSTED_CUT_IRON_VERTICAL_SLAB = regWithItem("rusted_cut_iron_vertical_slab", () ->
-            new RustableVerticalSlabBlock(Rustable.RustLevel.RUSTED, Properties.copy(CUT_IRON.get())));
+            new RustableVerticalSlabBlock(Rustable.RustLevel.RUSTED, Properties.copy(CUT_IRON.get())), "quark");
 
     public static final Supplier<Block> WAXED_CUT_IRON_VERTICAL_SLAB = regWithItem("waxed_cut_iron_vertical_slab", () ->
             new VerticalSlabBlock(Properties.copy(CUT_IRON.get())), "quark");
@@ -583,13 +601,13 @@ public class ModBlocks {
             new VerticalSlabBlock(Properties.copy(CUT_IRON.get())), "quark");
 
     public static final Supplier<Block> PLATE_IRON_VERTICAL_SLAB = regWithItem("plate_iron_vertical_slab", () ->
-            new RustableVerticalSlabBlock(Rustable.RustLevel.UNAFFECTED, Properties.copy(CUT_IRON.get())));
+            new RustableVerticalSlabBlock(Rustable.RustLevel.UNAFFECTED, Properties.copy(CUT_IRON.get())), "quark");
     public static final Supplier<Block> EXPOSED_PLATE_IRON_VERTICAL_SLAB = regWithItem("exposed_plate_iron_vertical_slab", () ->
-            new RustableVerticalSlabBlock(Rustable.RustLevel.EXPOSED, Properties.copy(CUT_IRON.get())));
+            new RustableVerticalSlabBlock(Rustable.RustLevel.EXPOSED, Properties.copy(CUT_IRON.get())), "quark");
     public static final Supplier<Block> WEATHERED_PLATE_IRON_VERTICAL_SLAB = regWithItem("weathered_plate_iron_vertical_slab", () ->
-            new RustableVerticalSlabBlock(Rustable.RustLevel.WEATHERED, Properties.copy(CUT_IRON.get())));
+            new RustableVerticalSlabBlock(Rustable.RustLevel.WEATHERED, Properties.copy(CUT_IRON.get())), "quark");
     public static final Supplier<Block> RUSTED_PLATE_IRON_VERTICAL_SLAB = regWithItem("rusted_plate_iron_vertical_slab", () ->
-            new RustableVerticalSlabBlock(Rustable.RustLevel.RUSTED, Properties.copy(CUT_IRON.get())));
+            new RustableVerticalSlabBlock(Rustable.RustLevel.RUSTED, Properties.copy(CUT_IRON.get())), "quark");
 
     public static final Supplier<Block> WAXED_PLATE_IRON_VERTICAL_SLAB = regWithItem("waxed_plate_iron_vertical_slab", () ->
             new VerticalSlabBlock(Properties.copy(CUT_IRON.get())), "quark");

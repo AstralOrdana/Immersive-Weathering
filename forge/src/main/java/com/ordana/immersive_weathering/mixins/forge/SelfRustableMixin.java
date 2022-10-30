@@ -21,7 +21,8 @@ public interface SelfRustableMixin extends IForgeBlock, ChangeOverTimeBlock<Rust
     @Nullable
     @Override
     default BlockState getToolModifiedState(BlockState state, Level level, BlockPos pos, Player player, ItemStack stack, ToolAction toolAction) {
-        if (this.getAge() != Rustable.RustLevel.RUSTED && ToolActions.AXE_SCRAPE.equals(toolAction)) {
+        if (this.getAge() != Rustable.RustLevel.RUSTED &&
+                this.getAge() != RustLevel.WEATHERED && ToolActions.AXE_SCRAPE.equals(toolAction)) {
             return this.getPrevious(state).orElse(null);
         } else if (ToolActions.AXE_WAX_OFF.equals(toolAction)) {
             var v = ModWaxables.getUnWaxed(state);

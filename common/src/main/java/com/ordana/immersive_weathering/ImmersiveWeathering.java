@@ -6,6 +6,8 @@ import com.ordana.immersive_weathering.data.fluid_generators.IFluidGenerator;
 import com.ordana.immersive_weathering.data.position_tests.PositionRuleTest;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.network.NetworkHandler;
+import com.ordana.immersive_weathering.reg.ModSoundEvents;
 import com.ordana.immersive_weathering.reg.*;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.network.ModMessages;
@@ -16,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 public class ImmersiveWeathering {
 
     public static final String MOD_ID = "immersive_weathering";
+    public static boolean hasDynamic = PlatformHelper.isModLoaded("selene");
 
     public static final Logger LOGGER = LogManager.getLogger();
 
@@ -29,6 +32,7 @@ public class ImmersiveWeathering {
         ModMessages.registerMessages();
 
         CommonConfigs.init();
+        NetworkHandler.registerMessages();
 
         if(PlatformHelper.getEnv().isClient()){
             ClientConfigs.init();
@@ -40,7 +44,7 @@ public class ImmersiveWeathering {
         ModParticles.init();
         ModRuleTests.init();
         ModFeatures.init();
-
+        ModSoundEvents.init();
 
 
         PlatformHelper.addServerReloadListener(BlockGrowthHandler.RELOAD_INSTANCE, res("block_growths"));
@@ -54,9 +58,7 @@ public class ImmersiveWeathering {
         ModCompostable.register();
     }
 
-    //farmers plant on mulch
-    //hanging roots item override (mixin for fabric override for forge)
-    //RE add lightning strike growths
+    // dispenser interactions like de rusting
     //TODO: disabled conditional growth. add command system
     //figure out thin ice situation
     //thin ice repair and solidify when snow??
@@ -65,7 +67,6 @@ public class ImmersiveWeathering {
     //block sounds
     //thin ice crack sounds
     //TODO: add wet test
-    //add forge loot table modifiers
 
 
     {

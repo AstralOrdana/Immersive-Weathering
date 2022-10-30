@@ -1,34 +1,6 @@
 package com.ordana.immersive_weathering.fabric;
 
 
-import com.ordana.immersive_weathering.blocks.charred.*;
-import com.ordana.immersive_weathering.blocks.soil.ModGrassBlock;
-import com.ordana.immersive_weathering.reg.ModBlocks;
-import com.ordana.immersive_weathering.reg.ModItems;
-import com.ordana.immersive_weathering.reg.ModParticles;
-import com.ordana.immersive_weathering.reg.ModTags;
-import com.ordana.immersive_weathering.utils.WeatheringHelper;
-import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.ParticleUtils;
-import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.phys.BlockHitResult;
-
-import java.util.Random;
-
 @Deprecated(forRemoval = true)
 public class ModEvents {
 

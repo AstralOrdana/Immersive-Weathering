@@ -2,9 +2,8 @@
   "growth_chance": 0.005,
   "position_predicates": [
     {
-      "predicate_type": "temperature_range",
-      "max": 10,
-      "min": 3
+      "biomes":"#minecraft:is_nether",
+      "type": "biome_match"
     }
   ],
   "growth_for_face": [

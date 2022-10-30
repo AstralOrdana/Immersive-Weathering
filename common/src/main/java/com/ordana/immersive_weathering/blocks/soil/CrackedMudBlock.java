@@ -1,8 +1,9 @@
 package com.ordana.immersive_weathering.blocks.soil;
 
+import com.ordana.immersive_weathering.blocks.Soaked;
 import com.ordana.immersive_weathering.data.block_growths.IConditionalGrowingBlock;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
-import com.ordana.immersive_weathering.utils.WeatheringHelper;
+import com.ordana.immersive_weathering.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -19,9 +20,9 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Random;
 
-public class CrackedMudBlock extends Block implements IConditionalGrowingBlock {
+public class CrackedMudBlock extends Block implements IConditionalGrowingBlock, Soaked {
 
-    public static final BooleanProperty SOAKED = ModBlockProperties.SOAKED;
+
     public static final BooleanProperty FERTILE = ModBlockProperties.FERTILE;
 
     public CrackedMudBlock(Properties settings) {
@@ -67,7 +68,7 @@ public class CrackedMudBlock extends Block implements IConditionalGrowingBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        var res = WeatheringHelper.handleSoakedBlocksInteraction(state, level, pos, player, hand);
+        var res = soakOrDrain(state, level, pos, player, hand);
         if (res != InteractionResult.PASS) return res;
         return super.use(state, level, pos, player, hand, hit);
     }

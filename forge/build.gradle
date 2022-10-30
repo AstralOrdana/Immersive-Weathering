@@ -33,12 +33,18 @@ dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
     // Remove the next line if you don't want to depend on the API
     // modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
+    modImplementation("curse.maven:configured-457570:3946495")
+    modImplementation("curse.maven:selene-499980:3842421")
 
     modCompileOnly("curse.maven:quark-243121:3840125")
     modImplementation("curse.maven:autoreglib-250363:3642382")
-    modImplementation("curse.maven:curios-309927:3841948")
-    modImplementation("curse.maven:botania-225643:3936568")
-    modImplementation("curse.maven:patchouli-306770:3846086")
+   // modImplementation("curse.maven:curios-309927:3841948")
+   // modImplementation("curse.maven:botania-225643:3936568")
+   // modImplementation("curse.maven:patchouli-306770:3846086")
+    modImplementation("curse.maven:the-undergarden-379849:3810810")
+   // modImplementation("curse.maven:the-twilight-forest-227639:3998681")
+   // modImplementation("curse.maven:flywheel-486392:3934664")
+   // modImplementation("curse.maven:create-328085:3934676")
    // modImplementation("curse.maven:supplementaries-412082:3972685")
    // modImplementation("curse.maven:selene-499980:3842421")
 
@@ -67,7 +73,7 @@ shadowJar {
 remapJar {
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    classifier null
+    classifier "forge"
 }
 
 jar {
