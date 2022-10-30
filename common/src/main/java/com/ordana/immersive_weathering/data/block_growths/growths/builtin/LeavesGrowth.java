@@ -141,7 +141,6 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
     //called from mixin random tick
     public static void spawnFallingLeavesParticle(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (!(state.getBlock() instanceof LeavesBlock)) {
-            ImmersiveWeathering.LOGGER.error("Some mod tried to call leaves random tick without passing a leaf block blockstate as expected. This should be fixed on their end. Given blockstate : {}", state);
             return;
         }
         if (ClientConfigs.FALLING_LEAF_PARTICLES.get()) {
