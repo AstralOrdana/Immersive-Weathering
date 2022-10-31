@@ -69,11 +69,11 @@ public class IWPlatformStuffImpl {
     }
 
     public static void copyColorFrom(ClientPlatformHelper.BlockColorEvent event, Block block, Block colorFrom, BlockColor fallbackColor) {
-        event.register((s, t, p, i) -> event.getColor(block.defaultBlockState(), t, p, i), block);
+        event.register((s, t, p, i) -> event.getColor(colorFrom.defaultBlockState(), t, p, i), block);
     }
 
     public static void copyColorFrom(ClientPlatformHelper.ItemColorEvent event, ItemLike item, ItemLike colorFrom, ItemColor fallbackColor) {
-        event.register((s, t) -> event.getColor(item.asItem().getDefaultInstance(), t), item);
+        event.register((s, t) -> event.getColor(colorFrom.asItem().getDefaultInstance(), t), item);
     }
 
 
