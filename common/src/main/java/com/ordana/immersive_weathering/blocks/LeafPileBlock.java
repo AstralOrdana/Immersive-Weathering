@@ -39,7 +39,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.minecraft.util.RandomSource;
@@ -76,7 +75,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         this.canBeBonemealed = name.contains("flower");
         this.hasThorns = name.equals("spruce");
         //if(canBeBonemealed) this.particles = List.of(()->ModParticles.FALLING_LEAVES.get(leafType), ModParticles.AZALEA_FLOWER);
-        this.particles = List.of(()->ModParticles.FALLING_LEAVES.get(leafType));
+        this.particles = List.of(()->ModParticles.FALLING_LEAVES_PARTICLES.get(leafType));
         RegHelper.registerBlockFlammability(this, FIRE_SPREAD, FLAMMABILITY);
     }
 

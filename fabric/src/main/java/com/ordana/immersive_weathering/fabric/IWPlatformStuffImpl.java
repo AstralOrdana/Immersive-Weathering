@@ -3,9 +3,6 @@ package com.ordana.immersive_weathering.fabric;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
-import com.ordana.immersive_weathering.IWPlatformStuff;
-import com.ordana.immersive_weathering.blocks.LeafPileBlock;
-import com.ordana.immersive_weathering.blocks.rustable.Rustable;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
@@ -19,17 +16,11 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.FlowingFluid;
-import net.minecraft.world.level.storage.loot.LootPool;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class IWPlatformStuffImpl {
 
@@ -78,11 +69,11 @@ public class IWPlatformStuffImpl {
     }
 
     public static void copyColorFrom(ClientPlatformHelper.BlockColorEvent event, Block block, Block colorFrom, BlockColor fallbackColor) {
-        event.register(fallbackColor, block);
+        event.register((s, t, p, i) -> event.getColor(block.defaultBlockState(), t, p, i), block);
     }
 
     public static void copyColorFrom(ClientPlatformHelper.ItemColorEvent event, ItemLike item, ItemLike colorFrom, ItemColor fallbackColor) {
-        event.register(fallbackColor, item);
+        event.register((s, t) -> event.getColor(item.asItem().getDefaultInstance(), t), item);
     }
 
 
