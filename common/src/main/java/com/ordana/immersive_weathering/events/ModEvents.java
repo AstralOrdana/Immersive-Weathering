@@ -37,6 +37,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.piston.PistonBaseBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -480,6 +481,7 @@ public class ModEvents {
                     if (serverLevel.random.nextFloat() < charChance) {
                         newState = charred.setValue(CharredBlock.SMOLDERING, serverLevel.random.nextBoolean());
                     }
+                    BlockBehaviour.Properties.copy()
                 }
                 if (charred == null) {
                     if (serverLevel.random.nextFloat() < ashChance) {

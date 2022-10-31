@@ -51,7 +51,21 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
     public void generateStaticAssetsOnStartup(ResourceManager manager) {
         //generate static resources
 
-        // LangBuilder langBuilder = new LangBuilder();
+        //particles
+        {
+            StaticResource leafParticle = StaticResource.getOrLog(manager,
+                    ResType.PARTICLES.getPath(ImmersiveWeathering.res("oak_leaf")));
+
+            ModParticles.FALLING_LEAVES_PARTICLES.forEach((leafType,particle)->{
+
+                String particleId = Registry.PARTICLE_TYPE.getKey(particle).getPath();
+                try {
+                    dynamicPack.addSimilarJsonResource(leafParticle, "oak_leaf", particleId);
+                } catch (Exception ex) {
+                    getLogger().error("Failed to generate Leaf Particle for {} : {}", particle, ex);
+                }
+            });
+        }
 
         //------leaf piles------
         {
@@ -85,7 +99,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
 
                 String path = leafType.getNamespace() + "/" + leafType.getTypeName();
                 String id = path + "_leaf_pile";
-                
+
                 try {
                     dynamicPack.addSimilarJsonResource(lpBlockState, "oak_leaf_pile", id);
                 } catch (Exception ex) {
@@ -121,24 +135,6 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
                 }
             });
         }
-
-
-        //particles
-        {
-            StaticResource leafParticle = StaticResource.getOrLog(manager,
-                    ResType.PARTICLES.getPath(ImmersiveWeathering.res("oak_leaf")));
-
-            ModParticles.FALLING_LEAVES_PARTICLES.forEach((leafType,particle)->{;
-
-                String particleId = Registry.PARTICLE_TYPE.getKey(particle).getPath();
-                try {
-                    dynamicPack.addSimilarJsonResource(leafParticle, "oak_leaf", particleId);
-                } catch (Exception ex) {
-                    getLogger().error("Failed to generate Leaf Particle for {} : {}", particle, ex);
-                }
-            });
-        }
-
 
         //bark
         {
