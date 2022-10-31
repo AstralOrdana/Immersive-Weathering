@@ -481,7 +481,6 @@ public class ModEvents {
                     if (serverLevel.random.nextFloat() < charChance) {
                         newState = charred.setValue(CharredBlock.SMOLDERING, serverLevel.random.nextBoolean());
                     }
-                    BlockBehaviour.Properties.copy()
                 }
                 if (charred == null) {
                     if (serverLevel.random.nextFloat() < ashChance) {
