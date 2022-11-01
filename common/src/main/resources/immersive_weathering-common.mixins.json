@@ -19,6 +19,7 @@
     "RabbitEatGoalMixin",
     "RabbitMixin",
     "RootedDirtBlockMixin",
+    "SnowballMixin",
     "ServerLevelMixin",
     "SweetBerryBushMixin",
     "accessors.BiomeAccessor",

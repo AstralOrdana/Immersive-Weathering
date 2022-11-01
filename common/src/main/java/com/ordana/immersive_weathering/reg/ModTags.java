@@ -31,6 +31,10 @@ public final class ModTags {
     public static final TagKey<Block> GRASS_SPREAD_SOURCE = registerBlockTag("grass_spread_source");
     public static final TagKey<Block> LEAFY_LEAVES = registerBlockTag("deciduous_leaf_piles");
     public static final TagKey<Block> FIRE_REPLACEABLE = registerBlockTag("fire_replaceable");
+    public static final TagKey<Block> SANDY = registerBlockTag("sandy");
+    public static final TagKey<Block> SANDABLE = registerBlockTag("sandable");
+    public static final TagKey<Block> SNOWY = registerBlockTag("snowy");
+    public static final TagKey<Block> SNOWABLE = registerBlockTag("snowable");
 
     public static final TagKey<Block> CLEAN_IRON = registerBlockTag("clean_iron");
     public static final TagKey<Block> EXPOSED_IRON = registerBlockTag("exposed_iron");

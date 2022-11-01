@@ -10,6 +10,7 @@ public class ModBlockProperties {
     public static final BooleanProperty FERTILE = BooleanProperty.create("fertile");
     public static final BooleanProperty MOLTEN = BooleanProperty.create("molten");
     public static final IntegerProperty CRACKED = IntegerProperty.create("cracked", 0,3);
+    public static final IntegerProperty SANDINESS = IntegerProperty.create("sandiness", 0,1);
     public static final BooleanProperty CAN_EXPAND = BooleanProperty.create("can_expand");
     public static final IntegerProperty LEAF_LAYERS = IntegerProperty.create("layers", 0, 8);
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 10);

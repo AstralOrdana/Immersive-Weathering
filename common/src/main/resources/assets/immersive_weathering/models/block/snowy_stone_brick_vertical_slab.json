@@ -1,0 +1,6 @@
+{
+    "parent": "immersive_weathering:block/vertical_slab",
+    "textures": {
+        "all": "immersive_weathering:block/snowy_stone_bricks_side"
+    }
+}

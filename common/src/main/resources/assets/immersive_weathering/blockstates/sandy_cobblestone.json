@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "sandiness=0": {
+      "model": "immersive_weathering:block/sandy_cobblestone_0"
+    },
+    "sandiness=1": {
+      "model": "immersive_weathering:block/sandy_cobblestone_1"
+    }
+  }
+}

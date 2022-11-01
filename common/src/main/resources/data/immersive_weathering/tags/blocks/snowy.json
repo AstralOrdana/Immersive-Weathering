@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "immersive_weathering:snowy_cobblestone",
+    "immersive_weathering:snowy_cobblestone_stairs",
+    "immersive_weathering:snowy_cobblestone_slab",
+    "immersive_weathering:snowy_cobblestone_wall",
+    "immersive_weathering:snowy_chiseled_stone_bricks",
+    "immersive_weathering:snowy_stone_bricks",
+    "immersive_weathering:snowy_stone_brick_stairs",
+    "immersive_weathering:snowy_stone_brick_slab",
+    "immersive_weathering:snowy_stone_brick_wall",
+    "immersive_weathering:snowy_stone",
+    "immersive_weathering:snowy_stone_stairs",
+    "immersive_weathering:snowy_stone_slab",
+    "immersive_weathering:snowy_stone_wall"
+  ]
+}

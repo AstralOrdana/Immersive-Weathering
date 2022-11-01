@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.events;
 
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.WeatheringHelper;
+import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.blocks.Weatherable;
 import com.ordana.immersive_weathering.blocks.charred.CharredBlock;
 import com.ordana.immersive_weathering.blocks.crackable.Crackable;
@@ -45,6 +46,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class ModEvents {
@@ -73,6 +75,8 @@ public class ModEvents {
         EVENTS.add(ModEvents::barkRepairing);
         EVENTS.add(ModEvents::rustScraping);
         EVENTS.add(ModEvents::rustSponging);
+        EVENTS.add(ModEvents::blockSanding);
+        EVENTS.add(ModEvents::blockSnowing);
     }
 
 
@@ -170,7 +174,7 @@ public class ModEvents {
                         stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                         player.awardStat(Stats.ITEM_USED.get(item));
-                        level.setBlockAndUpdate(pos, WeatheringHelper.getUnwaxedBlock(state).orElse(null));
+                        level.setBlockAndUpdate(pos, Objects.requireNonNull(WeatheringHelper.getUnwaxedBlock(state).orElse(null)));
                     }
                     return InteractionResult.sidedSuccess(level.isClientSide);
                 }
@@ -441,7 +445,7 @@ public class ModEvents {
     }
 
 
-    private static InteractionResult barkRepairing(Item item, ItemStack stack, BlockPos pos, BlockState state, Player
+    private static InteractionResult barkRepairing (Item item, ItemStack stack, BlockPos pos, BlockState state, Player
             player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if (stack.is(ModTags.BARK)) {
             Pair<Item, Block> fixedLog = WeatheringHelper.getBarkForStrippedLog(state).orElse(null);
@@ -461,6 +465,42 @@ public class ModEvents {
                 }
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
+        }
+        return InteractionResult.PASS;
+    }
+
+    private static InteractionResult blockSanding (Item item, ItemStack stack, BlockPos pos, BlockState state, Player
+            player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+
+        if (stack.is(ModBlocks.SAND_LAYER_BLOCK.get().asItem()) && (state.is(ModTags.SANDABLE) || (state.is(ModTags.SANDY) && state.getValue(ModBlockProperties.SANDINESS) < 1))) {
+            level.playSound(player, pos, SoundEvents.SAND_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
+            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()), UniformInt.of(3, 5));
+            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+            if (player instanceof ServerPlayer) {
+                if (!player.getAbilities().instabuild) stack.shrink(1);
+                if (state.is(ModTags.SANDABLE)) {
+                    level.setBlockAndUpdate(pos, WeatheringHelper.getSandyBlock(state).orElse(null));
+                } else level.setBlockAndUpdate(pos, state.setValue(ModBlockProperties.SANDINESS,1));
+                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
+        return InteractionResult.PASS;
+    }
+
+    private static InteractionResult blockSnowing (Item item, ItemStack stack, BlockPos pos, BlockState state, Player
+            player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+
+        if (stack.is(Items.SNOWBALL) && (state.is(ModTags.SNOWABLE))) {
+            level.playSound(player, pos, SoundEvents.SNOW_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
+            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SNOW_BLOCK.defaultBlockState()), UniformInt.of(3, 5));
+            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+            if (player instanceof ServerPlayer) {
+                if (!player.getAbilities().instabuild) stack.shrink(1);
+                level.setBlockAndUpdate(pos, WeatheringHelper.getSnowyBlock(state).orElse(null));
+                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
         return InteractionResult.PASS;
     }

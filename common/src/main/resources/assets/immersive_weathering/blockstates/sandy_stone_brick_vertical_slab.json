@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "type=north,sandiness=0": { "model": "immersive_weathering:block/sandy_stone_brick_vertical_slab_0", "y": 0, "uvlock": true },
+    "type=south,sandiness=0": { "model": "immersive_weathering:block/sandy_stone_brick_vertical_slab_0", "y": 180, "uvlock": true },
+    "type=east,sandiness=0": { "model": "immersive_weathering:block/sandy_stone_brick_vertical_slab_0", "y": 90, "uvlock": true },
+    "type=west,sandiness=0": { "model": "immersive_weathering:block/sandy_stone_brick_vertical_slab_0", "y": 270, "uvlock": true },
+    "type=double,sandiness=0": { "model": "immersive_weathering:block/sandy_stone_bricks_0" },
+    "type=north,sandiness=1": { "model": "immersive_weathering:block/sandy_stone_brick_vertical_slab_1", "y": 0, "uvlock": true },
+    "type=south,sandiness=1": { "model": "immersive_weathering:block/sandy_stone_brick_vertical_slab_1", "y": 180, "uvlock": true },
+    "type=east,sandiness=1": { "model": "immersive_weathering:block/sandy_stone_brick_vertical_slab_1", "y": 90, "uvlock": true },
+    "type=west,sandiness=1": { "model": "immersive_weathering:block/sandy_stone_brick_vertical_slab_1", "y": 270, "uvlock": true },
+    "type=double,sandiness=1": { "model": "immersive_weathering:block/sandy_stone_bricks_1" }
+  }
+}

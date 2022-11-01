@@ -1,0 +1,194 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "up": "true",
+        "sandiness": "0"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_post_0"
+      }
+    },
+    {
+      "when": {
+        "north": "low",
+        "sandiness": "0"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_side_0",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "east": "low",
+        "sandiness": "0"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_side_0",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "south": "low",
+        "sandiness": "0"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_side_0",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "west": "low",
+        "sandiness": "0"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_side_0",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "north": "tall",
+        "sandiness": "0"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_side_tall_0",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "east": "tall",
+        "sandiness": "0"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_side_tall_0",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "south": "tall",
+        "sandiness": "0"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_side_tall_0",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "west": "tall",
+        "sandiness": "0"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_side_tall_0",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "up": "true",
+        "sandiness": "1"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_post_1"
+      }
+    },
+    {
+      "when": {
+        "north": "low",
+        "sandiness": "1"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_side_1",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "east": "low",
+        "sandiness": "1"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_side_1",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "south": "low",
+        "sandiness": "1"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_side_1",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "west": "low",
+        "sandiness": "1"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_side_1",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "north": "tall",
+        "sandiness": "1"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_side_tall_1",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "east": "tall",
+        "sandiness": "1"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_side_tall_1",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "south": "tall",
+        "sandiness": "1"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_side_tall_1",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "west": "tall",
+        "sandiness": "1"
+      },
+      "apply": {
+        "model": "immersive_weathering:block/sandy_stone_wall_side_tall_1",
+        "y": 270,
+        "uvlock": true
+      }
+    }
+  ]
+}
