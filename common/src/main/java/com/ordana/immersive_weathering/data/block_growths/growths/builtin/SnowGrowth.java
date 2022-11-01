@@ -28,7 +28,6 @@ public class SnowGrowth extends BuiltinBlockGrowth {
 
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome) {
-
         if (level.isRaining() && biome.is(ModTags.ICY)) {
             BlockPos downPos = pos.below();
             BlockState downBlock = level.getBlockState(downPos);
