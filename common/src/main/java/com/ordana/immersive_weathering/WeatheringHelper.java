@@ -416,6 +416,11 @@ public class WeatheringHelper {
         return posRandom.nextInt(rarity) == 0;
     }
 
+    public static boolean isWeatherPos(BlockPos pos) {
+        Random posRandom = new Random(Mth.getSeed(pos));
+        return posRandom.nextInt(6) == 0;
+    }
+
     //spawn sooth?
     public static void onFireExpired(ServerLevel serverLevel, BlockPos pos, BlockState state) {
     }

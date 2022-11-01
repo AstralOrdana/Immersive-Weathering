@@ -2,8 +2,10 @@ package com.ordana.immersive_weathering.blocks.sandy;
 
 import com.ordana.immersive_weathering.WeatheringHelper;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -51,8 +53,9 @@ public class SandyVerticalSlabBlock extends VerticalSlabBlock implements Sandy {
             if (player instanceof ServerPlayer) {
                 if (state.getValue(ModBlockProperties.SANDINESS) == 0) level.setBlockAndUpdate(pos, WeatheringHelper.getUnsandyBlock(state).orElse(null));
                 if (state.getValue(ModBlockProperties.SANDINESS) == 1) level.setBlockAndUpdate(pos, state.setValue(ModBlockProperties.SANDINESS, 0));
-                Block.popResourceFromFace(level, pos, hitResult.getDirection(), new ItemStack(ModBlocks.SAND_LAYER_BLOCK.get()));
+                if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) Block.popResourceFromFace(level, pos, hitResult.getDirection(), new ItemStack(ModBlocks.SAND_LAYER_BLOCK.get()));
                 player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         }

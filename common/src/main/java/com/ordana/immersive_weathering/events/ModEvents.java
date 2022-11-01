@@ -456,12 +456,10 @@ public class ModEvents {
                 if (level.isClientSide) {
                     level.playSound(player, pos, newBlock.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
                 } else {
+                    if (!player.getAbilities().instabuild) stack.shrink(1);
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                     level.setBlockAndUpdate(pos, newBlock);
-                    if (!player.getAbilities().instabuild) {
-                        stack.shrink(1);
-                    }
                 }
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
@@ -478,6 +476,7 @@ public class ModEvents {
             stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
             if (player instanceof ServerPlayer) {
                 if (!player.getAbilities().instabuild) stack.shrink(1);
+                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                 if (state.is(ModTags.SANDABLE)) {
                     level.setBlockAndUpdate(pos, WeatheringHelper.getSandyBlock(state).orElse(null));
                 } else level.setBlockAndUpdate(pos, state.setValue(ModBlockProperties.SANDINESS,1));
@@ -496,6 +495,7 @@ public class ModEvents {
             ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SNOW_BLOCK.defaultBlockState()), UniformInt.of(3, 5));
             stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
             if (player instanceof ServerPlayer) {
+                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                 if (!player.getAbilities().instabuild) stack.shrink(1);
                 level.setBlockAndUpdate(pos, WeatheringHelper.getSnowyBlock(state).orElse(null));
                 player.awardStat(Stats.ITEM_USED.get(stack.getItem()));

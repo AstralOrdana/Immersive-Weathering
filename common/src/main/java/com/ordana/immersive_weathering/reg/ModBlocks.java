@@ -11,6 +11,7 @@ import com.ordana.immersive_weathering.blocks.frostable.FrostyGrassBlock;
 import com.ordana.immersive_weathering.blocks.mossable.*;
 import com.ordana.immersive_weathering.blocks.rustable.*;
 import com.ordana.immersive_weathering.blocks.sandy.*;
+import com.ordana.immersive_weathering.blocks.snowy.*;
 import com.ordana.immersive_weathering.blocks.soil.*;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
@@ -192,43 +193,43 @@ public class ModBlocks {
     //snowy stone
 
     public static final Supplier<Block> SNOWY_STONE = regWithItem("snowy_stone", () ->
-            new Block(Properties.copy(Blocks.STONE)));
+            new SnowyBlock(Properties.copy(Blocks.STONE)));
     public static final Supplier<Block> SNOWY_STONE_STAIRS = regWithItem("snowy_stone_stairs", () ->
-            new ModStairBlock(SNOWY_STONE, Properties.copy(SNOWY_STONE.get())));
+            new SnowyStairsBlock(SNOWY_STONE, Properties.copy(SNOWY_STONE.get())));
     public static final Supplier<Block> SNOWY_STONE_SLAB = regWithItem("snowy_stone_slab", () ->
-            new SlabBlock(Properties.copy(SNOWY_STONE.get())));
+            new SnowySlabBlock(Properties.copy(SNOWY_STONE.get())));
     public static final Supplier<Block> SNOWY_STONE_VERTICAL_SLAB = regWithItem("snowy_stone_vertical_slab", () ->
-            new VerticalSlabBlock(Properties.copy(SNOWY_STONE_STAIRS.get())), "quark");
+            new SnowyVerticalSlabBlock(Properties.copy(SNOWY_STONE_STAIRS.get())), "quark");
     public static final Supplier<Block> SNOWY_STONE_WALL = regWithItem("snowy_stone_wall", () ->
-            new WallBlock(Properties.copy(Blocks.COBBLESTONE_WALL)));
+            new SnowyWallBlock(Properties.copy(Blocks.COBBLESTONE_WALL)));
 
     //snowy cobblestone
 
     public static final Supplier<Block> SNOWY_COBBLESTONE = regWithItem("snowy_cobblestone", () ->
-            new Block(Properties.copy(Blocks.COBBLESTONE)));
+            new SnowyBlock(Properties.copy(Blocks.COBBLESTONE)));
     public static final Supplier<Block> SNOWY_COBBLESTONE_STAIRS = regWithItem("snowy_cobblestone_stairs", () ->
-            new ModStairBlock(SNOWY_STONE, Properties.copy(SNOWY_STONE.get())));
+            new SnowyStairsBlock(SNOWY_STONE, Properties.copy(SNOWY_STONE.get())));
     public static final Supplier<Block> SNOWY_COBBLESTONE_SLAB = regWithItem("snowy_cobblestone_slab", () ->
-            new SlabBlock(Properties.copy(SNOWY_STONE.get())));
+            new SnowySlabBlock(Properties.copy(SNOWY_STONE.get())));
     public static final Supplier<Block> SNOWY_COBBLESTONE_VERTICAL_SLAB = regWithItem("snowy_cobblestone_vertical_slab", () ->
-            new VerticalSlabBlock(Properties.copy(SNOWY_STONE_STAIRS.get())), "quark");
+            new SnowyVerticalSlabBlock(Properties.copy(SNOWY_STONE_STAIRS.get())), "quark");
     public static final Supplier<Block> SNOWY_COBBLESTONE_WALL = regWithItem("snowy_cobblestone_wall", () ->
-            new WallBlock(Properties.copy(Blocks.COBBLESTONE_WALL)));
+            new SnowyWallBlock(Properties.copy(Blocks.COBBLESTONE_WALL)));
 
     //snowy stone bricks
 
     public static final Supplier<Block> SNOWY_STONE_BRICKS = regWithItem("snowy_stone_bricks", () ->
-            new Block(Properties.copy(Blocks.STONE)));
+            new SnowyBlock(Properties.copy(Blocks.STONE)));
     public static final Supplier<Block> SNOWY_CHISELED_STONE_BRICKS = regWithItem("snowy_chiseled_stone_bricks", () ->
-            new Block(Properties.copy(Blocks.STONE)));
+            new SnowyBlock(Properties.copy(Blocks.STONE)));
     public static final Supplier<Block> SNOWY_STONE_BRICK_STAIRS = regWithItem("snowy_stone_brick_stairs", () ->
-            new ModStairBlock(SNOWY_STONE, Properties.copy(SNOWY_STONE.get())));
+            new SnowyStairsBlock(SNOWY_STONE, Properties.copy(SNOWY_STONE.get())));
     public static final Supplier<Block> SNOWY_STONE_BRICK_SLAB = regWithItem("snowy_stone_brick_slab", () ->
-            new SlabBlock(Properties.copy(SNOWY_STONE.get())));
+            new SnowySlabBlock(Properties.copy(SNOWY_STONE.get())));
     public static final Supplier<Block> SNOWY_STONE_BRICK_VERTICAL_SLAB = regWithItem("snowy_stone_brick_vertical_slab", () ->
-            new VerticalSlabBlock(Properties.copy(SNOWY_STONE_STAIRS.get())), "quark");
+            new SnowyVerticalSlabBlock(Properties.copy(SNOWY_STONE_STAIRS.get())), "quark");
     public static final Supplier<Block> SNOWY_STONE_BRICK_WALL = regWithItem("snowy_stone_brick_wall", () ->
-            new WallBlock(Properties.copy(Blocks.COBBLESTONE_WALL)));
+            new SnowyWallBlock(Properties.copy(Blocks.COBBLESTONE_WALL)));
 
     //sandy stone
 
