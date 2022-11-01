@@ -176,6 +176,19 @@ public class ModBlocks {
     public static final Supplier<Block> STONE_WALL = regWithItem("stone_wall", () ->
             new MossableWallBlock(Mossable.MossLevel.UNAFFECTED, Properties.copy(Blocks.COBBLESTONE_WALL)));
 
+    //snow bricks
+
+    public static final Supplier<Block> SNOW_BRICKS = regWithItem("snow_bricks", () ->
+            new Block(Properties.copy(Blocks.SNOW_BLOCK)));
+    public static final Supplier<Block> SNOW_BRICK_STAIRS = regWithItem("snow_brick_stairs", () ->
+            new ModStairBlock(SNOW_BRICKS, Properties.copy(Blocks.SNOW_BLOCK)));
+    public static final Supplier<Block> SNOW_BRICK_SLAB = regWithItem("snow_brick_slab", () ->
+            new SlabBlock(Properties.copy(Blocks.SNOW_BLOCK)));
+    public static final Supplier<Block> SNOW_BRICK_VERTICAL_SLAB = regWithItem("snow_brick_vertical_slab", () ->
+            new VerticalSlabBlock(Properties.copy(Blocks.SNOW_BLOCK)), "quark");
+    public static final Supplier<Block> SNOW_BRICK_WALL = regWithItem("snow_brick_wall", () ->
+            new WallBlock(Properties.copy(Blocks.SNOW_BLOCK)));
+
     //snowy stone
 
     public static final Supplier<Block> SNOWY_STONE = regWithItem("snowy_stone", () ->
