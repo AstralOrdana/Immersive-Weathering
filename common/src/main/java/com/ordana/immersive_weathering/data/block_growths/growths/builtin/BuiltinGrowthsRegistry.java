@@ -20,6 +20,8 @@ public class BuiltinGrowthsRegistry {
         register("leaf_piles_from_leaves", LeavesGrowth::new);
         register("icicle_from_snow", SnowIcicleGrowth::new);
         register("lightning_vitrified_sand", LightningGrowth::new);
+        register("snowy_stones", SnowGrowth::new);
+        register("sandy_stones", SandGrowth::new);
     }
 
 

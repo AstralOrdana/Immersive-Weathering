@@ -95,7 +95,7 @@ public class WeatheringHelper {
     public static final Supplier<Map<Block, SimpleParticleType>> LEAVES_TO_PARTICLE = Suppliers.memoize(() -> {
                 var b = ImmutableMap.<Block, SimpleParticleType>builder();
 
-                ModParticles.FALLING_LEAVES.forEach((key, value) -> b.put(key.leaves, value));
+                ModParticles.FALLING_LEAVES_PARTICLES.forEach((key, value) -> b.put(key.leaves, value));
                 return b.build();
             }
     );
@@ -190,6 +190,95 @@ public class WeatheringHelper {
 
     public static ParticleOptions getBarkParticle(BlockState state) {
         return LOG_TO_PARTICLES.get().getOrDefault(state.getBlock(), new BlockParticleOption(ParticleTypes.BLOCK, state));
+    }
+
+    public static final Supplier<Map<Block, Block>> SANDY_BLOCKS = Suppliers.memoize(() ->
+            ImmutableMap.<Block, Block>builder()
+                    .put(Blocks.STONE, ModBlocks.SANDY_STONE.get())
+                    .put(Blocks.STONE_STAIRS, ModBlocks.SANDY_STONE_STAIRS.get())
+                    .put(Blocks.STONE_SLAB, ModBlocks.SANDY_STONE_SLAB.get())
+                    .put(ModBlocks.STONE_WALL.get(), ModBlocks.SANDY_STONE_WALL.get())
+                    .put(Blocks.COBBLESTONE, ModBlocks.SANDY_COBBLESTONE.get())
+                    .put(Blocks.COBBLESTONE_STAIRS, ModBlocks.SANDY_COBBLESTONE_STAIRS.get())
+                    .put(Blocks.COBBLESTONE_SLAB, ModBlocks.SANDY_COBBLESTONE_SLAB.get())
+                    .put(Blocks.COBBLESTONE_WALL, ModBlocks.SANDY_COBBLESTONE_WALL.get())
+                    .put(Blocks.STONE_BRICKS, ModBlocks.SANDY_STONE_BRICKS.get())
+                    .put(Blocks.CHISELED_STONE_BRICKS, ModBlocks.SANDY_CHISELED_STONE_BRICKS.get())
+                    .put(Blocks.STONE_BRICK_STAIRS, ModBlocks.SANDY_STONE_BRICK_STAIRS.get())
+                    .put(Blocks.STONE_BRICK_SLAB, ModBlocks.SANDY_STONE_BRICK_SLAB.get())
+                    .put(Blocks.STONE_BRICK_WALL, ModBlocks.SANDY_STONE_BRICK_WALL.get())
+                    .build());
+
+    public static Optional<BlockState> getSandyBlock(BlockState state) {
+        return Optional.ofNullable(SANDY_BLOCKS.get().get(state.getBlock()))
+                .map(block -> block.withPropertiesOf(state));
+    }
+
+    public static final Supplier<Map<Block, Block>> UNSANDY_BLOCKS = Suppliers.memoize(() ->
+            ImmutableMap.<Block, Block>builder()
+                    .put(ModBlocks.SANDY_STONE.get(), Blocks.STONE)
+                    .put(ModBlocks.SANDY_STONE_STAIRS.get(), Blocks.STONE_STAIRS)
+                    .put(ModBlocks.SANDY_STONE_SLAB.get(), Blocks.STONE_SLAB)
+                    .put(ModBlocks.SANDY_STONE_WALL.get(), ModBlocks.STONE_WALL.get())
+                    .put(ModBlocks.SANDY_COBBLESTONE.get(), Blocks.COBBLESTONE)
+                    .put(ModBlocks.SANDY_COBBLESTONE_STAIRS.get(), Blocks.COBBLESTONE_STAIRS)
+                    .put(ModBlocks.SANDY_COBBLESTONE_SLAB.get(), Blocks.COBBLESTONE_SLAB)
+                    .put(ModBlocks.SANDY_COBBLESTONE_WALL.get(), Blocks.COBBLESTONE_WALL)
+                    .put(ModBlocks.SANDY_STONE_BRICKS.get(), Blocks.STONE_BRICKS)
+                    .put(ModBlocks.SANDY_CHISELED_STONE_BRICKS.get(), Blocks.CHISELED_STONE_BRICKS)
+                    .put(ModBlocks.SANDY_STONE_BRICK_STAIRS.get(), Blocks.STONE_BRICK_STAIRS)
+                    .put(ModBlocks.SANDY_STONE_BRICK_SLAB.get(), Blocks.STONE_BRICK_SLAB)
+                    .put(ModBlocks.SANDY_STONE_BRICK_WALL.get(), Blocks.STONE_BRICK_WALL)
+                    .build());
+
+    public static Optional<BlockState> getUnsandyBlock(BlockState state) {
+        return Optional.ofNullable(UNSANDY_BLOCKS.get().get(state.getBlock()))
+                .map(block -> block.withPropertiesOf(state));
+    }
+
+
+    public static final Supplier<Map<Block, Block>> SNOWY_BLOCKS = Suppliers.memoize(() ->
+            ImmutableMap.<Block, Block>builder()
+                    .put(Blocks.STONE, ModBlocks.SNOWY_STONE.get())
+                    .put(Blocks.STONE_STAIRS, ModBlocks.SNOWY_STONE_STAIRS.get())
+                    .put(Blocks.STONE_SLAB, ModBlocks.SNOWY_STONE_SLAB.get())
+                    .put(ModBlocks.STONE_WALL.get(), ModBlocks.SNOWY_STONE_WALL.get())
+                    .put(Blocks.COBBLESTONE, ModBlocks.SNOWY_COBBLESTONE.get())
+                    .put(Blocks.COBBLESTONE_STAIRS, ModBlocks.SNOWY_COBBLESTONE_STAIRS.get())
+                    .put(Blocks.COBBLESTONE_SLAB, ModBlocks.SNOWY_COBBLESTONE_SLAB.get())
+                    .put(Blocks.COBBLESTONE_WALL, ModBlocks.SNOWY_COBBLESTONE_WALL.get())
+                    .put(Blocks.STONE_BRICKS, ModBlocks.SNOWY_STONE_BRICKS.get())
+                    .put(Blocks.CHISELED_STONE_BRICKS, ModBlocks.SNOWY_CHISELED_STONE_BRICKS.get())
+                    .put(Blocks.STONE_BRICK_STAIRS, ModBlocks.SNOWY_STONE_BRICK_STAIRS.get())
+                    .put(Blocks.STONE_BRICK_SLAB, ModBlocks.SNOWY_STONE_BRICK_SLAB.get())
+                    .put(Blocks.STONE_BRICK_WALL, ModBlocks.SNOWY_STONE_BRICK_WALL.get())
+                    .build());
+
+    public static Optional<BlockState> getSnowyBlock(BlockState state) {
+        return Optional.ofNullable(SNOWY_BLOCKS.get().get(state.getBlock()))
+                .map(block -> block.withPropertiesOf(state));
+    }
+
+    public static final Supplier<Map<Block, Block>> UNSNOWY_BLOCKS = Suppliers.memoize(() ->
+            ImmutableMap.<Block, Block>builder()
+                    .put(ModBlocks.SNOWY_STONE.get(), Blocks.STONE)
+                    .put(ModBlocks.SNOWY_STONE_STAIRS.get(), Blocks.STONE_STAIRS)
+                    .put(ModBlocks.SNOWY_STONE_SLAB.get(), Blocks.STONE_SLAB)
+                    .put(ModBlocks.SNOWY_STONE_WALL.get(), ModBlocks.STONE_WALL.get())
+                    .put(ModBlocks.SNOWY_COBBLESTONE.get(), Blocks.COBBLESTONE)
+                    .put(ModBlocks.SNOWY_COBBLESTONE_STAIRS.get(), Blocks.COBBLESTONE_STAIRS)
+                    .put(ModBlocks.SNOWY_COBBLESTONE_SLAB.get(), Blocks.COBBLESTONE_SLAB)
+                    .put(ModBlocks.SNOWY_COBBLESTONE_WALL.get(), Blocks.COBBLESTONE_WALL)
+                    .put(ModBlocks.SNOWY_STONE_BRICKS.get(), Blocks.STONE_BRICKS)
+                    .put(ModBlocks.SNOWY_CHISELED_STONE_BRICKS.get(), Blocks.CHISELED_STONE_BRICKS)
+                    .put(ModBlocks.SNOWY_STONE_BRICK_STAIRS.get(), Blocks.STONE_BRICK_STAIRS)
+                    .put(ModBlocks.SNOWY_STONE_BRICK_SLAB.get(), Blocks.STONE_BRICK_SLAB)
+                    .put(ModBlocks.SNOWY_STONE_BRICK_WALL.get(), Blocks.STONE_BRICK_WALL)
+                    .build());
+
+    public static Optional<BlockState> getUnsnowyBlock(BlockState state) {
+        return Optional.ofNullable(UNSNOWY_BLOCKS.get().get(state.getBlock()))
+                .map(block -> block.withPropertiesOf(state));
     }
 
 
@@ -327,6 +416,11 @@ public class WeatheringHelper {
         return posRandom.nextInt(rarity) == 0;
     }
 
+    public static boolean isWeatherPos(BlockPos pos) {
+        Random posRandom = new Random(Mth.getSeed(pos));
+        return posRandom.nextInt(6) == 0;
+    }
+
     //spawn sooth?
     public static void onFireExpired(ServerLevel serverLevel, BlockPos pos, BlockState state) {
     }
@@ -359,7 +453,7 @@ public class WeatheringHelper {
         if (level.random.nextFloat() > 0.2f) {
             //level.setBlock(pos, ModBlocks.ASH_LAYER_BLOCK.withPropertiesOf(state), 3);
         } else if (downState.is(Blocks.GRASS_BLOCK)) {
-            return level.setBlock(pos.below(), Blocks.DIRT.defaultBlockState(), 3);
+            return level.setBlockAndUpdate(pos.below(), Blocks.DIRT.defaultBlockState());
         }
         return false;
     }

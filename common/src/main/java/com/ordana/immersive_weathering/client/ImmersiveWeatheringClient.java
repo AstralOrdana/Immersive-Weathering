@@ -123,7 +123,7 @@ public class ImmersiveWeatheringClient {
 
         event.register(ModParticles.SOOT.get(), LeafParticle.SimpleLeafParticle::new);
 
-        ModParticles.FALLING_LEAVES.forEach((t, p) -> {
+        ModParticles.FALLING_LEAVES_PARTICLES.forEach((t, p) -> {
             if (t.id.getPath().contains("azalea")) event.register(p, LeafParticle.SimpleLeafParticle::new);
             else event.register(p, LeafParticle.ColoredLeafParticle::new);
         });

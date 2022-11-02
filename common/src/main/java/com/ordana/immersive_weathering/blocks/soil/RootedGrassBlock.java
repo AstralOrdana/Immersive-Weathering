@@ -27,6 +27,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
@@ -62,6 +63,16 @@ public class RootedGrassBlock extends ModGrassBlock implements BonemealableBlock
             if (player instanceof ServerPlayer) {
                 level.setBlockAndUpdate(pos, Blocks.DIRT_PATH.defaultBlockState());
                 player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
+        if (item instanceof HoeItem) {
+            level.playSound(player, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0f, 1.0f);
+            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+            if (player instanceof ServerPlayer) {
+                level.setBlockAndUpdate(pos, Blocks.GRASS_BLOCK.withPropertiesOf(state));
+                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+                Block.popResourceFromFace(level, pos, hitResult.getDirection(), Items.HANGING_ROOTS.getDefaultInstance());
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         }

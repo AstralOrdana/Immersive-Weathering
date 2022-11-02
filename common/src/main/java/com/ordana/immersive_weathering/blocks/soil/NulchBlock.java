@@ -53,7 +53,7 @@ public class NulchBlock extends Block {
                 if (world.isRainingAt(pos.above())) {
                     return;
                 }
-                world.setBlock(pos, state.setValue(MOLTEN, true), 2);
+                world.setBlockAndUpdate(pos, state.setValue(MOLTEN, true));
             }
         }
         if (biome.is(ModTags.ICY)) {

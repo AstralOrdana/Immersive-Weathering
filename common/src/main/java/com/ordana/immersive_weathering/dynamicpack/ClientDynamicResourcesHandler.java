@@ -19,6 +19,7 @@ import net.mehvahdjukaar.moonlight.api.resources.textures.PaletteColor;
 import net.mehvahdjukaar.moonlight.api.resources.textures.Respriter;
 import net.mehvahdjukaar.moonlight.api.resources.textures.TextureImage;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.block.Blocks;
@@ -50,13 +51,24 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
     public void generateStaticAssetsOnStartup(ResourceManager manager) {
         //generate static resources
 
-        // LangBuilder langBuilder = new LangBuilder();
+        //particles
+        {
+            StaticResource leafParticle = StaticResource.getOrLog(manager,
+                    ResType.PARTICLES.getPath(ImmersiveWeathering.res("oak_leaf")));
+
+            ModParticles.FALLING_LEAVES_PARTICLES.forEach((leafType,particle)->{
+
+                String particleId = Registry.PARTICLE_TYPE.getKey(particle).getPath();
+                try {
+                    dynamicPack.addSimilarJsonResource(leafParticle, "oak_leaf", particleId);
+                } catch (Exception ex) {
+                    getLogger().error("Failed to generate Leaf Particle for {} : {}", particle, ex);
+                }
+            });
+        }
 
         //------leaf piles------
         {
-
-            StaticResource leafParticle = StaticResource.getOrLog(manager,
-                    ResType.PARTICLES.getPath(ImmersiveWeathering.res("oak_leaf")));
 
             StaticResource lpBlockState = StaticResource.getOrLog(manager,
                     ResType.BLOCKSTATES.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
@@ -87,8 +99,6 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
 
                 String path = leafType.getNamespace() + "/" + leafType.getTypeName();
                 String id = path + "_leaf_pile";
-                String particleId = path + "_leaf";
-                // langBuilder.addEntry(pile, leafType.getVariantReadableName("leaf_pile"));
 
                 try {
                     dynamicPack.addSimilarJsonResource(lpBlockState, "oak_leaf_pile", id);
@@ -102,6 +112,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
                     getLogger().error("Failed to generate Leaf Pile item model for {} : {}", pile, ex);
                 }
 
+                //models
                 try {
                     ResourceLocation leavesTexture;
                     try {
@@ -122,15 +133,9 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
                 } catch (Exception ex) {
                     getLogger().error("Failed to generate Leaf Pile model for {} : {}", pile, ex);
                 }
-
-                try {
-                    dynamicPack.addSimilarJsonResource(leafParticle, "oak_leaf", particleId);
-                } catch (Exception ex) {
-                    getLogger().error("Failed to generate Leaf Particle for {} : {}", pile, ex);
-                }
-
             });
         }
+
         //bark
         {
             StaticResource itemModel = StaticResource.getOrLog(manager,
@@ -178,7 +183,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
             Respriter respriter = Respriter.of(template);
             Respriter respriter1 = Respriter.of(template1);
 
-            ModParticles.FALLING_LEAVES.forEach((type, particle) -> {
+            ModParticles.FALLING_LEAVES_PARTICLES.forEach((type, particle) -> {
                 if (type.isVanilla()) return;
 
                 String path = type.getNamespace() + "/" + type.getTypeName();

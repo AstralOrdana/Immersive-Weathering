@@ -6,7 +6,6 @@ import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
-import net.mehvahdjukaar.moonlight.core.set.BlockSetInternal;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -26,7 +25,7 @@ public class ModParticles {
         return RegHelper.registerParticle(ImmersiveWeathering.res(name));
     }
 
-    public static Map<LeavesType, SimpleParticleType> FALLING_LEAVES = new LinkedHashMap<>();
+    public static Map<LeavesType, SimpleParticleType> FALLING_LEAVES_PARTICLES = new LinkedHashMap<>();
     public static final Supplier<SimpleParticleType> AZALEA_FLOWER = registerParticle("azalea_flower");
 
     public static final Supplier<SimpleParticleType> MULCH = registerParticle("mulch");
@@ -86,7 +85,7 @@ public class ModParticles {
             //    p = (SimpleParticleType) Registry.PARTICLE_TYPE.get(ImmersiveWeathering.res("azalea_leaf"));
             //} else {
                 event.register(ImmersiveWeathering.res(type.getVariantId("leaf", false)), p);
-                FALLING_LEAVES.put(type, p);
+                FALLING_LEAVES_PARTICLES.put(type, p);
                 type.addChild("immersive_weathering:leaf_particle", p);
             //}
         }

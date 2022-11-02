@@ -1,0 +1,7 @@
+{
+  "parent": "immersive_weathering:block/mossy_template_wall_post",
+  "textures": {
+    "top": "immersive_weathering:block/snowy_cobblestone",
+    "side": "immersive_weathering:block/snowy_cobblestone"
+  }
+}

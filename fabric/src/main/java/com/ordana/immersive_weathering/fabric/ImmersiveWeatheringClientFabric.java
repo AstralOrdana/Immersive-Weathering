@@ -22,6 +22,7 @@ public class ImmersiveWeatheringClientFabric implements ClientModInitializer{
         ImmersiveWeatheringClient.init();
         ImmersiveWeatheringClient.setup();
 
+        /*
         ClientSpriteRegistryCallback.event(InventoryMenu.BLOCK_ATLAS).register(((atlasTexture, registry) -> {
             registry.register(ImmersiveWeathering.res("particle/ember_0"));
             registry.register(ImmersiveWeathering.res("particle/soot_0"));
@@ -72,11 +73,8 @@ public class ImmersiveWeatheringClientFabric implements ClientModInitializer{
             registry.register(ImmersiveWeathering.res("particle/dark_oak_bark_2"));
             registry.register(ImmersiveWeathering.res("particle/nether_scale_2"));
 
-
-            //flower crowns
-            registry.register(ImmersiveWeathering.res("particle/bee_0"));
-            registry.register(ImmersiveWeathering.res("particle/bee_1"));
         }));
+         */
 
 
     }
@@ -89,5 +87,6 @@ public class ImmersiveWeatheringClientFabric implements ClientModInitializer{
     @Override
     public void onInitializeClient() {
         //dont use
+
     }
 }

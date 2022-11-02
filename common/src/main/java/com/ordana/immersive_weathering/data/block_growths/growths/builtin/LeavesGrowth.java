@@ -76,71 +76,71 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
 
                 }
                 if (dist < maxFallenLeavesReach) {
-
-                    BlockState replaceState = level.getBlockState(targetPos);
-                    BlockState groundState = level.getBlockState(targetPos.below());
-
-                    boolean isOnLeaf = replaceState.getBlock() instanceof LeafPileBlock;
-                    boolean waterBelow = groundState.is(Blocks.WATER);
-                    int pileHeight = 1;
-                    if (isOnLeaf) {
-                        pileHeight = replaceState.getValue(LeafPileBlock.LAYERS);
-                        if (pileHeight == 0 || pileHeight >= maxPileHeight) return;
-                    }
-
-                    BlockState baseLeaf = leafPile.defaultBlockState().setValue(LeafPileBlock.LAYERS, waterBelow ? 0 : 1);
-                    //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
-                    if (isOnLeaf || (
-                            replaceState.getMaterial().isReplaceable()
-                            && baseLeaf.canSurvive(level, targetPos)
-                            && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 2, 2,
-                            level, b -> b.getBlock() instanceof LeafPileBlock, 6)
-                    )) {
-
-
-                        if (waterBelow) {
-                            level.setBlock(targetPos, baseLeaf, 2);
-                        } else {
-                            if (isOnLeaf) {
-                                int original = pileHeight;
-                                boolean hasLog = false;
-                                BlockState[] neighbors = new BlockState[4];
-                                for (Direction direction : Direction.Plane.HORIZONTAL) {
-                                    neighbors[direction.get2DDataValue()] = level.getBlockState(targetPos.relative(direction));
-                                }
-                                for (var neighbor : neighbors) {
-                                    if (WeatheringHelper.isLog(neighbor)) {
-                                        hasLog = true;
-                                        break;
-                                    }
-                                }
-                                for (var neighbor : neighbors) {
-                                    if (neighbor.getBlock() instanceof LeafPileBlock) {
-                                        int i = hasLog ? maxPileHeight :
-                                                Math.min(neighbor.getValue(LeafPileBlock.LAYERS) - 1, maxPileHeight);
-                                        if (i > pileHeight) {
-                                            pileHeight = Math.min(pileHeight + 1, i);
-                                            break;
-                                        }
-                                    }
-                                }
-                                if (pileHeight == original) return;
-                            }
-                            level.setBlock(targetPos, baseLeaf.setValue(LeafPileBlock.LAYERS, pileHeight), 2);
-                        }
-                    }
+                    tryPlacingAt(level, leafPile, targetPos, maxPileHeight);
                 }
             }
+        }
+    }
 
+    private void tryPlacingAt(ServerLevel level, Block leafPile, BlockPos targetPos, int maxPileHeight) {
+        BlockState replaceState = level.getBlockState(targetPos);
+        BlockState groundState = level.getBlockState(targetPos.below());
+
+        boolean isOnLeaf = replaceState.getBlock() instanceof LeafPileBlock;
+        boolean waterBelow = groundState.is(Blocks.WATER) && groundState.getFluidState().isSource();
+        int pileHeight = 1;
+        if (isOnLeaf) {
+            pileHeight = replaceState.getValue(LeafPileBlock.LAYERS);
+            if (pileHeight == 0 || pileHeight >= maxPileHeight) return;
         }
 
+        BlockState baseLeaf = leafPile.defaultBlockState().setValue(LeafPileBlock.LAYERS, waterBelow ? 0 : 1);
+        //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
+        if (isOnLeaf || (
+                replaceState.getMaterial().isReplaceable()
+                        && baseLeaf.canSurvive(level, targetPos)
+                        && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 2, 2,
+                        level, b -> b.getBlock() instanceof LeafPileBlock, 6)
+        )) {
+
+
+            if (waterBelow) {
+                level.setBlock(targetPos, baseLeaf, 2);
+            } else {
+                if (isOnLeaf) {
+                    int original = pileHeight;
+                    boolean hasLog = false;
+                    BlockState[] neighbors = new BlockState[4];
+                    for (Direction direction : Direction.Plane.HORIZONTAL) {
+                        neighbors[direction.get2DDataValue()] = level.getBlockState(targetPos.relative(direction));
+                    }
+                    for (var neighbor : neighbors) {
+                        if (WeatheringHelper.isLog(neighbor)) {
+                            hasLog = true;
+                            break;
+                        }
+                    }
+                    for (var neighbor : neighbors) {
+                        if (neighbor.getBlock() instanceof LeafPileBlock) {
+                            int i = hasLog ? maxPileHeight :
+                                    Math.min(neighbor.getValue(LeafPileBlock.LAYERS) - 1, maxPileHeight);
+                            if (i > pileHeight) {
+                                pileHeight = Math.min(pileHeight + 1, i);
+                                break;
+                            }
+                        }
+                    }
+                    if (pileHeight == original) return;
+                }
+                level.setBlock(targetPos, baseLeaf.setValue(LeafPileBlock.LAYERS, pileHeight), 2);
+            }
+        }
     }
 
 
     //called from mixin random tick
     public static void spawnFallingLeavesParticle(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (!(state.getBlock() instanceof LeavesBlock)) {
-            ImmersiveWeathering.LOGGER.error("Some mod tried to call leaves random tick without passing a leaf block blockstate as expected. This should be fixed on their end. Given blockstate : {}", state);
             return;
         }
         if (ClientConfigs.FALLING_LEAF_PARTICLES.get()) {
