@@ -453,7 +453,7 @@ public class WeatheringHelper {
         if (level.random.nextFloat() > 0.2f) {
             //level.setBlock(pos, ModBlocks.ASH_LAYER_BLOCK.withPropertiesOf(state), 3);
         } else if (downState.is(Blocks.GRASS_BLOCK)) {
-            return level.setBlock(pos.below(), Blocks.DIRT.defaultBlockState(), 3);
+            return level.setBlockAndUpdate(pos.below(), Blocks.DIRT.defaultBlockState());
         }
         return false;
     }
