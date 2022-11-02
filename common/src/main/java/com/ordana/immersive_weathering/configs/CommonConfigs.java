@@ -118,7 +118,7 @@ public class CommonConfigs {
         BLOCK_GROWTHS = builder.define("block_growths", true);
         DISABLED_GROWTHS = builder.comment("put here the name of a block growth json you want to disable i.e: [weeds, weeds_spread]." +
                         "Note that this is not the preferred way to do this as block growths are all data driven so it would be best to disable or tweak them by creating a datapack that overrides them" +
-                        "Requires resource reload (/data reload)")
+                        "Check the mod data folder for the required names. Requires resource reload (/data reload)")
                 .define("block_growth_blacklist", new ArrayList<>());
         CREATIVE_TAB = builder.define("creative_tab", false);
         CREATIVE_DROP = builder.comment("Drop stuff when in creative").define("drop_in_creative", false);

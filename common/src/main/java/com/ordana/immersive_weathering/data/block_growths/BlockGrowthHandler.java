@@ -136,7 +136,7 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
             for (var e : GROWTH_TO_PARSE.entrySet()) {
                 String name = e.getKey().getPath();
                 //blacklist
-                if (CommonConfigs.DISABLED_GROWTHS.get().contains(name)) continue;
+                if (CommonConfigs.DISABLED_GROWTHS.get().contains(name.toLowerCase(Locale.ROOT))) continue;
 
                 var json = e.getValue();
                 DataResult<? extends IBlockGrowth> result;

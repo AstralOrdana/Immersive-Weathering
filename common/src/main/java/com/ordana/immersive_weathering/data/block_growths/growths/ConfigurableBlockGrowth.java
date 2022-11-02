@@ -230,12 +230,11 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
                         if (areaCondition.test(pos, level, this)) {
 
                             if (destroyTarget) level.destroyBlock(targetPos, true);
-                            level.setBlock(targetPos, setWaterIfNeeded(toPlace.getFirst(), target), 2);
+                            level.setBlockAndUpdate(targetPos, getStateToPlace(toPlace.getFirst(), target, level, pos));
                             if (db) {
                                 if (destroyTarget) level.destroyBlock(targetPos2, true);
-                                level.setBlock(targetPos2, setWaterIfNeeded(toPlace.getSecond(), target2), 2);
+                                level.setBlockAndUpdate(targetPos2, getStateToPlace(toPlace.getSecond(), target2, level, pos));
                             }
-                            return;
                         }
                     }
                 }
@@ -244,11 +243,11 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
     }
 
     //builtin waterlogged support
-    private BlockState setWaterIfNeeded(BlockState toPlace, BlockState target) {
+    private BlockState getStateToPlace(BlockState toPlace, BlockState target, Level level, BlockPos pos) {
         if (toPlace.hasProperty(BlockStateProperties.WATERLOGGED) && target.getFluidState().is(FluidTags.WATER)) {
             return toPlace.setValue(BlockStateProperties.WATERLOGGED, true);
         }
-        return toPlace;
+        return Block.updateFromNeighbourShapes(toPlace, level, pos);
     }
 
 
