@@ -1,13 +1,12 @@
 package com.ordana.immersive_weathering.configs;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.client.particles.LeafParticle;
-import com.ordana.immersive_weathering.data.block_growths.area_condition.AreaCondition;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigBuilder;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigSpec;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigType;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -17,6 +16,7 @@ public class CommonConfigs {
     public static ConfigSpec SERVER_SPEC;
 
     public static Supplier<Boolean> BLOCK_GROWTHS;
+    public static Supplier<List<String>> DISABLED_GROWTHS;
     public static Supplier<Boolean> CREATIVE_TAB;
     public static Supplier<Boolean> CREATIVE_DROP;
     public static Supplier<Boolean> DEBUG_RESOURCES;
@@ -109,7 +109,6 @@ public class CommonConfigs {
     public static Supplier<Boolean> MULCH_GROWS_CROPS;
 
 
-
     public static void init() {
         ConfigBuilder builder = ConfigBuilder.create(ImmersiveWeathering.res("common"), ConfigType.COMMON);
 
@@ -117,8 +116,12 @@ public class CommonConfigs {
 
         builder.push("general");
         BLOCK_GROWTHS = builder.define("block_growths", true);
+        DISABLED_GROWTHS = builder.comment("put here the name of a block growth json you want to disable i.e: [weeds, weeds_spread]." +
+                        "Note that this is not the preferred way to do this as block growths are all data driven so it would be best to disable or tweak them by creating a datapack that overrides them" +
+                        "Requires resource reload (/data reload)")
+                .define("block_growth_blacklist", new ArrayList<>());
         CREATIVE_TAB = builder.define("creative_tab", false);
-        CREATIVE_DROP = builder.comment("Drop stuff when in creative").define("drop_in_creative",false);
+        CREATIVE_DROP = builder.comment("Drop stuff when in creative").define("drop_in_creative", false);
         DEBUG_RESOURCES = builder.comment("Save generated resources to disk in a 'debug' folder in your game directory. Mainly for debug purposes but can be used to generate assets in all wood types for your mods :0")
                 .define("debug_save_dynamic_pack", false);
 
@@ -191,7 +194,7 @@ public class CommonConfigs {
         AXE_STRIPPING = builder.define("axe_stripping", true);
         AXE_SCRAPING = builder.define("axe_rusting", true);
         ASH_ITEM_SPAWN = builder.comment("allows ash to spawn when extinguishing campfires")
-                .define("ash_item_spawn",true);
+                .define("ash_item_spawn", true);
         builder.pop();
 
         builder.push("food");
@@ -220,7 +223,7 @@ public class CommonConfigs {
         LEAF_PILES_CHANCE = builder.define("leaf_piles_spawn_chance", 0.005, 0, 1);
         LEAF_PILES_REACH = builder.define("reach", 12, 1, 256);
         LEAF_PILE_MAX_HEIGHT = builder.define("max_pile_height", 3, 1, 8);
-        LEAF_PILES_BLACKLIST = builder.comment("leaves that wont spawn leaf piles") .define("leaf_piles_blacklist",List.of());
+        LEAF_PILES_BLACKLIST = builder.comment("leaves that wont spawn leaf piles").define("leaf_piles_blacklist", List.of());
         builder.pop();
 
         builder.push("thin_ice");
@@ -230,7 +233,7 @@ public class CommonConfigs {
         builder.push("lightning_growths"); //TODO:move to data
         VITRIFIED_LIGHTNING = builder.define("vitrified_lightning", true);
         FULGURITE_CHANCE = builder.comment("chance that a lightning strike on sand creates fulgurite")
-                .define("fulgurite_chance", 0.4,0,1);
+                .define("fulgurite_chance", 0.4, 0, 1);
         builder.pop();
 
         builder.push("rusting");
@@ -247,7 +250,7 @@ public class CommonConfigs {
         });
 
 
-        SERVER_SPEC =  builder.buildAndRegister();
+        SERVER_SPEC = builder.buildAndRegister();
         SERVER_SPEC.loadFromFile();
     }
 

@@ -8,11 +8,11 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.data.block_growths.growths.ConfigurableBlockGrowth;
 import com.ordana.immersive_weathering.data.block_growths.growths.IBlockGrowth;
 import com.ordana.immersive_weathering.data.block_growths.growths.builtin.BuiltinBlockGrowth;
 import com.ordana.immersive_weathering.data.block_growths.growths.builtin.NoOpBlockGrowth;
-import com.ordana.immersive_weathering.configs.CommonConfigs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
@@ -25,7 +25,6 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -91,7 +90,7 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
     public static void performSkyAccessTick(ServerLevel level, LevelChunk levelChunk, int randomTickSpeed) {
         ChunkPos chunkpos = levelChunk.getPos();
 
-        float chance = (float) randomTickSpeed / (3f * 16f);
+        float chance = randomTickSpeed / (3f * 16f);
         int minX = chunkpos.getMinBlockX();
         int minZ = chunkpos.getMinBlockZ();
         boolean isRaining = level.isRaining();
@@ -135,6 +134,10 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
             List<IBlockGrowth> growths = new ArrayList<>();
 
             for (var e : GROWTH_TO_PARSE.entrySet()) {
+                String name = e.getKey().getPath();
+                //blacklist
+                if (CommonConfigs.DISABLED_GROWTHS.get().contains(name)) continue;
+
                 var json = e.getValue();
                 DataResult<? extends IBlockGrowth> result;
                 if (json instanceof JsonObject jo && jo.has("builtin")) {
