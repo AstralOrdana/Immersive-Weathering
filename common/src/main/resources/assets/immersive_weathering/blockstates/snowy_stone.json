@@ -1,21 +1,7 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "immersive_weathering:block/snowy_stone"
-      },
-      {
-        "model": "immersive_weathering:block/snowy_stone",
-        "y": 90
-      },
-      {
-        "model": "immersive_weathering:block/snowy_stone",
-        "y": 180
-      },
-      {
-        "model": "immersive_weathering:block/snowy_stone",
-        "y": 270
-      }
-    ]
+    "": {
+      "model": "immersive_weathering:block/snowy_stone"
+    }
   }
 }

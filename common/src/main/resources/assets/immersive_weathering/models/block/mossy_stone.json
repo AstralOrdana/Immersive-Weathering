@@ -2,7 +2,7 @@
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
     "top": "immersive_weathering:block/mossy_stone_top",
-    "bottom": "immersive_weathering:block/mossy_stone_side",
+    "bottom": "minecraft:block/stone",
     "side": "immersive_weathering:block/mossy_stone_side"
   }
 }

@@ -2,7 +2,7 @@
   "parent": "minecraft:block/slab_top",
   "textures": {
     "top": "immersive_weathering:block/snowy_stone_bricks_top",
-    "bottom": "immersive_weathering:block/snowy_stone_bricks_side",
-    "side": "immersive_weathering:block/snowy_stone_bricks_side"
+    "side": "immersive_weathering:block/snowy_stone_bricks_side",
+    "bottom": "minecraft:block/stone_bricks"
   }
 }

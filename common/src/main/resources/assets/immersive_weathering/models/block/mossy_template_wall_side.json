@@ -2,13 +2,14 @@
     "textures": {
         "particle": "#side",
         "top": "immersive_weathering:block/mossy_stone_top",
-        "side": "immersive_weathering:block/mossy_stone_side"
+        "side": "immersive_weathering:block/mossy_stone_side",
+        "bottom": "minecraft:block/stone"
     },
     "elements": [
         {   "from": [ 5, 0, 0 ],
             "to": [ 11, 14, 8 ],
             "faces": {
-                "down":  { "texture": "#side", "cullface": "down" },
+                "down":  { "texture": "#bottom", "cullface": "down" },
                 "up":    { "texture": "#top" },
                 "north": { "texture": "#side", "cullface": "north" },
                 "west":  { "texture": "#side" },

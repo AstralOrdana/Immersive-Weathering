@@ -7,6 +7,7 @@ import net.minecraft.core.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +34,7 @@ public class SnowGrowth extends BuiltinBlockGrowth {
             BlockState downBlock = level.getBlockState(downPos);
             var snowyBlock = WeatheringHelper.getSnowyBlock(state).orElse(null);
             level.setBlockAndUpdate(pos, snowyBlock.getBlock().withPropertiesOf(state));
-            if (WeatheringHelper.isWeatherPos(downPos) && downBlock.is(ModTags.SNOWABLE)) {
+            if (WeatheringHelper.isWeatherPos(downPos) && downBlock.is(ModTags.SNOWABLE) && !downBlock.is(Blocks.STONE)) {
                 var snowyDownBlock = WeatheringHelper.getSnowyBlock(downBlock).orElse(null);
                 level.setBlockAndUpdate(pos.below(), snowyDownBlock.getBlock().withPropertiesOf(downBlock));
             }

@@ -1,10 +1,7 @@
 package com.ordana.immersive_weathering.blocks.snowy;
 
 import com.ordana.immersive_weathering.WeatheringHelper;
-import com.ordana.immersive_weathering.blocks.ModBlockProperties;
-import com.ordana.immersive_weathering.blocks.sandy.Sandy;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
-import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;

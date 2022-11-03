@@ -1,10 +1,7 @@
 package com.ordana.immersive_weathering.blocks.snowy;
 
 import com.ordana.immersive_weathering.WeatheringHelper;
-import com.ordana.immersive_weathering.blocks.ModBlockProperties;
-import com.ordana.immersive_weathering.blocks.sandy.Sandy;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
-import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -30,7 +27,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class SnowyVerticalSlabBlock extends VerticalSlabBlock implements Sandy {
+public class SnowyVerticalSlabBlock extends VerticalSlabBlock {
 
     public SnowyVerticalSlabBlock(Properties properties) {
         super(properties);
