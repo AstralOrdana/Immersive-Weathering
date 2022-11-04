@@ -10,6 +10,7 @@ A clear and concise description of what the bug is. Include as much information 
 **Versions: (BEFORE SUBMITTING A BUG REPORT, make sure you have the most up-to-date versions of Immersive Weathering, Moonlight Lib and Supplementaries)**
 Minecraft version:
 Immersive Weathering version:
+Moonlight Lib version:
 Fabric API / QSL / Forge version:
 
 **Other mods:**

@@ -22,4 +22,9 @@ public class SnowyWallBlock extends WallBlock implements Snowy{
         }
         return super.use(state, level, pos, player, hand, hit);
     }
+
+    @Override
+    public boolean canHaveSnowyBelow() {
+        return false;
+    }
 }

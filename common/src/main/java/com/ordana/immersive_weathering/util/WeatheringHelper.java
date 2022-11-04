@@ -379,5 +379,4 @@ public class WeatheringHelper {
         world.setBlockAndUpdate(targetPos, newState);
     }
 
-
 }

@@ -1,8 +1,5 @@
 {
-  "tick_sources": [
-    "clear_sky"
-  ],
-  "growth_chance": 0.01,
+  "growth_chance": 0.1,
   "area_condition": {
     "must_have": {
       "block_state": {
@@ -39,7 +36,9 @@
     }
   ],
   "destroy_target": true,
-  "owners": [ "minecraft:farmland"],
+  "owners": [
+    "minecraft:farmland"
+  ],
   "replacing_target": {
     "blocks": "#immersive_weathering:weeds_replaceable",
     "predicate_type": "immersive_weathering:block_set_match",

@@ -1,6 +1,8 @@
 package com.ordana.immersive_weathering.events;
 
 import com.mojang.datafixers.util.Pair;
+import com.ordana.immersive_weathering.blocks.sandy.Sandy;
+import com.ordana.immersive_weathering.blocks.snowy.Snowy;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.blocks.Weatherable;
@@ -172,7 +174,7 @@ public class ModEvents {
                         stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
                         player.awardStat(Stats.ITEM_USED.get(item));
-                        level.setBlockAndUpdate(pos, Objects.requireNonNull(WeatheringHelper.getUnwaxedBlock(state).orElse(null)));
+                        level.setBlockAndUpdate(pos, Objects.requireNonNull(ModWaxables.getUnWaxed(state).orElse(null)));
                     }
                     return InteractionResult.sidedSuccess(level.isClientSide);
                 }
@@ -476,7 +478,7 @@ public class ModEvents {
                 if (!player.getAbilities().instabuild) stack.shrink(1);
                 CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                 if (state.is(ModTags.SANDABLE)) {
-                    level.setBlockAndUpdate(pos, WeatheringHelper.getSandyBlock(state).orElse(null));
+                    level.setBlockAndUpdate(pos, Sandy.getSandy(state));
                 } else level.setBlockAndUpdate(pos, state.setValue(ModBlockProperties.SANDINESS,1));
                 player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
             }
@@ -495,7 +497,7 @@ public class ModEvents {
             if (player instanceof ServerPlayer) {
                 CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                 if (!player.getAbilities().instabuild) stack.shrink(1);
-                level.setBlockAndUpdate(pos, WeatheringHelper.getSnowyBlock(state).orElse(null));
+                level.setBlockAndUpdate(pos, Snowy.getSnowy(state));
                 player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
             }
             return InteractionResult.sidedSuccess(level.isClientSide);

@@ -1,5 +1,8 @@
 package com.ordana.immersive_weathering.data.block_growths.growths.builtin;
 
+import com.ordana.immersive_weathering.blocks.sandy.Sandy;
+import com.ordana.immersive_weathering.blocks.snowy.Snowy;
+import com.ordana.immersive_weathering.util.TemperatureManager;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
@@ -34,18 +37,22 @@ public class SandGrowth extends BuiltinBlockGrowth {
 
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome) {
-        if (level.isRaining() && biome.is(BiomeTags.HAS_DESERT_PYRAMID)) {
-            BlockPos downPos = pos.below();
-            BlockState downBlock = level.getBlockState(downPos);
-            var sandyBlock = WeatheringHelper.getSandyBlock(state).orElse(null);
-            level.setBlockAndUpdate(pos, sandyBlock.getBlock().withPropertiesOf(state));
-            if (WeatheringHelper.isRandomWeatheringPos(downPos) && downBlock.is(ModTags.SANDABLE)) {
-                var sandyDownBlock = WeatheringHelper.getSandyBlock(downBlock).orElse(null);
-                assert sandyDownBlock != null;
-                level.setBlockAndUpdate(pos.above(), ModBlocks.SAND_LAYER_BLOCK.get().defaultBlockState());
-                level.setBlockAndUpdate(pos, sandyBlock.getBlock().withPropertiesOf(state).setValue(ModBlockProperties.SANDINESS, 1));
-                level.setBlockAndUpdate(downPos, sandyDownBlock.getBlock().withPropertiesOf(downBlock));
+        if (TemperatureManager.hasSandstorm(level, pos, biome)) {
+            var sandyBlock = Sandy.getSandy(state);
+            if (sandyBlock.isPresent()) {
+                level.setBlockAndUpdate(pos, sandyBlock.get());
+                BlockPos downPos = pos.below();
+                BlockState downBlock = level.getBlockState(downPos);
+
+                if (WeatheringHelper.isRandomWeatheringPos(downPos) ){
+                    var sandyBlock2 = Sandy.getSandy(downBlock).orElse(null);
+                    if (sandyBlock2 instanceof Sandy sandy) {
+                        level.setBlockAndUpdate(pos.below(), sandyBlock2);
+                        level.setBlockAndUpdate(pos.above(), ModBlocks.SAND_LAYER_BLOCK.get().defaultBlockState());
+                    }
+                }
             }
         }
     }
+
 }

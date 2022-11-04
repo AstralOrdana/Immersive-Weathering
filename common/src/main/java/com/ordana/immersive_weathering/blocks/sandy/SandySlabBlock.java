@@ -30,7 +30,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class SandySlabBlock extends SlabBlock {
+public class SandySlabBlock extends SlabBlock implements Sandy {
 
     public SandySlabBlock(Properties properties) {
         super(properties);
@@ -45,38 +45,14 @@ public class SandySlabBlock extends SlabBlock {
 
     @Override
     public void animateTick (BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if (random.nextInt(10) == 1) {
-            BlockPos blockpos = pos.below();
-            BlockState blockstate = level.getBlockState(blockpos);
-            if (!blockstate.isFaceSturdy(level, blockpos, Direction.UP)) {
-                double d0 = pos.getX() + random.nextDouble();
-                double d1 = pos.getY() - 0.05D;
-                double d2 = pos.getZ() + random.nextDouble();
-                if (state.getValue(ModBlockProperties.SANDINESS) == 0 && random.nextInt(10) == 1) {
-                    level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()), d0, d1, d2, 0.0D, 0.0D, 0.0D);
-                }
-                else level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()), d0, d1, d2, 0.0D, 0.0D, 0.0D);
-            }
-        }
+        super.animateTick(state, level, pos, random);
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        ItemStack stack = player.getItemInHand(hand);
-        Item item = stack.getItem();
-        if (item instanceof ShovelItem) {
-            level.playSound(player, pos, SoundEvents.SAND_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
-            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()), UniformInt.of(3, 5));
-            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
-            if (player instanceof ServerPlayer) {
-                if (state.getValue(ModBlockProperties.SANDINESS) == 0) level.setBlockAndUpdate(pos, WeatheringHelper.getUnsandyBlock(state).orElse(null));
-                if (state.getValue(ModBlockProperties.SANDINESS) == 1) level.setBlockAndUpdate(pos, state.setValue(ModBlockProperties.SANDINESS, 0));
-                if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) Block.popResourceFromFace(level, pos, hitResult.getDirection(), new ItemStack(ModBlocks.SAND_LAYER_BLOCK.get()));
-                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
-                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-            }
-            return InteractionResult.sidedSuccess(level.isClientSide);
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if(interactWithPlayer(state, level, pos, player, hand, hit)){
+            return InteractionResult.SUCCESS;
         }
-        return super.use(state,level,pos,player,hand,hitResult);
+        return super.use(state, level, pos, player, hand, hit);
     }
 }

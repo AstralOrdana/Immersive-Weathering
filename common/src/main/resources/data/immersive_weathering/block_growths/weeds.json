@@ -2,7 +2,7 @@
   "tick_sources": [
     "clear_sky"
   ],
-  "growth_chance": 0.005,
+  "growth_chance": 0.001,
   "growth_for_face": [
     {
       "direction": "up",
@@ -27,6 +27,6 @@
   "replacing_target": {
     "blocks": "#immersive_weathering:weeds_replaceable",
     "predicate_type": "immersive_weathering:block_set_match",
-    "probability": 0.65
+    "probability": 0.165
   }
 }
