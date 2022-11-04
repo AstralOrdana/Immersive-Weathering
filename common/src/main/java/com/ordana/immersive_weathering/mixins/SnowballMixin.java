@@ -1,12 +1,10 @@
 package com.ordana.immersive_weathering.mixins;
 
-import com.ordana.immersive_weathering.WeatheringHelper;
+import com.ordana.immersive_weathering.util.WeatheringHelper;
 import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;

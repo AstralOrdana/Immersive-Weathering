@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.blocks;
 
-import com.ordana.immersive_weathering.WeatheringHelper;
+import com.ordana.immersive_weathering.util.WeatheringHelper;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.entities.FallingLayerEntity;
 import com.ordana.immersive_weathering.reg.ModParticles;

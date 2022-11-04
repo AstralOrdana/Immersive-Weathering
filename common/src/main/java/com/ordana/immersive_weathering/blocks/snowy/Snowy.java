@@ -56,11 +56,11 @@ public interface Snowy {
     Supplier<BiMap<Block, Block>> SNOWY_TO_NORMAL = Suppliers.memoize(() -> NORMAL_TO_SNOWY.get().inverse());
 
 
-    default Optional<BlockState> getSnowy(BlockState state) {
+    static Optional<BlockState> getSnowy(BlockState state) {
         return getUnSnowy(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
-    default Optional<BlockState> getUnSnowy(BlockState state) {
+    static Optional<BlockState> getUnSnowy(BlockState state) {
         return getUnSnowy(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
@@ -93,4 +93,5 @@ public interface Snowy {
         return false;
     }
 
+    boolean canHaveSnowyBelow();
 }

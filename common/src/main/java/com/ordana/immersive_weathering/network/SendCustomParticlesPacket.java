@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.network;
 
-import com.ordana.immersive_weathering.WeatheringHelper;
+import com.ordana.immersive_weathering.util.WeatheringHelper;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.blocks.sandy;
 
-import com.ordana.immersive_weathering.WeatheringHelper;
+import com.ordana.immersive_weathering.util.WeatheringHelper;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
@@ -28,8 +28,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class SandySlabBlock extends SlabBlock {
@@ -51,9 +49,9 @@ public class SandySlabBlock extends SlabBlock {
             BlockPos blockpos = pos.below();
             BlockState blockstate = level.getBlockState(blockpos);
             if (!blockstate.isFaceSturdy(level, blockpos, Direction.UP)) {
-                double d0 = (double) pos.getX() + random.nextDouble();
-                double d1 = (double) pos.getY() - 0.05D;
-                double d2 = (double) pos.getZ() + random.nextDouble();
+                double d0 = pos.getX() + random.nextDouble();
+                double d1 = pos.getY() - 0.05D;
+                double d2 = pos.getZ() + random.nextDouble();
                 if (state.getValue(ModBlockProperties.SANDINESS) == 0 && random.nextInt(10) == 1) {
                     level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()), d0, d1, d2, 0.0D, 0.0D, 0.0D);
                 }

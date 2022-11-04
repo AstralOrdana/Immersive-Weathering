@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.mixins;
 
-import com.ordana.immersive_weathering.WeatheringHelper;
+import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;

@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.mixins;
 
 import com.ordana.immersive_weathering.data.block_growths.growths.builtin.LeavesGrowth;
-import com.ordana.immersive_weathering.WeatheringHelper;
+import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;

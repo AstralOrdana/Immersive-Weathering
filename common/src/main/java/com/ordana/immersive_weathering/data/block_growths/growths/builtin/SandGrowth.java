@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.data.block_growths.growths.builtin;
 
-import com.ordana.immersive_weathering.WeatheringHelper;
+import com.ordana.immersive_weathering.util.WeatheringHelper;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.reg.ModBlocks;
@@ -39,7 +39,7 @@ public class SandGrowth extends BuiltinBlockGrowth {
             BlockState downBlock = level.getBlockState(downPos);
             var sandyBlock = WeatheringHelper.getSandyBlock(state).orElse(null);
             level.setBlockAndUpdate(pos, sandyBlock.getBlock().withPropertiesOf(state));
-            if (WeatheringHelper.isWeatherPos(downPos) && downBlock.is(ModTags.SANDABLE)) {
+            if (WeatheringHelper.isRandomWeatheringPos(downPos) && downBlock.is(ModTags.SANDABLE)) {
                 var sandyDownBlock = WeatheringHelper.getSandyBlock(downBlock).orElse(null);
                 assert sandyDownBlock != null;
                 level.setBlockAndUpdate(pos.above(), ModBlocks.SAND_LAYER_BLOCK.get().defaultBlockState());

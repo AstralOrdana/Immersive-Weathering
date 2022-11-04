@@ -5,7 +5,7 @@ import com.ordana.immersive_weathering.IWPlatformStuff;
 import com.ordana.immersive_weathering.data.fluid_generators.FluidGeneratorsHandler;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModTags;
-import com.ordana.immersive_weathering.WeatheringHelper;
+import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.EntityTypeTags;

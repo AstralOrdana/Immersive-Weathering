@@ -1,9 +1,13 @@
 package com.ordana.immersive_weathering.data.block_growths.growths.builtin;
 
-import com.ordana.immersive_weathering.WeatheringHelper;
+import com.ordana.immersive_weathering.blocks.snowy.Snowy;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.reg.ModTags;
-import net.minecraft.core.*;
+import com.ordana.immersive_weathering.util.TemperatureManager;
+import com.ordana.immersive_weathering.util.WeatheringHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -22,22 +26,27 @@ public class SnowGrowth extends BuiltinBlockGrowth {
 
     @Override
     public @Nullable Iterable<Block> getOwners() {
-        List<Block> blocks = new ArrayList<>();
-        Registry.BLOCK.getTag(ModTags.SNOWABLE).get().stream().forEach(h -> blocks.add(h.value()));
-        return blocks;
+        return new ArrayList<>(Snowy.NORMAL_TO_SNOWY.get().keySet());
     }
 
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome) {
-        if (level.isRaining() && biome.is(ModTags.ICY)) {
-            BlockPos downPos = pos.below();
-            BlockState downBlock = level.getBlockState(downPos);
-            var snowyBlock = WeatheringHelper.getSnowyBlock(state).orElse(null);
-            level.setBlockAndUpdate(pos, snowyBlock.getBlock().withPropertiesOf(state));
-            if (WeatheringHelper.isWeatherPos(downPos) && downBlock.is(ModTags.SNOWABLE) && !downBlock.is(Blocks.STONE)) {
-                var snowyDownBlock = WeatheringHelper.getSnowyBlock(downBlock).orElse(null);
-                level.setBlockAndUpdate(pos.below(), snowyDownBlock.getBlock().withPropertiesOf(downBlock));
+        if (TemperatureManager.snowGrowthCanGrowSnowyBlock(pos, biome)) {
+            var snowyBlock = Snowy.getSnowy(state);
+            if (snowyBlock.isPresent()) {
+                level.setBlockAndUpdate(pos, snowyBlock.get());
+                BlockPos downPos = pos.below();
+                BlockState downBlock = level.getBlockState(downPos);
+
+                if (WeatheringHelper.isRandomWeatheringPos(downPos) ){
+                    var snowyBlock2 = Snowy.getSnowy(downBlock).orElse(null);
+                    if(snowyBlock2 instanceof Snowy snowy && snowy.canHaveSnowyBelow()){
+                        level.setBlockAndUpdate(pos.below(), snowyBlock2);
+                    }
+                }
             }
         }
     }
+
+
 }

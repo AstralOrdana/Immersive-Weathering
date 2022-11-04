@@ -7,7 +7,7 @@ import com.ordana.immersive_weathering.entities.IcicleBlockEntity;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModDamageSource;
 import com.ordana.immersive_weathering.reg.ModTags;
-import com.ordana.immersive_weathering.WeatheringHelper;
+import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;

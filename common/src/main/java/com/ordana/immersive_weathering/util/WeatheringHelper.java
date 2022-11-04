@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering;
+package com.ordana.immersive_weathering.util;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
@@ -49,7 +49,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public class WeatheringHelper {
 
@@ -127,49 +126,6 @@ public class WeatheringHelper {
         return LOG_TO_PARTICLES.get().getOrDefault(state.getBlock(), new BlockParticleOption(ParticleTypes.BLOCK, state));
     }
 
-    public static final Supplier<Map<Block, Block>> SANDY_BLOCKS = Suppliers.memoize(() ->
-            ImmutableMap.<Block, Block>builder()
-                    .put(Blocks.STONE, ModBlocks.SANDY_STONE.get())
-                    .put(Blocks.STONE_STAIRS, ModBlocks.SANDY_STONE_STAIRS.get())
-                    .put(Blocks.STONE_SLAB, ModBlocks.SANDY_STONE_SLAB.get())
-                    .put(ModBlocks.STONE_WALL.get(), ModBlocks.SANDY_STONE_WALL.get())
-                    .put(Blocks.COBBLESTONE, ModBlocks.SANDY_COBBLESTONE.get())
-                    .put(Blocks.COBBLESTONE_STAIRS, ModBlocks.SANDY_COBBLESTONE_STAIRS.get())
-                    .put(Blocks.COBBLESTONE_SLAB, ModBlocks.SANDY_COBBLESTONE_SLAB.get())
-                    .put(Blocks.COBBLESTONE_WALL, ModBlocks.SANDY_COBBLESTONE_WALL.get())
-                    .put(Blocks.STONE_BRICKS, ModBlocks.SANDY_STONE_BRICKS.get())
-                    .put(Blocks.CHISELED_STONE_BRICKS, ModBlocks.SANDY_CHISELED_STONE_BRICKS.get())
-                    .put(Blocks.STONE_BRICK_STAIRS, ModBlocks.SANDY_STONE_BRICK_STAIRS.get())
-                    .put(Blocks.STONE_BRICK_SLAB, ModBlocks.SANDY_STONE_BRICK_SLAB.get())
-                    .put(Blocks.STONE_BRICK_WALL, ModBlocks.SANDY_STONE_BRICK_WALL.get())
-                    .build());
-
-    public static Optional<BlockState> getSandyBlock(BlockState state) {
-        return Optional.ofNullable(SANDY_BLOCKS.get().get(state.getBlock()))
-                .map(block -> block.withPropertiesOf(state));
-    }
-
-    public static final Supplier<Map<Block, Block>> UNSANDY_BLOCKS = Suppliers.memoize(() ->
-            ImmutableMap.<Block, Block>builder()
-                    .put(ModBlocks.SANDY_STONE.get(), Blocks.STONE)
-                    .put(ModBlocks.SANDY_STONE_STAIRS.get(), Blocks.STONE_STAIRS)
-                    .put(ModBlocks.SANDY_STONE_SLAB.get(), Blocks.STONE_SLAB)
-                    .put(ModBlocks.SANDY_STONE_WALL.get(), ModBlocks.STONE_WALL.get())
-                    .put(ModBlocks.SANDY_COBBLESTONE.get(), Blocks.COBBLESTONE)
-                    .put(ModBlocks.SANDY_COBBLESTONE_STAIRS.get(), Blocks.COBBLESTONE_STAIRS)
-                    .put(ModBlocks.SANDY_COBBLESTONE_SLAB.get(), Blocks.COBBLESTONE_SLAB)
-                    .put(ModBlocks.SANDY_COBBLESTONE_WALL.get(), Blocks.COBBLESTONE_WALL)
-                    .put(ModBlocks.SANDY_STONE_BRICKS.get(), Blocks.STONE_BRICKS)
-                    .put(ModBlocks.SANDY_CHISELED_STONE_BRICKS.get(), Blocks.CHISELED_STONE_BRICKS)
-                    .put(ModBlocks.SANDY_STONE_BRICK_STAIRS.get(), Blocks.STONE_BRICK_STAIRS)
-                    .put(ModBlocks.SANDY_STONE_BRICK_SLAB.get(), Blocks.STONE_BRICK_SLAB)
-                    .put(ModBlocks.SANDY_STONE_BRICK_WALL.get(), Blocks.STONE_BRICK_WALL)
-                    .build());
-
-    public static Optional<BlockState> getUnsandyBlock(BlockState state) {
-        return Optional.ofNullable(UNSANDY_BLOCKS.get().get(state.getBlock()))
-                .map(block -> block.withPropertiesOf(state));
-    }
 
     public static Optional<Block> getFallenLeafPile(BlockState state) {
         Block b = state.getBlock();
@@ -303,7 +259,10 @@ public class WeatheringHelper {
         return posRandom.nextInt(rarity) == 0;
     }
 
-    public static boolean isWeatherPos(BlockPos pos) {
+    /**
+     * @return used to randomize weathering in certain position. 1/6 on average will be true
+     */
+    public static boolean isRandomWeatheringPos(BlockPos pos) {
         Random posRandom = new Random(Mth.getSeed(pos));
         return posRandom.nextInt(6) == 0;
     }
@@ -396,7 +355,7 @@ public class WeatheringHelper {
             int a = 1; //TODO: this isnt working
         }
         if (freezingIncrement != 0 && entity.canFreeze() && (entity instanceof LivingEntity le) &&
-                !(EnchantmentHelper.getEnchantmentLevel(Enchantments.FROST_WALKER, le) > 0) &&
+                (EnchantmentHelper.getEnchantmentLevel(Enchantments.FROST_WALKER, le) <= 0) &&
                 !entity.getType().is(ModTags.LIGHT_FREEZE_IMMUNE)) {
             if (inWater) {
                 if (le.getItemBySlot(EquipmentSlot.FEET).is(Items.LEATHER_BOOTS)) return;
