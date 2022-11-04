@@ -35,6 +35,8 @@ import java.util.function.Supplier;
 
 public interface Sandy {
 
+    IntegerProperty SANDINESS = ModBlockProperties.SANDINESS;
+
     Supplier<BiMap<Block, Block>> NORMAL_TO_SANDY = Suppliers.memoize(() -> {
         var builder = ImmutableBiMap.<Block, Block>builder()
                 .put(Blocks.STONE, ModBlocks.SANDY_STONE.get())
@@ -56,11 +58,9 @@ public interface Sandy {
     //reverse map for reverse access in descending order
     Supplier<BiMap<Block, Block>> SANDY_TO_NORMAL = Suppliers.memoize(() -> NORMAL_TO_SANDY.get().inverse());
 
-    IntegerProperty SANDINESS = ModBlockProperties.SANDINESS;
-
 
     static Optional<BlockState> getSandy(BlockState state) {
-        return getUnSandy(state.getBlock()).map(block -> block.withPropertiesOf(state));
+        return getSandy(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
     static Optional<BlockState> getUnSandy(BlockState state) {
@@ -87,8 +87,7 @@ public interface Sandy {
             if (player instanceof ServerPlayer serverPlayer) {
                 level.setBlockAndUpdate(pos, unSandy.get());
                 if (state.getValue(ModBlockProperties.SANDINESS) == 0) level.setBlockAndUpdate(pos, unSandy.get());
-                if (state.getValue(ModBlockProperties.SANDINESS) == 1)
-                    level.setBlockAndUpdate(pos, state.setValue(ModBlockProperties.SANDINESS, 0));
+                if (state.getValue(ModBlockProperties.SANDINESS) == 1) level.setBlockAndUpdate(pos, state.setValue(ModBlockProperties.SANDINESS, 0));
                 if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get())
                     Block.popResourceFromFace(level, pos, hitResult.getDirection(), new ItemStack(ModBlocks.SAND_LAYER_BLOCK.get()));
                 CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);

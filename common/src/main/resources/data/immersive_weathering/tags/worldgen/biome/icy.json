@@ -6,7 +6,7 @@
       "required": false
     },
     {
-      "id": "#c:climate_cold",
+      "id": "#c:icy",
       "required": false
     },
     "minecraft:ice_spikes",

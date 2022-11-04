@@ -57,7 +57,7 @@ public interface Snowy {
 
 
     static Optional<BlockState> getSnowy(BlockState state) {
-        return getUnSnowy(state.getBlock()).map(block -> block.withPropertiesOf(state));
+        return getSnowy(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
     static Optional<BlockState> getUnSnowy(BlockState state) {
