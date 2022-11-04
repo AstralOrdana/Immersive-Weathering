@@ -1,4 +1,7 @@
 {
+  "tick_sources": [
+    "clear_sky"
+  ],
   "growth_chance": 0.1,
   "area_condition": {
     "must_have": {
@@ -13,7 +16,7 @@
     "radiusX": 3,
     "radiusY": 2,
     "radiusZ": 3,
-    "requiredAmount": -1,
+    "requiredAmount": 5,
     "type": "generate_if_not_too_many"
   },
   "growth_for_face": [

@@ -1,4 +1,7 @@
 {
+  "tick_sources": [
+    "clear_sky"
+  ],
   "growth_chance": 0.001,
   "growth_for_face": [
     {
