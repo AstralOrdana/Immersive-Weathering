@@ -232,7 +232,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
                             if (destroyTarget) {
                                 level.destroyBlock(targetPos, true);
                             }
-                            level.setBlockAndUpdate(targetPos, getStateToPlace(toPlace.getFirst(), target, level, pos));
+                            level.setBlockAndUpdate(targetPos, getStateToPlace(toPlace.getFirst(), target, level, targetPos));
                             if (db) {
                                 if (destroyTarget) level.destroyBlock(targetPos2, true);
                                 level.setBlockAndUpdate(targetPos2, getStateToPlace(toPlace.getSecond(), target2, level, pos));

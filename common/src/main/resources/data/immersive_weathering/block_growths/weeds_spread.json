@@ -2,7 +2,23 @@
   "tick_sources": [
     "clear_sky"
   ],
-  "growth_chance": 0.001,
+  "growth_chance": 0.1,
+  "area_condition": {
+    "must_have": {
+      "block_state": {
+        "Name": "immersive_weathering:weeds",
+        "Properties": {
+          "age": "7"
+        }
+      },
+      "predicate_type": "minecraft:blockstate_match"
+    },
+    "radiusX": 3,
+    "radiusY": 2,
+    "radiusZ": 3,
+    "requiredAmount": 5,
+    "type": "generate_if_not_too_many"
+  },
   "growth_for_face": [
     {
       "direction": "up",
@@ -13,7 +29,7 @@
             "block": {
               "Name": "immersive_weathering:weeds",
               "Properties": {
-                "age": "0"
+                "age": "1"
               }
             }
           },
@@ -23,10 +39,12 @@
     }
   ],
   "destroy_target": true,
-  "owners": ["minecraft:farmland"],
+  "owners": [
+    "minecraft:farmland"
+  ],
   "replacing_target": {
     "blocks": "#immersive_weathering:weeds_replaceable",
     "predicate_type": "immersive_weathering:block_set_match",
-    "probability": 0.165
+    "probability": 0.65
   }
 }
