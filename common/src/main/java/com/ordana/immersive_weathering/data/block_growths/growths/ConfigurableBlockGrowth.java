@@ -209,7 +209,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
             if (targetSelf || targetPredicate.test(target, seed)) {
                 if (targetSelf && targetPredicate instanceof RandomBlockMatchTestAccessor rbm) {
                     //hack to get a probability here for self target
-                    if (!(seed.nextFloat() < rbm.getProbability())) return; //TODO: use accessor here
+                    if (!(seed.nextFloat() < rbm.getProbability())) return; //TODO: use AW here
                 }
                 var l = blockGrowths.get(dir);
                 if (l != null) {
@@ -229,7 +229,9 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
 
                         if (areaCondition.test(pos, level, this)) {
 
-                            if (destroyTarget) level.destroyBlock(targetPos, true);
+                            if (destroyTarget) {
+                                level.destroyBlock(targetPos, true);
+                            }
                             level.setBlockAndUpdate(targetPos, getStateToPlace(toPlace.getFirst(), target, level, pos));
                             if (db) {
                                 if (destroyTarget) level.destroyBlock(targetPos2, true);

@@ -27,28 +27,17 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class SnowyBlock extends Block {
+public class SnowyBlock extends Block implements Snowy{
 
     public SnowyBlock(Properties properties) {
         super(properties);
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        ItemStack stack = player.getItemInHand(hand);
-        Item item = stack.getItem();
-        if (item instanceof ShovelItem) {
-            level.playSound(player, pos, SoundEvents.SNOW_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
-            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SNOW.defaultBlockState()), UniformInt.of(3, 5));
-            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
-            if (player instanceof ServerPlayer) {
-                level.setBlockAndUpdate(pos, WeatheringHelper.getUnsnowyBlock(state).orElse(null));
-                if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) Block.popResourceFromFace(level, pos, hitResult.getDirection(), new ItemStack(Items.SNOWBALL));
-                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
-            }
-            return InteractionResult.sidedSuccess(level.isClientSide);
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if(interactWithPlayer(state, level, pos, player, hand, hit)){
+            return InteractionResult.SUCCESS;
         }
-        return super.use(state,level,pos,player,hand,hitResult);
+        return super.use(state, level, pos, player, hand, hit);
     }
 }

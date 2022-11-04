@@ -94,76 +94,11 @@ public class WeatheringHelper {
 
     public static final Supplier<Map<Block, SimpleParticleType>> LEAVES_TO_PARTICLE = Suppliers.memoize(() -> {
                 var b = ImmutableMap.<Block, SimpleParticleType>builder();
-
                 ModParticles.FALLING_LEAVES_PARTICLES.forEach((key, value) -> b.put(key.leaves, value));
                 return b.build();
             }
     );
 
-    public static final Supplier<Map<Block, Block>> UNWAXED_BLOCKS = Suppliers.memoize(() ->
-            ImmutableMap.<Block, Block>builder()
-
-                    .put(ModBlocks.WAXED_CUT_IRON.get(), ModBlocks.CUT_IRON.get())
-                    .put(ModBlocks.WAXED_EXPOSED_CUT_IRON.get(), ModBlocks.EXPOSED_CUT_IRON.get())
-                    .put(ModBlocks.WAXED_WEATHERED_CUT_IRON.get(), ModBlocks.WEATHERED_CUT_IRON.get())
-                    .put(ModBlocks.WAXED_RUSTED_CUT_IRON.get(), ModBlocks.RUSTED_CUT_IRON.get())
-                    .put(ModBlocks.WAXED_CUT_IRON_STAIRS.get(), ModBlocks.CUT_IRON_STAIRS.get())
-                    .put(ModBlocks.WAXED_EXPOSED_CUT_IRON_STAIRS.get(), ModBlocks.EXPOSED_CUT_IRON_STAIRS.get())
-                    .put(ModBlocks.WAXED_WEATHERED_CUT_IRON_STAIRS.get(), ModBlocks.WEATHERED_CUT_IRON_STAIRS.get())
-                    .put(ModBlocks.WAXED_RUSTED_CUT_IRON_STAIRS.get(), ModBlocks.RUSTED_CUT_IRON_STAIRS.get())
-                    .put(ModBlocks.WAXED_CUT_IRON_SLAB.get(), ModBlocks.CUT_IRON_SLAB.get())
-                    .put(ModBlocks.WAXED_EXPOSED_CUT_IRON_SLAB.get(), ModBlocks.EXPOSED_CUT_IRON_SLAB.get())
-                    .put(ModBlocks.WAXED_WEATHERED_CUT_IRON_SLAB.get(), ModBlocks.WEATHERED_CUT_IRON_SLAB.get())
-                    .put(ModBlocks.WAXED_RUSTED_CUT_IRON_SLAB.get(), ModBlocks.RUSTED_CUT_IRON_SLAB.get())
-
-                    .put(ModBlocks.WAXED_PLATE_IRON.get(), ModBlocks.PLATE_IRON.get())
-                    .put(ModBlocks.WAXED_EXPOSED_PLATE_IRON.get(), ModBlocks.EXPOSED_PLATE_IRON.get())
-                    .put(ModBlocks.WAXED_WEATHERED_PLATE_IRON.get(), ModBlocks.WEATHERED_PLATE_IRON.get())
-                    .put(ModBlocks.WAXED_RUSTED_PLATE_IRON.get(), ModBlocks.RUSTED_PLATE_IRON.get())
-                    .put(ModBlocks.WAXED_PLATE_IRON_STAIRS.get(), ModBlocks.PLATE_IRON_STAIRS.get())
-                    .put(ModBlocks.WAXED_EXPOSED_PLATE_IRON_STAIRS.get(), ModBlocks.EXPOSED_PLATE_IRON_STAIRS.get())
-                    .put(ModBlocks.WAXED_WEATHERED_PLATE_IRON_STAIRS.get(), ModBlocks.WEATHERED_PLATE_IRON_STAIRS.get())
-                    .put(ModBlocks.WAXED_RUSTED_PLATE_IRON_STAIRS.get(), ModBlocks.RUSTED_PLATE_IRON_STAIRS.get())
-                    .put(ModBlocks.WAXED_PLATE_IRON_SLAB.get(), ModBlocks.PLATE_IRON_SLAB.get())
-                    .put(ModBlocks.WAXED_EXPOSED_PLATE_IRON_SLAB.get(), ModBlocks.EXPOSED_PLATE_IRON_SLAB.get())
-                    .put(ModBlocks.WAXED_WEATHERED_PLATE_IRON_SLAB.get(), ModBlocks.WEATHERED_PLATE_IRON_SLAB.get())
-                    .put(ModBlocks.WAXED_RUSTED_PLATE_IRON_SLAB.get(), ModBlocks.RUSTED_PLATE_IRON_SLAB.get())
-
-                    .put(ModBlocks.WAXED_IRON_DOOR.get(), Blocks.IRON_DOOR)
-                    .put(ModBlocks.WAXED_EXPOSED_IRON_DOOR.get(), ModBlocks.EXPOSED_IRON_DOOR.get())
-                    .put(ModBlocks.WAXED_WEATHERED_IRON_DOOR.get(), ModBlocks.WEATHERED_IRON_DOOR.get())
-                    .put(ModBlocks.WAXED_RUSTED_IRON_DOOR.get(), ModBlocks.RUSTED_IRON_DOOR.get())
-                    .put(ModBlocks.WAXED_IRON_TRAPDOOR.get(), Blocks.IRON_TRAPDOOR)
-                    .put(ModBlocks.WAXED_EXPOSED_IRON_TRAPDOOR.get(), ModBlocks.EXPOSED_IRON_TRAPDOOR.get())
-                    .put(ModBlocks.WAXED_WEATHERED_IRON_TRAPDOOR.get(), ModBlocks.WEATHERED_IRON_TRAPDOOR.get())
-                    .put(ModBlocks.WAXED_RUSTED_IRON_TRAPDOOR.get(), ModBlocks.RUSTED_IRON_TRAPDOOR.get())
-                    .put(ModBlocks.WAXED_IRON_BARS.get(), Blocks.IRON_BARS)
-                    .put(ModBlocks.WAXED_EXPOSED_IRON_BARS.get(), ModBlocks.EXPOSED_IRON_BARS.get())
-                    .put(ModBlocks.WAXED_WEATHERED_IRON_BARS.get(), ModBlocks.WEATHERED_IRON_BARS.get())
-                    .put(ModBlocks.WAXED_RUSTED_IRON_BARS.get(), ModBlocks.RUSTED_IRON_BARS.get())
-
-                    .put(Blocks.WAXED_COPPER_BLOCK, Blocks.COPPER_BLOCK)
-                    .put(Blocks.WAXED_EXPOSED_COPPER, Blocks.EXPOSED_COPPER)
-                    .put(Blocks.WAXED_WEATHERED_COPPER, Blocks.WEATHERED_COPPER)
-                    .put(Blocks.WAXED_OXIDIZED_COPPER, Blocks.OXIDIZED_COPPER)
-                    .put(Blocks.WAXED_CUT_COPPER, Blocks.CUT_COPPER)
-                    .put(Blocks.WAXED_EXPOSED_CUT_COPPER, Blocks.EXPOSED_CUT_COPPER)
-                    .put(Blocks.WAXED_WEATHERED_CUT_COPPER, Blocks.WEATHERED_CUT_COPPER)
-                    .put(Blocks.WAXED_OXIDIZED_CUT_COPPER, Blocks.OXIDIZED_CUT_COPPER)
-                    .put(Blocks.WAXED_CUT_COPPER_SLAB, Blocks.CUT_COPPER_SLAB)
-                    .put(Blocks.WAXED_EXPOSED_CUT_COPPER_SLAB, Blocks.EXPOSED_CUT_COPPER_SLAB)
-                    .put(Blocks.WAXED_WEATHERED_CUT_COPPER_SLAB, Blocks.WEATHERED_CUT_COPPER_SLAB)
-                    .put(Blocks.WAXED_OXIDIZED_CUT_COPPER_SLAB, Blocks.OXIDIZED_CUT_COPPER_SLAB)
-                    .put(Blocks.WAXED_CUT_COPPER_STAIRS, Blocks.CUT_COPPER_STAIRS)
-                    .put(Blocks.WAXED_EXPOSED_CUT_COPPER_STAIRS, Blocks.EXPOSED_CUT_COPPER_STAIRS)
-                    .put(Blocks.WAXED_WEATHERED_CUT_COPPER_STAIRS, Blocks.WEATHERED_CUT_COPPER_STAIRS)
-                    .put(Blocks.WAXED_OXIDIZED_CUT_COPPER_STAIRS, Blocks.OXIDIZED_CUT_COPPER_STAIRS)
-                    .build());
-
-    public static Optional<BlockState> getUnwaxedBlock(BlockState state) {
-        return Optional.ofNullable(UNWAXED_BLOCKS.get().get(state.getBlock()))
-                .map(block -> block.withPropertiesOf(state));
-    }
 
     public static final Supplier<Map<Block, ParticleOptions>> LOG_TO_PARTICLES = Suppliers.memoize(() ->
             ImmutableMap.<Block, ParticleOptions>builder()
@@ -236,52 +171,6 @@ public class WeatheringHelper {
                 .map(block -> block.withPropertiesOf(state));
     }
 
-
-    public static final Supplier<Map<Block, Block>> SNOWY_BLOCKS = Suppliers.memoize(() ->
-            ImmutableMap.<Block, Block>builder()
-                    .put(Blocks.STONE, ModBlocks.SNOWY_STONE.get())
-                    .put(Blocks.STONE_STAIRS, ModBlocks.SNOWY_STONE_STAIRS.get())
-                    .put(Blocks.STONE_SLAB, ModBlocks.SNOWY_STONE_SLAB.get())
-                    .put(ModBlocks.STONE_WALL.get(), ModBlocks.SNOWY_STONE_WALL.get())
-                    .put(Blocks.COBBLESTONE, ModBlocks.SNOWY_COBBLESTONE.get())
-                    .put(Blocks.COBBLESTONE_STAIRS, ModBlocks.SNOWY_COBBLESTONE_STAIRS.get())
-                    .put(Blocks.COBBLESTONE_SLAB, ModBlocks.SNOWY_COBBLESTONE_SLAB.get())
-                    .put(Blocks.COBBLESTONE_WALL, ModBlocks.SNOWY_COBBLESTONE_WALL.get())
-                    .put(Blocks.STONE_BRICKS, ModBlocks.SNOWY_STONE_BRICKS.get())
-                    .put(Blocks.CHISELED_STONE_BRICKS, ModBlocks.SNOWY_CHISELED_STONE_BRICKS.get())
-                    .put(Blocks.STONE_BRICK_STAIRS, ModBlocks.SNOWY_STONE_BRICK_STAIRS.get())
-                    .put(Blocks.STONE_BRICK_SLAB, ModBlocks.SNOWY_STONE_BRICK_SLAB.get())
-                    .put(Blocks.STONE_BRICK_WALL, ModBlocks.SNOWY_STONE_BRICK_WALL.get())
-                    .build());
-
-    public static Optional<BlockState> getSnowyBlock(BlockState state) {
-        return Optional.ofNullable(SNOWY_BLOCKS.get().get(state.getBlock()))
-                .map(block -> block.withPropertiesOf(state));
-    }
-
-    public static final Supplier<Map<Block, Block>> UNSNOWY_BLOCKS = Suppliers.memoize(() ->
-            ImmutableMap.<Block, Block>builder()
-                    .put(ModBlocks.SNOWY_STONE.get(), Blocks.STONE)
-                    .put(ModBlocks.SNOWY_STONE_STAIRS.get(), Blocks.STONE_STAIRS)
-                    .put(ModBlocks.SNOWY_STONE_SLAB.get(), Blocks.STONE_SLAB)
-                    .put(ModBlocks.SNOWY_STONE_WALL.get(), ModBlocks.STONE_WALL.get())
-                    .put(ModBlocks.SNOWY_COBBLESTONE.get(), Blocks.COBBLESTONE)
-                    .put(ModBlocks.SNOWY_COBBLESTONE_STAIRS.get(), Blocks.COBBLESTONE_STAIRS)
-                    .put(ModBlocks.SNOWY_COBBLESTONE_SLAB.get(), Blocks.COBBLESTONE_SLAB)
-                    .put(ModBlocks.SNOWY_COBBLESTONE_WALL.get(), Blocks.COBBLESTONE_WALL)
-                    .put(ModBlocks.SNOWY_STONE_BRICKS.get(), Blocks.STONE_BRICKS)
-                    .put(ModBlocks.SNOWY_CHISELED_STONE_BRICKS.get(), Blocks.CHISELED_STONE_BRICKS)
-                    .put(ModBlocks.SNOWY_STONE_BRICK_STAIRS.get(), Blocks.STONE_BRICK_STAIRS)
-                    .put(ModBlocks.SNOWY_STONE_BRICK_SLAB.get(), Blocks.STONE_BRICK_SLAB)
-                    .put(ModBlocks.SNOWY_STONE_BRICK_WALL.get(), Blocks.STONE_BRICK_WALL)
-                    .build());
-
-    public static Optional<BlockState> getUnsnowyBlock(BlockState state) {
-        return Optional.ofNullable(UNSNOWY_BLOCKS.get().get(state.getBlock()))
-                .map(block -> block.withPropertiesOf(state));
-    }
-
-
     public static Optional<Block> getFallenLeafPile(BlockState state) {
         Block b = state.getBlock();
         if (CommonConfigs.LEAF_PILES_BLACKLIST.get().contains(Registry.BLOCK.getKey(b).toString()))
@@ -294,16 +183,14 @@ public class WeatheringHelper {
         return Optional.ofNullable(LEAVES_TO_PARTICLE.get().get(b));
     }
 
-
     @Nullable
     public static Item getBarkToStrip(BlockState normalLog) {
         WoodType woodType = BlockSetAPI.getBlockTypeOf(normalLog.getBlock(), WoodType.class);
         if (woodType != null) {
             boolean log = false;
-            //woodType.getChildKey(normalLog)=="log" //TODO: add
-            if (woodType.getChild("log") == normalLog.getBlock()) {
-                log = true;
-            } else if (woodType.getChild("wood") == normalLog.getBlock()) {
+
+            String childKey = woodType.getChildKey(normalLog);
+            if ("log".equals(childKey) || "wood".equals(childKey)) {
                 log = true;
             }
             if (log) {
@@ -352,9 +239,9 @@ public class WeatheringHelper {
      * @param centerPos center pos
      */
     public static List<BlockPos> grabBlocksAroundRandomly(BlockPos centerPos, int radiusX, int radiusY, int radiusZ) {
-        var list = BlockPos.withinManhattanStream(centerPos, radiusX, radiusY, radiusZ)
+        var list = new ArrayList<>(BlockPos.withinManhattanStream(centerPos, radiusX, radiusY, radiusZ)
                 .map(BlockPos::new)
-                .collect(Collectors.toList());
+                .toList());
         //shuffling. provides way better result that iterating through it conventionally
         Collections.shuffle(list, new Random(Mth.getSeed(centerPos)));
         return list;
@@ -393,7 +280,7 @@ public class WeatheringHelper {
                                                   Predicate<BlockState> blockPredicate, int requiredAmount) {
         int count = 0;
         //shuffling. provides way better result that iterating through it conventionally
-        List<Direction> list = new ArrayList<Direction>(List.of(Direction.values()));
+        List<Direction> list = new ArrayList<>(List.of(Direction.values()));
         Collections.shuffle(list, new Random(Mth.getSeed(centerPos)));
         for (Direction dir : list) {
             BlockPos pos = centerPos.relative(dir);
