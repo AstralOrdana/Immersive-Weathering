@@ -230,7 +230,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
                         if (areaCondition.test(pos, level, this)) {
 
                             if (destroyTarget) level.destroyBlock(targetPos, true);
-                            level.setBlock(targetPos, getStateToPlace(toPlace.getFirst(), target, level, pos), 2);
+                            level.setBlock(targetPos, getStateToPlace(toPlace.getFirst(), target, level, targetPos), 2);
                             if (db) {
                                 if (destroyTarget) level.destroyBlock(targetPos2, true);
                                 level.setBlockAndUpdate(targetPos2, getStateToPlace(toPlace.getSecond(), target2, level, pos));

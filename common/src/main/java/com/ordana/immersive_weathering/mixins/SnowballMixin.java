@@ -28,13 +28,14 @@ import java.util.Objects;
 @Mixin(Snowball.class)
 public abstract class SnowballMixin extends ThrowableItemProjectile {
 
-    public SnowballMixin(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
+    protected SnowballMixin(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
         super(entityType, level);
     }
 
     @Shadow
     protected abstract Item getDefaultItem();
 
+    //must resist urge to move to fabric and use forge projectile hit event
     @Inject(method = "onHit", at = @At("TAIL"))
     protected void onCollision(HitResult hitResult, CallbackInfo ci) {
         HitResult.Type type = hitResult.getType();

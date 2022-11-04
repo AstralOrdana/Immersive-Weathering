@@ -471,8 +471,8 @@ public class ModEvents {
             player, Level level, InteractionHand hand, BlockHitResult hitResult) {
 
         var sandy = Sandy.getSandy(state);
-        if (stack.is(ModBlocks.SAND_LAYER_BLOCK.get().asItem()) && sandy.isPresent() ||
-                (state.getBlock() instanceof Sandy && state.getValue(ModBlockProperties.SANDINESS) == 0)) {
+        if (stack.is(ModBlocks.SAND_LAYER_BLOCK.get().asItem()) && (sandy.isPresent() ||
+                (state.getBlock() instanceof Sandy && state.getValue(ModBlockProperties.SANDINESS) == 0))) {
             level.playSound(player, pos, SoundEvents.SAND_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
             ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()), UniformInt.of(3, 5));
             stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
