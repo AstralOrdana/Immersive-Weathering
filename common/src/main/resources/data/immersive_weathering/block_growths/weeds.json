@@ -8,7 +8,7 @@
         {
           "data": {
             "block": {
-              "Name": "immersive_weathering:weeds",
+              "Name": "minecraft:wheat",
               "Properties": {
                 "age": "0"
               }
