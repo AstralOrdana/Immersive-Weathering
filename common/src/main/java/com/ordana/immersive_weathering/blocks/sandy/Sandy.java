@@ -6,7 +6,6 @@ import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
-import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,12 +22,12 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Optional;
@@ -56,6 +55,8 @@ public interface Sandy {
 
     //reverse map for reverse access in descending order
     Supplier<BiMap<Block, Block>> SANDY_TO_NORMAL = Suppliers.memoize(() -> NORMAL_TO_SANDY.get().inverse());
+
+    IntegerProperty SANDINESS = ModBlockProperties.SANDINESS;
 
 
     static Optional<BlockState> getSandy(BlockState state) {
@@ -86,7 +87,8 @@ public interface Sandy {
             if (player instanceof ServerPlayer serverPlayer) {
                 level.setBlockAndUpdate(pos, unSandy.get());
                 if (state.getValue(ModBlockProperties.SANDINESS) == 0) level.setBlockAndUpdate(pos, unSandy.get());
-                if (state.getValue(ModBlockProperties.SANDINESS) == 1) level.setBlockAndUpdate(pos, state.setValue(ModBlockProperties.SANDINESS, 0));
+                if (state.getValue(ModBlockProperties.SANDINESS) == 1)
+                    level.setBlockAndUpdate(pos, state.setValue(ModBlockProperties.SANDINESS, 0));
                 if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get())
                     Block.popResourceFromFace(level, pos, hitResult.getDirection(), new ItemStack(ModBlocks.SAND_LAYER_BLOCK.get()));
                 CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
@@ -97,18 +99,18 @@ public interface Sandy {
         return false;
     }
 
-    default void animateTick (BlockState state, Level level, BlockPos pos, RandomSource random) {
+    default void spawnParticles(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (random.nextInt(10) == 1) {
             BlockPos blockpos = pos.below();
             BlockState blockstate = level.getBlockState(blockpos);
             if (!blockstate.isFaceSturdy(level, blockpos, Direction.UP)) {
-                double d0 = (double) pos.getX() + random.nextDouble();
-                double d1 = (double) pos.getY() - 0.05D;
-                double d2 = (double) pos.getZ() + random.nextDouble();
+                double d0 = pos.getX() + random.nextDouble();
+                double d1 = pos.getY() - 0.05D;
+                double d2 = pos.getZ() + random.nextDouble();
                 if (state.getValue(ModBlockProperties.SANDINESS) == 0 && random.nextInt(10) == 1) {
                     level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()), d0, d1, d2, 0.0D, 0.0D, 0.0D);
-                }
-                else level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()), d0, d1, d2, 0.0D, 0.0D, 0.0D);
+                } else
+                    level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()), d0, d1, d2, 0.0D, 0.0D, 0.0D);
             }
         }
     }

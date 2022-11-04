@@ -1,20 +1,20 @@
 package com.ordana.immersive_weathering.events;
 
 import com.mojang.datafixers.util.Pair;
-import com.ordana.immersive_weathering.blocks.sandy.Sandy;
-import com.ordana.immersive_weathering.blocks.snowy.Snowy;
-import com.ordana.immersive_weathering.util.WeatheringHelper;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.blocks.Weatherable;
 import com.ordana.immersive_weathering.blocks.charred.CharredBlock;
 import com.ordana.immersive_weathering.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.blocks.rustable.Rustable;
+import com.ordana.immersive_weathering.blocks.sandy.Sandy;
+import com.ordana.immersive_weathering.blocks.snowy.Snowy;
 import com.ordana.immersive_weathering.blocks.soil.MulchBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import com.ordana.immersive_weathering.reg.*;
+import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.mehvahdjukaar.moonlight.api.events.IFireConsumeBlockEvent;
 import net.mehvahdjukaar.moonlight.api.misc.EventCalled;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -159,7 +159,7 @@ public class ModEvents {
                         ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
                         if (player instanceof ServerPlayer serverPlayer) {
                             stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
-                            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger( serverPlayer, pos, stack);
+                            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
                             player.awardStat(Stats.ITEM_USED.get(item));
                             level.setBlockAndUpdate(pos, rustable.getPrevious(state).get());
                         }
@@ -183,7 +183,7 @@ public class ModEvents {
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SCRAPE, UniformInt.of(3, 5));
                     if (player instanceof ServerPlayer serverPlayer) {
                         stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger( serverPlayer, pos, stack);
+                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
                         player.awardStat(Stats.ITEM_USED.get(item));
                         WeatheringCopper.getPrevious(state).ifPresent(o -> level.setBlockAndUpdate(pos, o));
                     }
@@ -445,7 +445,7 @@ public class ModEvents {
     }
 
 
-    private static InteractionResult barkRepairing (Item item, ItemStack stack, BlockPos pos, BlockState state, Player
+    private static InteractionResult barkRepairing(Item item, ItemStack stack, BlockPos pos, BlockState state, Player
             player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if (stack.is(ModTags.BARK)) {
             Pair<Item, Block> fixedLog = WeatheringHelper.getBarkForStrippedLog(state).orElse(null);
@@ -467,19 +467,23 @@ public class ModEvents {
         return InteractionResult.PASS;
     }
 
-    private static InteractionResult blockSanding (Item item, ItemStack stack, BlockPos pos, BlockState state, Player
+    private static InteractionResult blockSanding(Item item, ItemStack stack, BlockPos pos, BlockState state, Player
             player, Level level, InteractionHand hand, BlockHitResult hitResult) {
 
-        if (stack.is(ModBlocks.SAND_LAYER_BLOCK.get().asItem()) && (state.is(ModTags.SANDABLE) || (state.is(ModTags.SANDY) && state.getValue(ModBlockProperties.SANDINESS) < 1))) {
+        var sandy = Sandy.getSandy(state);
+        if (stack.is(ModBlocks.SAND_LAYER_BLOCK.get().asItem()) && sandy.isPresent() ||
+                (state.getBlock() instanceof Sandy && state.getValue(ModBlockProperties.SANDINESS) == 0)) {
             level.playSound(player, pos, SoundEvents.SAND_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
             ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()), UniformInt.of(3, 5));
             stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
-            if (player instanceof ServerPlayer) {
+            if (player instanceof ServerPlayer serverPlayer) {
                 if (!player.getAbilities().instabuild) stack.shrink(1);
-                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                if (state.is(ModTags.SANDABLE)) {
-                    level.setBlockAndUpdate(pos, Sandy.getSandy(state));
-                } else level.setBlockAndUpdate(pos, state.setValue(ModBlockProperties.SANDINESS,1));
+                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
+                if (sandy.isPresent()) {
+                    level.setBlockAndUpdate(pos, sandy.get());
+                } else {
+                    level.setBlockAndUpdate(pos, state.setValue(ModBlockProperties.SANDINESS, 1));
+                }
                 player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
@@ -487,17 +491,18 @@ public class ModEvents {
         return InteractionResult.PASS;
     }
 
-    private static InteractionResult blockSnowing (Item item, ItemStack stack, BlockPos pos, BlockState state, Player
+    private static InteractionResult blockSnowing(Item item, ItemStack stack, BlockPos pos, BlockState state, Player
             player, Level level, InteractionHand hand, BlockHitResult hitResult) {
 
-        if (stack.is(Items.SNOWBALL) && (state.is(ModTags.SNOWABLE))) {
+        var snowy = Snowy.getSnowy(state);
+        if (stack.is(Items.SNOWBALL) && snowy.isPresent()) {
             level.playSound(player, pos, SoundEvents.SNOW_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
             ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SNOW_BLOCK.defaultBlockState()), UniformInt.of(3, 5));
             stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
-            if (player instanceof ServerPlayer) {
-                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+            if (player instanceof ServerPlayer serverPlayer) {
+                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
                 if (!player.getAbilities().instabuild) stack.shrink(1);
-                level.setBlockAndUpdate(pos, Snowy.getSnowy(state));
+                level.setBlockAndUpdate(pos, snowy.get());
                 player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
             }
             return InteractionResult.sidedSuccess(level.isClientSide);

@@ -44,10 +44,9 @@ public class SandyStairsBlock extends ModStairBlock implements Sandy {
         super.createBlockStateDefinition(stateManager);
         stateManager.add(ModBlockProperties.SANDINESS);
     }
-
     @Override
-    public void animateTick (BlockState state, Level level, BlockPos pos, RandomSource random) {
-        super.animateTick(state, level, pos, random);
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        this.spawnParticles(state, level, pos, random);
     }
 
     @Override

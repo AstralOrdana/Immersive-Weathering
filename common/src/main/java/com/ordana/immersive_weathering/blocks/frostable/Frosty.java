@@ -3,6 +3,8 @@ package com.ordana.immersive_weathering.blocks.frostable;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.ordana.immersive_weathering.blocks.ModBlockProperties;
+import com.ordana.immersive_weathering.blocks.sandy.Sandy;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -63,7 +65,7 @@ public interface Frosty {
         return Optional.ofNullable(UNFROSTY_TO_FROSTY.get().get(block));
     }
 
-    BooleanProperty NATURAL = BooleanProperty.create("natural");
+    BooleanProperty NATURAL = ModBlockProperties.NATURAL;
 
     default void tryUnFrost(BlockState state, ServerLevel world, BlockPos pos) {
         if (state.getValue(NATURAL)) {

@@ -155,9 +155,7 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
             float f = (float) (k + 1) / (float) (k + j + 1);
             float f1 = f * f * this.getChanceModifier();
             if (randomSource.nextFloat() < f1) {
-                this.getNext(state).ifPresent((p_153039_) -> {
-                    serverLevel.setBlockAndUpdate(pos, p_153039_);
-                });
+                this.getNext(state).ifPresent(s -> serverLevel.setBlockAndUpdate(pos, s));
             }
 
     }

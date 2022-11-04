@@ -44,8 +44,8 @@ public class SandySlabBlock extends SlabBlock implements Sandy {
     }
 
     @Override
-    public void animateTick (BlockState state, Level level, BlockPos pos, RandomSource random) {
-        super.animateTick(state, level, pos, random);
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        this.spawnParticles(state, level, pos, random);
     }
 
     @Override
