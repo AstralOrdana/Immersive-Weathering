@@ -32,6 +32,10 @@ import java.util.*;
 
 public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
 
+    public static final ImmutableList<Direction> POSSIBLE_FLOW_DIRECTIONS = ImmutableList.of(
+            Direction.DOWN, Direction.SOUTH, Direction.NORTH, Direction.EAST, Direction.WEST
+    );
+
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create(); //json object that will write stuff
 
     public static final FluidGeneratorsHandler RELOAD_INSTANCE = new FluidGeneratorsHandler();
