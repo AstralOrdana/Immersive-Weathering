@@ -92,8 +92,4 @@ public interface Snowy {
         }
         return false;
     }
-
-    default boolean canHaveSnowyBelow() {
-        return false;
-    }
 }

@@ -40,6 +40,14 @@
   "advancements.immersive_weathering.moss_off.description": "Scrape moss off a mossy block using Shears",
   "advancements.immersive_weathering.moss_off_2.title": "I said, MOSS OFF",
   "advancements.immersive_weathering.moss_off_2.description": "Burn the moss off a mossy block and prevent it from growing back by using a Flint and Steel",
+  "advancements.immersive_weathering.sand_off.title": "Sand Off",
+  "advancements.immersive_weathering.sand_off.description": "Shovel Sand off a block",
+  "advancements.immersive_weathering.sand_on.title": "Sand On",
+  "advancements.immersive_weathering.sand_on.description": "Apply Sand to a stone block",
+  "advancements.immersive_weathering.snow_off.title": "Snow Off",
+  "advancements.immersive_weathering.snow_off.description": "Shovel Snow off a block",
+  "advancements.immersive_weathering.snow_on.title": "Snow On",
+  "advancements.immersive_weathering.snow_on.description": "Apply a Snowball to a stone block (try thowing it!)",
 
   "config.immersive_weathering.general.leaves_decay_particles": "Leaf Decay Particles",
   "config.immersive_weathering.general.falling_leaf_particles": "Falling Leaf Particles",
@@ -180,6 +188,8 @@
   "tag.immersive_weathering.bricks": "Bricks",
   "tag.immersive_weathering.scales": "Fungus Scales",
   "tag.immersive_weathering.wax": "Wax",
+
+  "block.immersive_weathering.magma_stone": "Magma Stone",
 
   "block.immersive_weathering.icicle": "Icicle",
   "item.immersive_weathering.ice_sickle": "Ice Sickle",

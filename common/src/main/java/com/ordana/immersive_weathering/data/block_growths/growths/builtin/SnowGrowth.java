@@ -38,10 +38,10 @@ public class SnowGrowth extends BuiltinBlockGrowth {
                 BlockPos downPos = pos.below();
                 BlockState downBlock = level.getBlockState(downPos);
 
-                if (WeatheringHelper.isRandomWeatheringPos(downPos) ){
-                    var snowyBlock2 = Snowy.getSnowy(downBlock).orElse(null);
-                    if(snowyBlock2 instanceof Snowy snowy && snowy.canHaveSnowyBelow()){
-                        level.setBlockAndUpdate(pos.below(), snowyBlock2);
+                if (WeatheringHelper.isRandomWeatheringPos(downPos)) {
+                    var snowyBlock2 = Snowy.getSnowy(downBlock);
+                    if(downBlock.is(ModTags.DOUBLE_SNOWABLE) && snowyBlock2.isPresent()){
+                        level.setBlockAndUpdate(pos.below(), snowyBlock2.get());
                     }
                 }
             }

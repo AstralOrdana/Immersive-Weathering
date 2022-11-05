@@ -8,6 +8,7 @@
   "mixins": [
     "BeeMixin",
     "BlocksMixin",
+    "BubbleColumnBlockMixin",
     "BushBlockBlockMixin",
     "CampfireMixin",
     "EatBlockGoalMixin",
