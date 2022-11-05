@@ -36,10 +36,10 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
 
     @Shadow
     @Final
-    public static ImmutableList<Direction> POSSIBLE_FLOW_DIRECTIONS;
+    public static final ImmutableList<Direction> POSSIBLE_FLOW_DIRECTIONS = null;
 
     @Shadow
-    protected abstract void fizz(LevelAccessor p_54701_, BlockPos p_54702_);
+    protected abstract void fizz(LevelAccessor levelAccessor, BlockPos pos);
 
     @Shadow
     public abstract FluidState getFluidState(BlockState blockState);
@@ -48,16 +48,16 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
     @Final
     protected FlowingFluid fluid;
 
-    public LiquidBlockMixin(Properties settings, FlowingFluid fluid) {
+    protected LiquidBlockMixin(Properties settings, FlowingFluid fluid) {
         super(settings);
     }
 
     @Inject(method = "shouldSpreadLiquid", at = @At("HEAD"), cancellable = true)
     private void shouldSpreadLiquid(Level world, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
-        var fluid = this.getOwnFluid();
-        var successPos = FluidGeneratorsHandler.applyGenerators(fluid, POSSIBLE_FLOW_DIRECTIONS, pos, world);
+        var f = this.getOwnFluid();
+        var successPos = FluidGeneratorsHandler.applyGenerators(f, POSSIBLE_FLOW_DIRECTIONS, pos, world);
         if(successPos.isPresent()){
-            if(fluid.is(FluidTags.LAVA)) {
+            if(f.is(FluidTags.LAVA)) {
                 this.fizz(world, successPos.get().getFirst());
             }
             cir.setReturnValue(false);
@@ -68,7 +68,8 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (!world.isClientSide && world.getBiome(pos).is(ModTags.ICY) && this.getOwnFluid().is(FluidTags.WATER)) {
             var freezing = CommonConfigs.FREEZING_WATER_SEVERITY.get();
-            if (!(entity instanceof LivingEntity) || EnchantmentHelper.getEnchantmentLevel(Enchantments.FROST_WALKER, (LivingEntity) entity) > 0 || ((LivingEntity) entity).hasEffect(MobEffects.CONDUIT_POWER) || entity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
+            if (!(entity instanceof LivingEntity livingEntity) ||
+                    EnchantmentHelper.getEnchantmentLevel(Enchantments.FROST_WALKER, livingEntity) > 0 || (livingEntity).hasEffect(MobEffects.CONDUIT_POWER) || entity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
                 return;
             }
             if (entity.isInWater()) WeatheringHelper.applyFreezing(entity, freezing, true);

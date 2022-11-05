@@ -106,16 +106,22 @@ public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
         }
     }
 
-    public static Optional<Pair<BlockPos, @Nullable SoundEvent>> applyGenerators(FlowingFluid fluid, List<Direction> possibleFlowDir, BlockPos pos, Level level) {
+    public static Optional<Pair<BlockPos, @Nullable SoundEvent>> applyGenerators(FlowingFluid fluid, List<Direction> possibleFlowDir,
+                                                                                 BlockPos pos, Level level) {
         var source = fluid.getSource();
         if (HAS_GENERATOR.contains(source)) {
             var list = level.getFluidState(pos).isSource() ? STILL_GENERATORS.get(source) : FLOWING_GENERATORS.get(source);
-            if (list != null && !list.isEmpty()) {
-                Map<Direction, BlockState> neighborCache = new EnumMap<>(Direction.class);
-                for (var generator : list) {
-                    var res = generator.tryGenerating(possibleFlowDir, pos, level, neighborCache);
-                    if (res.isPresent()) return res.map(a -> Pair.of(a, generator.getSound()));
-                }
+            return generate(possibleFlowDir, pos, level, list);
+        }
+        return Optional.empty();
+    }
+
+    private static Optional<Pair<BlockPos, @Nullable SoundEvent>> generate(List<Direction> possibleFlowDir, BlockPos pos, Level level, ImmutableList<IFluidGenerator> list) {
+        if (list != null && !list.isEmpty()) {
+            Map<Direction, BlockState> neighborCache = new EnumMap<>(Direction.class);
+            for (var generator : list) {
+                var res = generator.tryGenerating(possibleFlowDir, pos, level, neighborCache);
+                if (res.isPresent()) return res.map(a -> Pair.of(a, generator.getSound()));
             }
         }
         return Optional.empty();
