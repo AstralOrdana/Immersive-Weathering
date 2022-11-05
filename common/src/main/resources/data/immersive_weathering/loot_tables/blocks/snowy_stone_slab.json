@@ -1,0 +1,107 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:snowball"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "enchantments": [
+                {
+                  "enchantment": "minecraft:silk_touch",
+                  "levels": {
+                    "min": 1
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "immersive_weathering:snowy_stone_slab",
+              "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": 2,
+                  "add": false,
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "immersive_weathering:snowy_stone_slab",
+                      "properties": {
+                        "type": "double"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "enchantments": [
+                      {
+                        "enchantment": "minecraft:silk_touch",
+                        "levels": {
+                          "min": 1
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "minecraft:stone_slab",
+              "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": 2,
+                  "add": false,
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "immersive_weathering:snowy_stone_slab",
+                      "properties": {
+                        "type": "double"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "conditions": [
+                {
+                  "condition": "minecraft:survives_explosion"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

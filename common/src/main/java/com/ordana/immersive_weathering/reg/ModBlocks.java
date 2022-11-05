@@ -23,11 +23,13 @@ import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesTypeRegistry;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
@@ -48,6 +50,9 @@ public class ModBlocks {
         BlockSetAPI.addDynamicBlockRegistration(ModBlocks::registerLeafPiles, LeavesType.class);
     }
 
+    private static boolean always(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        return true;
+    }
 
     public static <T extends Block> Supplier<T> regBlock(String name, Supplier<T> block) {
         return RegHelper.registerBlock(ImmersiveWeathering.res(name), block);
@@ -147,6 +152,11 @@ public class ModBlocks {
             new IvyBlock(Properties.of(Material.PLANT).noCollission().strength(0.2f)
                     .sound(SoundType.AZALEA_LEAVES)));
 
+    public static final Supplier<Block> MAGMA_STONE = regWithItem("magma_stone", () ->
+            new MagmaBlock(Properties.copy(Blocks.MAGMA_BLOCK).requiresCorrectToolForDrops().lightLevel((blockStatex) -> 3)
+                    .randomTicks().strength(0.5F).isValidSpawn((blockStatex, blockGetter, blockPos, entityType) -> entityType.fireImmune())
+                    .hasPostProcess(ModBlocks::always)
+                    .emissiveRendering(ModBlocks::always)));
 
     //mossy bricks stuff
 

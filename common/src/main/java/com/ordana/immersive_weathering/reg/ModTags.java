@@ -35,6 +35,7 @@ public final class ModTags {
     public static final TagKey<Block> SANDABLE = registerBlockTag("sandable");
     public static final TagKey<Block> SNOWY = registerBlockTag("snowy");
     public static final TagKey<Block> SNOWABLE = registerBlockTag("snowable");
+    public static final TagKey<Block> DOUBLE_SNOWABLE = registerBlockTag("double_snowable");
 
     public static final TagKey<Block> CLEAN_IRON = registerBlockTag("clean_iron");
     public static final TagKey<Block> EXPOSED_IRON = registerBlockTag("exposed_iron");
@@ -82,6 +83,8 @@ public final class ModTags {
     public static final TagKey<Block> LEAF_PILE_REPLACEABLE = registerBlockTag("leaf_pile_replaceable");
     public static final TagKey<Block> WEEDS_REPLACEABLE = registerBlockTag("weeds_replaceable");
     public static final TagKey<Block> WART_GROW_BLOCKS = registerBlockTag("wart_grow_blocks");
+    public static final TagKey<Block> BUBBLES_ASCENDING = registerBlockTag("bubbles_ascending");
+    public static final TagKey<Block> BUBBLES_DESCENDING = registerBlockTag("bubbles_descending");
 
     public static final TagKey<Block> COPPER = registerBlockTag("copper");
     public static final TagKey<Block> BARS = registerBlockTag("bars");

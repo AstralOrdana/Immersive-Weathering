@@ -17,9 +17,15 @@
   "parent": "minecraft:husbandry/plant_seed",
   "criteria": {
     "wheat": {
-      "trigger": "minecraft:bee_nest_destroyed",
+      "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "block": "immersive_weathering:weeds"
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:weeds"
+            ]
+          }
+        ]
       }
     }
   },

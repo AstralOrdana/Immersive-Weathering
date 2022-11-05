@@ -40,17 +40,19 @@ public class SandGrowth extends BuiltinBlockGrowth {
         if (TemperatureManager.hasSandstorm(level, pos, biome)) {
             var sandyBlock = Sandy.getSandy(state);
             if (sandyBlock.isPresent()) {
-                level.setBlockAndUpdate(pos, sandyBlock.get());
                 BlockPos downPos = pos.below();
                 BlockState downBlock = level.getBlockState(downPos);
 
-                if (WeatheringHelper.isRandomWeatheringPos(downPos) ){
-                    var sandyBlock2 = Sandy.getSandy(downBlock).orElse(null);
-                    if (sandyBlock2 instanceof Sandy sandy) {
-                        level.setBlockAndUpdate(pos.below(), sandyBlock2);
+                if (WeatheringHelper.isRandomWeatheringPos(downPos)){
+                    var sandyBlock2 = Sandy.getSandy(downBlock);
+                    if (sandyBlock2.isPresent()) {
+                        level.setBlockAndUpdate(pos, sandyBlock.get().setValue(ModBlockProperties.SANDINESS, 1));
+                        level.setBlockAndUpdate(pos.below(), sandyBlock2.get().setValue(ModBlockProperties.SANDINESS, 0));
                         level.setBlockAndUpdate(pos.above(), ModBlocks.SAND_LAYER_BLOCK.get().defaultBlockState());
                     }
                 }
+
+                else level.setBlockAndUpdate(pos, sandyBlock.get());
             }
         }
     }

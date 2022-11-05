@@ -1,0 +1,40 @@
+{
+  "display": {
+    "icon": {
+      "item": "immersive_weathering:sand_layer_block"
+    },
+    "title": {
+      "translate": "advancements.immersive_weathering.sand_on.title"
+    },
+    "description": {
+      "translate": "advancements.immersive_weathering.sand_on.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "minecraft:husbandry/safely_harvest_honey",
+  "criteria": {
+    "wax_on": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "item": {
+          "items": [
+            "immersive_weathering:sand_layer_block"
+          ]
+        },
+        "location": {
+          "block": {
+            "tag": "immersive_weathering:sandable"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "wax_on"
+    ]
+  ]
+}
