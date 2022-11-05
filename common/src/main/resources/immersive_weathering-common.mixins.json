@@ -9,7 +9,6 @@
     "BeeMixin",
     "BlocksMixin",
     "BubbleColumnMixin",
-    "BubbleColumnBlockMixin",
     "BushBlockBlockMixin",
     "CampfireMixin",
     "EatBlockGoalMixin",

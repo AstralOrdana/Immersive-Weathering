@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BushBlock.class)
 public abstract class BushBlockBlockMixin extends Block {
 
-    public BushBlockBlockMixin(Properties settings) {
+    protected BushBlockBlockMixin(Properties settings) {
         super(settings);
     }
 
