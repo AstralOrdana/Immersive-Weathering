@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BubbleColumnBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
@@ -13,7 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(MulchBlock.class)
 public abstract class SelfMulchMixin extends Block {
 
-    public SelfMulchMixin(Properties arg) {
+    protected SelfMulchMixin(Properties arg) {
         super(arg);
     }
 

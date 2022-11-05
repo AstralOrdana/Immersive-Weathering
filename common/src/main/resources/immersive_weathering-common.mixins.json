@@ -8,6 +8,7 @@
   "mixins": [
     "BeeMixin",
     "BlocksMixin",
+    "BubbleColumnMixin",
     "BushBlockBlockMixin",
     "CampfireMixin",
     "EatBlockGoalMixin",
@@ -19,8 +20,8 @@
     "RabbitEatGoalMixin",
     "RabbitMixin",
     "RootedDirtBlockMixin",
-    "SnowballMixin",
     "ServerLevelMixin",
+    "SnowballMixin",
     "SweetBerryBushMixin",
     "accessors.BiomeAccessor",
     "accessors.IceInvoker",
