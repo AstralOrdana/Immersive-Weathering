@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -47,6 +48,11 @@ public class SandyStairsBlock extends ModStairBlock implements Sandy {
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         this.spawnParticles(state, level, pos, random);
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        Sandy.super.randomTick(state, level, pos, random);
     }
 
     @Override

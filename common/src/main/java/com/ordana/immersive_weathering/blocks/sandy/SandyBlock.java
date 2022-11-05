@@ -1,7 +1,9 @@
 package com.ordana.immersive_weathering.blocks.sandy;
 
 
+import com.ordana.immersive_weathering.blocks.charred.Charred;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -28,6 +30,11 @@ public class SandyBlock extends Block implements Sandy {
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         this.spawnParticles(state, level, pos, random);
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        Sandy.super.randomTick(state, level, pos, random);
     }
 
     @Override

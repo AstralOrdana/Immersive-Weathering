@@ -6,15 +6,18 @@ import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -28,6 +31,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Optional;
@@ -114,4 +118,13 @@ public interface Sandy {
         }
     }
 
+    default void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        BlockState belowState = level.getBlockState(pos.below());
+        Optional<BlockState> unSandy = getUnSandy(state);
+        if (belowState.isAir() && unSandy.isPresent()) {
+            if (state.getValue(SANDINESS) == 1) level.setBlockAndUpdate(pos, state.setValue(SANDINESS, 0));
+            if (state.getValue(SANDINESS) == 0) level.setBlockAndUpdate(pos, unSandy.get());
+            level.setBlockAndUpdate(pos.below(), ModBlocks.SAND_LAYER_BLOCK.get().defaultBlockState());
+        }
+    }
 }

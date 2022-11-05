@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:desert",
+      "required": false
+    },
+    "minecraft:desert",
+    "minecraft:warm_ocean"
+  ]
+}

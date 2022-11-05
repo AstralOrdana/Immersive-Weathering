@@ -152,12 +152,6 @@ public class ModBlocks {
             new IvyBlock(Properties.of(Material.PLANT).noCollission().strength(0.2f)
                     .sound(SoundType.AZALEA_LEAVES)));
 
-    public static final Supplier<Block> MAGMA_STONE = regWithItem("magma_stone", () ->
-            new MagmaBlock(Properties.copy(Blocks.MAGMA_BLOCK).requiresCorrectToolForDrops().lightLevel((blockStatex) -> 3)
-                    .randomTicks().strength(0.5F).isValidSpawn((blockStatex, blockGetter, blockPos, entityType) -> entityType.fireImmune())
-                    .hasPostProcess(ModBlocks::always)
-                    .emissiveRendering(ModBlocks::always)));
-
     //mossy bricks stuff
 
     public static final Supplier<Block> MOSSY_BRICKS = regWithItem("mossy_bricks", () ->
@@ -244,15 +238,15 @@ public class ModBlocks {
     //sandy stone
 
     public static final Supplier<Block> SANDY_STONE = regWithItem("sandy_stone", () ->
-            new SandyBlock(Properties.copy(Blocks.STONE)));
+            new SandyBlock(Properties.copy(Blocks.STONE).randomTicks()));
     public static final Supplier<Block> SANDY_STONE_STAIRS = regWithItem("sandy_stone_stairs", () ->
-            new SandyStairsBlock(SANDY_STONE, Properties.copy(SANDY_STONE.get())));
+            new SandyStairsBlock(SANDY_STONE, Properties.copy(SANDY_STONE.get()).randomTicks()));
     public static final Supplier<Block> SANDY_STONE_SLAB = regWithItem("sandy_stone_slab", () ->
-            new SandySlabBlock(Properties.copy(SANDY_STONE.get())));
+            new SandySlabBlock(Properties.copy(SANDY_STONE.get()).randomTicks()));
     public static final Supplier<Block> SANDY_STONE_VERTICAL_SLAB = regWithItem("sandy_stone_vertical_slab", () ->
-            new SandyVerticalSlabBlock(Properties.copy(SANDY_STONE_STAIRS.get())), "quark");
+            new SandyVerticalSlabBlock(Properties.copy(SANDY_STONE_STAIRS.get()).randomTicks()), "quark");
     public static final Supplier<Block> SANDY_STONE_WALL = regWithItem("sandy_stone_wall", () ->
-            new SandyWallBlock(Properties.copy(Blocks.COBBLESTONE_WALL)));
+            new SandyWallBlock(Properties.copy(Blocks.COBBLESTONE_WALL).randomTicks()));
 
     //sandy cobblestone
 
