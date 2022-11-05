@@ -34,7 +34,7 @@ public abstract class BubbleColumnMixin extends Block {
     protected void canSurvive(BlockState state, LevelReader level, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         if (!cir.getReturnValue()) {
             BlockState blockState = level.getBlockState(pos.below());
-            if (blockState.is(ModTags.DOWNWARD_BUBBLE_COLUMN_BASE) || blockState.is(ModTags.UPWARD_BUBBLE_COLUMN_BASE)) {
+            if (blockState.is(ModTags.BUBBLES_DESCENDING) || blockState.is(ModTags.BUBBLES_ASCENDING)) {
                 cir.setReturnValue(true);
             }
         }
@@ -42,10 +42,10 @@ public abstract class BubbleColumnMixin extends Block {
 
     @Inject(method = "getColumnState", at = @At("HEAD"), cancellable = true)
     protected static void getColumnState(BlockState blockState, CallbackInfoReturnable<BlockState> cir) {
-        if(blockState.is(ModTags.DOWNWARD_BUBBLE_COLUMN_BASE)){
+        if(blockState.is(ModTags.BUBBLES_DESCENDING)){
             cir.setReturnValue(Blocks.BUBBLE_COLUMN.defaultBlockState().setValue(DRAG_DOWN, true));
         }
-        else if(blockState.is(ModTags.UPWARD_BUBBLE_COLUMN_BASE)){
+        else if(blockState.is(ModTags.BUBBLES_ASCENDING)){
             cir.setReturnValue(Blocks.BUBBLE_COLUMN.defaultBlockState().setValue(DRAG_DOWN, false));
         }
     }
