@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.network;
 
+import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
 import net.fabricmc.api.EnvType;
@@ -47,6 +48,10 @@ public class SendCustomParticlesPacket implements Message {
 
     @Environment(EnvType.CLIENT)
     public void clientStuff(Player player, EventType type, BlockPos pos, int extraData) {
+        if(player == null){
+            ImmersiveWeathering.LOGGER.error("Trying to execute a task without a player... how?");
+            return;
+        }
         var level = player.level;
         if (type == EventType.DECAY_LEAVES) {
             if (ClientConfigs.LEAF_DECAY_PARTICLES.get()) {
@@ -56,16 +61,15 @@ public class SendCustomParticlesPacket implements Message {
                 int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
 
                 //add more than one?
-                double d = (double) pos.getX() + level.random.nextDouble();
-                double e = (double) pos.getY() - 0.05;
-                double f = (double) pos.getZ() + level.random.nextDouble();
+                double d =  pos.getX() + level.random.nextDouble();
+                double e =  pos.getY() - 0.05;
+                double f =  pos.getZ() + level.random.nextDouble();
                 level.addParticle(leafParticle, d, e, f, 0.0, color, 0.0);
             }
 
             if (ClientConfigs.LEAF_DECAY_SOUND.get()) {
                 level.playSound(player, pos, SoundEvents.AZALEA_LEAVES_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
             }
-
         }
     }
 
