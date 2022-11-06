@@ -22,6 +22,7 @@ public class BuiltinGrowthsRegistry {
         register("lightning_vitrified_sand", LightningGrowth::new);
         register("snowy_stones", SnowGrowth::new);
         register("sandy_stones", SandGrowth::new);
+        register("sand_layer_seeping", SandLayerGrowth::new);
     }
 
 
