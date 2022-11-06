@@ -123,13 +123,15 @@ public class ModBlocks {
             new SandLayerBlock(14406560, Properties.of(Material.TOP_SNOW, MaterialColor.SAND).strength(0.5f)
                     .sound(SoundType.SAND).isSuffocating(NEVER)
                     .isViewBlocking((blockState, blockView, blockPos) -> blockState.getValue(LayerBlock.LAYERS_8) >= 8)
-                    .noOcclusion()));
+                    .noOcclusion().requiresCorrectToolForDrops()));
     public static final Supplier<Block> RED_SAND_LAYER_BLOCK = regWithItem("red_sand_layer_block", () ->
-            new SandLayerBlock(11098145, Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_ORANGE)
-                    .strength(0.5f).sound(SoundType.SAND).isSuffocating(NEVER).noOcclusion()));
+            new SandLayerBlock(11098145, Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_ORANGE).strength(0.5f)
+                    .sound(SoundType.SAND).isSuffocating(NEVER)
+                    .isViewBlocking((blockState, blockView, blockPos) -> blockState.getValue(LayerBlock.LAYERS_8) >= 8)
+                    .noOcclusion().requiresCorrectToolForDrops()));
     public static final Supplier<Block> ASH_LAYER_BLOCK = regWithItem("ash_layer_block", () ->
             new LayerBlock(Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_BLACK).instabreak()
-                    .sound(SoundType.SNOW).isSuffocating(NEVER).noOcclusion()));
+                    .sound(SoundType.SNOW).isSuffocating(NEVER).noOcclusion().requiresCorrectToolForDrops()));
     public static final Supplier<Block> ASH_BLOCK = regWithItem("ash_block", () ->
             new AshBlock(Properties.of(Material.SNOW, MaterialColor.COLOR_BLACK).instabreak().sound(SoundType.SNOW)));
     public static final Supplier<Block> SOOT = regWithItem("soot", () ->
@@ -251,30 +253,30 @@ public class ModBlocks {
     //sandy cobblestone
 
     public static final Supplier<Block> SANDY_COBBLESTONE = regWithItem("sandy_cobblestone", () ->
-            new SandyBlock(Properties.copy(Blocks.COBBLESTONE)));
+            new SandyBlock(Properties.copy(Blocks.COBBLESTONE).randomTicks()));
     public static final Supplier<Block> SANDY_COBBLESTONE_STAIRS = regWithItem("sandy_cobblestone_stairs", () ->
-            new SandyStairsBlock(SANDY_STONE, Properties.copy(SANDY_STONE.get())));
+            new SandyStairsBlock(SANDY_STONE, Properties.copy(SANDY_STONE.get()).randomTicks()));
     public static final Supplier<Block> SANDY_COBBLESTONE_SLAB = regWithItem("sandy_cobblestone_slab", () ->
-            new SandySlabBlock(Properties.copy(SANDY_STONE.get())));
+            new SandySlabBlock(Properties.copy(SANDY_STONE.get()).randomTicks()));
     public static final Supplier<Block> SANDY_COBBLESTONE_VERTICAL_SLAB = regWithItem("sandy_cobblestone_vertical_slab", () ->
-            new SandyVerticalSlabBlock(Properties.copy(SANDY_STONE_STAIRS.get())), "quark");
+            new SandyVerticalSlabBlock(Properties.copy(SANDY_STONE_STAIRS.get()).randomTicks()), "quark");
     public static final Supplier<Block> SANDY_COBBLESTONE_WALL = regWithItem("sandy_cobblestone_wall", () ->
-            new SandyWallBlock(Properties.copy(Blocks.COBBLESTONE_WALL)));
+            new SandyWallBlock(Properties.copy(Blocks.COBBLESTONE_WALL).randomTicks()));
 
     //sandy stone bricks
 
     public static final Supplier<Block> SANDY_STONE_BRICKS = regWithItem("sandy_stone_bricks", () ->
-            new SandyBlock(Properties.copy(Blocks.STONE)));
+            new SandyBlock(Properties.copy(Blocks.STONE).randomTicks()));
     public static final Supplier<Block> SANDY_CHISELED_STONE_BRICKS = regWithItem("sandy_chiseled_stone_bricks", () ->
-            new SandyBlock(Properties.copy(Blocks.STONE)));
+            new SandyBlock(Properties.copy(Blocks.STONE).randomTicks()));
     public static final Supplier<Block> SANDY_STONE_BRICK_STAIRS = regWithItem("sandy_stone_brick_stairs", () ->
-            new SandyStairsBlock(SANDY_STONE, Properties.copy(SANDY_STONE.get())));
+            new SandyStairsBlock(SANDY_STONE, Properties.copy(SANDY_STONE.get()).randomTicks()));
     public static final Supplier<Block> SANDY_STONE_BRICK_SLAB = regWithItem("sandy_stone_brick_slab", () ->
-            new SandySlabBlock(Properties.copy(SANDY_STONE.get())));
+            new SandySlabBlock(Properties.copy(SANDY_STONE.get()).randomTicks()));
     public static final Supplier<Block> SANDY_STONE_BRICK_VERTICAL_SLAB = regWithItem("sandy_stone_brick_vertical_slab", () ->
-            new SandyVerticalSlabBlock(Properties.copy(SANDY_STONE_STAIRS.get())), "quark");
+            new SandyVerticalSlabBlock(Properties.copy(SANDY_STONE_STAIRS.get()).randomTicks()), "quark");
     public static final Supplier<Block> SANDY_STONE_BRICK_WALL = regWithItem("sandy_stone_brick_wall", () ->
-            new SandyWallBlock(Properties.copy(Blocks.COBBLESTONE_WALL)));
+            new SandyWallBlock(Properties.copy(Blocks.COBBLESTONE_WALL).randomTicks()));
 
     //cracked bricks
 

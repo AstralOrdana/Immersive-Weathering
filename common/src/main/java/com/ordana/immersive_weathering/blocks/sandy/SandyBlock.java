@@ -18,13 +18,13 @@ public class SandyBlock extends Block implements Sandy {
 
     public SandyBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(SANDINESS, 0));
+        this.registerDefaultState(this.stateDefinition.any().setValue(SANDINESS, 0).setValue(SAND_AGE, 0));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(SANDINESS);
+        builder.add(SANDINESS, SAND_AGE);
     }
 
     @Override

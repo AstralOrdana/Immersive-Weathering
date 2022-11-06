@@ -7,6 +7,7 @@ import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModTags;
+import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -18,6 +19,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -35,11 +37,13 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Supplier;
 
 public interface Sandy {
 
     IntegerProperty SANDINESS = ModBlockProperties.SANDINESS;
+    IntegerProperty SAND_AGE = ModBlockProperties.SAND_AGE;
 
     Supplier<BiMap<Block, Block>> NORMAL_TO_SANDY = Suppliers.memoize(() -> {
         var builder = ImmutableBiMap.<Block, Block>builder()
@@ -118,13 +122,36 @@ public interface Sandy {
         }
     }
 
+    static boolean isRandomSandyPos(BlockPos pos) {
+        Random posRandom = new Random(Mth.getSeed(pos));
+        return posRandom.nextInt(5) > 2;
+    }
+
+    default int getAge(BlockState state) {
+        return state.getValue(this.getAgeProperty());
+    }
+
+    default IntegerProperty getAgeProperty() {
+        return SAND_AGE;
+    }
+
     default void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        BlockState belowState = level.getBlockState(pos.below());
+        BlockPos belowPos = pos.below();
+        BlockState belowState = level.getBlockState(belowPos);
         Optional<BlockState> unSandy = getUnSandy(state);
-        if (belowState.isAir() && unSandy.isPresent()) {
+        Optional<BlockState> Sandy = getSandy(belowState);
+        if (belowState.isAir() && state.getValue(SAND_AGE) > 0) {
+            if (state.getValue(SANDINESS) == 1) level.setBlockAndUpdate(pos, state.setValue(SAND_AGE, getAge(state) - 1));
+            //if (state.getValue(SANDINESS) == 0 && unSandy.isPresent()) level.setBlockAndUpdate(pos, unSandy.get());
+            level.setBlockAndUpdate(belowPos, ModBlocks.SAND_LAYER_BLOCK.get().defaultBlockState());
+        }
+        else if (belowState.is(ModTags.DOUBLE_SNOWABLE) && isRandomSandyPos(pos) && Sandy.isPresent()) {
             if (state.getValue(SANDINESS) == 1) level.setBlockAndUpdate(pos, state.setValue(SANDINESS, 0));
-            if (state.getValue(SANDINESS) == 0) level.setBlockAndUpdate(pos, unSandy.get());
-            level.setBlockAndUpdate(pos.below(), ModBlocks.SAND_LAYER_BLOCK.get().defaultBlockState());
+            if (state.getValue(SANDINESS) == 0 && unSandy.isPresent()) level.setBlockAndUpdate(pos, unSandy.get());
+            level.setBlockAndUpdate(belowPos, Sandy.get());
         }
     }
+
+    //sand seeps downward through non-stone blocks, use random pos to make streaks
+    //use random pos to make sandy not fall?
 }

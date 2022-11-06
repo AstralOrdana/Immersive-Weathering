@@ -37,13 +37,13 @@ public class SandyStairsBlock extends ModStairBlock implements Sandy {
 
     public SandyStairsBlock(Supplier<Block> baseBlock, Properties settings) {
         super(baseBlock, settings);
-        this.registerDefaultState(this.stateDefinition.any().setValue(ModBlockProperties.SANDINESS, 0));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ModBlockProperties.SANDINESS, 0).setValue(ModBlockProperties.SAND_AGE, 0));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
         super.createBlockStateDefinition(stateManager);
-        stateManager.add(ModBlockProperties.SANDINESS);
+        stateManager.add(ModBlockProperties.SANDINESS, SAND_AGE);
     }
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {

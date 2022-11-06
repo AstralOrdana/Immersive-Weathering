@@ -38,23 +38,23 @@ public class SandyWallBlock extends WallBlock implements Sandy {
 
     public SandyWallBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(ModBlockProperties.SANDINESS, 0));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ModBlockProperties.SANDINESS, 0).setValue(ModBlockProperties.SAND_AGE, 0));
     }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return super.getShape(state.setValue(ModBlockProperties.SANDINESS, 0), level, pos, context);
+        return super.getShape(state.setValue(ModBlockProperties.SANDINESS, 0).setValue(ModBlockProperties.SAND_AGE, 0), level, pos, context);
     }
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return super.getCollisionShape(state.setValue(ModBlockProperties.SANDINESS, 0), level, pos, context);
+        return super.getCollisionShape(state.setValue(ModBlockProperties.SANDINESS, 0).setValue(ModBlockProperties.SAND_AGE, 0), level, pos, context);
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
         super.createBlockStateDefinition(stateManager);
-        stateManager.add(ModBlockProperties.SANDINESS);
+        stateManager.add(ModBlockProperties.SANDINESS, SAND_AGE);
     }
 
     @Override

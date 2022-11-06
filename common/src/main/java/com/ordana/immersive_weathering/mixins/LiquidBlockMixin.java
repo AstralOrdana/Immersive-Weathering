@@ -36,7 +36,7 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
 
     @Shadow
     @Final
-    public static final ImmutableList<Direction> POSSIBLE_FLOW_DIRECTIONS = null;
+    public static ImmutableList<Direction> POSSIBLE_FLOW_DIRECTIONS;
 
     @Shadow
     protected abstract void fizz(LevelAccessor levelAccessor, BlockPos pos);
