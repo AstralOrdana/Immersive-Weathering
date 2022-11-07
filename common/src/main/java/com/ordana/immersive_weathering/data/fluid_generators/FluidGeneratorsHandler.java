@@ -9,6 +9,7 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -42,8 +43,8 @@ public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
 
     private static final Map<ResourceLocation, JsonElement> TO_PARSE = new HashMap<>();
 
-    private static final Map<Fluid, ImmutableList<IFluidGenerator>> STILL_GENERATORS = new HashMap<>();
-    private static final Map<Fluid, ImmutableList<IFluidGenerator>> FLOWING_GENERATORS = new HashMap<>();
+    private static final Map<Fluid, ImmutableList<IFluidGenerator>> STILL_GENERATORS = new Object2ObjectOpenHashMap<>();
+    private static final Map<Fluid, ImmutableList<IFluidGenerator>> FLOWING_GENERATORS = new Object2ObjectOpenHashMap<>();
     private static final Set<Fluid> HAS_GENERATOR = new HashSet<>();
 
     private boolean needsRefresh;

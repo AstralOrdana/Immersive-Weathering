@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class BuiltinGrowthsRegistry {
 
-    final static Map<String, BuiltinGrowthFactory> BUILTIN_GROWTHS = new HashMap<>();
+    static final Map<String, BuiltinGrowthFactory> BUILTIN_GROWTHS = new HashMap<>();
 
     static {
         register("no_op", NoOpBlockGrowth::new);

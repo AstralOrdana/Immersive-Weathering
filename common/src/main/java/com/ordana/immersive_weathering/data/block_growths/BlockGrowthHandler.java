@@ -27,6 +27,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CraftingTableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -43,11 +44,11 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
 
     private static final Map<ResourceLocation, JsonElement> GROWTH_TO_PARSE = new HashMap<>();
 
+    //these need to be as fast as possible as tick will be called very often
     //block specific growth. fast access with map
-    private static final Map<TickSource, ImmutableSet<Block>> TICKING_BLOCKS = new EnumMap<TickSource, ImmutableSet<Block>>();
-    private static final Map<TickSource, Map<Block, Set<IBlockGrowth>>> GROWTH_FOR_BLOCK = new EnumMap<TickSource, Map<Block, Set<IBlockGrowth>>>();
+    private static final Map<TickSource, Map<Block, Set<IBlockGrowth>>> GROWTH_FOR_BLOCK = new EnumMap<>(TickSource.class);
     //set or universal ones
-    private static final Map<TickSource, Set<IBlockGrowth>> UNIVERSAL_GROWTHS = new EnumMap<TickSource, Set<IBlockGrowth>>();
+    private static final Map<TickSource, Set<IBlockGrowth>> UNIVERSAL_GROWTHS = new EnumMap<>(TickSource.class);
 
     private boolean needsRefresh;
 
@@ -173,12 +174,6 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
                     }
 
                 }
-            }
-            TICKING_BLOCKS.clear();
-            for (var g : GROWTH_FOR_BLOCK.entrySet()) {
-                ImmutableSet.Builder<Block> b = ImmutableSet.builder();
-                b.addAll(g.getValue().keySet());
-                TICKING_BLOCKS.put(g.getKey(), b.build());
             }
             GROWTH_TO_PARSE.clear();
         }
