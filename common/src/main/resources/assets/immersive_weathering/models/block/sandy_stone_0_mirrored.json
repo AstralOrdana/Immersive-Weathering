@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_mirrored_all",
+  "textures": {
+    "all": "immersive_weathering:block/sandy_stone_0"
+  }
+}

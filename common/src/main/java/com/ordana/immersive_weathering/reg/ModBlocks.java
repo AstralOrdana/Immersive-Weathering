@@ -645,10 +645,10 @@ public class ModBlocks {
             new SoilBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_GREEN)
                     .strength(0.5f).sound(SoundType.GRAVEL)));
     public static final Supplier<Block> FLUVISOL = regWithItem("fluvisol", () ->
-            new FluvisolBlock(Properties.of(Material.DIRT, MaterialColor.DEEPSLATE)
+            new FluvisolBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_BROWN)
                     .strength(0.5F).sound(SoundType.WART_BLOCK).randomTicks()));
     public static final Supplier<Block> SILT = regWithItem("silt", () ->
-            new SiltBlock(Properties.of(Material.DIRT, MaterialColor.DEEPSLATE)
+            new FluvisolBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_BROWN)
                     .strength(0.5F).sound(SoundType.WART_BLOCK).randomTicks()));
 
     public static final Supplier<Block> VERTISOL = regWithItem("vertisol", () ->

@@ -87,21 +87,12 @@ public class MulchBlock extends FarmBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
 
-        BlockState cropState = world.getBlockState(pos.above());
-        if (CommonConfigs.MULCH_GROWS_CROPS.get()) {
-            if (state.getValue(MulchBlock.MOISTURE) == 7) {
-                if (world.getRawBrightness(pos.above(), 0) >= 9) {
-                    if (cropState.getBlock() instanceof BeetrootBlock) {
-                        return;
-                    } else if (cropState.getBlock() instanceof CropBlock) {
-                        int j = cropState.getValue(CropBlock.AGE);
-                        if (j < CropBlock.MAX_AGE) {
-                            world.setBlock(pos.above(), cropState.getBlock().withPropertiesOf(cropState).setValue(CropBlock.AGE, j + 1), 3);
-                        }
-                    }
-                }
+        BlockState cropState = level.getBlockState(pos.above());
+        if (CommonConfigs.MULCH_GROWS_CROPS.get() && level.getRawBrightness(pos.above(), 0) >= 9 && state.getValue(MulchBlock.MOISTURE) == 7) {
+            if(cropState.getBlock() instanceof CropBlock crop){
+                crop.growCrops(level, pos.above(), cropState);
             }
         }
 
@@ -109,24 +100,24 @@ public class MulchBlock extends FarmBlock {
         boolean isTouchingWater = false;
         for (Direction direction : Direction.values()) {
             var targetPos = pos.relative(direction);
-            var biome = world.getBiome(pos);
-            BlockState neighborState = world.getBlockState(targetPos);
+            var biome = level.getBiome(pos);
+            BlockState neighborState = level.getBlockState(targetPos);
             if (neighborState.getFluidState().is(FluidTags.WATER)) {
                 isTouchingWater = true;
             }
-            if (world.isRainingAt(pos.relative(direction)) || biome.is(ModTags.WET) || neighborState.getFluidState().is(FluidTags.WATER)) {
+            if (level.isRainingAt(pos.relative(direction)) || biome.is(ModTags.WET) || neighborState.getFluidState().is(FluidTags.WATER)) {
                 temperature--;
-            } else if (neighborState.is(ModTags.MAGMA_SOURCE) || biome.is(ModTags.HOT) || world.dimension() == Level.NETHER) {
+            } else if (neighborState.is(ModTags.MAGMA_SOURCE) || biome.is(ModTags.HOT) || level.dimension() == Level.NETHER) {
                 temperature++;
             }
         }
         if (temperature < 0 || isTouchingWater) {
             if (state.getValue(MOISTURE) == 0) {
-                world.setBlockAndUpdate(pos, state.setValue(MOISTURE, 7));
+                level.setBlockAndUpdate(pos, state.setValue(MOISTURE, 7));
             }
         }
         else if (temperature > 0 && isSoaked(state)) {
-            world.setBlockAndUpdate(pos, state.setValue(MOISTURE, 0));
+            level.setBlockAndUpdate(pos, state.setValue(MOISTURE, 0));
         }
     }
 

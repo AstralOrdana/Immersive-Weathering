@@ -23,18 +23,21 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
+import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.Optional;
 import java.util.Random;
@@ -151,7 +154,4 @@ public interface Sandy {
             level.setBlockAndUpdate(belowPos, Sandy.get());
         }
     }
-
-    //sand seeps downward through non-stone blocks, use random pos to make streaks
-    //use random pos to make sandy not fall?
 }
