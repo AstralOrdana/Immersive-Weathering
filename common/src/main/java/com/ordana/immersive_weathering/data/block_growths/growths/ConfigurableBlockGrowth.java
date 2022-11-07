@@ -210,7 +210,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
             if (targetSelf || targetPredicate.test(target, seed)) {
                 if (targetSelf && targetPredicate instanceof RandomBlockMatchTestAccessor rbm) {
                     //hack to get a probability here for self target
-                    if (!(seed.nextFloat() < rbm.getProbability())) return; //TODO: use AW here
+                    if ((seed.nextFloat() >=rbm.getProbability())) return; //TODO: use AW here
                 }
                 var l = blockGrowths.get(dir);
                 if (l != null) {

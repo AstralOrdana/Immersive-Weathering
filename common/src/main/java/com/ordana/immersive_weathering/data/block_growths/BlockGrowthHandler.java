@@ -14,6 +14,7 @@ import com.ordana.immersive_weathering.data.block_growths.growths.ConfigurableBl
 import com.ordana.immersive_weathering.data.block_growths.growths.IBlockGrowth;
 import com.ordana.immersive_weathering.data.block_growths.growths.builtin.BuiltinBlockGrowth;
 import com.ordana.immersive_weathering.data.block_growths.growths.builtin.NoOpBlockGrowth;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
@@ -43,10 +44,10 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
     private static final Map<ResourceLocation, JsonElement> GROWTH_TO_PARSE = new HashMap<>();
 
     //block specific growth. fast access with map
-    private static final Map<TickSource, ImmutableSet<Block>> TICKING_BLOCKS = new HashMap<>();
-    private static final Map<TickSource, Map<Block, Set<IBlockGrowth>>> GROWTH_FOR_BLOCK = new HashMap<>();
+    private static final Map<TickSource, ImmutableSet<Block>> TICKING_BLOCKS = new EnumMap<TickSource, ImmutableSet<Block>>();
+    private static final Map<TickSource, Map<Block, Set<IBlockGrowth>>> GROWTH_FOR_BLOCK = new EnumMap<TickSource, Map<Block, Set<IBlockGrowth>>>();
     //set or universal ones
-    private static final Map<TickSource, Set<IBlockGrowth>> UNIVERSAL_GROWTHS = new HashMap<>();
+    private static final Map<TickSource, Set<IBlockGrowth>> UNIVERSAL_GROWTHS = new EnumMap<TickSource, Set<IBlockGrowth>>();
 
     private boolean needsRefresh;
 
@@ -164,7 +165,7 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
                         var group = UNIVERSAL_GROWTHS.computeIfAbsent(s, e -> new HashSet<>());
                         group.add(config);
                     } else {
-                        var group = GROWTH_FOR_BLOCK.computeIfAbsent(s, e -> new HashMap<>());
+                        var group = GROWTH_FOR_BLOCK.computeIfAbsent(s, e -> new Object2ObjectOpenHashMap<>());
                         config.getOwners().forEach(b -> {
 
                             group.computeIfAbsent(b, k -> new HashSet<>()).add(config);

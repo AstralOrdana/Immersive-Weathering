@@ -26,7 +26,8 @@ public class BurnMossGenerator implements IFluidGenerator {
 
 
     @Override
-    public Optional<BlockPos> tryGenerating(List<Direction> possibleFlowDir, BlockPos pos, Level level, Map<Direction, BlockState> neighborCache) {
+    public Optional<BlockPos> tryGenerating(List<Direction> possibleFlowDir, BlockPos pos, Level level,
+                                            Map<Direction, BlockState> neighborCache) {
 
         for (Direction d : possibleFlowDir) {
             BlockPos p = pos.relative(d);
