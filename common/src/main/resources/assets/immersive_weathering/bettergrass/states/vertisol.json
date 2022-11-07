@@ -1,0 +1,11 @@
+{
+  "type": "grass",
+  "variants": {
+    "soaked=false": {
+      "data": "immersive_weathering:bettergrass/data/vertisol"
+    },
+    "soaked=true": {
+      "data": "immersive_weathering:bettergrass/data/vertisol_soaked"
+    }
+  }
+}

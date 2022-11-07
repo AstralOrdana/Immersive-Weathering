@@ -1,13 +1,11 @@
 package com.ordana.immersive_weathering.blocks.soil;
 
-import com.ordana.immersive_weathering.blocks.SiltBlock;
 import com.ordana.immersive_weathering.blocks.Soaked;
+import com.ordana.immersive_weathering.blocks.sandy.Sandy;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModItems;
-import com.ordana.immersive_weathering.reg.ModParticles;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -80,7 +78,7 @@ public class FluvisolBlock extends SoilBlock implements Soaked {
         }
 
         boolean newState = world.isRainingAt(pos.above());
-        if (state.getValue(SOAKED) != newState) {
+        if (state.getValue(SOAKED) != newState && Sandy.isRandomSandyPos(pos)) {
             world.setBlockAndUpdate(pos, state.setValue(SOAKED, newState));
         }
     }

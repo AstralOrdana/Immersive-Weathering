@@ -6,36 +6,47 @@ import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.reg.ModTags;
+import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
+import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Supplier;
 
 public interface Sandy {
 
     IntegerProperty SANDINESS = ModBlockProperties.SANDINESS;
+    IntegerProperty SAND_AGE = ModBlockProperties.SAND_AGE;
 
     Supplier<BiMap<Block, Block>> NORMAL_TO_SANDY = Suppliers.memoize(() -> {
         var builder = ImmutableBiMap.<Block, Block>builder()
@@ -114,4 +125,33 @@ public interface Sandy {
         }
     }
 
+    static boolean isRandomSandyPos(BlockPos pos) {
+        Random posRandom = new Random(Mth.getSeed(pos));
+        return posRandom.nextInt(5) > 2;
+    }
+
+    default int getAge(BlockState state) {
+        return state.getValue(this.getAgeProperty());
+    }
+
+    default IntegerProperty getAgeProperty() {
+        return SAND_AGE;
+    }
+
+    default void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        BlockPos belowPos = pos.below();
+        BlockState belowState = level.getBlockState(belowPos);
+        Optional<BlockState> unSandy = getUnSandy(state);
+        Optional<BlockState> Sandy = getSandy(belowState);
+        if (belowState.isAir() && state.getValue(SAND_AGE) > 0) {
+            level.setBlockAndUpdate(pos, state.setValue(SAND_AGE, getAge(state) - 1));
+            //if (state.getValue(SANDINESS) == 0 && unSandy.isPresent()) level.setBlockAndUpdate(pos, unSandy.get());
+            level.setBlockAndUpdate(belowPos, ModBlocks.SAND_LAYER_BLOCK.get().defaultBlockState());
+        }
+        else if (belowState.is(ModTags.DOUBLE_SNOWABLE) && isRandomSandyPos(pos) && Sandy.isPresent()) {
+            if (state.getValue(SANDINESS) == 1) level.setBlockAndUpdate(pos, state.setValue(SANDINESS, 0));
+            if (state.getValue(SANDINESS) == 0 && unSandy.isPresent()) level.setBlockAndUpdate(pos, unSandy.get());
+            level.setBlockAndUpdate(belowPos, Sandy.get());
+        }
+    }
 }

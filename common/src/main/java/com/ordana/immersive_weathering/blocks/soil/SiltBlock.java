@@ -1,6 +1,5 @@
-package com.ordana.immersive_weathering.blocks;
+package com.ordana.immersive_weathering.blocks.soil;
 
-import com.ordana.immersive_weathering.blocks.soil.FluvisolBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModItems;
 import net.minecraft.core.BlockPos;

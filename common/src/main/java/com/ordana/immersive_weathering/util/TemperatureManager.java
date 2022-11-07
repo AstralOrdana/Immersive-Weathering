@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.util;
 
+import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
@@ -13,7 +14,7 @@ public class TemperatureManager {
     }
 
     public static boolean hasSandstorm(ServerLevel level, BlockPos pos, Holder<Biome> biome) {
-        return level.isRaining() && biome.is(BiomeTags.HAS_DESERT_PYRAMID);
+        return level.isRaining() && biome.is(ModTags.HAS_SANDSTORM);
     }
 
 }

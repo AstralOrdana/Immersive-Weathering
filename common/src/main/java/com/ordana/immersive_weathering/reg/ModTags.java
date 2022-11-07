@@ -64,6 +64,7 @@ public final class ModTags {
     public static final TagKey<Biome> HAS_IVY = registerBiomeTag("has_ivy");
     public static final TagKey<Biome> HAS_MOSS = registerBiomeTag("has_moss");
     public static final TagKey<Biome> UNDERGROUND_DESERT = registerBiomeTag("underground_desert");
+    public static final TagKey<Biome> HAS_SANDSTORM = registerBiomeTag("has_sandstorm");
 
 
     //entity type
