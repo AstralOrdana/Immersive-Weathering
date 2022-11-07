@@ -78,7 +78,7 @@ public class FluvisolBlock extends SoilBlock implements Soaked {
         }
 
         boolean newState = world.isRainingAt(pos.above());
-        if (state.getValue(SOAKED) != newState && Sandy.isRandomSandyPos(pos)) {
+        if (state.getValue(SOAKED) != newState) {
             world.setBlockAndUpdate(pos, state.setValue(SOAKED, newState));
         }
     }
