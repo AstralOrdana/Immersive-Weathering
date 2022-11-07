@@ -74,8 +74,8 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
         }
 
         //hopefully faster than calling get directly
-        var group = TICKING_BLOCKS.get(source);
-        if (group == null || !group.contains(state.getBlock())) return;
+        //var group = TICKING_BLOCKS.get(source);
+        //if (group == null || !group.contains(state.getBlock())) return;
         var growth = getBlockGrowth(source, state.getBlock());
         if (growth.isPresent()) {
             if (biome == null) biome = level.getBiome(pos);
