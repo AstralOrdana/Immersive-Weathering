@@ -12,6 +12,8 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 
 import net.minecraft.util.RandomSource;
 
+import java.util.function.Supplier;
+
 record BlockTest(Vec3i offset, RuleTest predicate) implements IPositionRuleTest {
 
     public static final String NAME = "block_test";
@@ -30,7 +32,7 @@ record BlockTest(Vec3i offset, RuleTest predicate) implements IPositionRuleTest 
     }
 
     @Override
-    public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
+    public boolean test(Supplier<Holder<Biome>> biome, BlockPos pos, Level level) {
         return predicate.test(level.getBlockState(pos.offset(offset)), RandomSource.create(Mth.getSeed(pos)));
     }
 }

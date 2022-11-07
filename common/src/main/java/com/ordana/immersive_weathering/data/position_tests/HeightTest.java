@@ -8,6 +8,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
 
+import java.util.function.Supplier;
+
 public record HeightTest( HeightProvider height, int tolerance) implements IPositionRuleTest {
 
     public static final String NAME = "height_test";
@@ -20,7 +22,7 @@ public record HeightTest( HeightProvider height, int tolerance) implements IPosi
             new Type<>(HeightTest.CODEC, HeightTest.NAME);
 
     @Override
-    public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
+    public boolean test(Supplier<Holder<Biome>> biome, BlockPos pos, Level level) {
         int sampledY = this.height.sample(level.random, new DummyWorldGenerationContext(level));
 
         return (Math.abs(sampledY - pos.getY()) <= tolerance);

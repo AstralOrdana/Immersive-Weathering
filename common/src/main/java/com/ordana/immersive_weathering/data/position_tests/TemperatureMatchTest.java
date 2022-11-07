@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 record TemperatureMatchTest(float max, float min, boolean useLocalPos) implements IPositionRuleTest {
 
@@ -39,14 +40,14 @@ record TemperatureMatchTest(float max, float min, boolean useLocalPos) implement
 
     //snow is at >0.15F
     @Override
-    public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
+    public boolean test(Supplier<Holder<Biome>> biome, BlockPos pos, Level level) {
         float temp;
         if (level.dimensionType().ultraWarm()) {
             temp = 3;
         } else if (useLocalPos) {
-            temp = ((BiomeAccessor) (Object) biome.value()).invokeGetTemperature(pos);
+            temp = ((BiomeAccessor) (Object) biome.get().value()).invokeGetTemperature(pos);
         } else {
-            temp = biome.value().getBaseTemperature();
+            temp = biome.get().value().getBaseTemperature();
         }
         return temp >= min && temp <= max;
     }

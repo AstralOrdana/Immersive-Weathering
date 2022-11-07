@@ -25,6 +25,8 @@ import net.minecraft.world.level.block.state.properties.DripstoneThickness;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
+
 import net.minecraft.util.RandomSource;
 
 public class IceGrowth extends BuiltinBlockGrowth {
@@ -34,25 +36,8 @@ public class IceGrowth extends BuiltinBlockGrowth {
         super(name, owners, sources);
     }
 
-
-    public static void tryPlacingIcicle(BlockState state, Level level, BlockPos pos, Biome.Precipitation precipitation) {
-        if (precipitation == Biome.Precipitation.SNOW && WeatheringHelper.isIciclePos(pos)) {
-            BlockPos p = pos.below(state.is(BlockTags.SNOW) ? 2 : 1);
-            BlockState placement = ModBlocks.ICICLE.get().defaultBlockState().setValue(IcicleBlock.TIP_DIRECTION, Direction.DOWN);
-            if (level.getBlockState(p).isAir() && placement.canSurvive(level, p)) {
-                if (Direction.Plane.HORIZONTAL.stream().anyMatch(d -> {
-                    BlockPos rel = p.relative(d);
-                    return level.canSeeSky(rel) && level.getBlockState(rel).isAir();
-                })) {
-                    level.setBlockAndUpdate(p, placement);
-                }
-            }
-        }
-    }
-
     @Override
-    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> b) {
-        Biome biome = b.value();
+    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level,  Supplier<Holder<Biome>> b) {
         RandomSource random = level.random;
 
         //move to json??
@@ -60,7 +45,7 @@ public class IceGrowth extends BuiltinBlockGrowth {
             BlockPos icePos = pos.below();
 
             if (level.getBlockState(icePos).is(Blocks.AIR)) {
-
+                Biome biome = b.get().value();
                 //to form we need hot weather in a cold biome or water above & cold biome
                 if (biome.coldEnoughToSnow(pos)) {
                     if (level.getFluidState(pos.above()).is(FluidTags.WATER) || (level.isDay() && !level.isRaining() && !level.isThundering())) {
@@ -82,7 +67,7 @@ public class IceGrowth extends BuiltinBlockGrowth {
                 float k = pos.getZ() + 0.5f;
                 level.sendParticles(ParticleTypes.LARGE_SMOKE, i, j, k, 12, 0.2D, 0.2D, 0.2D, 0);
                 ice.invokeMelt(state, level, pos);
-            } else if (biome.shouldSnowGolemBurn(pos) && level.isDay()) {
+            } else if (b.get().value().shouldSnowGolemBurn(pos) && level.isDay()) {
                 ice.invokeMelt(state, level, pos);
             }
         }

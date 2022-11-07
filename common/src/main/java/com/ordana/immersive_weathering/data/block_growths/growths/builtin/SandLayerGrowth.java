@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.data.block_growths.growths.builtin;
 
 import com.ordana.immersive_weathering.blocks.LayerBlock;
-import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.blocks.sandy.Sandy;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import net.minecraft.core.BlockPos;
@@ -16,6 +15,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class SandLayerGrowth extends BuiltinBlockGrowth {
     protected SandLayerGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
@@ -31,7 +31,7 @@ public class SandLayerGrowth extends BuiltinBlockGrowth {
     }
 
     @Override
-    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome) {
+    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Supplier<Holder<Biome>> biome) {
         BlockPos belowPos = pos.below();
         BlockState belowState = level.getBlockState(belowPos);
         var sandyBlock = Sandy.getSandy(belowState);

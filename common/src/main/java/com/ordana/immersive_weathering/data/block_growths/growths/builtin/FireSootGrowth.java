@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class FireSootGrowth extends BuiltinBlockGrowth {
 
@@ -20,7 +21,7 @@ public class FireSootGrowth extends BuiltinBlockGrowth {
     }
 
     @Override
-    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome) {
+    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Supplier<Holder<Biome>> biome) {
         if (level.getGameRules().getBoolean(GameRules.RULE_DOFIRETICK)) {
             spawnSootAboveFire(level, pos, 6);
         }

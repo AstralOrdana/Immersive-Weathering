@@ -32,7 +32,7 @@ import java.util.Map;
 public abstract class ArmorLayerMixin <T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> extends RenderLayer<T, M> {
     @Shadow @Final private static Map<String, ResourceLocation> ARMOR_LOCATION_CACHE;
 
-    public ArmorLayerMixin(RenderLayerParent<T, M> renderLayerParent) {
+    protected ArmorLayerMixin(RenderLayerParent<T, M> renderLayerParent) {
         super(renderLayerParent);
     }
 

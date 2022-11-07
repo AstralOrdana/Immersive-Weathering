@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class SnowIcicleGrowth extends BuiltinBlockGrowth {
 
@@ -24,7 +25,7 @@ public class SnowIcicleGrowth extends BuiltinBlockGrowth {
     }
 
     @Override
-    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome) {
+    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level,  Supplier<Holder<Biome>> biome) {
         if (WeatheringHelper.isIciclePos(pos)) {
             BlockPos p = pos.below(state.is(BlockTags.SNOW) ? 2 : 1);
             BlockState placement = ModBlocks.ICICLE.get().defaultBlockState().setValue(IcicleBlock.TIP_DIRECTION, Direction.DOWN);

@@ -12,6 +12,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
+
 import net.minecraft.util.RandomSource;
 
 public class CampfireSootGrowth extends BuiltinBlockGrowth {
@@ -21,7 +23,7 @@ public class CampfireSootGrowth extends BuiltinBlockGrowth {
     }
 
     @Override
-    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome) {
+    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Supplier<Holder<Biome>> biome) {
         //we are accessing with tag so always check if this is campfire
         if (state.getBlock() instanceof CampfireBlock && state.getValue(CampfireBlock.LIT)) {
             RandomSource random = level.random;

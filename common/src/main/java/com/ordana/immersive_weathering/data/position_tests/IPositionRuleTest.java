@@ -6,6 +6,8 @@ import net.minecraft.core.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
+import java.util.function.Supplier;
+
 public interface IPositionRuleTest {
 
     Codec<IPositionRuleTest> CODEC = IPositionRuleTest.Type.CODEC
@@ -18,7 +20,7 @@ public interface IPositionRuleTest {
     IPositionRuleTest EMPTY = new IPositionRuleTest() {
 
         @Override
-        public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
+        public boolean test(Supplier<Holder<Biome>> biome, BlockPos pos, Level level) {
             return false;
         }
 
@@ -28,7 +30,7 @@ public interface IPositionRuleTest {
         }
     };
 
-    boolean test(Holder<Biome> biome, BlockPos pos, Level level);
+    boolean test(Supplier<Holder<Biome>> biome, BlockPos pos, Level level);
 
     Type<?> getType();
 

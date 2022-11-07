@@ -6,6 +6,8 @@ import net.minecraft.core.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
+import java.util.function.Supplier;
+
 record BiomeSetMatchTest(HolderSet<Biome> biomes) implements IPositionRuleTest {
 
     public static final String NAME = "biome_match";
@@ -22,7 +24,7 @@ record BiomeSetMatchTest(HolderSet<Biome> biomes) implements IPositionRuleTest {
     }
 
     @Override
-    public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
-        return biomes.contains(biome);
+    public boolean test(Supplier<Holder<Biome>> biome, BlockPos pos, Level level) {
+        return biomes.contains(biome.get());
     }
 }

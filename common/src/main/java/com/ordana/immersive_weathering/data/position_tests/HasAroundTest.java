@@ -8,6 +8,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
+import java.util.function.Supplier;
+
 record HasAroundTest(IPositionRuleTest predicate) implements IPositionRuleTest {
 
     public static final String NAME = "has_around";
@@ -25,7 +27,7 @@ record HasAroundTest(IPositionRuleTest predicate) implements IPositionRuleTest {
     }
 
     @Override
-    public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
+    public boolean test(Supplier<Holder<Biome>> biome, BlockPos pos, Level level) {
         for(var d : Direction.values()){
             if(!predicate.test(biome, pos.relative(d),  level))return false;
         }

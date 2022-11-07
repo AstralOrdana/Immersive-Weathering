@@ -12,6 +12,7 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public class EntityTest implements IPositionRuleTest {
 
@@ -73,7 +74,7 @@ public class EntityTest implements IPositionRuleTest {
     }
 
     @Override
-    public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
+    public boolean test(Supplier<Holder<Biome>> biome, BlockPos pos, Level level) {
 
         AABB aabb = new AABB(pos).inflate(size);
         if (this.direction != null && this.offset != 0) {

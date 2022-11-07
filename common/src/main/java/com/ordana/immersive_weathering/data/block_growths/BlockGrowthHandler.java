@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.data.block_growths;
 
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,6 +32,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 
 import java.io.FileWriter;
 import java.util.*;
+import java.util.function.Supplier;
 
 public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
 
@@ -62,24 +64,17 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
         //TODO: move this line to data pack self predicate
         if (state.getBlock() instanceof IConditionalGrowingBlock cb && !cb.canGrow(state)) return;
 
-        Holder<Biome> biome = null;
+        Supplier<Holder<Biome>> biome = Suppliers.memoize(() -> level.getBiome(pos));
 
         var universalGroup = UNIVERSAL_GROWTHS.get(source);
 
         if (universalGroup != null) {
-            biome = level.getBiome(pos);
             for (var config : universalGroup) {
                 config.tryGrowing(pos, state, level, biome);
             }
         }
-
-        //hopefully faster than calling get directly
-        //var group = TICKING_BLOCKS.get(source);
-        //if (group == null || !group.contains(state.getBlock())) return;
         var growth = getBlockGrowth(source, state.getBlock());
         if (growth.isPresent()) {
-            if (biome == null) biome = level.getBiome(pos);
-
             for (var config : growth.get()) {
                 config.tryGrowing(pos, state, level, biome);
             }

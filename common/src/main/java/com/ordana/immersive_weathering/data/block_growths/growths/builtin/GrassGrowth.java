@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class GrassGrowth extends BuiltinBlockGrowth {
 
@@ -24,7 +25,7 @@ public class GrassGrowth extends BuiltinBlockGrowth {
     }
 
     @Override
-    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome) {
+    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Supplier<Holder<Biome>> biome) {
         /*
         Random random = level.getRandom();
         if ((level.getLightEmission(pos.above()) >= 9) && (level.getBlockState(pos.above()).is(Blocks.AIR))) {

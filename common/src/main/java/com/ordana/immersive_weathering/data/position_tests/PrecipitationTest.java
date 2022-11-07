@@ -8,6 +8,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
+import java.util.function.Supplier;
+
 record PrecipitationTest(Biome.Precipitation precipitation) implements IPositionRuleTest {
 
     public static final String NAME = "precipitation_test";
@@ -26,7 +28,7 @@ record PrecipitationTest(Biome.Precipitation precipitation) implements IPosition
     //tests if the condition is true in any of the neighboring blocks
     //for none it checks if none of the neighbor have rain
     @Override
-    public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
+    public boolean test(Supplier<Holder<Biome>> biome, BlockPos pos, Level level) {
         for (var d : Direction.values()) {
             if (d != Direction.DOWN) {
                 switch (precipitation) {
@@ -36,12 +38,12 @@ record PrecipitationTest(Biome.Precipitation precipitation) implements IPosition
                         }
                     }
                     case SNOW -> {
-                        if (level.isRainingAt(pos.relative(d)) && biome.value().coldEnoughToSnow(pos.relative(d))) {
+                        if (level.isRainingAt(pos.relative(d)) && biome.get().value().coldEnoughToSnow(pos.relative(d))) {
                             return true;
                         }
                     }
                     case RAIN -> {
-                        if (level.isRainingAt(pos.relative(d)) && biome.value().warmEnoughToRain(pos.relative(d))) {
+                        if (level.isRainingAt(pos.relative(d)) && biome.get().value().warmEnoughToRain(pos.relative(d))) {
                             return true;
                         }
                     }

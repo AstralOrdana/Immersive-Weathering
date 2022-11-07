@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class NoOpBlockGrowth extends BuiltinBlockGrowth{
 
@@ -19,6 +20,6 @@ public class NoOpBlockGrowth extends BuiltinBlockGrowth{
     }
 
     @Override
-    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome) {
+    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Supplier<Holder<Biome>> biome) {
     }
 }

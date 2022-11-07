@@ -9,6 +9,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
 import java.util.Random;
+import java.util.function.Supplier;
 
 public record PosRandomTest(int rarity) implements IPositionRuleTest {
 
@@ -21,7 +22,7 @@ public record PosRandomTest(int rarity) implements IPositionRuleTest {
             new Type<>(PosRandomTest.CODEC, PosRandomTest.NAME);
 
     @Override
-    public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
+    public boolean test(Supplier<Holder<Biome>> biome, BlockPos pos, Level level) {
         Random posRandom = new Random(Mth.getSeed(pos));
         return posRandom.nextInt(rarity) == 0;
     }

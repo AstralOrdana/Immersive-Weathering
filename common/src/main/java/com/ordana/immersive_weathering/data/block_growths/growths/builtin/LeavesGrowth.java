@@ -29,6 +29,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class LeavesGrowth extends BuiltinBlockGrowth {
 
@@ -38,7 +39,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
 
     //TODO: add particles here too
     @Override
-    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome) {
+    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Supplier<Holder<Biome>> biome) {
         RandomSource random = level.random;
 
         //Drastically reduced this chance to help lag

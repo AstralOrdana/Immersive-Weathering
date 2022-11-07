@@ -12,6 +12,7 @@ import net.minecraft.world.level.biome.Biome;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 record LightTest(int targetLight, Operator operator, Optional<Vec3i> offset) implements IPositionRuleTest {
 
@@ -31,7 +32,7 @@ record LightTest(int targetLight, Operator operator, Optional<Vec3i> offset) imp
     }
 
     @Override
-    public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
+    public boolean test(Supplier<Holder<Biome>> biome, BlockPos pos, Level level) {
         //if offset only look there if not look everywhere to see if at least one matches
         return offset.map(off -> operator.apply(level.getLightEmission(pos.offset(off)), targetLight)).orElseGet(
                 () -> Arrays.stream(Direction.values()).anyMatch(d ->

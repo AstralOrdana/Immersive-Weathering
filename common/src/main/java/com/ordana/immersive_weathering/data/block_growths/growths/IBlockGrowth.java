@@ -10,13 +10,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.function.Supplier;
 
 public interface IBlockGrowth {
 
     @Nullable
     Iterable<? extends Block> getOwners();
 
-    void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome);
+    void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Supplier<Holder<Biome>> biome);
 
     Collection<TickSource> getTickSources();
 }

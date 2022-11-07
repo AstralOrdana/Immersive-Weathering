@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class SnowGrowth extends BuiltinBlockGrowth {
 
@@ -30,7 +31,7 @@ public class SnowGrowth extends BuiltinBlockGrowth {
     }
 
     @Override
-    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome) {
+    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level,  Supplier<Holder<Biome>> biome) {
         if (TemperatureManager.snowGrowthCanGrowSnowyBlock(pos, biome)) {
             var snowyBlock = Snowy.getSnowy(state);
             if (snowyBlock.isPresent()) {

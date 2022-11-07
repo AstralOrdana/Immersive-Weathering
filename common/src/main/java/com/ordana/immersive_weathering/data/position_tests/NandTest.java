@@ -8,6 +8,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 record NandTest(List<IPositionRuleTest> predicates) implements IPositionRuleTest {
 
@@ -25,7 +26,7 @@ record NandTest(List<IPositionRuleTest> predicates) implements IPositionRuleTest
     }
 
     @Override
-    public boolean test(Holder<Biome> biome, BlockPos pos, Level level) {
+    public boolean test(Supplier<Holder<Biome>> biome, BlockPos pos, Level level) {
         for(var p : predicates){
             if(!p.test(biome,pos, level))return true;
         }

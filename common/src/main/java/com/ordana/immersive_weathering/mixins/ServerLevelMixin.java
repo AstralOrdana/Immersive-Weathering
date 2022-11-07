@@ -7,8 +7,11 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.storage.WritableLevelData;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.function.Supplier;
 
@@ -54,10 +58,17 @@ public abstract class ServerLevelMixin extends Level {
                             args = "stringValue=randomTick"
                     )
             ),
+            locals = LocalCapture.CAPTURE_FAILHARD,
             require = 1
     )
-    private void callTick(LevelChunk levelChunk, int i, CallbackInfo ci) {
-        BlockGrowthHandler.tickBlock(TickSource.BLOCK_TICK, this.getBlockState(grabbedPos), ((ServerLevel) ((Object) this)), grabbedPos);
+    private void callTick(LevelChunk chunk, int randomTickSpeed, CallbackInfo ci,
+                          ChunkPos chunkPos, boolean bl, int i, int j, ProfilerFiller profilerFiller,
+                          LevelChunkSection[] var8, int var9, int var10, LevelChunkSection levelChunkSection,
+                          int k, int l, BlockPos blockPos3, BlockState blockState2) {
+        BlockState newState = levelChunkSection.getBlockState(blockPos3.getX() - i,
+                blockPos3.getY() - k, blockPos3.getZ() - j);
+        BlockGrowthHandler.tickBlock(TickSource.BLOCK_TICK, newState,
+                ((ServerLevel) ((Object) this)), grabbedPos);
     }
 
     @Inject(method = "tickChunk",

@@ -24,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Supplier;
 
 public class SandGrowth extends BuiltinBlockGrowth {
 
@@ -40,7 +41,7 @@ public class SandGrowth extends BuiltinBlockGrowth {
     }
 
     @Override
-    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Holder<Biome> biome) {
+    public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Supplier<Holder<Biome>> biome) {
         if (TemperatureManager.hasSandstorm(level, pos, biome)) {
             var sandyBlock = Sandy.getSandy(state);
 

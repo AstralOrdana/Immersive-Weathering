@@ -28,6 +28,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -173,7 +174,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
         return this.possibleBlocks.isEmpty();
     }
 
-    private boolean canGrow(BlockPos pos, Level level, Holder<Biome> biome) {
+    private boolean canGrow(BlockPos pos, Level level, Supplier<Holder<Biome>> biome) {
         if (this.growthChance == 0) return false;
         if (level.random.nextFloat() < this.growthChance) {
             for (IPositionRuleTest positionTest : this.positionTests) {
@@ -197,7 +198,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
     }
 
     @Override
-    public void tryGrowing(BlockPos pos, BlockState self, ServerLevel level, Holder<Biome> biome) {
+    public void tryGrowing(BlockPos pos, BlockState self, ServerLevel level,  Supplier<Holder<Biome>> biome) {
 
         if (this.canGrow(pos, level, biome)) {
             Direction dir = this.growthForDirection.getRandomValue(level.random).orElse(Direction.UP);
