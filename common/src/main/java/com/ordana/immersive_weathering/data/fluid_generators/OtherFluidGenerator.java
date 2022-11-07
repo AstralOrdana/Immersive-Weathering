@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.data.fluid_generators;
 
+import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.data.position_tests.IPositionRuleTest;
@@ -16,6 +17,7 @@ import net.minecraft.world.level.material.Fluid;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public class OtherFluidGenerator implements IFluidGenerator {
 
@@ -79,13 +81,13 @@ public class OtherFluidGenerator implements IFluidGenerator {
     }
 
     public Optional<BlockPos> tryGenerating(List<Direction> possibleFlowDir, BlockPos pos, Level level, Map<Direction, BlockState> neighborCache) {
-        Holder<Biome> b = extraCheck.isPresent() ? level.getBiome(pos) : null;
+        Supplier<Holder<Biome>> b = Suppliers.memoize(() -> level.getBiome(pos));
 
         for (Direction d : possibleFlowDir) {
             BlockPos p = pos.relative(d);
             BlockState state = neighborCache.computeIfAbsent(d, c -> level.getBlockState(p));
             if (target.test(state, level.random)) {
-                if(b != null && !extraCheck.get().test(b, p, level)) continue;
+                if (extraCheck.isPresent() && !extraCheck.get().test(b, p, level)) continue;
                 level.setBlockAndUpdate(p, this.growth);
                 return Optional.of(p);
             }

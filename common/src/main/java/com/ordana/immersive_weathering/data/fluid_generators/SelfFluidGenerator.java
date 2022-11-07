@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.data.fluid_generators;
 
+import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class SelfFluidGenerator implements IFluidGenerator {
 
@@ -131,7 +133,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
         public boolean isMet(List<Direction> possibleFlowDir, BlockPos pos, Level level,
                              Map<Direction, BlockState> neighborCache, Optional<IPositionRuleTest> extraCheck) {
 
-            Holder<Biome> b = extraCheck.isPresent() ? level.getBiome(pos) : null;
+            Supplier<Holder<Biome>> b = Suppliers.memoize(()->level.getBiome(pos));
             for(var r : anyBlocks){
                 boolean atLeastOnceSuccess = false;
 
@@ -139,7 +141,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
                     BlockPos side = pos.relative(d);
                     BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(side));
                     if (r.test(state, level.random)) {
-                            if(b != null && !extraCheck.get().test(b, side, level)) continue;
+                        if(extraCheck.isPresent() && !extraCheck.get().test(b, side, level)) continue;
                         atLeastOnceSuccess = true;
                         break;
                     }
@@ -154,7 +156,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
                         BlockPos side = pos.relative(d);
                         BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(side));
                         if (r.test(state, level.random)) {
-                            if(b != null && !extraCheck.get().test(b, side, level)) continue;
+                            if(extraCheck.isPresent() && !extraCheck.get().test(b, side, level)) continue;
                             atLeastOnceSuccess = true;
                             break;
                         }
@@ -164,22 +166,22 @@ public class SelfFluidGenerator implements IFluidGenerator {
             }
 
             if(upBlock != null){
-                Direction d = Direction.UP;
-                BlockPos target = pos.relative(d);
-                BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(target));
-                if (!upBlock.test(state, level.random)) return false;
-                if(b != null && !extraCheck.get().test(b, pos, level)) return false;
+                if (testFails(downBlock, pos, level, neighborCache, extraCheck, b, Direction.UP)) return false;
             }
 
             if(downBlock != null){
-                Direction d = Direction.DOWN;
-                BlockPos target = pos.relative(d);
-                BlockState state = neighborCache.computeIfAbsent(d, p -> level.getBlockState(target));
-                if (!downBlock.test(state, level.random)) return false;
-                if(b != null && !extraCheck.get().test(b, target, level)) return false;
+                if (testFails(downBlock, pos, level, neighborCache, extraCheck, b, Direction.DOWN)) return false;
             }
 
             return true;
+        }
+
+        private boolean testFails(RuleTest test, BlockPos pos, Level level, Map<Direction, BlockState> neighborCache,
+                                  Optional<IPositionRuleTest> extraCheck, Supplier< Holder<Biome>> biome, Direction dir) {
+            BlockPos target = pos.relative(dir);
+            BlockState state = neighborCache.computeIfAbsent(dir, p -> level.getBlockState(target));
+            if (!test.test(state, level.random)) return true;
+            return extraCheck.isPresent() && !extraCheck.get().test(biome, target, level);
         }
 
     }
