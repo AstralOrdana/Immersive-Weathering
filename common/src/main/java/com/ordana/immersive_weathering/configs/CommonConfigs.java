@@ -44,7 +44,6 @@ public class CommonConfigs {
     public static Supplier<Boolean> FLAMMABLE_COBWEBS;
 
 
-    public static Supplier<Boolean> CAULDRON_WASHING;
     public static Supplier<Boolean> PICKAXE_CRACKING;
     public static Supplier<Boolean> PICKAXE_CRACKING_SHIFT;
     public static Supplier<Boolean> BRICK_REPAIRING;
@@ -62,17 +61,6 @@ public class CommonConfigs {
     public static Supplier<Boolean> AXE_SCRAPING;
     public static Supplier<Boolean> ASH_ITEM_SPAWN;
 
-    /*
-    public static Supplier<Boolean> CRYOSOL_FEATURE;
-    public static Supplier<Boolean> HUMUS_FEATURE;
-    public static Supplier<Boolean> FLUVISOL_FEATURE;
-    public static Supplier<Boolean> SILT_FEATURE;
-    public static Supplier<Boolean> VERITOSOL_FEATURE;
-    public static Supplier<Boolean> LAKEBED_FEATURE;
-    public static Supplier<Boolean> ICICLE_FEATURE;
-    public static Supplier<Boolean> ROOTS_FEATURE;
-     */
-
 
     public static Supplier<Boolean> ICICLE_FOOD;
     public static Supplier<Boolean> ICICLE_FIRE_RESISTANCE;
@@ -89,7 +77,6 @@ public class CommonConfigs {
 
     public static Supplier<Boolean> LEAF_PILES_SLOW;
     public static Supplier<Double> LEAF_PILES_FROM_DECAY_CHANCE;
-    public static Supplier<Double> LEAF_PILES_CHANCE;
     public static Supplier<Integer> LEAF_PILE_MAX_HEIGHT;
     public static Supplier<Integer> LEAF_PILES_REACH;
     public static Supplier<List<String>> LEAF_PILES_BLACKLIST;
@@ -161,23 +148,9 @@ public class CommonConfigs {
         FLAMMABLE_COBWEBS = builder.define("flammable_cobweb", true);
         builder.pop();
 
-        /*
-        builder.push("generation");
-        CRYOSOL_FEATURE = builder.define("cryosol_feature", true);
-        HUMUS_FEATURE = builder.define("humus_feature", true);
-        FLUVISOL_FEATURE = builder.define("fluvisol_feature", true);
-        SILT_FEATURE = builder.define("silt_feature", true);
-        VERITOSOL_FEATURE = builder.define("vertisol_feature", true);
-        LAKEBED_FEATURE = builder.define("lakebed_feature", true);
-        ICICLE_FEATURE = builder.define("icicle_feature", true);
-        ROOTS_FEATURE = builder.define("roots_feature", true);
-        builder.pop();
-         */
-
 
         builder.push("item_interaction");
         //TODO: use cauldron registry
-        CAULDRON_WASHING = builder.define("cauldron_washing", false);
         PICKAXE_CRACKING = builder.define("pickaxe_cracking", true);
         PICKAXE_CRACKING_SHIFT = builder.define("pickaxe_cracking_shift", false);
         BRICK_REPAIRING = builder.define("brick_breaking", true);
@@ -218,9 +191,7 @@ public class CommonConfigs {
         builder.push("leaf_piles");
         LEAF_PILES_SLOW = builder.define("leaf_piles_slow", true);
         LEAF_PILES_FROM_DECAY_CHANCE = builder.define("spawn_entity_from_decay", 0.3, 0, 1);
-
-
-        LEAF_PILES_CHANCE = builder.define("leaf_piles_spawn_chance", 0.005, 0, 1);
+        
         LEAF_PILES_REACH = builder.define("reach", 12, 1, 256);
         LEAF_PILE_MAX_HEIGHT = builder.define("max_pile_height", 3, 1, 8);
         LEAF_PILES_BLACKLIST = builder.comment("leaves that wont spawn leaf piles").define("leaf_piles_blacklist", List.of());
