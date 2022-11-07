@@ -191,7 +191,7 @@ public class CommonConfigs {
         builder.push("leaf_piles");
         LEAF_PILES_SLOW = builder.define("leaf_piles_slow", true);
         LEAF_PILES_FROM_DECAY_CHANCE = builder.define("spawn_entity_from_decay", 0.3, 0, 1);
-        
+
         LEAF_PILES_REACH = builder.define("reach", 12, 1, 256);
         LEAF_PILE_MAX_HEIGHT = builder.define("max_pile_height", 3, 1, 8);
         LEAF_PILES_BLACKLIST = builder.comment("leaves that wont spawn leaf piles").define("leaf_piles_blacklist", List.of());
