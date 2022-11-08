@@ -1,0 +1,217 @@
+{
+  "display": {
+    "icon": {
+      "item": "immersive_weathering:sandy_cobblestone"
+    },
+    "title": {
+      "translate": "advancements.immersive_weathering.sands.title"
+    },
+    "description": {
+      "translate": "advancements.immersive_weathering.sands.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "minecraft:adventure/root",
+  "criteria": {
+    "cobble": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:sandy_cobblestone"
+            ]
+          }
+        ]
+      }
+    },
+    "stone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:sandy_stone"
+            ]
+          }
+        ]
+      }
+    },
+    "bricks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:sandy_stone_bricks"
+            ]
+          }
+        ]
+      }
+    },
+    "chisel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:sandy_chiseled_stone_bricks"
+            ]
+          }
+        ]
+      }
+    },
+    "cobble_slab": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:sandy_cobblestone_slab"
+            ]
+          }
+        ]
+      }
+    },
+    "stone_slab": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:sandy_stone_slab"
+            ]
+          }
+        ]
+      }
+    },
+    "bricks_slab": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:sandy_stone_brick_slab"
+            ]
+          }
+        ]
+      }
+    },
+    "cobble_stairs": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:sandy_cobblestone_stairs"
+            ]
+          }
+        ]
+      }
+    },
+    "stone_stairs": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:sandy_stone_stairs"
+            ]
+          }
+        ]
+      }
+    },
+    "bricks_stairs": {
+      "trigger": "minecraft:inventory_changed_stairs",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:sandy_stone_brick_stairs"
+            ]
+          }
+        ]
+      }
+    },
+    "cobble_wall": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:sandy_cobblestone_wall"
+            ]
+          }
+        ]
+      }
+    },
+    "stone_wall": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:sandy_stone_wall"
+            ]
+          }
+        ]
+      }
+    },
+    "bricks_wall": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:sandy_stone_brick_wall"
+            ]
+          }
+        ]
+      }
+    },
+    "requirements": [
+      [
+        "cobble"
+      ],
+      [
+        "stone"
+      ],
+      [
+        "bricks"
+      ],
+      [
+        "chisel"
+      ],
+      [
+        "cobble_slab"
+      ],
+      [
+        "stone_slab"
+      ],
+      [
+        "bricks_slab"
+      ],
+      [
+        "cobble_stairs"
+      ],
+      [
+        "stone_stairs"
+      ],
+      [
+        "bricks_stairs"
+      ],
+      [
+        "cobble_wall"
+      ],
+      [
+        "stone_wall"
+      ],
+      [
+        "bricks_wall"
+      ]
+    ]
+  }
+}
