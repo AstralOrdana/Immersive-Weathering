@@ -125,7 +125,7 @@
       }
     },
     "bricks_stairs": {
-      "trigger": "minecraft:inventory_changed_stairs",
+      "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
@@ -171,47 +171,48 @@
           }
         ]
       }
-    },
-    "requirements": [
-      [
-        "cobble"
-      ],
-      [
-        "stone"
-      ],
-      [
-        "bricks"
-      ],
-      [
-        "chisel"
-      ],
-      [
-        "cobble_slab"
-      ],
-      [
-        "stone_slab"
-      ],
-      [
-        "bricks_slab"
-      ],
-      [
-        "cobble_stairs"
-      ],
-      [
-        "stone_stairs"
-      ],
-      [
-        "bricks_stairs"
-      ],
-      [
-        "cobble_wall"
-      ],
-      [
-        "stone_wall"
-      ],
-      [
-        "bricks_wall"
-      ]
+    }
+  },
+  "requirements": [
+    [
+      "cobble"
+    ],
+    [
+      "stone"
+    ],
+    [
+      "bricks"
+    ],
+    [
+      "chisel"
+    ],
+    [
+      "cobble_slab"
+    ],
+    [
+      "stone_slab"
+    ],
+    [
+      "bricks_slab"
+    ],
+    [
+      "cobble_stairs"
+    ],
+    [
+      "stone_stairs"
+    ],
+    [
+      "bricks_stairs"
+    ],
+    [
+      "cobble_wall"
+    ],
+    [
+      "stone_wall"
+    ],
+    [
+      "bricks_wall"
     ]
-  }
+  ]
 }
+
