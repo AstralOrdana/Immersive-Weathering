@@ -4,5 +4,5 @@
     "block_tick"
   ],
   "owners": "#minecraft:leaves",
-  "growth_chance": 0.005
+  "growth_chance": 0.001
 }
