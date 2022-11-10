@@ -65,8 +65,8 @@ public abstract class ServerLevelMixin extends Level {
                           ChunkPos chunkPos, boolean bl, int i, int j, ProfilerFiller profilerFiller,
                           LevelChunkSection[] var8, int var9, int var10, LevelChunkSection levelChunkSection,
                           int k, int l, BlockPos blockPos3, BlockState blockState2) {
-        BlockState newState = levelChunkSection.getBlockState(blockPos3.getX() - i,
-                blockPos3.getY() - k, blockPos3.getZ() - j);
+        BlockState newState = levelChunkSection.getBlockState(grabbedPos.getX(),
+                grabbedPos.getY(), grabbedPos.getZ());
         BlockGrowthHandler.tickBlock(TickSource.BLOCK_TICK, newState,
                 ((ServerLevel) ((Object) this)), grabbedPos);
     }

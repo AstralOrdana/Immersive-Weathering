@@ -128,13 +128,12 @@ public class ModEvents {
                     level.playSound(player, pos, SoundEvents.SHIELD_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SMOKE, UniformInt.of(3, 5));
-                    if (player instanceof ServerPlayer) {
+                    if (player instanceof ServerPlayer serverPlayer) {
                         stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
                         player.awardStat(Stats.ITEM_USED.get(item));
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                        return InteractionResult.sidedSuccess(level.isClientSide);
+                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger( serverPlayer, pos, stack);
                     }
-                    return InteractionResult.SUCCESS;
+                   return InteractionResult.sidedSuccess(level.isClientSide);
                 }
 
                 if (rustLevel != Rustable.RustLevel.UNAFFECTED) {
@@ -201,24 +200,23 @@ public class ModEvents {
             if (state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.MYCELIUM) || state.is(Blocks.PODZOL) || state.is(ModBlocks.HUMUS.get()) || state.is(ModBlocks.FLUVISOL.get())) {
                 level.playSound(player, pos, SoundEvents.GRASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
                 ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.BLOCK, state), UniformInt.of(3, 5));
-                if (player instanceof ServerPlayer) {
+                if (player instanceof ServerPlayer serverPlayer) {
                     if (!player.getAbilities().instabuild) stack.shrink(1);
                     level.setBlockAndUpdate(pos, Blocks.DIRT.defaultBlockState());
-                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger( serverPlayer, pos, stack);
                 }
-                return InteractionResult.SUCCESS;
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
             if (state.is(Blocks.DIRT)) {
                 level.playSound(player, pos, SoundEvents.GRAVEL_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
                 ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.BLOCK, state), UniformInt.of(3, 5));
-                if (player instanceof ServerPlayer) {
+                if (player instanceof ServerPlayer serverPlayer) {
                     if (!player.getAbilities().instabuild) stack.shrink(1);
                     level.setBlockAndUpdate(pos, Blocks.COARSE_DIRT.defaultBlockState());
-                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger( serverPlayer, pos, stack);
                 }
-                return InteractionResult.SUCCESS;
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
-            return InteractionResult.PASS;
         }
         return InteractionResult.PASS;
     }
@@ -270,7 +268,7 @@ public class ModEvents {
                     stack.shrink(1);
                 }
             }
-            return InteractionResult.PASS;
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
 
         if (item == Items.SHEARS && CommonConfigs.PISTON_SLIMING.get() && state.is(Blocks.STICKY_PISTON) && !state.getValue(PistonBaseBlock.EXTENDED)) {
@@ -287,6 +285,7 @@ public class ModEvents {
                     Block.popResourceFromFace(level, pos, hitResult.getDirection(), Items.SLIME_BALL.getDefaultInstance());
                 }
             }
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
         return InteractionResult.PASS;
     }
@@ -332,8 +331,8 @@ public class ModEvents {
 
                 stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
 
-                if (player instanceof ServerPlayer) {
-                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                if (player instanceof ServerPlayer serverPlayer) {
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger( serverPlayer, pos, stack);
                     level.gameEvent(player, GameEvent.SHEAR, pos);
                     player.awardStat(Stats.ITEM_USED.get(item));
                 }
@@ -360,6 +359,7 @@ public class ModEvents {
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                     level.setBlockAndUpdate(pos, newBlock);
                 }
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
         return InteractionResult.PASS;

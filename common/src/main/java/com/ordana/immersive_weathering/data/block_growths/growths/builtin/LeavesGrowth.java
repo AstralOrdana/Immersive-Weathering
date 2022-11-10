@@ -28,7 +28,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class LeavesGrowth extends BuiltinBlockGrowth {
@@ -94,14 +96,13 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
             pileHeight = replaceState.getValue(LeafPileBlock.LAYERS);
             if (pileHeight == 0 || pileHeight >= maxPileHeight) return;
         }
-
         BlockState baseLeaf = leafPile.defaultBlockState().setValue(LeafPileBlock.LAYERS, waterBelow ? 0 : 1);
         //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
         if (isOnLeaf || (
                 replaceState.getMaterial().isReplaceable()
                         && baseLeaf.canSurvive(level, targetPos)
-                        && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 2, 2,
-                        level, b -> b.getBlock() instanceof LeafPileBlock, 6)
+                        && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 1, 2,
+                        level, b -> b.getBlock() instanceof LeafPileBlock, 5)
         )) {
 
 
