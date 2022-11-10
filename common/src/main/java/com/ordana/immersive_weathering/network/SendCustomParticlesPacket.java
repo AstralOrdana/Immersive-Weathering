@@ -46,11 +46,12 @@ public class SendCustomParticlesPacket implements Message {
 
     @Override
     public void handle(ChannelHandler.Context context) {
-        clientStuff(context.getSender(), type, pos, extraData);
+        clientStuff(type, pos, extraData);
     }
 
     @Environment(EnvType.CLIENT)
-    public void clientStuff(Player player,  EventType type, BlockPos pos, int extraData){
+    public void clientStuff( EventType type, BlockPos pos, int extraData){
+        var player = Minecraft.getInstance().player;
         var level = player.level;
         if(type == EventType.DECAY_LEAVES){
             if (ClientConfigs.LEAF_DECAY_PARTICLES.get()) {
