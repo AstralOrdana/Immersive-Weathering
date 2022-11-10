@@ -9,7 +9,7 @@
     "description": {
       "translate": "advancements.immersive_weathering.dirts.description"
     },
-    "frame": "task",
+    "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false

@@ -8,7 +8,7 @@
   "advancements.immersive_weathering.ice_sickle.title": "Chill Out",
   "advancements.immersive_weathering.ice_sickle.description": "Slay a Blaze using its greatest fear, an Ice Sickle",
   "advancements.immersive_weathering.weeds.title": "Weed Wacker",
-  "advancements.immersive_weathering.weeds.description": "Pick some weeds. Build a greenhouse or use Mulch to keep them from growing.",
+  "advancements.immersive_weathering.weeds.description": "Pick some weeds. Build a greenhouse over your farmland or plant on Mulch to stop them from growing.",
   "advancements.immersive_weathering.mulch.title": "Mulch Better",
   "advancements.immersive_weathering.mulch.description": "Craft some Mulch, a dedicated farmer's best friend",
   "advancements.immersive_weathering.pond_water.title": "Why would you do this???",
@@ -21,6 +21,8 @@
   "advancements.immersive_weathering.fulgurite.description": "Find a Fulgurite, a rare block that only occurs where lightning strikes sand",
   "advancements.immersive_weathering.dirts.title": "Soil Superfan",
   "advancements.immersive_weathering.dirts.description": "Travel the world and obtain all types of soil",
+  "advancements.immersive_weathering.sands.title": "Coarse and Rough",
+  "advancements.immersive_weathering.sands.description": "Obtain every Sandy block",
 
   "advancements.immersive_weathering.bark_off.title": "Bark Off",
   "advancements.immersive_weathering.bark_off.description": "Scrape Bark off a Log",
