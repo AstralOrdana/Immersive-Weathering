@@ -13,8 +13,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -37,19 +37,19 @@ public class BlockPair extends Pair<BlockState, BlockState> {
     ).apply(instance, (f, s) -> new BlockPair(f, s.orElse(null))));
 
 
-    public BlockPair(@Nonnull BlockState first, @Nullable BlockState second) {
+    public BlockPair(@NotNull BlockState first, @Nullable BlockState second) {
         super(first, second);
     }
 
-    public static BlockPair of(@Nonnull final BlockState first,@Nullable final BlockState second) {
+    public static BlockPair of(@NotNull final BlockState first,@Nullable final BlockState second) {
         return new BlockPair(first, second);
     }
 
-    public static BlockPair of(@Nonnull final BlockState first) {
+    public static BlockPair of(@NotNull final BlockState first) {
         return of(first, null);
     }
 
-    public static BlockPair of(@Nonnull final Block first) {
+    public static BlockPair of(@NotNull final Block first) {
         return of(first.defaultBlockState(), null);
     }
 

@@ -601,6 +601,24 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
+                    target = "net/minecraft/world/level/block/Block",
+                    ordinal = 0
+            ),
+            slice = @Slice(
+                    from = @At(
+                            value = "CONSTANT",
+                            args = "stringValue=chiseled_stone_bricks"
+                    )
+            )
+    )
+    private static Block chiseled_stone_bricks(BlockBehaviour.Properties settings) {
+        return new MossableBlock(Mossable.MossLevel.UNAFFECTED, settings);
+    }
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(
+                    value = "NEW",
                     target = "net/minecraft/world/level/block/SlabBlock",
                     ordinal = 0
             ),

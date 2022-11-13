@@ -1,5 +1,3 @@
-
-
 package com.ordana.immersive_weathering.blocks;
 
 import com.ordana.immersive_weathering.entities.FallingLayerEntity;
@@ -23,10 +21,10 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collections;
 import net.minecraft.util.RandomSource;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Author: MehVahdJukaar

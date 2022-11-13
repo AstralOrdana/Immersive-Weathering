@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.reg.ModParticles;
 import com.ordana.immersive_weathering.reg.ModTags;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -13,6 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -33,6 +35,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Fluids;
@@ -148,10 +151,32 @@ public interface Sandy {
             //if (state.getValue(SANDINESS) == 0 && unSandy.isPresent()) level.setBlockAndUpdate(pos, unSandy.get());
             level.setBlockAndUpdate(belowPos, ModBlocks.SAND_LAYER_BLOCK.get().defaultBlockState());
         }
-        else if (belowState.is(ModTags.DOUBLE_SNOWABLE) && isRandomSandyPos(pos) && Sandy.isPresent()) {
+        else if (belowState.is(ModTags.DOUBLE_SANDABLE) && isRandomSandyPos(pos) && Sandy.isPresent()) {
             if (state.getValue(SANDINESS) == 1) level.setBlockAndUpdate(pos, state.setValue(SANDINESS, 0));
             if (state.getValue(SANDINESS) == 0 && unSandy.isPresent()) level.setBlockAndUpdate(pos, unSandy.get());
             level.setBlockAndUpdate(belowPos, Sandy.get());
+        }
+    }
+
+    default void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos neighborPos, boolean isMoving) {
+        Optional<BlockState> unSandy = Sandy.getUnSandy(state);
+        BlockState neighborState = level.getBlockState(neighborPos);
+        if (neighborState.getFluidState().is(Fluids.FLOWING_WATER) && unSandy.isPresent()) {
+            level.setBlockAndUpdate(pos, unSandy.get());
+            ItemStack stack = new ItemStack(ModBlocks.SAND_LAYER_BLOCK.get());
+            Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
+            level.playSound(null, pos, SoundEvents.SAND_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
+
+            //TODO make falling sand particles spawn on block faces
+            if (level instanceof ServerLevel serverLevel) serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()),
+                    pos.getX() + 0.5D,
+                    pos.getY() + 0.5D,
+                    pos.getZ() + 0.5D,
+                    10,
+                    0.5D, 0.5D, 0.5D,
+                    0.0D);
+
+            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()), UniformInt.of(3, 5));
         }
     }
 }
