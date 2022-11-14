@@ -8,6 +8,7 @@
     "AccessorBlockColor"
   ],
   "mixins": [
+    "FluidInteractionRegistryMixin",
     "SelfNulchMixin",
     "SelfMulchMixin",
     "SelfRustableMixin",
