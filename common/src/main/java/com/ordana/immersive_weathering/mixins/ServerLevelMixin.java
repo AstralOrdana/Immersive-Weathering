@@ -32,24 +32,6 @@ public abstract class ServerLevelMixin extends Level {
         super(writableLevelData, resourceKey, holder, supplier, bl, bl2, l, i);
     }
 
-    @ModifyVariable(method = "tickChunk",
-            at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/level/chunk/LevelChunkSection;getBlockState(III)Lnet/minecraft/world/level/block/state/BlockState;"),
-            slice = @Slice(
-                    from = @At(
-                            value = "CONSTANT",
-                            args = "stringValue=randomTick"
-                    )
-            ),
-            require = 1
-    )
-    private BlockPos grabPos(BlockPos value) {
-        grabbedPos = value;
-        return value;
-    }
-
-    @Unique
-    private BlockPos grabbedPos;
-
     @Inject(method = "tickChunk",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getFluidState()Lnet/minecraft/world/level/material/FluidState;"),
             slice = @Slice(
@@ -65,10 +47,9 @@ public abstract class ServerLevelMixin extends Level {
                           ChunkPos chunkPos, boolean bl, int i, int j, ProfilerFiller profilerFiller,
                           LevelChunkSection[] var8, int var9, int var10, LevelChunkSection levelChunkSection,
                           int k, int l, BlockPos blockPos3, BlockState blockState2) {
-        BlockState newState = levelChunkSection.getBlockState(grabbedPos.getX(),
-                grabbedPos.getY(), grabbedPos.getZ());
-        BlockGrowthHandler.tickBlock(TickSource.BLOCK_TICK, newState,
-                ((ServerLevel) ((Object) this)), grabbedPos);
+        BlockState newState = levelChunkSection.getBlockState(
+                blockPos3.getX() - i, blockPos3.getY() - k, blockPos3.getZ() - j);
+        BlockGrowthHandler.tickBlock(TickSource.BLOCK_TICK, newState, ((ServerLevel) ((Object) this)),  blockPos3);
     }
 
     @Inject(method = "tickChunk",
