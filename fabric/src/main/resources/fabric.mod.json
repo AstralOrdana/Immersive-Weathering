@@ -25,8 +25,8 @@
     "client": [
       "com.ordana.immersive_weathering.fabric.ImmersiveWeatheringClientFabric"
     ],
-    "modmenu": [
-      "com.ordana.immersive_weathering.integration.fabric.ModMenuCompat"
+    "emi": [
+      "com.ordana.immersive_weathering.integration.fabric.EmiIntegration"
     ]
   },
   "mixins": [

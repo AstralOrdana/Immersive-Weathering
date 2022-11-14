@@ -190,6 +190,8 @@
   "tag.immersive_weathering.bricks": "Bricks",
   "tag.immersive_weathering.scales": "Fungus Scales",
   "tag.immersive_weathering.wax": "Wax",
+  "tag.curios.head": "Head Curios",
+  "tag.trinkets.head.hat": "Hat Trinkets",
 
   "block.immersive_weathering.icicle": "Icicle",
   "item.immersive_weathering.ice_sickle": "Ice Sickle",
@@ -273,6 +275,7 @@
   "block.immersive_weathering.mossy_brick_slab": "Mossy Brick Slab",
   "block.immersive_weathering.mossy_brick_vertical_slab": "Mossy Brick Vertical Slab",
   "block.immersive_weathering.mossy_brick_wall": "Mossy Brick Wall",
+  "block.immersive_weathering.mossy_chiseled_stone_bricks": "Mossy Chiseled Stone Bricks",
 
   "block.immersive_weathering.mossy_stone": "Mossy Stone",
   "block.immersive_weathering.mossy_stone_stairs": "Mossy Stone Stairs",

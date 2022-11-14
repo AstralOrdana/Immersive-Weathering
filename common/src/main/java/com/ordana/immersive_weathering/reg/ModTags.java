@@ -33,6 +33,7 @@ public final class ModTags {
     public static final TagKey<Block> FIRE_REPLACEABLE = registerBlockTag("fire_replaceable");
     public static final TagKey<Block> SANDY = registerBlockTag("sandy");
     public static final TagKey<Block> SANDABLE = registerBlockTag("sandable");
+    public static final TagKey<Block> DOUBLE_SANDABLE = registerBlockTag("double_sandable");
     public static final TagKey<Block> SNOWY = registerBlockTag("snowy");
     public static final TagKey<Block> SNOWABLE = registerBlockTag("snowable");
     public static final TagKey<Block> DOUBLE_SNOWABLE = registerBlockTag("double_snowable");
@@ -52,6 +53,7 @@ public final class ModTags {
     //items
     public static final TagKey<Item> BARK = registerItemTag("bark");
     public static final TagKey<Item> SCALES = registerItemTag("scales");
+    public static final TagKey<Item> STRIPPED_WOOD = registerItemTag("stripped_wood");
 
 
     //biomes

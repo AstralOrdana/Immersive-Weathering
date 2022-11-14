@@ -3,19 +3,24 @@ package com.ordana.immersive_weathering.blocks.snowy;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.ordana.immersive_weathering.blocks.sandy.Sandy;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -23,10 +28,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Optional;
@@ -91,5 +98,36 @@ public interface Snowy {
             return true;
         }
         return false;
+    }
+
+    default void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource randomSource) {
+        Optional<BlockState> unSnowy = getUnSnowy(state);
+
+        for (Direction dir : Direction.values()) {
+            if (level.getBrightness(LightLayer.BLOCK, pos.relative(dir)) > 11 && unSnowy.isPresent()) {
+                level.setBlockAndUpdate(pos, unSnowy.get());
+                Block.popResourceFromFace(level, pos, dir, new ItemStack(Items.SNOWBALL));
+            }
+        }
+    }
+
+    default void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos neighborPos, boolean isMoving) {
+        Optional<BlockState> unSnowy = getUnSnowy(state);
+        BlockState neighborState = level.getBlockState(neighborPos);
+        if (neighborState.getFluidState().is(Fluids.FLOWING_WATER) && unSnowy.isPresent()) {
+            level.setBlockAndUpdate(pos, unSnowy.get());
+            level.playSound(null, pos, SoundEvents.SNOW_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
+
+            //TODO make falling snow particles spawn on block faces
+            if (level instanceof ServerLevel serverLevel) serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SNOW.defaultBlockState()),
+                    pos.getX() + 0.5D,
+                    pos.getY() + 0.5D,
+                    pos.getZ() + 0.5D,
+                    10,
+                    0.5D, 0.5D, 0.5D,
+                    0.0D);
+
+            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SNOW.defaultBlockState()), UniformInt.of(3, 5));
+        }
     }
 }
