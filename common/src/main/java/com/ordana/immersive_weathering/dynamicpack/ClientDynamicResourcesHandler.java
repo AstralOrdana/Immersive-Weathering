@@ -60,7 +60,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
 
                 String particleId = Registry.PARTICLE_TYPE.getKey(particle).getPath();
                 try {
-                    dynamicPack.addSimilarJsonResource(leafParticle, "oak_leaf", particleId);
+                    addSimilarJsonResource(manager, leafParticle, "oak_leaf", particleId);
                 } catch (Exception ex) {
                     getLogger().error("Failed to generate Leaf Particle for {} : {}", particle, ex);
                 }
@@ -101,13 +101,13 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
                 String id = path + "_leaf_pile";
 
                 try {
-                    dynamicPack.addSimilarJsonResource(lpBlockState, "oak_leaf_pile", id);
+                    addSimilarJsonResource(manager,lpBlockState, "oak_leaf_pile", id);
                 } catch (Exception ex) {
                     getLogger().error("Failed to generate Leaf Pile blockstate definition for {} : {}", pile, ex);
                 }
 
                 try {
-                    dynamicPack.addSimilarJsonResource(lpItemModel, "oak_leaf_pile", id);
+                    addSimilarJsonResource(manager,lpItemModel, "oak_leaf_pile", id);
                 } catch (Exception ex) {
                     getLogger().error("Failed to generate Leaf Pile item model for {} : {}", pile, ex);
                 }
@@ -147,7 +147,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
                     String id = Utils.getID(bark).getPath();
 
                     try {
-                        dynamicPack.addSimilarJsonResource(itemModel, "oak_bark", id);
+                        addSimilarJsonResource(manager,itemModel, "oak_bark", id);
                     } catch (Exception ex) {
                         getLogger().error("Failed to generate Bark item model for {} : {}", bark, ex);
                     }
