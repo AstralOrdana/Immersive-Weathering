@@ -8,6 +8,7 @@ import com.ordana.immersive_weathering.features.IcicleClusterFeatureConfig;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
@@ -94,6 +95,11 @@ public class ModFeatures {
         //moss
         ResourceKey<PlacedFeature> moss_patch = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, ImmersiveWeathering.res("moss_patch"));
         IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.VEGETAL_DECORATION, ModTags.HAS_MOSS, moss_patch);
+
+
+        //NGVs
+        ResourceKey<PlacedFeature> nether_gold_vein = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, ImmersiveWeathering.res("nether_gold_vein"));
+        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, BiomeTags.IS_NETHER, nether_gold_vein);
 
     }
 }

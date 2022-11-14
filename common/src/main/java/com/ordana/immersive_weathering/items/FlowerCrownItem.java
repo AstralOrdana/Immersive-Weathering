@@ -176,6 +176,8 @@ public class FlowerCrownItem extends ArmorItem {
                 0.31f, ModParticles.FLOWER_NEKOMASTER));
         map.put("nekomaster", new SpecialType("textures/models/armor/nekomaster.png",
                 0.31f, ModParticles.FLOWER_NEKOMASTER));
+        map.put("akashii", new SpecialType("textures/models/armor/akashii.png",
+                0.32f, ModParticles.FLOWER_AKASHII));
 
         return map;
     });

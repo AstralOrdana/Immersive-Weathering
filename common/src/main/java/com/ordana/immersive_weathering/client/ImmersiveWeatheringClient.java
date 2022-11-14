@@ -165,6 +165,7 @@ public class ImmersiveWeatheringClient {
 
         event.register(ModParticles.FLOWER_FLAX.get(), LeafParticle.SimpleLeafParticle::new);
         event.register(ModParticles.FLOWER_NEKOMASTER.get(), LeafParticle.SimpleLeafParticle::new);
+        event.register(ModParticles.FLOWER_AKASHII.get(), LeafParticle.SimpleLeafParticle::new);
     }
 
     private static class ScrapeRustFactory extends GlowParticle.ScrapeProvider {

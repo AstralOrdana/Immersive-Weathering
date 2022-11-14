@@ -105,6 +105,12 @@
         "immersive_weathering:supporter": 0.31
       },
       "model": "immersive_weathering:item/flower_crown_nekomaster"
+    },
+    {
+      "predicate": {
+        "immersive_weathering:supporter": 0.32
+      },
+      "model": "immersive_weathering:item/flower_crown_akashii"
     }
   ]
 }

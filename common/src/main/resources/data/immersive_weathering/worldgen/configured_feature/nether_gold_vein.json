@@ -1,0 +1,49 @@
+{
+  "type": "minecraft:ore",
+  "config": {
+    "size": 64,
+    "discard_chance_on_air_exposure": 0,
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:random_block_match",
+          "block": "minecraft:netherrack",
+          "probability": 0.3
+        },
+        "state": {
+          "Name": "minecraft:nether_gold_ore"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:random_block_match",
+          "block": "minecraft:blackstone",
+          "probability": 0.3
+        },
+        "state": {
+          "Name": "minecraft:gilded_blackstone"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:random_block_match",
+          "block": "minecraft:netherrack",
+          "probability": 0.01
+        },
+        "state": {
+          "Name": "minecraft:raw_gold_block"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:random_block_match",
+          "block": "minecraft:nether_gold_ore",
+          "probability": 0.25
+        },
+        "state": {
+          "Name": "minecraft:raw_gold_block"
+        }
+      }
+    ]
+  }
+}

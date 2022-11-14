@@ -1,0 +1,16 @@
+{
+  "feature": "immersive_weathering:nether_gold_vein",
+  "placement": [
+    {
+      "type": "minecraft:count_on_every_layer",
+      "count": 2
+    },
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 16
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}
