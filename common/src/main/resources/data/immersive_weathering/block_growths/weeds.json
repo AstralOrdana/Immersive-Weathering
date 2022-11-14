@@ -3,6 +3,17 @@
     "clear_sky"
   ],
   "growth_chance": 0.001,
+  "area_condition": {
+    "must_have": {
+      "blocks": "#immersive_weathering:grass_spread_source",
+      "predicate_type": "immersive_weathering:block_set_match"
+    },
+    "radiusX": 2,
+    "radiusY": 2,
+    "radiusZ": 2,
+    "requiredAmount": 4,
+    "type": "generate_if_not_too_many"
+  },
   "growth_for_face": [
     {
       "direction": "up",
