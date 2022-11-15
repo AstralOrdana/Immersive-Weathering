@@ -27,6 +27,9 @@
     ],
     "emi": [
       "com.ordana.immersive_weathering.integration.fabric.EmiIntegration"
+    ],
+    "modmenu": [
+      "com.ordana.immersive_weathering.integration.fabric.ModMenuCompat"
     ]
   },
   "mixins": [
