@@ -99,7 +99,7 @@ public class ModFeatures {
 
         //NGVs
         ResourceKey<PlacedFeature> nether_gold_vein = ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, ImmersiveWeathering.res("nether_gold_vein"));
-        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, BiomeTags.IS_NETHER, nether_gold_vein);
+        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_NETHER_VEINS, nether_gold_vein);
 
     }
 }
