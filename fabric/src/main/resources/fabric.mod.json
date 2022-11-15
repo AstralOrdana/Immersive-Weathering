@@ -14,7 +14,7 @@
     "sources": "https://github.com/AstralOrdana/Immersive-Weathering-Fabric"
   },
 
-  "license": "Insert License Here",
+  "license": "LGPLv3",
   "icon": "icon.png",
 
   "environment": "*",
