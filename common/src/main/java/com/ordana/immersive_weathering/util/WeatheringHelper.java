@@ -145,7 +145,7 @@ public class WeatheringHelper {
         if (woodType != null) {
             boolean log = false;
 
-            String childKey = woodType.getChildKey(normalLog);
+            String childKey = woodType.getChildKey(normalLog.getBlock());
             if ("log".equals(childKey) || "wood".equals(childKey)) {
                 log = true;
             }
