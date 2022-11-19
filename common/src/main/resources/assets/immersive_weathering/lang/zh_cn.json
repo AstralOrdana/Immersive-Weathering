@@ -482,7 +482,7 @@
   "block.immersive_weathering.waxed_iron_bars": "涂蜡铁栏杆",
   "block.immersive_weathering.waxed_exposed_iron_bars": "斑驳的涂蜡铁栏杆",
   "block.immersive_weathering.waxed_weathered_iron_bars": "锈蚀的涂蜡铁栏杆",
-  "block.immersive_weathering.waxed_rusted_iron_bars": "氧化的涂蜡铁栏杆"
+  "block.immersive_weathering.waxed_rusted_iron_bars": "氧化的涂蜡铁栏杆",
 
   "item.immersive_weathering.bark": "%s树皮",
   "particle.immersive_weathering.leaf_pile": "%s树叶堆",
