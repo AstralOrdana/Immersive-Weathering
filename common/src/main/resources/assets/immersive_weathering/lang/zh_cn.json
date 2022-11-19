@@ -8,9 +8,9 @@
   "advancements.immersive_weathering.ice_sickle.title": "冷静一下",
   "advancements.immersive_weathering.ice_sickle.description": "用烈焰人最害怕的东西——冰镰来杀死它",
   "advancements.immersive_weathering.weeds.title": "斩草除根",
-  "advancements.immersive_weathering.weeds.description": "清理一些野草。要阻止野草生长，你可以在你的耕地上建造温室，或者把农作物种在护根上。",
+  "advancements.immersive_weathering.weeds.description": "清理一些野草。野草只会生长在高草丛附近的耕地上。",
   "advancements.immersive_weathering.mulch.title": "化作春泥更护根",
-  "advancements.immersive_weathering.mulch.description": "合成一些护根——敬业农民最亲密的朋友",
+  "advancements.immersive_weathering.mulch.description": "合成一些护根。护根可以保持湿润，还能防止野草生长并提升农作物的生长速度！"
   "advancements.immersive_weathering.pond_water.title": "你为什么要这么做？？？",
   "advancements.immersive_weathering.pond_water.description": "二氧化硅。",
   "advancements.immersive_weathering.flower_crown.title": "花之力",
@@ -45,11 +45,11 @@
   "advancements.immersive_weathering.sand_off.title": "除沙",
   "advancements.immersive_weathering.sand_off.description": "铲掉积沙方块上的沙子",
   "advancements.immersive_weathering.sand_on.title": "积沙",
-  "advancements.immersive_weathering.sand_on.description": "给石头方块附加沙子",
+  "advancements.immersive_weathering.sand_on.description": "把沙子附加到石头方块上",
   "advancements.immersive_weathering.snow_off.title": "除雪",
   "advancements.immersive_weathering.snow_off.description": "铲掉积雪方块上的雪",
   "advancements.immersive_weathering.snow_on.title": "积雪",
-  "advancements.immersive_weathering.snow_on.description": "给石头方块附加雪球（试着把它扔出去！）",
+  "advancements.immersive_weathering.snow_on.description": "对石头方块使用雪球（试着将其扔出！）",
 
   "config.immersive_weathering.general.leaves_decay_particles": "树叶枯萎粒子",
   "config.immersive_weathering.general.falling_leaf_particles": "落叶粒子",
@@ -58,7 +58,7 @@
   "config.immersive_weathering.general.block_growths": "方块生长",
   "config.immersive_weathering.item_interaction.block_growths.descriptionKey": "是否启用方块生长机制？",
   "config.immersive_weathering.item_interaction.drop_in_creative": "交互物品在创造模式中掉落",
-  "config.immersive_weathering.general.creative_tab": "沉浸式风化的创造模式选项卡",
+  "config.immersive_weathering.general.creative_tab": "沉浸式风化的创造模式标签页",
 
   "config.immersive_weathering.mossy_blocks.interest_for_face": "相邻传播",
   "config.immersive_weathering.mossy_blocks.interest_for_face.descriptionKey": "相邻的覆苔方块对苔藓蔓延的影响应该是多大？",
@@ -190,6 +190,8 @@
   "tag.immersive_weathering.bricks": "砖",
   "tag.immersive_weathering.scales": "菌皮",
   "tag.immersive_weathering.wax": "蜡",
+  "tag.curios.head": "Curios头部饰品",
+  "tag.trinkets.head.hat": "Trinkets帽子饰品",
 
   "block.immersive_weathering.icicle": "冰凌",
   "item.immersive_weathering.ice_sickle": "冰镰",
@@ -273,6 +275,7 @@
   "block.immersive_weathering.mossy_brick_slab": "覆苔红砖台阶",
   "block.immersive_weathering.mossy_brick_vertical_slab": "覆苔红砖竖直台阶",
   "block.immersive_weathering.mossy_brick_wall": "覆苔红砖墙",
+  "block.immersive_weathering.mossy_chiseled_stone_bricks": "覆苔錾制石砖",
 
   "block.immersive_weathering.mossy_stone": "覆苔石头",
   "block.immersive_weathering.mossy_stone_stairs": "覆苔石头楼梯",
