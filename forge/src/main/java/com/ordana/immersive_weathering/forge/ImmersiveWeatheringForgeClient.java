@@ -28,7 +28,7 @@ public class ImmersiveWeatheringForgeClient {
 
     @SubscribeEvent
     public static void init(final FMLClientSetupEvent event) {
-        ImmersiveWeatheringClient.setup();
+      event.enqeueWork(  ImmersiveWeatheringClient::setup());
 
     }
 
