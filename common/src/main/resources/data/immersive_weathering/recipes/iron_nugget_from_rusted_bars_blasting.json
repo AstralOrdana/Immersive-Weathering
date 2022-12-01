@@ -1,7 +1,7 @@
 {
   "type": "minecraft:blasting",
   "ingredient": {
-    "item": "immersive_weathering:exposed_iron_bars"
+    "item": "immersive_weathering:rusted_iron_bars"
   },
   "result": "minecraft:iron_nugget",
   "experience": 0.15,
