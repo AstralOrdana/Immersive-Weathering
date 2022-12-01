@@ -2,8 +2,12 @@ package com.ordana.immersive_weathering.data.block_growths.growths.builtin;
 
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.reg.ModBlocks;
-import net.minecraft.core.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CampfireBlock;
@@ -14,16 +18,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
-import net.minecraft.util.RandomSource;
-
 public class CampfireSootGrowth extends BuiltinBlockGrowth {
 
-    public CampfireSootGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
-        super(name, owners, sources);
+    public CampfireSootGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources, float chance) {
+        super(name, owners, sources, chance);
     }
 
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Supplier<Holder<Biome>> biome) {
+        if (!(growthChance == 1 || level.random.nextFloat() < growthChance)) return;
         //we are accessing with tag so always check if this is campfire
         if (state.getBlock() instanceof CampfireBlock && state.getValue(CampfireBlock.LIT)) {
             RandomSource random = level.random;

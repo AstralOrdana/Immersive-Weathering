@@ -16,12 +16,14 @@ import java.util.function.Supplier;
 
 public class FireSootGrowth extends BuiltinBlockGrowth {
 
-    public FireSootGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
-        super(name, owners, sources);
+    public FireSootGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources, float chance) {
+        super(name, owners, sources, chance);
     }
 
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Supplier<Holder<Biome>> biome) {
+        if (!(growthChance == 1 || level.random.nextFloat() < growthChance)) return;
+
         if (level.getGameRules().getBoolean(GameRules.RULE_DOFIRETICK)) {
             spawnSootAboveFire(level, pos, 6);
         }

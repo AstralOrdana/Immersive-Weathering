@@ -32,12 +32,14 @@ import net.minecraft.util.RandomSource;
 public class IceGrowth extends BuiltinBlockGrowth {
 
 
-    public IceGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
-        super(name, owners, sources);
+    public IceGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources, float chance) {
+        super(name, owners, sources, chance);
     }
 
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level,  Supplier<Holder<Biome>> b) {
+        if (!(growthChance == 1 || level.random.nextFloat() < growthChance)) return;
+
         RandomSource random = level.random;
 
         //move to json??

@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class SandLayerGrowth extends BuiltinBlockGrowth {
-    protected SandLayerGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
-        super(name, owners, sources);
+    protected SandLayerGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources, float chance) {
+        super(name, owners, sources, chance);
     }
 
     int getAge(BlockState state) {
@@ -32,6 +32,8 @@ public class SandLayerGrowth extends BuiltinBlockGrowth {
 
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Supplier<Holder<Biome>> biome) {
+        if (!(growthChance == 1 || level.random.nextFloat() < growthChance)) return;
+
         BlockPos belowPos = pos.below();
         BlockState belowState = level.getBlockState(belowPos);
         var sandyBlock = Sandy.getSandy(belowState);

@@ -35,13 +35,15 @@ import java.util.function.Supplier;
 
 public class LeavesGrowth extends BuiltinBlockGrowth {
 
-    public LeavesGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
-        super(name, owners, sources);
+    public LeavesGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources, float chance) {
+        super(name, owners, sources, chance);
     }
 
     //TODO: add particles here too
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Supplier<Holder<Biome>> biome) {
+        if (!(growthChance == 1 || level.random.nextFloat() < growthChance)) return;
+
         RandomSource random = level.random;
 
         //Drastically reduced this chance to help lag
@@ -158,9 +160,9 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
                         rate = 0.4f;
                     }
                     if (random.nextFloat() < rate) {
-                        double d = (double) pos.getX() + random.nextDouble();
-                        double e = (double) pos.getY() - 0.05;
-                        double f = (double) pos.getZ() + random.nextDouble();
+                        double d =  pos.getX() + random.nextDouble();
+                        double e =  pos.getY() - 0.05;
+                        double f =  pos.getZ() + random.nextDouble();
                         level.addParticle(leafParticle, d, e, f, 0.0, color, 0.0);
                     }
                 }

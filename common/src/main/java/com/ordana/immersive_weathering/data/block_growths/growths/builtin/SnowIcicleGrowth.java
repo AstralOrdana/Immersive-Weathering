@@ -20,12 +20,14 @@ import java.util.function.Supplier;
 
 public class SnowIcicleGrowth extends BuiltinBlockGrowth {
 
-    public SnowIcicleGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
-        super(name, owners, sources);
+    public SnowIcicleGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources, float chance) {
+        super(name, owners, sources, chance);
     }
 
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level,  Supplier<Holder<Biome>> biome) {
+        if (!(growthChance == 1 || level.random.nextFloat() < growthChance)) return;
+
         if (WeatheringHelper.isIciclePos(pos)) {
             BlockPos p = pos.below(state.is(BlockTags.SNOW) ? 2 : 1);
             BlockState placement = ModBlocks.ICICLE.get().defaultBlockState().setValue(IcicleBlock.TIP_DIRECTION, Direction.DOWN);

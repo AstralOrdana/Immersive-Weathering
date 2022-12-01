@@ -15,10 +15,9 @@ import java.util.function.Supplier;
 
 public class NoOpBlockGrowth extends BuiltinBlockGrowth{
 
-    public NoOpBlockGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
-        super(name, owners, sources);
+    public NoOpBlockGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources, float chance) {
+        super(name, owners, sources, chance);
     }
-
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Supplier<Holder<Biome>> biome) {
     }

@@ -33,7 +33,7 @@ public class BuiltinGrowthsRegistry {
 
     @FunctionalInterface
     public interface BuiltinGrowthFactory{
-        BuiltinBlockGrowth create(String name, HolderSet<Block> owners, List<TickSource> source);
+        BuiltinBlockGrowth create(String name, HolderSet<Block> owners, List<TickSource> source, float chance);
     }
 
 }

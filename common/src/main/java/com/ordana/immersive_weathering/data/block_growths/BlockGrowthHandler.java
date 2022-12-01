@@ -58,6 +58,7 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
         return Optional.ofNullable(GROWTH_FOR_BLOCK.get(source)).map(m -> m.get(block));
     }
 
+    //TODO: change event for lighting
     public static void tickBlock(TickSource source, BlockState state, ServerLevel level, BlockPos pos) {
         if (!CommonConfigs.BLOCK_GROWTHS.get()) return;
 
@@ -90,7 +91,7 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
         int minZ = chunkpos.getMinBlockZ();
         boolean isRaining = level.isRaining();
         do {
-            if (chance > level.random.nextFloat()) {
+            if (chance > level.getRandom().nextFloat()) {
 
                 BlockPos firstAirPos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, level.getBlockRandomPos(minX, 0, minZ, 15));
                 BlockPos targetPos = firstAirPos.below();

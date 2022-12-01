@@ -25,8 +25,8 @@ import java.util.function.Supplier;
 public class LightningGrowth extends BuiltinBlockGrowth {
 
 
-    public LightningGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
-        super(name, owners, sources);
+    public LightningGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources, float chance) {
+        super(name, owners, sources, chance);
     }
 
     //TODO: move to data
@@ -44,7 +44,9 @@ public class LightningGrowth extends BuiltinBlockGrowth {
     }
 
     public void onLightningHit(BlockPos centerPos, Level level, int rec) {
-        if (rec == 0 && !CommonConfigs.VITRIFIED_LIGHTNING.get()) return;
+        if (!(growthChance == 1 || level.random.nextFloat() < growthChance)) return;
+
+        if (rec == 0 && !CommonConfigs.VITRIFIED_LIGHTNING.get()) return; //TODO: remove config
 
 
         this.convert(level, centerPos);

@@ -20,8 +20,8 @@ import java.util.function.Supplier;
 public class GrassGrowth extends BuiltinBlockGrowth {
 
 
-    public GrassGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
-        super(name, owners, sources);
+    public GrassGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources, float chance) {
+        super(name, owners, sources, chance);
     }
 
     @Override

@@ -23,8 +23,8 @@ import java.util.function.Supplier;
 
 public class SnowGrowth extends BuiltinBlockGrowth {
 
-    protected SnowGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources) {
-        super(name, owners, sources);
+    protected SnowGrowth(String name, @Nullable HolderSet<Block> owners, List<TickSource> sources, float chance) {
+        super(name, owners, sources, chance);
     }
 
     @Override
@@ -34,6 +34,7 @@ public class SnowGrowth extends BuiltinBlockGrowth {
 
     @Override
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level,  Supplier<Holder<Biome>> biome) {
+        if (!(growthChance == 1 || level.random.nextFloat() < growthChance)) return;
 
         if (TemperatureManager.snowGrowthCanGrowSnowyBlock(pos, biome)) {
             var snowyBlock = Snowy.getSnowy(state);

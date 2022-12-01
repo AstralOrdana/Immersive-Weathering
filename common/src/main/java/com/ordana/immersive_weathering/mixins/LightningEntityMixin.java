@@ -15,13 +15,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Deprecated(forRemoval = true)
 @Mixin(LightningBolt.class)
 public abstract class LightningEntityMixin extends Entity {
 
     @Shadow
     protected abstract BlockPos getStrikePosition();
 
-    public LightningEntityMixin(EntityType<?> type, Level world) {
+    protected LightningEntityMixin(EntityType<?> type, Level world) {
         super(type, world);
     }
 
