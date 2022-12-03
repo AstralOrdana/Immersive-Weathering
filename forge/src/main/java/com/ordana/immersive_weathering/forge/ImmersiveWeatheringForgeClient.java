@@ -28,8 +28,7 @@ public class ImmersiveWeatheringForgeClient {
 
     @SubscribeEvent
     public static void init(final FMLClientSetupEvent event) {
-      event.enqeueWork(  ImmersiveWeatheringClient::setup());
-
+        event.enqueueWork(ImmersiveWeatheringClient::setup);
     }
 
     @Mod.EventBusSubscriber(modid = ImmersiveWeathering.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
