@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.blocks.PatchSpreader;
 import com.ordana.immersive_weathering.blocks.Weatherable;
 import com.ordana.immersive_weathering.IWPlatformStuff;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
@@ -133,6 +134,7 @@ public interface Crackable extends Weatherable {
     CrackLevel getCrackLevel();
 
     default boolean shouldWeather(BlockState state, BlockPos pos, Level level) {
+        if(!CommonConfigs.CRACK_SPREADING_ENABLED.get())return false;
         return this.getCrackSpreader().getWantedWeatheringState(false, pos, level);
     }
 
@@ -160,4 +162,6 @@ public interface Crackable extends Weatherable {
             }
         }
     }
+
+
 }

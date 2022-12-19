@@ -3,20 +3,21 @@ package com.ordana.immersive_weathering.blocks.mossable;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.ordana.immersive_weathering.IWPlatformStuff;
 import com.ordana.immersive_weathering.blocks.PatchSpreader;
 import com.ordana.immersive_weathering.blocks.Weatherable;
-import com.ordana.immersive_weathering.IWPlatformStuff;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Optional;
-import net.minecraft.util.RandomSource;
 import java.util.function.Supplier;
 
 public interface Mossable extends Weatherable {
@@ -40,10 +41,10 @@ public interface Mossable extends Weatherable {
                 .put(Blocks.BRICK_STAIRS, ModBlocks.MOSSY_BRICK_STAIRS.get())
                 .put(Blocks.BRICK_SLAB, ModBlocks.MOSSY_BRICK_SLAB.get())
                 .put(Blocks.BRICK_WALL, ModBlocks.MOSSY_BRICK_WALL.get());
-        WeatheringHelper.addOptional(builder,"quark:vertical_brick_slab", "immersive_weathering:vertical_mossy_brick_slab");
-        WeatheringHelper.addOptional(builder,"quark:vertical_cobblestone_slab", "quark:vertical_mossy_cobblestone_slab");
-        WeatheringHelper.addOptional(builder,"quark:vertical_stone_brick_slab", "quark:vertical_mossy_stone_brick_slab");
-        WeatheringHelper.addOptional(builder,"immersive_weathering:vertical_stone_slab", "immersive_weathering:vertical_mossy_stone_slab");
+        WeatheringHelper.addOptional(builder, "quark:vertical_brick_slab", "immersive_weathering:vertical_mossy_brick_slab");
+        WeatheringHelper.addOptional(builder, "quark:vertical_cobblestone_slab", "quark:vertical_mossy_cobblestone_slab");
+        WeatheringHelper.addOptional(builder, "quark:vertical_stone_brick_slab", "quark:vertical_mossy_stone_brick_slab");
+        WeatheringHelper.addOptional(builder, "immersive_weathering:vertical_stone_slab", "immersive_weathering:vertical_mossy_stone_slab");
 
         IWPlatformStuff.addExtraMossyBlocks(builder);
         return builder.build();
@@ -101,6 +102,7 @@ public interface Mossable extends Weatherable {
     }
 
     default boolean shouldWeather(BlockState state, BlockPos pos, Level level) {
+        if (!CommonConfigs.MOSS_SPREADING_ENABLED.get()) return false;
         return this.getMossSpreader().getWantedWeatheringState(false, pos, level);
     }
 
@@ -130,4 +132,6 @@ public interface Mossable extends Weatherable {
             }
         }
     }
+
+
 }

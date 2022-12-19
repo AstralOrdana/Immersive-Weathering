@@ -25,11 +25,14 @@ public class CommonConfigs {
     public static Supplier<Double> MOSS_PATCHINESS;
     public static Supplier<Double> MOSS_IMMUNE_CHANCE;
     public static Supplier<Boolean> MOSS_NEEDS_AIR;
+    public static Supplier<Boolean> MOSS_SPREADING_ENABLED;
 
     public static Supplier<Double> CRACK_INTERESTS_FOR_FACE;
     public static Supplier<Double> CRACK_PATCHINESS;
     public static Supplier<Double> CRACK_IMMUNE_CHANCE;
     public static Supplier<Boolean> CRACK_NEEDS_AIR;
+    public static Supplier<Boolean> CRACK_SPREADING_ENABLED;
+
 
     public static Supplier<Boolean> FALLING_ICICLES;
     public static Supplier<Integer> ICICLE_RARITY;
@@ -119,6 +122,7 @@ public class CommonConfigs {
         MOSS_PATCHINESS = builder.define("patchiness", 0.5, 0, 1);
         MOSS_IMMUNE_CHANCE = builder.define("immune_chance", 0.4, 0, 1);
         MOSS_NEEDS_AIR = builder.define("needs_air", true);
+        MOSS_SPREADING_ENABLED = builder.define("enabled", true);
         builder.pop();
 
         builder.push("cracked_blocks");
@@ -126,6 +130,8 @@ public class CommonConfigs {
         CRACK_PATCHINESS = builder.define("patchiness", 0.4, 0, 1);
         CRACK_IMMUNE_CHANCE = builder.define("immune_chance", 0.4, 0, 1);
         CRACK_NEEDS_AIR = builder.define("needs_air", false);
+        CRACK_SPREADING_ENABLED = builder.define("enabled", true);
+
         builder.pop();
 
         builder.push("icicle");

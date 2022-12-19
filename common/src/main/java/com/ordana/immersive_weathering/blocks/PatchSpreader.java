@@ -39,6 +39,7 @@ public interface PatchSpreader<T extends Enum<?>> {
      */
     default boolean getWantedWeatheringState(boolean hasTicked, BlockPos pos, Level level, int maxRecursion) {
         Random posRandom = new Random(Mth.getSeed(pos));
+        var v = this.getUnWeatherableChance(level, pos);
         var directions = getInfluenceForDirections(posRandom, pos, level);
 
         //randomList of weathering effects of surrounding blocks
@@ -84,10 +85,10 @@ public interface PatchSpreader<T extends Enum<?>> {
     default Map<Direction, Susceptibility> getInfluenceForDirectionsOld(BlockPos pos, Level level) {
         Random posRandom = new Random(Mth.getSeed(pos));
         Map<Direction, Susceptibility> directions = new HashMap<>();
-        double directionChange = this.getInterestForDirection(level, pos);
+        double directionChance = this.getInterestForDirection(level, pos);
         double highInterestChange = this.getDisjointGrowthChance(level, pos);
         for (Direction d : Direction.values()) {
-            if (posRandom.nextFloat() < directionChange) {
+            if (posRandom.nextFloat() < directionChance) {
                 Susceptibility in = posRandom.nextFloat() < highInterestChange ? Susceptibility.HIGH : Susceptibility.MEDIUM;
                 directions.put(d, in);
             }
