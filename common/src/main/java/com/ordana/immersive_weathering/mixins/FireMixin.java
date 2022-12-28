@@ -24,7 +24,7 @@ public abstract class FireMixin extends BaseFireBlock{
     @Unique
     private BlockState bs;
 
-    public FireMixin(Properties settings, float damage) {
+    protected FireMixin(Properties settings, float damage) {
         super(settings, damage);
     }
 

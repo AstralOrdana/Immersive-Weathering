@@ -14,6 +14,7 @@ import com.ordana.immersive_weathering.network.NetworkHandler;
 import com.ordana.immersive_weathering.reg.ModSoundEvents;
 import com.ordana.immersive_weathering.reg.*;
 import net.mehvahdjukaar.moonlight.api.events.IFireConsumeBlockEvent;
+import net.mehvahdjukaar.moonlight.api.events.ILightningStruckBlockEvent;
 import net.mehvahdjukaar.moonlight.api.events.MoonlightEventsHelper;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
@@ -25,7 +26,6 @@ import org.apache.logging.log4j.Logger;
 public class ImmersiveWeathering {
 
     public static final String MOD_ID = "immersive_weathering";
-    public static boolean hasDynamic = PlatformHelper.isModLoaded("selene");
 
     public static final Logger LOGGER = LogManager.getLogger();
 
@@ -43,6 +43,7 @@ public class ImmersiveWeathering {
             ClientConfigs.init();
         }
         MoonlightEventsHelper.addListener(ModEvents::onFireConsume, IFireConsumeBlockEvent.class);
+        MoonlightEventsHelper.addListener(ModEvents::onLightningHit, ILightningStruckBlockEvent.class);
         ModBlocks.init();
         ModItems.init();
         ModEntities.init();

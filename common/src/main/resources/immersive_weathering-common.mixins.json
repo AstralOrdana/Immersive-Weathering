@@ -12,6 +12,7 @@
     "BushBlockBlockMixin",
     "CampfireMixin",
     "EatBlockGoalMixin",
+    "FireMixin",
     "IceMixin",
     "LeavesMixin",
     "LightningEntityMixin",

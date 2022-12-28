@@ -11,11 +11,14 @@ import com.ordana.immersive_weathering.blocks.sandy.Sandy;
 import com.ordana.immersive_weathering.blocks.snowy.Snowy;
 import com.ordana.immersive_weathering.blocks.soil.MulchBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
+import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
+import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import com.ordana.immersive_weathering.reg.*;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.mehvahdjukaar.moonlight.api.events.IFireConsumeBlockEvent;
+import net.mehvahdjukaar.moonlight.api.events.ILightningStruckBlockEvent;
 import net.mehvahdjukaar.moonlight.api.misc.EventCalled;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -34,6 +37,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
@@ -510,6 +514,13 @@ public class ModEvents {
         return InteractionResult.PASS;
     }
 
+    @EventCalled
+    public static void onLightningHit(ILightningStruckBlockEvent event) {
+        BlockPos blockPos = event.getPos();
+        LevelAccessor level = event.getLevel();
+        BlockState blockState = level.getBlockState(blockPos);
+        BlockGrowthHandler.tickBlock(TickSource.LIGHTNING, blockState, (ServerLevel) level, blockPos);
+    }
 
     @EventCalled
     public static boolean onFireConsume(IFireConsumeBlockEvent event) {

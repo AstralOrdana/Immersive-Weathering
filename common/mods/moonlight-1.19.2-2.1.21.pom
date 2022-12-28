@@ -8,19 +8,13 @@
   <!-- do_not_remove: published-with-gradle-metadata -->
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.mehvahdjukaar</groupId>
-  <artifactId>moonlight-forge</artifactId>
-  <version>1.19.2-2.0.39</version>
+  <artifactId>moonlight</artifactId>
+  <version>1.19.2-2.1.21</version>
   <dependencies>
     <dependency>
-      <groupId>curse.maven</groupId>
-      <artifactId>configured-457570</artifactId>
-      <version>4011355</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>curse.maven</groupId>
-      <artifactId>map-atlases-forge-519759</artifactId>
-      <version>3949437</version>
+      <groupId>net.fabricmc</groupId>
+      <artifactId>fabric-loader</artifactId>
+      <version>0.14.9</version>
       <scope>runtime</scope>
     </dependency>
   </dependencies>
