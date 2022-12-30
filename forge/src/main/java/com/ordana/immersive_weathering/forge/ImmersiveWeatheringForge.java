@@ -43,7 +43,7 @@ import net.minecraftforge.resource.PathPackResources;
 import java.io.IOException;
 
 /**
- * Author: MehVahdJukaar, Ordana, Keybounce,
+ * Authors: MehVahdJukaar, Ordana, Keybounce,
  */
 @Mod(ImmersiveWeathering.MOD_ID)
 public class ImmersiveWeatheringForge {

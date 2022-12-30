@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class SnowyWallBlock extends WallBlock implements Snowy{
+public class SnowyWallBlock extends WallBlock implements Snowy {
 
     public SnowyWallBlock(Properties properties) {
         super(properties);

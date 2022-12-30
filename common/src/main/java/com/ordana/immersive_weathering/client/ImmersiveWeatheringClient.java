@@ -25,7 +25,7 @@ import net.minecraft.world.level.block.Blocks;
 public class ImmersiveWeatheringClient {
 
     public static void init() {
-        ClientPlatformHelper.addEntityRenderersRegistration(ImmersiveWeatheringClient::registerEntityRenderers);
+            ClientPlatformHelper.addEntityRenderersRegistration(ImmersiveWeatheringClient::registerEntityRenderers);
         ClientPlatformHelper.addBlockColorsRegistration(ImmersiveWeatheringClient::registerBlockColors);
         ClientPlatformHelper.addItemColorsRegistration(ImmersiveWeatheringClient::registerItemColors);
         ClientPlatformHelper.addParticleRegistration(ImmersiveWeatheringClient::registerParticles);
