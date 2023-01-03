@@ -93,12 +93,12 @@ public class MulchBlock extends FarmBlock {
         if (CommonConfigs.MULCH_GROWS_CROPS.get()) {
             if (state.getValue(MulchBlock.MOISTURE) == 7) {
                 if (world.getRawBrightness(pos.above(), 0) >= 9) {
-                    if (cropState.getBlock() instanceof BeetrootBlock) {
+                    if (cropState.getBlock() instanceof BeetrootBlock) { //not sure if this needs to be here after this PR, but I won't touch it.
                         return;
-                    } else if (cropState.getBlock() instanceof CropBlock) {
-                        int j = cropState.getValue(CropBlock.AGE);
-                        if (j < CropBlock.MAX_AGE) {
-                            world.setBlock(pos.above(), cropState.getBlock().withPropertiesOf(cropState).setValue(CropBlock.AGE, j + 1), 3);
+                    } else if (cropState.getBlock() instanceof CropBlock cropBlock) {
+                        int j = cropState.getValue(cropBlock.getAgeProperty());
+                        if (j < cropBlock.getMaxAge()) {
+                            world.setBlock(pos.above(), cropBlock.getStateForAge(j + 1), 3);
                         }
                     }
                 }
