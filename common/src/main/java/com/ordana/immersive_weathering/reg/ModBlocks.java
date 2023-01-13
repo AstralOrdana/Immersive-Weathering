@@ -155,7 +155,6 @@ public class ModBlocks {
                     .sound(SoundType.AZALEA_LEAVES)));
 
     //mossy bricks stuff
-
     public static final Supplier<Block> MOSSY_BRICKS = regWithItem("mossy_bricks", () ->
             new MossyBlock(Mossable.MossLevel.MOSSY, Properties.of(Material.STONE, MaterialColor.COLOR_RED)
                     .requiresCorrectToolForDrops().strength(2f, 6f)));

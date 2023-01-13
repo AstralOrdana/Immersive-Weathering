@@ -16,7 +16,7 @@ import net.minecraft.world.inventory.InventoryMenu;
 
 import java.util.function.Function;
 
-public class ImmersiveWeatheringClientFabric implements ClientModInitializer{
+public class ImmersiveWeatheringClientFabric implements ClientModInitializer {
 
     public static void initClient() {
         ImmersiveWeatheringClient.init();
