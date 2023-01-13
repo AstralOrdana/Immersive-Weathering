@@ -56,11 +56,6 @@ public class MulchBlock extends FarmBlock {
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-        return super.getStateForPlacement(ctx);
-    }
-
-    @Override
     public boolean useShapeForLightOcclusion(BlockState state) {
         return false;
     }
@@ -77,9 +72,9 @@ public class MulchBlock extends FarmBlock {
                 BlockPos blockpos = pos.below();
                 BlockState blockstate = level.getBlockState(blockpos);
                 if (!blockstate.canOcclude() || !blockstate.isFaceSturdy(level, blockpos, Direction.UP)) {
-                    double d0 = (double) pos.getX() + random.nextDouble();
-                    double d1 = (double) pos.getY() - 0.05D;
-                    double d2 = (double) pos.getZ() + random.nextDouble();
+                    double d0 = pos.getX() + random.nextDouble();
+                    double d1 = pos.getY() - 0.05D;
+                    double d2 = pos.getZ() + random.nextDouble();
                     level.addParticle(ParticleTypes.DRIPPING_WATER, d0, d1, d2, 0.0D, 0.0D, 0.0D);
                 }
             }
@@ -132,6 +127,7 @@ public class MulchBlock extends FarmBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
+        super.createBlockStateDefinition(stateManager);
         stateManager.add(MOISTURE);
     }
 
