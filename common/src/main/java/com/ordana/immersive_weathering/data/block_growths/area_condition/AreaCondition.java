@@ -31,13 +31,13 @@ public interface AreaCondition {
             .dispatch("type", AreaCondition::getType, AreaConditionType::codec);
 
 
-    Map<String, ? extends AreaConditionType<? extends AreaCondition>> TYPES = new HashMap<>() {{
+    Map<String, AreaConditionType<? extends AreaCondition>> TYPES = new HashMap<>() {{
         put(AreaCheck.TYPE.name, AreaCheck.TYPE);
         put(NeighborCheck.TYPE.name, NeighborCheck.TYPE);
     }};
 
 
-    static Optional<? extends AreaConditionType<? extends AreaCondition>> get(String name) {
+    static Optional<AreaConditionType<? extends AreaCondition>> get(String name) {
         var r = TYPES.get(name);
         return r == null ? Optional.empty() : Optional.of(r);
     }

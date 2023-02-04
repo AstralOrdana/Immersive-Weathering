@@ -4,3 +4,5 @@ accessible field net/minecraft/world/item/HoneycombItem WAXABLES Ljava/util/func
 accessible field net/minecraft/world/item/HoneycombItem WAX_OFF_BY_BLOCK Ljava/util/function/Supplier;
 mutable field net/minecraft/world/item/HoneycombItem WAXABLES Ljava/util/function/Supplier;
 mutable field net/minecraft/world/item/HoneycombItem WAX_OFF_BY_BLOCK Ljava/util/function/Supplier;
+
+accessible method net/minecraft/world/level/block/SpreadingSnowyDirtBlock canPropagate (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;)Z

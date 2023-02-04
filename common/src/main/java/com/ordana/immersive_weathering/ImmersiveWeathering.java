@@ -68,8 +68,6 @@ public class ImmersiveWeathering {
         ModFluidGenerators.register();
 
         ModCompostable.register();
-        //TODO: remove
-        BlockSetAPI.getRegistries().forEach(r->r.getValues().forEach(BlockType::getChildren));
     }
 
     // dispenser interactions like de rusting
