@@ -74,10 +74,12 @@ public class RootedGrassBlock extends ModGrassBlock implements BonemealableBlock
         return super.use(state, level, pos, player, hand, hitResult);
     }
 
+    @Override
     public boolean isValidBonemealTarget(BlockGetter world, BlockPos pos, BlockState state, boolean isClient) {
         return true;
     }
 
+    @Override
     public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
         return true;
     }
@@ -125,52 +127,17 @@ public class RootedGrassBlock extends ModGrassBlock implements BonemealableBlock
         }
     }
 
-    private static boolean canPropagate(BlockState state, LevelReader world, BlockPos pos) {
-        BlockPos blockPos = pos.above();
-        return canBeGrass(state, world, pos) && !world.getFluidState(blockPos).is(FluidTags.WATER);
-    }
-
-    private static boolean canBeGrass(BlockState state, LevelReader world, BlockPos pos) {
-        BlockPos blockPos = pos.above();
-        BlockState blockState = world.getBlockState(blockPos);
-        if (blockState.is(Blocks.SNOW) && blockState.getValue(SnowLayerBlock.LAYERS) == 1) {
-            return true;
-        } else if (blockState.getFluidState().getAmount() == 8) {
-            return false;
-        } else {
-            int i = LayerLightEngine.getLightBlockInto(world, state, pos, blockState, blockPos, Direction.UP, blockState.getLightBlock(world, blockPos));
-            return i < world.getMaxLightLevel();
-        }
-    }
 
     @Override
     public boolean canGrow(BlockState state) {
         return state.getValue(FERTILE);
     }
 
-    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
-        if (state.getValue(AGE) == 10) {
-            level.setBlockAndUpdate(pos, Blocks.DIRT_PATH.defaultBlockState());
-        }
-        if (state.getValue(AGE) < 10 && state.getValue(AGE) > 1) {
-            int j = state.getValue(AGE);
-            level.setBlock(pos, state.setValue(AGE, j - 1), 3);
-        }
+    @Override
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (!canBeGrass(state, level, pos)) {
             level.setBlockAndUpdate(pos, Blocks.ROOTED_DIRT.defaultBlockState());
-        } else {
-            if (level.getMaxLocalRawBrightness(pos.above()) >= 9) {
-                BlockState blockState = this.defaultBlockState();
-
-                for (int i = 0; i < 4; ++i) {
-                    BlockPos blockPos = pos.offset(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
-                    if ((level.getBlockState(blockPos).is(Blocks.DIRT) || (CommonConfigs.GRASS_OVER_MYCELIUM.get() && (level.getBlockState(blockPos).is(Blocks.MYCELIUM)))) && canPropagate(blockState, level, blockPos)) {
-                        level.setBlockAndUpdate(blockPos, Blocks.GRASS_BLOCK.defaultBlockState().setValue(SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)));
-                    } else if ((level.getBlockState(blockPos).is(Blocks.ROOTED_DIRT)) && canPropagate(blockState, level, blockPos)) {
-                        level.setBlockAndUpdate(blockPos, ModBlocks.ROOTED_GRASS_BLOCK.get().defaultBlockState().setValue(SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)));
-                    }
-                }
-            }
         }
+        else super.randomTick(state, level, pos, random);
     }
 }

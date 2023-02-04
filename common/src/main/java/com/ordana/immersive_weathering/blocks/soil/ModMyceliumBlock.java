@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.blocks.soil;
 
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.data.block_growths.IConditionalGrowingBlock;
+import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -95,39 +96,21 @@ public class ModMyceliumBlock extends MyceliumBlock implements BonemealableBlock
         return super.use(state,level,pos,player,hand,hitResult);
     }
 
-    private static boolean canBeGrass(BlockState state, LevelReader levelReader, BlockPos pos) {
-        BlockPos blockPos = pos.above();
-        BlockState blockState = levelReader.getBlockState(blockPos);
-        if (blockState.is(Blocks.SNOW) && blockState.getValue(SnowLayerBlock.LAYERS) == 1) {
-            return true;
-        } else if (blockState.getFluidState().getAmount() == 8) {
-            return false;
-        } else {
-            int i = LayerLightEngine.getLightBlockInto(levelReader, state, pos, blockState, blockPos, Direction.UP, blockState.getLightBlock(levelReader, blockPos));
-            return i < levelReader.getMaxLightLevel();
-        }
-    }
+    @Override
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        super.randomTick(state, level, pos, random);
+        if (level.getBlockState(pos) != state) return;
 
-    private static boolean canPropagate(BlockState state, LevelReader level, BlockPos pos) {
-        BlockPos blockPos = pos.above();
-        return canBeGrass(state, level, pos) && !level.getFluidState(blockPos).is(FluidTags.WATER);
-    }
+        if (level.getMaxLocalRawBrightness(pos.above()) >= 9) {
+            BlockState blockState = this.defaultBlockState();
 
-    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
-        if (!canBeGrass(state, level, pos)) {
-            level.setBlockAndUpdate(pos, Blocks.DIRT.defaultBlockState());
-        } else {
-            if (level.getMaxLocalRawBrightness(pos.above()) >= 9) {
-                BlockState blockState = this.defaultBlockState();
-
-                for(int i = 0; i < 4; ++i) {
-                    BlockPos blockPos = pos.offset(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
-                    if ((level.getBlockState(blockPos).is(Blocks.DIRT) || (CommonConfigs.MYCELIUM_OVER_GRASS.get() && (level.getBlockState(blockPos).is(Blocks.GRASS_BLOCK)))) && canPropagate(blockState, level, blockPos)) {
-                        level.setBlockAndUpdate(blockPos, this.defaultBlockState().setValue(SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)));
-                    }
-                    else if ((level.getBlockState(blockPos).is(Blocks.ROOTED_DIRT)) && canPropagate(blockState, level, blockPos)) {
-                        level.setBlockAndUpdate(blockPos, Blocks.MYCELIUM.defaultBlockState().setValue(SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)));
-                    }
+            for (int i = 0; i < 4; ++i) {
+                BlockPos blockPos = pos.offset(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
+                BlockState s = level.getBlockState(blockPos);
+                if ((CommonConfigs.MYCELIUM_OVER_GRASS.get() && (s.is(Blocks.GRASS_BLOCK))) && canPropagate(blockState, level, blockPos)) {
+                    level.setBlockAndUpdate(blockPos, this.defaultBlockState().setValue(SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)));
+                } else if (s.is(Blocks.ROOTED_DIRT) && canPropagate(blockState, level, blockPos)) {
+                    level.setBlockAndUpdate(blockPos, Blocks.MYCELIUM.defaultBlockState().setValue(SNOWY, level.getBlockState(blockPos.above()).is(Blocks.SNOW)));
                 }
             }
         }
