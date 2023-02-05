@@ -43,11 +43,8 @@ import net.minecraft.util.RandomSource;
 
 public class MulchBlock extends FarmBlock {
 
-    public static final IntegerProperty MOISTURE = BlockStateProperties.MOISTURE;
-
     public MulchBlock(Properties settings) {
         super(settings);
-        this.registerDefaultState(this.defaultBlockState().setValue(MOISTURE, 0));
     }
 
     @Override
@@ -124,13 +121,6 @@ public class MulchBlock extends FarmBlock {
     public void fallOn(Level world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         entity.causeFallDamage(fallDistance, 0.2F, DamageSource.FALL);
     }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
-        super.createBlockStateDefinition(stateManager);
-        stateManager.add(MOISTURE);
-    }
-
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {

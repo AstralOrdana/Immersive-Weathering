@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.forge;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
+import com.ordana.immersive_weathering.blocks.soil.MulchBlock;
 import com.ordana.immersive_weathering.client.ImmersiveWeatheringClient;
 import com.ordana.immersive_weathering.mixins.forge.AccessorBlockColor;
 import com.ordana.immersive_weathering.mixins.forge.AccessorItemColor;
