@@ -1,0 +1,196 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"1": "immersive_weathering:block/ivy",
+		"particle": "#texture"
+	},
+	"elements": [
+		{
+			"name": "top bar",
+			"from": [7, 12, 0],
+			"to": [9, 15, 9],
+			"faces": {
+				"north": {"uv": [7, 1, 9, 4], "texture": "#texture", "cullface": "north"},
+				"east": {"uv": [0, 1, 9, 4], "texture": "#texture"},
+				"west": {"uv": [0, 1, 9, 4], "texture": "#texture"},
+				"up": {"uv": [7, 0, 9, 9], "texture": "#texture"},
+				"down": {"uv": [7, 0, 9, 9], "texture": "#texture"}
+			}
+		},
+		{
+			"name": "lower bar",
+			"from": [7, 6, 0],
+			"to": [9, 9, 9],
+			"faces": {
+				"north": {"uv": [7, 7, 9, 10], "texture": "#texture", "cullface": "north"},
+				"east": {"uv": [0, 7, 9, 10], "texture": "#texture"},
+				"west": {"uv": [0, 7, 9, 10], "texture": "#texture"},
+				"up": {"uv": [7, 0, 9, 9], "texture": "#texture"},
+				"down": {"uv": [7, 0, 9, 9], "texture": "#texture"}
+			}
+		},
+		{
+			"name": "West Ivy",
+			"from": [5.99, 5, 0],
+			"to": [5.99, 15, 6],
+			"faces": {
+				"north": {"uv": [0, 0, 0, 10], "texture": "#missing"},
+				"east": {"uv": [13, 8.5, 16, 13.5], "texture": "#1"},
+				"south": {"uv": [0, 0, 0, 10], "texture": "#missing"},
+				"west": {"uv": [13, 8.5, 16, 13.5], "texture": "#1"},
+				"up": {"uv": [0, 0, 0, 9], "texture": "#missing"},
+				"down": {"uv": [0, 0, 0, 9], "texture": "#missing"}
+			}
+		},
+		{
+			"name": "East Ivy",
+			"from": [10.01, 5, 0],
+			"to": [10.01, 15, 6],
+			"faces": {
+				"north": {"uv": [0, 0, 0, 10], "texture": "#missing"},
+				"east": {"uv": [13, 8.5, 16, 13.5], "texture": "#1"},
+				"south": {"uv": [0, 0, 0, 10], "texture": "#missing"},
+				"west": {"uv": [13, 8.5, 16, 13.5], "texture": "#1"},
+				"up": {"uv": [0, 0, 0, 9], "texture": "#missing"},
+				"down": {"uv": [0, 0, 0, 9], "texture": "#missing"}
+			}
+		},
+		{
+			"name": "Top Ivy",
+			"from": [6, 15, 0],
+			"to": [10, 16, 6],
+			"faces": {
+				"north": {"uv": [5, 10, 7, 10.5], "texture": "#1"},
+				"east": {"uv": [4.5, 10.5, 5, 15], "rotation": 90, "texture": "#1"},
+				"south": {"uv": [5, 10, 7, 10.5], "texture": "#1"},
+				"west": {"uv": [7, 10.5, 7.5, 15], "rotation": 90, "texture": "#1"},
+				"up": {"uv": [5, 10.5, 7, 15], "texture": "#1"},
+				"down": {"uv": [5, 10.5, 7, 15], "texture": "#1"}
+			}
+		},
+		{
+			"name": "Top Leaf",
+			"from": [6, 16, 1],
+			"to": [10, 16, 5],
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [6, 16, 5]},
+			"faces": {
+				"north": {"uv": [0, 0, 3, 0], "texture": "#missing"},
+				"east": {"uv": [0, 0, 3, 0], "texture": "#missing"},
+				"south": {"uv": [0, 0, 3, 0], "texture": "#missing"},
+				"west": {"uv": [0, 0, 3, 0], "texture": "#1"},
+				"up": {"uv": [11, 3.5, 13, 5.5], "texture": "#1"},
+				"down": {"uv": [8.5, 3.5, 10.5, 5.5], "texture": "#1"}
+			}
+		},
+		{
+			"name": "East Leaf 1",
+			"from": [10, 7, 4],
+			"to": [10, 12, 7],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [10, 12, 4]},
+			"faces": {
+				"north": {"uv": [0, 0, 0, 4], "texture": "#missing"},
+				"east": {"uv": [12.5, 0.5, 14, 3], "texture": "#1"},
+				"south": {"uv": [0, 0, 0, 4], "texture": "#missing"},
+				"west": {"uv": [10.5, 0.5, 12, 3], "texture": "#1"},
+				"up": {"uv": [0, 0, 0, 3], "texture": "#missing"},
+				"down": {"uv": [0, 0, 0, 3], "texture": "#missing"}
+			}
+		},
+		{
+			"name": "East Leaf 2",
+			"from": [10, 4, 1],
+			"to": [10, 9, 4],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [10, 9, 1]},
+			"faces": {
+				"north": {"uv": [0, 0, 0, 4], "texture": "#missing"},
+				"east": {"uv": [8.5, 0.5, 10, 3], "texture": "#1"},
+				"south": {"uv": [0, 0, 0, 4], "texture": "#missing"},
+				"west": {"uv": [8.5, 0.5, 10, 3], "texture": "#1"},
+				"up": {"uv": [0, 0, 0, 3], "texture": "#missing"},
+				"down": {"uv": [0, 0, 0, 3], "texture": "#missing"}
+			}
+		},
+		{
+			"name": "West Leaf 2",
+			"from": [6, 4, 4],
+			"to": [6, 9, 7],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [6, 9, 4]},
+			"faces": {
+				"north": {"uv": [0, 0, 0, 4], "texture": "#missing"},
+				"east": {"uv": [12.5, 0.5, 14, 3], "texture": "#1"},
+				"south": {"uv": [0, 0, 0, 4], "texture": "#missing"},
+				"west": {"uv": [10.5, 0.5, 12, 3], "texture": "#1"},
+				"up": {"uv": [0, 0, 0, 3], "texture": "#missing"},
+				"down": {"uv": [0, 0, 0, 3], "texture": "#missing"}
+			}
+		},
+		{
+			"name": "West Leaf 1",
+			"from": [6, 9, 1],
+			"to": [6, 14, 4],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [6, 14, 1]},
+			"faces": {
+				"north": {"uv": [0, 0, 0, 5], "texture": "#missing"},
+				"east": {"uv": [10.5, 0.5, 12, 3], "texture": "#1"},
+				"south": {"uv": [0, 0, 0, 5], "texture": "#missing"},
+				"west": {"uv": [12.5, 0.5, 14, 3], "texture": "#1"},
+				"up": {"uv": [0, 0, 0, 3], "texture": "#missing"},
+				"down": {"uv": [0, 0, 0, 3], "texture": "#missing"}
+			}
+		},
+		{
+			"name": "East Overhang",
+			"from": [10, 12, 0],
+			"to": [10, 16, 6],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [10, 16, 0]},
+			"faces": {
+				"north": {"uv": [0, 0, 0, 3], "texture": "#missing"},
+				"east": {"uv": [7.5, 5.5, 10.5, 7.5], "texture": "#1"},
+				"south": {"uv": [0, 0, 0, 3], "texture": "#missing"},
+				"west": {"uv": [7.5, 5.5, 10.5, 7.5], "texture": "#1"},
+				"up": {"uv": [0, 0, 0, 9], "texture": "#missing"},
+				"down": {"uv": [0, 0, 0, 9], "texture": "#missing"}
+			}
+		},
+		{
+			"name": "West Overhang",
+			"from": [6, 12, 0],
+			"to": [6, 16, 6],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [6, 16, 0]},
+			"faces": {
+				"north": {"uv": [0, 0, 0, 3], "texture": "#missing"},
+				"east": {"uv": [10.5, 5.5, 13.5, 7.5], "texture": "#1"},
+				"south": {"uv": [0, 0, 0, 3], "texture": "#missing"},
+				"west": {"uv": [10.5, 5.5, 13.5, 7.5], "texture": "#1"},
+				"up": {"uv": [0, 0, 0, 9], "texture": "#missing"},
+				"down": {"uv": [0, 0, 0, 9], "texture": "#missing"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "Fence",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"children": [0, 1]
+		},
+		{
+			"name": "Ivy",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"children": [2, 3, 4]
+		},
+		{
+			"name": "Leaves",
+			"origin": [6, 14, 1],
+			"color": 0,
+			"children": [5, 6, 7, 8, 9]
+		},
+		{
+			"name": "Overhangs",
+			"origin": [6, 16, 0],
+			"color": 0,
+			"children": [10, 11]
+		}
+	]
+}
