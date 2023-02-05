@@ -125,11 +125,15 @@ public class MulchBlock extends FarmBlock {
         entity.causeFallDamage(fallDistance, 0.2F, DamageSource.FALL);
     }
 
+
+    /*
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
         super.createBlockStateDefinition(stateManager);
         stateManager.add(MOISTURE);
     }
+
+     */
 
 
     @Override
