@@ -268,7 +268,7 @@ public class WeatheringHelper {
         return posRandom.nextInt(6) == 0;
     }
 
-    //spawn sooth?
+    //spawn soot?
     public static void onFireExpired(ServerLevel serverLevel, BlockPos pos, BlockState state) {
     }
 

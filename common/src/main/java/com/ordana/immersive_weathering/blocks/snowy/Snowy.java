@@ -17,6 +17,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -114,9 +115,10 @@ public interface Snowy {
     default void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos neighborPos, boolean isMoving) {
         Optional<BlockState> unSnowy = getUnSnowy(state);
         BlockState neighborState = level.getBlockState(neighborPos);
-        if (neighborState.getFluidState().is(Fluids.FLOWING_WATER) && unSnowy.isPresent()) {
+        if (neighborState.getFluidState().is(FluidTags.WATER) || neighborState.getFluidState().is(FluidTags.LAVA) && unSnowy.isPresent()) {
             level.setBlockAndUpdate(pos, unSnowy.get());
             level.playSound(null, pos, SoundEvents.SNOW_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
+            if (neighborState.getFluidState().is(FluidTags.LAVA)) level.playSound(null, pos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1f, 1f);
 
             //TODO make falling snow particles spawn on block faces
             if (level instanceof ServerLevel serverLevel) serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SNOW.defaultBlockState()),

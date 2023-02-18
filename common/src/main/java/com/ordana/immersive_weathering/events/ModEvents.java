@@ -20,6 +20,7 @@ import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.mehvahdjukaar.moonlight.api.events.IFireConsumeBlockEvent;
 import net.mehvahdjukaar.moonlight.api.events.ILightningStruckBlockEvent;
 import net.mehvahdjukaar.moonlight.api.misc.EventCalled;
+import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -541,6 +542,7 @@ public class ModEvents {
                 if (charred == null) {
                     if (serverLevel.random.nextFloat() < ashChance) {
                         //TODO: set random layer height and do similar to supp??
+                        if (PlatformHelper.isModLoaded("supplementaries")) return false;
                         newState = ModBlocks.ASH_LAYER_BLOCK.get().defaultBlockState();
                     }
                 }

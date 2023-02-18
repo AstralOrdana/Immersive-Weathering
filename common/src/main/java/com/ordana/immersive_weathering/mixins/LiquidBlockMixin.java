@@ -66,7 +66,7 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
 
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        if (!world.isClientSide && world.getBiome(pos).is(ModTags.ICY) && this.getOwnFluid().is(FluidTags.WATER)) {
+        if (CommonConfigs.ENABLE_FREEZING_WATER.get() && !world.isClientSide && world.getBiome(pos).is(ModTags.ICY) && this.getOwnFluid().is(FluidTags.WATER)) {
             var freezing = CommonConfigs.FREEZING_WATER_SEVERITY.get();
             if (!(entity instanceof LivingEntity livingEntity) ||
                     EnchantmentHelper.getEnchantmentLevel(Enchantments.FROST_WALKER, livingEntity) > 0 || (livingEntity).hasEffect(MobEffects.CONDUIT_POWER) || entity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {

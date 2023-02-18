@@ -37,8 +37,10 @@ public class CommonConfigs {
     public static Supplier<Boolean> FALLING_ICICLES;
     public static Supplier<Integer> ICICLE_RARITY;
 
+    public static Supplier<Boolean> ENABLE_FREEZING_WATER;
     public static Supplier<Integer> FREEZING_WATER_SEVERITY;
     public static Supplier<Integer> FREEZING_ICICLE_SEVERITY;
+    public static Supplier<Boolean> ENABLE_FREEZING_PERMAFROST;
     public static Supplier<Integer> FREEZING_PERMAFROST_SEVERITY;
 
     public static Supplier<Double> FIRE_CHARS_WOOD_CHANCE;
@@ -141,8 +143,10 @@ public class CommonConfigs {
 
         builder.push("freezing");
         //all these are disabled when at 0 of course
+        ENABLE_FREEZING_WATER = builder.define("enable_water_freezing", false);
         FREEZING_WATER_SEVERITY = builder.comment("same as powder snow. If below 2 it will match natural unfreezing so will stay constant").define("water_increment", 3, 0, 5);
         FREEZING_ICICLE_SEVERITY = builder.define("icicle", 300, 0, 1000);
+        ENABLE_FREEZING_PERMAFROST = builder.define("enable_permafrost_freezing", false);
         FREEZING_PERMAFROST_SEVERITY = builder.define("permafrost_increment", 2, 0, 5);
         builder.pop();
         builder.setSynced();
