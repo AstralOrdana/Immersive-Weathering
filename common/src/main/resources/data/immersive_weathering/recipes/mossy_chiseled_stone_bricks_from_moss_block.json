@@ -3,7 +3,7 @@
   "group": "mossy_bricks",
   "ingredients": [
     {
-      "item": "minecraft:bricks"
+      "item": "minecraft:chiseled_stone_bricks"
     },
     {
       "item": "minecraft:moss_block"
