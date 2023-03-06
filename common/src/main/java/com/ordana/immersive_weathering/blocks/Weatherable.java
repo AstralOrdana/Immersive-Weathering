@@ -54,7 +54,8 @@ public interface Weatherable {
     default BlockState getWeatheredStateForPlacement(BlockState state, BlockPos pos, Level level){
         if (state != null) {
             WeatheringState weathering = this.shouldWeather(state, pos, level) ? WeatheringState.TRUE : WeatheringState.FALSE;
-            state = state.setValue(WEATHERABLE, weathering);
+            if (state.hasProperty(WEATHERABLE))
+                state = state.setValue(WEATHERABLE, weathering);
         }
         return state;
     }
