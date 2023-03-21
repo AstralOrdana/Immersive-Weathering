@@ -99,6 +99,9 @@ public class CommonConfigs {
     public static Supplier<Boolean> RUST_STREAKING;
 
     public static Supplier<Boolean> MULCH_GROWS_CROPS;
+    public static Supplier<Boolean> MULCH_GROWTH_TYPE_BONEMEAL;
+    public static Supplier<Boolean> MULCH_GROWTH_TYPE_RANDOM_TICK;
+    public static Supplier<Integer> MULCH_GROWTH_RANDOM_TICKS;
 
 
     public static void init() {
@@ -188,6 +191,9 @@ public class CommonConfigs {
 
         builder.push("misc");
         MULCH_GROWS_CROPS = builder.define("mulch_grows_crops", true);
+        MULCH_GROWTH_TYPE_BONEMEAL = builder.define("mulch_growth_type_bonemeal", true);
+        MULCH_GROWTH_TYPE_RANDOM_TICK = builder.define("mulch_growth_type_random_tick", false);
+        MULCH_GROWTH_RANDOM_TICKS = builder.define("mulch_growth_random_ticks", 10, 1, 100);
         COMPOSTER_DIRT = builder.define("composter_dirt", true);
         DESIRE_PATHS = builder.define("desire_paths", false);
         DESIRE_PATH_RATE = builder.define("desire_path_rate", 0.05, 0, 1);
