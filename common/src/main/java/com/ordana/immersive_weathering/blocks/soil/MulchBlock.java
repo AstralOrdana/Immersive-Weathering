@@ -83,8 +83,15 @@ public class MulchBlock extends FarmBlock {
 
         BlockState cropState = level.getBlockState(pos.above());
         if (CommonConfigs.MULCH_GROWS_CROPS.get() && level.getRawBrightness(pos.above(), 0) >= 9 && state.getValue(MulchBlock.MOISTURE) == 7) {
-            if(cropState.getBlock() instanceof CropBlock crop){
-                crop.growCrops(level, pos.above(), cropState);
+            if(CommonConfigs.MULCH_GROWTH_TYPE_BONEMEAL.get()) {
+                if (cropState.getBlock() instanceof CropBlock crop) {
+                    crop.growCrops(level, pos.above(), cropState);
+                }
+            }
+            else if(CommonConfigs.MULCH_GROWTH_TYPE_RANDOM_TICK.get()){
+                for(int i = 0; i<CommonConfigs.MULCH_GROWTH_RANDOM_TICKS.get(); i++){
+                    cropState.randomTick(level, pos.above(), random);
+                }
             }
         }
 
