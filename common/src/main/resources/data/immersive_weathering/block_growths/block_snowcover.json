@@ -1,7 +1,0 @@
-{
-  "builtin": "snowy_stones",
-  "tick_sources": [
-    "snow"
-  ],
-  "growth_chance": 0.1
-}

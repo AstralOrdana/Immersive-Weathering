@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "immersive_weathering:weed"
+  },
+  "result": "immersive_weathering:smoked_weed",
+  "experience": 0.35,
+  "cookingtime": 100
+}

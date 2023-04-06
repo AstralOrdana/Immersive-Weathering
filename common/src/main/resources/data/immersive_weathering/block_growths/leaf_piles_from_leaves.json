@@ -1,8 +1,0 @@
-{
-  "builtin": "leaf_piles_from_leaves",
-  "tick_sources": [
-    "block_tick"
-  ],
-  "owners": "#minecraft:leaves",
-  "growth_chance": 0.005
-}

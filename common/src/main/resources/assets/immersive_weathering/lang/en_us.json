@@ -8,7 +8,7 @@
   "advancements.immersive_weathering.ice_sickle.title": "Chill Out",
   "advancements.immersive_weathering.ice_sickle.description": "Slay a Blaze using its greatest fear, an Ice Sickle",
   "advancements.immersive_weathering.weeds.title": "Weed Wacker",
-  "advancements.immersive_weathering.weeds.description": "Pick some Weeds. Weeds only grow on Farmland near tall grass",
+  "advancements.immersive_weathering.weeds.description": "Collect some weed",
   "advancements.immersive_weathering.mulch.title": "Mulch Better",
   "advancements.immersive_weathering.mulch.description": "Craft some Mulch, it stays hydrated, weeds cant grow on it and crops grow fast!",
   "advancements.immersive_weathering.pond_water.title": "Why would you do this???",
@@ -233,6 +233,8 @@
 
   "block.immersive_weathering.ivy": "Ivy",
   "block.immersive_weathering.weeds": "Weeds",
+  "item.immersive_weathering.weed": "Weed",
+  "item.immersive_weathering.smoked_weed": "Smoked Weed",
   "block.immersive_weathering.soot": "Soot",
   "block.immersive_weathering.sand_layer_block": "Sand Pile",
   "block.immersive_weathering.red_sand_layer_block": "Red Sand Pile",

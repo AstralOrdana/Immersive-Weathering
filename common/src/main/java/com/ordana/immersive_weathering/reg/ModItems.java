@@ -41,6 +41,15 @@ public class ModItems {
                 ModCreativeTab.getTab(CreativeModeTab.TAB_DECORATIONS))));
     }
 
+    //weed
+    public static final Supplier<Item> WEED = regItem("weed", () ->
+            new Item(new Item.Properties().food(ModFoods.WEED).tab(getTab(CreativeModeTab.TAB_DECORATIONS))));
+
+    public static final Supplier<Item> SMOKED_WEED = regItem("smoked_weed", () ->
+            new Item(new Item.Properties().food(ModFoods.SMOKED_WEED).tab(getTab(CreativeModeTab.TAB_DECORATIONS))));
+
+
+
     //icicle
 
     public static final Supplier<BlockItem> ICICLE = regItem("icicle", () -> new IcicleItem(
