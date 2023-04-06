@@ -2,8 +2,10 @@
   "growth_chance": 0.0005,
   "position_predicates": [
     {
-      "biomes":"#immersive_weathering:hot",
-      "type": "biome_match"
+      "predicate_type": "biome_match",
+      "biomes": [
+        "minecraft:desert"
+      ]
     }
   ],
   "growth_for_face": [

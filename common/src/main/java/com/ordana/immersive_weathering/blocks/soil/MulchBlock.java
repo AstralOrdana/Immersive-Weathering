@@ -26,10 +26,8 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.BeetrootBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.FarmBlock;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -83,14 +81,14 @@ public class MulchBlock extends FarmBlock {
 
         BlockState cropState = level.getBlockState(pos.above());
         if (CommonConfigs.MULCH_GROWS_CROPS.get() && level.getRawBrightness(pos.above(), 0) >= 9 && state.getValue(MulchBlock.MOISTURE) == 7) {
-            if(CommonConfigs.MULCH_GROWTH_TYPE_BONEMEAL.get()) {
-                if (cropState.getBlock() instanceof CropBlock crop) {
-                    crop.growCrops(level, pos.above(), cropState);
+            if(CommonConfigs.MULCH_GROWTH_TYPE_RANDOM_TICK.get() || cropState.getBlock() instanceof StemBlock) {
+                for(int i = 0; i < CommonConfigs.MULCH_GROWTH_RANDOM_TICKS.get(); i++){
+                    cropState.randomTick(level, pos.above(), random);
                 }
             }
-            else if(CommonConfigs.MULCH_GROWTH_TYPE_RANDOM_TICK.get()){
-                for(int i = 0; i<CommonConfigs.MULCH_GROWTH_RANDOM_TICKS.get(); i++){
-                    cropState.randomTick(level, pos.above(), random);
+            else if(CommonConfigs.MULCH_GROWTH_TYPE_BONEMEAL.get()) {
+                if (cropState.getBlock() instanceof CropBlock crop) {
+                    crop.growCrops(level, pos.above(), cropState);
                 }
             }
         }
@@ -106,7 +104,7 @@ public class MulchBlock extends FarmBlock {
             }
             if (level.isRainingAt(pos.relative(direction)) || biome.is(ModTags.WET) || neighborState.getFluidState().is(FluidTags.WATER)) {
                 temperature--;
-            } else if (neighborState.is(ModTags.MAGMA_SOURCE) || biome.is(ModTags.HOT) || level.dimension() == Level.NETHER) {
+            } else if (neighborState.is(ModTags.MAGMA_SOURCE) || biome.is(Biomes.DESERT) || level.dimension() == Level.NETHER) {
                 temperature++;
             }
         }

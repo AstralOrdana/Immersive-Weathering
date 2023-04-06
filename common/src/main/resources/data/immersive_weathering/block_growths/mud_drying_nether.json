@@ -2,10 +2,8 @@
   "area_condition": {},
   "position_predicates": [
     {
-      "predicate_type": "biome_match",
-      "biomes": [
-        "minecraft:desert"
-      ]
+      "biomes":"#minecraft:is_nether",
+      "type": "biome_match"
     }
   ],
   "growth_chance": 0.01,

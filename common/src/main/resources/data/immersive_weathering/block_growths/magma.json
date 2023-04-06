@@ -15,12 +15,6 @@
     "requiredAmount": 12,
     "type": "generate_if_not_too_many"
   },
-  "position_predicates": [
-    {
-      "biomes":"#minecraft:is_nether",
-     "type": "biome_match"
-    }
-  ],
   "growth_for_face": [
     {
       "growth": [

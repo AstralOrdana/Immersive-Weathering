@@ -34,7 +34,9 @@
     }
   ],
   "destroy_target": true,
-  "owners": ["minecraft:farmland"],
+  "owners": [
+    "minecraft:farmland"
+  ],
   "replacing_target": {
     "blocks": "#immersive_weathering:weeds_replaceable",
     "predicate_type": "immersive_weathering:block_set_match",

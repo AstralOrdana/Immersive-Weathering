@@ -154,11 +154,12 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
                 int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
                 BlockPos blockPos = pos.below();
                 BlockState blockState = level.getBlockState(blockPos);
-                float rate = 0.08f;
                 if (!blockState.canOcclude() || !blockState.isCollisionShapeFullBlock(level, blockPos)) {
-                    if (level.isRaining()) {
-                        rate = 0.4f;
-                    }
+
+                    double rate = ClientConfigs.FALLING_LEAF_PARTICLE_RATE.get();
+                    if (level.isRaining()) rate = ClientConfigs.RAINY_FALLING_LEAF_PARTICLE_RATE.get();
+                    if (level.isThundering())  rate = ClientConfigs.STORMY_FALLING_LEAF_PARTICLE_RATE.get();
+
                     if (random.nextFloat() < rate) {
                         double d =  pos.getX() + random.nextDouble();
                         double e =  pos.getY() - 0.05;

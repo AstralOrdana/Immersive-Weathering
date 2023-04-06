@@ -149,7 +149,7 @@ public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
             growStalactiteOrStalagmiteIfPossible(state, world, pos, random);
         }
         var biome = world.getBiome(pos);
-        if ((world.getBrightness(LightLayer.BLOCK, pos) > 13 - state.getLightBlock(world, pos)) || (world.dimension() == Level.NETHER) || (biome.is(ModTags.HOT) && world.isDay())) {
+        if ((world.getBrightness(LightLayer.BLOCK, pos) > 13 - state.getLightBlock(world, pos)) || (world.dimension() == Level.NETHER) || (!biome.is(ModTags.ICY) && world.isDay() && !world.isRaining())) {
             world.removeBlock(pos, false);
         }
     }

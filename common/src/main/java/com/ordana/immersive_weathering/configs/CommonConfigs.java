@@ -36,6 +36,7 @@ public class CommonConfigs {
 
     public static Supplier<Boolean> FALLING_ICICLES;
     public static Supplier<Integer> ICICLE_RARITY;
+    public static Supplier<Boolean> DISABLE_ICICLES;
 
     public static Supplier<Boolean> ENABLE_FREEZING_WATER;
     public static Supplier<Integer> FREEZING_WATER_SEVERITY;
@@ -141,7 +142,8 @@ public class CommonConfigs {
 
         builder.push("icicle");
         FALLING_ICICLES = builder.define("react_to_vibrations", true);
-        ICICLE_RARITY = builder.define("spawn_rarity", 12, 1, 1001); //1001 to disable
+        ICICLE_RARITY = builder.define("spawn_rarity", 12, 1, 100);
+        DISABLE_ICICLES = builder.define("disable_icicles", false);
         builder.pop();
 
         builder.push("freezing");

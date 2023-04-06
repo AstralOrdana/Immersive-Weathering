@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "immersive_weathering:mossy_stone"
+          "name": "minecraft:mossy_cobblestone"
         }
       ],
       "conditions": [
