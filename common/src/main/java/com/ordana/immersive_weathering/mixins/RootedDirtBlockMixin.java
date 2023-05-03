@@ -16,7 +16,7 @@ import net.minecraft.util.RandomSource;
 @Mixin(RootedDirtBlock.class)
 public abstract class RootedDirtBlockMixin extends Block implements BonemealableBlock {
 
-    public RootedDirtBlockMixin(Properties settings) {
+    protected RootedDirtBlockMixin(Properties settings) {
         super(settings);
     }
 

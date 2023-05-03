@@ -166,7 +166,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
             }
 
             if(upBlock != null){
-                if (testFails(downBlock, pos, level, neighborCache, extraCheck, b, Direction.UP)) return false;
+                if (testFails(upBlock, pos, level, neighborCache, extraCheck, b, Direction.UP)) return false;
             }
 
             if(downBlock != null){

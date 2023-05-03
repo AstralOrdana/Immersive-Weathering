@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.data.block_growths;
 
 import com.google.common.base.Suppliers;
+import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -165,7 +166,7 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
                         var group = UNIVERSAL_GROWTHS.computeIfAbsent(s, e -> new HashSet<>());
                         group.add(config);
                     } else {
-                        var group = GROWTH_FOR_BLOCK.computeIfAbsent(s, e -> new Object2ObjectOpenHashMap<>());
+                        var group = GROWTH_FOR_BLOCK.computeIfAbsent(s, e -> Maps.newIdentityHashMap() );
                         config.getOwners().forEach(b -> {
 
                             group.computeIfAbsent(b, k -> new HashSet<>()).add(config);
