@@ -15,7 +15,7 @@
       }
     }
   ],
-  "growth_chance": 0.05,
+  "growth_chance": 0.005,
   "growth_for_face": [
     {
       "direction": "down",

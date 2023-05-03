@@ -255,9 +255,9 @@ public class WeatheringHelper {
 
     public static boolean isIciclePos(BlockPos pos) {
         int rarity = CommonConfigs.ICICLE_RARITY.get();
-        if (rarity == 1001) return false;
         Random posRandom = new Random(Mth.getSeed(pos));
-        return posRandom.nextInt(rarity) == 0;
+        if (CommonConfigs.DISABLE_ICICLES.get()) return false;
+        else return posRandom.nextInt(rarity) == 0;
     }
 
     /**
@@ -268,7 +268,7 @@ public class WeatheringHelper {
         return posRandom.nextInt(6) == 0;
     }
 
-    //spawn sooth?
+    //spawn soot?
     public static void onFireExpired(ServerLevel serverLevel, BlockPos pos, BlockState state) {
     }
 

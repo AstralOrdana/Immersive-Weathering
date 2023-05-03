@@ -5,7 +5,6 @@
       "id": "#c:swamp",
       "required": false
     },
-    "minecraft:swamp",
-    "minecraft:river"
+    "minecraft:swamp"
   ]
 }

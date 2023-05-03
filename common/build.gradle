@@ -12,7 +12,7 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 
     //modImplementation("net.mehvahdjukaar:moonlight:${rootProject.moonlight_version}")
-    modImplementation("curse.maven:selene-499980:4377795")
+    modImplementation("curse.maven:selene-499980:4393343")
     //modImplementation("net.mehvahdjukaar:moonlight:1.19.2-2.1.4")
 
 }

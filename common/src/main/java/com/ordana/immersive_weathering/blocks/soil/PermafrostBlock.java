@@ -49,7 +49,7 @@ public class PermafrostBlock extends Block {
         if (!(entity instanceof LivingEntity) || EnchantmentHelper.hasFrostWalker((LivingEntity) entity) || entity.getType() == EntityType.VILLAGER || entity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES) || entity.getType() == EntityType.FOX || entity.getType() == EntityType.RABBIT || entity.getType() == EntityType.SHEEP || entity.getType() == EntityType.STRAY || entity.getType() == EntityType.GOAT) {
             return;
         }
-        if(!world.isClientSide) {
+        if(!world.isClientSide && CommonConfigs.ENABLE_FREEZING_PERMAFROST.get()) {
             int freezing = CommonConfigs.FREEZING_PERMAFROST_SEVERITY.get();
             WeatheringHelper.applyFreezing(entity, freezing);
         }

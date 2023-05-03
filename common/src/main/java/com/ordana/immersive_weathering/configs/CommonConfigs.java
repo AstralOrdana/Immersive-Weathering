@@ -36,9 +36,12 @@ public class CommonConfigs {
 
     public static Supplier<Boolean> FALLING_ICICLES;
     public static Supplier<Integer> ICICLE_RARITY;
+    public static Supplier<Boolean> DISABLE_ICICLES;
 
+    public static Supplier<Boolean> ENABLE_FREEZING_WATER;
     public static Supplier<Integer> FREEZING_WATER_SEVERITY;
     public static Supplier<Integer> FREEZING_ICICLE_SEVERITY;
+    public static Supplier<Boolean> ENABLE_FREEZING_PERMAFROST;
     public static Supplier<Integer> FREEZING_PERMAFROST_SEVERITY;
 
     public static Supplier<Double> FIRE_CHARS_WOOD_CHANCE;
@@ -97,6 +100,9 @@ public class CommonConfigs {
     public static Supplier<Boolean> RUST_STREAKING;
 
     public static Supplier<Boolean> MULCH_GROWS_CROPS;
+    public static Supplier<Boolean> MULCH_GROWTH_TYPE_BONEMEAL;
+    public static Supplier<Boolean> MULCH_GROWTH_TYPE_RANDOM_TICK;
+    public static Supplier<Integer> MULCH_GROWTH_RANDOM_TICKS;
 
 
     public static void init() {
@@ -136,13 +142,16 @@ public class CommonConfigs {
 
         builder.push("icicle");
         FALLING_ICICLES = builder.define("react_to_vibrations", true);
-        ICICLE_RARITY = builder.define("spawn_rarity", 12, 1, 1001); //1001 to disable
+        ICICLE_RARITY = builder.define("spawn_rarity", 12, 1, 100);
+        DISABLE_ICICLES = builder.define("disable_icicles", false);
         builder.pop();
 
         builder.push("freezing");
         //all these are disabled when at 0 of course
+        ENABLE_FREEZING_WATER = builder.define("enable_water_freezing", false);
         FREEZING_WATER_SEVERITY = builder.comment("same as powder snow. If below 2 it will match natural unfreezing so will stay constant").define("water_increment", 3, 0, 5);
         FREEZING_ICICLE_SEVERITY = builder.define("icicle", 300, 0, 1000);
+        ENABLE_FREEZING_PERMAFROST = builder.define("enable_permafrost_freezing", false);
         FREEZING_PERMAFROST_SEVERITY = builder.define("permafrost_increment", 2, 0, 5);
         builder.pop();
         builder.setSynced();
@@ -184,6 +193,9 @@ public class CommonConfigs {
 
         builder.push("misc");
         MULCH_GROWS_CROPS = builder.define("mulch_grows_crops", true);
+        MULCH_GROWTH_TYPE_BONEMEAL = builder.define("mulch_growth_type_bonemeal", true);
+        MULCH_GROWTH_TYPE_RANDOM_TICK = builder.define("mulch_growth_type_random_tick", false);
+        MULCH_GROWTH_RANDOM_TICKS = builder.define("mulch_growth_random_ticks", 10, 1, 100);
         COMPOSTER_DIRT = builder.define("composter_dirt", true);
         DESIRE_PATHS = builder.define("desire_paths", false);
         DESIRE_PATH_RATE = builder.define("desire_path_rate", 0.05, 0, 1);
