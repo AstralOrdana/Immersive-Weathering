@@ -107,7 +107,7 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
                     }
                     source = precipitation == Biome.Precipitation.SNOW ? TickSource.SNOW : TickSource.RAIN;
                 }
-                tickBlock(source, state, level, targetPos);
+                tickBlock(source, state, level, new BlockPos(targetPos));
             }
             chance--;
         } while (chance > 0);
