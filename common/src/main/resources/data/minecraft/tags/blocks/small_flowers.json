@@ -2,12 +2,6 @@
   "replace": false,
   "values": [
     "immersive_weathering:flowering_azalea_leaf_pile",
-    "immersive_weathering:azalea_flower_pile",
-    "immersive_weathering:fluvisol",
-    "immersive_weathering:silt",
-    "immersive_weathering:vertisol",
-    "immersive_weathering:cracked_mud",
-    "immersive_weathering:cryosol",
-    "immersive_weathering:rooted_grass_block"
+    "immersive_weathering:azalea_flower_pile"
   ]
 }
