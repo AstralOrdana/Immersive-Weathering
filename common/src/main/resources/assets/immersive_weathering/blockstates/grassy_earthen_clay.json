@@ -1,0 +1,38 @@
+{
+  "variants": {
+    "waterlogged=false": [
+      {
+        "model": "immersive_weathering:block/grassy_earthen_clay"
+      },
+      {
+        "model": "immersive_weathering:block/grassy_earthen_clay",
+        "y": 90
+      },
+      {
+        "model": "immersive_weathering:block/grassy_earthen_clay",
+        "y": 180
+      },
+      {
+        "model": "immersive_weathering:block/grassy_earthen_clay",
+        "y": 270
+      }
+    ],
+    "waterlogged=true": [
+      {
+        "model": "immersive_weathering:block/grassy_earthen_clay_soaked"
+      },
+      {
+        "model": "immersive_weathering:block/grassy_earthen_clay_soaked",
+        "y": 90
+      },
+      {
+        "model": "immersive_weathering:block/grassy_earthen_clay_soaked",
+        "y": 180
+      },
+      {
+        "model": "immersive_weathering:block/grassy_earthen_clay_soaked",
+        "y": 270
+      }
+    ]
+  }
+}

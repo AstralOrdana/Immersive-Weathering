@@ -8,7 +8,6 @@
     "can_place_on_ceiling": true,
     "can_place_on_wall": true,
     "can_be_placed_on": [
-      "immersive_weathering:permafrost",
       "minecraft:dirt",
       "minecraft:snow",
       "minecraft:stone",

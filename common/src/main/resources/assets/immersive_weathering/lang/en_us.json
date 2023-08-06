@@ -11,8 +11,6 @@
   "advancements.immersive_weathering.weeds.description": "Pick some Weeds. Weeds only grow on Farmland near tall grass",
   "advancements.immersive_weathering.mulch.title": "Mulch Better",
   "advancements.immersive_weathering.mulch.description": "Craft some Mulch, it stays hydrated, weeds cant grow on it and crops grow fast!",
-  "advancements.immersive_weathering.pond_water.title": "Why would you do this???",
-  "advancements.immersive_weathering.pond_water.description": "Silica.",
   "advancements.immersive_weathering.flower_crown.title": "Flower Power",
   "advancements.immersive_weathering.flower_crown.description": "Put on a Flower Crown, the bees think you look cute in it",
   "advancements.immersive_weathering.eat_azalea_flower.title": "Flower Devour",
@@ -92,8 +90,6 @@
 
   "config.immersive_weathering.charring.fire_chars_wood": "Wood charring rate",
   "config.immersive_weathering.charring.fire_chars_wood.descriptionKey": "What should the chance for wood to become charred when burned by fire be?",
-  "config.immersive_weathering.charring.ash_spawn": "Ash spawn rate",
-  "config.immersive_weathering.charring.ash_spawn.descriptionKey": "What should the chance for ash to be formed when a block is burned be?",
   "config.immersive_weathering.charring.soot_spawn": "Soot formation",
   "config.immersive_weathering.charring.soot_spawn.descriptionKey": "Should soot form above fires and on surfaces adjacent to campfire smoke?",
   "config.immersive_weathering.charring.flammable_cobweb": "Cobweb flammability",
@@ -132,11 +128,9 @@
   "config.immersive_weathering.item_interaction.sponge_rust_drying": "Sponges Dry from Rusting",
   "config.immersive_weathering.item_interaction.axe_stripping": "Axe Stripping",
   "config.immersive_weathering.item_interaction.axe_rusting": "Axe Rusting",
-  "config.immersive_weathering.item_interaction.ash_item_spawn": "Ash Item Spawning",
 
   "config.immersive_weathering.food.icicle_food": "Edible Icicle",
   "config.immersive_weathering.food.icicle_fire_resistance": "Fire-res From Icicle",
-  "config.immersive_weathering.food.muddy_water_enabled": "Pond Water",
 
   "config.immersive_weathering.misc.mulch_grows_crops": "Mulch Grows Crops",
   "config.immersive_weathering.misc.composter_dirt": "Composter Gives Dirt",
@@ -205,7 +199,6 @@
   "block.immersive_weathering.vitrified_sand": "Vitrified Sand",
   "block.immersive_weathering.fulgurite": "Fulgurite",
 
-  "item.immersive_weathering.pond_water": "Pond Water",
   "item.immersive_weathering.azalea_flowers": "Azalea Flowers",
   "item.immersive_weathering.flower_crown": "Flower Crown",
   "block.immersive_weathering.moss": "Moss Clump",
@@ -236,18 +229,24 @@
   "block.immersive_weathering.soot": "Soot",
   "block.immersive_weathering.sand_layer_block": "Sand Pile",
   "block.immersive_weathering.red_sand_layer_block": "Red Sand Pile",
-  "block.immersive_weathering.ash_layer_block": "Ash Pile",
-  "block.immersive_weathering.ash_block": "Ash Block",
   "item.immersive_weathering.tallow": "Tallow",
 
-
-  "block.immersive_weathering.humus": "Humus",
-  "block.immersive_weathering.fluvisol": "Fluvisol",
   "block.immersive_weathering.silt": "Silt",
-  "block.immersive_weathering.vertisol": "Vertisol",
-  "block.immersive_weathering.cracked_mud": "Cracked Mud",
-  "block.immersive_weathering.cryosol": "Cryosol",
+  "block.immersive_weathering.earthen_clay": "Earthen Clay",
+  "block.immersive_weathering.sandy_dirt": "Sandy Dirt",
+  "block.immersive_weathering.loam": "Loam",
   "block.immersive_weathering.permafrost": "Permafrost",
+
+  "block.immersive_weathering.grassy_silt": "Grassy Silt",
+  "block.immersive_weathering.grassy_earthen_clay": "Grassy Earthen Clay",
+  "block.immersive_weathering.grassy_sandy_dirt": "Grassy Sandy Dirt",
+  "block.immersive_weathering.grassy_loam": "Grassy Loam",
+  "block.immersive_weathering.grassy_permafrost": "Grassy Permafrost",
+
+  "block.immersive_weathering.silty_farmland": "Silty Farmland",
+  "block.immersive_weathering.earthen_clay_farmland": "Earthen Clay Farmland",
+  "block.immersive_weathering.sandy_farmland": "Sandy Farmland",
+  "block.immersive_weathering.loamy_farmland": "Loamy Farmland",
 
   "block.immersive_weathering.mulch_block": "Mulch",
   "block.immersive_weathering.nulch_block": "Nulch",

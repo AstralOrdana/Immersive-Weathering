@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "immersive_weathering:block/grassy_permafrost"
+      },
+      {
+        "model": "immersive_weathering:block/grassy_permafrost",
+        "y": 90
+      },
+      {
+        "model": "immersive_weathering:block/grassy_permafrost",
+        "y": 180
+      },
+      {
+        "model": "immersive_weathering:block/grassy_permafrost",
+        "y": 270
+      }
+    ]
+  }
+}

@@ -1,11 +1,10 @@
 package com.ordana.immersive_weathering.mixins;
 
-import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.AttachedStemBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,6 +20,6 @@ public abstract class AttachedStemBlockMixin extends Block {
 
     @Inject(method = "mayPlaceOn", at = @At(value = "HEAD"), cancellable = true)
     protected void mayPlaceOn(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CallbackInfoReturnable<Boolean> cir) {
-        if (blockState.is(ModBlocks.MULCH_BLOCK.get())) cir.setReturnValue(true);
+        if (blockState.is(ModTags.FERTILE_BLOCKS)) cir.setReturnValue(true);
     }
 }

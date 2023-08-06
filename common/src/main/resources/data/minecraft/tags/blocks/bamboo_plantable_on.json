@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "immersive_weathering:loamy_farmland",
+    "immersive_weathering:sandy_farmland",
+    "immersive_weathering:silty_farmland",
+    "immersive_weathering:earthen_clay_farmland"
+  ]
+}

@@ -18,11 +18,7 @@
     "ground_state": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "immersive_weathering:fluvisol",
-        "Properties": {
-          "snowy": "false",
-          "fertile": "true"
-        }
+        "Name": "immersive_weathering:mulch_block"
       }
     },
     "vegetation_feature": {

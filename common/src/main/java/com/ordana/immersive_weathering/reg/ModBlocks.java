@@ -380,34 +380,36 @@ public class ModBlocks {
 
     public static final Supplier<Block> SILT = regWithItem("silt", () ->
             new SiltBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_GRAY).strength(0.5f).sound(SoundType.MUD)));
+    public static final Supplier<Block> GRASSY_SILT = regWithItem("grassy_silt", () ->
+            new SiltBlockGrassy(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_GRAY).strength(0.5f).sound(SoundType.MUD)));
     public static final Supplier<Block> SILTY_FARMLAND = regWithItem("silty_farmland", () ->
-            new SiltBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_GRAY).strength(0.5f).sound(SoundType.MUD)));
+            new SiltyFarmlandBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_GRAY).strength(0.5f).sound(SoundType.MUD)));
 
     public static final Supplier<Block> SANDY_DIRT = regWithItem("sandy_dirt", () ->
             new SandyDirtBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_YELLOW).strength(0.5f).sound(SoundType.SAND)));
     public static final Supplier<Block> GRASSY_SANDY_DIRT = regWithItem("grassy_sandy_dirt", () ->
-            new GrassySandyDirtBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_YELLOW).strength(0.5f).sound(SoundType.SAND)));
+            new SandyDirtBlockGrassy(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_YELLOW).strength(0.5f).sound(SoundType.SAND)));
     public static final Supplier<Block> SANDY_FARMLAND = regWithItem("sandy_farmland", () ->
             new SandyFarmlandBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_YELLOW).strength(0.5f).sound(SoundType.SAND)));
 
     public static final Supplier<Block> EARTHEN_CLAY = regWithItem("earthen_clay", () ->
-            new EarthenClayBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_ORANGE).strength(0.5f).sound(SoundType.MUDDY_MANGROVE_ROOTS)));
+            new EarthenClayBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_ORANGE).strength(0.5f).sound(SoundType.BASALT)));
     public static final Supplier<Block> GRASSY_EARTHEN_CLAY = regWithItem("grassy_earthen_clay", () ->
-            new GrassyEarthenClayBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_ORANGE).strength(0.5f).sound(SoundType.MUDDY_MANGROVE_ROOTS)));
+            new EarthenClayBlockGrassy(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_ORANGE).strength(0.5f).sound(SoundType.BASALT)));
     public static final Supplier<Block> EARTHEN_CLAY_FARMLAND = regWithItem("earthen_clay_farmland", () ->
-            new EarthenClayFarmlandBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_ORANGE).strength(0.5f).sound(SoundType.MUDDY_MANGROVE_ROOTS)));
+            new EarthenClayFarmlandBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_ORANGE).strength(0.5f).sound(SoundType.BASALT)));
 
     public static final Supplier<Block> LOAM = regWithItem("loam", () ->
             new LoamBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_BLACK).strength(0.5f).sound(SoundType.GRAVEL)));
     public static final Supplier<Block> GRASSY_LOAM = regWithItem("grassy_loam", () ->
-            new GrassyLoamBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_BLACK).strength(0.5f).sound(SoundType.GRAVEL)));
+            new LoamBlockGrassy(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_BLACK).strength(0.5f).sound(SoundType.GRAVEL)));
     public static final Supplier<Block> LOAMY_FARMLAND = regWithItem("loamy_farmland", () ->
             new LoamyFarmlandBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_BLACK).strength(0.5f).sound(SoundType.GRAVEL)));
 
     public static final Supplier<Block> PERMAFROST = regWithItem("permafrost", () ->
-            new PermafrostBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(0.5f).sound(SoundType.SNOW)));
-    public static final Supplier<Block> GRASSY_PERMAFROST = regWithItem("grassy_grassy_permafrost", () ->
-            new GrassyPermafrostBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(0.5f).sound(SoundType.SNOW)));
+            new PermafrostBlock(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(0.5f).sound(SoundType.CALCITE)));
+    public static final Supplier<Block> GRASSY_PERMAFROST = regWithItem("grassy_permafrost", () ->
+            new PermafrostBlockGrassy(Properties.of(Material.DIRT, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(0.5f).sound(SoundType.CALCITE)));
 
 
     public static final Supplier<Block> ROOTED_GRASS_BLOCK = regWithItem("rooted_grass_block", () ->

@@ -25,6 +25,12 @@ import net.minecraft.world.level.block.Blocks;
 import org.intellij.lang.annotations.Identifier;
 
 public class EmiIntegration implements EmiPlugin {
+    @Override
+    public void register(EmiRegistry registry) {
+
+    }
+
+    /*
 
     @Override
     public void register(EmiRegistry registry) {
@@ -50,9 +56,9 @@ public class EmiIntegration implements EmiPlugin {
 
         registry.addRecipe(EmiWorldInteractionRecipe.builder()
                 .id(new ResourceLocation("immersive_weathering", "/pond_water"))
-                .leftInput(EmiStack.of(ModBlocks.FLUVISOL.get()))
+                //.leftInput(EmiStack.of(ModBlocks.FLUVISOL.get()))
                 .rightInput(bottle, false)
-                .output(EmiStack.of(ModBlocks.FLUVISOL.get()))
+                //.output(EmiStack.of(ModBlocks.FLUVISOL.get()))
                 .output(EmiStack.of(ModItems.POND_WATER.get()))
                 .build());
 
@@ -93,7 +99,7 @@ public class EmiIntegration implements EmiPlugin {
                 .id(new ResourceLocation("immersive_weathering", "/campfire_extinguishing"))
                 .leftInput(EmiStack.of(Blocks.CAMPFIRE))
                 .rightInput(shovel, true)
-                .output(EmiStack.of(ModBlocks.ASH_LAYER_BLOCK.get()))
+                //.output(EmiStack.of(ModBlocks.ASH_LAYER_BLOCK.get()))
                 .build());
 
         registry.addRecipe(EmiWorldInteractionRecipe.builder()
@@ -250,4 +256,6 @@ public class EmiIntegration implements EmiPlugin {
                     .build());
         }
     }
+
+     */
 }

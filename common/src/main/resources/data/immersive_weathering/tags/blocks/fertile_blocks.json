@@ -2,6 +2,9 @@
   "replace": false,
   "values": [
     "minecraft:farmland",
-    "immersive_weathering:mulch_block"
+    "immersive_weathering:silty_farmland",
+    "immersive_weathering:earthen_clay_farmland",
+    "immersive_weathering:sandy_farmland",
+    "immersive_weathering:loamy_farmland"
   ]
 }

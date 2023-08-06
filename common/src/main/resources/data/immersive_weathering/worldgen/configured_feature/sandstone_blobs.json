@@ -10,7 +10,7 @@
           "block": "minecraft:granite"
         },
         "state": {
-          "Name": "immersive_weathering:cracked_mud"
+          "Name": "immersive_weathering:mulch_block"
         }
       },
       {
@@ -19,7 +19,7 @@
           "block": "minecraft:diorite"
         },
         "state": {
-          "Name": "immersive_weathering:cracked_mud"
+          "Name": "immersive_weathering:mulch_block"
         }
       },
       {
@@ -28,7 +28,7 @@
           "block": "minecraft:andesite"
         },
         "state": {
-          "Name": "immersive_weathering:cracked_mud"
+          "Name": "immersive_weathering:mulch_block"
         }
       },
       {

@@ -9,7 +9,7 @@ import com.ordana.immersive_weathering.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.blocks.sandy.Sandy;
 import com.ordana.immersive_weathering.blocks.snowy.Snowy;
-import com.ordana.immersive_weathering.blocks.soil.MulchBlock;
+import com.ordana.immersive_weathering.blocks.MulchBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
@@ -23,7 +23,6 @@ import net.mehvahdjukaar.moonlight.api.misc.EventCalled;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -75,7 +74,6 @@ public class ModEvents {
         EVENTS.add(ModEvents::burnMoss);
         EVENTS.add(ModEvents::shearShearing);
         EVENTS.add(ModEvents::spawnAsh);
-        EVENTS.add(ModEvents::grassFlinting);
         EVENTS.add(ModEvents::axeStripping);
         EVENTS.add(ModEvents::barkRepairing);
         EVENTS.add(ModEvents::rustScraping);
@@ -198,41 +196,12 @@ public class ModEvents {
         return InteractionResult.PASS;
     }
 
-
-    private static InteractionResult grassFlinting(Item item, ItemStack stack, BlockPos pos, BlockState state,
-                                                   Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
-        if (item == Items.FLINT && CommonConfigs.GRASS_FLINTING.get()) {
-            if (state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.MYCELIUM) || state.is(Blocks.PODZOL) || state.is(ModBlocks.HUMUS.get()) || state.is(ModBlocks.FLUVISOL.get())) {
-                level.playSound(player, pos, SoundEvents.GRASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
-                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.BLOCK, state), UniformInt.of(3, 5));
-                if (player instanceof ServerPlayer serverPlayer) {
-                    if (!player.getAbilities().instabuild) stack.shrink(1);
-                    level.setBlockAndUpdate(pos, Blocks.DIRT.defaultBlockState());
-                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger( serverPlayer, pos, stack);
-                }
-                return InteractionResult.sidedSuccess(level.isClientSide);
-            }
-            if (state.is(Blocks.DIRT)) {
-                level.playSound(player, pos, SoundEvents.GRAVEL_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.BLOCK, state), UniformInt.of(3, 5));
-                if (player instanceof ServerPlayer serverPlayer) {
-                    if (!player.getAbilities().instabuild) stack.shrink(1);
-                    level.setBlockAndUpdate(pos, Blocks.COARSE_DIRT.defaultBlockState());
-                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger( serverPlayer, pos, stack);
-                }
-                return InteractionResult.sidedSuccess(level.isClientSide);
-            }
-        }
-        return InteractionResult.PASS;
-    }
-
-
     private static InteractionResult spawnAsh(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                               Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if (item instanceof ShovelItem && CommonConfigs.ASH_ITEM_SPAWN.get()) {
             if (state.getBlock() instanceof CampfireBlock && state.getValue(BlockStateProperties.LIT)) {
                 if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
-                    Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModBlocks.ASH_LAYER_BLOCK.get()));
+                    //Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModBlocks.ASH_LAYER_BLOCK.get()));
                 }
                 //no need to cancel
             }
@@ -543,7 +512,7 @@ public class ModEvents {
                     if (serverLevel.random.nextFloat() < ashChance) {
                         //TODO: set random layer height and do similar to supp??
                         if (PlatformHelper.isModLoaded("supplementaries")) return false;
-                        newState = ModBlocks.ASH_LAYER_BLOCK.get().defaultBlockState();
+                        //newState = ModBlocks.ASH_LAYER_BLOCK.get().defaultBlockState();
                     }
                 }
                 if (newState != null) {

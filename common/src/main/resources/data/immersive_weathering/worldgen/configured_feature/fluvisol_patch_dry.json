@@ -21,21 +21,13 @@
         {
           "weight": 1,
           "data": {
-            "Name": "immersive_weathering:fluvisol",
-            "Properties": {
-              "fertile": "true",
-              "snowy": "false"
-            }
+            "Name": "immersive_weathering:mulch_block"
           }
         },
         {
           "weight": 1,
           "data": {
-            "Name": "immersive_weathering:silt",
-            "Properties": {
-              "soaked": "false",
-              "fertile": "true"
-            }
+            "Name": "immersive_weathering:mulch_block"
           }
         }
       ]

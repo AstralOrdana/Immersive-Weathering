@@ -27,15 +27,6 @@ public class ModFoods {
             .effect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 80, 1, false, false), 1F)
             .build();
 
-    public static final FoodProperties POND_WATER = (new FoodProperties.Builder()).nutrition(0).saturationMod(0F).alwaysEat()
-            .effect(new MobEffectInstance(MobEffects.CONFUSION, 100, 2), 1F)
-            .effect(new MobEffectInstance(MobEffects.HUNGER, 1200, 1), 1F)
-            .effect(new MobEffectInstance(MobEffects.POISON, 300, 2), 1F)
-            .effect(new MobEffectInstance(MobEffects.BLINDNESS, 20000000, 2), 1F)
-            .effect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 1200, 2), 1F)
-            .effect(new MobEffectInstance(MobEffects.WEAKNESS, 1600, 2), 1F)
-            .build();
-
     public static final FoodProperties AZALEA_FLOWER = (new FoodProperties.Builder()).nutrition(0).saturationMod(0F).alwaysEat().fast().build();
 
 

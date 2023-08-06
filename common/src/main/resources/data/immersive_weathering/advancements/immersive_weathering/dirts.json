@@ -75,54 +75,6 @@
           }
         ]
       }
-    },
-    "humus": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "immersive_weathering:humus"
-            ]
-          }
-        ]
-      }
-    },
-    "fluvisol": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "immersive_weathering:fluvisol"
-            ]
-          }
-        ]
-      }
-    },
-    "cryosol": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "immersive_weathering:cryosol"
-            ]
-          }
-        ]
-      }
-    },
-    "vertisol": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "immersive_weathering:vertisol"
-            ]
-          }
-        ]
-      }
     }
   },
   "requirements": [
@@ -137,18 +89,6 @@
     ],
     [
       "podzol"
-    ],
-    [
-      "humus"
-    ],
-    [
-      "fluvisol"
-    ],
-    [
-      "cryosol"
-    ],
-    [
-      "vertisol"
     ],
     [
       "soul soil"

@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "immersive_weathering:block/grassy_silt"
+      },
+      {
+        "model": "immersive_weathering:block/grassy_silt",
+        "y": 90
+      },
+      {
+        "model": "immersive_weathering:block/grassy_silt",
+        "y": 180
+      },
+      {
+        "model": "immersive_weathering:block/grassy_silt",
+        "y": 270
+      }
+    ]
+  }
+}

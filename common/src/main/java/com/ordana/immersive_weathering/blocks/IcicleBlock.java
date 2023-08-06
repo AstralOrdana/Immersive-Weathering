@@ -106,11 +106,6 @@ public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
         if (state.getValue(TIP_DIRECTION) == Direction.UP && state.getValue(THICKNESS) == DripstoneThickness.TIP) {
             entity.causeFallDamage(fallDistance + 2.0F, 3.5F, ModDamageSource.ICICLE);
 
-            if(!world.isClientSide) {
-                int freezing = CommonConfigs.FREEZING_ICICLE_SEVERITY.get();
-                WeatheringHelper.applyFreezing(entity, freezing);
-            }
-
         } else {
             entity.causeFallDamage(fallDistance, 1.0F, DamageSource.FALL);
         }

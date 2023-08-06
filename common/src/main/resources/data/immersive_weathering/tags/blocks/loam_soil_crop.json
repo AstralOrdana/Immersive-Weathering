@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:melon_stem",
+    "minecraft:pumpkin_stem",
+    "minecraft:sweet_berry_bush",
+    {
+      "id": "farmers_delight:budding_tomatoes",
+      "required": false
+    },
+    {
+      "id": "farmers_delight:tomatoes",
+      "required": false
+    }
+  ]
+}

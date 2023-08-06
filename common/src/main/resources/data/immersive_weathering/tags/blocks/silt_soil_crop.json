@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:potatoes",
+    "minecraft:wheat",
+    {
+      "id": "farmers_delight:cabbages",
+      "required": false
+    },
+    {
+      "id": "farmers_delight:onions",
+      "required": false
+    },
+    {
+      "id": "supplementaries:flax",
+      "required": false
+    }
+  ]
+}

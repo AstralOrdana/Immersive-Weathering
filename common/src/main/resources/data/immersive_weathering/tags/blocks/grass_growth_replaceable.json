@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "immersive_weathering:ash_block",
     "immersive_weathering:soot",
     "minecraft:snow",
     "minecraft:air",

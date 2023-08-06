@@ -21,6 +21,7 @@ public abstract class BushBlockMixin extends Block {
 
     @Inject(method = "mayPlaceOn", at = @At(value = "HEAD"), cancellable = true)
     protected void mayPlaceOn(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CallbackInfoReturnable<Boolean> cir) {
-        if (blockState.is(ModTags.CRACKED) && this.builtInRegistryHolder().is(BlockTags.REPLACEABLE_PLANTS)) cir.setReturnValue(true);
+        if (blockState.is(ModTags.FERTILE_BLOCKS) || (blockState.is(ModTags.CRACKED) && this.builtInRegistryHolder().is(BlockTags.REPLACEABLE_PLANTS)))
+            cir.setReturnValue(true);
     }
 }

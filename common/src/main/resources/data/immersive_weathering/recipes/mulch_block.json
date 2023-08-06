@@ -5,23 +5,17 @@
       "item": "minecraft:dirt"
     },
     {
-      "item": "minecraft:bone_meal"
+      "item": "minecraft:dirt"
     },
     {
       "tag": "immersive_weathering:bark"
     },
     {
       "tag": "immersive_weathering:bark"
-    },
-    {
-      "item": "immersive_weathering:ash_layer_block"
-    },
-    {
-      "item": "immersive_weathering:moss_clump"
     }
   ],
   "result": {
     "item": "immersive_weathering:mulch_block",
-    "count": 3
+    "count": 4
   }
 }

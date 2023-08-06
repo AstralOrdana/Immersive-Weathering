@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "moisture=0": {
+      "model": "immersive_weathering:block/sandy_farmland"
+    },
+    "moisture=1": {
+      "model": "immersive_weathering:block/sandy_farmland"
+    },
+    "moisture=2": {
+      "model": "immersive_weathering:block/sandy_farmland"
+    },
+    "moisture=3": {
+      "model": "immersive_weathering:block/sandy_farmland"
+    },
+    "moisture=4": {
+      "model": "immersive_weathering:block/sandy_farmland"
+    },
+    "moisture=5": {
+      "model": "immersive_weathering:block/sandy_farmland"
+    },
+    "moisture=6": {
+      "model": "immersive_weathering:block/sandy_farmland"
+    },
+    "moisture=7": {
+      "model": "immersive_weathering:block/sandy_farmland_moist"
+    }
+  }
+}

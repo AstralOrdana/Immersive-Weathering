@@ -1,6 +1,5 @@
 package com.ordana.immersive_weathering.mixins;
 
-import com.ordana.immersive_weathering.IWPlatformStuff;
 import com.ordana.immersive_weathering.blocks.ModPropaguleBlock;
 import com.ordana.immersive_weathering.blocks.crackable.*;
 import com.ordana.immersive_weathering.blocks.mossable.*;
@@ -8,9 +7,7 @@ import com.ordana.immersive_weathering.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.blocks.rustable.RustableBarsBlock;
 import com.ordana.immersive_weathering.blocks.rustable.RustableDoorBlock;
 import com.ordana.immersive_weathering.blocks.rustable.RustableTrapdoorBlock;
-import com.ordana.immersive_weathering.blocks.soil.ModGrassBlock;
-import com.ordana.immersive_weathering.blocks.soil.ModMyceliumBlock;
-import com.ordana.immersive_weathering.blocks.soil.SoilBlock;
+
 import com.ordana.immersive_weathering.reg.ModItems;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
@@ -1058,61 +1055,6 @@ public abstract class BlocksMixin {
     )
     private static StairBlock stoneStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
         return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, () -> Blocks.STONE, settings);
-    }
-
-
-    @Redirect(
-            method = "<clinit>",
-            at = @At(
-                    value = "NEW",
-                    target = "net/minecraft/world/level/block/GrassBlock",
-                    ordinal = 0
-            ),
-            slice = @Slice(
-                    from = @At(
-                            value = "CONSTANT",
-                            args = "stringValue=grass_block"
-                    )
-            )
-    )
-    private static GrassBlock grassBlock(BlockBehaviour.Properties settings) {
-        return new ModGrassBlock(settings);
-    }
-
-    @Redirect(
-            method = "<clinit>",
-            at = @At(
-                    value = "NEW",
-                    target = "net/minecraft/world/level/block/SnowyDirtBlock",
-                    ordinal = 0
-            ),
-            slice = @Slice(
-                    from = @At(
-                            value = "CONSTANT",
-                            args = "stringValue=podzol"
-                    )
-            )
-    )
-    private static SnowyDirtBlock podzol(BlockBehaviour.Properties settings) {
-        return new SoilBlock(settings);
-    }
-
-    @Redirect(
-            method = "<clinit>",
-            at = @At(
-                    value = "NEW",
-                    target = "net/minecraft/world/level/block/MyceliumBlock",
-                    ordinal = 0
-            ),
-            slice = @Slice(
-                    from = @At(
-                            value = "CONSTANT",
-                            args = "stringValue=mycelium"
-                    )
-            )
-    )
-    private static MyceliumBlock mycelium(BlockBehaviour.Properties settings) {
-        return new ModMyceliumBlock(settings);
     }
 
 }

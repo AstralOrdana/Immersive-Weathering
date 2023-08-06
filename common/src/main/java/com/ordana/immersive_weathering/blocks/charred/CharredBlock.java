@@ -1,13 +1,8 @@
 package com.ordana.immersive_weathering.blocks.charred;
 
-import com.ordana.immersive_weathering.blocks.soil.FluvisolBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
-import com.ordana.immersive_weathering.reg.ModBlocks;
-import com.ordana.immersive_weathering.reg.ModItems;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -96,7 +91,7 @@ public class CharredBlock extends Block implements Charred {
             ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.EMBERSPARK.get(), UniformInt.of(3, 5));
             stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
             if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
-                Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModBlocks.ASH_LAYER_BLOCK.get()));
+                //Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModBlocks.ASH_LAYER_BLOCK.get()));
             }
             if (player instanceof ServerPlayer) {
                 level.setBlockAndUpdate(pos, state.setValue(SMOLDERING, Boolean.FALSE));

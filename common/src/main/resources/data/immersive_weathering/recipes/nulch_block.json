@@ -5,23 +5,17 @@
       "item": "minecraft:netherrack"
     },
     {
-      "item": "minecraft:magma_cream"
+      "item": "minecraft:netherrack"
     },
     {
       "tag": "immersive_weathering:scales"
     },
     {
       "tag": "immersive_weathering:scales"
-    },
-    {
-      "item": "immersive_weathering:ash_layer_block"
-    },
-    {
-      "item": "minecraft:nether_wart"
     }
   ],
   "result": {
     "item": "immersive_weathering:nulch_block",
-    "count": 3
+    "count": 4
   }
 }

@@ -1,7 +1,0 @@
-{
-  "builtin": "ice_icicle_and_melt",
-  "tick_sources": [
-    "block_tick"
-  ],
-  "owners": "#minecraft:ice"
-}

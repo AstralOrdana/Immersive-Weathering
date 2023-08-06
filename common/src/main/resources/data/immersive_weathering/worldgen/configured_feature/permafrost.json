@@ -10,7 +10,7 @@
           "block": "minecraft:stone"
         },
         "state": {
-          "Name": "immersive_weathering:permafrost"
+          "Name": "immersive_weathering:mulch_block"
         }
       },
       {
@@ -19,7 +19,7 @@
           "block": "minecraft:dirt"
         },
         "state": {
-          "Name": "immersive_weathering:permafrost"
+          "Name": "immersive_weathering:mulch_block"
         }
       },
       {
@@ -28,11 +28,7 @@
           "block": "minecraft:grass_block"
         },
         "state": {
-          "Name": "immersive_weathering:cryosol",
-          "Properties": {
-            "snowy": "false",
-            "fertile": "true"
-          }
+          "Name": "immersive_weathering:mulch_block"
         }
       },
       {
@@ -41,7 +37,7 @@
           "block": "minecraft:snow_block"
         },
         "state": {
-          "Name": "immersive_weathering:permafrost"
+          "Name": "immersive_weathering:mulch_block"
         }
       }
     ]

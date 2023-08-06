@@ -21,19 +21,13 @@
         {
           "weight": 1,
           "data": {
-            "Name": "immersive_weathering:cryosol",
-            "Properties": {
-              "snowy": "false"
-            }
+            "Name": "immersive_weathering:mulch_block"
           }
         },
         {
           "weight": 1,
           "data": {
-            "Name": "immersive_weathering:permafrost",
-            "Properties": {
-              "dirty": "false"
-            }
+            "Name": "immersive_weathering:mulch_block"
           }
         }
       ]

@@ -44,6 +44,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -189,6 +191,46 @@ public class WeatheringHelper {
         return Optional.empty();
     }
 
+    public static final Supplier<Map<Block, Block>> SOIL_TO_GRASSY = Suppliers.memoize(() ->
+            ImmutableMap.<Block, Block>builder()
+                    .put(ModBlocks.SANDY_DIRT.get(), ModBlocks.GRASSY_SANDY_DIRT.get())
+                    .put(ModBlocks.EARTHEN_CLAY.get(), ModBlocks.GRASSY_EARTHEN_CLAY.get())
+                    .put(ModBlocks.SILT.get(), ModBlocks.GRASSY_SILT.get())
+                    .put(ModBlocks.LOAM.get(), ModBlocks.GRASSY_LOAM.get())
+                    .put(ModBlocks.PERMAFROST.get(), ModBlocks.GRASSY_PERMAFROST.get())
+                    .put(Blocks.ROOTED_DIRT, ModBlocks.ROOTED_GRASS_BLOCK.get())
+                    .put(Blocks.DIRT, Blocks.GRASS_BLOCK)
+                    .build());
+
+    static Optional<Block> getGrassySoil(Block block) {
+        return Optional.ofNullable(SOIL_TO_GRASSY.get().get(block));
+    }
+
+    public static Optional<BlockState> getGrassySoil(BlockState state) {
+        return getGrassySoil(state.getBlock()).map(block -> block.withPropertiesOf(state));
+    }
+
+    Supplier<BiMap<Block, Block>> NORMAL_TO_SANDY = Suppliers.memoize(() -> {
+        var builder = ImmutableBiMap.<Block, Block>builder()
+                .put(Blocks.STONE, ModBlocks.SANDY_STONE.get())
+                .put(Blocks.STONE_STAIRS, ModBlocks.SANDY_STONE_STAIRS.get())
+                .put(Blocks.STONE_SLAB, ModBlocks.SANDY_STONE_SLAB.get())
+                .put(ModBlocks.STONE_WALL.get(), ModBlocks.SANDY_STONE_WALL.get())
+                .put(Blocks.COBBLESTONE, ModBlocks.SANDY_COBBLESTONE.get())
+                .put(Blocks.COBBLESTONE_STAIRS, ModBlocks.SANDY_COBBLESTONE_STAIRS.get())
+                .put(Blocks.COBBLESTONE_SLAB, ModBlocks.SANDY_COBBLESTONE_SLAB.get())
+                .put(Blocks.COBBLESTONE_WALL, ModBlocks.SANDY_COBBLESTONE_WALL.get())
+                .put(Blocks.STONE_BRICKS, ModBlocks.SANDY_STONE_BRICKS.get())
+                .put(Blocks.CHISELED_STONE_BRICKS, ModBlocks.SANDY_CHISELED_STONE_BRICKS.get())
+                .put(Blocks.STONE_BRICK_STAIRS, ModBlocks.SANDY_STONE_BRICK_STAIRS.get())
+                .put(Blocks.STONE_BRICK_SLAB, ModBlocks.SANDY_STONE_BRICK_SLAB.get())
+                .put(Blocks.STONE_BRICK_WALL, ModBlocks.SANDY_STONE_BRICK_WALL.get());
+        return builder.build();
+    });
+
+    //reverse map for reverse access in descending order
+
+
 
     /**
      * Grabs block positions around center pos. Order of these is random and depends on current blockpos
@@ -320,64 +362,17 @@ public class WeatheringHelper {
         return biome.is(ModTags.HOT);
     }
 
-    public static boolean shouldGetWet(ServerLevel world, BlockPos pos) {
-        int temperature = 0;
-        boolean isTouchingWater = false;
-        for (Direction direction : Direction.values()) {
-            var targetPos = pos.relative(direction);
-            var biome = world.getBiome(pos);
-            BlockState neighborState = world.getBlockState(targetPos);
-
-            if (neighborState.getFluidState().is(FluidTags.WATER)) {
-                isTouchingWater = true;
-                break;
-            }
-
-            if (world.isRainingAt(pos.relative(direction))) {
-                temperature--;
-            } else if (neighborState.is(ModTags.MAGMA_SOURCE) || world.dimensionType().ultraWarm()) {
-                temperature++;
-            } else if (isPosWet(world, biome, pos)) {
-                temperature--;
-            } else if (isPosHot(world, biome, pos)) {
-                temperature++;
-            }
-        }
-        return temperature < 0 || isTouchingWater;
-    }
-
-
-    public static void applyFreezing(Entity entity, int freezingIncrement) {
-        applyFreezing(entity, freezingIncrement, false);
-    }
-
-    public static void applyFreezing(Entity entity, int freezingIncrement, boolean inWater) {
-        if (entity instanceof Player) {
-            int a = 1; //TODO: this isnt working
-        }
-        if (freezingIncrement != 0 && entity.canFreeze() && (entity instanceof LivingEntity le) &&
-                (EnchantmentHelper.getEnchantmentLevel(Enchantments.FROST_WALKER, le) <= 0) &&
-                !entity.getType().is(ModTags.LIGHT_FREEZE_IMMUNE)) {
-            if (inWater) {
-                if (le.getItemBySlot(EquipmentSlot.FEET).is(Items.LEATHER_BOOTS)) return;
-            } else {
-                if (le.hasEffect(MobEffects.CONDUIT_POWER)) return;
-            }
-            entity.setTicksFrozen(Math.min(entity.getTicksRequiredToFreeze(), entity.getTicksFrozen() + freezingIncrement));
-        }
-    }
-
     public static void growHangingRoots(ServerLevel world, RandomSource random, BlockPos pos) {
         Direction dir = Direction.values()[1 + random.nextInt(5)].getOpposite();
         BlockPos targetPos = pos.relative(dir);
         BlockState targetState = world.getBlockState(targetPos);
-        if (targetState.isAir()) return;
-        BlockState newState = dir == Direction.DOWN ? Blocks.HANGING_ROOTS.defaultBlockState() :
-                ModBlocks.HANGING_ROOTS_WALL.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, dir);
-        if (targetState.is(Blocks.WATER)) {
-            newState = newState.setValue(BlockStateProperties.WATERLOGGED, true);
+        FluidState fluidState = world.getFluidState(targetPos);
+        boolean bl = fluidState.getType() == Fluids.WATER;
+        if (!targetState.getMaterial().isSolid()) {
+            BlockState newState = dir == Direction.DOWN ? Blocks.HANGING_ROOTS.defaultBlockState() :
+                    ModBlocks.HANGING_ROOTS_WALL.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, dir);
+            world.setBlockAndUpdate(targetPos, newState.setValue(BlockStateProperties.WATERLOGGED, bl));
         }
-        world.setBlockAndUpdate(targetPos, newState);
     }
 
 }

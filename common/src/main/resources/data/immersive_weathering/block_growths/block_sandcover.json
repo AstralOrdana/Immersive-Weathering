@@ -1,7 +1,0 @@
-{
-  "builtin": "sandy_stones",
-  "tick_sources": [
-    "rain"
-  ],
-  "growth_chance": 0.1
-}
