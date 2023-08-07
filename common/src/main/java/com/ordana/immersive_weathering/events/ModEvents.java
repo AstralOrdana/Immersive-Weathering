@@ -238,24 +238,6 @@ public class ModEvents {
             }
             return InteractionResult.PASS;
         }
-        if (item == Items.APPLE) {
-            if (state.getBlock() instanceof MulchBlock) {
-                level.playSound(player, pos, ModSoundEvents.YUMMY.get(), SoundSource.BLOCKS, 1.0f, 1.0f);
-            }
-            return InteractionResult.PASS;
-        }
-        if (item == Items.GOLDEN_APPLE) {
-            if (state.getBlock() instanceof MulchBlock) {
-                level.playSound(player, pos, ModSoundEvents.YUMMY.get(), SoundSource.BLOCKS, 1.0f, 2.0f);
-            }
-            return InteractionResult.PASS;
-        }
-        if (item == Items.ENCHANTED_GOLDEN_APPLE) {
-            if (state.getBlock() instanceof MulchBlock) {
-                level.playSound(player, pos, ModSoundEvents.YUMMY.get(), SoundSource.BLOCKS, 2.0f, 0.3f);
-            }
-            return InteractionResult.PASS;
-        }
         return InteractionResult.PASS;
     }
 
