@@ -44,6 +44,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -367,17 +368,18 @@ public class WeatheringHelper {
         }
     }
 
-    public static void growHangingRoots(ServerLevel world, RandomSource random, BlockPos pos) {
+
+
+    public static void growHangingRoots(ServerLevel level, RandomSource random, BlockPos pos) {
         Direction dir = Direction.values()[1 + random.nextInt(5)].getOpposite();
         BlockPos targetPos = pos.relative(dir);
-        BlockState targetState = world.getBlockState(targetPos);
-        if (targetState.isAir()) return;
-        BlockState newState = dir == Direction.DOWN ? Blocks.HANGING_ROOTS.defaultBlockState() :
-                ModBlocks.HANGING_ROOTS_WALL.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, dir);
-        if (targetState.is(Blocks.WATER)) {
-            newState = newState.setValue(BlockStateProperties.WATERLOGGED, true);
-        }
-        world.setBlockAndUpdate(targetPos, newState);
-    }
+        BlockState targetState = level.getBlockState(targetPos);
 
+        if (targetState.getMaterial().isReplaceable()) {
+            BlockState newState = dir == Direction.DOWN ? Blocks.HANGING_ROOTS.defaultBlockState() :
+                    ModBlocks.HANGING_ROOTS_WALL.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, dir);
+            if (targetState.getFluidState().is(Fluids.WATER)) newState = newState.setValue(BlockStateProperties.WATERLOGGED, true);
+            level.setBlockAndUpdate(targetPos, newState);
+        }
+    }
 }

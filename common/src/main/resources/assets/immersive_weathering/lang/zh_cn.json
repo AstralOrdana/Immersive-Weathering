@@ -1,5 +1,6 @@
 {
-  "itemGroup.immersive_weathering.immersive_weathering": "沉浸式风化",
+  "itemGroup.immersive_weathering": "沉浸式风化",
+  "itemGroup.immersive_weathering.immersive_weathering": "Immersive Weathering",
 
   "advancements.immersive_weathering.moss.title": "延续生命存在的循环？",
   "advancements.immersive_weathering.moss.description": "（你吃掉了苔藓。），（尝起来…藓藓的。），（你的HP苔高到了极藓。）",

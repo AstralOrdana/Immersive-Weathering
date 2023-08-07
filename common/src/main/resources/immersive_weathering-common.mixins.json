@@ -4,6 +4,7 @@
   "package": "com.ordana.immersive_weathering.mixins",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "ParticleTintMixin"
   ],
   "mixins": [
     "AttachedStemBlockMixin",

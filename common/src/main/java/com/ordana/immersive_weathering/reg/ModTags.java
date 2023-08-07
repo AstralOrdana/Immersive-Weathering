@@ -47,6 +47,7 @@ public final class ModTags {
 
     public static final TagKey<Block> FLOWERY = registerBlockTag("flowery");
     public static final TagKey<Block> FLOWERABLE = registerBlockTag("flowerable");
+    public static final TagKey<Block> UNTINTED_PARTICLES = registerBlockTag("untinted_particles");
 
     public static final TagKey<Block> SAND_CAVE_FLOOR = registerBlockTag("sand_cave_floor");
 

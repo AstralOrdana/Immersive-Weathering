@@ -1,5 +1,5 @@
 {
-  "parent": "immersive_weathering:block/mossy_wall_inventory",
+  "parent": "immersive_weathering:block/unique_top_wall_inventory",
   "textures": {
     "top": "minecraft:block/snow",
     "side": "immersive_weathering:block/snowy_stone_side"

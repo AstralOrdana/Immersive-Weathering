@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#immersive_weathering:mossy",
+    "immersive_weathering:rooted_grass_block",
+    "minecraft:grass_block"
+  ]
+}

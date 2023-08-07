@@ -1,0 +1,25 @@
+{
+  "type": "target_self",
+  "fluid": "minecraft:lava",
+  "priority": 1,
+  "generate": {
+    "Name": "minecraft:deepslate",
+    "Properties": {
+      "axis": "y"
+    }
+  },
+  "adjacent_blocks": {
+    "down": {
+      "block_state": {
+        "Name": "minecraft:blue_ice"
+      },
+      "predicate_type": "minecraft:blockstate_match"
+    },
+    "up": {
+      "block_state": {
+        "Name": "minecraft:blue_ice"
+      },
+      "predicate_type": "minecraft:blockstate_match"
+    }
+  }
+}

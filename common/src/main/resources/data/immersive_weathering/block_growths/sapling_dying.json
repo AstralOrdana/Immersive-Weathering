@@ -2,10 +2,10 @@
   "growth_chance": 0.0005,
   "position_predicates": [
     {
-      "predicate_type": "biome_match",
       "biomes": [
         "minecraft:desert"
-      ]
+      ],
+      "type": "biome_match"
     }
   ],
   "growth_for_face": [

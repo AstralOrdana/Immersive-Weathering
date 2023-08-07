@@ -10,7 +10,7 @@
           "children": [
             {
               "type": "minecraft:item",
-              "name": "minecraft:wheat",
+              "name": "minecraft:dandelion",
               "functions": [
                 {
                   "function": "minecraft:apply_bonus",

@@ -1,5 +1,5 @@
 {
-  "parent": "immersive_weathering:block/mossy_template_wall_post",
+  "parent": "immersive_weathering:block/unique_top_template_wall_post",
   "textures": {
     "top": "minecraft:block/snow",
     "side": "immersive_weathering:block/snowy_stone_side",

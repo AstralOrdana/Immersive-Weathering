@@ -2,11 +2,11 @@
   "area_condition": {},
   "position_predicates": [
     {
-      "biomes":"#minecraft:is_nether",
+      "biomes": "#minecraft:is_nether",
       "type": "biome_match"
     }
   ],
-  "growth_chance": 0.01,
+  "growth_chance": 0.05,
   "growth_for_face": [
     {
       "direction": "up",
