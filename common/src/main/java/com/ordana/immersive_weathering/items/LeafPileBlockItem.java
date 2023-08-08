@@ -1,6 +1,5 @@
 package com.ordana.immersive_weathering.items;
 
-import com.ordana.immersive_weathering.data.block_growths.growths.builtin.LightningGrowth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;

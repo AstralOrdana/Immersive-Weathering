@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.mixins;
 
 import com.ordana.immersive_weathering.blocks.snowy.Snowy;
-import com.ordana.immersive_weathering.util.WeatheringHelper;
 import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -22,8 +21,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.Objects;
 
 @Mixin(Snowball.class)
 public abstract class SnowballMixin extends ThrowableItemProjectile {

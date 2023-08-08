@@ -3,10 +3,7 @@ package com.ordana.immersive_weathering.client.particles;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.client.renderer.BiomeColors;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.world.level.FoliageColor;
 
 public class LeafParticle extends TextureSheetParticle {
     private final float rotationSpeed;

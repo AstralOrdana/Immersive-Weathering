@@ -1,10 +1,15 @@
 package com.ordana.immersive_weathering.blocks;
 
 import com.ordana.immersive_weathering.entities.FallingLayerEntity;
+import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -19,12 +24,13 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Collections;
-import net.minecraft.util.RandomSource;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Author: MehVahdJukaar
@@ -175,6 +181,24 @@ public class LayerBlock extends FallingBlock {
         } else {
             return i == 1;
         }
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        if (context instanceof EntityCollisionContext c && state.is(ModBlocks.ASH_LAYER_BLOCK.get())) {
+            var e = c.getEntity();
+            if (e instanceof LivingEntity) {
+                if (level.getBlockState(pos.below()).is(ModBlocks.ASH_LAYER_BLOCK.get())) return Shapes.empty();
+                else return SHAPE_BY_LAYER[state.getValue(LAYERS_8) / 2];
+            }
+        }
+        return this.getShape(state, level, pos, context);
+    }
+
+    @Override
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float height) {
+        int layers = getLayers(state);
+        if (state.is(ModBlocks.ASH_LAYER_BLOCK.get())) entity.causeFallDamage(height, layers > 2 ? 0.3f : 1, DamageSource.FALL);
     }
 
 }

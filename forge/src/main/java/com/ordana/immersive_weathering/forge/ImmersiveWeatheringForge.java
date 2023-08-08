@@ -4,11 +4,10 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.client.ImmersiveWeatheringClient;
-import com.ordana.immersive_weathering.data.fluid_generators.FluidGeneratorsHandler;
 import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.reg.ModSetup;
 import com.ordana.immersive_weathering.reg.ModWaxables;
 import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -19,17 +18,12 @@ import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fluids.FluidInteractionRegistry;
-import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -54,6 +48,7 @@ public class ImmersiveWeatheringForge {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.register(this);
         //ModDynamicRegistry.init(bus);
+        //bus.addListener(this::setup);
 
         ImmersiveWeathering.commonInit();
 
@@ -74,8 +69,6 @@ public class ImmersiveWeatheringForge {
         }
     }
 
-
-
     @SubscribeEvent
     public void interModCommunication(InterModEnqueueEvent event) {
         event.enqueueWork(() -> {
@@ -94,10 +87,8 @@ public class ImmersiveWeatheringForge {
 
     @SubscribeEvent
     public void setup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            ImmersiveWeathering.commonSetup();
-            registerWaxables();
-        });
+        event.enqueueWork(ImmersiveWeatheringForge::registerWaxables);
+        event.enqueueWork(ModSetup::setup);
     }
 
 

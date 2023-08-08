@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.data.fluid_generators;
 
 import com.ordana.immersive_weathering.data.fluid_generators.builtin.BurnMossGenerator;
-import com.ordana.immersive_weathering.data.position_tests.IPositionRuleTest;
 
 import java.util.HashMap;
 import java.util.Map;

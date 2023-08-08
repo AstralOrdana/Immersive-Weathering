@@ -2,7 +2,6 @@ package com.ordana.immersive_weathering.mixins.fabric;
 
 import com.ordana.immersive_weathering.blocks.soil.CrackedMudBlock;
 import com.ordana.immersive_weathering.reg.ModBlocks;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.SugarCaneBlock;

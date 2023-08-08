@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.events;
 
 import com.mojang.datafixers.util.Pair;
+import com.ordana.immersive_weathering.blocks.LayerBlock;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.blocks.Weatherable;
 import com.ordana.immersive_weathering.blocks.charred.CharredBlock;
@@ -9,7 +10,6 @@ import com.ordana.immersive_weathering.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.blocks.sandy.Sandy;
 import com.ordana.immersive_weathering.blocks.snowy.Snowy;
-import com.ordana.immersive_weathering.blocks.soil.MulchBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
@@ -39,10 +39,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CampfireBlock;
-import net.minecraft.world.level.block.WeatheringCopper;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -508,37 +505,38 @@ public class ModEvents {
     @EventCalled
     public static boolean onFireConsume(IFireConsumeBlockEvent event) {
         var level = event.getLevel();
-        if (level instanceof ServerLevel serverLevel) {
-            var pos = event.getPos();
-            var state = event.getState();
-            double charChance = CommonConfigs.FIRE_CHARS_WOOD_CHANCE.get();
-            double ashChance = CommonConfigs.ASH_SPAWNS_CHANCE.get();
-            if (charChance != 0 || ashChance != 0) {
-                BlockState newState = null;
-                BlockState charred = charChance != 0 ? WeatheringHelper.getCharredState(state) : null;
-                if (charred != null) {
-                    if (serverLevel.random.nextFloat() < charChance) {
-                        newState = charred.setValue(CharredBlock.SMOLDERING, serverLevel.random.nextBoolean());
-                    }
-                }
-                if (charred == null) {
-                    if (serverLevel.random.nextFloat() < ashChance) {
-                        //TODO: set random layer height and do similar to supp??
-                        if (PlatformHelper.isModLoaded("supplementaries")) return false;
-                        newState = ModBlocks.ASH_LAYER_BLOCK.get().defaultBlockState();
-                    }
-                }
-                if (newState != null) {
-                    serverLevel.sendParticles(ModParticles.SOOT.get(),
-                            pos.getX() + 0.5D,
-                            pos.getY() + 0.5D,
-                            pos.getZ() + 0.5D,
-                            10,
-                            0.5D, 0.5D, 0.5D,
-                            0.0D);
+        if (!(level instanceof ServerLevel serverLevel)) return false;
 
-                    return serverLevel.setBlock(pos, newState, 3);
+        var pos = event.getPos();
+        var state = event.getState();
+        double charChance = CommonConfigs.FIRE_CHARS_WOOD_CHANCE.get();
+        double ashChance = CommonConfigs.ASH_SPAWNS_CHANCE.get();
+
+        if (charChance != 0 || ashChance != 0) {
+            BlockState newState = null;
+            BlockState charred = charChance != 0 ? WeatheringHelper.getCharredState(state) : null;
+            if (charred != null) {
+                if (serverLevel.random.nextFloat() < charChance) {
+                    newState = charred.setValue(CharredBlock.SMOLDERING, serverLevel.random.nextBoolean());
                 }
+            }
+            if (serverLevel.random.nextFloat() < ashChance) {
+                //TODO: set random layer height and do similar to supp??
+                //if (PlatformHelper.isModLoaded("supplementaries")) return false;
+                newState = ModBlocks.ASH_LAYER_BLOCK.get().defaultBlockState().setValue(LayerBlock.LAYERS_8,
+                        //set the number of layers to a random int between 0 and 2 plus 4 if the block is a full block (excluding leaves) plus 1 otherwise
+                        serverLevel.random.nextInt(2) + (state.isSolidRender(level, pos) ? 4 : 1));
+            }
+            if (newState != null) {
+                serverLevel.sendParticles(ModParticles.SOOT.get(),
+                        pos.getX() + 0.5D,
+                        pos.getY() + 0.5D,
+                        pos.getZ() + 0.5D,
+                        10,
+                        0.5D, 0.5D, 0.5D,
+                        0.0D);
+
+                return serverLevel.setBlock(pos, newState, 3);
             }
         }
         return false;

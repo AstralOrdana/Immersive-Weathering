@@ -48,6 +48,7 @@ public class CommonConfigs {
     public static Supplier<Double> ASH_SPAWNS_CHANCE;
     public static Supplier<Boolean> SOOT_SPAWN;
     public static Supplier<Boolean> FLAMMABLE_COBWEBS;
+    public static Supplier<Boolean> FLAMMABLE_CROPS;
 
 
     public static Supplier<Boolean> PICKAXE_CRACKING;
@@ -161,6 +162,7 @@ public class CommonConfigs {
         ASH_SPAWNS_CHANCE = builder.define("ash_spawn", 0.3, 0, 1); //gets aplied after fire charring
         SOOT_SPAWN = builder.define("soot_spawn", true);
         FLAMMABLE_COBWEBS = builder.define("flammable_cobweb", true);
+        FLAMMABLE_CROPS = builder.define("flammable_crops", true);
         builder.pop();
 
 

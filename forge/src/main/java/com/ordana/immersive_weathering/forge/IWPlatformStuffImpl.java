@@ -3,12 +3,10 @@ package com.ordana.immersive_weathering.forge;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.integration.IntegrationHandler;
 import com.ordana.immersive_weathering.integration.QuarkPlugin;
-import com.ordana.immersive_weathering.network.NetworkHandler;
 import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
@@ -18,7 +16,6 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.FlowingFluid;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.IdentityHashMap;
 

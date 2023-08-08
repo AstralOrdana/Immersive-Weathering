@@ -15,7 +15,6 @@ import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.tags.TagBuilder;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
