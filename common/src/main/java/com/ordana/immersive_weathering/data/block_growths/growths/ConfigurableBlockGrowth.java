@@ -31,9 +31,8 @@ import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-/**
- * Author: MehVahdJukaar
- */
+//Author: MehVahdJukaar
+
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class ConfigurableBlockGrowth implements IBlockGrowth {
 
