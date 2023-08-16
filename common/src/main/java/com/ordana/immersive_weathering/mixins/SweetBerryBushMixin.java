@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public abstract class SweetBerryBushMixin {
 
     @Redirect(method = "entityInside",
+            require = 0,
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/world/entity/Entity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"))
     private boolean removeBlock(Entity entity, DamageSource source, float amount) {
