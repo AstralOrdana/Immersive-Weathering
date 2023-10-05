@@ -1,10 +1,14 @@
 package com.ordana.immersive_weathering.blocks.snowy;
 
+import java.util.Optional;
+import java.util.function.Supplier;
+
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
+
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -31,9 +35,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-
-import java.util.Optional;
-import java.util.function.Supplier;
 
 public interface Snowy {
 
@@ -98,12 +99,19 @@ public interface Snowy {
 
     default void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource randomSource) {
         Optional<BlockState> unSnowy = getUnSnowy(state);
-
+        if (!unSnowy.isPresent()) {
+            return;
+        }
         for (Direction dir : Direction.values()) {
-            if (level.getBrightness(LightLayer.BLOCK, pos.relative(dir)) > 11 && unSnowy.isPresent()) {
+            if (level.getBrightness(LightLayer.BLOCK, pos.relative(dir)) > 11) {
                 level.setBlockAndUpdate(pos, unSnowy.get());
                 Block.popResourceFromFace(level, pos, dir, new ItemStack(Items.SNOWBALL));
+                return;
             }
+        }
+        if (level.getBiome(pos).value().warmEnoughToRain(pos) && level.canSeeSky(pos.above())) {
+            level.setBlockAndUpdate(pos, unSnowy.get());
+            // Do not drop snowballs because it can lead to lag when many blocks are updated
         }
     }
 
