@@ -8,10 +8,12 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.util.TemperatureManager;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -31,6 +33,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -109,7 +112,8 @@ public interface Snowy {
                 return;
             }
         }
-        if (level.getBiome(pos).value().warmEnoughToRain(pos) && level.canSeeSky(pos.above())) {
+        Supplier<Holder<Biome>> biome = Suppliers.memoize(() -> level.getBiome(pos));
+        if (level.canSeeSky(pos.above()) && TemperatureManager.canSnowMelt(pos, biome)) {
             level.setBlockAndUpdate(pos, unSnowy.get());
             // Do not drop snowballs because it can lead to lag when many blocks are updated
         }
