@@ -1,28 +1,7 @@
 package com.ordana.immersive_weathering.integration.fabric;
 
-import com.google.common.collect.BiMap;
-import com.ordana.immersive_weathering.blocks.crackable.Crackable;
-import com.ordana.immersive_weathering.blocks.crackable.CrackedBlock;
-import com.ordana.immersive_weathering.blocks.frostable.Frosty;
-import com.ordana.immersive_weathering.blocks.mossable.Mossable;
-import com.ordana.immersive_weathering.blocks.rustable.Rustable;
-import com.ordana.immersive_weathering.blocks.sandy.Sandy;
-import com.ordana.immersive_weathering.blocks.snowy.Snowy;
-import com.ordana.immersive_weathering.reg.ModBlocks;
-import com.ordana.immersive_weathering.reg.ModItems;
-import com.ordana.immersive_weathering.reg.ModTags;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
-import dev.emi.emi.api.recipe.EmiWorldInteractionRecipe;
-import dev.emi.emi.api.stack.EmiIngredient;
-import dev.emi.emi.api.stack.EmiStack;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.HoeItem;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import org.intellij.lang.annotations.Identifier;
 
 public class EmiIntegration implements EmiPlugin {
     @Override

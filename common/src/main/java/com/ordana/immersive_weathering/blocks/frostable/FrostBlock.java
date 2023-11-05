@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.blocks.frostable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -13,8 +14,6 @@ import net.minecraft.world.level.block.MultifaceSpreader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
-
-import net.minecraft.util.RandomSource;
 
 public class FrostBlock extends MultifaceBlock implements Frosty {
     private final MultifaceSpreader spreader = new MultifaceSpreader(this);

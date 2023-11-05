@@ -2,13 +2,11 @@ package com.ordana.immersive_weathering.reg;
 
 import com.ordana.immersive_weathering.IWPlatformStuff;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.features.IcicleClusterFeature;
 import com.ordana.immersive_weathering.features.IcicleClusterFeatureConfig;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;

@@ -2,8 +2,6 @@ package com.ordana.immersive_weathering.data.fluid_generators;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import com.ordana.immersive_weathering.data.block_growths.TickSource;
-import com.ordana.immersive_weathering.data.fluid_generators.builtin.BurnMossGenerator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
@@ -13,8 +11,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public interface IFluidGenerator extends Comparable<IFluidGenerator> {
 

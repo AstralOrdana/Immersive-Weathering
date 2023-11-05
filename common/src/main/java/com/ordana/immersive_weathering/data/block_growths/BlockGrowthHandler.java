@@ -14,7 +14,6 @@ import com.ordana.immersive_weathering.data.block_growths.growths.ConfigurableBl
 import com.ordana.immersive_weathering.data.block_growths.growths.IBlockGrowth;
 import com.ordana.immersive_weathering.data.block_growths.growths.builtin.BuiltinBlockGrowth;
 import com.ordana.immersive_weathering.data.block_growths.growths.builtin.NoOpBlockGrowth;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;

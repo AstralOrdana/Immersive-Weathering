@@ -17,7 +17,6 @@ import net.minecraft.world.level.gameevent.BlockPositionSource;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.gameevent.PositionSource;
-import org.jetbrains.annotations.Nullable;
 
 public class IcicleBlockEntity extends BlockEntity implements GameEventListener {
 

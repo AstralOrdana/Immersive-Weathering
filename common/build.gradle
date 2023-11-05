@@ -11,10 +11,10 @@ dependencies {
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 
-    //modImplementation("net.mehvahdjukaar:moonlight:${rootProject.moonlight_version}")
-    modImplementation("curse.maven:selene-499980:4393343")
-    //modImplementation("net.mehvahdjukaar:moonlight:1.19.2-2.1.4")
+    modImplementation("curse.maven:selene-499980:4654068")
+    //you could try to use the forge/fabric one here insead but no guaranteed
 
+    modImplementation "dev.emi:emi-xplat-intermediary:${rootProject.emi_version}:api"
 }
 
 publishing {
@@ -25,23 +25,15 @@ publishing {
         }
     }
 
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
         // Add repositories to publish to here.
-        maven {
-            url = "https://www.cursemaven.com"
-            allowInsecureProtocol = true
-        }
-        maven {
-            url = "https://www.cursemaven.com"
-            allowInsecureProtocol = true
-        }
         maven {
             name = "TerraformersMC"
             url = "https://maven.terraformersmc.com/releases"
         }
-        maven {
-            url = "https://maven.shedaniel.me"
-        }
     }
+}
+
+repositories {
+    maven { url "https://maven.terraformersmc.com/releases" }
 }

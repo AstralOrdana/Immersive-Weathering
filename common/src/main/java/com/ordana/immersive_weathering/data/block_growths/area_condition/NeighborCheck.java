@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.AlwaysTrueTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 
-import java.util.*;
+import java.util.List;
 
 record NeighborCheck(RuleTest mustHavePredicate, RuleTest mustNotHavePredicate,
                      Integer requiredAmount, List<Direction> directions) implements AreaCondition {

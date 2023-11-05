@@ -1,10 +1,6 @@
 package com.ordana.immersive_weathering.integration.forge;
 
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ForgeConfigSpec;
-
-import java.util.List;
-import java.util.Map;
 
 public class SereneSeasonsCompatImpl {
     /*

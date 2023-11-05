@@ -10,15 +10,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Optional;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.material.Fluids;
-
 import java.util.function.Supplier;
 
 public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {

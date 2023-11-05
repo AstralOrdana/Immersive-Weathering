@@ -1,6 +1,5 @@
 package com.ordana.immersive_weathering.items;
 
-import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
