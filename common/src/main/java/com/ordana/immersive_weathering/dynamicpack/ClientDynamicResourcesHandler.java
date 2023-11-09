@@ -7,12 +7,12 @@ import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModItems;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import net.mehvahdjukaar.moonlight.api.events.AfterLanguageLoadEvent;
-import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.mehvahdjukaar.moonlight.api.resources.RPUtils;
 import net.mehvahdjukaar.moonlight.api.resources.ResType;
 import net.mehvahdjukaar.moonlight.api.resources.StaticResource;
 import net.mehvahdjukaar.moonlight.api.resources.assets.LangBuilder;
-import net.mehvahdjukaar.moonlight.api.resources.pack.DynClientResourcesProvider;
+import net.mehvahdjukaar.moonlight.api.resources.pack.DynClientResourcesGenerator;
 import net.mehvahdjukaar.moonlight.api.resources.pack.DynamicTexturePack;
 import net.mehvahdjukaar.moonlight.api.resources.textures.Palette;
 import net.mehvahdjukaar.moonlight.api.resources.textures.PaletteColor;
@@ -20,6 +20,7 @@ import net.mehvahdjukaar.moonlight.api.resources.textures.Respriter;
 import net.mehvahdjukaar.moonlight.api.resources.textures.TextureImage;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.block.Blocks;
@@ -28,13 +29,17 @@ import org.apache.logging.log4j.Logger;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
+public class ClientDynamicResourcesHandler
+//        extends DynClientResourcesGenerator
+{
 
+
+    /*
     public static final ClientDynamicResourcesHandler INSTANCE = new ClientDynamicResourcesHandler();
 
     public ClientDynamicResourcesHandler() {
         super(new DynamicTexturePack(ImmersiveWeathering.res("generated_pack")));
-        this.dynamicPack.generateDebugResources = PlatformHelper.isDev() || CommonConfigs.DEBUG_RESOURCES.get();
+        this.dynamicPack.setGenerateDebugResources(PlatHelper.isDev() || CommonConfigs.DEBUG_RESOURCES.get());
     }
 
     @Override
@@ -58,7 +63,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
 
             ModParticles.FALLING_LEAVES_PARTICLES.forEach((leafType,particle)->{
 
-                String particleId = Registry.PARTICLE_TYPE.getKey(particle).getPath();
+                String particleId = Registries.PARTICLE_TYPE.location().getPath();
                 try {
                     addSimilarJsonResource(manager, leafParticle, "oak_leaf", particleId);
                 } catch (Exception ex) {
@@ -304,5 +309,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesProvider {
             LangBuilder.addDynamicEntry(lang, "block.immersive_weathering.leaf_pile", type, leaf);
         });
     }
+
+     */
 
 }

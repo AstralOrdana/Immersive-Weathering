@@ -2,13 +2,14 @@ package com.ordana.immersive_weathering.reg;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import net.mehvahdjukaar.moonlight.api.misc.Registrator;
-import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.Registries;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -18,7 +19,7 @@ import java.util.function.Supplier;
 public class ModParticles {
 
     public static void init() {
-        BlockSetAPI.addDynamicRegistration(ModParticles::registerLeafParticles, LeavesType.class, Registry.PARTICLE_TYPE);
+        //BlockSetAPI.addDynamicRegistration(ModParticles::registerLeafParticles, LeavesType.class, Registries.PARTICLE_TYPE);
     }
 
     public static Supplier<SimpleParticleType> registerParticle(String name) {
@@ -81,7 +82,7 @@ public class ModParticles {
 
     private static void registerLeafParticles(Registrator<ParticleType<?>> event, Collection<LeavesType> leavesTypes) {
         for (LeavesType type : leavesTypes) {
-            var p = PlatformHelper.newParticle();
+            var p = PlatHelper.newParticle();
             //if (type.getTypeName().equals("flowering_azalea")) {
             //    p = (SimpleParticleType) Registry.PARTICLE_TYPE.get(ImmersiveWeathering.res("azalea_leaf"));
             //} else {

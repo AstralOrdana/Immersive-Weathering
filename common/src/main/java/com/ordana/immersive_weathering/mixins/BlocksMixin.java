@@ -12,6 +12,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -844,8 +845,8 @@ public abstract class BlocksMixin {
             )
     )
 
-    private static DoorBlock ironDoor(BlockBehaviour.Properties settings) {
-        return new RustableDoorBlock(Rustable.RustLevel.UNAFFECTED, settings);
+    private static DoorBlock ironDoor(BlockBehaviour.Properties properties, BlockSetType type) {
+        return new RustableDoorBlock(Rustable.RustLevel.UNAFFECTED, properties);
     }
 
     @Redirect(
@@ -862,8 +863,8 @@ public abstract class BlocksMixin {
                     )
             )
     )
-    private static TrapDoorBlock ironTrapdoor(BlockBehaviour.Properties settings) {
-        return new RustableTrapdoorBlock(Rustable.RustLevel.UNAFFECTED, settings);
+    private static TrapDoorBlock ironTrapdoor(BlockBehaviour.Properties properties, BlockSetType type) {
+        return new RustableTrapdoorBlock(Rustable.RustLevel.UNAFFECTED, properties);
     }
 
 

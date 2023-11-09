@@ -3,19 +3,17 @@ package com.ordana.immersive_weathering.fabric;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.events.ModEvents;
-import com.ordana.immersive_weathering.events.ModLootInjects;
 import com.ordana.immersive_weathering.reg.ModWaxables;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
-import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
-import net.mehvahdjukaar.moonlight.fabric.FabricSetupCallbacks;
+import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
+import net.mehvahdjukaar.moonlight.fabric.MLFabricSetupCallbacks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -57,11 +55,11 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
         //events
         UseBlockCallback.EVENT.register(ImmersiveWeatheringFabric::onRightClickBlock);
 
-        LootTableEvents.MODIFY.register((m, t, r, b, s) -> ModLootInjects.onLootInject(t, r, b::withPool));
+        //LootTableEvents.MODIFY.register((m, t, r, b, s) -> ModLootInjects.onLootInject(t, r, b::withPool));
 
-        FabricSetupCallbacks.COMMON_SETUP.add(ImmersiveWeatheringFabric::onSetup);
-        if(PlatformHelper.getEnv().isClient()){
-            FabricSetupCallbacks.CLIENT_SETUP.add(ImmersiveWeatheringClientFabric::initClient);
+        MLFabricSetupCallbacks.COMMON_SETUP.add(ImmersiveWeatheringFabric::onSetup);
+        if(PlatHelper.getPhysicalSide().isClient()){
+            MLFabricSetupCallbacks.CLIENT_SETUP.add(ImmersiveWeatheringClientFabric::initClient);
         }
 
 

@@ -8,6 +8,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.gameevent.BlockPositionSource;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.gameevent.PositionSource;
+import net.minecraft.world.phys.Vec3;
 
 public class IcicleBlockEntity extends BlockEntity implements GameEventListener {
 
@@ -30,12 +32,9 @@ public class IcicleBlockEntity extends BlockEntity implements GameEventListener 
         map.put(GameEvent.BLOCK_OPEN, 6);
         map.put(GameEvent.CONTAINER_CLOSE, 3);
         map.put(GameEvent.CONTAINER_OPEN, 3);
-        map.put(GameEvent.PISTON_CONTRACT, 3);
-        map.put(GameEvent.PISTON_EXTEND, 3);
         map.put(GameEvent.EXPLODE, 15);
         map.put(GameEvent.LIGHTNING_STRIKE, 15);
-        Registry.GAME_EVENT.getOptional(new ResourceLocation("moyai", "moyai_boom"))
-                .ifPresent(e -> map.put(e, 7));
+        //Registries.GAME_EVENT.getOptional(new ResourceLocation("moyai", "moyai_boom")).ifPresent(e -> map.put(e, 7));
     }));
 
     private final int radius;
@@ -58,15 +57,9 @@ public class IcicleBlockEntity extends BlockEntity implements GameEventListener 
     }
 
     @Override
-    public boolean handleEventsImmediately() {
-        return true;
-    }
-
-    @Override
-    public boolean handleGameEvent(ServerLevel serverLevel, GameEvent.Message message) {
-        var pos = message.source();
-        if (!new BlockPos(pos).equals(this.worldPosition)) {
-            int volume = VOLUME_FOR_EVENT.getInt(message.gameEvent());
+    public boolean handleGameEvent(ServerLevel level, GameEvent gameEvent, GameEvent.Context context, Vec3 pos) {
+        if (!new BlockPos((int)pos.x, (int)pos.y, (int)pos.z).equals(this.worldPosition)) {
+            int volume = VOLUME_FOR_EVENT.getInt(context.affectedState());
             double distanceSqr = this.worldPosition.distToCenterSqr(pos.x(), pos.y(), pos.z());
             if (volume * volume > distanceSqr * 0.5 + level.random.nextFloat() * distanceSqr) {
                 float distScaling = 2f;

@@ -2,8 +2,8 @@ package com.ordana.immersive_weathering.items;
 
 import com.ordana.immersive_weathering.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
-import com.ordana.immersive_weathering.integration.IntegrationHandler;
-import com.ordana.immersive_weathering.integration.QuarkPlugin;
+import com.ordana.immersive_weathering.integrations.IntegrationHandler;
+import com.ordana.immersive_weathering.integrations.QuarkPlugin;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;

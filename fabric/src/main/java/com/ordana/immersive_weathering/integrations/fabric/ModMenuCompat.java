@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.integration.fabric;
+package com.ordana.immersive_weathering.integrations.fabric;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
@@ -34,7 +34,8 @@ public class ModMenuCompat implements ModMenuApi {
             int y = this.height - 27;
             int centerX = this.width / 2;
 
-            this.addRenderableWidget(new Button(centerX - 45, y, 90, 20, CommonComponents.GUI_BACK, (button) -> this.minecraft.setScreen(this.parent)));
+            this.addRenderableWidget(Button.builder(CommonComponents.GUI_BACK, (button) -> this.minecraft.setScreen(this.parent))
+                    .bounds(centerX - 45, y, 90, 20).build());
 
             //TODO: link buttons
 

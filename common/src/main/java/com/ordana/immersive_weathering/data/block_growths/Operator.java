@@ -34,7 +34,7 @@ public enum Operator {
                         return DataResult.success(o);
                     }
                 }
-                return DataResult.error("Unknown Operator " + string);
+                return DataResult.error(() -> "Unknown Operator " + string);
             },
             o -> DataResult.success(o.symbol)
     );

@@ -18,7 +18,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
 
 import javax.swing.text.html.BlockView;
 import java.util.Random;
@@ -62,8 +61,7 @@ public class ModPropaguleBlock extends MangrovePropaguleBlock implements Fallabl
     }
 
     public static boolean canFallThrough(BlockState state) {
-        Material material = state.getMaterial();
-        return state.isAir() || state.is(BlockTags.FIRE) || material.isLiquid() || material.isReplaceable();
+        return state.isAir() || state.is(BlockTags.FIRE) || state.liquid() || state.canBeReplaced();
     }
 
     public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {

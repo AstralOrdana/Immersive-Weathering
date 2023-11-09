@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.integration.fabric;
+package com.ordana.immersive_weathering.integrations.fabric;
 
 import com.google.common.collect.ImmutableBiMap;
 import net.minecraft.world.level.block.Block;

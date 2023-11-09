@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -84,6 +83,6 @@ public class MulchBlock extends Block implements SimpleWaterloggedBlock {
 
     @Override
     public void fallOn(Level world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        entity.causeFallDamage(fallDistance, 0.2F, DamageSource.FALL);
+        entity.causeFallDamage(fallDistance, 0.2F, world.damageSources().fall());
     }
 }

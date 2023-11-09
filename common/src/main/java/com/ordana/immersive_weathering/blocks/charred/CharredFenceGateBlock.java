@@ -15,12 +15,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class CharredFenceGateBlock extends FenceGateBlock implements Charred {
 
-    public CharredFenceGateBlock(Properties settings) {
-        super(settings);
+    public CharredFenceGateBlock(Properties properties, WoodType type) {
+        super(properties, type);
         this.registerDefaultState(this.defaultBlockState().setValue(OVERHANG, 0).setValue(SMOLDERING, false).setValue(OPEN, false).setValue(POWERED, false).setValue(IN_WALL, false));
     }
 

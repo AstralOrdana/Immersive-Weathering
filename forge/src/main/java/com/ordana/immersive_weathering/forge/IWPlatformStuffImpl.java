@@ -1,9 +1,9 @@
 package com.ordana.immersive_weathering.forge;
 
 import com.google.common.collect.ImmutableBiMap;
-import com.ordana.immersive_weathering.integration.IntegrationHandler;
-import com.ordana.immersive_weathering.integration.QuarkPlugin;
-import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
+import com.ordana.immersive_weathering.integrations.IntegrationHandler;
+import com.ordana.immersive_weathering.integrations.QuarkPlugin;
+import net.mehvahdjukaar.moonlight.api.platform.ClientHelper;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.resources.ResourceKey;
@@ -44,11 +44,11 @@ public class IWPlatformStuffImpl {
     public static void addFeatureToBiome(GenerationStep.Decoration step, TagKey<Biome> tagKey, ResourceKey<PlacedFeature> feature) {
     }
 
-    public static void copyColorFrom(ClientPlatformHelper.BlockColorEvent event, Block block, Block colorFrom, BlockColor fallbackColor) {
+    public static void copyColorFrom(ClientHelper.BlockColorEvent event, Block block, Block colorFrom, BlockColor fallbackColor) {
         COPY_BLOCK_COLORS.put(block, colorFrom);
     }
 
-    public static void copyColorFrom(ClientPlatformHelper.ItemColorEvent event, ItemLike block, ItemLike colorFrom, ItemColor fallbackColor) {
+    public static void copyColorFrom(ClientHelper.ItemColorEvent event, ItemLike block, ItemLike colorFrom, ItemColor fallbackColor) {
         COPY_ITEM_COLORS.put(block.asItem(), colorFrom.asItem());
     }
 

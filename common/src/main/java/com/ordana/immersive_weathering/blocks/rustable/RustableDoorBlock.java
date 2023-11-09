@@ -4,11 +4,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 
 public class RustableDoorBlock extends RustAffectedDoorBlock implements Rustable {
 
-    public RustableDoorBlock(RustLevel rustLevel, Properties settings) {
-        super(rustLevel, settings);
+
+    public RustableDoorBlock(RustLevel rustLevel, Properties properties) {
+        super(rustLevel, properties);
     }
 
     @Override

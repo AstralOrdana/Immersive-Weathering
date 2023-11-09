@@ -9,8 +9,9 @@ import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.data.block_growths.area_condition.AreaCondition;
 import com.ordana.immersive_weathering.data.position_tests.IPositionRuleTest;
 import com.ordana.immersive_weathering.mixins.accessors.RandomBlockMatchTestAccessor;
-import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.minecraft.core.*;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -47,7 +48,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
             RuleTest.CODEC.fieldOf("replacing_target").forGetter(ConfigurableBlockGrowth::getTargetPredicate),
             AreaCondition.CODEC.optionalFieldOf("area_condition",AreaCondition.EMPTY).forGetter(ConfigurableBlockGrowth::getAreaCondition),
             DirectionalList.CODEC.listOf().fieldOf("growth_for_face").forGetter(ConfigurableBlockGrowth::encodeRandomLists),
-            RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).optionalFieldOf("owners").forGetter(b -> Optional.ofNullable(b.owners)),
+            RegistryCodecs.homogeneousList(Registries.BLOCK).optionalFieldOf("owners").forGetter(b -> Optional.ofNullable(b.owners)),
             IPositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates",List.of()).forGetter(ConfigurableBlockGrowth::getPositionTests),
             Codec.BOOL.optionalFieldOf("target_self",false).forGetter(ConfigurableBlockGrowth::targetSelf),
             Codec.BOOL.optionalFieldOf("destroy_target",false).forGetter(ConfigurableBlockGrowth::destroyTarget)
@@ -181,7 +182,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
                 //they all need to be true
                 if (!positionTest.test(biome, pos, level)) return false;
             }
-            return PlatformHelper.isAreaLoaded(level, pos, maxRange);
+            return PlatHelper.isAreaLoaded(level, pos, maxRange);
         }
         return false;
     }

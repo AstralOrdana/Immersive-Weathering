@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.integration.forge;
+package com.ordana.immersive_weathering.integrations.forge;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.ImmersiveWeathering;

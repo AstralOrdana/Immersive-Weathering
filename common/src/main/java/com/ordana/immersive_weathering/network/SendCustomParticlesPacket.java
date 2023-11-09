@@ -48,7 +48,7 @@ public class SendCustomParticlesPacket implements Message {
     @Environment(EnvType.CLIENT)
     public void clientStuff( EventType type, BlockPos pos, int extraData) {
         Player player = Minecraft.getInstance().player;
-        var level = player.level;
+        var level = player.level();
         if (type == EventType.DECAY_LEAVES) {
             if (ClientConfigs.LEAF_DECAY_PARTICLES.get()) {
                 BlockState state = Block.stateById(extraData);

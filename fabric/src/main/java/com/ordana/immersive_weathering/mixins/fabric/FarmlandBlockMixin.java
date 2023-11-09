@@ -23,7 +23,7 @@ public abstract class FarmlandBlockMixin extends Block {
     }
 
     //TODO: use forge event for forge
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/FarmBlock;turnToDirt(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)V"), method="fallOn", cancellable = true)
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;fallOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;F)V"), method="fallOn", cancellable = true)
     public void checkFeatherFallingOnLanding(Level world, BlockState state, BlockPos pos, Entity entity, float fallDistance, CallbackInfo info) {
         if (entity != null) {
             if(CommonConfigs.FEATHER_FALLING_FARMERS.get()) {

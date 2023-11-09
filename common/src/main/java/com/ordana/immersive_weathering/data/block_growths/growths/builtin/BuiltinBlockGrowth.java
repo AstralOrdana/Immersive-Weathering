@@ -9,6 +9,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,12 +25,12 @@ public abstract class BuiltinBlockGrowth implements IBlockGrowth {
                         var factory =
                                 BuiltinGrowthsRegistry.BUILTIN_GROWTHS.get(n);
                         if (factory == null) {
-                            return DataResult.error("No builtin growth found with id " + n);
+                            return DataResult.error(() -> "No builtin growth found with id " + n);
                         }
                         Codec<BuiltinBlockGrowth> codec = RecordCodecBuilder.create(i -> i.group(
                                 TickSource.CODEC.listOf().optionalFieldOf("tick_sources", List.of(TickSource.BLOCK_TICK))
                                         .forGetter(b -> b.sources),
-                                RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).optionalFieldOf("owners")
+                                RegistryCodecs.homogeneousList(Registries.BLOCK).optionalFieldOf("owners")
                                         .forGetter(b -> Optional.ofNullable(b.owners)),
                                 Codec.FLOAT.optionalFieldOf("growth_chance", 1f).forGetter(b -> b.growthChance)
                         ).apply(i, (o, s, c) -> factory.create(n, s.orElse(null), o, c)));

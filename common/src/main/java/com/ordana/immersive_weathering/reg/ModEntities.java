@@ -5,7 +5,7 @@ import com.ordana.immersive_weathering.entities.FallingIcicleEntity;
 import com.ordana.immersive_weathering.entities.FallingLayerEntity;
 import com.ordana.immersive_weathering.entities.FallingPropaguleEntity;
 import com.ordana.immersive_weathering.entities.IcicleBlockEntity;
-import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -36,7 +36,7 @@ public class ModEntities {
 
     public static final Supplier<BlockEntityType<IcicleBlockEntity>> ICICLE_TILE = RegHelper.registerBlockEntityType(
             ImmersiveWeathering.res("icicle"),
-            () -> PlatformHelper.newBlockEntityType(IcicleBlockEntity::new, ModBlocks.ICICLE.get()));
+            () -> PlatHelper.newBlockEntityType(IcicleBlockEntity::new, ModBlocks.ICICLE.get()));
 
 
 }

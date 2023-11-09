@@ -1,15 +1,26 @@
-package com.ordana.immersive_weathering.integration.fabric;
+package com.ordana.immersive_weathering.integrations;
 
+import com.google.common.collect.BiMap;
+import com.ordana.immersive_weathering.blocks.crackable.Crackable;
+import com.ordana.immersive_weathering.blocks.frostable.Frosty;
+import com.ordana.immersive_weathering.blocks.mossable.Mossable;
+import com.ordana.immersive_weathering.blocks.rustable.Rustable;
+import com.ordana.immersive_weathering.blocks.sandy.Sandy;
+import com.ordana.immersive_weathering.blocks.snowy.Snowy;
+import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.reg.ModItems;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
+import dev.emi.emi.api.recipe.EmiWorldInteractionRecipe;
+import dev.emi.emi.api.stack.EmiIngredient;
+import dev.emi.emi.api.stack.EmiStack;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 public class EmiIntegration implements EmiPlugin {
-    @Override
-    public void register(EmiRegistry registry) {
-
-    }
-
-    /*
 
     @Override
     public void register(EmiRegistry registry) {
@@ -31,22 +42,6 @@ public class EmiIntegration implements EmiPlugin {
                 .rightInput(hoes, true)
                 .output(EmiStack.of(Items.HANGING_ROOTS))
                 .output(EmiStack.of(Items.GRASS_BLOCK))
-                .build());
-
-        registry.addRecipe(EmiWorldInteractionRecipe.builder()
-                .id(new ResourceLocation("immersive_weathering", "/pond_water"))
-                //.leftInput(EmiStack.of(ModBlocks.FLUVISOL.get()))
-                .rightInput(bottle, false)
-                //.output(EmiStack.of(ModBlocks.FLUVISOL.get()))
-                .output(EmiStack.of(ModItems.POND_WATER.get()))
-                .build());
-
-        registry.addRecipe(EmiWorldInteractionRecipe.builder()
-                .id(new ResourceLocation("immersive_weathering", "/pond_water_silt"))
-                .leftInput(EmiStack.of(ModBlocks.SILT.get()))
-                .rightInput(bottle, false)
-                .output(EmiStack.of(ModBlocks.SILT.get()))
-                .output(EmiStack.of(ModItems.POND_WATER.get()))
                 .build());
 
 
@@ -113,7 +108,7 @@ public class EmiIntegration implements EmiPlugin {
 
         BiMap<Block, Block> frost = Frosty.UNFROSTY_TO_FROSTY.get();
         for (Block key : frost.keySet()) {
-            ResourceLocation blockId = Registry.ITEM.getKey(key.asItem());
+            ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
             EmiStack input = EmiStack.of(frost.get(key));
             EmiStack output = EmiStack.of(key);
             registry.addRecipe(EmiWorldInteractionRecipe.builder()
@@ -126,7 +121,7 @@ public class EmiIntegration implements EmiPlugin {
 
         BiMap<Block, Block> cracks = Crackable.CRACK_LEVEL_INCREASES.get();
         for (Block key : cracks.keySet()) {
-            ResourceLocation blockId = Registry.ITEM.getKey(key.asItem());
+            ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
             EmiStack input = EmiStack.of(key);
             EmiStack output = EmiStack.of(cracks.get(key));
             if (cracks.get(key) instanceof Crackable cracked) {
@@ -152,7 +147,7 @@ public class EmiIntegration implements EmiPlugin {
 
         BiMap<Block, Block> moss = Mossable.MOSS_LEVEL_INCREASES.get();
         for (Block key : moss.keySet()) {
-            ResourceLocation blockId = Registry.ITEM.getKey(key.asItem());
+            ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
             EmiStack input = EmiStack.of(key);
             EmiStack output = EmiStack.of(moss.get(key));
             registry.addRecipe(EmiWorldInteractionRecipe.builder()
@@ -186,7 +181,7 @@ public class EmiIntegration implements EmiPlugin {
         for (Block key : sandy.keySet()) {
             EmiStack input = EmiStack.of(key);
             EmiStack output = EmiStack.of(sandy.get(key));
-            ResourceLocation blockId = Registry.ITEM.getKey(key.asItem());
+            ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
             registry.addRecipe(EmiWorldInteractionRecipe.builder()
                     .id(new ResourceLocation("immersive_weathering", "/block_sanding/" + blockId.getNamespace() + "/" + blockId.getPath()))
                     .leftInput(input)
@@ -206,7 +201,7 @@ public class EmiIntegration implements EmiPlugin {
         for (Block key : snowy.keySet()) {
             EmiStack input = EmiStack.of(key);
             EmiStack output = EmiStack.of(snowy.get(key));
-            ResourceLocation blockId = Registry.ITEM.getKey(key.asItem());
+            ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
             registry.addRecipe(EmiWorldInteractionRecipe.builder()
                     .id(new ResourceLocation("immersive_weathering", "/block_snowing/" + blockId.getNamespace() + "/" + blockId.getPath()))
                     .leftInput(input)
@@ -224,7 +219,7 @@ public class EmiIntegration implements EmiPlugin {
 
         BiMap<Block, Block> rust = Rustable.RUST_LEVEL_INCREASES.get();
         for (Block key : rust.keySet()) {
-            ResourceLocation blockId = Registry.ITEM.getKey(key.asItem());
+            ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
             EmiStack input = EmiStack.of(key);
             EmiStack output = EmiStack.of(rust.get(key));
             registry.addRecipe(EmiWorldInteractionRecipe.builder()
@@ -235,6 +230,4 @@ public class EmiIntegration implements EmiPlugin {
                     .build());
         }
     }
-
-     */
 }

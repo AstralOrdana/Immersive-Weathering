@@ -65,7 +65,7 @@ public class IceGrowth extends BuiltinBlockGrowth {
                 float k = pos.getZ() + 0.5f;
                 level.sendParticles(ParticleTypes.LARGE_SMOKE, i, j, k, 12, 0.2D, 0.2D, 0.2D, 0);
                 ice.invokeMelt(state, level, pos);
-            } else if (b.get().value().shouldSnowGolemBurn(pos) && level.isDay()) {
+            } else if (level.isDay() && !b.get().value().coldEnoughToSnow(pos)) {
                 ice.invokeMelt(state, level, pos);
             }
         }

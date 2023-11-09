@@ -39,11 +39,11 @@ public abstract class SnowballMixin extends ThrowableItemProjectile {
         if (type == HitResult.Type.BLOCK) {
             BlockHitResult blockHitResult = (BlockHitResult) hitResult;
             BlockPos blockPos = blockHitResult.getBlockPos();
-            BlockState hitState = this.level.getBlockState(blockPos);
+            BlockState hitState = this.level().getBlockState(blockPos);
             var snowy = Snowy.getSnowy(hitState);
             if (hitState.is(ModTags.SNOWABLE) && snowy.isPresent()) {
-                ParticleUtils.spawnParticlesOnBlockFaces(level, blockPos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SNOW_BLOCK.defaultBlockState()), UniformInt.of(3, 5));
-                this.level.setBlockAndUpdate(blockPos, snowy.get());
+                ParticleUtils.spawnParticlesOnBlockFaces(level(), blockPos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SNOW_BLOCK.defaultBlockState()), UniformInt.of(3, 5));
+                this.level().setBlockAndUpdate(blockPos, snowy.get());
             }
         }
     }

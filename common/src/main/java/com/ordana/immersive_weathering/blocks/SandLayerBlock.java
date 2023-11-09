@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,7 +28,7 @@ public class SandLayerBlock extends LayerBlock {
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float height) {
         int layers = state.getValue(LAYERS_8);
-        entity.causeFallDamage(height, layers > 2 ? 0.3f : 1, DamageSource.FALL);
+        entity.causeFallDamage(height, layers > 2 ? 0.3f : 1, level.damageSources().fall());
         if (level.isClientSide) {
             for (int i = 0; i < Math.min(12, height * 1.4); i++) {
 

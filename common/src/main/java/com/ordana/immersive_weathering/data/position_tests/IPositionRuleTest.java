@@ -39,7 +39,7 @@ public interface IPositionRuleTest {
 
         public static final Codec<Type<?>> CODEC = Codec.STRING.flatXmap(
                 (name) -> ModPositionRuleTests.get(name).map(DataResult::success).orElseGet(
-                        () -> DataResult.error("Unknown Position Predicate: " + name)),
+                        () -> DataResult.error(() -> "Unknown Position Predicate: " + name)),
                 (t) -> DataResult.success(t.name()));
 
     }

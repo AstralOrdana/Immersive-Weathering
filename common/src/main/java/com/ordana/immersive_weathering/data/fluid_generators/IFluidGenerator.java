@@ -45,7 +45,7 @@ public interface IFluidGenerator extends Comparable<IFluidGenerator> {
         
         private static final Codec<Type<?>> CODEC = Codec.STRING.flatXmap(
                 (name) -> ModFluidGenerators.get(name).map(DataResult::success).orElseGet(
-                        () -> DataResult.error("Unknown Fluid Generator type: " + name)),
+                        () -> DataResult.error(() -> "Unknown Fluid Generator type: " + name)),
                 (t) -> DataResult.success(t.name()));
 
     }

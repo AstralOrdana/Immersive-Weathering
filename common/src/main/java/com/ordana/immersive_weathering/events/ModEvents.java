@@ -13,14 +13,14 @@ import com.ordana.immersive_weathering.blocks.snowy.Snowy;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
-import com.ordana.immersive_weathering.integration.IntegrationHandler;
-import com.ordana.immersive_weathering.integration.QuarkPlugin;
+import com.ordana.immersive_weathering.integrations.IntegrationHandler;
+import com.ordana.immersive_weathering.integrations.QuarkPlugin;
 import com.ordana.immersive_weathering.reg.*;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.mehvahdjukaar.moonlight.api.events.IFireConsumeBlockEvent;
 import net.mehvahdjukaar.moonlight.api.events.ILightningStruckBlockEvent;
 import net.mehvahdjukaar.moonlight.api.misc.EventCalled;
-import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -511,7 +511,7 @@ public class ModEvents {
                 if (charred == null) {
                     if (serverLevel.random.nextFloat() < ashChance) {
                         //TODO: set random layer height and do similar to supp??
-                        if (PlatformHelper.isModLoaded("supplementaries")) return false;
+                        if (PlatHelper.isModLoaded("supplementaries")) return false;
                         //newState = ModBlocks.ASH_LAYER_BLOCK.get().defaultBlockState();
                     }
                 }

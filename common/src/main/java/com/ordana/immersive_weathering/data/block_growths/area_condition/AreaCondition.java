@@ -55,7 +55,7 @@ public interface AreaCondition {
     record AreaConditionType<T extends AreaCondition>(Codec<T> codec, String name) {
         public static Codec<AreaConditionType<?>> CODEC = Codec.STRING.flatXmap(
                 (name) -> get(name).map(DataResult::success).orElseGet(
-                        () -> DataResult.error("Unknown Area Condition: " + name)),
+                        () -> DataResult.error(() -> "Unknown Area Condition: " + name)),
                 (t) -> DataResult.success(t.name()));
     }
 

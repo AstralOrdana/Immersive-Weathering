@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.integration;
+package com.ordana.immersive_weathering.integrations;
 
 import com.google.common.collect.ImmutableBiMap;
 import dev.architectury.injectables.annotations.ExpectPlatform;

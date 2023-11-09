@@ -19,9 +19,6 @@ public class LeafParticle extends TextureSheetParticle {
         this.friction = 1.0F;
         this.gravity = 1.0F;
         this.rotationSpeed = ((float) Math.random() - 0.5F) * 0.1F;
-        this.setColor(NativeImage.getB(color) / 255f,
-                NativeImage.getG(color) / 255f,
-                NativeImage.getR(color) / 255f);
     }
 
     public void tick() {

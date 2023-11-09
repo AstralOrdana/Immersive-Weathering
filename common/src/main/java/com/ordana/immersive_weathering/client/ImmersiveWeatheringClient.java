@@ -10,7 +10,7 @@ import com.ordana.immersive_weathering.reg.ModEntities;
 import com.ordana.immersive_weathering.reg.ModItems;
 import com.ordana.immersive_weathering.reg.ModParticles;
 import net.mehvahdjukaar.moonlight.api.client.renderer.FallingBlockRendererGeneric;
-import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.ClientHelper;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -19,6 +19,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.FoliageColor;
@@ -28,104 +29,104 @@ import net.minecraft.world.level.block.Blocks;
 public class ImmersiveWeatheringClient {
 
     public static void init() {
-            ClientPlatformHelper.addEntityRenderersRegistration(ImmersiveWeatheringClient::registerEntityRenderers);
-        ClientPlatformHelper.addBlockColorsRegistration(ImmersiveWeatheringClient::registerBlockColors);
-        ClientPlatformHelper.addItemColorsRegistration(ImmersiveWeatheringClient::registerItemColors);
-        ClientPlatformHelper.addParticleRegistration(ImmersiveWeatheringClient::registerParticles);
+        //ClientHelper.addEntityRenderersRegistration(ImmersiveWeatheringClient::registerEntityRenderers);
+        ClientHelper.addBlockColorsRegistration(ImmersiveWeatheringClient::registerBlockColors);
+        ClientHelper.addItemColorsRegistration(ImmersiveWeatheringClient::registerItemColors);
+        ClientHelper.addParticleRegistration(ImmersiveWeatheringClient::registerParticles);
     }
 
     public static void setup() {
 
-        ClientPlatformHelper.registerRenderType(ModBlocks.GRASSY_LOAM.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.GRASSY_PERMAFROST.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.GRASSY_SILT.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.GRASSY_EARTHEN_CLAY.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.GRASSY_SANDY_DIRT.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.ROOTED_GRASS_BLOCK.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(Blocks.MOSSY_COBBLESTONE, RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(Blocks.MOSSY_COBBLESTONE_SLAB, RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(Blocks.MOSSY_COBBLESTONE_STAIRS, RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(Blocks.MOSSY_COBBLESTONE_WALL, RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(Blocks.INFESTED_MOSSY_STONE_BRICKS, RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(Blocks.MOSSY_STONE_BRICKS, RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(Blocks.MOSSY_STONE_BRICK_SLAB, RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(Blocks.MOSSY_STONE_BRICK_STAIRS, RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(Blocks.MOSSY_STONE_BRICK_WALL, RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.MOSSY_BRICKS.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.MOSSY_BRICK_SLAB.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.MOSSY_BRICK_STAIRS.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.MOSSY_BRICK_WALL.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.MOSSY_STONE.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.MOSSY_STONE_SLAB.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.MOSSY_STONE_STAIRS.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.MOSSY_STONE_WALL.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.GRASSY_LOAM.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.GRASSY_PERMAFROST.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.GRASSY_SILT.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.GRASSY_EARTHEN_CLAY.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.GRASSY_SANDY_DIRT.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.ROOTED_GRASS_BLOCK.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(Blocks.MOSSY_COBBLESTONE, RenderType.cutout());
+        ClientHelper.registerRenderType(Blocks.MOSSY_COBBLESTONE_SLAB, RenderType.cutout());
+        ClientHelper.registerRenderType(Blocks.MOSSY_COBBLESTONE_STAIRS, RenderType.cutout());
+        ClientHelper.registerRenderType(Blocks.MOSSY_COBBLESTONE_WALL, RenderType.cutout());
+        ClientHelper.registerRenderType(Blocks.INFESTED_MOSSY_STONE_BRICKS, RenderType.cutout());
+        ClientHelper.registerRenderType(Blocks.MOSSY_STONE_BRICKS, RenderType.cutout());
+        ClientHelper.registerRenderType(Blocks.MOSSY_STONE_BRICK_SLAB, RenderType.cutout());
+        ClientHelper.registerRenderType(Blocks.MOSSY_STONE_BRICK_STAIRS, RenderType.cutout());
+        ClientHelper.registerRenderType(Blocks.MOSSY_STONE_BRICK_WALL, RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.MOSSY_BRICKS.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.MOSSY_BRICK_SLAB.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.MOSSY_BRICK_STAIRS.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.MOSSY_BRICK_WALL.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.MOSSY_STONE.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.MOSSY_STONE_SLAB.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.MOSSY_STONE_STAIRS.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.MOSSY_STONE_WALL.get(), RenderType.cutout());
 
-        ClientPlatformHelper.registerRenderType(ModBlocks.VITRIFIED_SAND.get(), RenderType.translucent());
+        ClientHelper.registerRenderType(ModBlocks.VITRIFIED_SAND.get(), RenderType.translucent());
 
-        ClientPlatformHelper.registerRenderType(ModBlocks.EXPOSED_IRON_DOOR.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.WEATHERED_IRON_DOOR.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.RUSTED_IRON_DOOR.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.EXPOSED_IRON_DOOR.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.WEATHERED_IRON_DOOR.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.RUSTED_IRON_DOOR.get(), RenderType.cutout());
 
-        ClientPlatformHelper.registerRenderType(ModBlocks.EXPOSED_IRON_TRAPDOOR.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.WEATHERED_IRON_TRAPDOOR.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.RUSTED_IRON_TRAPDOOR.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.EXPOSED_IRON_TRAPDOOR.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.WEATHERED_IRON_TRAPDOOR.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.RUSTED_IRON_TRAPDOOR.get(), RenderType.cutout());
 
-        ClientPlatformHelper.registerRenderType(ModBlocks.EXPOSED_IRON_BARS.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.WEATHERED_IRON_BARS.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.RUSTED_IRON_BARS.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.EXPOSED_IRON_BARS.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.WEATHERED_IRON_BARS.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.RUSTED_IRON_BARS.get(), RenderType.cutout());
 
-        ClientPlatformHelper.registerRenderType(ModBlocks.WAXED_IRON_DOOR.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.WAXED_EXPOSED_IRON_DOOR.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.WAXED_WEATHERED_IRON_DOOR.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.WAXED_RUSTED_IRON_DOOR.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.WAXED_IRON_DOOR.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.WAXED_EXPOSED_IRON_DOOR.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.WAXED_WEATHERED_IRON_DOOR.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.WAXED_RUSTED_IRON_DOOR.get(), RenderType.cutout());
 
-        ClientPlatformHelper.registerRenderType(ModBlocks.WAXED_IRON_TRAPDOOR.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.WAXED_EXPOSED_IRON_TRAPDOOR.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.WAXED_WEATHERED_IRON_TRAPDOOR.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.WAXED_RUSTED_IRON_TRAPDOOR.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.WAXED_IRON_TRAPDOOR.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.WAXED_EXPOSED_IRON_TRAPDOOR.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.WAXED_WEATHERED_IRON_TRAPDOOR.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.WAXED_RUSTED_IRON_TRAPDOOR.get(), RenderType.cutout());
 
-        ClientPlatformHelper.registerRenderType(ModBlocks.WAXED_IRON_BARS.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.WAXED_EXPOSED_IRON_BARS.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.WAXED_WEATHERED_IRON_BARS.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.WAXED_RUSTED_IRON_BARS.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.WAXED_IRON_BARS.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.WAXED_EXPOSED_IRON_BARS.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.WAXED_WEATHERED_IRON_BARS.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.WAXED_RUSTED_IRON_BARS.get(), RenderType.cutout());
 
-        ClientPlatformHelper.registerRenderType(ModBlocks.ICICLE.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.FULGURITE.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.ICICLE.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.FULGURITE.get(), RenderType.cutout());
 
         ModBlocks.LEAF_PILES.values().forEach(b ->
-                ClientPlatformHelper.registerRenderType(b, RenderType.cutout()));
-        ClientPlatformHelper.registerRenderType(ModBlocks.AZALEA_FLOWER_PILE.get(), RenderType.cutout());
+                ClientHelper.registerRenderType(b, RenderType.cutout()));
+        ClientHelper.registerRenderType(ModBlocks.AZALEA_FLOWER_PILE.get(), RenderType.cutout());
 
-        ClientPlatformHelper.registerRenderType(ModBlocks.WEEDS.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.IVY.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.WEEDS.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.IVY.get(), RenderType.cutout());
 
-        ClientPlatformHelper.registerRenderType(ModBlocks.MOSS.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.SOOT.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.SOOT.get(), RenderType.translucent());
-        ClientPlatformHelper.registerRenderType(ModBlocks.FROST.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.FROST.get(), RenderType.translucent());
-        ClientPlatformHelper.registerRenderType(ModBlocks.FROSTY_GLASS.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.FROSTY_GLASS.get(), RenderType.translucent());
-        ClientPlatformHelper.registerRenderType(ModBlocks.FROSTY_GLASS_PANE.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.FROSTY_GLASS_PANE.get(), RenderType.translucent());
-        ClientPlatformHelper.registerRenderType(ModBlocks.FROSTY_GRASS.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.FROSTY_FERN.get(), RenderType.cutout());
-        ClientPlatformHelper.registerRenderType(ModBlocks.THIN_ICE.get(), RenderType.translucent());
+        ClientHelper.registerRenderType(ModBlocks.MOSS.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.SOOT.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.SOOT.get(), RenderType.translucent());
+        ClientHelper.registerRenderType(ModBlocks.FROST.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.FROST.get(), RenderType.translucent());
+        ClientHelper.registerRenderType(ModBlocks.FROSTY_GLASS.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.FROSTY_GLASS.get(), RenderType.translucent());
+        ClientHelper.registerRenderType(ModBlocks.FROSTY_GLASS_PANE.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.FROSTY_GLASS_PANE.get(), RenderType.translucent());
+        ClientHelper.registerRenderType(ModBlocks.FROSTY_GRASS.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.FROSTY_FERN.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.THIN_ICE.get(), RenderType.translucent());
 
-        ClientPlatformHelper.registerRenderType(ModBlocks.HANGING_ROOTS_WALL.get(), RenderType.cutout());
+        ClientHelper.registerRenderType(ModBlocks.HANGING_ROOTS_WALL.get(), RenderType.cutout());
 
-        ClientPlatformHelper.registerItemProperty(ModItems.FLOWER_CROWN.get(), ImmersiveWeathering.res("supporter"),
+        ItemProperties.register(ModItems.FLOWER_CROWN.get(), ImmersiveWeathering.res("supporter"),
                 (stack, world, entity, s) -> FlowerCrownItem.getItemTextureIndex(stack));
     }
 
 
-    private static void registerEntityRenderers(ClientPlatformHelper.EntityRendererEvent event) {
+    private static void registerEntityRenderers(ClientHelper.EntityRendererEvent event) {
         event.register(ModEntities.FALLING_ICICLE.get(), FallingBlockRendererGeneric::new);
         event.register(ModEntities.FALLING_LAYER.get(), FallingBlockRendererGeneric::new);
         event.register(ModEntities.FALLING_PROPAGULE.get(), FallingBlockRendererGeneric::new);
     }
 
-    private static void registerParticles(ClientPlatformHelper.ParticleEvent event) {
+    private static void registerParticles(ClientHelper.ParticleEvent event) {
         event.register(ModParticles.EMBERSPARK.get(), EmberParticle.EmberFactory::new);
         event.register(ModParticles.EMBER.get(), EmberParticle.EmberFactory::new);
 
@@ -196,7 +197,7 @@ public class ImmersiveWeatheringClient {
         }
     }
 
-    private static void registerBlockColors(ClientPlatformHelper.BlockColorEvent event) {
+    private static void registerBlockColors(ClientHelper.BlockColorEvent event) {
 
         final BlockColor defaultGrassColor = (state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageGrassColor(world, pos) : GrassColor.get(0D, 0D);
         final BlockColor defaultFoliageColor = (state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageFoliageColor(world, pos) : FoliageColor.getDefaultColor();
@@ -248,7 +249,7 @@ public class ImmersiveWeatheringClient {
     }
 
 
-    private static void registerItemColors(ClientPlatformHelper.ItemColorEvent event) {
+    private static void registerItemColors(ClientHelper.ItemColorEvent event) {
         final ItemColor defaultGrassColor = (stack, tintIndex) -> GrassColor.get(0.5D, 0.5D);
         //todo: REPLACE ALL OF THESE LIKE THIS
         IWPlatformStuff.copyColorFrom(event, ModBlocks.ROOTED_GRASS_BLOCK.get(), Blocks.GRASS_BLOCK, defaultGrassColor);

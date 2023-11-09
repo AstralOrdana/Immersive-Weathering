@@ -11,7 +11,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
@@ -75,7 +74,7 @@ public interface Charred extends ILightable, Fallable {
     default void onEntityStepOn(BlockState state, Entity entity) {
         if (isLitUp(state)) {
             if (!entity.fireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
-                entity.hurt(DamageSource.HOT_FLOOR, 1.0F);
+                entity.hurt(entity.damageSources().hotFloor(), 1.0F);
             }
         }
     }

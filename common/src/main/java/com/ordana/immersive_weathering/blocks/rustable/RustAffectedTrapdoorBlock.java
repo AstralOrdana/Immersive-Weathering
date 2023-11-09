@@ -7,14 +7,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 //affected by rust but cannot rust itself (waxed)
 public class RustAffectedTrapdoorBlock extends TrapDoorBlock {
     private final Rustable.RustLevel rustLevel;
 
-    public RustAffectedTrapdoorBlock(Rustable.RustLevel rustLevel, Properties settings) {
-        super(settings);
+    public RustAffectedTrapdoorBlock(Rustable.RustLevel rustLevel, Properties properties, BlockSetType type) {
+        super(properties, type);
         this.rustLevel = rustLevel;
     }
 

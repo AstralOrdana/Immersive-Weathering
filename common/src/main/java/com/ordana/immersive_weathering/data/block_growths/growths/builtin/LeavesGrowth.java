@@ -9,7 +9,7 @@ import com.ordana.immersive_weathering.network.NetworkHandler;
 import com.ordana.immersive_weathering.network.SendCustomParticlesPacket;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
-import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -60,7 +60,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
                             .setValue(PointedDripstoneBlock.TIP_DIRECTION, Direction.DOWN), 2);
                 }
 
-                if (!PlatformHelper.isAreaLoaded(level, pos, 2)) return;
+                if (!PlatHelper.isAreaLoaded(level, pos, 2)) return;
                 BlockPos targetPos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos);
                 int maxFallenLeavesReach = CommonConfigs.LEAF_PILES_REACH.get();
                 int maxPileHeight = CommonConfigs.LEAF_PILE_MAX_HEIGHT.get();
@@ -73,7 +73,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
                         targetPos = targetPos.below();
                         dist = pos.getY() - targetPos.getY();
                         selected = level.getBlockState(targetPos);
-                    } while ((selected.getMaterial().isReplaceable() && selected.getFluidState().isEmpty()) &&
+                    } while ((selected.canBeReplaced() && selected.getFluidState().isEmpty()) &&
                             dist < maxFallenLeavesReach);
                     targetPos = targetPos.above();
 
@@ -99,7 +99,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
         BlockState baseLeaf = leafPile.defaultBlockState().setValue(LeafPileBlock.LAYERS, waterBelow ? 0 : 1);
         //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
         if (isOnLeaf || (
-                replaceState.getMaterial().isReplaceable()
+                replaceState.canBeReplaced()
                         && baseLeaf.canSurvive(level, targetPos)
                         && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 1, 2,
                         level, b -> b.getBlock() instanceof LeafPileBlock, 5)

@@ -6,7 +6,7 @@ import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.client.ImmersiveWeatheringClient;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModWaxables;
-import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -62,7 +62,7 @@ public class ImmersiveWeatheringForge {
         //TODO: fix grass growth replacing double plants and add tag
 
 
-        if (PlatformHelper.getEnv().isClient()) {
+        if (PlatHelper.getEnv().isClient()) {
             ImmersiveWeatheringClient.init();
         }
     }

@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,7 +24,7 @@ public class OtherFluidGenerator implements IFluidGenerator {
 
     public static final Codec<OtherFluidGenerator> CODEC = RecordCodecBuilder.<OtherFluidGenerator>create(
             instance -> instance.group(
-                    Registry.FLUID.byNameCodec().fieldOf("fluid").forGetter(OtherFluidGenerator::getFluid),
+                    BuiltInRegistries.FLUID.byNameCodec().fieldOf("fluid").forGetter(OtherFluidGenerator::getFluid),
                     FluidType.CODEC.optionalFieldOf("fluid_type", FluidType.BOTH).forGetter(OtherFluidGenerator::getFluidType),
                     BlockState.CODEC.fieldOf("generate").forGetter(OtherFluidGenerator::getGrowth),
                     RuleTest.CODEC.fieldOf("target").forGetter(OtherFluidGenerator::getTarget),

@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.mixins;
 
+import com.ordana.immersive_weathering.util.TemperatureManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -20,7 +21,7 @@ public abstract class IceMixin extends Block {
 
     //TODO: is day is broken on client side
     private boolean canMelt(BlockState state, Level level, BlockPos pos) {
-        return level.dimensionType().ultraWarm() || (level.getBiome(pos).value().shouldSnowGolemBurn(pos) && level.isDay()) ||
+        return level.dimensionType().ultraWarm() || (!level.getBiome(pos).value().coldEnoughToSnow(pos) && level.isDay()) ||
                 (level.getBrightness(LightLayer.BLOCK, pos) > 11 - state.getLightBlock(level, pos));
 
     }

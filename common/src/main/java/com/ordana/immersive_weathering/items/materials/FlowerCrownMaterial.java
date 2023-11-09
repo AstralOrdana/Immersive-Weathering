@@ -4,6 +4,7 @@ import com.ordana.immersive_weathering.reg.ModItems;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -12,12 +13,12 @@ public class FlowerCrownMaterial implements ArmorMaterial {
     public static final FlowerCrownMaterial INSTANCE = new FlowerCrownMaterial();
 
     @Override
-    public int getDurabilityForSlot(EquipmentSlot slot) {
+    public int getDurabilityForType(ArmorItem.Type type) {
         return 64;
     }
 
     @Override
-    public int getDefenseForSlot(EquipmentSlot slot) {
+    public int getDefenseForType(ArmorItem.Type type) {
         return 0;
     }
 

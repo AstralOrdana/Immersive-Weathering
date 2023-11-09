@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.integration.forge;
+package com.ordana.immersive_weathering.integrations.forge;
 
 import net.minecraft.world.level.Level;
 

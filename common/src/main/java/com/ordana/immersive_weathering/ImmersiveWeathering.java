@@ -6,15 +6,13 @@ import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
 import com.ordana.immersive_weathering.data.fluid_generators.FluidGeneratorsHandler;
 import com.ordana.immersive_weathering.data.fluid_generators.ModFluidGenerators;
 import com.ordana.immersive_weathering.data.position_tests.ModPositionRuleTests;
-import com.ordana.immersive_weathering.dynamicpack.ClientDynamicResourcesHandler;
-import com.ordana.immersive_weathering.dynamicpack.ServerDynamicResourcesHandler;
 import com.ordana.immersive_weathering.events.ModEvents;
 import com.ordana.immersive_weathering.network.NetworkHandler;
 import com.ordana.immersive_weathering.reg.*;
 import net.mehvahdjukaar.moonlight.api.events.IFireConsumeBlockEvent;
 import net.mehvahdjukaar.moonlight.api.events.ILightningStruckBlockEvent;
 import net.mehvahdjukaar.moonlight.api.events.MoonlightEventsHelper;
-import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,7 +33,7 @@ public class ImmersiveWeathering {
         CommonConfigs.init();
         NetworkHandler.registerMessages();
 
-        if(PlatformHelper.getEnv().isClient()){
+        if(PlatHelper.getPhysicalSide().isClient()) {
             ClientConfigs.init();
         }
         MoonlightEventsHelper.addListener(ModEvents::onFireConsume, IFireConsumeBlockEvent.class);
@@ -49,14 +47,14 @@ public class ImmersiveWeathering {
         ModSoundEvents.init();
 
 
-        PlatformHelper.addServerReloadListener(BlockGrowthHandler.RELOAD_INSTANCE, res("block_growths"));
-        PlatformHelper.addServerReloadListener(FluidGeneratorsHandler.RELOAD_INSTANCE, res("fluid_generators"));
+        PlatHelper.addServerReloadListener(BlockGrowthHandler.RELOAD_INSTANCE, res("block_growths"));
+        PlatHelper.addServerReloadListener(FluidGeneratorsHandler.RELOAD_INSTANCE, res("fluid_generators"));
 
-        ServerDynamicResourcesHandler.INSTANCE.register();
+        //ServerDynamicResourcesHandler.INSTANCE.register();
 
-        if (PlatformHelper.getEnv().isClient()) {
-            ClientDynamicResourcesHandler.INSTANCE.register();
-        }
+        //if (PlatHelper.getEnv().isClient()) {
+        //    ClientDynamicResourcesHandler.INSTANCE.register();
+        //}
     }
 
     public static void commonSetup() {

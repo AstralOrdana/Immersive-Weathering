@@ -15,7 +15,6 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -132,7 +131,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
                             double d = Math.abs(entity.getX() - entity.xOld);
                             double e = Math.abs(entity.getZ() - entity.zOld);
                             if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
-                                entity.hurt(DamageSource.SWEET_BERRY_BUSH, 0.5F * (layers - 5));
+                                entity.hurt(level.damageSources().sweetBerryBush(), 0.5F * (layers - 5));
                             }
                         }
                     }
@@ -233,7 +232,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(BlockGetter world, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean isClient) {
         return this.canBeBonemealed;
     }
 

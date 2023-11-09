@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
@@ -31,7 +32,7 @@ record AreaCheck(int rX, int rY, int rZ, int requiredAmount, Optional<Integer> y
             Codec.INT.optionalFieldOf("yOffset").forGetter(AreaCheck::yOffset),
             RuleTest.CODEC.optionalFieldOf("must_have").forGetter(AreaCheck::mustHavePredicate),
             RuleTest.CODEC.optionalFieldOf("must_not_have").forGetter(AreaCheck::mustNotHavePredicate),
-            RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).optionalFieldOf("includes").forGetter(AreaCheck::extraIncluded)
+            RegistryCodecs.homogeneousList(Registries.BLOCK).optionalFieldOf("includes").forGetter(AreaCheck::extraIncluded)
     ).apply(instance, AreaCheck::new));
     static final AreaConditionType<AreaCheck> TYPE = new AreaConditionType<>(AreaCheck.CODEC, AreaCheck.NAME);
 

@@ -4,7 +4,6 @@ import com.ordana.immersive_weathering.entities.FallingLayerEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -17,7 +16,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -121,8 +119,7 @@ public class LayerBlock extends FallingBlock {
 
 
     public boolean shouldFall(BlockState state, BlockState belowState) {
-        Material material = belowState.getMaterial();
-        return belowState.isAir() || belowState.is(BlockTags.FIRE) || material.isLiquid() || (material.isReplaceable() ) && !(belowState.is(this));
+        return (belowState.isAir() || belowState.canBeReplaced()) && !(belowState.is(this));
     }
 
     @Override
