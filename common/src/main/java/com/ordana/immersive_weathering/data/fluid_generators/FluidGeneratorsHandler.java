@@ -10,6 +10,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.mehvahdjukaar.moonlight.api.misc.RegistryAccessJsonReloadListener;
 import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,7 +18,6 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
@@ -31,7 +31,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
+public class FluidGeneratorsHandler extends RegistryAccessJsonReloadListener {
 
     public static final ImmutableList<Direction> POSSIBLE_FLOW_DIRECTIONS = ImmutableList.of(
             Direction.DOWN, Direction.SOUTH, Direction.NORTH, Direction.EAST, Direction.WEST
@@ -41,74 +41,60 @@ public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
 
     public static final FluidGeneratorsHandler RELOAD_INSTANCE = new FluidGeneratorsHandler();
 
-    private static final Map<ResourceLocation, JsonElement> TO_PARSE = new HashMap<>();
-
     private static final Map<Fluid, ImmutableList<IFluidGenerator>> STILL_GENERATORS = new Object2ObjectOpenHashMap<>();
     private static final Map<Fluid, ImmutableList<IFluidGenerator>> FLOWING_GENERATORS = new Object2ObjectOpenHashMap<>();
     private static final Set<Fluid> HAS_GENERATOR = new HashSet<>();
-
-    private boolean needsRefresh;
 
     public FluidGeneratorsHandler() {
         super(GSON, "fluid_generators");
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> jsons, ResourceManager manager, ProfilerFiller profile) {
-        this.needsRefresh = true;
-        TO_PARSE.clear();
-        for (var e : jsons.entrySet()) {
-            TO_PARSE.put(e.getKey(), e.getValue().deepCopy());
+    public void parse(Map<ResourceLocation, JsonElement> jsonMap, RegistryAccess registryAccess) {
+        Map<ResourceLocation, JsonElement> map = new HashMap<>();
+        for (var e : jsonMap.entrySet()) {
+            map.put(e.getKey(), e.getValue().deepCopy());
         }
-    }
 
-    //called after all tags are reloaded
-    public void rebuild(RegistryAccess registryAccess) {
+        List<IFluidGenerator> generators = new ArrayList<>();
 
-        if (this.needsRefresh) {
-            this.needsRefresh = false;
+        for (var e : map.entrySet()) {
+            var json = e.getValue();
 
-            List<IFluidGenerator> generators = new ArrayList<>();
+            var result = IFluidGenerator.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
+            var o = result.resultOrPartial(error -> ImmersiveWeathering.LOGGER.error("Failed to read liquid generator JSON object for {} : {}", e.getKey(), error));
 
-            for (var e : TO_PARSE.entrySet()) {
-                var json = e.getValue();
-
-                var result = IFluidGenerator.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
-                var o = result.resultOrPartial(error -> ImmersiveWeathering.LOGGER.error("Failed to read liquid generator JSON object for {} : {}", e.getKey(), error));
-
-                o.ifPresent(generators::add);
-            }
-            ImmersiveWeathering.LOGGER.info("Loaded {} liquid generators configurations", TO_PARSE.size());
-
-            STILL_GENERATORS.clear();
-            FLOWING_GENERATORS.clear();
-            HAS_GENERATOR.clear();
-
-            Map<Fluid, List<IFluidGenerator>> flowingMap = new HashMap<>();
-            Map<Fluid, List<IFluidGenerator>> stillMap = new HashMap<>();
-
-            for (var g : generators) {
-                HAS_GENERATOR.add(g.getFluid());
-
-                if (g.getFluidType().isFlowing()) {
-                    var list = flowingMap.computeIfAbsent(g.getFluid(), e -> new ArrayList<>());
-
-                    list.add(g);
-                    Collections.sort(list);
-                }
-
-                if (g.getFluidType().isStill()) {
-                    var list = stillMap.computeIfAbsent(g.getFluid(), e -> new ArrayList<>());
-
-                    list.add(g);
-                    Collections.sort(list);
-                }
-            }
-            flowingMap.forEach((key, value) -> FLOWING_GENERATORS.put(key, ImmutableList.copyOf(value)));
-            stillMap.forEach((key, value) -> STILL_GENERATORS.put(key, ImmutableList.copyOf(value)));
-
-            TO_PARSE.clear();
+            o.ifPresent(generators::add);
         }
+        ImmersiveWeathering.LOGGER.info("Loaded {} liquid generators configurations", map.size());
+
+        STILL_GENERATORS.clear();
+        FLOWING_GENERATORS.clear();
+        HAS_GENERATOR.clear();
+
+        Map<Fluid, List<IFluidGenerator>> flowingMap = new HashMap<>();
+        Map<Fluid, List<IFluidGenerator>> stillMap = new HashMap<>();
+
+        for (var g : generators) {
+            HAS_GENERATOR.add(g.getFluid());
+
+            if (g.getFluidType().isFlowing()) {
+                var list = flowingMap.computeIfAbsent(g.getFluid(), e -> new ArrayList<>());
+
+                list.add(g);
+                Collections.sort(list);
+            }
+
+            if (g.getFluidType().isStill()) {
+                var list = stillMap.computeIfAbsent(g.getFluid(), e -> new ArrayList<>());
+
+                list.add(g);
+                Collections.sort(list);
+            }
+        }
+        flowingMap.forEach((key, value) -> FLOWING_GENERATORS.put(key, ImmutableList.copyOf(value)));
+        stillMap.forEach((key, value) -> STILL_GENERATORS.put(key, ImmutableList.copyOf(value)));
+
     }
 
     public static Optional<Pair<BlockPos, @Nullable SoundEvent>> applyGenerators(FlowingFluid fluid, List<Direction> possibleFlowDir,

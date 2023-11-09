@@ -1,26 +1,22 @@
 package com.ordana.immersive_weathering;
 
 import com.ordana.immersive_weathering.client.ImmersiveWeatheringClient;
+import com.ordana.immersive_weathering.configs.ClientConfigs;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
 import com.ordana.immersive_weathering.data.fluid_generators.FluidGeneratorsHandler;
 import com.ordana.immersive_weathering.data.fluid_generators.ModFluidGenerators;
 import com.ordana.immersive_weathering.data.position_tests.ModPositionRuleTests;
-import com.ordana.immersive_weathering.configs.ClientConfigs;
-import com.ordana.immersive_weathering.configs.CommonConfigs;
-import com.ordana.immersive_weathering.dynamicpack.ClientDynamicResourcesHandler;
 import com.ordana.immersive_weathering.dynamicpack.ServerDynamicResourcesHandler;
 import com.ordana.immersive_weathering.events.ModEvents;
 import com.ordana.immersive_weathering.events.ModLootInjects;
 import com.ordana.immersive_weathering.network.NetworkHandler;
-import com.ordana.immersive_weathering.reg.ModSoundEvents;
 import com.ordana.immersive_weathering.reg.*;
 import net.mehvahdjukaar.moonlight.api.events.IFireConsumeBlockEvent;
 import net.mehvahdjukaar.moonlight.api.events.ILightningStruckBlockEvent;
 import net.mehvahdjukaar.moonlight.api.events.MoonlightEventsHelper;
-import net.mehvahdjukaar.moonlight.api.platform.ClientHelper;
 import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,7 +35,7 @@ public class ImmersiveWeathering {
     public static void commonInit() {
 
         CommonConfigs.init();
-        if(PlatHelper.getPhysicalSide().isClient()){
+        if (PlatHelper.getPhysicalSide().isClient()) {
             ClientConfigs.init();
             ImmersiveWeatheringClient.init();
         }
@@ -66,8 +62,6 @@ public class ImmersiveWeathering {
 
         PlatHelper.addServerReloadListener(BlockGrowthHandler.RELOAD_INSTANCE, res("block_growths"));
         PlatHelper.addServerReloadListener(FluidGeneratorsHandler.RELOAD_INSTANCE, res("fluid_generators"));
-
-
     }
 
     public static void setup() {

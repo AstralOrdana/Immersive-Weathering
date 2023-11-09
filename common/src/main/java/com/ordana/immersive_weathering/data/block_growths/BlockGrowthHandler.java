@@ -14,15 +14,13 @@ import com.ordana.immersive_weathering.data.block_growths.growths.ConfigurableBl
 import com.ordana.immersive_weathering.data.block_growths.growths.IBlockGrowth;
 import com.ordana.immersive_weathering.data.block_growths.growths.builtin.BuiltinBlockGrowth;
 import com.ordana.immersive_weathering.data.block_growths.growths.builtin.NoOpBlockGrowth;
+import net.mehvahdjukaar.moonlight.api.misc.RegistryAccessJsonReloadListener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
-import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -34,21 +32,17 @@ import java.io.FileWriter;
 import java.util.*;
 import java.util.function.Supplier;
 
-public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
+public class BlockGrowthHandler extends RegistryAccessJsonReloadListener {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create(); //json object that will write stuff
 
     public static final BlockGrowthHandler RELOAD_INSTANCE = new BlockGrowthHandler();
-
-    private static final Map<ResourceLocation, JsonElement> GROWTH_TO_PARSE = new HashMap<>();
 
     //these need to be as fast as possible as tick will be called very often
     //block specific growth. fast access with map
     private static final Map<TickSource, Map<Block, Set<IBlockGrowth>>> GROWTH_FOR_BLOCK = new EnumMap<>(TickSource.class);
     //set or universal ones
     private static final Map<TickSource, Set<IBlockGrowth>> UNIVERSAL_GROWTHS = new EnumMap<>(TickSource.class);
-
-    private boolean needsRefresh;
 
     public BlockGrowthHandler() {
         super(GSON, "block_growths");
@@ -110,68 +104,58 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> jsons, ResourceManager manager, ProfilerFiller profile) {
-        this.needsRefresh = true;
-        GROWTH_TO_PARSE.clear();
-        for (var e : jsons.entrySet()) {
-            GROWTH_TO_PARSE.put(e.getKey(), e.getValue().deepCopy());
+    public void parse(Map<ResourceLocation, JsonElement> jsonMap, RegistryAccess registryAccess) {
+        Map<ResourceLocation, JsonElement> map = new HashMap<>();
+        for (var e : jsonMap.entrySet()) {
+            map.put(e.getKey(), e.getValue().deepCopy());
         }
-    }
 
-    //called after all tags are reloaded
-    public void rebuild(RegistryAccess registryAccess) {
+        List<IBlockGrowth> growths = new ArrayList<>();
 
-        if (this.needsRefresh) {
-            this.needsRefresh = false;
+        for (var e : map.entrySet()) {
+            String name = e.getKey().getPath();
+            //blacklist
+            if (CommonConfigs.DISABLED_GROWTHS.get().contains(name.toLowerCase(Locale.ROOT))) continue;
 
-            List<IBlockGrowth> growths = new ArrayList<>();
+            var json = e.getValue();
+            DataResult<? extends IBlockGrowth> result;
+            if (json instanceof JsonObject jo && jo.has("builtin")) {
+                result = BuiltinBlockGrowth.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
+            } else {
+                result = ConfigurableBlockGrowth.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
+            }
+            var o = result.resultOrPartial(error -> ImmersiveWeathering.LOGGER.error("Failed to read block growth JSON object for {} : {}", e.getKey(), error));
+            if (o.isPresent()) {
+                IBlockGrowth g = o.get();
+                if (!(g instanceof NoOpBlockGrowth)) {
+                    growths.add(g);
+                }
+            }
+            o.ifPresent(growths::add);
+        }
+        ImmersiveWeathering.LOGGER.info("Loaded {} block growths configurations", map.size());
 
-            for (var e : GROWTH_TO_PARSE.entrySet()) {
-                String name = e.getKey().getPath();
-                //blacklist
-                if (CommonConfigs.DISABLED_GROWTHS.get().contains(name.toLowerCase(Locale.ROOT))) continue;
+        GROWTH_FOR_BLOCK.clear();
+        UNIVERSAL_GROWTHS.clear();
 
-                var json = e.getValue();
-                DataResult<? extends IBlockGrowth> result;
-                if (json instanceof JsonObject jo && jo.has("builtin")) {
-                    result = BuiltinBlockGrowth.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
+        for (var config : growths) {
+
+            var sources = config.getTickSources();
+            for (var s : sources) {
+                var owners = config.getOwners();
+
+                if (owners == null) { //null owners mean it applies to everything
+                    var group = UNIVERSAL_GROWTHS.computeIfAbsent(s, e -> new HashSet<>());
+                    group.add(config);
                 } else {
-                    result = ConfigurableBlockGrowth.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registryAccess), json);
+                    var group = GROWTH_FOR_BLOCK.computeIfAbsent(s, e -> Maps.newIdentityHashMap());
+                    config.getOwners().forEach(b -> {
+
+                        group.computeIfAbsent(b, k -> new HashSet<>()).add(config);
+                    });
                 }
-                var o = result.resultOrPartial(error -> ImmersiveWeathering.LOGGER.error("Failed to read block growth JSON object for {} : {}", e.getKey(), error));
-                if (o.isPresent()) {
-                    IBlockGrowth g = o.get();
-                    if (!(g instanceof NoOpBlockGrowth)) {
-                        growths.add(g);
-                    }
-                }
-                o.ifPresent(growths::add);
+
             }
-            ImmersiveWeathering.LOGGER.info("Loaded {} block growths configurations", GROWTH_TO_PARSE.size());
-
-            GROWTH_FOR_BLOCK.clear();
-            UNIVERSAL_GROWTHS.clear();
-
-            for (var config : growths) {
-
-                var sources = config.getTickSources();
-                for (var s : sources) {
-                    var owners = config.getOwners();
-
-                    if (owners == null) { //null owners mean it applies to everything
-                        var group = UNIVERSAL_GROWTHS.computeIfAbsent(s, e -> new HashSet<>());
-                        group.add(config);
-                    } else {
-                        var group = GROWTH_FOR_BLOCK.computeIfAbsent(s, e -> Maps.newIdentityHashMap() );
-                        config.getOwners().forEach(b -> {
-
-                            group.computeIfAbsent(b, k -> new HashSet<>()).add(config);
-                        });
-                    }
-
-                }
-            }
-            GROWTH_TO_PARSE.clear();
         }
     }
 

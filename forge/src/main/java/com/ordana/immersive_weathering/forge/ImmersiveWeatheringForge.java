@@ -3,37 +3,22 @@ package com.ordana.immersive_weathering.forge;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.client.ImmersiveWeatheringClient;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModWaxables;
-import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
-import net.minecraft.server.packs.repository.Pack;
-import net.minecraft.server.packs.repository.PackSource;
-import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.data.loading.DatagenModLoader;
-import net.minecraftforge.event.AddPackFindersEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.forgespi.locating.IModFile;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.resource.PathPackResources;
-
-import java.io.IOException;
 
 /**
  * Authors: MehVahdJukaar, Ordana, Keybounce,
@@ -46,8 +31,8 @@ public class ImmersiveWeatheringForge {
 
         ImmersiveWeathering.commonInit();
 
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        bus.register(this);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerOverrides);
+        MinecraftForge.EVENT_BUS.register(this);
 
 
         /**
@@ -62,7 +47,6 @@ public class ImmersiveWeatheringForge {
         //TODO: fix grass growth replacing double plants and add tag
     }
 
-    @SubscribeEvent
     public void registerOverrides(RegisterEvent event) {
         //override
         if (event.getRegistryKey() == ForgeRegistries.ITEMS.getRegistryKey())
@@ -70,6 +54,18 @@ public class ImmersiveWeatheringForge {
                     new CeilingAndWallBlockItem(Blocks.HANGING_ROOTS, ModBlocks.HANGING_ROOTS_WALL.get(),
                             new Item.Properties()));
     }
+
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        var ret = com.ordana.immersive_weathering.events.ModEvents.onBlockCLicked(event.getItemStack(),
+                event.getEntity(), event.getLevel(), event.getHand(), event.getHitVec());
+        if (ret != InteractionResult.PASS) {
+            event.setCanceled(true);
+            event.setCancellationResult(ret);
+        }
+    }
+
 
     //TODO: add back on setup
     private static void registerWaxables() {
@@ -86,7 +82,6 @@ public class ImmersiveWeatheringForge {
         }
 
     }
-
 
 
 }
