@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.configs;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigBuilder;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigSpec;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigType;
@@ -233,7 +233,7 @@ public class CommonConfigs {
         builder.pop();
 
         //fabric specific
-        PlatformHelper.getPlatform().ifFabric(() -> {
+        PlatHelper.getPlatform().ifFabric(() -> {
 
 
         });

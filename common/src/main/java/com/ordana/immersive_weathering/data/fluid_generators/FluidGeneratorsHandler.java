@@ -10,7 +10,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.RegistryAccess;
@@ -137,7 +137,7 @@ public class FluidGeneratorsHandler extends SimpleJsonResourceReloadListener {
 
     public void saveGeneartor(IFluidGenerator song) {
 
-        File folder = PlatformHelper.getGamePath().resolve("test").toFile();
+        File folder = PlatHelper.getGamePath().resolve("test").toFile();
 
         if (!folder.exists()) {
             folder.mkdir();

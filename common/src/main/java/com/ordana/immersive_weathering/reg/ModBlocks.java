@@ -18,7 +18,7 @@ import com.ordana.immersive_weathering.integration.QuarkPlugin;
 import net.mehvahdjukaar.moonlight.api.block.ModStairBlock;
 import net.mehvahdjukaar.moonlight.api.block.VerticalSlabBlock;
 import net.mehvahdjukaar.moonlight.api.misc.Registrator;
-import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
@@ -75,13 +75,13 @@ public class ModBlocks {
 
     private static boolean isCompatBlockEanbled(String requiredMod) {
         if(Objects.equals(requiredMod, "quark")) {
-            if (PlatformHelper.getPlatform().isFabric()) {
+            if (PlatHelper.getPlatform().isFabric()) {
                 return requiredMod.equals("amogus");
             }else{
                 return IntegrationHandler.quark && QuarkPlugin.isVerticalSlabsOn();
             }
         }
-        return PlatformHelper.isModLoaded(requiredMod);
+        return PlatHelper.isModLoaded(requiredMod);
     }
 
 

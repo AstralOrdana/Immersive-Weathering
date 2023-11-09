@@ -14,7 +14,7 @@ import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
-import net.mehvahdjukaar.moonlight.api.platform.PlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.mehvahdjukaar.moonlight.fabric.FabricSetupCallbacks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.InteractionHand;
@@ -26,45 +26,22 @@ import net.minecraft.world.phys.BlockHitResult;
 
 public class ImmersiveWeatheringFabric implements ModInitializer {
 
-    public static MinecraftServer currentServer;
 
     @Override
     public void onInitialize() {
 
-        ServerLifecycleEvents.SERVER_STARTING.register(s -> currentServer = s);
-
         //loads registries
         ImmersiveWeathering.commonInit();
 
-        //runs everything else
-
-        ImmersiveWeathering.commonSetup();
-
         //fabric only stuff here
-
-
         if (CommonConfigs.FLAMMABLE_COBWEBS.get()) {
             FlammableBlockRegistry.getDefaultInstance().add(Blocks.COBWEB, 100, 100);
         }
-
-        FabricLoader.getInstance().getModContainer(ImmersiveWeathering.MOD_ID).ifPresent(modContainer -> {
-            ResourceManagerHelper.registerBuiltinResourcePack(ImmersiveWeathering.res("better_brick_items"), modContainer, ResourcePackActivationType.NORMAL);
-            ResourceManagerHelper.registerBuiltinResourcePack(ImmersiveWeathering.res("better_brick_blocks"), modContainer, ResourcePackActivationType.NORMAL);
-            ResourceManagerHelper.registerBuiltinResourcePack(ImmersiveWeathering.res("visual_waxed_iron_items"), modContainer, ResourcePackActivationType.NORMAL);
-            ResourceManagerHelper.registerBuiltinResourcePack(ImmersiveWeathering.res("biome_tinted_mossy_blocks"), modContainer, ResourcePackActivationType.NORMAL);
-        });
 
         //events
         UseBlockCallback.EVENT.register(ImmersiveWeatheringFabric::onRightClickBlock);
 
         LootTableEvents.MODIFY.register((m, t, r, b, s) -> ModLootInjects.onLootInject(t, r, b::withPool));
-
-        FabricSetupCallbacks.COMMON_SETUP.add(ImmersiveWeatheringFabric::onSetup);
-        if(PlatformHelper.getEnv().isClient()){
-            FabricSetupCallbacks.CLIENT_SETUP.add(ImmersiveWeatheringClientFabric::initClient);
-        }
-
-
     }
 
     public static void onSetup(){

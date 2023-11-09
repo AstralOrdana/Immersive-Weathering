@@ -6,18 +6,12 @@ import net.mehvahdjukaar.moonlight.api.platform.network.NetworkDir;
 
 public class NetworkHandler {
 
-    public static ChannelHandler CHANNEL;
+    public static final ChannelHandler CHANNEL = ChannelHandler.builder(ImmersiveWeathering.MOD_ID)
+            .register(NetworkDir.PLAY_TO_CLIENT, SendCustomParticlesPacket.class, SendCustomParticlesPacket::new)
+            .build();
 
 
-    public static void registerMessages() {
-
-        CHANNEL = ChannelHandler.createChannel(ImmersiveWeathering.res("network"));
-
-
-        CHANNEL.register(NetworkDir.PLAY_TO_CLIENT,
-                SendCustomParticlesPacket.class, SendCustomParticlesPacket::new);
-
-
+    public static void init() {
     }
 
 

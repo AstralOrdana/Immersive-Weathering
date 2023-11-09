@@ -1,7 +1,11 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.0-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.1-SNAPSHOT" apply false
     id 'io.github.juuxel.loom-quiltflower' version '1.7.1' apply false
+    id "com.matthewprenger.cursegradle" version "1.4.0"
+    id "com.modrinth.minotaur" version "2.+"
+    id "com.github.johnrengelman.shadow" version "7.1.2" apply false
+
 }
 
 architectury {
@@ -11,6 +15,10 @@ architectury {
 subprojects {
     apply plugin: "dev.architectury.loom"
     apply plugin: "io.github.juuxel.loom-quiltflower"
+    apply plugin: "com.matthewprenger.cursegradle"
+    apply plugin: "com.modrinth.minotaur"
+    apply plugin: "com.github.johnrengelman.shadow"
+
 
     loom {
         silentMojangMappingsLicense()
@@ -18,19 +26,68 @@ subprojects {
 
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        // The following line declares the mojmap mappings, you may use other mappings as well
-        //mappings loom.officialMojangMappings()
         mappings loom.layered() {
-           // officialMojangMappings()
-           // parchment("org.parchmentmc.data:parchment-${rootProject.parchment_version}")
-//    it.addLayer(quiltMappings.mappings("org.quiltmc:quilt-mappings:1.18.2+build.24:v2"))
-            it.parchment("org.parchmentmc.data:parchment-1.18.2:2022.03.13@zip")
+            it.parchment("org.parchmentmc.data:parchment-${rootProject.parchment_version}")
             it.officialMojangMappings {
-                //setNameSyntheticMembers(false)
+                setNameSyntheticMembers(false)
             }
         }
-        // The following line declares the yarn mappings you may select this one as well.
-        // mappings "net.fabricmc:yarn:1.18.2+build.3:v2"
+    }
+
+    var env = System.getenv()
+    var modLoader = name
+
+    var changelogFile = rootProject.file("changelog.md")
+    var changelogText = changelogFile.exists() ? changelogFile.text : ""
+
+    if (env.MODRINTH_TOKEN) {
+        modrinth {
+            projectId = "fast-paintings"
+            uploadFile = tasks.remapJar
+            gameVersions = [rootProject.minecraft_version]
+            loaders = [modLoader]
+            changelog = changelogText
+
+            if (modLoader == "fabric") {
+                dependencies {
+                    required.project "fabric-api"
+                    required.project "moonlight"
+                }
+            } else {
+                dependencies {
+                    required.project "moonlight"
+                }
+            }
+        }
+    }
+
+    if (env.CURSEFORGE_TOKEN) {
+        curseforge {
+            apiKey = env.CURSEFORGE_TOKEN
+            project {
+                boolean fab = modLoader == "fabric"
+                id = fab ? project_id_fabric : project_id_forge
+                changelog = changelogText
+                releaseType = 'release'
+                addGameVersion rootProject.minecraft_version
+                addGameVersion modLoader.capitalize()
+
+                mainArtifact(tasks.remapJar)
+
+                if (fab) {
+                    relations {
+                        requiredDependency "fabric-api"
+                        requiredDependency "selene"
+
+                    }
+                } else {
+                    relations {
+                        requiredDependency("selene")
+
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -42,9 +99,10 @@ allprojects {
     archivesBaseName = rootProject.mod_id
     version = rootProject.mod_version
     group = rootProject.maven_group
-    required_moonlight_version = rootProject.required_moonlight_version
+
 
     repositories {
+
         flatDir {
             dirs 'mods'
         }
@@ -57,6 +115,28 @@ allprojects {
             url = "https://www.cursemaven.com"
             allowInsecureProtocol = true
         }
+
+        maven {
+            url "https://maven.firstdarkdev.xyz/snapshots"
+        }
+        maven { url 'https://jitpack.io' }
+
+        maven {
+            name = "TerraformersMC"
+            url = "https://maven.terraformersmc.com/"
+        }
+        maven {
+            name = 'Ladysnake Mods'
+            url = 'https://maven.ladysnake.org/releases'
+        }
+        maven {
+            url = 'https://maven.neoforged.net'
+        }
+
+        repositories {
+            maven { url "https://api.modrinth.com/maven" }
+        }
+
     }
 
     tasks.withType(JavaCompile) {

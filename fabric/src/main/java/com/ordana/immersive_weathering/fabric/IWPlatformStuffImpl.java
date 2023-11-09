@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.ClientHelper;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -68,11 +68,11 @@ public class IWPlatformStuffImpl {
         return null;
     }
 
-    public static void copyColorFrom(ClientPlatformHelper.BlockColorEvent event, Block block, Block colorFrom, BlockColor fallbackColor) {
+    public static void copyColorFrom(ClientHelper.BlockColorEvent event, Block block, Block colorFrom, BlockColor fallbackColor) {
         event.register((s, t, p, i) -> event.getColor(colorFrom.defaultBlockState(), t, p, i), block);
     }
 
-    public static void copyColorFrom(ClientPlatformHelper.ItemColorEvent event, ItemLike item, ItemLike colorFrom, ItemColor fallbackColor) {
+    public static void copyColorFrom(ClientHelper.ItemColorEvent event, ItemLike item, ItemLike colorFrom, ItemColor fallbackColor) {
         event.register((s, t) -> event.getColor(colorFrom.asItem().getDefaultInstance(), t), item);
     }
 

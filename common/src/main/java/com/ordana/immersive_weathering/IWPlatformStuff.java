@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.mehvahdjukaar.moonlight.api.platform.ClientPlatformHelper;
+import net.mehvahdjukaar.moonlight.api.platform.ClientHelper;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -49,12 +49,12 @@ public class IWPlatformStuff {
 
 
     @ExpectPlatform
-    public static void copyColorFrom(ClientPlatformHelper.BlockColorEvent event, Block block, Block colorFrom, BlockColor fallbackColor) {
+    public static void copyColorFrom(ClientHelper.BlockColorEvent event, Block block, Block colorFrom, BlockColor fallbackColor) {
         throw new AssertionError();
     }
 
     @ExpectPlatform
-    public static void copyColorFrom(ClientPlatformHelper.ItemColorEvent event, ItemLike item, ItemLike colorFrom, ItemColor fallbackColor) {
+    public static void copyColorFrom(ClientHelper.ItemColorEvent event, ItemLike item, ItemLike colorFrom, ItemColor fallbackColor) {
         throw new AssertionError();
     }
 }
