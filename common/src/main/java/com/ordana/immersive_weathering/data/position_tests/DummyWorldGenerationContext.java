@@ -8,6 +8,7 @@ import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.biome.BiomeManager;
+import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -23,7 +24,7 @@ import java.util.concurrent.Executor;
 
 public class DummyWorldGenerationContext extends WorldGenerationContext {
 
-    private static final DummyGenerator DUMMY_GENERATOR = new DummyGenerator();
+    private static final DummyGenerator DUMMY_GENERATOR = new DummyGenerator(null);
 
     public DummyWorldGenerationContext(Level level) {
         super(DUMMY_GENERATOR, level);
@@ -31,8 +32,9 @@ public class DummyWorldGenerationContext extends WorldGenerationContext {
 
     private static class DummyGenerator extends ChunkGenerator {
 
-        public DummyGenerator() {
-            super(null, java.util.Optional.empty(), null);
+
+        public DummyGenerator(BiomeSource biomeSource) {
+            super(biomeSource);
         }
 
         //use these 2

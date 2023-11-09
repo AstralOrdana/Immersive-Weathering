@@ -5,8 +5,9 @@ import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -16,8 +17,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import net.minecraft.util.RandomSource;
 
 @Mixin(LeavesBlock.class)
 public abstract class LeavesMixin extends Block implements BonemealableBlock {
@@ -40,7 +39,7 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(BlockGetter world, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean isClient) {
         return state.is(Blocks.FLOWERING_AZALEA_LEAVES);
     }
 

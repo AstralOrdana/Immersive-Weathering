@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.ClampedNormalFloat;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
@@ -20,7 +21,6 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.OptionalInt;
-import net.minecraft.util.RandomSource;
 
 public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
     public IcicleClusterFeature(Codec<IcicleClusterFeatureConfig> codec) {

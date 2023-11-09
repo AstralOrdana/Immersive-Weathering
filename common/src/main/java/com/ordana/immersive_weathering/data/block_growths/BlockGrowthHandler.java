@@ -14,7 +14,6 @@ import com.ordana.immersive_weathering.data.block_growths.growths.ConfigurableBl
 import com.ordana.immersive_weathering.data.block_growths.growths.IBlockGrowth;
 import com.ordana.immersive_weathering.data.block_growths.growths.builtin.BuiltinBlockGrowth;
 import com.ordana.immersive_weathering.data.block_growths.growths.builtin.NoOpBlockGrowth;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
@@ -101,10 +100,7 @@ public class BlockGrowthHandler extends SimpleJsonResourceReloadListener {
                 TickSource source = TickSource.CLEAR_SKY;
                 if (isRaining) {
                     Biome biome = level.getBiome(targetPos).value();
-                    Biome.Precipitation precipitation = biome.getPrecipitation();
-                    if (precipitation == Biome.Precipitation.RAIN && biome.coldEnoughToSnow(targetPos)) {
-                        precipitation = Biome.Precipitation.SNOW;
-                    }
+                    Biome.Precipitation precipitation = biome.getPrecipitationAt(targetPos);
                     source = precipitation == Biome.Precipitation.SNOW ? TickSource.SNOW : TickSource.RAIN;
                 }
                 tickBlock(source, state, level, new BlockPos(targetPos));

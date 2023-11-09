@@ -26,19 +26,16 @@
       "com.ordana.immersive_weathering.fabric.ImmersiveWeatheringClientFabric"
     ],
     "emi": [
-      "com.ordana.immersive_weathering.integration.fabric.EmiIntegration"
-    ],
-    "modmenu": [
-      "com.ordana.immersive_weathering.integration.fabric.ModMenuCompat"
+      "com.ordana.immersive_weathering.integrations.EmiIntegration"
     ]
   },
   "mixins": [
-    "${mod_id}.mixins.json",
-    "${mod_id}-common.mixins.json"
+    "immersive_weathering.mixins.json",
+    "immersive_weathering-common.mixins.json"
   ],
   "depends": {
     "fabric": "*",
-    "moonlight": ">=${required_moonlight_version}",
-    "minecraft": ">=1.18.2"
+    "moonlight": ">=1.20-2.7.0",
+    "minecraft": ">=1.20.1"
   }
 }

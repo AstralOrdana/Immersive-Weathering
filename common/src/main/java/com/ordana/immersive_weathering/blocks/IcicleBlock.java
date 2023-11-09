@@ -1,20 +1,16 @@
 package com.ordana.immersive_weathering.blocks;
 
-import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.entities.FallingIcicleEntity;
 import com.ordana.immersive_weathering.entities.IcicleBlockEntity;
-
 import com.ordana.immersive_weathering.reg.ModBlocks;
-import com.ordana.immersive_weathering.reg.ModDamageSource;
 import com.ordana.immersive_weathering.reg.ModTags;
-import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -35,7 +31,6 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
-import net.minecraft.util.RandomSource;
 import java.util.function.Predicate;
 
 public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
@@ -104,10 +99,10 @@ public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
     @Override
     public void fallOn(Level world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         if (state.getValue(TIP_DIRECTION) == Direction.UP && state.getValue(THICKNESS) == DripstoneThickness.TIP) {
-            entity.causeFallDamage(fallDistance + 2.0F, 3.5F, ModDamageSource.ICICLE);
+            entity.causeFallDamage(fallDistance + 2.0F, 3.5F, world.damageSources().fall());
 
         } else {
-            entity.causeFallDamage(fallDistance, 1.0F, DamageSource.FALL);
+            entity.causeFallDamage(fallDistance, 1.0F, world.damageSources().fall());
         }
     }
 
@@ -197,11 +192,6 @@ public class IcicleBlock extends PointedDripstoneBlock implements EntityBlock {
         if (!fallingBlockEntity.isSilent()) {
             world.levelEvent(LevelEvent.PARTICLES_DESTROY_BLOCK, pos, Block.getId(this.defaultBlockState()));
         }
-    }
-
-    @Override
-    public DamageSource getFallDamageSource() {
-        return ModDamageSource.FALLING_ICICLE;
     }
 
     private void spawnFallingIcicle(BlockState state, ServerLevel level, BlockPos pos) {

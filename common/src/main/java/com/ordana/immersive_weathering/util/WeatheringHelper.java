@@ -22,21 +22,13 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -56,8 +48,8 @@ public class WeatheringHelper {
 
     public static void addOptional(ImmutableBiMap.Builder<Block, Block> map,
                                    String moddedId, String moddedId2) {
-        var o1 = Registry.BLOCK.getOptional(new ResourceLocation(moddedId));
-        var o2 = Registry.BLOCK.getOptional(new ResourceLocation(moddedId2));
+        var o1 = BuiltInRegistries.BLOCK.getOptional(new ResourceLocation(moddedId));
+        var o2 = BuiltInRegistries.BLOCK.getOptional(new ResourceLocation(moddedId2));
         if (o1.isPresent() && o2.isPresent()) {
             map.put(o1.get(), o2.get());
         }
@@ -131,7 +123,7 @@ public class WeatheringHelper {
 
     public static Optional<Block> getFallenLeafPile(BlockState state) {
         Block b = state.getBlock();
-        if (CommonConfigs.LEAF_PILES_BLACKLIST.get().contains(Registry.BLOCK.getKey(b).toString()))
+        if (CommonConfigs.LEAF_PILES_BLACKLIST.get().contains(BuiltInRegistries.BLOCK.getKey(b).toString()))
             return Optional.empty();
         return Optional.ofNullable(LEAVES_TO_PILES.get().get(b));
     }
@@ -155,7 +147,7 @@ public class WeatheringHelper {
             if (log) {
                 String s = CommonConfigs.GENERIC_BARK.get();
                 if (!s.isEmpty()) {
-                    var bark = Registry.ITEM.getOptional(new ResourceLocation(s));
+                    var bark = BuiltInRegistries.ITEM.getOptional(new ResourceLocation(s));
                     if (bark.isPresent()) {
                         return bark.get();
                     }
@@ -178,7 +170,7 @@ public class WeatheringHelper {
             if (log instanceof Block unStripped) {
                 String s = CommonConfigs.GENERIC_BARK.get();
                 if (!s.isEmpty()) {
-                    var bark = Registry.ITEM.getOptional(new ResourceLocation(s));
+                    var bark = BuiltInRegistries.ITEM.getOptional(new ResourceLocation(s));
                     if (bark.isPresent()) {
                         return Optional.of(Pair.of(bark.get(), unStripped));
                     }
@@ -292,7 +284,7 @@ public class WeatheringHelper {
     public static boolean isLog(BlockState state) {
         return state.is(BlockTags.LOGS) && (!state.hasProperty(RotatedPillarBlock.AXIS) ||
                 state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y) &&
-                !Registry.BLOCK.getKey(state.getBlock()).getPath().contains("stripped");
+                !BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath().contains("stripped");
     }
 
     public static boolean isIciclePos(BlockPos pos) {
@@ -368,7 +360,7 @@ public class WeatheringHelper {
         BlockState targetState = world.getBlockState(targetPos);
         FluidState fluidState = world.getFluidState(targetPos);
         boolean bl = fluidState.getType() == Fluids.WATER;
-        if (!targetState.getMaterial().isSolid()) {
+        if (!targetState.isSolid()) {
             BlockState newState = dir == Direction.DOWN ? Blocks.HANGING_ROOTS.defaultBlockState() :
                     ModBlocks.HANGING_ROOTS_WALL.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, dir);
             world.setBlockAndUpdate(targetPos, newState.setValue(BlockStateProperties.WATERLOGGED, bl));

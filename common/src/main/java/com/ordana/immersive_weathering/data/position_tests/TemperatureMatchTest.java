@@ -23,7 +23,7 @@ record TemperatureMatchTest(float max, float min, boolean useLocalPos) implement
                     Codec.BOOL.optionalFieldOf("use_local_pos", true).forGetter(TemperatureMatchTest::useLocalPos))
             .apply( instance, TemperatureMatchTest::new)).comapFlatMap(t -> {
         if (t.max < t.min) {
-            return DataResult.error("Max must be at least min, min_inclusive: " + t.min + ", max_inclusive: " + t.max);
+            return DataResult.error(() -> "Max must be at least min, min_inclusive: " + t.min + ", max_inclusive: " + t.max);
         }
         return DataResult.success(t);
     }, Function.identity());

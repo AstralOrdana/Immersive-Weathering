@@ -2,8 +2,8 @@ package com.ordana.immersive_weathering.items;
 
 import com.ordana.immersive_weathering.blocks.mossable.Mossable;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
-import com.ordana.immersive_weathering.integration.IntegrationHandler;
-import com.ordana.immersive_weathering.integration.QuarkPlugin;
+import com.ordana.immersive_weathering.integrations.IntegrationHandler;
+import com.ordana.immersive_weathering.integrations.QuarkPlugin;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -13,7 +13,6 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;

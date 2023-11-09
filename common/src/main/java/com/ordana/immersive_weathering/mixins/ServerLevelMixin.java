@@ -4,6 +4,7 @@ import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -15,10 +16,8 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.storage.WritableLevelData;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
@@ -27,6 +26,11 @@ import java.util.function.Supplier;
 
 @Mixin(ServerLevel.class)
 public abstract class ServerLevelMixin extends Level {
+    protected ServerLevelMixin(WritableLevelData levelData, ResourceKey<Level> dimension, RegistryAccess registryAccess, Holder<DimensionType> dimensionTypeRegistration, Supplier<ProfilerFiller> profiler, boolean isClientSide, boolean isDebug, long biomeZoomSeed, int maxChainedNeighborUpdates) {
+        super(levelData, dimension, registryAccess, dimensionTypeRegistration, profiler, isClientSide, isDebug, biomeZoomSeed, maxChainedNeighborUpdates);
+    }
+
+    /*
 
     protected ServerLevelMixin(WritableLevelData writableLevelData, ResourceKey<Level> resourceKey, Holder<DimensionType> holder, Supplier<ProfilerFiller> supplier, boolean bl, boolean bl2, long l, int i) {
         super(writableLevelData, resourceKey, holder, supplier, bl, bl2, l, i);
@@ -61,4 +65,6 @@ public abstract class ServerLevelMixin extends Level {
         BlockGrowthHandler.performSkyAccessTick((ServerLevel) (Object) this, levelChunk, randomTickSpeed);
         p.pop();
     }
+
+     */
 }

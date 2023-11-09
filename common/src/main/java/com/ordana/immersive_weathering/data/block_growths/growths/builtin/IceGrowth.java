@@ -1,10 +1,9 @@
 package com.ordana.immersive_weathering.data.block_growths.growths.builtin;
 
-import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.blocks.IcicleBlock;
+import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.mixins.accessors.IceInvoker;
 import com.ordana.immersive_weathering.reg.ModBlocks;
-import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -13,9 +12,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.level.Level;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -26,8 +24,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Supplier;
-
-import net.minecraft.util.RandomSource;
 
 public class IceGrowth extends BuiltinBlockGrowth {
 
@@ -69,7 +65,7 @@ public class IceGrowth extends BuiltinBlockGrowth {
                 float k = pos.getZ() + 0.5f;
                 level.sendParticles(ParticleTypes.LARGE_SMOKE, i, j, k, 12, 0.2D, 0.2D, 0.2D, 0);
                 ice.invokeMelt(state, level, pos);
-            } else if (b.get().value().shouldSnowGolemBurn(pos) && level.isDay()) {
+            } else if (level.isDay() && !b.get().value().coldEnoughToSnow(pos)) {
                 ice.invokeMelt(state, level, pos);
             }
         }

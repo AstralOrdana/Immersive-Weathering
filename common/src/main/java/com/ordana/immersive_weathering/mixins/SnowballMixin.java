@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.mixins;
 
 import com.ordana.immersive_weathering.blocks.snowy.Snowy;
-import com.ordana.immersive_weathering.util.WeatheringHelper;
 import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -23,8 +22,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Objects;
-
 @Mixin(Snowball.class)
 public abstract class SnowballMixin extends ThrowableItemProjectile {
 
@@ -42,11 +39,11 @@ public abstract class SnowballMixin extends ThrowableItemProjectile {
         if (type == HitResult.Type.BLOCK) {
             BlockHitResult blockHitResult = (BlockHitResult) hitResult;
             BlockPos blockPos = blockHitResult.getBlockPos();
-            BlockState hitState = this.level.getBlockState(blockPos);
+            BlockState hitState = this.level().getBlockState(blockPos);
             var snowy = Snowy.getSnowy(hitState);
             if (hitState.is(ModTags.SNOWABLE) && snowy.isPresent()) {
-                ParticleUtils.spawnParticlesOnBlockFaces(level, blockPos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SNOW_BLOCK.defaultBlockState()), UniformInt.of(3, 5));
-                this.level.setBlockAndUpdate(blockPos, snowy.get());
+                ParticleUtils.spawnParticlesOnBlockFaces(level(), blockPos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SNOW_BLOCK.defaultBlockState()), UniformInt.of(3, 5));
+                this.level().setBlockAndUpdate(blockPos, snowy.get());
             }
         }
     }

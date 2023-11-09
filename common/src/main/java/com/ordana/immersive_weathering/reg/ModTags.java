@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.reg;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -104,18 +105,18 @@ public final class ModTags {
     }
 
     private static TagKey<Block> registerBlockTag(String id) {
-        return TagKey.create(Registry.BLOCK_REGISTRY, ImmersiveWeathering.res(id));
+        return TagKey.create(Registries.BLOCK, ImmersiveWeathering.res(id));
     }
 
     private static TagKey<Item> registerItemTag(String id) {
-        return TagKey.create(Registry.ITEM_REGISTRY, ImmersiveWeathering.res(id));
+        return TagKey.create(Registries.ITEM, ImmersiveWeathering.res(id));
     }
 
     private static TagKey<Biome> registerBiomeTag(String id) {
-        return TagKey.create(Registry.BIOME_REGISTRY, ImmersiveWeathering.res(id));
+        return TagKey.create(Registries.BIOME, ImmersiveWeathering.res(id));
     }
 
     private static TagKey<EntityType<?>> registerEntityTag(String id) {
-        return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, ImmersiveWeathering.res(id));
+        return TagKey.create(Registries.ENTITY_TYPE, ImmersiveWeathering.res(id));
     }
 }

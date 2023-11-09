@@ -3,10 +3,6 @@ package com.ordana.immersive_weathering.data.block_growths;
 import com.mojang.serialization.Codec;
 import net.minecraft.util.StringRepresentable;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 public enum TickSource implements StringRepresentable {
     BLOCK_TICK("block_tick"),
     RAIN("rain"),

@@ -1,10 +1,7 @@
 package com.ordana.immersive_weathering.blocks.soil;
 
-import com.ordana.immersive_weathering.data.block_growths.IConditionalGrowingBlock;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -15,20 +12,14 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.phys.BlockHitResult;
-
-import java.util.List;
 
 
 public class RootedGrassBlock extends GrassBlock implements BonemealableBlock {
@@ -68,7 +59,7 @@ public class RootedGrassBlock extends GrassBlock implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(BlockGetter world, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean isClient) {
         return true;
     }
 
@@ -77,46 +68,11 @@ public class RootedGrassBlock extends GrassBlock implements BonemealableBlock {
         return true;
     }
 
-    //TODO: check this whole class
     @Override
     public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
 
         WeatheringHelper.growHangingRoots(world, random, pos);
-
-        BlockPos blockPos = pos.above();
-        BlockState blockState = Blocks.GRASS.defaultBlockState();
-        label46:
-        for(int i = 0; i < 128; ++i) {
-            BlockPos blockPos2 = blockPos;
-
-            for(int j = 0; j < i / 16; ++j) {
-                blockPos2 = blockPos2.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
-                if (!world.getBlockState(blockPos2.below()).is(this) || world.getBlockState(blockPos2).isCollisionShapeFullBlock(world, blockPos2)) {
-                    continue label46;
-                }
-            }
-
-            BlockState blockState2 = world.getBlockState(blockPos2);
-            if (blockState2.is(blockState.getBlock()) && random.nextInt(10) == 0) {
-                ((BonemealableBlock)blockState.getBlock()).performBonemeal(world, random, blockPos2, blockState2);
-            }
-
-            if (blockState2.isAir()) {
-                Holder registryEntry;
-                if (random.nextInt(8) == 0) {
-                    List<ConfiguredFeature<?, ?>> list = world.getBiome(blockPos2).value().getGenerationSettings().getFlowerFeatures();
-                    if (list.isEmpty()) {
-                        continue;
-                    }
-
-                    registryEntry = ((RandomPatchConfiguration)((ConfiguredFeature)list.get(0)).config()).feature();
-                } else {
-                    registryEntry = VegetationPlacements.GRASS_BONEMEAL;
-                }
-
-                ((PlacedFeature)registryEntry.value()).place(world, world.getChunkSource().getGenerator(), random, blockPos2);
-            }
-        }
+        super.performBonemeal(world, random, pos, state);
     }
 
     @Override

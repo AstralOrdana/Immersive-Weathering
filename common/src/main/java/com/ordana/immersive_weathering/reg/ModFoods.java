@@ -1,6 +1,5 @@
 package com.ordana.immersive_weathering.reg;
 
-import dev.architectury.injectables.annotations.PlatformOnly;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;

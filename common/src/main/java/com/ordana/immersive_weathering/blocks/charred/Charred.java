@@ -11,21 +11,17 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Fallable;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Fluids;
-
-import net.minecraft.util.RandomSource;
 
 public interface Charred extends ILightable, Fallable {
 
@@ -78,7 +74,7 @@ public interface Charred extends ILightable, Fallable {
     default void onEntityStepOn(BlockState state, Entity entity) {
         if (isLitUp(state)) {
             if (!entity.fireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
-                entity.hurt(DamageSource.HOT_FLOOR, 1.0F);
+                entity.hurt(entity.damageSources().hotFloor(), 1.0F);
             }
         }
     }

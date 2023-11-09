@@ -58,16 +58,6 @@ public final class ModWaxables {
             .put(ModBlocks.EXPOSED_IRON_BARS.get(), ModBlocks.WAXED_EXPOSED_IRON_BARS.get())
             .put(ModBlocks.WEATHERED_IRON_BARS.get(), ModBlocks.WAXED_WEATHERED_IRON_BARS.get())
             .put(ModBlocks.RUSTED_IRON_BARS.get(), ModBlocks.WAXED_RUSTED_IRON_BARS.get())
-
-            .put(ModBlocks.CUT_IRON_VERTICAL_SLAB.get(), ModBlocks.WAXED_CUT_IRON_VERTICAL_SLAB.get())
-            .put(ModBlocks.EXPOSED_CUT_IRON_VERTICAL_SLAB.get(), ModBlocks.WAXED_EXPOSED_CUT_IRON_VERTICAL_SLAB.get())
-            .put(ModBlocks.WEATHERED_CUT_IRON_VERTICAL_SLAB.get(), ModBlocks.WAXED_WEATHERED_CUT_IRON_VERTICAL_SLAB.get())
-            .put(ModBlocks.RUSTED_CUT_IRON_VERTICAL_SLAB.get(), ModBlocks.WAXED_RUSTED_CUT_IRON_VERTICAL_SLAB.get())
-
-            .put(ModBlocks.PLATE_IRON_VERTICAL_SLAB.get(), ModBlocks.WAXED_PLATE_IRON_VERTICAL_SLAB.get())
-            .put(ModBlocks.EXPOSED_PLATE_IRON_VERTICAL_SLAB.get(), ModBlocks.WAXED_EXPOSED_PLATE_IRON_VERTICAL_SLAB.get())
-            .put(ModBlocks.WEATHERED_PLATE_IRON_VERTICAL_SLAB.get(), ModBlocks.WAXED_WEATHERED_PLATE_IRON_VERTICAL_SLAB.get())
-            .put(ModBlocks.RUSTED_PLATE_IRON_VERTICAL_SLAB.get(), ModBlocks.WAXED_RUSTED_PLATE_IRON_VERTICAL_SLAB.get())
             .build());
 
     public static BiMap<Block, Block> getValues() {

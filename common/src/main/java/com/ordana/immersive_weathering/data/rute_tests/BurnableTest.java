@@ -4,11 +4,10 @@ import com.mojang.serialization.Codec;
 import com.ordana.immersive_weathering.reg.ModRuleTests;
 import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
-
-import net.minecraft.util.RandomSource;
 
 public class BurnableTest extends RuleTest {
 

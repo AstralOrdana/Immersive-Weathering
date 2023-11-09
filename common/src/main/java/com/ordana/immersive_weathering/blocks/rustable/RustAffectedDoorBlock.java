@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
 
@@ -17,8 +18,8 @@ public class RustAffectedDoorBlock extends DoorBlock {
 
     private final Rustable.RustLevel rustLevel;
 
-    public RustAffectedDoorBlock(Rustable.RustLevel rustLevel, Properties settings) {
-        super(settings);
+    public RustAffectedDoorBlock(Rustable.RustLevel rustLevel, Properties properties) {
+        super(properties, BlockSetType.IRON);
         this.rustLevel = rustLevel;
     }
 

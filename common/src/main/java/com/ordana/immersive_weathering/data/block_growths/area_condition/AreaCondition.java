@@ -6,7 +6,9 @@ import com.ordana.immersive_weathering.data.block_growths.growths.ConfigurableBl
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public interface AreaCondition {
 
@@ -53,7 +55,7 @@ public interface AreaCondition {
     record AreaConditionType<T extends AreaCondition>(Codec<T> codec, String name) {
         public static Codec<AreaConditionType<?>> CODEC = Codec.STRING.flatXmap(
                 (name) -> get(name).map(DataResult::success).orElseGet(
-                        () -> DataResult.error("Unknown Area Condition: " + name)),
+                        () -> DataResult.error(() -> "Unknown Area Condition: " + name)),
                 (t) -> DataResult.success(t.name()));
     }
 

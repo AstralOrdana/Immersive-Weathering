@@ -5,6 +5,7 @@ import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
@@ -13,18 +14,16 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.SnowLayerBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.lighting.LayerLightEngine;
+import net.minecraft.world.level.lighting.LightEngine;
 
 import java.util.List;
+import java.util.Optional;
 
 public class BaseSoilBlock extends Block implements BonemealableBlock {
     public BaseSoilBlock(Properties properties) {
@@ -44,7 +43,7 @@ public class BaseSoilBlock extends Block implements BonemealableBlock {
         } else if (blockstate.getFluidState().getAmount() == 8) {
             return false;
         } else {
-            int i = LayerLightEngine.getLightBlockInto(levelReader, state, pos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(levelReader, blockpos));
+            int i = LightEngine.getLightBlockInto(levelReader, state, pos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(levelReader, blockpos));
             return i < levelReader.getMaxLightLevel();
         }
     }
@@ -71,7 +70,8 @@ public class BaseSoilBlock extends Block implements BonemealableBlock {
         }
     }
 
-    public boolean isValidBonemealTarget(BlockGetter level, BlockPos pos, BlockState state, boolean isClient) {
+    @Override
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
         return level.getBlockState(pos.above()).isAir();
     }
 
@@ -79,42 +79,46 @@ public class BaseSoilBlock extends Block implements BonemealableBlock {
         return true;
     }
 
-    public void performBonemeal(ServerLevel serverLevel, RandomSource randomSource, BlockPos blockPos, BlockState blockState) {
-        BlockPos blockPos2 = blockPos.above();
-        BlockState blockState2 = Blocks.GRASS.defaultBlockState();
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
+        BlockPos blockPos = pos.above();
+        BlockState blockState = Blocks.GRASS.defaultBlockState();
+        Optional<Holder.Reference<PlacedFeature>> optional = level.registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getHolder(VegetationPlacements.GRASS_BONEMEAL);
 
-        label46:
+        label49:
         for(int i = 0; i < 128; ++i) {
-            BlockPos blockPos3 = blockPos2;
+            BlockPos blockPos2 = blockPos;
 
             for(int j = 0; j < i / 16; ++j) {
-                blockPos3 = blockPos3.offset(randomSource.nextInt(3) - 1, (randomSource.nextInt(3) - 1) * randomSource.nextInt(3) / 2, randomSource.nextInt(3) - 1);
-                if (!serverLevel.getBlockState(blockPos3.below()).is(this) || serverLevel.getBlockState(blockPos3).isCollisionShapeFullBlock(serverLevel, blockPos3)) {
-                    continue label46;
+                blockPos2 = blockPos2.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
+                if (!level.getBlockState(blockPos2.below()).is(this) || level.getBlockState(blockPos2).isCollisionShapeFullBlock(level, blockPos2)) {
+                    continue label49;
                 }
             }
 
-            BlockState blockState3 = serverLevel.getBlockState(blockPos3);
-            if (blockState3.is(blockState2.getBlock()) && randomSource.nextInt(10) == 0) {
-                ((BonemealableBlock)blockState2.getBlock()).performBonemeal(serverLevel, randomSource, blockPos3, blockState3);
+            BlockState blockState2 = level.getBlockState(blockPos2);
+            if (blockState2.is(blockState.getBlock()) && random.nextInt(10) == 0) {
+                ((BonemealableBlock)blockState.getBlock()).performBonemeal(level, random, blockPos2, blockState2);
             }
 
-            if (blockState3.isAir()) {
+            if (blockState2.isAir()) {
                 Holder holder;
-                if (randomSource.nextInt(8) == 0) {
-                    List<ConfiguredFeature<?, ?>> list = ((Biome)serverLevel.getBiome(blockPos3).value()).getGenerationSettings().getFlowerFeatures();
+                if (random.nextInt(8) == 0) {
+                    List<ConfiguredFeature<?, ?>> list = ((Biome)level.getBiome(blockPos2).value()).getGenerationSettings().getFlowerFeatures();
                     if (list.isEmpty()) {
                         continue;
                     }
 
                     holder = ((RandomPatchConfiguration)((ConfiguredFeature)list.get(0)).config()).feature();
                 } else {
-                    holder = VegetationPlacements.GRASS_BONEMEAL;
+                    if (!optional.isPresent()) {
+                        continue;
+                    }
+
+                    holder = (Holder)optional.get();
                 }
 
-                ((PlacedFeature)holder.value()).place(serverLevel, serverLevel.getChunkSource().getGenerator(), randomSource, blockPos3);
+                ((PlacedFeature)holder.value()).place(level, level.getChunkSource().getGenerator(), random, blockPos2);
             }
         }
-
     }
 }

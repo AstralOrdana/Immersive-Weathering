@@ -6,17 +6,18 @@ import com.ordana.immersive_weathering.reg.ModRuleTests;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
 import net.minecraft.world.level.material.Fluid;
 
-import net.minecraft.util.RandomSource;
-
 public class FluidMatchTest extends RuleTest {
 
     public static final Codec<FluidMatchTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            RegistryCodecs.homogeneousList(Registry.FLUID_REGISTRY).fieldOf("fluids").forGetter(b -> b.fluids),
+            RegistryCodecs.homogeneousList(Registries.FLUID).fieldOf("fluids").forGetter(b -> b.fluids),
             Codec.FLOAT.optionalFieldOf("probability",1f).forGetter(b->b.probability)
     ).apply(instance, FluidMatchTest::new));
 

@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -30,7 +29,7 @@ public class ModFarmlandBlock extends FarmBlock {
 
     public void tick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource) {
         if (!blockState.canSurvive(serverLevel, blockPos)) {
-            turnToDirt(blockState, serverLevel, blockPos);
+            turnToDirt(null, blockState, serverLevel, blockPos);
         }
     }
 
@@ -40,13 +39,13 @@ public class ModFarmlandBlock extends FarmBlock {
 
     public static boolean isUnderCrops(BlockGetter level, BlockPos pos) {
         Block block = level.getBlockState(pos.above()).getBlock();
-        return block instanceof CropBlock || block instanceof StemBlock || block instanceof AttachedStemBlock || block instanceof SweetBerryBushBlock || block instanceof BambooBlock || block instanceof BambooSaplingBlock;
+        return block instanceof CropBlock || block instanceof StemBlock || block instanceof AttachedStemBlock || block instanceof SweetBerryBushBlock || block instanceof BambooStalkBlock || block instanceof BambooSaplingBlock;
     }
 
     public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockState blockState = level.getBlockState(pos.above());
         Block block = blockState.getBlock();
-        return !blockState.getMaterial().isSolid() || blockState.getBlock() instanceof FenceGateBlock || blockState.getBlock() instanceof MovingPistonBlock || block instanceof SweetBerryBushBlock || block instanceof BambooBlock || block instanceof BambooSaplingBlock;
+        return !blockState.isSolid() || blockState.getBlock() instanceof FenceGateBlock || blockState.getBlock() instanceof MovingPistonBlock || block instanceof SweetBerryBushBlock || block instanceof BambooStalkBlock || block instanceof BambooSaplingBlock;
     }
 
     private static boolean isNearWater(LevelReader level, BlockPos pos) {
@@ -71,7 +70,7 @@ public class ModFarmlandBlock extends FarmBlock {
             if (i > 0) {
                 serverLevel.setBlock(blockPos, blockState.setValue(MOISTURE, i - 1), 2);
             } else if (!isUnderCrops(serverLevel, blockPos)) {
-                turnToDirt(blockState, serverLevel, blockPos);
+                turnToDirt(null, blockState, serverLevel, blockPos);
             }
         } else if (i < MAX_MOISTURE) {
             serverLevel.setBlock(blockPos, blockState.setValue(MOISTURE, MAX_MOISTURE), 2);
@@ -81,7 +80,7 @@ public class ModFarmlandBlock extends FarmBlock {
 
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float f) {
-        entity.causeFallDamage(f, 1.0F, DamageSource.FALL);
+        entity.causeFallDamage(f, 1.0F, level.damageSources().fall());
     }
 
 }

@@ -10,15 +10,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Optional;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.material.Fluids;
-
 import java.util.function.Supplier;
 
 public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
@@ -52,13 +50,15 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
             .put(ModBlocks.EXPOSED_IRON_BARS.get(), ModBlocks.WEATHERED_IRON_BARS.get())
             .put(ModBlocks.WEATHERED_IRON_BARS.get(), ModBlocks.RUSTED_IRON_BARS.get())
 
-            .put(ModBlocks.CUT_IRON_VERTICAL_SLAB.get(), ModBlocks.EXPOSED_CUT_IRON_VERTICAL_SLAB.get())
-            .put(ModBlocks.EXPOSED_CUT_IRON_VERTICAL_SLAB.get(), ModBlocks.WEATHERED_CUT_IRON_VERTICAL_SLAB.get())
-            .put(ModBlocks.WEATHERED_CUT_IRON_VERTICAL_SLAB.get(), ModBlocks.RUSTED_CUT_IRON_VERTICAL_SLAB.get())
-
-            .put(ModBlocks.PLATE_IRON_VERTICAL_SLAB.get(), ModBlocks.EXPOSED_PLATE_IRON_VERTICAL_SLAB.get())
-            .put(ModBlocks.EXPOSED_PLATE_IRON_VERTICAL_SLAB.get(), ModBlocks.WEATHERED_PLATE_IRON_VERTICAL_SLAB.get())
-            .put(ModBlocks.WEATHERED_PLATE_IRON_VERTICAL_SLAB.get(), ModBlocks.RUSTED_PLATE_IRON_VERTICAL_SLAB.get())
+            .put(ModBlocks.WAXED_IRON_DOOR.get(), ModBlocks.WAXED_EXPOSED_IRON_DOOR.get())
+            .put(ModBlocks.WAXED_EXPOSED_IRON_DOOR.get(), ModBlocks.WAXED_WEATHERED_IRON_DOOR.get())
+            .put(ModBlocks.WAXED_WEATHERED_IRON_DOOR.get(), ModBlocks.WAXED_RUSTED_IRON_DOOR.get())
+            .put(ModBlocks.WAXED_IRON_TRAPDOOR.get(), ModBlocks.WAXED_EXPOSED_IRON_TRAPDOOR.get())
+            .put(ModBlocks.WAXED_EXPOSED_IRON_TRAPDOOR.get(), ModBlocks.WAXED_WEATHERED_IRON_TRAPDOOR.get())
+            .put(ModBlocks.WAXED_WEATHERED_IRON_TRAPDOOR.get(), ModBlocks.WAXED_RUSTED_IRON_TRAPDOOR.get())
+            .put(ModBlocks.WAXED_IRON_BARS.get(), ModBlocks.WAXED_EXPOSED_IRON_BARS.get())
+            .put(ModBlocks.WAXED_EXPOSED_IRON_BARS.get(), ModBlocks.WAXED_WEATHERED_IRON_BARS.get())
+            .put(ModBlocks.WAXED_WEATHERED_IRON_BARS.get(), ModBlocks.WAXED_RUSTED_IRON_BARS.get())
 
             .build());
 
@@ -83,7 +83,8 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
     }
 
     static Optional<Block> getIncreasedRustBlock(Block block) {
-        return Optional.ofNullable(RUST_LEVEL_INCREASES.get().get(block));
+        return Optional.empty();
+                //Optional.ofNullable(RUST_LEVEL_INCREASES.get().get(block));
     }
 
     static BlockState getUnaffectedRustState(BlockState state) {

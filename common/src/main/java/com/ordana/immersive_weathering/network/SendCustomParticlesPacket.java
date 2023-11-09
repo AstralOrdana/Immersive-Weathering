@@ -1,8 +1,7 @@
 package com.ordana.immersive_weathering.network;
 
-import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.util.WeatheringHelper;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
+import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.mehvahdjukaar.moonlight.api.platform.network.ChannelHandler;
@@ -49,7 +48,7 @@ public class SendCustomParticlesPacket implements Message {
     @Environment(EnvType.CLIENT)
     public void clientStuff( EventType type, BlockPos pos, int extraData) {
         Player player = Minecraft.getInstance().player;
-        var level = player.level;
+        var level = player.level();
         if (type == EventType.DECAY_LEAVES) {
             if (ClientConfigs.LEAF_DECAY_PARTICLES.get()) {
                 BlockState state = Block.stateById(extraData);

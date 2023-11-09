@@ -2,7 +2,8 @@ package com.ordana.immersive_weathering.data.position_tests;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import net.minecraft.core.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
@@ -38,7 +39,7 @@ public interface IPositionRuleTest {
 
         public static final Codec<Type<?>> CODEC = Codec.STRING.flatXmap(
                 (name) -> ModPositionRuleTests.get(name).map(DataResult::success).orElseGet(
-                        () -> DataResult.error("Unknown Position Predicate: " + name)),
+                        () -> DataResult.error(() -> "Unknown Position Predicate: " + name)),
                 (t) -> DataResult.success(t.name()));
 
     }

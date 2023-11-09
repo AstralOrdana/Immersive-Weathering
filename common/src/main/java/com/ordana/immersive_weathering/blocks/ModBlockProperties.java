@@ -1,6 +1,5 @@
 package com.ordana.immersive_weathering.blocks;
 
-import com.ordana.immersive_weathering.blocks.frostable.Frosty;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 

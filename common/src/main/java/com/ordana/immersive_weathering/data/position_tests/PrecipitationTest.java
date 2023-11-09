@@ -13,9 +13,12 @@ import java.util.function.Supplier;
 record PrecipitationTest(Biome.Precipitation precipitation) implements IPositionRuleTest {
 
     public static final String NAME = "precipitation_test";
+
+    /*
     public static final Codec<PrecipitationTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Biome.Precipitation.CODEC.fieldOf("precipitation").forGetter(PrecipitationTest::precipitation)
+            Biome.CODEC.fieldOf("precipitation").forGetter(PrecipitationTest::precipitation)
     ).apply(instance, PrecipitationTest::new));
+
 
     static final Type<PrecipitationTest> TYPE =
             new Type<>(PrecipitationTest.CODEC, PrecipitationTest.NAME);
@@ -25,6 +28,7 @@ record PrecipitationTest(Biome.Precipitation precipitation) implements IPosition
         return TYPE;
     }
 
+     */
     //tests if the condition is true in any of the neighboring blocks
     //for none it checks if none of the neighbor have rain
     @Override
@@ -51,5 +55,10 @@ record PrecipitationTest(Biome.Precipitation precipitation) implements IPosition
             }
         }
         return precipitation == Biome.Precipitation.NONE;
+    }
+
+    @Override
+    public Type<?> getType() {
+        return null;
     }
 }

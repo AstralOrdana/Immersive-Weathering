@@ -23,7 +23,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.Map;
@@ -36,7 +35,9 @@ public abstract class ArmorLayerMixin <T extends LivingEntity, M extends Humanoi
         super(renderLayerParent);
     }
 
-    @Inject(method = "renderArmorPiece", at =@At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;renderModel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/item/ArmorItem;ZLnet/minecraft/client/model/HumanoidModel;ZFFFLjava/lang/String;)V",
+    /*
+    @Inject(method = "renderArmorPiece", at =@At(value = "INVOKE",
+            target = "Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;renderModel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/item/ArmorItem;ZLnet/minecraft/client/model/HumanoidModel;ZFFFLjava/lang/String;)V",
             ordinal = 2, shift = At.Shift.BEFORE), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
     public void renderFlowerCrown(PoseStack poseStack, MultiBufferSource multiBufferSource, T livingEntity,
                                       EquipmentSlot equipmentSlot, int i, A humanoidModel, CallbackInfo ci,
@@ -61,4 +62,6 @@ public abstract class ArmorLayerMixin <T extends LivingEntity, M extends Humanoi
             }
         }
     }
+
+     */
 }

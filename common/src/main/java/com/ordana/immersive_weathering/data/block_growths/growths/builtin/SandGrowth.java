@@ -1,20 +1,18 @@
 package com.ordana.immersive_weathering.data.block_growths.growths.builtin;
 
-import com.ordana.immersive_weathering.blocks.sandy.Sandy;
-import com.ordana.immersive_weathering.blocks.snowy.Snowy;
-import com.ordana.immersive_weathering.util.TemperatureManager;
-import com.ordana.immersive_weathering.util.WeatheringHelper;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
+import com.ordana.immersive_weathering.blocks.sandy.Sandy;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModTags;
+import com.ordana.immersive_weathering.util.TemperatureManager;
+import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BiomeTags;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -23,7 +21,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Supplier;
 
 public class SandGrowth extends BuiltinBlockGrowth {
@@ -35,8 +32,8 @@ public class SandGrowth extends BuiltinBlockGrowth {
     @Override
     public @Nullable Iterable<Block> getOwners() {
         List<Block> blocks = new ArrayList<>();
-        Registry.BLOCK.getTag(ModTags.SANDABLE).get().stream().forEach(h -> blocks.add(h.value()));
-        Registry.BLOCK.getTag(ModTags.SANDY).get().stream().forEach(h -> blocks.add(h.value()));
+        BuiltInRegistries.BLOCK.getTag(ModTags.SANDABLE).get().stream().forEach(h -> blocks.add(h.value()));
+        BuiltInRegistries.BLOCK.getTag(ModTags.SANDY).get().stream().forEach(h -> blocks.add(h.value()));
         return blocks;
     }
 

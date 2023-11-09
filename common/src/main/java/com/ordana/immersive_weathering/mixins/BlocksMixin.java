@@ -7,12 +7,12 @@ import com.ordana.immersive_weathering.blocks.rustable.Rustable;
 import com.ordana.immersive_weathering.blocks.rustable.RustableBarsBlock;
 import com.ordana.immersive_weathering.blocks.rustable.RustableDoorBlock;
 import com.ordana.immersive_weathering.blocks.rustable.RustableTrapdoorBlock;
-
 import com.ordana.immersive_weathering.reg.ModItems;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -845,8 +845,8 @@ public abstract class BlocksMixin {
             )
     )
 
-    private static DoorBlock ironDoor(BlockBehaviour.Properties settings) {
-        return new RustableDoorBlock(Rustable.RustLevel.UNAFFECTED, settings);
+    private static DoorBlock ironDoor(BlockBehaviour.Properties properties, BlockSetType type) {
+        return new RustableDoorBlock(Rustable.RustLevel.UNAFFECTED, properties);
     }
 
     @Redirect(
@@ -863,8 +863,8 @@ public abstract class BlocksMixin {
                     )
             )
     )
-    private static TrapDoorBlock ironTrapdoor(BlockBehaviour.Properties settings) {
-        return new RustableTrapdoorBlock(Rustable.RustLevel.UNAFFECTED, settings);
+    private static TrapDoorBlock ironTrapdoor(BlockBehaviour.Properties properties, BlockSetType type) {
+        return new RustableTrapdoorBlock(Rustable.RustLevel.UNAFFECTED, properties);
     }
 
 

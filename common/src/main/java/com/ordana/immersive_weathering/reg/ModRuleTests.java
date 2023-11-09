@@ -5,6 +5,7 @@ import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.data.rute_tests.*;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
 
@@ -29,6 +30,6 @@ public class ModRuleTests {
 
 
     private static <P extends RuleTest> Supplier<RuleTestType<P>> register(String name, Codec<P> codec) {
-        return RegHelper.register(ImmersiveWeathering.res(name), () -> () -> codec, Registry.RULE_TEST);
+        return RegHelper.register(ImmersiveWeathering.res(name), () -> () -> codec, Registries.RULE_TEST);
     }
 }

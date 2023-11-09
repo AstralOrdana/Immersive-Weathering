@@ -7,14 +7,15 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -22,11 +23,11 @@ import java.util.function.Function;
 public class BlockPair extends Pair<BlockState, BlockState> {
 
     private static final Codec<Block> BLOCK_CODEC = ResourceLocation.CODEC.flatXmap(
-            (resourceLocation) -> Registry.BLOCK.getOptional(resourceLocation).map(DataResult::success).orElseGet(
-                    () -> DataResult.error("Unknown registry key in " + Registry.BLOCK.key() + ": " + resourceLocation)
+            (resourceLocation) -> BuiltInRegistries.BLOCK.getOptional(resourceLocation).map(DataResult::success).orElseGet(
+                    () -> DataResult.error(() -> "Unknown registry key in " + BuiltInRegistries.BLOCK.key() + ": " + resourceLocation)
             ),
-            (block) -> Registry.BLOCK.getResourceKey(block).map(ResourceKey::location).map(DataResult::success).orElseGet(
-                    () -> DataResult.error("Unknown registry element in " + Registry.BLOCK.key() + ":" + block)
+            (block) -> BuiltInRegistries.BLOCK.getResourceKey(block).map(ResourceKey::location).map(DataResult::success).orElseGet(
+                    () -> DataResult.error(() -> "Unknown registry element in " + BuiltInRegistries.BLOCK.key() + ":" + block)
             )
     );
     private static final Codec<BlockState> BLOCK_STATE_CODEC = BlockStateAccessor.getCodec(BLOCK_CODEC, Block::defaultBlockState).stable();

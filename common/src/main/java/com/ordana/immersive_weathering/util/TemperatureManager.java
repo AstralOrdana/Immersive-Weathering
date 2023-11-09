@@ -4,7 +4,6 @@ import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biome;
 
 import java.util.function.Supplier;

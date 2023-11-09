@@ -1,14 +1,13 @@
 package com.ordana.immersive_weathering.data.block_growths.growths.builtin;
 
 import com.ordana.immersive_weathering.blocks.FulguriteBlock;
-import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
-import com.ordana.immersive_weathering.items.LeafPileBlockItem;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.*;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.random.SimpleWeightedRandomList;
@@ -33,8 +32,8 @@ public class LightningGrowth extends BuiltinBlockGrowth {
     @Override
     public @Nullable Iterable<Block> getOwners() {
         List<Block> blocks = new ArrayList<>();
-        Registry.BLOCK.getTag(BlockTags.SAND).get().stream().forEach(h -> blocks.add(h.value()));
-        Registry.BLOCK.getTag(ModTags.CRACKABLE).get().stream().forEach(h -> blocks.add(h.value()));
+        BuiltInRegistries.BLOCK.getTag(BlockTags.SAND).get().stream().forEach(h -> blocks.add(h.value()));
+        BuiltInRegistries.BLOCK.getTag(ModTags.CRACKABLE).get().stream().forEach(h -> blocks.add(h.value()));
         return blocks;
     }
 

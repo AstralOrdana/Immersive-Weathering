@@ -9,7 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -19,8 +19,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
-
-import net.minecraft.util.RandomSource;
 
 public class WeedsBlock extends CropBlock {
 
@@ -77,7 +75,7 @@ public class WeedsBlock extends CropBlock {
                     double d0 = Math.abs(entity.getX() - entity.xOld);
                     double d1 = Math.abs(entity.getZ() - entity.zOld);
                     if (d0 >= (double) 0.003F || d1 >= (double) 0.003F) {
-                        entity.hurt(DamageSource.SWEET_BERRY_BUSH, 1.0F);
+                        entity.hurt(level.damageSources().sweetBerryBush(), 1.0F);
                     }
                 }
             }

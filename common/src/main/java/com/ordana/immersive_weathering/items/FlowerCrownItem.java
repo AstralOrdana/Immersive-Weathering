@@ -22,8 +22,8 @@ import java.util.function.Supplier;
 
 public class FlowerCrownItem extends ArmorItem {
 
-    public FlowerCrownItem(ArmorMaterial material, EquipmentSlot slot, Properties settings) {
-        super(material, slot, settings);
+    public FlowerCrownItem(ArmorMaterial material, Type type, Properties properties) {
+        super(material, type, properties);
     }
 
     @PlatformOnly(PlatformOnly.FORGE)

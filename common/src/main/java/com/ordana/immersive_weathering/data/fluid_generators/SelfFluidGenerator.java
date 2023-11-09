@@ -9,6 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,7 +26,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
 
     public static final Codec<SelfFluidGenerator> CODEC = RecordCodecBuilder.<SelfFluidGenerator>create(
             instance -> instance.group(
-                    Registry.FLUID.byNameCodec().fieldOf("fluid").forGetter(SelfFluidGenerator::getFluid),
+                    BuiltInRegistries.FLUID.byNameCodec().fieldOf("fluid").forGetter(SelfFluidGenerator::getFluid),
                     FluidType.CODEC.optionalFieldOf("fluid_type", FluidType.BOTH).forGetter(SelfFluidGenerator::getFluidType),
                     BlockState.CODEC.fieldOf("generate").forGetter(SelfFluidGenerator::getGrowth),
                     AdjacentBlocks.CODEC.fieldOf("adjacent_blocks").forGetter(SelfFluidGenerator::getAdjacentBlocksCondition),
@@ -109,7 +110,7 @@ public class SelfFluidGenerator implements IFluidGenerator {
 
                 ).apply(instance, AdjacentBlocks::new)).comapFlatMap(arg -> {
             if (arg.sidesBlocks.isEmpty() && arg.anyBlocks.isEmpty() && arg.upBlock == null && arg.downBlock == null) {
-                return DataResult.error("Adjacent Blocks must contain at least one predicate");
+                return DataResult.error(() -> "Adjacent Blocks must contain at least one predicate");
             }
             return DataResult.success(arg);
         }, Function.identity());

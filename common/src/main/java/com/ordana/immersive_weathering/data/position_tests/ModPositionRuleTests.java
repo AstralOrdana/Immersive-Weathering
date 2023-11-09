@@ -14,7 +14,7 @@ public class ModPositionRuleTests {
         var b = new HashMap<String , IPositionRuleTest.Type<?>>();
 
         b.put(TemperatureMatchTest.TYPE.name(), TemperatureMatchTest.TYPE);
-        b.put(PrecipitationTest.TYPE.name(), PrecipitationTest.TYPE);
+        //b.put(PrecipitationTest.TYPE.name(), PrecipitationTest.TYPE);
         b.put(PosRandomTest.TYPE.name(), PosRandomTest.TYPE);
         b.put(OrTest.TYPE.name(), OrTest.TYPE);
         b.put(NandTest.TYPE.name(), NandTest.TYPE);

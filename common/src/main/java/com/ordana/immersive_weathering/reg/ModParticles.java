@@ -9,6 +9,7 @@ import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.Registries;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -18,7 +19,7 @@ import java.util.function.Supplier;
 public class ModParticles {
 
     public static void init() {
-        BlockSetAPI.addDynamicRegistration(ModParticles::registerLeafParticles, LeavesType.class, Registry.PARTICLE_TYPE);
+        //BlockSetAPI.addDynamicRegistration(ModParticles::registerLeafParticles, LeavesType.class, Registries.PARTICLE_TYPE);
     }
 
     public static Supplier<SimpleParticleType> registerParticle(String name) {

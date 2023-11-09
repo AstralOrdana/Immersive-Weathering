@@ -6,6 +6,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.data.block_growths.Operator;
 import com.ordana.immersive_weathering.reg.ModRuleTests;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -16,7 +18,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
-import net.minecraft.util.RandomSource;
 import java.util.function.Predicate;
 
 public class BlockPropertyTest extends RuleTest {
@@ -47,11 +48,11 @@ public class BlockPropertyTest extends RuleTest {
     private static final class PropPredicate implements Predicate<BlockState> { //
 
         public static Codec<PropPredicate> CODEC =
-                Registry.BLOCK.byNameCodec().partialDispatch("from_block", b -> DataResult.success(b.getFromBlock()),
+                BuiltInRegistries.BLOCK.byNameCodec().partialDispatch("from_block", b -> DataResult.success(b.getFromBlock()),
                         (block) -> {
                             BlockState state = block.defaultBlockState();
                             if (state.getValues().isEmpty()) {
-                                return DataResult.error("Target Block has no properties");
+                                return DataResult.error(() -> "Target Block has no properties");
                             }
                             Codec<PropPredicate> c = propertyCodec(state).partialDispatch("property",
                                     b -> DataResult.success(b.getProperty()), (property) -> {
@@ -119,7 +120,7 @@ public class BlockPropertyTest extends RuleTest {
 
     protected static Codec<Comparable<?>> valueCodec(Property<?> property) {
         return Codec.STRING.flatXmap(string -> property.getValue(string).map(DataResult::success)
-                        .orElseGet(() -> DataResult.error("Unknown Property value" + string + " in " + property)),
+                        .orElseGet(() -> DataResult.error(() -> "Unknown Property value" + string + " in " + property)),
                 value -> DataResult.success(value.toString())
         );
     }
@@ -131,7 +132,7 @@ public class BlockPropertyTest extends RuleTest {
                             return DataResult.success(p);
                         }
                     }
-                    return DataResult.error("Unknown Property " + string + " in " + state);
+                    return DataResult.error(() -> "Unknown Property " + string + " in " + state);
                 },
                 property1 -> DataResult.success(property1.getName())
         );

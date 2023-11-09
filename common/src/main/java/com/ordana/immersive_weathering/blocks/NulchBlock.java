@@ -12,7 +12,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -49,7 +48,7 @@ public class NulchBlock extends Block {
 
     @Override
     public void fallOn(Level world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        entity.causeFallDamage(fallDistance, 0.2F, DamageSource.FALL);
+        entity.causeFallDamage(fallDistance, 0.2F, world.damageSources().fall());
     }
 
     @Override
@@ -89,7 +88,7 @@ public class NulchBlock extends Block {
     public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
         if (state.getValue(MOLTEN)) {
             if (!entity.fireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
-                entity.hurt(DamageSource.HOT_FLOOR, 1.0F);
+                entity.hurt(level.damageSources().hotFloor(), 1.0F);
             }
         }
     }
