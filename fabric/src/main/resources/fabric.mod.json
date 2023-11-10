@@ -23,7 +23,6 @@
       "com.ordana.immersive_weathering.fabric.ImmersiveWeatheringFabric"
     ],
     "client": [
-      "com.ordana.immersive_weathering.fabric.ImmersiveWeatheringClientFabric"
     ],
     "emi": [
       "com.ordana.immersive_weathering.integrations.EmiIntegration"

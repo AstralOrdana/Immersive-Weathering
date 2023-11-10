@@ -1,10 +1,5 @@
 package com.ordana.immersive_weathering.reg;
 
-import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.configs.CommonConfigs;
-import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
-import net.minecraft.world.item.CreativeModeTab;
-
 public class ModCreativeTab {
 
     /*

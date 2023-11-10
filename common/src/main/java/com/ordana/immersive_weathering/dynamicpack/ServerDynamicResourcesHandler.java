@@ -9,14 +9,13 @@ import net.mehvahdjukaar.moonlight.api.resources.ResType;
 import net.mehvahdjukaar.moonlight.api.resources.SimpleTagBuilder;
 import net.mehvahdjukaar.moonlight.api.resources.StaticResource;
 import net.mehvahdjukaar.moonlight.api.resources.pack.DynServerResourcesGenerator;
-import net.mehvahdjukaar.moonlight.api.resources.pack.DynServerResourcesProvider;
 import net.mehvahdjukaar.moonlight.api.resources.pack.DynamicDataPack;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.tags.TagBuilder;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
@@ -43,6 +42,15 @@ public class ServerDynamicResourcesHandler extends DynServerResourcesGenerator {
 
     @Override
     public void regenerateDynamicAssets(ResourceManager manager) {
+
+        //tag
+        SimpleTagBuilder tag = SimpleTagBuilder.of(ImmersiveWeathering.res("leaf_piles"));
+        tag.addEntries(ModBlocks.LEAF_PILES.values());
+        dynamicPack.addTag(tag, Registries.BLOCK);
+        dynamicPack.addTag(tag, Registries.BLOCK);
+
+        dynamicPack.addTag(SimpleTagBuilder.of(ImmersiveWeathering.res("bark"))
+                .addEntries(ModItems.BARK.values()), Registries.ITEM);
 
         StaticResource lootTable = StaticResource.getOrLog(manager, ResType.BLOCK_LOOT_TABLES.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
         StaticResource recipe = StaticResource.getOrLog(manager, ResType.RECIPES.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
@@ -73,18 +81,6 @@ public class ServerDynamicResourcesHandler extends DynServerResourcesGenerator {
             }
         }
 
-    }
-
-    @Override
-    public void generateStaticAssetsOnStartup(ResourceManager manager) {
-        //tag
-        SimpleTagBuilder tag = SimpleTagBuilder.of(ImmersiveWeathering.res("leaf_piles"));
-        tag.addEntries(ModBlocks.LEAF_PILES.values());
-        dynamicPack.addTag(tag, Registry.BLOCK_REGISTRY);
-        dynamicPack.addTag(tag, Registry.ITEM_REGISTRY);
-
-        dynamicPack.addTag(SimpleTagBuilder.of(ImmersiveWeathering.res("bark"))
-                .addEntries(ModItems.BARK.values()), Registry.ITEM_REGISTRY);
     }
 
     public void addLeafPileJson(StaticResource resource, String id, String leafBlockId) {

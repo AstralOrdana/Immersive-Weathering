@@ -3,7 +3,6 @@ package com.ordana.immersive_weathering.mixins.fabric;
 import com.ordana.immersive_weathering.fabric.CeilingAndWallBlockItem;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;

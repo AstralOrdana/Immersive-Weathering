@@ -20,6 +20,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Items;
@@ -125,7 +126,7 @@ public class ImmersiveWeatheringClient {
 
         ClientHelper.registerRenderType(ModBlocks.HANGING_ROOTS_WALL.get(), RenderType.cutout());
 
-        ClientHelper.registerItemProperty(ModItems.FLOWER_CROWN.get(), ImmersiveWeathering.res("supporter"),
+        ItemProperties.register(ModItems.FLOWER_CROWN.get(), ImmersiveWeathering.res("supporter"),
                 (stack, world, entity, s) -> FlowerCrownItem.getItemTextureIndex(stack));
     }
 

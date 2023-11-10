@@ -403,7 +403,7 @@ public class ModEvents {
             if (bark != null) {
                 if (level.isClientSide) {
                     level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    var barkParticle = WeatheringHelper.getBarkParticle(state);
+                    var barkParticle = new BlockParticleOption(ParticleTypes.BLOCK, state);
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, barkParticle, UniformInt.of(3, 5));
                 } else {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);

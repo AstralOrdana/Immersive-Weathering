@@ -8,7 +8,6 @@
   ],
   "mixins": [
     "CropBlockMixin",
-    "DataPackContentMixin",
     "FarmlandBlockMixin",
     "FungusBlockMixin",
     "ItemsMixin",

@@ -45,17 +45,17 @@ shadowJar {
     exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
+    archiveClassifier = "dev-shadow"
 }
 
 remapJar {
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    classifier null
+    archiveClassifier = "forge"
 }
 
 jar {
-    classifier "dev"
+    archiveClassifier = "dev"
 }
 
 sourcesJar {
@@ -105,7 +105,8 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
-    modImplementation ("net.mehvahdjukaar:moonlight-forge:${rootProject.moonlight_version}")
+    modImplementation("curse.maven:selene-499980:4845158")
+    modLocalRuntime "dev.emi:emi-forge:${rootProject.emi_version}"
 
     implementation 'org.jetbrains:annotations:22.0.0'
 

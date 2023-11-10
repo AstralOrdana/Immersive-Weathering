@@ -1,6 +1,5 @@
 package com.ordana.immersive_weathering.client.particles;
 
-import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
