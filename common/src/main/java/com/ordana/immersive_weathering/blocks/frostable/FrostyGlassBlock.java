@@ -31,8 +31,8 @@ public class FrostyGlassBlock extends AbstractGlassBlock implements Frosty {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-        tryUnFrost(state, world, pos);
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        tryUnFrost(state, level, pos);
     }
 
     @Override

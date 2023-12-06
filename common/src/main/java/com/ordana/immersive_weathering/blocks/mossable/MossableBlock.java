@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.blocks.mossable;
 
-import com.ordana.immersive_weathering.blocks.Weatherable;
+import com.ordana.immersive_weathering.util.Weatherable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;

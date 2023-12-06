@@ -69,14 +69,14 @@ public class CharredSlabBlock extends SlabBlock implements Charred {
     }
 
     @Override
-    public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity) {
+    public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
         onEntityStepOn(state, entity);
-        super.stepOn(world, pos, state, entity);
+        super.stepOn(level, pos, state, entity);
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-        return interactWithPlayer(state, worldIn, pos, player, handIn);
+    public InteractionResult use(BlockState state, Level levelIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+        return interactWithPlayer(state, levelIn, pos, player, handIn);
     }
 
     @Override
@@ -86,9 +86,9 @@ public class CharredSlabBlock extends SlabBlock implements Charred {
     }
 
     @Override
-    public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
+    public void entityInside(BlockState state, Level levelIn, BlockPos pos, Entity entityIn) {
         if (entityIn instanceof Projectile projectile) {
-            interactWithProjectile(worldIn, state, projectile, pos);
+            interactWithProjectile(levelIn, state, projectile, pos);
         }
     }
 

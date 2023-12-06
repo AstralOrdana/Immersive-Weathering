@@ -65,10 +65,10 @@ public interface Frosty {
 
     BooleanProperty NATURAL = ModBlockProperties.NATURAL;
 
-    default void tryUnFrost(BlockState state, ServerLevel world, BlockPos pos) {
+    default void tryUnFrost(BlockState state, ServerLevel level, BlockPos pos) {
         if (state.getValue(NATURAL)) {
-            if (world.dimensionType().ultraWarm() || (!world.isRaining() && world.isDay()) || (world.getBrightness(LightLayer.BLOCK, pos) > 7 - state.getLightBlock(world, pos))) {
-                world.setBlockAndUpdate(pos, getUnfrosty(state).get());
+            if (level.dimensionType().ultraWarm() || (!level.isRaining() && level.isDay()) || (level.getBrightness(LightLayer.BLOCK, pos) > 7 - state.getLightBlock(level, pos))) {
+                level.setBlockAndUpdate(pos, getUnfrosty(state).get());
             }
         }
     }

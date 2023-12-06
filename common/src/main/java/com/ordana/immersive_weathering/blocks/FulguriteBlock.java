@@ -43,69 +43,69 @@ public class FulguriteBlock extends AmethystClusterBlock {
     }
 
     @Override
-    public int getSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+    public int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         return state.getValue(POWERED) ? 15 : 0;
     }
 
     @Override
-    public int getDirectSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+    public int getDirectSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         return state.getValue(POWERED) && state.getValue(FACING) == direction ? 15 : 0;
     }
 
-    public void setPowered(BlockState state, Level world, BlockPos pos) {
-        world.setBlock(pos, state.setValue(POWERED, true), 3);
-        this.updateNeighbors(state, world, pos);
-        world.scheduleTick(pos, this, 8);
-        world.levelEvent(3002, pos, state.getValue(FACING).getAxis().ordinal());
+    public void setPowered(BlockState state, Level level, BlockPos pos) {
+        level.setBlock(pos, state.setValue(POWERED, true), 3);
+        this.updateNeighbors(state, level, pos);
+        level.scheduleTick(pos, this, 8);
+        level.levelEvent(3002, pos, state.getValue(FACING).getAxis().ordinal());
     }
 
-    private void updateNeighbors(BlockState state, Level world, BlockPos pos) {
-        world.updateNeighborsAt(pos.relative(state.getValue(FACING).getOpposite()), this);
-    }
-
-    @Override
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-        world.setBlock(pos, state.setValue(POWERED, false), 3);
-        this.updateNeighbors(state, world, pos);
+    private void updateNeighbors(BlockState state, Level level, BlockPos pos) {
+        level.updateNeighborsAt(pos.relative(state.getValue(FACING).getOpposite()), this);
     }
 
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
-        if (world.isThundering() && (long) world.random.nextInt(200) <= world.getGameTime() % 200L && pos.getY() == world.getHeight(Heightmap.Types.WORLD_SURFACE, pos.getX(), pos.getZ()) - 1) {
-            ParticleUtils.spawnParticlesAlongAxis(state.getValue(FACING).getAxis(), world, pos, 0.125D, ParticleTypes.ELECTRIC_SPARK, UniformInt.of(1, 2));
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        level.setBlock(pos, state.setValue(POWERED, false), 3);
+        this.updateNeighbors(state, level, pos);
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if (level.isThundering() && (long) level.random.nextInt(200) <= level.getGameTime() % 200L && pos.getY() == level.getHeight(Heightmap.Types.WORLD_SURFACE, pos.getX(), pos.getZ()) - 1) {
+            ParticleUtils.spawnParticlesAlongAxis(state.getValue(FACING).getAxis(), level, pos, 0.125D, ParticleTypes.ELECTRIC_SPARK, UniformInt.of(1, 2));
         }
     }
 
     @Override
-    public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
         if (!state.is(newState.getBlock())) {
             if (state.getValue(POWERED)) {
-                this.updateNeighbors(state, world, pos);
+                this.updateNeighbors(state, level, pos);
             }
-            super.onRemove(state, world, pos, newState, moved);
+            super.onRemove(state, level, pos, newState, moved);
         }
     }
 
     @Override
-    public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify) {
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean notify) {
         if (!state.is(oldState.getBlock())) {
-            if (state.getValue(POWERED) && !world.getBlockTicks().hasScheduledTick(pos, this)) {
-                world.setBlock(pos, state.setValue(POWERED, false), 18);
+            if (state.getValue(POWERED) && !level.getBlockTicks().hasScheduledTick(pos, this)) {
+                level.setBlock(pos, state.setValue(POWERED, false), 18);
             }
         }
     }
 
     @Override
-    public void onProjectileHit(Level world, BlockState state, BlockHitResult hit, Projectile projectile) {
-        if (world.isThundering() && projectile instanceof ThrownTrident && ((ThrownTrident) projectile).isChanneling()) {
+    public void onProjectileHit(Level level, BlockState state, BlockHitResult hit, Projectile projectile) {
+        if (level.isThundering() && projectile instanceof ThrownTrident && ((ThrownTrident) projectile).isChanneling()) {
             BlockPos blockPos = hit.getBlockPos();
-            if (world.canSeeSky(blockPos)) {
-                LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(world);
+            if (level.canSeeSky(blockPos)) {
+                LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(level);
                 lightningEntity.moveTo(Vec3.atBottomCenterOf(blockPos.above()));
                 Entity entity = projectile.getOwner();
                 lightningEntity.setCause(entity instanceof ServerPlayer ? (ServerPlayer) entity : null);
-                world.addFreshEntity(lightningEntity);
-                world.playSound(null, blockPos, SoundEvents.TRIDENT_THUNDER, SoundSource.WEATHER, 5.0F, 1.0F);
+                level.addFreshEntity(lightningEntity);
+                level.playSound(null, blockPos, SoundEvents.TRIDENT_THUNDER, SoundSource.WEATHER, 5.0F, 1.0F);
             }
         }
 

@@ -41,12 +41,12 @@ public class WeedsBlock extends CropBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         int i = this.getAge(state);
         if (i < this.getMaxAge()) {
-            float f = getGrowthSpeed(this, world, pos);
+            float f = getGrowthSpeed(this, level, pos);
             if (random.nextInt((int) (25.0F / f) + 1) == 0) {
-                world.setBlock(pos, this.getStateForAge(i + 1), 2);
+                level.setBlock(pos, this.getStateForAge(i + 1), 2);
             }
         }
     }
@@ -57,13 +57,13 @@ public class WeedsBlock extends CropBlock {
     }
 
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (this.getAge(state) == this.getMaxAge() && random.nextInt(10) == 0) {
             double r = 0.3;
             double x = (double) pos.getX() + 0.5 + (random.nextDouble() - 0.5) * r;
             double y = (double) pos.getY() + 0.8 + (random.nextDouble() - 0.5) * r;
             double z = (double) pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * r;
-            world.addParticle(ParticleTypes.WHITE_ASH, x, y, z, 0.1D, 0.5D, 0.1D);
+            level.addParticle(ParticleTypes.WHITE_ASH, x, y, z, 0.1D, 0.5D, 0.1D);
         }
     }
 
@@ -86,13 +86,13 @@ public class WeedsBlock extends CropBlock {
     //commented out the PlatformOnlys because it wasnt working on forge?? ~o
 
     //@PlatformOnly(PlatformOnly.FABRIC)
-    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockPos below = pos.below();
-        return this.mayPlaceOn(world.getBlockState(below), world, below);
+        return this.mayPlaceOn(level.getBlockState(below), level, below);
     }
 
     //@PlatformOnly(PlatformOnly.FABRIC)
-    protected boolean mayPlaceOn(BlockState floor, BlockGetter world, BlockPos pos) {
+    protected boolean mayPlaceOn(BlockState floor, BlockGetter level, BlockPos pos) {
         return floor.is(ModTags.FERTILE_BLOCKS) || floor.is(BlockTags.DIRT) || floor.is(ModTags.CRACKED) || floor.is(ModTags.MOSSY);
     }
 

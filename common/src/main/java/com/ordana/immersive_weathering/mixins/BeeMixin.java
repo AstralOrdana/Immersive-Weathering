@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Bee.class)
 public abstract class BeeMixin extends Animal {
 
-    protected BeeMixin(EntityType<? extends Animal> entityType, Level world) {
-        super(entityType, world);
+    protected BeeMixin(EntityType<? extends Animal> entityType, Level level) {
+        super(entityType, level);
     }
 
     @Inject(method = "registerGoals", at = @At("TAIL"))

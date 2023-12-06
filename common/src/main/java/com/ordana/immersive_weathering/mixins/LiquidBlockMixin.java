@@ -44,12 +44,12 @@ public abstract class LiquidBlockMixin extends Block implements BucketPickup {
     }
 
     @Inject(method = "shouldSpreadLiquid", at = @At("HEAD"), cancellable = true)
-    private void shouldSpreadLiquid(Level world, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
+    private void shouldSpreadLiquid(Level level, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
         var f = this.getOwnFluid();
-        var successPos = FluidGeneratorsHandler.applyGenerators(f, POSSIBLE_FLOW_DIRECTIONS, pos, world);
+        var successPos = FluidGeneratorsHandler.applyGenerators(f, POSSIBLE_FLOW_DIRECTIONS, pos, level);
         if(successPos.isPresent()){
             if(f.is(FluidTags.LAVA)) {
-                this.fizz(world, successPos.get().getFirst());
+                this.fizz(level, successPos.get().getFirst());
             }
             cir.setReturnValue(false);
         }

@@ -106,7 +106,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
     }
 
     @Override
-    public int getLightBlock(BlockState state, BlockGetter world, BlockPos pos) {
+    public int getLightBlock(BlockState state, BlockGetter level, BlockPos pos) {
         return 1;
     }
 
@@ -163,7 +163,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         if (context instanceof EntityCollisionContext c) {
             var e = c.getEntity();
             if (e instanceof FallingLayerEntity) {
@@ -181,11 +181,11 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
 
     //just used for placement by blockItem
     @Override
-    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-        BlockState bottomState = world.getBlockState(pos.below());
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        BlockState bottomState = level.getBlockState(pos.below());
         if(bottomState.getBlock() instanceof LeavesBlock)return true;
-        if (state.getValue(LAYERS) != 0 && !bottomState.isFaceSturdy(world, pos.below(), Direction.UP)) return false;
-        return !shouldFall(state, world.getBlockState(pos.below()));
+        if (state.getValue(LAYERS) != 0 && !bottomState.isFaceSturdy(level, pos.below(), Direction.UP)) return false;
+        return !shouldFall(state, level.getBlockState(pos.below()));
     }
 
 
@@ -197,11 +197,11 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (direction == Direction.DOWN && state.getValue(LAYERS) <= 1) {
             state = state.setValue(LAYERS, neighborState.is(Blocks.WATER) ? 0 : 1);
         }
-        return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
     @Override
@@ -232,23 +232,23 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
         return this.canBeBonemealed;
     }
 
     @Override
-    public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
+    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
         return this.canBeBonemealed;
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
         for (var direction : Direction.values()) {
             if (random.nextFloat() > 0.5f) {
                 var targetPos = pos.relative(direction);
-                BlockState targetBlock = world.getBlockState(targetPos);
+                BlockState targetBlock = level.getBlockState(targetPos);
                 WeatheringHelper.getAzaleaGrowth(targetBlock).ifPresent(s ->
-                        world.setBlockAndUpdate(targetPos, s)
+                        level.setBlockAndUpdate(targetPos, s)
                 );
             }
         }

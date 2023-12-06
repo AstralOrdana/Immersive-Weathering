@@ -62,10 +62,10 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 	@Override
 	@Nullable
 	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-		Level world = ctx.getLevel();
+		Level level = ctx.getLevel();
 		BlockPos blockPos = ctx.getClickedPos();
-		BlockState blockState = world.getBlockState(blockPos);
-		return Arrays.stream(ctx.getNearestLookingDirections()).map(direction -> this.getStateForPlacement(blockState, world, blockPos, direction)).filter(Objects::nonNull).findFirst().orElse(null);
+		BlockState blockState = level.getBlockState(blockPos);
+		return Arrays.stream(ctx.getNearestLookingDirections()).map(direction -> this.getStateForPlacement(blockState, level, blockPos, direction)).filter(Objects::nonNull).findFirst().orElse(null);
 	}
 
 	@Override
@@ -79,30 +79,30 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 	}
 
 	@Override
-	public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean isClient) {
-		return state.getValue(AGE) < 0 || Stream.of(DIRECTIONS).anyMatch(direction -> this.isValidStateForPlacement(world, state, pos, direction.getOpposite()));
+	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
+		return state.getValue(AGE) < 0 || Stream.of(DIRECTIONS).anyMatch(direction -> this.isValidStateForPlacement(level, state, pos, direction.getOpposite()));
 	}
 
 	@Override
-	public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
-		return true;//this.canGrowPseudoAdjacent(world, pos, state) || this.canGrowAdjacent(world, pos, state) || this.canGrowExternal(world, pos, state);
+	public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
+		return true;//this.canGrowPseudoAdjacent(level, pos, state) || this.canGrowAdjacent(level, pos, state) || this.canGrowExternal(level, pos, state);
 	}
 
 	@Override
-	public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource r) {
+	public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource r) {
 		int method = r.nextInt(3);
 		Random random = new Random(r.nextLong());
 
 		if (method == 0) {
-			if (growPseudoAdjacent(world, random, pos, state)) {
+			if (growPseudoAdjacent(level, random, pos, state)) {
 				return;
 			}
 		} else if (method == 1) {
-			if (growAdjacent(world, random, pos, state)) {
+			if (growAdjacent(level, random, pos, state)) {
 				return;
 			}
 		} else {
-			if (growExternal(world, random, pos, state)) {
+			if (growExternal(level, random, pos, state)) {
 				return;
 			}
 		}
@@ -115,15 +115,15 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		}
 
 		if (methodTwo == 0) {
-			if (growPseudoAdjacent(world, random, pos, state)) {
+			if (growPseudoAdjacent(level, random, pos, state)) {
 				return;
 			}
 		} else if (methodTwo == 1) {
-			if (growAdjacent(world, random, pos, state)) {
+			if (growAdjacent(level, random, pos, state)) {
 				return;
 			}
 		} else {
-			if (growExternal(world, random, pos, state)) {
+			if (growExternal(level, random, pos, state)) {
 				return;
 			}
 		}
@@ -131,11 +131,11 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		int methodThree = method == 0 ? methodTwo == 1 ? 2 : 1 : method == 1 ? methodTwo == 0 ? 2 : 0 : methodTwo == 2 ? 0 : 2;
 
 		if (methodThree == 0) {
-			growPseudoAdjacent(world, random, pos, state);
+			growPseudoAdjacent(level, random, pos, state);
 		} else if (methodThree == 1) {
-			growAdjacent(world, random, pos, state);
+			growAdjacent(level, random, pos, state);
 		} else {
-			growExternal(world, random, pos, state);
+			growExternal(level, random, pos, state);
 		}
 
 	}
@@ -146,21 +146,21 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 	}
 
 	@Override
-	public void performBonemeal(ServerLevel world, RandomSource r, BlockPos pos, BlockState state) {
-		world.setBlockAndUpdate(pos, state.getBlock().withPropertiesOf(state).setValue(AGE, 0));
+	public void performBonemeal(ServerLevel level, RandomSource r, BlockPos pos, BlockState state) {
+		level.setBlockAndUpdate(pos, state.getBlock().withPropertiesOf(state).setValue(AGE, 0));
 		Random random = new Random(r.nextLong());
 		int method = r.nextInt(3);
 
 			if (method == 0) {
-				if (growPseudoAdjacent(world, random, pos, state)) {
+				if (growPseudoAdjacent(level, random, pos, state)) {
 					return;
 				}
 			} else if (method == 1) {
-				if (growAdjacent(world, random, pos, state)) {
+				if (growAdjacent(level, random, pos, state)) {
 					return;
 				}
 			} else {
-				if (growExternal(world, random, pos, state)) {
+				if (growExternal(level, random, pos, state)) {
 					return;
 				}
 			}
@@ -173,15 +173,15 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 			}
 
 			if (methodTwo == 0) {
-				if (growPseudoAdjacent(world, random, pos, state)) {
+				if (growPseudoAdjacent(level, random, pos, state)) {
 					return;
 				}
 			} else if (methodTwo == 1) {
-				if (growAdjacent(world, random, pos, state)) {
+				if (growAdjacent(level, random, pos, state)) {
 					return;
 				}
 			} else {
-				if (growExternal(world, random, pos, state)) {
+				if (growExternal(level, random, pos, state)) {
 					return;
 				}
 			}
@@ -189,11 +189,11 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 			int methodThree = method == 0 ? methodTwo == 1 ? 2 : 1 : method == 1 ? methodTwo == 0 ? 2 : 0 : methodTwo == 2 ? 0 : 2;
 
 			if (methodThree == 0) {
-				growPseudoAdjacent(world, random, pos, state);
+				growPseudoAdjacent(level, random, pos, state);
 			} else if (methodThree == 1) {
-				growAdjacent(world, random, pos, state);
+				growAdjacent(level, random, pos, state);
 			} else {
-				growExternal(world, random, pos, state);
+				growExternal(level, random, pos, state);
 			}
 
 	}
@@ -210,7 +210,7 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return facing;
 	}
 
-	public boolean growPseudoAdjacent(Level world, Random random, BlockPos pos, BlockState state) {
+	public boolean growPseudoAdjacent(Level level, Random random, BlockPos pos, BlockState state) {
 		BlockState newStateHere = state;
 
 		List<Direction> shuffledDirections = Lists.newArrayList(Direction.values());
@@ -218,11 +218,11 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 
 		for (Direction dir : shuffledDirections) {
 			BlockState attemptedStateHere = newStateHere.setValue(MultifaceBlock.getFaceProperty(dir.getOpposite()), true);
-			if (this.canSurvive(attemptedStateHere, world, pos)) {
+			if (this.canSurvive(attemptedStateHere, level, pos)) {
 				newStateHere = attemptedStateHere;
 			}
 			if (!newStateHere.equals(state)) {
-				world.setBlockAndUpdate(pos, newStateHere);
+				level.setBlockAndUpdate(pos, newStateHere);
 				return true;
 			}
 		}
@@ -230,11 +230,11 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return false;
 	}
 
-	public boolean canGrowPseudoAdjacent(Level world, BlockPos pos, BlockState state) {
+	public boolean canGrowPseudoAdjacent(Level level, BlockPos pos, BlockState state) {
 		BlockState newStateHere = state;
 		for (Direction dir : Direction.values()) {
 			BlockState attemptedStateHere = newStateHere.setValue(MultifaceBlock.getFaceProperty(dir.getOpposite()), true);
-			if (this.canSurvive(attemptedStateHere, world, pos)) {
+			if (this.canSurvive(attemptedStateHere, level, pos)) {
 				newStateHere = attemptedStateHere;
 			}
 			if (!newStateHere.equals(state)) {
@@ -244,7 +244,7 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return false;
 	}
 
-	public boolean growAdjacent(Level world, Random random, BlockPos pos, BlockState state) {
+	public boolean growAdjacent(Level level, Random random, BlockPos pos, BlockState state) {
 		List<Direction> facing = getFacingDirections(state);
 		Collections.shuffle(facing, random);
 
@@ -266,11 +266,11 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 
 				if (dir.getAxis() != idealFacingDir.getAxis()) {
 					BlockPos adjacentPos = pos.relative(dir);
-					BlockState adjacentState = world.getBlockState(adjacentPos);
+					BlockState adjacentState = level.getBlockState(adjacentPos);
 					BlockState newState = this.defaultBlockState().setValue(MultifaceBlock.getFaceProperty(idealFacingDir), true);
-					if ((adjacentState.isAir() || adjacentState.is(this)) && this.canSurvive(newState, world, adjacentPos) && isIvyPos(adjacentPos)) {
+					if ((adjacentState.isAir() || adjacentState.is(this)) && this.canSurvive(newState, level, adjacentPos) && isIvyPos(adjacentPos)) {
 						BlockState finalNewState = adjacentState.is(this) ? adjacentState.setValue(MultifaceBlock.getFaceProperty(idealFacingDir), true) : (state.getValue(AGE) < MAX_AGE ? newState.setValue(AGE, state.getValue(AGE) + 1) : newState);
-						world.setBlockAndUpdate(adjacentPos, finalNewState);
+						level.setBlockAndUpdate(adjacentPos, finalNewState);
 						if (!finalNewState.equals(adjacentState)) {
 							return true;
 						}
@@ -282,16 +282,16 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return false;
 	}
 
-	public boolean canGrowAdjacent(Level world, BlockPos pos, BlockState state) {
+	public boolean canGrowAdjacent(Level level, BlockPos pos, BlockState state) {
 		List<Direction> facing = getFacingDirections(state);
 
 		for (Direction idealFacingDir : facing) {
 			for (Direction dir : Direction.values()) {
 				if (dir.getAxis() != idealFacingDir.getAxis()) {
 					BlockPos adjacentPos = pos.relative(dir);
-					BlockState adjacentState = world.getBlockState(adjacentPos);
+					BlockState adjacentState = level.getBlockState(adjacentPos);
 					BlockState newState = this.defaultBlockState().setValue(MultifaceBlock.getFaceProperty(idealFacingDir), true);
-					if ((adjacentState.isAir() || adjacentState.is(this)) && this.canSurvive(newState, world, adjacentPos)) {
+					if ((adjacentState.isAir() || adjacentState.is(this)) && this.canSurvive(newState, level, adjacentPos)) {
 						BlockState finalNewState = adjacentState.is(this) ? adjacentState.setValue(MultifaceBlock.getFaceProperty(idealFacingDir), true) : (state.getValue(AGE) < MAX_AGE ? newState.setValue(AGE, state.getValue(AGE) + 1) : newState);
 						if (!finalNewState.equals(adjacentState)) {
 							return true;
@@ -304,7 +304,7 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return false;
 	}
 
-	public boolean growExternal(Level world, Random random, BlockPos pos, BlockState state) {
+	public boolean growExternal(Level level, Random random, BlockPos pos, BlockState state) {
 		List<Direction> facing = getFacingDirections(state);
 		Collections.shuffle(facing, random);
 
@@ -315,12 +315,12 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 			for (Direction dir : shuffledDirections) {
 				if (dir.getAxis() != idealFacingDir.getAxis()) {
 					BlockPos externalPos = pos.relative(idealFacingDir).relative(dir);
-					BlockState externalState = world.getBlockState(externalPos);
+					BlockState externalState = level.getBlockState(externalPos);
 					BlockState newStateOpposed = this.defaultBlockState().setValue(MultifaceBlock.getFaceProperty(dir.getOpposite()), true);
 
-					if (world.getBlockState(pos.relative(dir)).isAir() && (externalState.isAir() || externalState.is(this)) && this.canSurvive(newStateOpposed, world, externalPos) && isIvyPos(externalPos)) {
+					if (level.getBlockState(pos.relative(dir)).isAir() && (externalState.isAir() || externalState.is(this)) && this.canSurvive(newStateOpposed, level, externalPos) && isIvyPos(externalPos)) {
 						BlockState finalNewState = externalState.is(this) ? externalState.setValue(MultifaceBlock.getFaceProperty(dir.getOpposite()), true) : (state.getValue(AGE) < MAX_AGE ? newStateOpposed.setValue(AGE, state.getValue(AGE) + 1) : newStateOpposed);
-						world.setBlockAndUpdate(externalPos, finalNewState);
+						level.setBlockAndUpdate(externalPos, finalNewState);
 						if (!finalNewState.equals(externalState)) {
 							return true;
 						}
@@ -332,17 +332,17 @@ public class IvyBlock extends MultifaceBlock implements BonemealableBlock {
 		return false;
 	}
 
-	public boolean canGrowExternal(Level world, BlockPos pos, BlockState state) {
+	public boolean canGrowExternal(Level level, BlockPos pos, BlockState state) {
 		List<Direction> facing = getFacingDirections(state);
 
 		for (Direction idealFacingDir : facing) {
 			for (Direction dir : Direction.values()) {
 				if (dir.getAxis() != idealFacingDir.getAxis()) {
 					BlockPos externalPos = pos.relative(idealFacingDir).relative(dir);
-					BlockState externalState = world.getBlockState(externalPos);
+					BlockState externalState = level.getBlockState(externalPos);
 					BlockState newStateOpposed = this.defaultBlockState().setValue(MultifaceBlock.getFaceProperty(dir.getOpposite()), true);
 
-					if (world.getBlockState(pos.relative(dir)).isAir() && (externalState.isAir() || externalState.is(this)) && this.canSurvive(newStateOpposed, world, externalPos)) {
+					if (level.getBlockState(pos.relative(dir)).isAir() && (externalState.isAir() || externalState.is(this)) && this.canSurvive(newStateOpposed, level, externalPos)) {
 						BlockState finalNewState = externalState.is(this) ? externalState.setValue(MultifaceBlock.getFaceProperty(dir.getOpposite()), true) : (state.getValue(AGE) < MAX_AGE ? newStateOpposed.setValue(AGE, state.getValue(AGE) + 1) : newStateOpposed);
 						if (!finalNewState.equals(externalState)) {
 							return true;

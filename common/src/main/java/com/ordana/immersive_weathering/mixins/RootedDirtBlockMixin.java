@@ -24,8 +24,8 @@ public abstract class RootedDirtBlockMixin extends Block implements Bonemealable
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
-        WeatheringHelper.growHangingRoots(world, random, pos);
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
+        WeatheringHelper.growHangingRoots(level, random, pos);
     }
 
 

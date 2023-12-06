@@ -59,20 +59,20 @@ public class RootedGrassBlock extends GrassBlock implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
         return true;
     }
 
     @Override
-    public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
+    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
 
-        WeatheringHelper.growHangingRoots(world, random, pos);
-        super.performBonemeal(world, random, pos, state);
+        WeatheringHelper.growHangingRoots(level, random, pos);
+        super.performBonemeal(level, random, pos, state);
     }
 
     @Override

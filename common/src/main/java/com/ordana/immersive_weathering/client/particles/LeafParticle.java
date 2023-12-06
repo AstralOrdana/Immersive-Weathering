@@ -7,9 +7,9 @@ import net.minecraft.core.particles.SimpleParticleType;
 public class LeafParticle extends TextureSheetParticle {
     private final float rotationSpeed;
 
-    LeafParticle(ClientLevel world, SpriteSet spriteProvider, double x, double y, double z,
+    LeafParticle(ClientLevel level, SpriteSet spriteProvider, double x, double y, double z,
                  double velocityX, double velocityY, double velocityZ, int color) {
-        super(world, x, y, z, velocityX, velocityY, velocityZ);
+        super(level, x, y, z, velocityX, velocityY, velocityZ);
         this.setSize(1.0F, 1.0F);
         this.pickSprite(spriteProvider);
         this.quadSize *= this.random.nextFloat() * 0.6F + 0.4F;
@@ -46,9 +46,9 @@ public class LeafParticle extends TextureSheetParticle {
     public record ColoredLeafParticle(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
 
         @Override
-        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double g, double color, double i) {
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientlevel, double x, double y, double z, double g, double color, double i) {
 
-            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
+            return new LeafParticle(clientlevel, this.spriteProvider, x, y, z, 0.0D, -1D, 0.0D,
                     (int) color);
         }
     }
@@ -56,9 +56,9 @@ public class LeafParticle extends TextureSheetParticle {
     public record SimpleLeafParticle(SpriteSet spriteProvider) implements ParticleProvider<SimpleParticleType> {
 
         @Override
-        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientWorld, double x, double y, double z, double vel, double color, double i) {
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel clientlevel, double x, double y, double z, double vel, double color, double i) {
             if (vel == 0) vel = -3;
-            return new LeafParticle(clientWorld, this.spriteProvider, x, y, z, 0.0D, vel, 0.0D,
+            return new LeafParticle(clientlevel, this.spriteProvider, x, y, z, 0.0D, vel, 0.0D,
                     -1);
         }
     }

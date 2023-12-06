@@ -238,7 +238,7 @@ public class WeatheringHelper {
     }
 
     /**
-     * optimized version of BlockPos.withinManhattanStream / BlockPos.expandOutwards that tries to limit world.getBlockState calls
+     * optimized version of BlockPos.withinManhattanStream / BlockPos.expandOutwards that tries to limit level.getBlockState calls
      * Remember to call  "if (!level.isAreaLoaded(pos, radius)) return" before calling this
      *
      * @param blockPredicate type of target block
@@ -353,16 +353,16 @@ public class WeatheringHelper {
         return biome.is(ModTags.HOT);
     }
 
-    public static void growHangingRoots(ServerLevel world, RandomSource random, BlockPos pos) {
+    public static void growHangingRoots(ServerLevel level, RandomSource random, BlockPos pos) {
         Direction dir = Direction.values()[1 + random.nextInt(5)].getOpposite();
         BlockPos targetPos = pos.relative(dir);
-        BlockState targetState = world.getBlockState(targetPos);
-        FluidState fluidState = world.getFluidState(targetPos);
+        BlockState targetState = level.getBlockState(targetPos);
+        FluidState fluidState = level.getFluidState(targetPos);
         boolean bl = fluidState.getType() == Fluids.WATER;
         if (!targetState.isSolid()) {
             BlockState newState = dir == Direction.DOWN ? Blocks.HANGING_ROOTS.defaultBlockState() :
                     ModBlocks.HANGING_ROOTS_WALL.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, dir);
-            world.setBlockAndUpdate(targetPos, newState.setValue(BlockStateProperties.WATERLOGGED, bl));
+            level.setBlockAndUpdate(targetPos, newState.setValue(BlockStateProperties.WATERLOGGED, bl));
         }
     }
 

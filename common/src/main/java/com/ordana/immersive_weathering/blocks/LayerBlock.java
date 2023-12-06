@@ -63,9 +63,9 @@ public class LayerBlock extends FallingBlock {
     }
 
     @Override
-    public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
+    public void onPlace(BlockState state, Level levelIn, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (state.getBlock() != oldState.getBlock())
-            worldIn.scheduleTick(pos, this, this.getDelayAfterPlace());
+            levelIn.scheduleTick(pos, this, this.getDelayAfterPlace());
     }
 
     public VoxelShape getDefaultShape(BlockState state) {
@@ -88,7 +88,7 @@ public class LayerBlock extends FallingBlock {
     }
 
     @Override
-    public boolean isPathfindable(BlockState state, BlockGetter world, BlockPos pos, PathComputationType type) {
+    public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
         return switch (type) {
             case LAND -> getLayers(state) < 5;
             case WATER -> getLayers(state) == 0;
@@ -103,10 +103,10 @@ public class LayerBlock extends FallingBlock {
 
     //ugly but works
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState facingState, LevelAccessor world, BlockPos currentPos, BlockPos otherPos) {
-        if (world instanceof ServerLevel serverLevel) {
+    public BlockState updateShape(BlockState state, Direction direction, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos otherPos) {
+        if (level instanceof ServerLevel serverLevel) {
             BlockPos pos = currentPos.above();
-            BlockState state1 = world.getBlockState(pos);
+            BlockState state1 = level.getBlockState(pos);
 
             while (state1.is(this)) {
                 serverLevel.scheduleTick(pos, this, this.getDelayAfterPlace());
@@ -114,7 +114,7 @@ public class LayerBlock extends FallingBlock {
                 state1 = serverLevel.getBlockState(pos);
             }
         }
-        return super.updateShape(state, direction, facingState, world, currentPos, otherPos);
+        return super.updateShape(state, direction, facingState, level, currentPos, otherPos);
     }
 
 
