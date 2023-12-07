@@ -25,7 +25,7 @@ public interface Soaked {
     default InteractionResult soakOrDrain(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand) {
         if (player.isSecondaryUseActive()) return InteractionResult.PASS;
         ItemStack stack = player.getItemInHand(hand);
-        if (stack.getItem() == Items.WATER_BUCKET && state.getValue(ModBlockProperties.SOAKED)) {
+        if (stack.getItem() == Items.WATER_BUCKET && !state.getValue(ModBlockProperties.SOAKED)) {
             level.playSound(player, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
             ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
             if (player instanceof ServerPlayer) {
@@ -35,7 +35,7 @@ public interface Soaked {
                 player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
-        } else if (stack.getItem() == Items.BUCKET && !state.getValue(ModBlockProperties.SOAKED)) {
+        } else if (stack.getItem() == Items.BUCKET && state.getValue(ModBlockProperties.SOAKED)) {
             level.playSound(player, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0f, 1.0f);
             ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SPLASH, UniformInt.of(3, 5));
             if (player instanceof ServerPlayer) {
