@@ -13,7 +13,6 @@ import net.mehvahdjukaar.moonlight.api.resources.ResType;
 import net.mehvahdjukaar.moonlight.api.resources.StaticResource;
 import net.mehvahdjukaar.moonlight.api.resources.assets.LangBuilder;
 import net.mehvahdjukaar.moonlight.api.resources.pack.DynClientResourcesGenerator;
-import net.mehvahdjukaar.moonlight.api.resources.pack.DynClientResourcesProvider;
 import net.mehvahdjukaar.moonlight.api.resources.pack.DynamicTexturePack;
 import net.mehvahdjukaar.moonlight.api.resources.textures.Palette;
 import net.mehvahdjukaar.moonlight.api.resources.textures.PaletteColor;
@@ -22,12 +21,17 @@ import net.mehvahdjukaar.moonlight.api.resources.textures.TextureImage;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.FastColor;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.block.Blocks;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
 
@@ -48,9 +52,26 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
         return true;
     }
 
+    public void addLeafPilesModel(StaticResource resource, String id, ResourceLocation texturePath) {
+        String string = new String(resource.data, StandardCharsets.UTF_8);
+
+        String path = resource.location.getPath().replace("oak_leaf_pile", id);
+
+        string = string.replace("immersive_weathering:block/light_oak_leaves", texturePath.toString());
+        string = string.replace("immersive_weathering:block/medium_oak_leaves", texturePath.toString());
+        string = string.replace("heavy_oak_leaves", id.replace("/", "/heavy_"));
+
+        //adds modified under my namespace
+        ResourceLocation newRes = ImmersiveWeathering.res(path);
+        dynamicPack.addBytes(newRes, string.getBytes(), ResType.GENERIC);
+    }
+
+
+    //-------------resource pack dependant textures-------------
+
     @Override
-    public void generateStaticAssetsOnStartup(ResourceManager manager) {
-        //generate static resources
+    public void regenerateDynamicAssets(ResourceManager manager) {
+
 
         //particles
         {
@@ -59,7 +80,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
 
             ModParticles.FALLING_LEAVES_PARTICLES.forEach((leafType,particle)->{
 
-                String particleId = Registry.PARTICLE_TYPE.getKey(particle).getPath();
+                String particleId = Utils.getID(particle).getPath();
                 try {
                     addSimilarJsonResource(manager, leafParticle, "oak_leaf", particleId);
                 } catch (Exception ex) {
@@ -155,27 +176,10 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
                 }
             });
         }
-    }
-
-    public void addLeafPilesModel(StaticResource resource, String id, ResourceLocation texturePath) {
-        String string = new String(resource.data, StandardCharsets.UTF_8);
-
-        String path = resource.location.getPath().replace("oak_leaf_pile", id);
-
-        string = string.replace("immersive_weathering:block/light_oak_leaves", texturePath.toString());
-        string = string.replace("immersive_weathering:block/medium_oak_leaves", texturePath.toString());
-        string = string.replace("heavy_oak_leaves", id.replace("/", "/heavy_"));
-
-        //adds modified under my namespace
-        ResourceLocation newRes = ImmersiveWeathering.res(path);
-        dynamicPack.addBytes(newRes, string.getBytes(), ResType.GENERIC);
-    }
 
 
-    //-------------resource pack dependant textures-------------
 
-    @Override
-    public void regenerateDynamicAssets(ResourceManager manager) {
+
 
         //leaf particle textures
         try (TextureImage template = TextureImage.open(manager, ImmersiveWeathering.res("particle/oak_leaf_0"));
@@ -237,7 +241,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
                 if (!alreadyHasTextureAtLocation(manager, textureRes)) {
 
                     Palette targetPalette = Palette.fromImage(baseTexture);
-                    if (targetPalette.getDarkest().occurrence > 5) {
+                    if (targetPalette.getDarkest().getOccurrence() > 5) {
                         targetPalette.increaseDown();
                     }
                     var dark = targetPalette.getDarkest();
@@ -275,8 +279,8 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
                             var image = newImage.getImage();
                             int darkBorder = image.getPixelRGBA(x, y);
                             if (darkBorder == -1) {
-                                image.setPixelRGBA(x, y, NativeImage.combine(0, 0, 0, 0));
-                            } else if (NativeImage.getA(darkBorder) == 0) {
+                                image.setPixelRGBA(x, y, 0);
+                            } else if (FastColor.ABGR32.alpha(darkBorder) == 0) { //TODO: check
                                 image.setPixelRGBA(x, y, logImage.getPixelRGBA(x, y));
                             } else {
                                 //HCLColor bc = new RGBColor(darkBorder).asHCL();

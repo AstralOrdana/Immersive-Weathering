@@ -19,86 +19,35 @@ public class ModLootInjects {
         }
         //same here
         if (name.equals(EntityType.PIG.getDefaultLootTable())) {
-            {
-                LootPool.Builder pool = LootPool.lootPool();
-                String id = "pig_tallow";
-                pool.add(LootTableReference.lootTableReference(ImmersiveWeathering.res("injects/" + id)));
-                ForgeHelper.setPoolName(pool, "IW_" + id);
-                builderConsumer.accept(pool);
-            }
+            event.addTableReference(ImmersiveWeathering.res("injects/pig_tallow"));
         }
         if (name.equals(EntityType.HOGLIN.getDefaultLootTable())) {
-            {
-                LootPool.Builder pool = LootPool.lootPool();
-                String id = "hoglin_tallow";
-                pool.add(LootTableReference.lootTableReference(ImmersiveWeathering.res("injects/" + id)));
-                ForgeHelper.setPoolName(pool, "IW_" + id);
-                builderConsumer.accept(pool);
-            }
+            event.addTableReference(ImmersiveWeathering.res("injects/hoglin_tallow"));
         }
         if (name.equals(new ResourceLocation("minecraft", "chests/buried_treasure"))) {
-            {
-                LootPool.Builder pool = LootPool.lootPool();
-                String id = "buried_treasure";
-                pool.add(LootTableReference.lootTableReference(ImmersiveWeathering.res("injects/" + id)));
-                ForgeHelper.setPoolName(pool, "IW_" + id);
-                builderConsumer.accept(pool);
-            }
+            event.addTableReference(ImmersiveWeathering.res("injects/buried_treasure"));
         }
         if (name.equals(new ResourceLocation("minecraft", "chests/shipwreck_supply"))) {
-            {
-                LootPool.Builder pool = LootPool.lootPool();
-                String id = "shipwreck_supply";
-                pool.add(LootTableReference.lootTableReference(ImmersiveWeathering.res("injects/" + id)));
-                ForgeHelper.setPoolName(pool, "IW_" + id);
-                builderConsumer.accept(pool);
-            }
+            event.addTableReference(ImmersiveWeathering.res("injects/shipwreck_supply"));
         }
         if (name.equals(new ResourceLocation("minecraft", "chests/shipwreck_treasure"))) {
-            {
-                LootPool.Builder pool = LootPool.lootPool();
-                String id = "shipwreck_treasure";
-                pool.add(LootTableReference.lootTableReference(ImmersiveWeathering.res("injects/" + id)));
-                ForgeHelper.setPoolName(pool, "IW_" + id);
-                builderConsumer.accept(pool);
-            }
+            event.addTableReference(ImmersiveWeathering.res("injects/shipwreck_treasure"));
+
         }
         if (name.equals(new ResourceLocation("minecraft", "gameplay/hero_of_the_village/farmer_gift"))) {
-            {
-                LootPool.Builder pool = LootPool.lootPool();
-                String id = "farmer_gift";
-                pool.add(LootTableReference.lootTableReference(ImmersiveWeathering.res("injects/" + id)));
-                ForgeHelper.setPoolName(pool, "IW_" + id);
-                builderConsumer.accept(pool);
-            }
+            event.addTableReference(ImmersiveWeathering.res("injects/farmer_gift"));
+
         }
         if (name.equals(new ResourceLocation("minecraft", "gameplay/hero_of_the_village/mason_gift"))) {
-            {
-                LootPool.Builder pool = LootPool.lootPool();
-                String id = "mason_gift";
-                pool.add(LootTableReference.lootTableReference(ImmersiveWeathering.res("injects/" + id)));
-                ForgeHelper.setPoolName(pool, "IW_" + id);
-                builderConsumer.accept(pool);
-            }
+            event.addTableReference(ImmersiveWeathering.res("injects/mason_gift"));
         }
         if (name.equals(new ResourceLocation("minecraft", "gameplay/hero_of_the_village/toolsmith_gift"))) {
-            {
-                LootPool.Builder pool = LootPool.lootPool();
-                String id = "toolsmith_gift";
-                pool.add(LootTableReference.lootTableReference(ImmersiveWeathering.res("injects/" + id)));
-                ForgeHelper.setPoolName(pool, "IW_" + id);
-                builderConsumer.accept(pool);
-            }
+            event.addTableReference(ImmersiveWeathering.res("injects/toolsmith_gift"));
         }
         if (name.equals(new ResourceLocation("minecraft", "gameplay/hero_of_the_village/weaponsmith_gift"))) {
-            {
-                LootPool.Builder pool = LootPool.lootPool();
-                String id = "weaponsmith_gift";
-                pool.add(LootTableReference.lootTableReference(ImmersiveWeathering.res("injects/" + id)));
-                ForgeHelper.setPoolName(pool, "IW_" + id);
-                builderConsumer.accept(pool);
-            }
+            event.addTableReference(ImmersiveWeathering.res("injects/weaponsmith_gift"));
         }
 
 
     }
+}

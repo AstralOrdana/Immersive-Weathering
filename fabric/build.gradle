@@ -22,8 +22,6 @@ configurations {
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-    // Remove the next line if you don't want to depend on the API
-    //modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
@@ -38,7 +36,9 @@ dependencies {
     modCompileOnly "com.terraformersmc:modmenu:4.0.6", {
         exclude module: "fabric-api"
     }
-    modImplementation ("net.mehvahdjukaar:moonlight-fabric:${rootProject.moonlight_version}")
+    //modImplementation ("net.mehvahdjukaar:moonlight-fabric:${rootProject.moonlight_version}")
+    modCompileOnly("curse.maven:selene-499980:4990520")
+
 
 }
 
@@ -58,18 +58,18 @@ shadowJar {
     exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
+    archiveClassifier = "dev-shadow"
 }
 
 remapJar {
     injectAccessWidener = true
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    classifier "fabric"
+    archiveClassifier = "fabric"
 }
 
 jar {
-    classifier "dev"
+    archiveClassifier = "dev"
 }
 
 sourcesJar {

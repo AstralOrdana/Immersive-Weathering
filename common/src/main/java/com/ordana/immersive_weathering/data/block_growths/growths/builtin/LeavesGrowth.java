@@ -75,7 +75,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
                         targetPos = targetPos.below();
                         dist = pos.getY() - targetPos.getY();
                         selected = level.getBlockState(targetPos);
-                    } while ((selected.getMaterial().isReplaceable() && selected.getFluidState().isEmpty()) &&
+                    } while ((selected.canBeReplaced() && selected.getFluidState().isEmpty()) &&
                             dist < maxFallenLeavesReach);
                     targetPos = targetPos.above();
 
@@ -101,7 +101,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
         BlockState baseLeaf = leafPile.defaultBlockState().setValue(LeafPileBlock.LAYERS, waterBelow ? 0 : 1);
         //if we find a non-air block we check if its upper face is sturdy. Given previous iteration if we are not on the first cycle blocks above must be air
         if (isOnLeaf || (
-                replaceState.getMaterial().isReplaceable()
+                replaceState.canBeReplaced()
                         && baseLeaf.canSurvive(level, targetPos)
                         && !WeatheringHelper.hasEnoughBlocksAround(targetPos, 2, 1, 2,
                         level, b -> b.getBlock() instanceof LeafPileBlock, 5)
