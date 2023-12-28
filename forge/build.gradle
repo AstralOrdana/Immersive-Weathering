@@ -103,9 +103,11 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
-    modLocalRuntime "dev.emi:emi-forge:${rootProject.emi_version}"
 
     implementation 'org.jetbrains:annotations:22.0.0'
+
+    modLocalRuntime "dev.emi:emi-forge:${project.emi_version}"
+    modCompileOnly("dev.emi:emi-forge:${project.emi_version}:api")
 
 
     //modImplementation ("net.mehvahdjukaar:moonlight-forge:${rootProject.moonlight_version}")

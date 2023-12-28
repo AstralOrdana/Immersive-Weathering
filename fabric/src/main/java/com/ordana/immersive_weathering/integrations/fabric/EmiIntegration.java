@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.integrations;
+package com.ordana.immersive_weathering.integrations.fabric;
 
 import com.google.common.collect.BiMap;
 import com.ordana.immersive_weathering.blocks.crackable.Crackable;
