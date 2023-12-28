@@ -1,26 +1,14 @@
 package com.ordana.immersive_weathering.mixins;
 
-import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
-import com.ordana.immersive_weathering.data.block_growths.TickSource;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.storage.WritableLevelData;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Slice;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.function.Supplier;
 

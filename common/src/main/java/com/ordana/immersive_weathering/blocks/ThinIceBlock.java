@@ -54,15 +54,15 @@ public class ThinIceBlock extends IceBlock implements LiquidBlockContainer {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     //block growth always calls can survive before placing so this gets called
     @Override
-    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-        if (!isDimEnoughToForm(state, world, pos)) return false;
-        BlockState upState = world.getBlockState(pos.above());
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        if (!isDimEnoughToForm(state, level, pos)) return false;
+        BlockState upState = level.getBlockState(pos.above());
         return state.getFluidState().is(Fluids.WATER) && !upState.getFluidState().is(Fluids.WATER);
     }
 
@@ -91,94 +91,94 @@ public class ThinIceBlock extends IceBlock implements LiquidBlockContainer {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         //TODO: move to block growth
         /*
         if (state.getValue(HAS_ICE)) {
             //TODO: use common logic here for cold and hot
-            if (world.getBlockState(pos.above()).is(Blocks.AIR) && (world.isRaining() || world.isNight())
-                    && world.getBiome(pos).is(ModTags.ICY) && isDimEnoughToForm(state, world, pos)) {
+            if (level.getBlockState(pos.above()).is(Blocks.AIR) && (level.isRaining() || level.isNight())
+                    && level.getBiome(pos).is(ModTags.ICY) && isDimEnoughToForm(state, level, pos)) {
                 for (Direction direction : Direction.values()) {
-                    if (world.getBlockState(pos.relative(direction)).is(Blocks.WATER)) {
-                        world.setBlockAndUpdate(pos.relative(direction), this.getPlacement(world, pos));
+                    if (level.getBlockState(pos.relative(direction)).is(Blocks.WATER)) {
+                        level.setBlockAndUpdate(pos.relative(direction), this.getPlacement(level, pos));
                     }
                 }
             }
         }*/
 
         //TODO: group in a single method
-        if (world.getBrightness(LightLayer.BLOCK, pos) > 11 - state.getLightBlock(world, pos)) {
-            this.melt(state, world, pos);
+        if (level.getBrightness(LightLayer.BLOCK, pos) > 11 - state.getLightBlock(level, pos)) {
+            this.melt(state, level, pos);
         }
 
         //TODO: also move to growths
         if (CommonConfigs.THIN_ICE_MELTING.get()) {
-            if (world.dimensionType().ultraWarm() || (!world.isRaining() && world.isDay()) || !isDimEnoughToForm(state, world, pos)) {
-                world.setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
+            if (level.dimensionType().ultraWarm() || (!level.isRaining() && level.isDay()) || !isDimEnoughToForm(state, level, pos)) {
+                level.setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
             }
         }
     }
 
-    private boolean isDimEnoughToForm(BlockState state, LevelReader world, BlockPos pos) {
-        return world.getBrightness(LightLayer.BLOCK, pos) < 7 - state.getLightBlock(world, pos);
+    private boolean isDimEnoughToForm(BlockState state, LevelReader level, BlockPos pos) {
+        return level.getBrightness(LightLayer.BLOCK, pos) < 7 - state.getLightBlock(level, pos);
     }
 
 
     @Override
-    public void fallOn(Level world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         int i = state.getValue(CRACKED);
         if (!(entity instanceof LivingEntity) || EnchantmentHelper.getEnchantmentLevel(Enchantments.FALL_PROTECTION, (LivingEntity) entity) > 0) {
             return;
         }
-        if (!world.isClientSide && world.random.nextFloat() < fallDistance - 0.5f && (entity instanceof Player || world.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) && entity.getBbWidth() * entity.getBbWidth() * entity.getBbHeight() > 0.512f) {
-            if (world.random.nextBoolean()) {
-                world.setBlockAndUpdate(pos, ThinIceBlock.pushEntitiesUp(state, Blocks.WATER.defaultBlockState(), world, pos));
-                world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
+        if (!level.isClientSide && level.random.nextFloat() < fallDistance - 0.5f && (entity instanceof Player || level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) && entity.getBbWidth() * entity.getBbWidth() * entity.getBbHeight() > 0.512f) {
+            if (level.random.nextBoolean()) {
+                level.setBlockAndUpdate(pos, ThinIceBlock.pushEntitiesUp(state, Blocks.WATER.defaultBlockState(), level, pos));
+                level.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
             } else if (i < 3) {
-                world.setBlockAndUpdate(pos, state.setValue(CRACKED, i + 1));
-                world.playSound(null, pos, ModSoundEvents.ICICLE_CRACK.get(), SoundSource.BLOCKS, 1.0f, 1.0f);
+                level.setBlockAndUpdate(pos, state.setValue(CRACKED, i + 1));
+                level.playSound(null, pos, ModSoundEvents.ICICLE_CRACK.get(), SoundSource.BLOCKS, 1.0f, 1.0f);
             } else if (i == 3) {
-                world.setBlockAndUpdate(pos, ThinIceBlock.pushEntitiesUp(state, Blocks.WATER.defaultBlockState(), world, pos));
-                world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
+                level.setBlockAndUpdate(pos, ThinIceBlock.pushEntitiesUp(state, Blocks.WATER.defaultBlockState(), level, pos));
+                level.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
             }
         }
         for (Direction direction : Direction.values()) {
-            BlockState targetState = world.getBlockState(pos.relative(direction));
-            if (world.getBlockState(pos.relative(direction)).is(this)) {
+            BlockState targetState = level.getBlockState(pos.relative(direction));
+            if (level.getBlockState(pos.relative(direction)).is(this)) {
                 int j = targetState.getValue(CRACKED);
-                if (world.random.nextBoolean() && j < 3) {
-                    world.setBlockAndUpdate(pos.relative(direction), this.withPropertiesOf(targetState).setValue(CRACKED, j + 1));
+                if (level.random.nextBoolean() && j < 3) {
+                    level.setBlockAndUpdate(pos.relative(direction), this.withPropertiesOf(targetState).setValue(CRACKED, j + 1));
                 }
             }
         }
-        super.fallOn(world, state, pos, entity, fallDistance);
+        super.fallOn(level, state, pos, entity, fallDistance);
     }
 
     @Override
-    public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity) {
+    public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
         if (!(entity instanceof LivingEntity) || EnchantmentHelper.getEnchantmentLevel(Enchantments.FALL_PROTECTION, (LivingEntity) entity) > 0) {
             return;
         }
-        if (!world.isClientSide && (entity instanceof Player || world.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) && entity.getBbWidth() * entity.getBbWidth() * entity.getBbHeight() > 0.512f) {
+        if (!level.isClientSide && (entity instanceof Player || level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) && entity.getBbWidth() * entity.getBbWidth() * entity.getBbHeight() > 0.512f) {
             //TODO: merge check and optimize
-            if (world.random.nextInt(15) == 0) {
+            if (level.random.nextInt(15) == 0) {
                 int i = state.getValue(CRACKED);
                 if (i < 3) {
-                    world.setBlockAndUpdate(pos, state.setValue(CRACKED, i + 1));
-                    world.playSound(null, pos, ModSoundEvents.ICICLE_CRACK.get(), SoundSource.BLOCKS, 1.0f, 1.0f);
+                    level.setBlockAndUpdate(pos, state.setValue(CRACKED, i + 1));
+                    level.playSound(null, pos, ModSoundEvents.ICICLE_CRACK.get(), SoundSource.BLOCKS, 1.0f, 1.0f);
                 } else if (i == 3) {
-                    world.setBlockAndUpdate(pos, ThinIceBlock.pushEntitiesUp(state, Blocks.WATER.defaultBlockState(), world, pos));
-                    world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
+                    level.setBlockAndUpdate(pos, ThinIceBlock.pushEntitiesUp(state, Blocks.WATER.defaultBlockState(), level, pos));
+                    level.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
                 }
             }
         }
-        super.stepOn(world, pos, state, entity);
+        super.stepOn(level, pos, state, entity);
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
-        world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
-        return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
     @Override

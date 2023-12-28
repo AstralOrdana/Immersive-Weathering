@@ -32,13 +32,13 @@ public class FrostyGrassBlock extends BushBlock implements Frosty {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-        tryUnFrost(state, world, pos);
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        tryUnFrost(state, level, pos);
     }
 
     @Override

@@ -1,12 +1,9 @@
 package com.ordana.immersive_weathering.events;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import net.mehvahdjukaar.moonlight.api.platform.ForgeHelper;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 
 public class ModLootInjects {
 
@@ -32,11 +29,9 @@ public class ModLootInjects {
         }
         if (name.equals(new ResourceLocation("minecraft", "chests/shipwreck_treasure"))) {
             event.addTableReference(ImmersiveWeathering.res("injects/shipwreck_treasure"));
-
         }
         if (name.equals(new ResourceLocation("minecraft", "gameplay/hero_of_the_village/farmer_gift"))) {
             event.addTableReference(ImmersiveWeathering.res("injects/farmer_gift"));
-
         }
         if (name.equals(new ResourceLocation("minecraft", "gameplay/hero_of_the_village/mason_gift"))) {
             event.addTableReference(ImmersiveWeathering.res("injects/mason_gift"));

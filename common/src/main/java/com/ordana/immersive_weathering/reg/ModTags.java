@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.reg;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;

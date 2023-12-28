@@ -161,12 +161,12 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
 
     }
 
-    default void tryWeather(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
+    default void tryWeather(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (!state.is(ModTags.RUSTED_IRON)) {
             var canWeather = false;
             for (Direction direction : Direction.values()) {
                 var targetPos = pos.relative(direction);
-                BlockState neighborState = world.getBlockState(targetPos);
+                BlockState neighborState = level.getBlockState(targetPos);
                 if (neighborState.is(Blocks.BUBBLE_COLUMN) && random.nextFloat() < CommonConfigs.RUSTING_RATE.get()) {
                     canWeather = true;
                 }
@@ -178,13 +178,13 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
                         canWeather = true;
                     }
                 }
-                else if (state.is(ModTags.EXPOSED_IRON) || state.is(ModTags.CLEAN_IRON) && world.isRaining() && random.nextFloat() < CommonConfigs.RUSTING_RATE.get() / 2) {
-                    if (world.isRainingAt(pos.above())) {
+                else if (state.is(ModTags.EXPOSED_IRON) || state.is(ModTags.CLEAN_IRON) && level.isRaining() && random.nextFloat() < CommonConfigs.RUSTING_RATE.get() / 2) {
+                    if (level.isRainingAt(pos.above())) {
                         canWeather = true;
                     }
-                    else if (CommonConfigs.RUST_STREAKING.get() && world.isRainingAt(targetPos) && world.getBlockState(pos.above()).is(ModTags.WEATHERED_IRON) && random.nextFloat() < CommonConfigs.RUSTING_RATE.get() / 3) {
+                    else if (CommonConfigs.RUST_STREAKING.get() && level.isRainingAt(targetPos) && level.getBlockState(pos.above()).is(ModTags.WEATHERED_IRON) && random.nextFloat() < CommonConfigs.RUSTING_RATE.get() / 3) {
                         if (BlockPos.withinManhattanStream(pos, 2, 2, 2)
-                                .map(world::getBlockState)
+                                .map(level::getBlockState)
                                 .filter(b -> b.is(ModTags.WEATHERED_IRON))
                                 .toList().size() <= 9) {
                             canWeather = true;
@@ -193,7 +193,7 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
                 }
             }
             if (canWeather) {
-                applyChangeOverTime(state, world, pos, random);
+                applyChangeOverTime(state, level, pos, random);
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.blocks;
+package com.ordana.immersive_weathering.util;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;

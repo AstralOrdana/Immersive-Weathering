@@ -54,18 +54,18 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
         }
     }
 
-    private void generate(WorldGenLevel world, RandomSource random, BlockPos pos, int localX, int localZ, float wetness, double icicleChance, int height, float density, IcicleClusterFeatureConfig config) {
-        Optional<Column> optional = Column.scan(world, pos, config.floorToCeilingSearchRange, IcicleHelper::canGenerate, IcicleHelper::canReplaceOrLava);
+    private void generate(WorldGenLevel level, RandomSource random, BlockPos pos, int localX, int localZ, float wetness, double icicleChance, int height, float density, IcicleClusterFeatureConfig config) {
+        Optional<Column> optional = Column.scan(level, pos, config.floorToCeilingSearchRange, IcicleHelper::canGenerate, IcicleHelper::canReplaceOrLava);
         if (optional.isPresent()) {
             OptionalInt optionalInt = optional.get().getCeiling();
             OptionalInt optionalInt2 = optional.get().getFloor();
             if (optionalInt.isPresent() || optionalInt2.isPresent()) {
                 boolean bl = random.nextFloat() < wetness;
                 Column caveSurface;
-                if (bl && optionalInt2.isPresent() && this.canWaterSpawn(world, pos.atY(optionalInt2.getAsInt()))) {
+                if (bl && optionalInt2.isPresent() && this.canWaterSpawn(level, pos.atY(optionalInt2.getAsInt()))) {
                     int i = optionalInt2.getAsInt();
                     caveSurface = optional.get().withFloor(OptionalInt.of(i - 1));
-                    world.setBlock(pos.atY(i), Blocks.WATER.defaultBlockState(), 2);
+                    level.setBlock(pos.atY(i), Blocks.WATER.defaultBlockState(), 2);
                 } else {
                     caveSurface = optional.get();
                 }
@@ -74,9 +74,9 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
                 boolean bl2 = random.nextDouble() < icicleChance;
                 int l;
                 int j;
-                if (optionalInt.isPresent() && bl2 && this.isLava(world, pos.atY(optionalInt.getAsInt()))) {
+                if (optionalInt.isPresent() && bl2 && this.isLava(level, pos.atY(optionalInt.getAsInt()))) {
                     j = config.icicleBlockLayerThickness.sample(random);
-                    this.placeIceBlocks(world, pos.atY(optionalInt.getAsInt()), j, Direction.UP);
+                    this.placeIceBlocks(level, pos.atY(optionalInt.getAsInt()), j, Direction.UP);
                     int k;
                     if (i.isPresent()) {
                         k = Math.min(height, optionalInt.getAsInt() - i.getAsInt());
@@ -91,9 +91,9 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
 
                 boolean k = random.nextDouble() < icicleChance;
                 int m;
-                if (i.isPresent() && k && this.isLava(world, pos.atY(i.getAsInt()))) {
+                if (i.isPresent() && k && this.isLava(level, pos.atY(i.getAsInt()))) {
                     m = config.icicleBlockLayerThickness.sample(random);
-                    this.placeIceBlocks(world, pos.atY(i.getAsInt()), m, Direction.DOWN);
+                    this.placeIceBlocks(level, pos.atY(i.getAsInt()), m, Direction.DOWN);
                     if (optionalInt.isPresent()) {
                         j = Math.max(0, l + Mth.randomBetweenInclusive(random, -config.maxStalagmiteStalactiteHeightDiff, config.maxStalagmiteStalactiteHeightDiff));
                     } else {
@@ -120,19 +120,19 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
 
                 boolean n = random.nextBoolean() && m > 0 && t > 0 && caveSurface.getHeight().isPresent() && m + t == caveSurface.getHeight().getAsInt();
                 if (optionalInt.isPresent()) {
-                    IcicleHelper.generateIcicle(world, pos.atY(optionalInt.getAsInt() - 1), Direction.DOWN, m, n);
+                    IcicleHelper.generateIcicle(level, pos.atY(optionalInt.getAsInt() - 1), Direction.DOWN, m, n);
                 }
 
                 if (i.isPresent()) {
-                    IcicleHelper.generateIcicle(world, pos.atY(i.getAsInt() + 1), Direction.UP, t, n);
+                    IcicleHelper.generateIcicle(level, pos.atY(i.getAsInt() + 1), Direction.UP, t, n);
                 }
 
             }
         }
     }
 
-    private boolean isLava(LevelReader world, BlockPos pos) {
-        return !world.getBlockState(pos).is(Blocks.LAVA);
+    private boolean isLava(LevelReader level, BlockPos pos) {
+        return !level.getBlockState(pos).is(Blocks.LAVA);
     }
 
     private int getHeight(RandomSource random, int localX, int localZ, float density, int height, IcicleClusterFeatureConfig config) {
@@ -145,34 +145,34 @@ public class IcicleClusterFeature extends Feature<IcicleClusterFeatureConfig> {
         }
     }
 
-    private boolean canWaterSpawn(WorldGenLevel world, BlockPos pos) {
-        BlockState blockState = world.getBlockState(pos);
+    private boolean canWaterSpawn(WorldGenLevel level, BlockPos pos) {
+        BlockState blockState = level.getBlockState(pos);
         if (!blockState.is(Blocks.WATER) && !blockState.is(Blocks.ICE) && !blockState.is(ModBlocks.ICICLE.get())) {
             Iterator<Direction> var4 = Direction.Plane.HORIZONTAL.iterator();
 
             Direction direction;
             do {
                 if (!var4.hasNext()) {
-                    return this.isStoneOrWater(world, pos.below());
+                    return this.isStoneOrWater(level, pos.below());
                 }
 
                 direction = var4.next();
-            } while (this.isStoneOrWater(world, pos.relative(direction)));
+            } while (this.isStoneOrWater(level, pos.relative(direction)));
 
         }
         return false;
     }
 
-    private boolean isStoneOrWater(LevelAccessor world, BlockPos pos) {
-        BlockState blockState = world.getBlockState(pos);
+    private boolean isStoneOrWater(LevelAccessor level, BlockPos pos) {
+        BlockState blockState = level.getBlockState(pos);
         return blockState.is(BlockTags.BASE_STONE_OVERWORLD) || blockState.getFluidState().is(FluidTags.WATER);
     }
 
-    private void placeIceBlocks(WorldGenLevel world, BlockPos pos, int height, Direction direction) {
+    private void placeIceBlocks(WorldGenLevel level, BlockPos pos, int height, Direction direction) {
         BlockPos.MutableBlockPos mutable = pos.mutable();
 
         for (int i = 0; i < height; ++i) {
-            if (!IcicleHelper.generateIceBlock(world, mutable)) {
+            if (!IcicleHelper.generateIceBlock(level, mutable)) {
                 return;
             }
             mutable.move(direction);

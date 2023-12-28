@@ -5,7 +5,6 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.data.block_growths.Operator;
 import com.ordana.immersive_weathering.reg.ModRuleTests;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;

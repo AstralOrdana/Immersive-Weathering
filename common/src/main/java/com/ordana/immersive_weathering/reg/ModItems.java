@@ -12,7 +12,6 @@ import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
 import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 
 import java.util.Collection;

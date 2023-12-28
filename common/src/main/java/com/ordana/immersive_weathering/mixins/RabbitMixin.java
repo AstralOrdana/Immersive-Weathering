@@ -17,8 +17,8 @@ import java.util.List;
 @Mixin(Rabbit.class)
 public abstract class RabbitMixin extends Animal {
 
-    protected RabbitMixin(EntityType<? extends Animal> entityType, Level world) {
-        super(entityType, world);
+    protected RabbitMixin(EntityType<? extends Animal> entityType, Level level) {
+        super(entityType, level);
     }
 
     @Redirect(method = "registerGoals", at = @At(

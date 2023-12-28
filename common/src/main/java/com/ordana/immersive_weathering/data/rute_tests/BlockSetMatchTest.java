@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.reg.ModRuleTests;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;

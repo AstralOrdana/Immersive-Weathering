@@ -28,6 +28,7 @@ dependencies {
 
     include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${mixin_extras_version}")))
     annotationProcessor 'net.fabricmc:sponge-mixin:0.12.5+mixin.0.8.5'
+    modLocalRuntime "dev.emi:emi-fabric:${rootProject.emi_version}"
 
 
     modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}") {
@@ -36,9 +37,8 @@ dependencies {
     modCompileOnly "com.terraformersmc:modmenu:4.0.6", {
         exclude module: "fabric-api"
     }
-    //modImplementation ("net.mehvahdjukaar:moonlight-fabric:${rootProject.moonlight_version}")
+    //modImplementation("curse.maven:selene-499980:4845156")
     modCompileOnly("curse.maven:selene-499980:4990520")
-
 
 }
 

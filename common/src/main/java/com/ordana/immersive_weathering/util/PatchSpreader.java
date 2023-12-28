@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.blocks;
+package com.ordana.immersive_weathering.util;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -150,7 +150,7 @@ public interface PatchSpreader<T extends Enum<?>> {
      *
      * @param sus   previously defined "influence". Just used as a param to allow more block spreading and variety
      * @param state target blockState
-     * @param level world
+     * @param level level
      * @param pos   target position
      * @return weathering effect of the target block, boolean if it was caused by high influence
      */
@@ -210,7 +210,7 @@ public interface PatchSpreader<T extends Enum<?>> {
      * if this block can influence this on Low and high influence levels. Usually just checks if it is a fully weathered block
      *
      * @param state neighbouring state
-     * @param level world
+     * @param level level
      * @param pos   neighbour position
      * @return weathering effect that this block has on the current block. Dictates if the block should be allowed to weather or not
      */

@@ -56,7 +56,7 @@ public class MulchBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return Block.box(0, 0, 0, 16, 17, 16);
     }
 
@@ -82,7 +82,7 @@ public class MulchBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public void fallOn(Level world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        entity.causeFallDamage(fallDistance, 0.2F, world.damageSources().fall());
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+        entity.causeFallDamage(fallDistance, 0.2F, level.damageSources().fall());
     }
 }

@@ -3,7 +3,6 @@ package com.ordana.immersive_weathering.events;
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import com.ordana.immersive_weathering.blocks.MulchBlock;
-import com.ordana.immersive_weathering.blocks.Weatherable;
 import com.ordana.immersive_weathering.blocks.charred.CharredBlock;
 import com.ordana.immersive_weathering.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.blocks.mossable.Mossable;
@@ -16,6 +15,7 @@ import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.integrations.IntegrationHandler;
 import com.ordana.immersive_weathering.integrations.QuarkPlugin;
 import com.ordana.immersive_weathering.reg.*;
+import com.ordana.immersive_weathering.util.Weatherable;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.mehvahdjukaar.moonlight.api.events.IFireConsumeBlockEvent;
 import net.mehvahdjukaar.moonlight.api.events.ILightningStruckBlockEvent;
@@ -403,7 +403,7 @@ public class ModEvents {
             if (bark != null) {
                 if (level.isClientSide) {
                     level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0f, 1.0f);
-                    var barkParticle = WeatheringHelper.getBarkParticle(state);
+                    var barkParticle = new BlockParticleOption(ParticleTypes.BLOCK, state);
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, barkParticle, UniformInt.of(3, 5));
                 } else {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);

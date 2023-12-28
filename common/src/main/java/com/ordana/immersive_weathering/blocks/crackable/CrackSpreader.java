@@ -1,8 +1,8 @@
 package com.ordana.immersive_weathering.blocks.crackable;
 
-import com.ordana.immersive_weathering.blocks.PatchSpreader;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModTags;
+import com.ordana.immersive_weathering.util.PatchSpreader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.Level;

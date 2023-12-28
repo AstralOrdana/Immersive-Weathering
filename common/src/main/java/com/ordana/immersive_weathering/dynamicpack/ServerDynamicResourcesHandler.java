@@ -46,12 +46,10 @@ public class ServerDynamicResourcesHandler extends DynServerResourcesGenerator {
         SimpleTagBuilder tag = SimpleTagBuilder.of(ImmersiveWeathering.res("leaf_piles"));
         tag.addEntries(ModBlocks.LEAF_PILES.values());
         dynamicPack.addTag(tag, Registries.BLOCK);
-        dynamicPack.addTag(tag, Registries.ITEM);
+        dynamicPack.addTag(tag, Registries.BLOCK);
 
         dynamicPack.addTag(SimpleTagBuilder.of(ImmersiveWeathering.res("bark"))
                 .addEntries(ModItems.BARK.values()), Registries.ITEM);
-
-
 
         StaticResource lootTable = StaticResource.getOrLog(manager, ResType.BLOCK_LOOT_TABLES.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
         StaticResource recipe = StaticResource.getOrLog(manager, ResType.RECIPES.getPath(ImmersiveWeathering.res("oak_leaf_pile")));

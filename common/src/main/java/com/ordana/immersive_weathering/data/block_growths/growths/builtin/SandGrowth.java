@@ -10,7 +10,6 @@ import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;

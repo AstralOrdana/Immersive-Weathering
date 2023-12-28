@@ -1,6 +1,5 @@
 package com.ordana.immersive_weathering.dynamicpack;
 
-import com.mojang.blaze3d.platform.NativeImage;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
@@ -19,12 +18,10 @@ import net.mehvahdjukaar.moonlight.api.resources.textures.PaletteColor;
 import net.mehvahdjukaar.moonlight.api.resources.textures.Respriter;
 import net.mehvahdjukaar.moonlight.api.resources.textures.TextureImage;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.util.FastColor;
-import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.block.Blocks;
 import org.apache.logging.log4j.Logger;
 
@@ -71,7 +68,6 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
 
     @Override
     public void regenerateDynamicAssets(ResourceManager manager) {
-
 
         //particles
         {
@@ -309,5 +305,4 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
             LangBuilder.addDynamicEntry(lang, "block.immersive_weathering.leaf_pile", type, leaf);
         });
     }
-
 }

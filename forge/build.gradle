@@ -51,7 +51,7 @@ shadowJar {
 remapJar {
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    archiveClassifier = null
+    archiveClassifier = "forge"
 }
 
 jar {
@@ -102,6 +102,8 @@ dependencies {
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+
+    modLocalRuntime "dev.emi:emi-forge:${rootProject.emi_version}"
 
     implementation 'org.jetbrains:annotations:22.0.0'
 

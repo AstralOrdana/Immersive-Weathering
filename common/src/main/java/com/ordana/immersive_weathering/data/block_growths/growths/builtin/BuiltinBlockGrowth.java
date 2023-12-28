@@ -7,7 +7,6 @@ import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.data.block_growths.growths.IBlockGrowth;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;

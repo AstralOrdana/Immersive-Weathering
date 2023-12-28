@@ -27,17 +27,17 @@ public interface Charred extends ILightable, Fallable {
 
     BooleanProperty SMOLDERING = ModBlockProperties.SMOLDERING;
 
-    default void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
+    default void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         int temperature = 0;
         boolean isTouchingWater = false;
         for (Direction direction : Direction.values()) {
             var targetPos = pos.relative(direction);
-            var biome = world.getBiome(pos);
-            BlockState neighborState = world.getBlockState(targetPos);
-            if (world.isRainingAt(pos.relative(direction)) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
+            var biome = level.getBiome(pos);
+            BlockState neighborState = level.getBlockState(targetPos);
+            if (level.isRainingAt(pos.relative(direction)) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
                 isTouchingWater = true;
             }
-            if (world.isRainingAt(pos.relative(direction)) || biome.is(ModTags.WET) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
+            if (level.isRainingAt(pos.relative(direction)) || biome.is(ModTags.WET) || neighborState.getFluidState().getType() == Fluids.FLOWING_WATER || neighborState.getFluidState().getType() == Fluids.WATER) {
                 temperature--;
             } else if (neighborState.is(ModTags.MAGMA_SOURCE) || neighborState.is(BlockTags.FIRE)) {
                 temperature++;
@@ -46,19 +46,19 @@ public interface Charred extends ILightable, Fallable {
         if (temperature < 0 || isTouchingWater) {
             if (isLitUp(state)) {
                 //TODO: extinguish
-                world.setBlockAndUpdate(pos, state.setValue(SMOLDERING, false));
+                level.setBlockAndUpdate(pos, state.setValue(SMOLDERING, false));
             }
         } else if (temperature > 0 && !state.getValue(SMOLDERING)) {
-            world.setBlockAndUpdate(pos, state.setValue(SMOLDERING, true));
+            level.setBlockAndUpdate(pos, state.setValue(SMOLDERING, true));
         }
     }
 
-    default void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
-        if (random.nextInt(16) == 0 && FallingBlock.isFree(world.getBlockState(pos.below()))) {
+    default void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if (random.nextInt(16) == 0 && FallingBlock.isFree(level.getBlockState(pos.below()))) {
             double d = (double) pos.getX() + random.nextDouble();
             double e = (double) pos.getY() - 0.05;
             double f = (double) pos.getZ() + random.nextDouble();
-            world.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state), d, e, f, 0.0, 0.0, 0.0);
+            level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state), d, e, f, 0.0, 0.0, 0.0);
         }
         if (isLitUp(state)) {
             int i = pos.getX();
@@ -67,7 +67,7 @@ public interface Charred extends ILightable, Fallable {
             double d = (double) i + random.nextDouble();
             double e = (double) j + random.nextDouble();
             double f = (double) k + random.nextDouble();
-            world.addParticle(ModParticles.EMBERSPARK.get(), d, e, f, 0.1D, 3D, 0.1D);
+            level.addParticle(ModParticles.EMBERSPARK.get(), d, e, f, 0.1D, 3D, 0.1D);
         }
     }
 

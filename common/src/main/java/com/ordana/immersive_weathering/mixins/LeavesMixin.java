@@ -34,28 +34,28 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
 
 
     @Inject(method = "animateTick", at = @At("HEAD"))
-    public void randomDisplayTick(BlockState state, Level world, BlockPos pos, RandomSource random, CallbackInfo ci) {
-        LeavesGrowth.spawnFallingLeavesParticle(state, world, pos, random);
+    public void randomDisplayTick(BlockState state, Level level, BlockPos pos, RandomSource random, CallbackInfo ci) {
+        LeavesGrowth.spawnFallingLeavesParticle(state, level, pos, random);
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
         return state.is(Blocks.FLOWERING_AZALEA_LEAVES);
     }
 
     @Override
-    public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {
+    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
         return state.is(Blocks.FLOWERING_AZALEA_LEAVES);
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
         for (var direction : Direction.values()) {
             if (random.nextFloat() > 0.5f) {
                 var targetPos = pos.relative(direction);
-                BlockState targetBlock = world.getBlockState(targetPos);
+                BlockState targetBlock = level.getBlockState(targetPos);
                 WeatheringHelper.getAzaleaGrowth(targetBlock).ifPresent(s ->
-                        world.setBlockAndUpdate(targetPos, s)
+                        level.setBlockAndUpdate(targetPos, s)
                 );
             }
         }
