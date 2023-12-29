@@ -4,6 +4,9 @@ about: Submit bugs with this one!
 labels: 'Bug/Issue'
 ---
 
+**Alpha versions:**
+If you are using an alpha version (like current 1.20.1 one) be aware that we are aware of the more obvious issues and are working on them. Not to overwhelm the team only report things that is not obvious
+
 **Describe the bug:**
 A clear and concise description of what the bug is. Include as much information as you can. Images are often helpful, especially screenshots of the F3 debug menu.
 
