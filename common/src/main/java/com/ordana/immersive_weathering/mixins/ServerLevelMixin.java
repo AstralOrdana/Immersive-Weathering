@@ -42,13 +42,11 @@ public abstract class ServerLevelMixin extends Level {
             locals = LocalCapture.CAPTURE_FAILHARD,
             require = 1
     )
-    private void callTick(LevelChunk chunk, int randomTickSpeed, CallbackInfo ci, ChunkPos chunkPos,
-                          boolean bl, int xd, int dz, ProfilerFiller profilerFiller,
-                          LevelChunkSection[] levelChunkSections, int m, LevelChunkSection levelChunkSection,
-                          int dy, int n, int l, BlockPos blockPos3, BlockState blockState4) {
+    private void IW_weatheringTick(LevelChunk chunk, int randomTickSpeed, CallbackInfo ci, ChunkPos chunkPos,
+                                   boolean bl, int i, int j, ProfilerFiller profilerFiller, LevelChunkSection[] levelChunkSections, int m, LevelChunkSection levelChunkSection, int k, int n, int l, BlockPos blockPos3, BlockState blockState4) {
         // we need to get it again as it might have been changed by its own random tick
-        BlockState newState = levelChunkSection.getBlockState(
-                blockPos3.getX() - xd, blockPos3.getY() - dy, blockPos3.getZ() - dz);
+        BlockState newState = levelChunkSection.getBlockState(blockPos3.getX() - i,
+                blockPos3.getY() - n, blockPos3.getZ() - j);
 
         BlockGrowthHandler.tickBlock(TickSource.BLOCK_TICK, newState, ((ServerLevel) ((Object) this)),  blockPos3);
     }

@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.integrations.forge;
+package com.ordana.immersive_weathering.integrations;
 
 import com.google.common.collect.BiMap;
 import com.ordana.immersive_weathering.blocks.crackable.Crackable;
@@ -70,12 +70,11 @@ public class EmiIntegration implements EmiPlugin {
                 .output(EmiStack.of(Items.COARSE_DIRT))
                 .build());
 
-
         registry.addRecipe(EmiWorldInteractionRecipe.builder()
                 .id(new ResourceLocation("immersive_weathering", "/campfire_extinguishing"))
                 .leftInput(EmiStack.of(Blocks.CAMPFIRE))
                 .rightInput(shovel, true)
-                //.output(EmiStack.of(ModBlocks.ASH_LAYER_BLOCK.get()))
+                .output(EmiStack.of(ModBlocks.SOOT.get()))
                 .build());
 
         registry.addRecipe(EmiWorldInteractionRecipe.builder()

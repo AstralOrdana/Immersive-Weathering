@@ -25,7 +25,7 @@
     "client": [
     ],
     "emi": [
-      "com.ordana.immersive_weathering.integrations.fabric.EmiIntegration"
+      "com.ordana.immersive_weathering.integrations.EmiIntegration"
     ]
   },
   "mixins": [

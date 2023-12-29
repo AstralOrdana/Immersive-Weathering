@@ -52,7 +52,7 @@ public class ImmersiveWeathering {
 
         RegHelper.addLootTableInjects(ModLootInjects::onLootInject);
 
-        RegHelper.addItemsToTabsRegistration(ModCreativeTab::addItems);
+        ModCreativeTab.init();
 
         NetworkHandler.init();
 

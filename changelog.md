@@ -1,1 +1,1 @@
-updated. very first alpha build. things will change
+still very early build. Use at your own risk
