@@ -22,6 +22,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.level.block.Blocks;
 import org.apache.logging.log4j.Logger;
 
@@ -113,7 +114,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
                     ResType.ITEM_MODELS.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
 
             ModBlocks.LEAF_PILES.forEach((leafType, pile) -> {
-                if (leafType.isVanilla()) return;
+                if (leafType.isVanilla()&&PlatHelper.isDev()) return;
 
                 String path = leafType.getNamespace() + "/" + leafType.getTypeName();
                 String id = path + "_leaf_pile";
@@ -160,7 +161,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
                     ResType.ITEM_MODELS.getPath(ImmersiveWeathering.res("oak_bark")));
 
             ModItems.BARK.forEach((woodType, bark) -> {
-                if (!woodType.isVanilla()) {
+                if (!woodType.isVanilla() || !PlatHelper.isDev()) {
 
                     String id = Utils.getID(bark).getPath();
 
@@ -185,7 +186,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
             Respriter respriter1 = Respriter.of(template1);
 
             ModParticles.FALLING_LEAVES_PARTICLES.forEach((type, particle) -> {
-                if (type.isVanilla()) return;
+                if (type.isVanilla() && PlatHelper.isDev()) return;
 
                 String path = type.getNamespace() + "/" + type.getTypeName();
 
@@ -226,7 +227,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
 
         //heavy leaves textures
         ModBlocks.LEAF_PILES.forEach((type, pile) -> {
-            if (type.isVanilla()) return;
+            if (type.isVanilla() && PlatHelper.isDev()) return;
 
             String path = type.getNamespace() + "/heavy_" + type.getTypeName() + "_leaf_pile";
 
@@ -256,7 +257,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
 
             ModItems.BARK.forEach((type, bark) -> {
 
-                if (type.isVanilla()) return;
+                if (type.isVanilla() && PlatHelper.isDev()) return;
 
                 ResourceLocation textureRes = ImmersiveWeathering.res(
                         "item/" + Utils.getID(bark).getPath());

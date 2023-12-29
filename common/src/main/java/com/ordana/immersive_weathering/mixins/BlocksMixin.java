@@ -25,7 +25,7 @@ public abstract class BlocksMixin {
 
     @Redirect(method = "<clinit>", at = @At(
             value = "NEW",
-            target = "net/minecraft/world/level/block/MangrovePropaguleBlock",
+            target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/MangrovePropaguleBlock;",
             ordinal = 0
     ),
             slice = @Slice(
@@ -41,7 +41,7 @@ public abstract class BlocksMixin {
 
     @Redirect(method = "<clinit>", at = @At(
             value = "NEW",
-            target = "net/minecraft/world/level/block/Block",
+            target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
             ordinal = 0
     ),
             slice = @Slice(
@@ -58,7 +58,7 @@ public abstract class BlocksMixin {
     @Redirect(method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/SlabBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/SlabBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -76,7 +76,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/StairBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -94,7 +94,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/WallBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/WallBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -113,7 +113,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/Block",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice
@@ -133,7 +133,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/Block",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice
@@ -153,7 +153,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/Block",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice
@@ -173,7 +173,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/Block",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice
@@ -194,7 +194,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/Block",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -212,7 +212,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/SlabBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/SlabBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -230,7 +230,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/StairBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
                     ordinal = 0
             ),
             slice = @Slice
@@ -249,7 +249,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/WallBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/WallBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -267,7 +267,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/Block",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -285,7 +285,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/SlabBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/SlabBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -303,7 +303,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/StairBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -321,7 +321,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/WallBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/WallBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -340,7 +340,7 @@ public abstract class BlocksMixin {
                     method = "<clinit>",
                     at = @At(
                             value = "NEW",
-                            target = "net/minecraft/world/level/block/Block",
+                            target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                             ordinal = 0
                     ),
                     slice = @Slice(
@@ -358,7 +358,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/SlabBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/SlabBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -376,7 +376,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/StairBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
                     ordinal = 0
             ),
             slice = @Slice
@@ -396,7 +396,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/WallBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/WallBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -415,7 +415,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/Block",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice
@@ -435,7 +435,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/Block",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -453,7 +453,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/SlabBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/SlabBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -471,7 +471,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/StairBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -489,7 +489,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/WallBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/WallBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -508,7 +508,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/Block",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -526,7 +526,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/SlabBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/SlabBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -544,7 +544,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/StairBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -562,7 +562,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/WallBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/WallBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -580,7 +580,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/Block",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -598,7 +598,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/Block",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -616,7 +616,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/SlabBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/SlabBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -634,7 +634,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/StairBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -652,7 +652,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/WallBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/WallBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -670,7 +670,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/Block",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -688,7 +688,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/SlabBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/SlabBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -706,7 +706,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/StairBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -724,7 +724,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/WallBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/WallBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -743,7 +743,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/Block",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -761,7 +761,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/SlabBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/SlabBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -779,7 +779,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/StairBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -797,7 +797,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/WallBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/WallBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -816,7 +816,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/IronBarsBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/IronBarsBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -834,7 +834,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/DoorBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;Lnet/minecraft/world/level/block/state/properties/BlockSetType;)Lnet/minecraft/world/level/block/DoorBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -853,7 +853,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/TrapDoorBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;Lnet/minecraft/world/level/block/state/properties/BlockSetType;)Lnet/minecraft/world/level/block/TrapDoorBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -872,7 +872,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/Block",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -890,7 +890,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/SlabBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/SlabBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -912,7 +912,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/StairBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -931,7 +931,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/Block",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -949,7 +949,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/SlabBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/SlabBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -971,7 +971,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/StairBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -989,7 +989,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/WallBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/WallBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -1007,7 +1007,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/Block",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -1025,7 +1025,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/SlabBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/SlabBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -1043,7 +1043,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "net/minecraft/world/level/block/StairBlock",
+                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
                     ordinal = 0
             ),
             slice = @Slice(

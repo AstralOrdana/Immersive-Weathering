@@ -68,7 +68,7 @@ subprojects {
                 boolean fab = modLoader == "fabric"
                 id = fab ? project_id_fabric : project_id_forge
                 changelog = changelogText
-                releaseType = 'release'
+                releaseType = 'alpha'
                 addGameVersion rootProject.minecraft_version
                 addGameVersion modLoader.capitalize()
 

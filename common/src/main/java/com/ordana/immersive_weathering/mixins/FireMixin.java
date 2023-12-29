@@ -20,9 +20,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(FireBlock.class)
 public abstract class FireMixin extends BaseFireBlock{
 
-    @Unique
-    private BlockState bs;
-
     protected FireMixin(Properties settings, float damage) {
         super(settings, damage);
     }

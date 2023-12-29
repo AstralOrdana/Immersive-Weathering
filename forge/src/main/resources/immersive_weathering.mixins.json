@@ -9,8 +9,7 @@
   ],
   "mixins": [
     "FluidInteractionRegistryMixin",
-    "SelfMulchMixin",
-    "SelfNulchMixin",
+
     "SelfRustableMixin",
     "WebMixin"
   ],

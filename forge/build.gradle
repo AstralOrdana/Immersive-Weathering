@@ -15,8 +15,8 @@ loom {
         convertAccessWideners = true
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
 
+        mixinConfig  "immersive_weathering-common.mixins.json"
         mixinConfig  "immersive_weathering.mixins.json"
-        mixinConfig  "immersive_weathering-forge.mixins.json"
 
     }
 }
@@ -112,7 +112,7 @@ dependencies {
 
     //modImplementation ("net.mehvahdjukaar:moonlight-forge:${rootProject.moonlight_version}")
 
-    modCompileOnly("curse.maven:selene-499980:4990524")
+    modImplementation("curse.maven:selene-499980:4990524")
 
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))
     implementation(include("io.github.llamalad7:mixinextras-forge:${mixin_extras_version}"))

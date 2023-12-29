@@ -18,7 +18,7 @@ public abstract class RabbitEatGoalMixin extends MoveToBlockGoal {
     @Shadow
     private boolean canRaid;
 
-    public RabbitEatGoalMixin(PathfinderMob pathfinderMob, double v, int i) {
+    protected RabbitEatGoalMixin(PathfinderMob pathfinderMob, double v, int i) {
         super(pathfinderMob, v, i);
     }
 

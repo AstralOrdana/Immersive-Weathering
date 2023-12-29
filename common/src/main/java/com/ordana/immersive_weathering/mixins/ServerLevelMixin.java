@@ -1,14 +1,26 @@
 package com.ordana.immersive_weathering.mixins;
 
+import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
+import com.ordana.immersive_weathering.data.block_growths.TickSource;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.storage.WritableLevelData;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Slice;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.function.Supplier;
 
@@ -18,11 +30,6 @@ public abstract class ServerLevelMixin extends Level {
         super(levelData, dimension, registryAccess, dimensionTypeRegistration, profiler, isClientSide, isDebug, biomeZoomSeed, maxChainedNeighborUpdates);
     }
 
-    /*
-
-    protected ServerLevelMixin(WritableLevelData writableLevelData, ResourceKey<Level> resourceKey, Holder<DimensionType> holder, Supplier<ProfilerFiller> supplier, boolean bl, boolean bl2, long l, int i) {
-        super(writableLevelData, resourceKey, holder, supplier, bl, bl2, l, i);
-    }
 
     @Inject(method = "tickChunk",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getFluidState()Lnet/minecraft/world/level/material/FluidState;"),
@@ -35,12 +42,14 @@ public abstract class ServerLevelMixin extends Level {
             locals = LocalCapture.CAPTURE_FAILHARD,
             require = 1
     )
-    private void callTick(LevelChunk chunk, int randomTickSpeed, CallbackInfo ci,
-                          ChunkPos chunkPos, boolean bl, int i, int j, ProfilerFiller profilerFiller,
-                          LevelChunkSection[] var8, int var9, int var10, LevelChunkSection levelChunkSection,
-                          int k, int l, BlockPos blockPos3, BlockState blockState2) {
+    private void callTick(LevelChunk chunk, int randomTickSpeed, CallbackInfo ci, ChunkPos chunkPos,
+                          boolean bl, int xd, int dz, ProfilerFiller profilerFiller,
+                          LevelChunkSection[] levelChunkSections, int m, LevelChunkSection levelChunkSection,
+                          int dy, int n, int l, BlockPos blockPos3, BlockState blockState4) {
+        // we need to get it again as it might have been changed by its own random tick
         BlockState newState = levelChunkSection.getBlockState(
-                blockPos3.getX() - i, blockPos3.getY() - k, blockPos3.getZ() - j);
+                blockPos3.getX() - xd, blockPos3.getY() - dy, blockPos3.getZ() - dz);
+
         BlockGrowthHandler.tickBlock(TickSource.BLOCK_TICK, newState, ((ServerLevel) ((Object) this)),  blockPos3);
     }
 
@@ -54,5 +63,4 @@ public abstract class ServerLevelMixin extends Level {
         p.pop();
     }
 
-     */
 }

@@ -1,8 +1,7 @@
 package com.ordana.immersive_weathering.forge;
 
 import com.google.common.collect.ImmutableBiMap;
-import com.ordana.immersive_weathering.integration.IntegrationHandler;
-import com.ordana.immersive_weathering.integration.QuarkPlugin;
+import com.ordana.immersive_weathering.integrations.IntegrationHandler;
 import net.mehvahdjukaar.moonlight.api.platform.ClientHelper;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
@@ -26,13 +25,13 @@ public class IWPlatformStuffImpl {
 
     public static void addExtraMossyBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
         if (IntegrationHandler.quark) {
-            QuarkPlugin.addAllVerticalSlabs(builder);
+           // QuarkPlugin.addAllVerticalSlabs(builder);
         }
     }
 
     public static void addExtraCrackedBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
         if (IntegrationHandler.quark) {
-            QuarkPlugin.addAllVerticalSlabs(builder);
+            //QuarkPlugin.addAllVerticalSlabs(builder);
         }
     }
 

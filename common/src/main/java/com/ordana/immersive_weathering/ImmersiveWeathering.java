@@ -33,6 +33,8 @@ public class ImmersiveWeathering {
 
     //called either on mod creation on fabric or mod setup on forge
     public static void commonInit() {
+        //"SelfMulchMixin",
+        //"SelfNulchMixin",?
 
         CommonConfigs.init();
         if (PlatHelper.getPhysicalSide().isClient()) {
@@ -49,6 +51,8 @@ public class ImmersiveWeathering {
         MoonlightEventsHelper.addListener(ModEvents::onLightningHit, ILightningStruckBlockEvent.class);
 
         RegHelper.addLootTableInjects(ModLootInjects::onLootInject);
+
+        RegHelper.addItemsToTabsRegistration(ModCreativeTab::addItems);
 
         NetworkHandler.init();
 

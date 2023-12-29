@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.IceBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(IceBlock.class)
 public abstract class IceMixin extends Block {
@@ -19,6 +20,7 @@ public abstract class IceMixin extends Block {
     }
 
     //TODO: is day is broken on client side
+    @Unique
     private boolean canMelt(BlockState state, Level level, BlockPos pos) {
         return level.dimensionType().ultraWarm() || (!level.getBiome(pos).value().coldEnoughToSnow(pos) && level.isDay()) ||
                 (level.getBrightness(LightLayer.BLOCK, pos) > 11 - state.getLightBlock(level, pos));
