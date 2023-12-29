@@ -6,7 +6,15 @@ import net.mehvahdjukaar.moonlight.api.misc.RegSupplier;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class ModCreativeTab {
 
@@ -17,12 +25,15 @@ public class ModCreativeTab {
     public static void addItems(RegHelper.ItemToTabEvent event) {
 
         if(MOD_TAB != null) {
+            Map<ResourceLocation, Item> items = new TreeMap<>();
             for (var i : BuiltInRegistries.ITEM.entrySet()) {
                 //TODO: change
-                if (i.getKey().location().getNamespace().equals(ImmersiveWeathering.MOD_ID)) {
-                    event.add(MOD_TAB.getKey(), i.getValue().getDefaultInstance());
+                ResourceLocation location = i.getKey().location();
+                if (location.getNamespace().equals(ImmersiveWeathering.MOD_ID)) {
+                    items.put(location, i.getValue());
                 }
             }
+            event.add(MOD_TAB.getKey(), items.values().toArray(ItemLike[]::new));
         }
     }
 
