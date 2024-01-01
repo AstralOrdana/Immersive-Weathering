@@ -182,6 +182,29 @@ public class WeatheringHelper {
         return Optional.empty();
     }
 
+    public static Optional<Pair<Item, Block>> getWoodFromLog(BlockState sourceLog) {
+        WoodType woodType = BlockSetAPI.getBlockTypeOf(sourceLog.getBlock(), WoodType.class);
+        if (woodType != null) {
+            Object log = null;
+            if (woodType.getChild("log") == sourceLog.getBlock()) {
+                log = woodType.getChild("wood");
+            }
+            if (log instanceof Block unStripped) {
+                String s = CommonConfigs.GENERIC_BARK.get();
+                if (!s.isEmpty()) {
+                    var bark = BuiltInRegistries.ITEM.getOptional(new ResourceLocation(s));
+                    if (bark.isPresent()) {
+                        return Optional.of(Pair.of(bark.get(), unStripped));
+                    }
+                } else {
+                    Item bark = woodType.getItemOfThis("immersive_weathering:bark");
+                    if (bark != null) return Optional.of(Pair.of(bark, unStripped));
+                }
+            }
+        }
+        return Optional.empty();
+    }
+
     public static final Supplier<Map<Block, Block>> SOIL_TO_GRASSY = Suppliers.memoize(() ->
             ImmutableMap.<Block, Block>builder()
                     .put(ModBlocks.SANDY_DIRT.get(), ModBlocks.GRASSY_SANDY_DIRT.get())

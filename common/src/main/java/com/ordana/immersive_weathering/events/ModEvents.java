@@ -2,7 +2,6 @@ package com.ordana.immersive_weathering.events;
 
 import com.mojang.datafixers.util.Pair;
 import com.ordana.immersive_weathering.blocks.ModBlockProperties;
-import com.ordana.immersive_weathering.blocks.MulchBlock;
 import com.ordana.immersive_weathering.blocks.charred.CharredBlock;
 import com.ordana.immersive_weathering.blocks.crackable.Crackable;
 import com.ordana.immersive_weathering.blocks.mossable.Mossable;
@@ -136,7 +135,7 @@ public class ModEvents {
                         player.awardStat(Stats.ITEM_USED.get(item));
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger( serverPlayer, pos, stack);
                     }
-                   return InteractionResult.sidedSuccess(level.isClientSide);
+                    return InteractionResult.sidedSuccess(level.isClientSide);
                 }
 
                 if (rustLevel != Rustable.RustLevel.UNAFFECTED) {
@@ -204,24 +203,6 @@ public class ModEvents {
                     //Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModBlocks.ASH_LAYER_BLOCK.get()));
                 }
                 //no need to cancel
-            }
-            return InteractionResult.PASS;
-        }
-        if (item == Items.APPLE) {
-            if (state.getBlock() instanceof MulchBlock) {
-                level.playSound(player, pos, ModSoundEvents.YUMMY.get(), SoundSource.BLOCKS, 1.0f, 1.0f);
-            }
-            return InteractionResult.PASS;
-        }
-        if (item == Items.GOLDEN_APPLE) {
-            if (state.getBlock() instanceof MulchBlock) {
-                level.playSound(player, pos, ModSoundEvents.YUMMY.get(), SoundSource.BLOCKS, 1.0f, 2.0f);
-            }
-            return InteractionResult.PASS;
-        }
-        if (item == Items.ENCHANTED_GOLDEN_APPLE) {
-            if (state.getBlock() instanceof MulchBlock) {
-                level.playSound(player, pos, ModSoundEvents.YUMMY.get(), SoundSource.BLOCKS, 2.0f, 0.3f);
             }
             return InteractionResult.PASS;
         }
@@ -373,7 +354,7 @@ public class ModEvents {
 
     //well this could very well be in each crackable classes...
     private static InteractionResult brickRepair(Item item, ItemStack stack, BlockPos pos, BlockState state, Player
-            player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if (state.getBlock() instanceof Crackable crackable && crackable.getRepairItem(state) == item && state.is(ModTags.CRACKED)) {
             BlockState newBlock = Crackable.getUncrackedCrackBlock(state);
             if (newBlock != null) {
@@ -420,9 +401,10 @@ public class ModEvents {
 
 
     private static InteractionResult barkRepairing(Item item, ItemStack stack, BlockPos pos, BlockState state, Player
-            player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if (stack.is(ModTags.BARK)) {
             Pair<Item, Block> fixedLog = WeatheringHelper.getBarkForStrippedLog(state).orElse(null);
+            Pair<Item, Block> woodFromLog = WeatheringHelper.getWoodFromLog(state).orElse(null);
 
             if (fixedLog != null && stack.getItem() == fixedLog.getFirst()) {
                 BlockState newBlock = fixedLog.getSecond().withPropertiesOf(state);
@@ -437,16 +419,31 @@ public class ModEvents {
                 }
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
+            else if (woodFromLog != null && stack.getItem() == woodFromLog.getFirst()) {
+                if (hitResult.getDirection().getAxis() == state.getValue(BlockStateProperties.AXIS)) {
+                    BlockState newBlock = woodFromLog.getSecond().withPropertiesOf(state);
+                    if (level.isClientSide) {
+                        level.playSound(player, pos, newBlock.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
+                    } else {
+                        if (!player.getAbilities().instabuild) stack.shrink(1);
+                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                        player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+                        level.setBlockAndUpdate(pos, newBlock);
+                    }
+                    return InteractionResult.sidedSuccess(level.isClientSide);
+
+                }
+            }
         }
         return InteractionResult.PASS;
     }
 
     private static InteractionResult blockSanding(Item item, ItemStack stack, BlockPos pos, BlockState state, Player
-            player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        player, Level level, InteractionHand hand, BlockHitResult hitResult) {
 
         var sandy = Sandy.getSandy(state);
         if (stack.is(ModBlocks.SAND_LAYER_BLOCK.get().asItem()) && (sandy.isPresent() ||
-                (state.getBlock() instanceof Sandy && state.getValue(ModBlockProperties.SANDINESS) == 0))) {
+            (state.getBlock() instanceof Sandy && state.getValue(ModBlockProperties.SANDINESS) == 0))) {
             level.playSound(player, pos, SoundEvents.SAND_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
             ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()), UniformInt.of(3, 5));
             stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
@@ -466,7 +463,7 @@ public class ModEvents {
     }
 
     private static InteractionResult blockSnowing(Item item, ItemStack stack, BlockPos pos, BlockState state, Player
-            player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+        player, Level level, InteractionHand hand, BlockHitResult hitResult) {
 
         var snowy = Snowy.getSnowy(state);
         if (stack.is(Items.SNOWBALL) && snowy.isPresent()) {
@@ -517,12 +514,12 @@ public class ModEvents {
                 }
                 if (newState != null) {
                     serverLevel.sendParticles(ModParticles.SOOT.get(),
-                            pos.getX() + 0.5D,
-                            pos.getY() + 0.5D,
-                            pos.getZ() + 0.5D,
-                            10,
-                            0.5D, 0.5D, 0.5D,
-                            0.0D);
+                        pos.getX() + 0.5D,
+                        pos.getY() + 0.5D,
+                        pos.getZ() + 0.5D,
+                        10,
+                        0.5D, 0.5D, 0.5D,
+                        0.0D);
 
                     return serverLevel.setBlock(pos, newState, 3);
                 }

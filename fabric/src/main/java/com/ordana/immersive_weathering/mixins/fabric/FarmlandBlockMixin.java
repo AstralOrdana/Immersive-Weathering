@@ -1,27 +1,16 @@
 package com.ordana.immersive_weathering.mixins.fabric;
 
-import com.ordana.immersive_weathering.configs.CommonConfigs;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FarmBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(FarmBlock.class)
 public abstract class FarmlandBlockMixin extends Block {
-
     public FarmlandBlockMixin(Properties settings) {
         super(settings);
     }
 
+    /*
     //TODO: use forge event for forge
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;fallOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;F)V"), method="fallOn", cancellable = true)
     public void checkFeatherFallingOnLanding(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance, CallbackInfo info) {
@@ -34,4 +23,5 @@ public abstract class FarmlandBlockMixin extends Block {
             }
         }
     }
+     */
 }

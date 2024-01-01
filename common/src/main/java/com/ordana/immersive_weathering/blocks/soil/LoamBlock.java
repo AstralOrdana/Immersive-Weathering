@@ -29,7 +29,7 @@ public class LoamBlock extends Block {
             level.playSound(player, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0f, 1.0f);
             stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
             if (player instanceof ServerPlayer) {
-                level.setBlockAndUpdate(pos, ModBlocks.LOAM.get().withPropertiesOf(state));
+                level.setBlockAndUpdate(pos, ModBlocks.LOAMY_FARMLAND.get().withPropertiesOf(state));
                 player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
             }
             return InteractionResult.sidedSuccess(level.isClientSide);

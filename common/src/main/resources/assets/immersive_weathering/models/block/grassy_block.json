@@ -1,10 +1,10 @@
 {
     "parent": "block/block",
     "textures": {
-        "particle": "minecraft:block/rooted_dirt",
-        "bottom": "minecraft:block/rooted_dirt",
+        "particle": "immersive_weathering:block/earthen_clay_bottom",
         "top": "minecraft:block/grass_block_top",
-        "side": "immersive_weathering:block/rooted_grass_block_side",
+        "bottom": "immersive_weathering:block/earthen_clay_bottom",
+        "side": "immersive_weathering:block/grassy_earthen_clay_side",
         "side_overlay": "immersive_weathering:block/grass_overlay"
     },
     "elements": [
@@ -21,7 +21,7 @@
         {   "from": [ 0, 0, 0 ],
             "to": [ 16, 16, 16 ],
             "faces": {
-                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#top",    "tintindex": 1, "cullface": "up" },
+                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#top",          "tintindex": 1, "cullface": "up" },
                 "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#side_overlay", "tintindex": 1, "cullface": "north" },
                 "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#side_overlay", "tintindex": 1, "cullface": "south" },
                 "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#side_overlay", "tintindex": 1, "cullface": "west" },
