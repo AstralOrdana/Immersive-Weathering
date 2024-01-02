@@ -184,6 +184,10 @@ public class ModCreativeTab {
         );
 
         after(e, Items.FLOWERING_AZALEA_LEAVES, CreativeModeTabs.NATURAL_BLOCKS,
+            ModItems.AZALEA_FLOWER_PILE
+        );
+
+        after(e, Items.FLOWERING_AZALEA_LEAVES, CreativeModeTabs.NATURAL_BLOCKS,
             ModBlocks.LEAF_PILES.values().stream().map(s-> (Supplier<Object>) () -> s).toArray(Supplier[]::new)
         );
 
@@ -197,7 +201,7 @@ public class ModCreativeTab {
 
 
         //FOOD
-        after(e, Items.ENCHANTED_GOLDEN_APPLE, CreativeModeTabs.INGREDIENTS,
+        after(e, Items.ENCHANTED_GOLDEN_APPLE, CreativeModeTabs.FOOD_AND_DRINKS,
             ModItems.MOSS_CLUMP, ModItems.GOLDEN_MOSS_CLUMP, ModItems.ENCHANTED_GOLDEN_MOSS_CLUMP
         );
 
@@ -227,6 +231,10 @@ public class ModCreativeTab {
 
         after(e, Items.HONEYCOMB, CreativeModeTabs.INGREDIENTS,
             ModItems.TALLOW
+        );
+
+        before(e, Items.INK_SAC, CreativeModeTabs.INGREDIENTS,
+            ModItems.AZALEA_FLOWERS
         );
 
         before(e, Items.INK_SAC, CreativeModeTabs.INGREDIENTS,
