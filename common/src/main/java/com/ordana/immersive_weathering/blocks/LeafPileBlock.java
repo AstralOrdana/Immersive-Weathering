@@ -259,15 +259,14 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         if (random.nextInt(16) == 0) {
             BlockPos blockPos = pos.below();
             if (isFree(level.getBlockState(blockPos))) {
-                var leafParticle = WeatheringHelper.getFallenLeafParticle(state).orElse(null);
-                if (leafParticle == null) return;
                 int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
                 for (var p : particles) {
-                    if (random.nextFloat() < 0.2) {
-                        double d = (double) pos.getX() + random.nextDouble();
-                        double e = (double) pos.getY() - 0.05;
-                        double f = (double) pos.getZ() + random.nextDouble();
-                        level.addParticle(leafParticle, d, e, f, 0.0, color, 0.0);
+                    var part = p.get();
+                    if (part != null && random.nextFloat() < 0.2) {
+                        double d = pos.getX() + random.nextDouble();
+                        double e = pos.getY() - 0.05;
+                        double f = pos.getZ() + random.nextDouble();
+                        level.addParticle(part, d, e, f, 0.0, color, 0.0);
                     }
                 }
             }

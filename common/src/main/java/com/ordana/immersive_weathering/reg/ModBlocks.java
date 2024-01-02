@@ -102,7 +102,7 @@ public class ModBlocks {
     private static final BlockBehaviour.StatePredicate NEVER = (s, w, p) -> false;
 
 
-    public static Properties LEAF_PILE_PROPERTIES = Properties.of()
+    public static final Properties LEAF_PILE_PROPERTIES = Properties.of()
             .randomTicks().instabreak().sound(SoundType.GRASS)
             .noOcclusion().isValidSpawn(CAN_SPAWN_ON_LEAVES)
             .isSuffocating(NEVER).isViewBlocking(NEVER);
