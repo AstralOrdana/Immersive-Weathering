@@ -13,99 +13,102 @@ import java.util.function.Supplier;
 public class CommonConfigs {
 
 
-    public static ConfigSpec SERVER_SPEC;
+    public static final ConfigSpec SERVER_SPEC;
 
-    public static Supplier<Boolean> BLOCK_GROWTHS;
-    public static Supplier<List<String>> DISABLED_GROWTHS;
-    public static Supplier<Boolean> CREATIVE_TAB;
-    public static Supplier<Boolean> CREATIVE_DROP;
-    public static Supplier<Boolean> DEBUG_RESOURCES;
+    public static final Supplier<Boolean> BLOCK_GROWTHS;
+    public static final Supplier<List<String>> DISABLED_GROWTHS;
+    public static final Supplier<Boolean> CREATIVE_TAB;
+    public static final Supplier<Boolean> CREATIVE_DROP;
+    public static final Supplier<Boolean> DEBUG_RESOURCES;
 
-    public static Supplier<Double> MOSS_INTERESTS_FOR_FACE;
-    public static Supplier<Double> MOSS_PATCHINESS;
-    public static Supplier<Double> MOSS_IMMUNE_CHANCE;
-    public static Supplier<Boolean> MOSS_NEEDS_AIR;
-    public static Supplier<Boolean> MOSS_SPREADING_ENABLED;
+    public static final Supplier<Double> MOSS_INTERESTS_FOR_FACE;
+    public static final Supplier<Double> MOSS_PATCHINESS;
+    public static final Supplier<Double> MOSS_IMMUNE_CHANCE;
+    public static final Supplier<Boolean> MOSS_NEEDS_AIR;
+    public static final Supplier<Boolean> MOSS_SPREADING_ENABLED;
 
-    public static Supplier<Double> CRACK_INTERESTS_FOR_FACE;
-    public static Supplier<Double> CRACK_PATCHINESS;
-    public static Supplier<Double> CRACK_IMMUNE_CHANCE;
-    public static Supplier<Boolean> CRACK_NEEDS_AIR;
-    public static Supplier<Boolean> CRACK_SPREADING_ENABLED;
-
-
-    public static Supplier<Boolean> FALLING_ICICLES;
-    public static Supplier<Integer> ICICLE_RARITY;
-    public static Supplier<Boolean> DISABLE_ICICLES;
-
-    public static Supplier<Boolean> ENABLE_FREEZING_WATER;
-    public static Supplier<Integer> FREEZING_WATER_SEVERITY;
-    public static Supplier<Integer> FREEZING_ICICLE_SEVERITY;
-    public static Supplier<Boolean> ENABLE_FREEZING_PERMAFROST;
-    public static Supplier<Integer> FREEZING_PERMAFROST_SEVERITY;
-
-    public static Supplier<Double> FIRE_CHARS_WOOD_CHANCE;
-    public static Supplier<Double> ASH_SPAWNS_CHANCE;
-    public static Supplier<Boolean> SOOT_SPAWN;
-    public static Supplier<Boolean> FLAMMABLE_COBWEBS;
+    public static final Supplier<Double> CRACK_INTERESTS_FOR_FACE;
+    public static final Supplier<Double> CRACK_PATCHINESS;
+    public static final Supplier<Double> CRACK_IMMUNE_CHANCE;
+    public static final Supplier<Boolean> CRACK_NEEDS_AIR;
+    public static final Supplier<Boolean> CRACK_SPREADING_ENABLED;
 
 
-    public static Supplier<Boolean> PICKAXE_CRACKING;
-    public static Supplier<Boolean> PICKAXE_CRACKING_SHIFT;
-    public static Supplier<Boolean> BRICK_REPAIRING;
-    public static Supplier<Boolean> PISTON_SLIMING;
-    public static Supplier<Boolean> SOIL_SHEARING;
-    public static Supplier<Boolean> GRASS_FLINTING;
-    public static Supplier<Boolean> AZALEA_SHEARING;
-    public static Supplier<Boolean> MOSS_SHEARING;
-    public static Supplier<Boolean> MOSS_BURNING;
-    public static Supplier<Boolean> CHARRED_BLOCK_IGNITING;
-    public static Supplier<Boolean> SHOVEL_EXTINGUISH;
-    public static Supplier<Boolean> SPONGE_RUSTING;
-    public static Supplier<Boolean> SPONGE_RUST_DRYING;
-    public static Supplier<Boolean> AXE_STRIPPING;
-    public static Supplier<Boolean> AXE_SCRAPING;
-    public static Supplier<Boolean> ASH_ITEM_SPAWN;
+    public static final Supplier<Boolean> FALLING_ICICLES;
+    public static final Supplier<Integer> ICICLE_RARITY;
+    public static final Supplier<Boolean> DISABLE_ICICLES;
+
+    public static final Supplier<Boolean> ENABLE_FREEZING_WATER;
+    public static final Supplier<Integer> FREEZING_WATER_SEVERITY;
+    public static final Supplier<Integer> FREEZING_ICICLE_SEVERITY;
+    public static final Supplier<Boolean> ENABLE_FREEZING_PERMAFROST;
+    public static final Supplier<Integer> FREEZING_PERMAFROST_SEVERITY;
+
+    public static final Supplier<Double> FIRE_CHARS_WOOD_CHANCE;
+    public static final Supplier<Double> ASH_SPAWNS_CHANCE;
+    public static final Supplier<Boolean> SOOT_SPAWN;
+    public static final Supplier<Boolean> FLAMMABLE_COBWEBS;
 
 
-    public static Supplier<Boolean> ICICLE_FOOD;
-    public static Supplier<Boolean> ICICLE_FIRE_RESISTANCE;
-    public static Supplier<Boolean> MUDDY_WATER_ENABLED;
-
-    public static Supplier<Boolean> COMPOSTER_DIRT;
-    public static Supplier<Boolean> FEATHER_FALLING_FARMERS;
-    public static Supplier<Boolean> LEGGINGS_PREVENTS_THORN_DAMAGE;
-    public static Supplier<String> GENERIC_BARK;
-    public static Supplier<Boolean> DESIRE_PATHS;
-    public static Supplier<Double> DESIRE_PATH_RATE;
-    public static Supplier<Boolean> GRASS_OVER_MYCELIUM;
-    public static Supplier<Boolean> MYCELIUM_OVER_GRASS;
-
-    public static Supplier<Boolean> LEAF_PILES_SLOW;
-    public static Supplier<Double> LEAF_PILES_FROM_DECAY_CHANCE;
-    public static Supplier<Integer> LEAF_PILE_MAX_HEIGHT;
-    public static Supplier<Integer> LEAF_PILES_REACH;
-    public static Supplier<List<String>> LEAF_PILES_BLACKLIST;
+    public static final Supplier<Boolean> PICKAXE_CRACKING;
+    public static final Supplier<Boolean> PICKAXE_CRACKING_SHIFT;
+    public static final Supplier<Boolean> BRICK_REPAIRING;
+    public static final Supplier<Boolean> PISTON_SLIMING;
+    public static final Supplier<Boolean> SOIL_SHEARING;
+    public static final Supplier<Boolean> GRASS_FLINTING;
+    public static final Supplier<Boolean> AZALEA_SHEARING;
+    public static final Supplier<Boolean> MOSS_SHEARING;
+    public static final Supplier<Boolean> MOSS_BURNING;
+    public static final Supplier<Boolean> CHARRED_BLOCK_IGNITING;
+    public static final Supplier<Boolean> SHOVEL_EXTINGUISH;
+    public static final Supplier<Boolean> SPONGE_RUSTING;
+    public static final Supplier<Boolean> SPONGE_RUST_DRYING;
+    public static final Supplier<Boolean> AXE_STRIPPING;
+    public static final Supplier<Boolean> AXE_SCRAPING;
+    public static final Supplier<Boolean> ASH_ITEM_SPAWN;
 
 
-    public static Supplier<Boolean> THIN_ICE_MELTING;
+    public static final Supplier<Boolean> ICICLE_FOOD;
+    public static final Supplier<Boolean> ICICLE_FIRE_RESISTANCE;
+    public static final Supplier<Boolean> MUDDY_WATER_ENABLED;
 
-    public static Supplier<Boolean> VITRIFIED_LIGHTNING;
-    public static Supplier<Double> FULGURITE_CHANCE;
+    public static final Supplier<Boolean> COMPOSTER_DIRT;
+    public static final Supplier<Boolean> FEATHER_FALLING_FARMERS;
+    public static final Supplier<Boolean> LEGGINGS_PREVENTS_THORN_DAMAGE;
+    public static final Supplier<String> GENERIC_BARK;
+    public static final Supplier<Boolean> DESIRE_PATHS;
+    public static final Supplier<Double> DESIRE_PATH_RATE;
+    public static final Supplier<Boolean> GRASS_OVER_MYCELIUM;
+    public static final Supplier<Boolean> MYCELIUM_OVER_GRASS;
+
+    public static final Supplier<Boolean> LEAF_PILES_SLOW;
+    public static final Supplier<Double> LEAF_PILES_FROM_DECAY_CHANCE;
+    public static final Supplier<Integer> LEAF_PILE_MAX_HEIGHT;
+    public static final Supplier<Integer> LEAF_PILES_REACH;
+    public static final Supplier<List<String>> LEAF_PILES_BLACKLIST;
 
 
-    public static Supplier<Boolean> RUSTING;
-    public static Supplier<Integer> RUSTING_INFLUENCE_RADIUS;
-    public static Supplier<Double> RUSTING_RATE;
-    public static Supplier<Boolean> RUST_STREAKING;
+    public static final Supplier<Boolean> THIN_ICE_MELTING;
 
-    public static Supplier<Boolean> MULCH_GROWS_CROPS;
-    public static Supplier<Boolean> MULCH_GROWTH_TYPE_BONEMEAL;
-    public static Supplier<Boolean> MULCH_GROWTH_TYPE_RANDOM_TICK;
-    public static Supplier<Integer> MULCH_GROWTH_RANDOM_TICKS;
+    public static final Supplier<Boolean> VITRIFIED_LIGHTNING;
+    public static final Supplier<Double> FULGURITE_CHANCE;
+
+
+    public static final Supplier<Boolean> RUSTING;
+    public static final Supplier<Integer> RUSTING_INFLUENCE_RADIUS;
+    public static final Supplier<Double> RUSTING_RATE;
+    public static final Supplier<Boolean> RUST_STREAKING;
+
+    public static final Supplier<Boolean> MULCH_GROWS_CROPS;
+    public static final Supplier<Boolean> MULCH_GROWTH_TYPE_BONEMEAL;
+    public static final Supplier<Boolean> MULCH_GROWTH_TYPE_RANDOM_TICK;
+    public static final Supplier<Integer> MULCH_GROWTH_RANDOM_TICKS;
 
 
     public static void init() {
+    }
+
+    static{
         ConfigBuilder builder = ConfigBuilder.create(ImmersiveWeathering.res("common"), ConfigType.COMMON);
 
         builder.setSynced();

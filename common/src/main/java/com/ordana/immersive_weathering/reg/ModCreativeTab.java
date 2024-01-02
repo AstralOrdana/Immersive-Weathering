@@ -183,10 +183,9 @@ public class ModCreativeTab {
             ModBlocks.FROSTY_GRASS, ModBlocks.FROSTY_FERN
         );
 
-        //todo: register leaf piles + azalea flower piles
-        //after(e, Items.FLOWERING_AZALEA_LEAVES, CreativeModeTabs.NATURAL_BLOCKS,
-        //    ModBlocks.LEAF_PILES.values()
-        //);
+        after(e, Items.FLOWERING_AZALEA_LEAVES, CreativeModeTabs.NATURAL_BLOCKS,
+            ModBlocks.LEAF_PILES.values().stream().map(s-> (Supplier<Object>) () -> s).toArray(Supplier[]::new)
+        );
 
         after(e, Items.VINE, CreativeModeTabs.NATURAL_BLOCKS,
             ModBlocks.IVY
@@ -230,10 +229,9 @@ public class ModCreativeTab {
             ModItems.TALLOW
         );
 
-        //todo: register barks + azalea flowers
-        //before(e, Items.INK_SAC, CreativeModeTabs.INGREDIENTS,
-        //    ModItems.BARK.values()
-        //);
+        before(e, Items.INK_SAC, CreativeModeTabs.INGREDIENTS,
+            ModItems.BARK.values().stream().map(s-> (Supplier<Object>) () -> s).toArray(Supplier[]::new)
+        );
 
     }
 
@@ -246,11 +244,10 @@ public class ModCreativeTab {
                               ResourceKey<CreativeModeTab> tab, Supplier<?>... items) {
         //if (CommonConfigs.isEnabled(key)) {
         ItemLike[] entries = Arrays.stream(items).map((s -> (ItemLike) (s.get()))).toArray(ItemLike[]::new);
-        if(CommonConfigs.CREATIVE_TAB.get()){
-            tab = MOD_TAB.getHolder().unwrapKey().get();
+        if(MOD_TAB != null){
+            tab = MOD_TAB.getKey();
         }
         event.addAfter(tab, targetPred, entries);
-        //}
     }
 
     private static void before(RegHelper.ItemToTabEvent event, Item target,
@@ -262,8 +259,8 @@ public class ModCreativeTab {
                                ResourceKey<CreativeModeTab> tab, Supplier<?>... items) {
         //if (CommonConfigs.isEnabled(key)) {
         ItemLike[] entries = Arrays.stream(items).map(s -> (ItemLike) s.get()).toArray(ItemLike[]::new);
-        if(CommonConfigs.CREATIVE_TAB.get()){
-            tab = MOD_TAB.getHolder().unwrapKey().get();
+        if(MOD_TAB != null){
+            tab = MOD_TAB.getKey();
         }
         event.addBefore(tab, targetPred, entries);
         //}

@@ -23,7 +23,7 @@ public class ModMenuCompat implements ModMenuApi {
 
         public ModConfigScreen(Screen parent) {
             super(ImmersiveWeathering.MOD_ID, ModBlocks.IVY.get().asItem().getDefaultInstance(),
-                    Component.literal("\u00A76Immersive Weathering Configs"),
+                    Component.literal("§6Immersive Weathering Configs"),
                     ImmersiveWeathering.res("textures/block/cracked_bricks.png"),
                     parent, ClientConfigs.CLIENT_SPEC, CommonConfigs.SERVER_SPEC);
         }
