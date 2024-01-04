@@ -38,10 +38,10 @@ public final class ModTags {
     public static final TagKey<Block> SNOWABLE = registerBlockTag("snowable");
     public static final TagKey<Block> DOUBLE_SNOWABLE = registerBlockTag("double_snowable");
 
-    public static final TagKey<Block> CLAY_SOIL_CROP = registerBlockTag("clay_soil_crop");
-    public static final TagKey<Block> SILT_SOIL_CROP = registerBlockTag("silt_soil_crop");
-    public static final TagKey<Block> SAND_SOIL_CROP = registerBlockTag("sand_soil_crop");
-    public static final TagKey<Block> LOAM_SOIL_CROP = registerBlockTag("loam_soil_crop");
+    public static final TagKey<Block> CLAY_SOIL_CROP = registerBlockTag("soil_clay_crops");
+    public static final TagKey<Block> SILT_SOIL_CROP = registerBlockTag("soil_silt_crops");
+    public static final TagKey<Block> SAND_SOIL_CROP = registerBlockTag("soil_sand_crops");
+    public static final TagKey<Block> LOAM_SOIL_CROP = registerBlockTag("soil_loam_crops");
     public static final TagKey<Block> UNTINTED_PARTICLES = registerBlockTag("untinted_particles");
 
     public static final TagKey<Block> CLEAN_IRON = registerBlockTag("clean_iron");

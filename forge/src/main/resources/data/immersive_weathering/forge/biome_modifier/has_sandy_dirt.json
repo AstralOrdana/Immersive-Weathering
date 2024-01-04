@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#immersive_weathering:has_sandy_dirt",
+  "features": [
+    "immersive_weathering:sandy_dirt"
+  ],
+  "step": "raw_generation"
+}
