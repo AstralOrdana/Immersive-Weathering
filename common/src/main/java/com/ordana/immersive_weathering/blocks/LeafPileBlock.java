@@ -65,7 +65,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
 
     private final boolean canBeBonemealed; //if it can be boneMealed
     private final boolean hasThorns; //if it can hurt
-    private final List<Supplier<SimpleParticleType>> particles;
+    //private final List<Supplier<SimpleParticleType>> particles;
 
     private final LeavesType leafType;
 
@@ -76,8 +76,6 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         String name = leafType.id.getPath();
         this.canBeBonemealed = name.contains("flower");
         this.hasThorns = name.equals("spruce");
-        //if(canBeBonemealed) this.particles = List.of(()->ModParticles.FALLING_LEAVES.get(leafType), ModParticles.AZALEA_FLOWER);
-        this.particles = List.of(()->ModParticles.FALLING_LEAVES_PARTICLES.get(leafType));
         RegHelper.registerBlockFlammability(this, FIRE_SPREAD, FLAMMABILITY);
     }
 
@@ -139,6 +137,8 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
             }
         }
 
+
+        /*
         //particles
         if (layers > 0 && level.isClientSide && (entity instanceof LivingEntity && entity.getFeetBlockState().is(this))) {
 
@@ -160,6 +160,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
                 }
             }
         }
+         */
     }
 
     @Override
@@ -254,6 +255,8 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         }
     }
 
+
+    /*
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (random.nextInt(16) == 0) {
@@ -273,5 +276,6 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         }
 
     }
+     */
 
 }

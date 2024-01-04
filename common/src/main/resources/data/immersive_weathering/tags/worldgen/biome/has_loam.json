@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:is_jungle",
+    "minecraft:dark_forest",
+    "minecraft:lush_caves"
+  ]
+}

@@ -8,6 +8,8 @@ import net.mehvahdjukaar.moonlight.api.platform.network.ChannelHandler;
 import net.mehvahdjukaar.moonlight.api.platform.network.Message;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -52,15 +54,16 @@ public class SendCustomParticlesPacket implements Message {
         if (type == EventType.DECAY_LEAVES) {
             if (ClientConfigs.LEAF_DECAY_PARTICLES.get()) {
                 BlockState state = Block.stateById(extraData);
-                var leafParticle = WeatheringHelper.getFallenLeafParticle(state).orElse(null);
-                if (leafParticle == null) return;
+                var leafParticle = new BlockParticleOption(ParticleTypes.BLOCK, state);
                 int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
 
                 //add more than one?
-                double d =  pos.getX() + level.random.nextDouble();
-                double e =  pos.getY() - 0.05;
-                double f =  pos.getZ() + level.random.nextDouble();
-                level.addParticle(leafParticle, d, e, f, 0.0, color, 0.0);
+                for (int i = 0; i < 20; i++) {
+                    double d = pos.getX() + level.random.nextDouble();
+                    double e = pos.getY() - 0.05;
+                    double f = pos.getZ() + level.random.nextDouble();
+                    level.addParticle(leafParticle, d, e, f, 0.0, color, 0.0);
+                }
             }
 
             if (ClientConfigs.LEAF_DECAY_SOUND.get()) {

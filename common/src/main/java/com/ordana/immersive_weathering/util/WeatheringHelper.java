@@ -84,6 +84,8 @@ public class WeatheringHelper {
             }
     );
 
+
+    /*
     public static final Supplier<Map<Block, SimpleParticleType>> LEAVES_TO_PARTICLE = Suppliers.memoize(() -> {
                 var b = ImmutableMap.<Block, SimpleParticleType>builder();
                 ModParticles.FALLING_LEAVES_PARTICLES.forEach((key, value) -> b.put(key.leaves, value));
@@ -119,17 +121,19 @@ public class WeatheringHelper {
         return LOG_TO_PARTICLES.get().getOrDefault(state.getBlock(), new BlockParticleOption(ParticleTypes.BLOCK, state));
     }
 
+    public static Optional<SimpleParticleType> getFallenLeafParticle(BlockState state) {
+        Block b = state.getBlock();
+        return Optional.ofNullable(LEAVES_TO_PARTICLE.get().get(b));
+    }
+
+     */
+
 
     public static Optional<Block> getFallenLeafPile(BlockState state) {
         Block b = state.getBlock();
         if (CommonConfigs.LEAF_PILES_BLACKLIST.get().contains(BuiltInRegistries.BLOCK.getKey(b).toString()))
             return Optional.empty();
         return Optional.ofNullable(LEAVES_TO_PILES.get().get(b));
-    }
-
-    public static Optional<SimpleParticleType> getFallenLeafParticle(BlockState state) {
-        Block b = state.getBlock();
-        return Optional.ofNullable(LEAVES_TO_PARTICLE.get().get(b));
     }
 
     @Nullable

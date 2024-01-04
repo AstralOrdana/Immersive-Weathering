@@ -66,14 +66,17 @@ public final class ModTags {
     public static final TagKey<Biome> ICY = registerBiomeTag("icy");
     public static final TagKey<Biome> HOT = registerBiomeTag("hot");
     public static final TagKey<Biome> WET = registerBiomeTag("wet");
-    public static final TagKey<Biome> HAS_HUMUS = registerBiomeTag("has_humus");
-    public static final TagKey<Biome> HAS_FLUVISOL = registerBiomeTag("has_fluvisol");
+
+    public static final TagKey<Biome> HAS_LOAM = registerBiomeTag("has_loam");
+    public static final TagKey<Biome> HAS_SILT = registerBiomeTag("has_silt");
+    public static final TagKey<Biome> HAS_SANDY_DIRT = registerBiomeTag("has_sandy_dirt");
+    public static final TagKey<Biome> HAS_EARTHEN_CLAY = registerBiomeTag("has_earthen_clay");
+    public static final TagKey<Biome> HAS_PERMAFROST = registerBiomeTag("has_permafrost");
+
     public static final TagKey<Biome> HAS_LAKEBED = registerBiomeTag("has_lakebed");
     public static final TagKey<Biome> HAS_IVY = registerBiomeTag("has_ivy");
     public static final TagKey<Biome> HAS_MOSS = registerBiomeTag("has_moss");
-    public static final TagKey<Biome> UNDERGROUND_DESERT = registerBiomeTag("underground_desert");
     public static final TagKey<Biome> HAS_SANDSTORM = registerBiomeTag("has_sandstorm");
-    public static final TagKey<Biome> HAS_NETHER_VEINS = registerBiomeTag("has_nether_veins.json");
 
 
     //entity type

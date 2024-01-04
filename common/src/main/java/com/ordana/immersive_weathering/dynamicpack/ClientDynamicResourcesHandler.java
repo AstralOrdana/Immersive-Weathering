@@ -66,22 +66,6 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
     @Override
     public void regenerateDynamicAssets(ResourceManager manager) {
 
-        //particles
-        {
-            StaticResource leafParticle = StaticResource.getOrLog(manager,
-                    ResType.PARTICLES.getPath(ImmersiveWeathering.res("oak_leaf")));
-
-            ModParticles.FALLING_LEAVES_PARTICLES.forEach((leafType,particle)->{
-
-                String particleId = Utils.getID(particle).getPath();
-                try {
-                    addSimilarJsonResource(manager, leafParticle, "oak_leaf", particleId);
-                } catch (Exception ex) {
-                    getLogger().error("Failed to generate Leaf Particle for {} : {}", particle, ex);
-                }
-            });
-        }
-
         //------leaf piles------
         {
 
@@ -168,57 +152,6 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
                     }
                 }
             });
-        }
-
-
-
-
-
-        //leaf particle textures
-        try (TextureImage template = TextureImage.open(manager, ImmersiveWeathering.res("particle/oak_leaf_0"));
-             TextureImage template1 = TextureImage.open(manager, ImmersiveWeathering.res("particle/oak_leaf_1"))) {
-
-            Respriter respriter = Respriter.of(template);
-            Respriter respriter1 = Respriter.of(template1);
-
-            ModParticles.FALLING_LEAVES_PARTICLES.forEach((type, particle) -> {
-                if (type.isVanilla() && PlatHelper.isDev()) return;
-
-                String path = type.getNamespace() + "/" + type.getTypeName();
-
-                try (TextureImage baseTexture = TextureImage.open(manager,
-                        RPUtils.findFirstBlockTextureLocation(manager, type.leaves))) {
-
-                    {
-                        ResourceLocation textureRes = ImmersiveWeathering.res(
-                                String.format("particle/%s_leaf_0", path));
-                        if (!alreadyHasTextureAtLocation(manager, textureRes)) {
-
-                            Palette targetPalette = Palette.fromImage(baseTexture);
-                            TextureImage newImage = respriter.recolor(targetPalette);
-
-                            dynamicPack.addAndCloseTexture(textureRes, newImage);
-                        }
-                    }
-
-                    {
-                        ResourceLocation textureRes = ImmersiveWeathering.res(
-                                String.format("particle/%s_leaf_1", path));
-                        if (!alreadyHasTextureAtLocation(manager, textureRes)) {
-
-                            Palette targetPalette = Palette.fromImage(baseTexture);
-                            TextureImage newImage = respriter1.recolor(targetPalette);
-
-                            dynamicPack.addAndCloseTexture(textureRes, newImage);
-                        }
-                    }
-
-                } catch (Exception ex) {
-                    getLogger().error("Fail to generate Leaf Particle texture for type {} : {}", type, ex);
-                }
-            });
-        } catch (Exception ex) {
-            getLogger().error("Could not generate any Leaf Particle texture : ", ex);
         }
 
         //heavy leaves textures

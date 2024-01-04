@@ -28,30 +28,22 @@ public class ModFeatures {
         ResourceKey<PlacedFeature> frost_patch = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("frost_patch"));
         IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModTags.ICY, frost_patch);
 
-        ResourceKey<PlacedFeature> cryosol_patch = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("cryosol_patch"));
-        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.ICY, cryosol_patch);
 
+        //soil patches
+        ResourceKey<PlacedFeature> loam = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("loam"));
+        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_LOAM, loam);
 
-        //has humus
-        ResourceKey<PlacedFeature> humus_patch = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("humus_patch"));
-        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_HUMUS, humus_patch);
+        ResourceKey<PlacedFeature> silt = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("silt"));
+        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_SILT, silt);
 
-        ResourceKey<PlacedFeature> rooted_ceiling = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("rooted_ceiling"));
-        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.VEGETAL_DECORATION, ModTags.HAS_HUMUS, rooted_ceiling);
+        ResourceKey<PlacedFeature> sandy_dirt = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("sandy_dirt"));
+        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_SANDY_DIRT, sandy_dirt);
 
+        ResourceKey<PlacedFeature> earthen_clay = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("earthen_clay"));
+        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_EARTHEN_CLAY, earthen_clay);
 
-        //has fluvisol
-        ResourceKey<PlacedFeature> fluvisol_patch_submerged = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("fluvisol_patch_submerged"));
-        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_FLUVISOL, fluvisol_patch_submerged);
-
-        ResourceKey<PlacedFeature> fluvisol_patch_surface = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("fluvisol_patch_surface"));
-        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_FLUVISOL, fluvisol_patch_surface);
-
-        ResourceKey<PlacedFeature> fluvisol_patch_dry = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("fluvisol_patch_dry"));
-        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_FLUVISOL, fluvisol_patch_dry);
-
-        ResourceKey<PlacedFeature> silt_disk = ResourceKey.create(Registries.PLACED_FEATURE,ImmersiveWeathering.res("silt_disk"));
-        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_FLUVISOL, silt_disk);
+        ResourceKey<PlacedFeature> permafrost = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("permafrost"));
+        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_PERMAFROST, permafrost);
 
 
         //dry lakebed
@@ -60,9 +52,6 @@ public class ModFeatures {
 
         ResourceKey<PlacedFeature> dry_lakebed_large = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("dry_lakebed_large"));
         IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_LAKEBED, dry_lakebed_large);
-
-        ResourceKey<PlacedFeature> vertisol_patch = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("vertisol_patch"));
-        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_LAKEBED, vertisol_patch);
 
 
         //ivy

@@ -50,10 +50,7 @@ public class EarthenClayFarmlandBlock extends ModFarmlandBlock {
         if (serverLevel.isRainingAt(blockPos.above()) || isNearWater(serverLevel, blockPos)) {
             serverLevel.setBlock(blockPos, blockState.setValue(MOISTURE, MAX_MOISTURE), 2);
         } else if (serverLevel.isDay() && !serverLevel.isRaining() && serverLevel.canSeeSky(blockPos.above())) {
-            if (i > 0) {
-                serverLevel.setBlock(blockPos, blockState.setValue(MOISTURE, i - 1), 2);
-            }
-            else if (!isUnderCrops(serverLevel, blockPos)) turnToDirt(blockState, serverLevel, blockPos);
+            if (!isUnderCrops(serverLevel, blockPos)) turnToDirt(blockState, serverLevel, blockPos);
         }
     }
 

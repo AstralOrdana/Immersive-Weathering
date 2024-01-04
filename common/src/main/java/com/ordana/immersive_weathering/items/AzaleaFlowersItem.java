@@ -31,7 +31,7 @@ public class AzaleaFlowersItem extends Item {
             var flowery = WeatheringHelper.getAzaleaGrowth(state).orElse(null);
             if (flowery != null) {
                 level.playSound(player, pos, SoundEvents.FLOWERING_AZALEA_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.AZALEA_FLOWER.get(), UniformInt.of(3, 5));
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.GRAVITY_AZALEA_FLOWER.get(), UniformInt.of(3, 5));
                 if (player != null && !player.getAbilities().instabuild) context.getItemInHand().shrink(1);
                 level.setBlockAndUpdate(pos, flowery);
                 return InteractionResult.sidedSuccess(level.isClientSide);

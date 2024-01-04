@@ -32,12 +32,6 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
         LeavesGrowth.decayLeavesPile(blockState, serverLevel, blockPos, random);
     }
 
-
-    @Inject(method = "animateTick", at = @At("HEAD"))
-    public void randomDisplayTick(BlockState state, Level level, BlockPos pos, RandomSource random, CallbackInfo ci) {
-        LeavesGrowth.spawnFallingLeavesParticle(state, level, pos, random);
-    }
-
     @Override
     public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
         return state.is(Blocks.FLOWERING_AZALEA_LEAVES);

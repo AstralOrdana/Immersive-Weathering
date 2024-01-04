@@ -1,7 +1,7 @@
 {
   "type": "minecraft:ore",
   "config": {
-    "size": 64,
+    "size": 32,
     "discard_chance_on_air_exposure": 0,
     "targets": [
       {
@@ -10,7 +10,7 @@
           "block": "minecraft:stone"
         },
         "state": {
-          "Name": "immersive_weathering:mulch_block"
+          "Name": "immersive_weathering:permafrost"
         }
       },
       {
@@ -19,7 +19,7 @@
           "block": "minecraft:dirt"
         },
         "state": {
-          "Name": "immersive_weathering:mulch_block"
+          "Name": "immersive_weathering:permafrost"
         }
       },
       {
@@ -28,7 +28,7 @@
           "block": "minecraft:grass_block"
         },
         "state": {
-          "Name": "immersive_weathering:mulch_block"
+          "Name": "immersive_weathering:grassy_permafrost"
         }
       },
       {
@@ -37,7 +37,7 @@
           "block": "minecraft:snow_block"
         },
         "state": {
-          "Name": "immersive_weathering:mulch_block"
+          "Name": "immersive_weathering:permafrost"
         }
       }
     ]

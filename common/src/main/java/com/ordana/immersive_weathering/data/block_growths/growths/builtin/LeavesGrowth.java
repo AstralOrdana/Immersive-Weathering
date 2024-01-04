@@ -139,36 +139,6 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
         }
     }
 
-
-    //called from mixin random tick
-    public static void spawnFallingLeavesParticle(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if (!(state.getBlock() instanceof LeavesBlock)) {
-            return;
-        }
-        if (ClientConfigs.FALLING_LEAF_PARTICLES.get()) {
-            if (!state.getValue(LeavesBlock.PERSISTENT)) {
-                var leafParticle = WeatheringHelper.getFallenLeafParticle(state).orElse(null);
-                if (leafParticle == null) return;
-                int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
-                BlockPos blockPos = pos.below();
-                BlockState blockState = level.getBlockState(blockPos);
-                if (!blockState.canOcclude() || !blockState.isCollisionShapeFullBlock(level, blockPos)) {
-
-                    double rate = ClientConfigs.FALLING_LEAF_PARTICLE_RATE.get();
-                    if (level.isRaining()) rate = ClientConfigs.RAINY_FALLING_LEAF_PARTICLE_RATE.get();
-                    if (level.isThundering())  rate = ClientConfigs.STORMY_FALLING_LEAF_PARTICLE_RATE.get();
-
-                    if (random.nextFloat() < rate) {
-                        double d =  pos.getX() + random.nextDouble();
-                        double e =  pos.getY() - 0.05;
-                        double f =  pos.getZ() + random.nextDouble();
-                        level.addParticle(leafParticle, d, e, f, 0.0, color, 0.0);
-                    }
-                }
-            }
-        }
-    }
-
     public static void decayLeavesPile(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         //this is server side, cant access client configs. Also meet to send color and send particles doesn't support that
         if (!(state.getBlock() instanceof LeavesBlock)) {

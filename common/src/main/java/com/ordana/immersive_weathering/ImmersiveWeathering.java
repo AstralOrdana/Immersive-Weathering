@@ -1,6 +1,5 @@
 package com.ordana.immersive_weathering;
 
-import com.ordana.immersive_weathering.client.ImmersiveWeatheringClient;
 import com.ordana.immersive_weathering.configs.ClientConfigs;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;

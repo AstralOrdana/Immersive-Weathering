@@ -27,15 +27,11 @@ public class EmiIntegration implements EmiPlugin {
     @Override
     public void register(EmiRegistry registry) {
 
-
         EmiIngredient pickaxe = EmiStack.of(Items.IRON_PICKAXE);
         EmiIngredient shovel = EmiStack.of(Items.IRON_SHOVEL);
         EmiIngredient hoes = EmiStack.of(Items.IRON_HOE);
         EmiIngredient flint_n_steel = EmiStack.of(Items.FLINT_AND_STEEL);
         EmiIngredient shears = EmiStack.of(Items.SHEARS);
-        EmiIngredient bottle = EmiStack.of(Items.GLASS_BOTTLE);
-        EmiIngredient slime = EmiStack.of(Items.SLIME_BALL);
-        EmiIngredient flint = EmiStack.of(Items.FLINT);
         EmiIngredient azalea = EmiStack.of(ModItems.AZALEA_FLOWERS.get());
 
         registry.addRecipe(EmiWorldInteractionRecipe.builder()
@@ -44,30 +40,6 @@ public class EmiIntegration implements EmiPlugin {
                 .rightInput(hoes, true)
                 .output(EmiStack.of(Items.HANGING_ROOTS))
                 .output(EmiStack.of(Items.GRASS_BLOCK))
-                .build());
-
-
-        registry.addRecipe(EmiWorldInteractionRecipe.builder()
-                .id(new ResourceLocation("immersive_weathering", "/piston_sliming"))
-                .leftInput(EmiStack.of(Blocks.PISTON))
-                .rightInput(slime, false)
-                .output(EmiStack.of(Items.STICKY_PISTON))
-                .build());
-
-        registry.addRecipe(EmiWorldInteractionRecipe.builder()
-                .id(new ResourceLocation("immersive_weathering", "/piston_desliming"))
-                .leftInput(EmiStack.of(Blocks.STICKY_PISTON))
-                .rightInput(shears, true)
-                .output(EmiStack.of(Items.SLIME_BALL))
-                .output(EmiStack.of(Items.PISTON))
-                .build());
-
-
-        registry.addRecipe(EmiWorldInteractionRecipe.builder()
-                .id(new ResourceLocation("immersive_weathering", "/dirt_flinting"))
-                .leftInput(EmiStack.of(Blocks.DIRT))
-                .rightInput(flint, false)
-                .output(EmiStack.of(Items.COARSE_DIRT))
                 .build());
 
         registry.addRecipe(EmiWorldInteractionRecipe.builder()
@@ -119,6 +91,20 @@ public class EmiIntegration implements EmiPlugin {
                     .output(output)
                     .build());
         }
+
+        BiMap<Block, Block> unfrost = Frosty.FROSTY_TO_UNFROSTY.get();
+        for (Block key : unfrost.keySet()) {
+            ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
+            EmiStack input = EmiStack.of(unfrost.get(key));
+            EmiStack output = EmiStack.of(key);
+            registry.addRecipe(EmiWorldInteractionRecipe.builder()
+                .id(new ResourceLocation("immersive_weathering", "/block_frosting/" + blockId.getNamespace() + "/" + blockId.getPath()))
+                .leftInput(input)
+                .rightInput(EmiStack.of(ModItems.FROST_ITEM.get()), false)
+                .output(output)
+                .build());
+        }
+
 
         BiMap<Block, Block> cracks = Crackable.CRACK_LEVEL_INCREASES.get();
         for (Block key : cracks.keySet()) {

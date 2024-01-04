@@ -7,8 +7,7 @@ import net.minecraft.core.particles.SimpleParticleType;
 public class LeafParticle extends TextureSheetParticle {
     private final float rotationSpeed;
 
-    LeafParticle(ClientLevel level, SpriteSet spriteProvider, double x, double y, double z,
-                 double velocityX, double velocityY, double velocityZ, int color) {
+    LeafParticle(ClientLevel level, SpriteSet spriteProvider, double x, double y, double z, double velocityX, double velocityY, double velocityZ, int color) {
         super(level, x, y, z, velocityX, velocityY, velocityZ);
         this.setSize(1.0F, 1.0F);
         this.pickSprite(spriteProvider);

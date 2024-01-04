@@ -67,12 +67,10 @@ public class ModEvents {
     private static final List<InteractionEvent> EVENTS = new ArrayList<>();
 
     static {
-        EVENTS.add(ModEvents::slimePistons);
         EVENTS.add(ModEvents::pickaxeCracking);
         EVENTS.add(ModEvents::brickRepair);
         EVENTS.add(ModEvents::burnMoss);
         EVENTS.add(ModEvents::shearShearing);
-        EVENTS.add(ModEvents::spawnAsh);
         EVENTS.add(ModEvents::axeStripping);
         EVENTS.add(ModEvents::barkRepairing);
         EVENTS.add(ModEvents::rustScraping);
@@ -195,57 +193,6 @@ public class ModEvents {
         return InteractionResult.PASS;
     }
 
-    private static InteractionResult spawnAsh(Item item, ItemStack stack, BlockPos pos, BlockState state,
-                                              Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
-        if (item instanceof ShovelItem && CommonConfigs.ASH_ITEM_SPAWN.get()) {
-            if (state.getBlock() instanceof CampfireBlock && state.getValue(BlockStateProperties.LIT)) {
-                if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
-                    //Block.popResourceFromFace(level, pos, Direction.UP, new ItemStack(ModBlocks.ASH_LAYER_BLOCK.get()));
-                }
-                //no need to cancel
-            }
-            return InteractionResult.PASS;
-        }
-        return InteractionResult.PASS;
-    }
-
-    private static InteractionResult slimePistons(Item item, ItemStack stack, BlockPos pos, BlockState state,
-                                                  Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
-        if (item == Items.SLIME_BALL && CommonConfigs.PISTON_SLIMING.get() && state.is(Blocks.PISTON) && !state.getValue(PistonBaseBlock.EXTENDED)) {
-            if (level.isClientSide) {
-                level.playSound(player, pos, SoundEvents.SLIME_SQUISH, SoundSource.BLOCKS, 1.0f, 1.0f);
-                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.ITEM_SLIME, UniformInt.of(3, 5));
-            } else {
-                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
-                level.setBlockAndUpdate(pos, Blocks.STICKY_PISTON.withPropertiesOf(state));
-                if (!player.getAbilities().instabuild) {
-                    stack.shrink(1);
-                }
-            }
-            return InteractionResult.sidedSuccess(level.isClientSide);
-        }
-
-        if (item == Items.SHEARS && CommonConfigs.PISTON_SLIMING.get() && state.is(Blocks.STICKY_PISTON) && !state.getValue(PistonBaseBlock.EXTENDED)) {
-            if (level.isClientSide) {
-                level.playSound(player, pos, SoundEvents.SLIME_SQUISH, SoundSource.BLOCKS, 1.0f, 1.0f);
-                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.ITEM_SLIME, UniformInt.of(3, 5));
-            } else {
-                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
-                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
-                level.gameEvent(player, GameEvent.SHEAR, pos);
-                level.setBlockAndUpdate(pos, Blocks.PISTON.withPropertiesOf(state));
-                if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
-                    Block.popResourceFromFace(level, pos, hitResult.getDirection(), Items.SLIME_BALL.getDefaultInstance());
-                }
-            }
-            return InteractionResult.sidedSuccess(level.isClientSide);
-        }
-        return InteractionResult.PASS;
-    }
-
-
     private static InteractionResult shearShearing(Item item, ItemStack stack, BlockPos pos, BlockState state,
                                                    Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         if (item instanceof ShearsItem) {
@@ -255,7 +202,7 @@ public class ModEvents {
                 newState = WeatheringHelper.getAzaleaSheared(state).orElse(null);
                 if (newState != null) {
                     if (level.isClientSide) {
-                        ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.AZALEA_FLOWER.get(), UniformInt.of(4, 6));
+                        ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.GRAVITY_AZALEA_FLOWER.get(), UniformInt.of(4, 6));
                     } else {
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                         if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
@@ -513,14 +460,6 @@ public class ModEvents {
                     }
                 }
                 if (newState != null) {
-                    serverLevel.sendParticles(ModParticles.SOOT.get(),
-                        pos.getX() + 0.5D,
-                        pos.getY() + 0.5D,
-                        pos.getZ() + 0.5D,
-                        10,
-                        0.5D, 0.5D, 0.5D,
-                        0.0D);
-
                     return serverLevel.setBlock(pos, newState, 3);
                 }
             }

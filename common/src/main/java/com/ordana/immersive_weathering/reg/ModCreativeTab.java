@@ -74,10 +74,6 @@ public class ModCreativeTab {
             ModBlocks.MOSSY_BRICKS, ModBlocks.MOSSY_BRICK_SLAB, ModBlocks.MOSSY_BRICK_STAIRS, ModBlocks.MOSSY_BRICK_WALL
         );
 
-        after(e, Items.CUT_RED_SANDSTONE_SLAB, CreativeModeTabs.BUILDING_BLOCKS,
-            ModBlocks.FROSTY_GLASS, ModBlocks.FROSTY_GLASS_PANE
-        );
-
         after(e, Items.PRISMARINE_BRICKS, CreativeModeTabs.BUILDING_BLOCKS,
             ModBlocks.CRACKED_PRISMARINE_BRICKS
         );
@@ -140,6 +136,16 @@ public class ModCreativeTab {
             ModBlocks.EXPOSED_IRON_TRAPDOOR, ModBlocks.WEATHERED_IRON_TRAPDOOR, ModBlocks.RUSTED_IRON_TRAPDOOR,
             ModBlocks.WAXED_IRON_TRAPDOOR, ModBlocks.WAXED_EXPOSED_IRON_TRAPDOOR, ModBlocks.WAXED_WEATHERED_IRON_TRAPDOOR, ModBlocks.WAXED_RUSTED_IRON_TRAPDOOR
         );
+
+        //COLORED BLOCKS
+        after(e, Items.GLASS, CreativeModeTabs.COLORED_BLOCKS,
+            ModBlocks.FROSTY_GLASS
+        );
+
+        after(e, Items.GLASS_PANE, CreativeModeTabs.COLORED_BLOCKS,
+            ModBlocks.FROSTY_GLASS_PANE
+        );
+
 
         //NATURAL BLOCKS
         before(e, Items.ROOTED_DIRT, CreativeModeTabs.NATURAL_BLOCKS,

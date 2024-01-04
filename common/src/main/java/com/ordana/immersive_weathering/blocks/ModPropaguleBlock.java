@@ -5,6 +5,8 @@ import com.ordana.immersive_weathering.reg.ModTags;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
@@ -48,7 +50,7 @@ public class ModPropaguleBlock extends MangrovePropaguleBlock implements Fallabl
     @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (canFallThrough(level.getBlockState(pos.below())) && pos.getY() >= level.getMinBuildHeight() && (level.getBlockState(pos.above()).isAir() || level.getBlockState(pos.above()).is(ModTags.LEAF_PILES)) && state.getValue(HANGING) && state.getValue(AGE) == 4) {
-            FallingBlockEntity fallingblockentity = FallingPropaguleEntity.fall(level, pos, state);
+            FallingBlockEntity fallingblockentity = FallingPropaguleEntity.fall(level, pos, state.setValue(HANGING, true).setValue(AGE, 4));
             this.configureFallingBlockEntity(fallingblockentity);
         }
     }
@@ -71,9 +73,7 @@ public class ModPropaguleBlock extends MangrovePropaguleBlock implements Fallabl
                 double d = (double)pos.getX() + random.nextDouble();
                 double e = (double)pos.getY() - 0.05D;
                 double f = (double)pos.getZ() + random.nextDouble();
-                var leafParticle = WeatheringHelper.getFallenLeafParticle(Blocks.MANGROVE_LEAVES.defaultBlockState()).orElse(null);
-                assert leafParticle != null;
-                level.addParticle(leafParticle, d, e, f, 0.0D, 0.0D, 0.0D);
+                level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.MANGROVE_PROPAGULE.defaultBlockState()), d, e, f, 0.0D, 0.0D, 0.0D);
             }
         }
 

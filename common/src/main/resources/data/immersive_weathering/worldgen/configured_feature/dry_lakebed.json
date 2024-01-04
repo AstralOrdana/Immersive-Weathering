@@ -10,7 +10,10 @@
           "block": "minecraft:water"
         },
         "state": {
-          "Name": "immersive_weathering:mulch_block"
+          "Name": "immersive_weathering:earthen_clay",
+          "Properties": {
+            "waterlogged": "true"
+          }
         }
       }
     ]
