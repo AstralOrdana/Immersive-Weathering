@@ -3,12 +3,24 @@ package com.ordana.immersive_weathering.blocks.soil;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -17,6 +29,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Iterator;
 import java.util.Objects;
@@ -89,5 +102,35 @@ public class EarthenClayFarmlandBlock extends ModFarmlandBlock {
     public static void turnToDirt(BlockState state, Level level, BlockPos pos) {
         if (state.getValue(MOISTURE) == 7) level.setBlockAndUpdate(pos, pushEntitiesUp(state, ModBlocks.EARTHEN_CLAY.get().defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, true), level, pos));
         else level.setBlockAndUpdate(pos, pushEntitiesUp(state, ModBlocks.EARTHEN_CLAY.get().defaultBlockState(), level, pos));
+    }
+
+    @Override
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (!player.isSecondaryUseActive()) {
+            // empty bucket into mulch
+            ItemStack stack = player.getItemInHand(hand);
+            if (stack.is(Items.WATER_BUCKET) && state.getValue(MOISTURE) == 0) {
+                level.playSound(player, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
+                if (player instanceof ServerPlayer) {
+                    ItemStack itemStack2 = ItemUtils.createFilledResult(stack, player, Items.BUCKET.getDefaultInstance());
+                    player.setItemInHand(hand, itemStack2);
+                    level.setBlockAndUpdate(pos, state.setValue(MOISTURE, 7));
+                    player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+                }
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            }
+            // fill bucket from mulch
+            else if (stack.is(Items.BUCKET) && state.getValue(MOISTURE) > 0) {
+                level.playSound(player, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0f, 1.0f);
+                if (player instanceof ServerPlayer) {
+                    ItemStack itemStack2 = ItemUtils.createFilledResult(stack, player, Items.LAVA_BUCKET.getDefaultInstance());
+                    player.setItemInHand(hand, itemStack2);
+                    level.setBlockAndUpdate(pos, state.setValue(MOISTURE, 0));
+                    player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+                }
+                return InteractionResult.SUCCESS;
+            }
+        }
+        return super.use(state, level, pos, player, hand, hit);
     }
 }

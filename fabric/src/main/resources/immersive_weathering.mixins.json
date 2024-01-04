@@ -7,8 +7,6 @@
     "ArmorLayerMixin"
   ],
   "mixins": [
-    "CropBlockMixin",
-    "FarmlandBlockMixin",
     "FungusBlockMixin",
     "ItemsMixin",
     "NetherWartBlockMixin",

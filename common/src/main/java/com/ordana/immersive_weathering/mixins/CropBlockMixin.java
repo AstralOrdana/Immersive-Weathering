@@ -1,5 +1,7 @@
-package com.ordana.immersive_weathering.mixins.fabric;
+package com.ordana.immersive_weathering.mixins;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.ordana.immersive_weathering.reg.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
@@ -23,4 +25,17 @@ public abstract class CropBlockMixin extends Block {
             cir.setReturnValue(true);
         }
     }
+
+    @WrapOperation(method = "getGrowthSpeed", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z",
+        ordinal = 0))
+    private static boolean fertileBlocks(BlockState instance, Block block, Operation<Boolean> original) {
+        //todo fix method being unused^
+        if (instance.is(ModTags.FERTILE_BLOCKS)) {
+            return true;
+        }
+        return original.call(instance, block);
+    }
+
+
 }

@@ -385,10 +385,11 @@ public class WeatheringHelper {
         BlockPos targetPos = pos.relative(dir);
         BlockState targetState = level.getBlockState(targetPos);
         FluidState fluidState = level.getFluidState(targetPos);
-        boolean bl = fluidState.getType() == Fluids.WATER;
-        if (!targetState.isSolid()) {
-            BlockState newState = dir == Direction.DOWN ? Blocks.HANGING_ROOTS.defaultBlockState() :
-                    ModBlocks.HANGING_ROOTS_WALL.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, dir);
+        boolean bl = fluidState.is(Fluids.WATER);
+        if (targetState.canBeReplaced()) {
+            BlockState newState = dir == Direction.DOWN ?
+                Blocks.HANGING_ROOTS.defaultBlockState() :
+                ModBlocks.HANGING_ROOTS_WALL.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, dir);
             level.setBlockAndUpdate(targetPos, newState.setValue(BlockStateProperties.WATERLOGGED, bl));
         }
     }

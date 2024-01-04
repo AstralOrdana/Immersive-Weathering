@@ -1,7 +1,9 @@
 package com.ordana.immersive_weathering.blocks.soil;
 
+import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -60,7 +62,15 @@ public class RootedGrassBlock extends GrassBlock implements BonemealableBlock {
 
     @Override
     public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
-        return true;
+        boolean space = false;
+        for (Direction dir : Direction.values()) {
+            var targetState = level.getBlockState(pos.relative(dir));
+            if (dir == Direction.UP) {if (level.getBlockState(pos.above()).isAir()) space = true;}
+            else if (targetState.canBeReplaced() &&
+                !targetState.is(Blocks.HANGING_ROOTS) &&
+                !targetState.is(ModBlocks.HANGING_ROOTS_WALL.get())) space = true;
+        }
+        return space;
     }
 
     @Override
@@ -70,7 +80,6 @@ public class RootedGrassBlock extends GrassBlock implements BonemealableBlock {
 
     @Override
     public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
-
         WeatheringHelper.growHangingRoots(level, random, pos);
         super.performBonemeal(level, random, pos, state);
     }
