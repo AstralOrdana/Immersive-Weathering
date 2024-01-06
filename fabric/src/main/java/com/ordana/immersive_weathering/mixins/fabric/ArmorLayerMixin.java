@@ -37,8 +37,8 @@ public abstract class ArmorLayerMixin <T extends LivingEntity, M extends Humanoi
 
     @Inject(method = "renderArmorPiece", at =@At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/ArmorItem;getEquipmentSlot()Lnet/minecraft/world/entity/EquipmentSlot;",
-            ordinal = 2, shift = At.Shift.BEFORE), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
-    public void renderFlowerCrown(PoseStack poseStack, MultiBufferSource buffer, T livingEntity, EquipmentSlot slot, int packedLight, A model, CallbackInfo ci) {
+            ordinal = 0, shift = At.Shift.BEFORE), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
+    public void renderFlowerCrown(PoseStack poseStack, MultiBufferSource buffer, T livingEntity, EquipmentSlot slot, int packedLight, A model, CallbackInfo ci, ItemStack itemStack, ArmorItem armorItem) {
         if(armorItem == ModItems.FLOWER_CROWN.get()){
             var texture = FlowerCrownItem.getModelTexture(itemStack);
             if(texture != null){
@@ -51,7 +51,7 @@ public abstract class ArmorLayerMixin <T extends LivingEntity, M extends Humanoi
                 }
 
                 VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(buffer, RenderType.armorCutoutNoCull(
-                        resourcelocation), false, bl);
+                        resourcelocation), false, false);
                 model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
 
 
