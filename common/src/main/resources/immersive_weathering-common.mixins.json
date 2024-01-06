@@ -26,6 +26,7 @@
     "SnowballMixin",
     "SnowLayerBlockMixin",
     "StemBlockMixin",
+    "SugarCaneBlockMixin",
     "SweetBerryBushMixin",
     "accessors.BiomeAccessor",
     "accessors.IceInvoker",

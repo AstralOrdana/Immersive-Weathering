@@ -12,7 +12,6 @@
     "ItemsMixin",
     "NetherWartBlockMixin",
     "SproutsBlockMixin",
-    "SugarCaneBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
