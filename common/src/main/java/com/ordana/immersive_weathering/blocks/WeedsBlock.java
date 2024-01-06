@@ -60,9 +60,9 @@ public class WeedsBlock extends CropBlock {
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (this.getAge(state) == this.getMaxAge() && random.nextInt(10) == 0) {
             double r = 0.3;
-            double x = (double) pos.getX() + 0.5 + (random.nextDouble() - 0.5) * r;
-            double y = (double) pos.getY() + 0.8 + (random.nextDouble() - 0.5) * r;
-            double z = (double) pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * r;
+            double x = pos.getX() + 0.5 + (random.nextDouble() - 0.5) * r;
+            double y = pos.getY() + 0.8 + (random.nextDouble() - 0.5) * r;
+            double z = pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * r;
             level.addParticle(ParticleTypes.WHITE_ASH, x, y, z, 0.1D, 0.5D, 0.1D);
         }
     }
@@ -74,7 +74,7 @@ public class WeedsBlock extends CropBlock {
                 if (player.getItemBySlot(EquipmentSlot.FEET).isEmpty() || !CommonConfigs.LEGGINGS_PREVENTS_THORN_DAMAGE.get()) {
                     double d0 = Math.abs(entity.getX() - entity.xOld);
                     double d1 = Math.abs(entity.getZ() - entity.zOld);
-                    if (d0 >= (double) 0.003F || d1 >= (double) 0.003F) {
+                    if (d0 >= 0.003F || d1 >=  0.003F) {
                         entity.hurt(level.damageSources().sweetBerryBush(), 1.0F);
                     }
                 }

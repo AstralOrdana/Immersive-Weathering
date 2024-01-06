@@ -48,7 +48,7 @@ public class BlockGrowthHandler extends RegistryAccessJsonReloadListener {
         super(GSON, "block_growths");
     }
 
-    public static Optional<Set<IBlockGrowth>> getBlockGrowth(TickSource source, Block block) {
+    public static Optional<Set<IBlockGrowth>> getBlockGrowths(TickSource source, Block block) {
         return Optional.ofNullable(GROWTH_FOR_BLOCK.get(source)).map(m -> m.get(block));
     }
 
@@ -68,7 +68,7 @@ public class BlockGrowthHandler extends RegistryAccessJsonReloadListener {
                 config.tryGrowing(pos, state, level, biome);
             }
         }
-        var growth = getBlockGrowth(source, state.getBlock());
+        var growth = getBlockGrowths(source, state.getBlock());
         if (growth.isPresent()) {
             for (var config : growth.get()) {
                 config.tryGrowing(pos, state, level, biome);

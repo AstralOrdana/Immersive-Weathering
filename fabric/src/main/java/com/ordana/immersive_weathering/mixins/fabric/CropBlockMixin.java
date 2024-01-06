@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.mixins;
+package com.ordana.immersive_weathering.mixins.fabric;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(CropBlock.class)
 public abstract class CropBlockMixin extends Block {
-    public CropBlockMixin(Properties settings) {
+    protected CropBlockMixin(Properties settings) {
         super(settings);
     }
 
@@ -30,7 +30,6 @@ public abstract class CropBlockMixin extends Block {
         target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z",
         ordinal = 0))
     private static boolean fertileBlocks(BlockState instance, Block block, Operation<Boolean> original) {
-        //todo fix method being unused^
         if (instance.is(ModTags.FERTILE_BLOCKS)) {
             return true;
         }
