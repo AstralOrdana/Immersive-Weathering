@@ -13,11 +13,11 @@ import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class SandyDirtBlock extends Block {
+public class SandyDirtBlock extends FallingBlock {
     public SandyDirtBlock(Properties properties) {
         super(properties);
     }

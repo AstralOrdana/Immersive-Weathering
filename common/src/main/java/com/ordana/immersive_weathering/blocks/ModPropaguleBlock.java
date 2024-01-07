@@ -2,7 +2,6 @@ package com.ordana.immersive_weathering.blocks;
 
 import com.ordana.immersive_weathering.entities.FallingPropaguleEntity;
 import com.ordana.immersive_weathering.reg.ModTags;
-import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
