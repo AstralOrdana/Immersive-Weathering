@@ -1,0 +1,10 @@
+{
+    "parent": "immersive_weathering:block/rooted_grass_block",
+    "textures": {
+        "particle": "immersive_weathering:block/rooted_silt",
+        "bottom": "immersive_weathering:block/rooted_silt",
+        "top": "minecraft:block/grass_block_top",
+        "side": "immersive_weathering:block/rooted_grassy_silt_side",
+        "side_overlay": "immersive_weathering:block/grass_overlay"
+    }
+}

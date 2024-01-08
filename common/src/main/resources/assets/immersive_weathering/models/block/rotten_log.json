@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "immersive_weathering:block/rotten_log_top",
-    "side": "immersive_weathering:block/rotten_log"
-  }
-}
