@@ -36,7 +36,7 @@ public class ServerDynamicResourcesHandler extends DynServerResourcesGenerator {
 
     @Override
     public boolean dependsOnLoadedPacks() {
-        return true;//RegistryConfigs.RESOURCE_PACK_SUPPORT.get();
+        return true;
     }
 
     @Override

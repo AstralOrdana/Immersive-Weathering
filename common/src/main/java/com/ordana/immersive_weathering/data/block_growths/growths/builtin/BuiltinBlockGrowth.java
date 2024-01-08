@@ -5,6 +5,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.data.block_growths.growths.IBlockGrowth;
+import com.ordana.immersive_weathering.util.StrOpt;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
@@ -27,11 +28,11 @@ public abstract class BuiltinBlockGrowth implements IBlockGrowth {
                             return DataResult.error(() -> "No builtin growth found with id " + n);
                         }
                         Codec<BuiltinBlockGrowth> codec = RecordCodecBuilder.create(i -> i.group(
-                                TickSource.CODEC.listOf().optionalFieldOf("tick_sources", List.of(TickSource.BLOCK_TICK))
+                                StrOpt.of(TickSource.CODEC.listOf(), "tick_sources", List.of(TickSource.BLOCK_TICK))
                                         .forGetter(b -> b.sources),
-                                RegistryCodecs.homogeneousList(Registries.BLOCK).optionalFieldOf("owners")
+                                StrOpt.of(RegistryCodecs.homogeneousList(Registries.BLOCK), "owners")
                                         .forGetter(b -> Optional.ofNullable(b.owners)),
-                                Codec.FLOAT.optionalFieldOf("growth_chance", 1f).forGetter(b -> b.growthChance)
+                                StrOpt.of(Codec.FLOAT, "growth_chance", 1f).forGetter(b -> b.growthChance)
                         ).apply(i, (o, s, c) -> factory.create(n, s.orElse(null), o, c)));
                         return DataResult.success(codec);
                     });

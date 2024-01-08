@@ -4,6 +4,7 @@ import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.data.position_tests.IPositionRuleTest;
+import com.ordana.immersive_weathering.util.StrOpt;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -24,11 +25,11 @@ public class OtherFluidGenerator implements IFluidGenerator {
     public static final Codec<OtherFluidGenerator> CODEC = RecordCodecBuilder.<OtherFluidGenerator>create(
             instance -> instance.group(
                     BuiltInRegistries.FLUID.byNameCodec().fieldOf("fluid").forGetter(OtherFluidGenerator::getFluid),
-                    FluidType.CODEC.optionalFieldOf("fluid_type", FluidType.BOTH).forGetter(OtherFluidGenerator::getFluidType),
+                    StrOpt.of(FluidType.CODEC, "fluid_type", FluidType.BOTH).forGetter(OtherFluidGenerator::getFluidType),
                     BlockState.CODEC.fieldOf("generate").forGetter(OtherFluidGenerator::getGrowth),
                     RuleTest.CODEC.fieldOf("target").forGetter(OtherFluidGenerator::getTarget),
-                    IPositionRuleTest.CODEC.optionalFieldOf("additional_target_check").forGetter(OtherFluidGenerator::getExtraCheck),
-                    Codec.INT.optionalFieldOf("priority", 0).forGetter(OtherFluidGenerator::getPriority)
+                    StrOpt.of(IPositionRuleTest.CODEC, "additional_target_check").forGetter(OtherFluidGenerator::getExtraCheck),
+                    StrOpt.of(Codec.INT, "priority", 0).forGetter(OtherFluidGenerator::getPriority)
             ).apply(instance, OtherFluidGenerator::new));
 
     public static final IFluidGenerator.Type<OtherFluidGenerator> TYPE = new IFluidGenerator.Type<>(CODEC, "target_other");

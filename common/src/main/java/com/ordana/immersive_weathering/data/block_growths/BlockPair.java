@@ -6,6 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ordana.immersive_weathering.util.StrOpt;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -33,7 +34,7 @@ public class BlockPair extends Pair<BlockState, BlockState> {
 
     public static final Codec<BlockPair> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
             BLOCK_STATE_CODEC.fieldOf("block").forGetter(Pair::getFirst),
-            BLOCK_STATE_CODEC.optionalFieldOf("above_block").forGetter(p -> Optional.ofNullable(p.getSecond()))
+            StrOpt.of(BLOCK_STATE_CODEC,"above_block").forGetter(p -> Optional.ofNullable(p.getSecond()))
     ).apply(instance, (f, s) -> new BlockPair(f, s.orElse(null))));
 
 

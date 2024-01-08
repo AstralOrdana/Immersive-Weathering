@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.data.block_growths.area_condition;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.data.block_growths.growths.ConfigurableBlockGrowth;
+import com.ordana.immersive_weathering.util.StrOpt;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
@@ -28,10 +29,10 @@ record AreaCheck(int rX, int rY, int rZ, int requiredAmount, Optional<Integer> y
             Codec.INT.fieldOf("radiusY").forGetter(AreaCheck::rY),
             Codec.INT.fieldOf("radiusZ").forGetter(AreaCheck::rZ),
             Codec.INT.fieldOf("requiredAmount").forGetter(AreaCheck::requiredAmount),
-            Codec.INT.optionalFieldOf("yOffset").forGetter(AreaCheck::yOffset),
-            RuleTest.CODEC.optionalFieldOf("must_have").forGetter(AreaCheck::mustHavePredicate),
-            RuleTest.CODEC.optionalFieldOf("must_not_have").forGetter(AreaCheck::mustNotHavePredicate),
-            RegistryCodecs.homogeneousList(Registries.BLOCK).optionalFieldOf("includes").forGetter(AreaCheck::extraIncluded)
+            StrOpt.of(Codec.INT, "yOffset").forGetter(AreaCheck::yOffset),
+            StrOpt.of(RuleTest.CODEC, "must_have").forGetter(AreaCheck::mustHavePredicate),
+            StrOpt.of(RuleTest.CODEC, "must_not_have").forGetter(AreaCheck::mustNotHavePredicate),
+            StrOpt.of(RegistryCodecs.homogeneousList(Registries.BLOCK), "includes").forGetter(AreaCheck::extraIncluded)
     ).apply(instance, AreaCheck::new));
     static final AreaConditionType<AreaCheck> TYPE = new AreaConditionType<>(AreaCheck.CODEC, AreaCheck.NAME);
 

@@ -9,6 +9,7 @@ import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.data.block_growths.area_condition.AreaCondition;
 import com.ordana.immersive_weathering.data.position_tests.IPositionRuleTest;
 import com.ordana.immersive_weathering.mixins.accessors.RandomBlockMatchTestAccessor;
+import com.ordana.immersive_weathering.util.StrOpt;
 import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
@@ -43,15 +44,15 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
             List.of(), false, false);
 
     public static final Codec<ConfigurableBlockGrowth> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            TickSource.CODEC.listOf().optionalFieldOf("tick_sources",List.of(TickSource.BLOCK_TICK)).forGetter(ConfigurableBlockGrowth::getTickSources),
+            StrOpt.of(TickSource.CODEC.listOf(), "tick_sources", List.of(TickSource.BLOCK_TICK)).forGetter(ConfigurableBlockGrowth::getTickSources),
             Codec.FLOAT.fieldOf("growth_chance").forGetter(ConfigurableBlockGrowth::getGrowthChance),
             RuleTest.CODEC.fieldOf("replacing_target").forGetter(ConfigurableBlockGrowth::getTargetPredicate),
-            AreaCondition.CODEC.optionalFieldOf("area_condition",AreaCondition.EMPTY).forGetter(ConfigurableBlockGrowth::getAreaCondition),
+            StrOpt.of(AreaCondition.CODEC, "area_condition", AreaCondition.EMPTY).forGetter(ConfigurableBlockGrowth::getAreaCondition),
             DirectionalList.CODEC.listOf().fieldOf("growth_for_face").forGetter(ConfigurableBlockGrowth::encodeRandomLists),
-            RegistryCodecs.homogeneousList(Registries.BLOCK).optionalFieldOf("owners").forGetter(b -> Optional.ofNullable(b.owners)),
-            IPositionRuleTest.CODEC.listOf().optionalFieldOf("position_predicates",List.of()).forGetter(ConfigurableBlockGrowth::getPositionTests),
-            Codec.BOOL.optionalFieldOf("target_self",false).forGetter(ConfigurableBlockGrowth::targetSelf),
-            Codec.BOOL.optionalFieldOf("destroy_target",false).forGetter(ConfigurableBlockGrowth::destroyTarget)
+            StrOpt.of(RegistryCodecs.homogeneousList(Registries.BLOCK),"owners").forGetter(b -> Optional.ofNullable(b.owners)),
+            StrOpt.of(IPositionRuleTest.CODEC.listOf(),"position_predicates", List.of()).forGetter(ConfigurableBlockGrowth::getPositionTests),
+            StrOpt.of(Codec.BOOL, "target_self", false).forGetter(ConfigurableBlockGrowth::targetSelf),
+            StrOpt.of(Codec.BOOL, "destroy_target", false).forGetter(ConfigurableBlockGrowth::destroyTarget)
     ).apply(instance, ConfigurableBlockGrowth::new));
 
     @Nullable //null for universal ones
@@ -74,7 +75,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
                                    List<DirectionalList> growthForDirection,
                                    Optional<HolderSet<Block>> owners, List<IPositionRuleTest> biomePredicates,
                                    Boolean targetSelf, Boolean destroyTarget) {
-        this.tickSources =  sources;
+        this.tickSources = sources;
         this.growthChance = growthChance;
         this.owners = owners.orElse(null);
         this.positionTests = biomePredicates;
@@ -194,12 +195,12 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
     @Nullable
     @Override
     public Iterable<Block> getOwners() {
-        if(owners == null)return null;
+        if (owners == null) return null;
         return this.owners.stream().map(Holder::value).collect(Collectors.toList());
     }
 
     @Override
-    public void tryGrowing(BlockPos pos, BlockState self, ServerLevel level,  Supplier<Holder<Biome>> biome) {
+    public void tryGrowing(BlockPos pos, BlockState self, ServerLevel level, Supplier<Holder<Biome>> biome) {
 
         if (this.canGrow(pos, level, biome)) {
             Direction dir = this.growthForDirection.getRandomValue(level.random).orElse(Direction.UP);
@@ -211,7 +212,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
             if (targetSelf || targetPredicate.test(target, seed)) {
                 if (targetSelf && targetPredicate instanceof RandomBlockMatchTestAccessor rbm) {
                     //hack to get a probability here for self target
-                    if ((seed.nextFloat() >=rbm.getProbability())) return; //TODO: use AW here
+                    if ((seed.nextFloat() >= rbm.getProbability())) return; //TODO: use AW here
                 }
                 var l = blockGrowths.get(dir);
                 if (l != null) {
@@ -259,8 +260,8 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
                                   SimpleWeightedRandomList<BlockPair> randomList) {
 
         public static final Codec<DirectionalList> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                Direction.CODEC.optionalFieldOf("direction").forGetter(DirectionalList::direction),
-                Codec.INT.optionalFieldOf("weight").forGetter(DirectionalList::weight),
+               StrOpt.of(Direction.CODEC, "direction").forGetter(DirectionalList::direction),
+                StrOpt.of(Codec.INT,"weight").forGetter(DirectionalList::weight),
                 SimpleWeightedRandomList.wrappedCodec(BlockPair.CODEC).fieldOf("growth").forGetter(DirectionalList::randomList)
         ).apply(instance, DirectionalList::new));
     }

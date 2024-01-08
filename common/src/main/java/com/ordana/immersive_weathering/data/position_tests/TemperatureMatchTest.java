@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.mixins.accessors.BiomeAccessor;
+import com.ordana.immersive_weathering.util.StrOpt;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.Level;
@@ -20,7 +21,7 @@ record TemperatureMatchTest(float max, float min, boolean useLocalPos) implement
             instance -> instance.group(
                     Codec.FLOAT.fieldOf("min").forGetter(g -> g.min),
                     Codec.FLOAT.fieldOf("max").forGetter(g -> g.max),
-                    Codec.BOOL.optionalFieldOf("use_local_pos", true).forGetter(TemperatureMatchTest::useLocalPos))
+                    StrOpt.of(Codec.BOOL,"use_local_pos", true).forGetter(TemperatureMatchTest::useLocalPos))
             .apply( instance, TemperatureMatchTest::new)).comapFlatMap(t -> {
         if (t.max < t.min) {
             return DataResult.error(() -> "Max must be at least min, min_inclusive: " + t.min + ", max_inclusive: " + t.max);

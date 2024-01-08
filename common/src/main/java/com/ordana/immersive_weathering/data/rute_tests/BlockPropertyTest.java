@@ -5,6 +5,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.data.block_growths.Operator;
 import com.ordana.immersive_weathering.reg.ModRuleTests;
+import com.ordana.immersive_weathering.util.StrOpt;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
@@ -57,8 +58,8 @@ public class BlockPropertyTest extends RuleTest {
                                     b -> DataResult.success(b.getProperty()), (property) -> {
 
                                         Codec<PropPredicate> c1 = RecordCodecBuilder.create(i -> i.group(
-                                                valueCodec(property).optionalFieldOf("value").forGetter(PropPredicate::getTargetValue),
-                                                Operator.CODEC.optionalFieldOf("operator", Operator.EQUAL).forGetter(PropPredicate::getOperator)
+                                                StrOpt.of(valueCodec(property),"value").forGetter(PropPredicate::getTargetValue),
+                                                StrOpt.of(Operator.CODEC, "operator", Operator.EQUAL).forGetter(PropPredicate::getOperator)
                                         ).apply(i, (v, o) -> new PropPredicate(block, property, v, o)));
 
                                         return DataResult.success(c1);

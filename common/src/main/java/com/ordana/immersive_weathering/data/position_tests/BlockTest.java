@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.data.position_tests;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ordana.immersive_weathering.util.StrOpt;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
@@ -18,7 +19,7 @@ record BlockTest(Vec3i offset, RuleTest predicate) implements IPositionRuleTest 
     public static final String NAME = "block_test";
 
     public static final Codec<BlockTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Vec3i.offsetCodec(16).optionalFieldOf("offset", Vec3i.ZERO).forGetter(BlockTest::offset),
+            StrOpt.of(Vec3i.offsetCodec(16),"offset", Vec3i.ZERO).forGetter(BlockTest::offset),
             RuleTest.CODEC.fieldOf("predicate").forGetter(BlockTest::predicate)
     ).apply(instance, BlockTest::new));
 

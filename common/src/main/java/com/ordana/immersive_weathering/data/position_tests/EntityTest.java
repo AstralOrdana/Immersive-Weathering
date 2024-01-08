@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.data.position_tests;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ordana.immersive_weathering.util.StrOpt;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.valueproviders.IntProvider;
@@ -22,9 +23,9 @@ public class EntityTest implements IPositionRuleTest {
             RegistryCodecs.homogeneousList(Registries.ENTITY_TYPE).fieldOf("targets").forGetter(EntityTest::getTargets),
             IntProvider.codec(0, 100).fieldOf("count").forGetter(EntityTest::getIntProvider),
             Codec.intRange(0, 64).fieldOf("radius").forGetter(EntityTest::getSize),
-            Codec.BOOL.optionalFieldOf("less_than").forGetter(EntityTest::isLessThan),
-            Direction.CODEC.optionalFieldOf("look_direction").forGetter(EntityTest::getDirection),
-            Codec.INT.optionalFieldOf("offset").forGetter(EntityTest::getOffset)
+            StrOpt.of(Codec.BOOL,"less_than").forGetter(EntityTest::isLessThan),
+            StrOpt.of(Direction.CODEC,"look_direction").forGetter(EntityTest::getDirection),
+            StrOpt.of(Codec.INT,"offset").forGetter(EntityTest::getOffset)
     ).apply(i, EntityTest::new));
 
     static final Type<EntityTest> TYPE =
