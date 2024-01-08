@@ -231,22 +231,33 @@
   "block.immersive_weathering.red_sand_layer_block": "Red Sand Pile",
   "item.immersive_weathering.tallow": "Tallow",
 
-  "block.immersive_weathering.silt": "Silt",
-  "block.immersive_weathering.earthen_clay": "Earthen Clay",
-  "block.immersive_weathering.sandy_dirt": "Sandy Dirt",
-  "block.immersive_weathering.loam": "Loam",
-  "block.immersive_weathering.permafrost": "Permafrost",
 
+  "block.immersive_weathering.silt": "Silt",
   "block.immersive_weathering.grassy_silt": "Grassy Silt",
-  "block.immersive_weathering.grassy_earthen_clay": "Grassy Earthen Clay",
+  "block.immersive_weathering.rooted_silt": "Rooted Silt",
+  "block.immersive_weathering.rooted_grassy_silt": "Rooted Grassy Silt",
+  "block.immersive_weathering.silty_farmland": "Silty Farmland",
+
+  "block.immersive_weathering.sandy_dirt": "Sandy Dirt",
   "block.immersive_weathering.grassy_sandy_dirt": "Grassy Sandy Dirt",
+  "block.immersive_weathering.rooted_sandy_dirt": "Rooted Sandy Dirt",
+  "block.immersive_weathering.rooted_grassy_sandy_dirt": "Rooted Grassy Sandy Dirt",
+  "block.immersive_weathering.sandy_farmland": "Sandy Farmland",
+
+  "block.immersive_weathering.loam": "Loam",
   "block.immersive_weathering.grassy_loam": "Grassy Loam",
+  "block.immersive_weathering.rooted_loam": "Rooted Loam",
+  "block.immersive_weathering.rooted_grassy_loam": "Rooted Grassy Loam",
+  "block.immersive_weathering.loamy_farmland": "Loamy Farmland",
+
+  "block.immersive_weathering.earthen_clay": "Earthen Clay",
+  "block.immersive_weathering.grassy_earthen_clay": "Grassy Earthen Clay",
+  "block.immersive_weathering.earthen_clay_farmland": "Earthen Clay Farmland",
+
+  "block.immersive_weathering.permafrost": "Permafrost",
   "block.immersive_weathering.grassy_permafrost": "Grassy Permafrost",
 
-  "block.immersive_weathering.silty_farmland": "Silty Farmland",
-  "block.immersive_weathering.earthen_clay_farmland": "Earthen Clay Farmland",
-  "block.immersive_weathering.sandy_farmland": "Sandy Farmland",
-  "block.immersive_weathering.loamy_farmland": "Loamy Farmland",
+
 
   "block.immersive_weathering.mulch_block": "Mulch",
   "block.immersive_weathering.nulch_block": "Nulch",
