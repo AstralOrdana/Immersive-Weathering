@@ -1,0 +1,133 @@
+{
+  "area_condition": {
+    "radiusX": 2,
+    "radiusY": 4,
+    "radiusZ": 2,
+    "offset": 4,
+    "requiredAmount": 10,
+    "type": "generate_if_not_too_many"
+  },
+  "must_have": {
+    "predicate_type": "immersive_weathering:tree_log"
+  },
+  "growth_chance": 0.001,
+  "growth_for_face": [
+    {
+      "direction": "north",
+      "weight": 5,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:rooted_grass_block",
+              "Properties": {
+                "snowy": "false",
+                "fertile": "true"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "east",
+      "weight": 5,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:rooted_grass_block",
+              "Properties": {
+                "snowy": "false",
+                "fertile": "true"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "south",
+      "weight": 5,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:rooted_grass_block",
+              "Properties": {
+                "snowy": "false",
+                "fertile": "true"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "west",
+      "weight": 5,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:rooted_grass_block",
+              "Properties": {
+                "snowy": "false",
+                "fertile": "true"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "up",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:rooted_grass_block",
+              "Properties": {
+                "snowy": "false",
+                "fertile": "true"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "down",
+      "weight": 20,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:rooted_grass_block",
+              "Properties": {
+                "snowy": "false",
+                "fertile": "true"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": [
+    "minecraft:rooted_dirt",
+    "immersive_weathering:rooted_grass_block"
+  ],
+  "replacing_target": {
+    "block": "minecraft:grass_block",
+    "predicate_type": "minecraft:random_block_match",
+    "probability": 0.8
+  }
+}

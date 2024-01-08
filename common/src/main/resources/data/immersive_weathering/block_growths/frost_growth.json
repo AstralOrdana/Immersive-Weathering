@@ -1,0 +1,55 @@
+{
+  "area_condition": {
+    "type": "generate_if_not_too_many",
+    "radiusX": 2,
+    "radiusY": 2,
+    "radiusZ": 2,
+    "requiredAmount": 5,
+    "must_not_have": {
+      "predicate_type": "minecraft:tag_match",
+      "tag": "immersive_weathering:magma_source"
+    }
+  },
+  "position_predicates": [
+    {
+      "biomes": "#immersive_weathering:icy",
+      "type": "biome_match"
+    },
+    {
+      "type": "day_test",
+      "day": false
+    }
+  ],
+  "growth_chance": 0,
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:frost",
+              "Properties": {
+                "natural": "true",
+                "down": "true"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": [
+    "minecraft:stone",
+    "minecraft:grass_block",
+    "immersive_weathering:rooted_grass_block"
+  ],
+  "replacing_target": {
+    "predicate_type": "immersive_weathering:block_set_match",
+    "blocks": [
+      "minecraft:air"
+    ],
+    "probability": 0.4
+  }
+}

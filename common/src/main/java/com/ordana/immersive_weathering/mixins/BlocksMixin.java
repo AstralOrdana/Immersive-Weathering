@@ -1,12 +1,12 @@
 package com.ordana.immersive_weathering.mixins;
 
 import com.ordana.immersive_weathering.blocks.ModPropaguleBlock;
-import com.ordana.immersive_weathering.blocks.crackable.*;
-import com.ordana.immersive_weathering.blocks.mossable.*;
-import com.ordana.immersive_weathering.blocks.rustable.Rustable;
-import com.ordana.immersive_weathering.blocks.rustable.RustableBarsBlock;
-import com.ordana.immersive_weathering.blocks.rustable.RustableDoorBlock;
-import com.ordana.immersive_weathering.blocks.rustable.RustableTrapdoorBlock;
+import com.ordana.immersive_weathering.blocks.cracked.*;
+import com.ordana.immersive_weathering.blocks.mossy.*;
+import com.ordana.immersive_weathering.blocks.rusty.Rustable;
+import com.ordana.immersive_weathering.blocks.rusty.RustableBarsBlock;
+import com.ordana.immersive_weathering.blocks.rusty.RustableDoorBlock;
+import com.ordana.immersive_weathering.blocks.rusty.RustableTrapdoorBlock;
 import com.ordana.immersive_weathering.reg.ModItems;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;

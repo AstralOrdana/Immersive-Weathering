@@ -1,17 +1,14 @@
 package com.ordana.immersive_weathering.forge;
 
-import com.ordana.immersive_weathering.blocks.soil.ModFarmlandBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraftforge.common.IPlantable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;

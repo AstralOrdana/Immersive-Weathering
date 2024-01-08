@@ -1,0 +1,85 @@
+{
+  "area_condition": {
+    "must_have": {
+      "predicate_type": "immersive_weathering:burnable_test"
+    },
+    "type": "neighbor_based_generation"
+  },
+  "growth_chance": 0.05,
+  "growth_for_face": [
+    {
+      "direction": "east",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Properties": {
+                "down": "true"
+              },
+              "Name": "immersive_weathering:soot"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "south",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Properties": {
+                "down": "true"
+              },
+              "Name": "immersive_weathering:soot"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "north",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Properties": {
+                "down": "true"
+              },
+              "Name": "immersive_weathering:soot"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "direction": "west",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Properties": {
+                "down": "true"
+              },
+              "Name": "immersive_weathering:soot"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": "#minecraft:fire",
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:random_block_match",
+    "probability": 0.7
+  }
+}

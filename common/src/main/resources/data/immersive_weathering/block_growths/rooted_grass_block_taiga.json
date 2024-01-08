@@ -1,0 +1,43 @@
+{
+  "area_condition": {
+    "radiusX": 2,
+    "radiusY": 2,
+    "radiusZ": 2,
+    "requiredAmount": 6,
+    "type": "generate_if_not_too_many",
+    "includes": "#immersive_weathering:small_plants"
+  },
+  "position_predicates": [
+    {
+      "biomes": [
+        "minecraft:taiga",
+        "minecraft:snowy_taiga"
+      ],
+     "type": "biome_match"
+    }
+  ],
+  "growth_chance": 0.01,
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:spruce_sapling"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": [
+    "immersive_weathering:rooted_grass_block"
+  ],
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:random_block_match",
+    "probability": 1
+  }
+}

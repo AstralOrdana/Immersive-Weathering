@@ -1,10 +1,10 @@
 package com.ordana.immersive_weathering.integrations;
 
 import com.google.common.collect.BiMap;
-import com.ordana.immersive_weathering.blocks.crackable.Crackable;
-import com.ordana.immersive_weathering.blocks.frostable.Frosty;
-import com.ordana.immersive_weathering.blocks.mossable.Mossable;
-import com.ordana.immersive_weathering.blocks.rustable.Rustable;
+import com.ordana.immersive_weathering.blocks.cracked.Crackable;
+import com.ordana.immersive_weathering.blocks.frosted.Frosty;
+import com.ordana.immersive_weathering.blocks.mossy.Mossable;
+import com.ordana.immersive_weathering.blocks.rusty.Rustable;
 import com.ordana.immersive_weathering.blocks.sandy.Sandy;
 import com.ordana.immersive_weathering.blocks.snowy.Snowy;
 import com.ordana.immersive_weathering.reg.ModBlocks;

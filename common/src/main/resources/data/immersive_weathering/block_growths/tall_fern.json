@@ -1,0 +1,42 @@
+{
+  "growth_chance": 0.001,
+  "area_condition": {
+    "radiusX": 4,
+    "radiusY": 3,
+    "radiusZ": 4,
+    "requiredAmount": 2,
+    "type": "generate_if_not_too_many"
+  },
+  "target_self": true,
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:large_fern",
+              "Properties": {
+                "half": "lower"
+              }
+            },
+            "above_block": {
+              "Name": "minecraft:large_fern",
+              "Properties": {
+                "half": "upper"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": ["minecraft:fern"],
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:random_block_match",
+    "probability": 0.3
+  }
+}

@@ -16,7 +16,7 @@
                   "name": "immersive_weathering:dark_oak_leaf_pile",
                   "conditions": [
                     {
-                      "condition": "minecraft:alternative",
+                      "condition": "minecraft:any_of",
                       "terms": [
                         {
                           "condition": "minecraft:match_tool",
@@ -52,7 +52,7 @@
                   "name": "immersive_weathering:dark_oak_leaf_pile",
                   "conditions": [
                     {
-                      "condition": "minecraft:alternative",
+                      "condition": "minecraft:any_of",
                       "terms": [
                         {
                           "condition": "minecraft:match_tool",
@@ -95,7 +95,7 @@
                   ],
                   "conditions": [
                     {
-                      "condition": "minecraft:alternative",
+                      "condition": "minecraft:any_of",
                       "terms": [
                         {
                           "condition": "minecraft:match_tool",
@@ -138,7 +138,7 @@
                   ],
                   "conditions": [
                     {
-                      "condition": "minecraft:alternative",
+                      "condition": "minecraft:any_of",
                       "terms": [
                         {
                           "condition": "minecraft:match_tool",
@@ -181,7 +181,7 @@
                   ],
                   "conditions": [
                     {
-                      "condition": "minecraft:alternative",
+                      "condition": "minecraft:any_of",
                       "terms": [
                         {
                           "condition": "minecraft:match_tool",
@@ -224,7 +224,7 @@
                   ],
                   "conditions": [
                     {
-                      "condition": "minecraft:alternative",
+                      "condition": "minecraft:any_of",
                       "terms": [
                         {
                           "condition": "minecraft:match_tool",
@@ -267,7 +267,7 @@
                   ],
                   "conditions": [
                     {
-                      "condition": "minecraft:alternative",
+                      "condition": "minecraft:any_of",
                       "terms": [
                         {
                           "condition": "minecraft:match_tool",
@@ -310,7 +310,7 @@
                   ],
                   "conditions": [
                     {
-                      "condition": "minecraft:alternative",
+                      "condition": "minecraft:any_of",
                       "terms": [
                         {
                           "condition": "minecraft:match_tool",
@@ -346,7 +346,7 @@
                   "name": "minecraft:dark_oak_leaves",
                   "conditions": [
                     {
-                      "condition": "minecraft:alternative",
+                      "condition": "minecraft:any_of",
                       "terms": [
                         {
                           "condition": "minecraft:match_tool",

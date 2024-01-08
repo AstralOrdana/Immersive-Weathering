@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.items;
 
-import com.ordana.immersive_weathering.blocks.frostable.Frosty;
+import com.ordana.immersive_weathering.blocks.frosted.Frosty;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import dev.architectury.injectables.annotations.PlatformOnly;
 import net.minecraft.core.BlockPos;

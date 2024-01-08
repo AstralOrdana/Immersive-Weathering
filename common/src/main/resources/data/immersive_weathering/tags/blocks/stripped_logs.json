@@ -8,6 +8,7 @@
     "minecraft:stripped_dark_oak_log",
     "minecraft:stripped_acacia_log",
     "minecraft:stripped_mangrove_log",
+    "minecraft:stripped_cherry_log",
     "minecraft:stripped_warped_stem",
     "minecraft:stripped_crimson_stem",
     "minecraft:stripped_oak_wood",
@@ -17,6 +18,7 @@
     "minecraft:stripped_dark_oak_wood",
     "minecraft:stripped_acacia_wood",
     "minecraft:stripped_mangrove_wood",
+    "minecraft:stripped_cherry_wood",
     "minecraft:stripped_warped_hyphae",
     "minecraft:stripped_crimson_hyphae"
   ]

@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "immersive_weathering:block/snow_bricks",
-    "top": "immersive_weathering:block/snow_bricks",
-    "side": "immersive_weathering:block/snow_bricks"
-  }
-}
