@@ -22,7 +22,7 @@ public class FallingPropaguleEntity extends ImprovedFallingBlockEntity {
             state = state.setValue(BlockStateProperties.WATERLOGGED, false);
         }
         if (state.hasProperty(BlockStateProperties.HANGING)) {
-            state = state.setValue(BlockStateProperties.HANGING, false);
+            state = state.setValue(BlockStateProperties.HANGING, true);
         }
         CompoundTag tag = new CompoundTag();
         tag.put("BlockState", NbtUtils.writeBlockState(state));

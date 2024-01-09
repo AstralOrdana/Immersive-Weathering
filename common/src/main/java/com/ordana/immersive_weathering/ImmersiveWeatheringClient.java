@@ -12,6 +12,7 @@ import com.ordana.immersive_weathering.reg.ModParticles;
 import net.mehvahdjukaar.moonlight.api.client.renderer.FallingBlockRendererGeneric;
 import net.mehvahdjukaar.moonlight.api.misc.EventCalled;
 import net.mehvahdjukaar.moonlight.api.platform.ClientHelper;
+import net.mehvahdjukaar.moonlight.api.util.math.colors.RGBColor;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -177,6 +178,10 @@ public class ImmersiveWeatheringClient {
         final BlockColor defaultFoliageColor = (state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageFoliageColor(world, pos) : FoliageColor.getDefaultColor();
 
         ModBlocks.LEAF_PILES.forEach((type, leafPile) -> {
+            float stage = intProp/maxProp;
+            int biomeC = BiomeColors.getAverageGrassColor(level, pos);
+            return new RGBColor(biomeC).asLAB().mixWith(new RGBColor(brown).asLAB(), stage);
+
             var leaf = type.leaves;
             if (leaf == Blocks.BIRCH_LEAVES) {
                 IWPlatformStuff.copyColorFrom(event, leafPile, leaf, (state, world, pos, tintIndex) -> FoliageColor.getBirchColor());

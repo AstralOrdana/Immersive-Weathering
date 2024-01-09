@@ -101,33 +101,6 @@ public class EmiIntegration implements EmiPlugin {
                 .build());
         }
 
-
-        //todo wood block recipes arent populating, when this one is removed all others work
-        BiMap<Block, Block> log = WeatheringHelper.RAW_TO_STRIPPED.get();
-        for (Block key : log.keySet()) {
-            ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
-            EmiStack raw_log = EmiStack.of(key);
-            EmiStack stripped_log = EmiStack.of(log.get(key));
-            EmiStack bark = EmiStack.of(WeatheringHelper.getBarkToStrip(key.defaultBlockState()));
-            if (bark == null) bark = EmiStack.of(WeatheringHelper.getBarkForStrippedLog(log.get(key).defaultBlockState()).get().getFirst());
-            registry.addRecipe(EmiWorldInteractionRecipe.builder()
-                .id(new ResourceLocation("immersive_weathering", "/block_stripping/" + blockId.getNamespace() + "/" + blockId.getPath()))
-                .leftInput(raw_log)
-                .rightInput(axe, true)
-                .output(bark)
-                .output(stripped_log)
-                .build());
-
-            registry.addRecipe(EmiWorldInteractionRecipe.builder()
-                .id(new ResourceLocation("immersive_weathering", "/block_unstripping/" + blockId.getNamespace() + "/" + blockId.getPath()))
-                .leftInput(stripped_log)
-                .rightInput(bark, false)
-                .output(raw_log)
-                .build());
-        }
-
-
-        //todo fix frosty blocks not populating
         BiMap<Block, Block> frost = Frosty.UNFROSTY_TO_FROSTY.get();
         for (Block key : frost.keySet()) {
             ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
@@ -154,7 +127,6 @@ public class EmiIntegration implements EmiPlugin {
                 .build());
         }
 
-        //todo fix charred blocks not populating
         Map<TagKey<Block>, Block> charred = WeatheringHelper.WOOD_TO_CHARRED.get();
         for (TagKey<Block> key : charred.keySet()) {
             EmiIngredient unburnt_block = EmiIngredient.of(key);
@@ -167,8 +139,6 @@ public class EmiIntegration implements EmiPlugin {
                 .build());
         }
 
-
-        //todo fix cracked blocks not populating
         BiMap<Block, Block> cracks = Crackable.CRACK_LEVEL_INCREASES.get();
         for (Block key : cracks.keySet()) {
             ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
@@ -184,18 +154,22 @@ public class EmiIntegration implements EmiPlugin {
                         .output(brick)
                         .build());
             }
+        }
+        for (Block key : cracks.keySet()) {
+            ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
+            EmiStack input = EmiStack.of(key);
+            EmiStack output = EmiStack.of(cracks.get(key));
             if (key instanceof Crackable cracked) {
                 EmiStack brick = EmiStack.of(cracked.getRepairItem(key.defaultBlockState()));
                 registry.addRecipe(EmiWorldInteractionRecipe.builder()
-                        .id(new ResourceLocation("immersive_weathering", "/brick_repair/" + blockId.getNamespace() + "/" + blockId.getPath()))
-                        .leftInput(output)
-                        .rightInput(brick, false)
-                        .output(input)
-                        .build());
+                    .id(new ResourceLocation("immersive_weathering", "/brick_repair/" + blockId.getNamespace() + "/" + blockId.getPath()))
+                    .leftInput(output)
+                    .rightInput(brick, false)
+                    .output(input)
+                    .build());
             }
         }
 
-        //todo fix moss blocks not populating
         BiMap<Block, Block> moss = Mossable.MOSS_LEVEL_INCREASES.get();
         for (Block key : moss.keySet()) {
             ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
@@ -228,7 +202,6 @@ public class EmiIntegration implements EmiPlugin {
                     .build());
         }
 
-        //todo fix sandy blocks not populating
         BiMap<Block, Block> sandy = Sandy.NORMAL_TO_SANDY.get();
         for (Block key : sandy.keySet()) {
             EmiStack input = EmiStack.of(key);
@@ -249,7 +222,6 @@ public class EmiIntegration implements EmiPlugin {
                     .build());
         }
 
-        //todo fix snowy blocks not populating
         BiMap<Block, Block> snowy = Snowy.NORMAL_TO_SNOWY.get();
         for (Block key : snowy.keySet()) {
             EmiStack input = EmiStack.of(key);
@@ -270,7 +242,6 @@ public class EmiIntegration implements EmiPlugin {
                     .build());
         }
 
-        //todo fix rusty blocks not populating
         BiMap<Block, Block> rust = Rustable.RUST_LEVEL_INCREASES.get();
         for (Block key : rust.keySet()) {
             ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
@@ -282,6 +253,30 @@ public class EmiIntegration implements EmiPlugin {
                     .rightInput(EmiStack.of(Items.WET_SPONGE), true)
                     .output(output)
                     .build());
+        }
+
+        //todo wood block recipes arent populating
+        BiMap<Block, Block> log = WeatheringHelper.RAW_TO_STRIPPED.get();
+        for (Block key : log.keySet()) {
+            ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
+            EmiStack raw_log = EmiStack.of(key);
+            EmiStack stripped_log = EmiStack.of(log.get(key));
+            EmiStack bark = EmiStack.of(WeatheringHelper.getBarkToStrip(key.defaultBlockState()));
+            if (bark == null) bark = EmiStack.of(WeatheringHelper.getBarkForStrippedLog(log.get(key).defaultBlockState()).get().getFirst());
+            registry.addRecipe(EmiWorldInteractionRecipe.builder()
+                .id(new ResourceLocation("immersive_weathering", "/block_stripping/" + blockId.getNamespace() + "/" + blockId.getPath()))
+                .leftInput(raw_log)
+                .rightInput(axe, true)
+                .output(bark)
+                .output(stripped_log)
+                .build());
+
+            registry.addRecipe(EmiWorldInteractionRecipe.builder()
+                .id(new ResourceLocation("immersive_weathering", "/block_unstripping/" + blockId.getNamespace() + "/" + blockId.getPath()))
+                .leftInput(stripped_log)
+                .rightInput(bark, false)
+                .output(raw_log)
+                .build());
         }
     }
 }

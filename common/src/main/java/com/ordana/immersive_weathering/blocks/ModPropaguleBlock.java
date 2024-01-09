@@ -12,6 +12,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Fallable;
 import net.minecraft.world.level.block.MangrovePropaguleBlock;
@@ -32,6 +33,16 @@ public class ModPropaguleBlock extends MangrovePropaguleBlock implements Fallabl
 
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean notify) {
         level.scheduleTick(pos, this, this.getFallDelay());
+    }
+
+    @Override
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        return state.getValue(HANGING) ? (level.getBlockState(pos.above()).is(Blocks.MANGROVE_LEAVES)
+            || this.mayPlaceOn(level.getBlockState(pos.below()), level, pos)) : super.canSurvive(state, level, pos);
+    }
+
+    public void onLand(Level level, BlockPos pos, BlockState state, BlockState replaceableState, FallingBlockEntity fallingBlock) {
+        level.setBlockAndUpdate(pos, state.setValue(HANGING, false));
     }
 
     @Override
