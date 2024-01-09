@@ -38,15 +38,4 @@ public class IWPlatformStuff {
     public static void addExtraCrackedBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
         throw new AssertionError();
     }
-
-
-    @ExpectPlatform
-    public static void copyColorFrom(ClientHelper.BlockColorEvent event, Block block, Block colorFrom, BlockColor fallbackColor) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static void copyColorFrom(ClientHelper.ItemColorEvent event, ItemLike item, ItemLike colorFrom, ItemColor fallbackColor) {
-        throw new AssertionError();
-    }
 }

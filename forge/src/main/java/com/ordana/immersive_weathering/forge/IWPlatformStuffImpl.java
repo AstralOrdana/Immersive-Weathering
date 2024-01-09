@@ -20,9 +20,6 @@ import java.util.IdentityHashMap;
 
 public class IWPlatformStuffImpl {
 
-    public static final IdentityHashMap<Block, Block> COPY_BLOCK_COLORS = new IdentityHashMap<>();
-    public static final IdentityHashMap<Item, Item> COPY_ITEM_COLORS = new IdentityHashMap<>();
-
     public static void addExtraMossyBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
         if (IntegrationHandler.quark) {
            // QuarkPlugin.addAllVerticalSlabs(builder);
@@ -43,12 +40,5 @@ public class IWPlatformStuffImpl {
     public static void addFeatureToBiome(GenerationStep.Decoration step, TagKey<Biome> tagKey, ResourceKey<PlacedFeature> feature) {
     }
 
-    public static void copyColorFrom(ClientHelper.BlockColorEvent event, Block block, Block colorFrom, BlockColor fallbackColor) {
-        COPY_BLOCK_COLORS.put(block, colorFrom);
-    }
-
-    public static void copyColorFrom(ClientHelper.ItemColorEvent event, ItemLike block, ItemLike colorFrom, ItemColor fallbackColor) {
-        COPY_ITEM_COLORS.put(block.asItem(), colorFrom.asItem());
-    }
 
 }

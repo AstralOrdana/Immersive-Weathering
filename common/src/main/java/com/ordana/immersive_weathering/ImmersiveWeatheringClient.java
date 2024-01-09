@@ -12,8 +12,9 @@ import com.ordana.immersive_weathering.reg.ModParticles;
 import net.mehvahdjukaar.moonlight.api.client.renderer.FallingBlockRendererGeneric;
 import net.mehvahdjukaar.moonlight.api.misc.EventCalled;
 import net.mehvahdjukaar.moonlight.api.platform.ClientHelper;
+import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
+import net.mehvahdjukaar.moonlight.api.util.math.colors.RGBColor;
 import net.minecraft.client.color.block.BlockColor;
-import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.GlowParticle;
 import net.minecraft.client.particle.Particle;
@@ -21,11 +22,14 @@ import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.FoliageColor;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class ImmersiveWeatheringClient {
 
@@ -167,61 +171,48 @@ public class ImmersiveWeatheringClient {
 
     @EventCalled
     private static void registerBlockColors(ClientHelper.BlockColorEvent event) {
-        final BlockColor defaultGrassColor = (state, world, pos, tintIndex) ->
-            world != null &&
-            pos != null ?
-            tintIndex != 1 ? -1 :
-            BiomeColors.getAverageGrassColor(world, pos) :
-            GrassColor.get(0D, 0D);
-
-        final BlockColor defaultFoliageColor = (state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageFoliageColor(world, pos) : FoliageColor.getDefaultColor();
 
         ModBlocks.LEAF_PILES.forEach((type, leafPile) -> {
-            var leaf = type.leaves;
-            if (leaf == Blocks.BIRCH_LEAVES) {
-                IWPlatformStuff.copyColorFrom(event, leafPile, leaf, (state, world, pos, tintIndex) -> FoliageColor.getBirchColor());
-
-            } else if (leaf == Blocks.SPRUCE_LEAVES) {
-                IWPlatformStuff.copyColorFrom(event, leafPile, leaf, (state, world, pos, tintIndex) -> FoliageColor.getEvergreenColor());
-
-            } else if (leaf != Blocks.AZALEA_LEAVES && leaf != Blocks.FLOWERING_AZALEA_LEAVES && leaf != Blocks.CHERRY_LEAVES) {
-                IWPlatformStuff.copyColorFrom(event, leafPile, leaf, defaultFoliageColor);
-            }
+            event.register((blockState, blockAndTintGetter, blockPos, i) -> {
+                return getLeafTypeColor(event, type, blockState, blockAndTintGetter, blockPos, i);
+            });
         });
 
-        event.register(defaultGrassColor, ModBlocks.GRASSY_LOAM.get());
-        event.register(defaultGrassColor, ModBlocks.GRASSY_PERMAFROST.get());
-        event.register(defaultGrassColor, ModBlocks.GRASSY_SILT.get());
-        event.register(defaultGrassColor, ModBlocks.GRASSY_EARTHEN_CLAY.get());
-        event.register(defaultGrassColor, ModBlocks.GRASSY_SANDY_DIRT.get());
-        event.register(defaultGrassColor, ModBlocks.ROOTED_GRASS_BLOCK.get());
+        event.register((blockState, level, blockPos, i) -> event.getColor(Blocks.GRASS_BLOCK.defaultBlockState(),
+                        level, blockPos, i),
 
-        event.register(defaultGrassColor, ModBlocks.FROSTY_GRASS.get());
-        event.register(defaultGrassColor, ModBlocks.FROSTY_FERN.get());
+                ModBlocks.GRASSY_LOAM.get(),
+                ModBlocks.GRASSY_PERMAFROST.get(),
+                ModBlocks.GRASSY_SILT.get(),
+                ModBlocks.GRASSY_EARTHEN_CLAY.get(),
+                ModBlocks.GRASSY_SANDY_DIRT.get(),
+                ModBlocks.ROOTED_GRASS_BLOCK.get(),
+                ModBlocks.FROSTY_GRASS.get(),
+                ModBlocks.FROSTY_FERN.get());
+    }
+
+    private static int getLeafTypeColor(ClientHelper.BlockColorEvent event, LeavesType type, BlockState state, BlockAndTintGetter level, BlockPos pos, int i) {
+        int original = event.getColor(type.leaves.defaultBlockState(), level, pos, i);
+
+        //interpolate between color and brown
+        float percentage = 0.4f;// state.getValue(AGE) / MAX_AGE;
+        int brown = 0;
+        return new RGBColor(original).asLAB().mixWith(new RGBColor(brown).asLAB(), percentage).asRGB().toInt();
     }
 
 
     private static void registerItemColors(ClientHelper.ItemColorEvent event) {
-        final ItemColor defaultGrassColor = (stack, tintIndex) -> GrassColor.get(0.5D, 0.5D);
-        //todo: REPLACE ALL OF THESE LIKE THIS
-        IWPlatformStuff.copyColorFrom(event, ModBlocks.ROOTED_GRASS_BLOCK.get(), Blocks.GRASS_BLOCK, defaultGrassColor);
-        IWPlatformStuff.copyColorFrom(event, ModBlocks.GRASSY_SILT.get(), Blocks.GRASS_BLOCK, defaultGrassColor);
-        IWPlatformStuff.copyColorFrom(event, ModBlocks.GRASSY_PERMAFROST.get(), Blocks.GRASS_BLOCK, defaultGrassColor);
-        IWPlatformStuff.copyColorFrom(event, ModBlocks.GRASSY_SANDY_DIRT.get(), Blocks.GRASS_BLOCK, defaultGrassColor);
-        IWPlatformStuff.copyColorFrom(event, ModBlocks.GRASSY_LOAM.get(), Blocks.GRASS_BLOCK, defaultGrassColor);
-        IWPlatformStuff.copyColorFrom(event, ModBlocks.GRASSY_EARTHEN_CLAY.get(), Blocks.GRASS_BLOCK, defaultGrassColor);
 
-        final ItemColor defaultFoliageColor = (stack, tintIndex) -> FoliageColor.getDefaultColor();
+        event.register((itemStack, i) -> event.getColor(Items.GRASS_BLOCK.getDefaultInstance(), i),
+                ModBlocks.ROOTED_GRASS_BLOCK.get(),
+                ModBlocks.GRASSY_SILT.get(),
+                ModBlocks.GRASSY_PERMAFROST.get(),
+                ModBlocks.GRASSY_SANDY_DIRT.get(),
+                ModBlocks.GRASSY_LOAM.get(),
+                ModBlocks.GRASSY_EARTHEN_CLAY.get());
 
         ModItems.LEAF_PILES.forEach((type, leafPile) -> {
-            var leaf = type.leaves;
-            if (leaf == Blocks.BIRCH_LEAVES) {
-                IWPlatformStuff.copyColorFrom(event, leafPile, leaf, (s, i) -> FoliageColor.getBirchColor());
-            } else if (leaf == Blocks.SPRUCE_LEAVES) {
-                IWPlatformStuff.copyColorFrom(event, leafPile, leaf, (s, tintIndex) -> FoliageColor.getEvergreenColor());
-            } else {
-                IWPlatformStuff.copyColorFrom(event, leafPile, leaf, defaultFoliageColor);
-            }
+            event.register((itemStack, i) -> event.getColor(type.leaves.asItem().getDefaultInstance(), i));
         });
 
     }
