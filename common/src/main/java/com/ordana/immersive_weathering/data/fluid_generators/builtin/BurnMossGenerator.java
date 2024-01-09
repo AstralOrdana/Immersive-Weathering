@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.data.fluid_generators.builtin;
 
 import com.mojang.serialization.Codec;
-import com.ordana.immersive_weathering.blocks.mossable.Mossable;
+import com.ordana.immersive_weathering.blocks.mossy.Mossable;
 import com.ordana.immersive_weathering.data.fluid_generators.IFluidGenerator;
 import com.ordana.immersive_weathering.util.Weatherable;
 import net.minecraft.core.BlockPos;

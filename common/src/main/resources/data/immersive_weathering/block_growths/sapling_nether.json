@@ -1,0 +1,31 @@
+{
+  "growth_chance": 0.005,
+  "position_predicates": [
+    {
+      "biomes":"#minecraft:is_nether",
+      "type": "biome_match"
+    }
+  ],
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:dead_bush"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": "#minecraft:saplings",
+  "target_self": true,
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:block_match"
+  }
+}

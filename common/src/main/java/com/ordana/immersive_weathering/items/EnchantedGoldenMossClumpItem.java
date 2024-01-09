@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.items;
 
-import com.ordana.immersive_weathering.blocks.mossable.Mossable;
+import com.ordana.immersive_weathering.blocks.mossy.Mossable;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;

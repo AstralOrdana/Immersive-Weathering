@@ -1,0 +1,36 @@
+{
+  "tick_sources": ["snow"],
+  "growth_chance": 0.08,
+  "target_self": true,
+  "area_condition": {
+    "must_have": {
+      "block": "minecraft:air",
+      "predicate_type": "minecraft:block_match"
+    },
+    "type": "neighbor_based_generation"
+  },
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "immersive_weathering:frosty_fern",
+              "Properties": {
+                "natural": "true"
+              }
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": "minecraft:fern",
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:block_match"
+  }
+}

@@ -1,6 +1,0 @@
-{
-    "parent": "immersive_weathering:block/vertical_slab",
-    "textures": {
-        "all": "minecraft:block/waxed_exposed_cut_iron"
-    }
-}

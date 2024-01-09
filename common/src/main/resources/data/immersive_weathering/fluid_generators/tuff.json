@@ -1,22 +1,18 @@
 {
   "type": "target_self",
   "fluid": "minecraft:lava",
-  "priority": 1,
   "generate": {
-    "Name": "minecraft:tuff"
+    "Name": "minecraft:magma_block"
   },
   "adjacent_blocks": {
-    "any": [
-      {
-        "tag": "immersive_weathering:ash",
-        "predicate_type": "minecraft:tag_match"
+    "down": {
+      "block_state": {
+        "Name": "minecraft:bubble_column",
+        "Properties": {
+          "drag": "true"
+        }
       },
-      {
-        "block_state": {
-          "Name": "minecraft:blue_ice"
-        },
-        "predicate_type": "minecraft:blockstate_match"
-      }
-    ]
+      "predicate_type": "minecraft:blockstate_match"
+    }
   }
 }

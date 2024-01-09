@@ -1,0 +1,91 @@
+{
+  "area_condition": {
+    "must_have": {
+      "blocks": "#immersive_weathering:grass_spread_source",
+      "predicate_type": "immersive_weathering:block_set_match"
+    },
+    "radiusX": 2,
+    "radiusY": 2,
+    "radiusZ": 2,
+    "requiredAmount": 6,
+    "type": "generate_if_not_too_many",
+    "includes": "#immersive_weathering:small_plants"
+  },
+  "position_predicates": [
+    {
+      "biomes": [
+        "minecraft:cherry_grove"
+      ],
+     "type": "biome_match"
+    }
+  ],
+  "growth_chance": 0.001,
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:pink_petals",
+              "Properties": {
+                "facing": "west"
+              }
+            }
+          },
+          "weight": 5
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:pink_petals",
+              "Properties": {
+                "facing": "east"
+              }
+            }
+          },
+          "weight": 5
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:pink_petals",
+              "Properties": {
+                "facing": "north"
+              }
+            }
+          },
+          "weight": 5
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:pink_petals",
+              "Properties": {
+                "facing": "south"
+              }
+            }
+          },
+          "weight": 5
+        },
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:grass",
+              "Properties": {
+                "facing": "west"
+              }
+            }
+          },
+          "weight": 50
+        }
+      ]
+    }
+  ],
+  "owners": "#immersive_weathering:grassy_blocks",
+  "replacing_target": {
+    "block": "minecraft:air",
+    "predicate_type": "minecraft:random_block_match",
+    "probability": 0.8
+  }
+}

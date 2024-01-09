@@ -3,13 +3,13 @@ package com.ordana.immersive_weathering.reg;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.blocks.*;
 import com.ordana.immersive_weathering.blocks.charred.*;
-import com.ordana.immersive_weathering.blocks.crackable.*;
-import com.ordana.immersive_weathering.blocks.frostable.FrostBlock;
-import com.ordana.immersive_weathering.blocks.frostable.FrostyGlassBlock;
-import com.ordana.immersive_weathering.blocks.frostable.FrostyGlassPaneBlock;
-import com.ordana.immersive_weathering.blocks.frostable.FrostyGrassBlock;
-import com.ordana.immersive_weathering.blocks.mossable.*;
-import com.ordana.immersive_weathering.blocks.rustable.*;
+import com.ordana.immersive_weathering.blocks.cracked.*;
+import com.ordana.immersive_weathering.blocks.frosted.FrostBlock;
+import com.ordana.immersive_weathering.blocks.frosted.FrostyGlassBlock;
+import com.ordana.immersive_weathering.blocks.frosted.FrostyGlassPaneBlock;
+import com.ordana.immersive_weathering.blocks.frosted.FrostyGrassBlock;
+import com.ordana.immersive_weathering.blocks.mossy.*;
+import com.ordana.immersive_weathering.blocks.rusty.*;
 import com.ordana.immersive_weathering.blocks.sandy.SandyBlock;
 import com.ordana.immersive_weathering.blocks.sandy.SandySlabBlock;
 import com.ordana.immersive_weathering.blocks.sandy.SandyStairsBlock;
@@ -18,10 +18,11 @@ import com.ordana.immersive_weathering.blocks.snowy.SnowyBlock;
 import com.ordana.immersive_weathering.blocks.snowy.SnowySlabBlock;
 import com.ordana.immersive_weathering.blocks.snowy.SnowyStairsBlock;
 import com.ordana.immersive_weathering.blocks.snowy.SnowyWallBlock;
-import com.ordana.immersive_weathering.blocks.soil.*;
+import com.ordana.immersive_weathering.blocks.soil_types.*;
 import com.ordana.immersive_weathering.integrations.IntegrationHandler;
 import com.ordana.immersive_weathering.integrations.QuarkPlugin;
 import net.mehvahdjukaar.moonlight.api.block.ModStairBlock;
+import net.mehvahdjukaar.moonlight.api.item.FuelBlockItem;
 import net.mehvahdjukaar.moonlight.api.misc.Registrator;
 import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
@@ -70,6 +71,12 @@ public class ModBlocks {
         return block;
     }
 
+    public static <T extends Block> Supplier<T> regWithBurnableItem(String name, Supplier<T> blockFactory, Supplier<Integer> time) {
+        Supplier<T> block = regBlock(name, blockFactory);
+        regBurnableBlockItem(name, block, new Item.Properties(), time);
+        return block;
+    }
+
     private static boolean isCompatBlockEanbled(String requiredMod) {
         if(Objects.equals(requiredMod, "quark")) {
             if (PlatHelper.getPlatform().isFabric()) {
@@ -84,6 +91,10 @@ public class ModBlocks {
 
     public static Supplier<BlockItem> regBlockItem(String name, Supplier<? extends Block> blockSup, Item.Properties properties) {
         return RegHelper.registerItem(ImmersiveWeathering.res(name), () -> new BlockItem(blockSup.get(), properties));
+    }
+
+    public static Supplier<BlockItem> regBurnableBlockItem(String name, Supplier<? extends Block> blockSup, Item.Properties properties, Supplier<Integer> time) {
+        return RegHelper.registerItem(ImmersiveWeathering.res(name), () -> new FuelBlockItem(blockSup.get(), properties, time));
     }
 
     //predicates
@@ -420,20 +431,21 @@ public class ModBlocks {
     //charred blocks
     public static final Supplier<Block> SOOT = regWithItem("soot", () ->
         new SootBlock(Properties.copy(Blocks.SCULK_VEIN).noCollission().instabreak().sound(SoundType.SNOW).randomTicks()));
-    public static final Supplier<Block> CHARRED_LOG = regWithItem("charred_log", () ->
+
+    public static final Supplier<Block> CHARRED_LOG = regWithBurnableItem("charred_log", () ->
         new CharredPillarBlock(Properties.copy(Blocks.BASALT)
             .strength(1.5f, 0.5f).sound(SoundType.BASALT)
-            .lightLevel(litLightLevel(5)).randomTicks()));
-    public static final Supplier<Block> CHARRED_PLANKS = regWithItem("charred_planks", () ->
-        new CharredBlock(Properties.copy(CHARRED_LOG.get())));
-    public static final Supplier<Block> CHARRED_SLAB = regWithItem("charred_slab", () ->
-        new CharredSlabBlock(Properties.copy(CHARRED_LOG.get())));
-    public static final Supplier<Block> CHARRED_STAIRS = regWithItem("charred_stairs", () ->
-        new CharredStairsBlock(CHARRED_PLANKS, Properties.copy(CHARRED_LOG.get())));
-    public static final Supplier<Block> CHARRED_FENCE = regWithItem("charred_fence", () ->
-        new CharredFenceBlock(Properties.copy(CHARRED_LOG.get())));
-    public static final Supplier<Block> CHARRED_FENCE_GATE = regWithItem("charred_fence_gate", () ->
-        new CharredFenceGateBlock(Properties.copy(CHARRED_LOG.get()), WoodType.OAK));
+            .lightLevel(litLightLevel(5)).randomTicks()), () -> 1600);
+    public static final Supplier<Block> CHARRED_PLANKS = regWithBurnableItem("charred_planks", () ->
+        new CharredBlock(Properties.copy(CHARRED_LOG.get())), () -> 400);
+    public static final Supplier<Block> CHARRED_SLAB = regWithBurnableItem("charred_slab", () ->
+        new CharredSlabBlock(Properties.copy(CHARRED_LOG.get())), () -> 200);
+    public static final Supplier<Block> CHARRED_STAIRS = regWithBurnableItem("charred_stairs", () ->
+        new CharredStairsBlock(CHARRED_PLANKS, Properties.copy(CHARRED_LOG.get())), () -> 200);
+    public static final Supplier<Block> CHARRED_FENCE = regWithBurnableItem("charred_fence", () ->
+        new CharredFenceBlock(Properties.copy(CHARRED_LOG.get())), () -> 200);
+    public static final Supplier<Block> CHARRED_FENCE_GATE = regWithBurnableItem("charred_fence_gate", () ->
+        new CharredFenceGateBlock(Properties.copy(CHARRED_LOG.get()), WoodType.OAK), () -> 200);
 
 
     //cut iron

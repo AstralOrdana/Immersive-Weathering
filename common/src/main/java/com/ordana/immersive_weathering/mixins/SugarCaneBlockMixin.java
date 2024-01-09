@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.mixins;
 
-import com.ordana.immersive_weathering.blocks.soil.EarthenClayFarmlandBlock;
+import com.ordana.immersive_weathering.blocks.soil_types.EarthenClayFarmlandBlock;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;

@@ -1,0 +1,28 @@
+{
+  "tick_sources": [
+    "lightning_strike"
+  ],
+  "target_self": true,
+  "growth_chance": 1,
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "weight": 1,
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:crying_obsidian"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": "minecraft:obsidian",
+  "replacing_target": {
+    "block": "minecraft:obsidian",
+    "predicate_type": "minecraft:block_match"
+  }
+}

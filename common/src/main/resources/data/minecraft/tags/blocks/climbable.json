@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "minecraft:hanging_roots",
+    "immersive_weathering:hanging_roots_wall",
     "immersive_weathering:ivy"
   ]
 }

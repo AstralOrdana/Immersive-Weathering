@@ -8,6 +8,7 @@
     "minecraft:dark_oak_log",
     "minecraft:acacia_log",
     "minecraft:mangrove_log",
+    "minecraft:cherry_log",
     "minecraft:warped_stem",
     "minecraft:crimson_stem",
     "minecraft:oak_wood",
@@ -17,6 +18,7 @@
     "minecraft:dark_oak_wood",
     "minecraft:acacia_wood",
     "minecraft:mangrove_wood",
+    "minecraft:cherry_wood",
     "minecraft:warped_hyphae",
     "minecraft:crimson_hyphae"
   ]

@@ -12,7 +12,7 @@
   "advancements.immersive_weathering.mulch.title": "Mulch Better",
   "advancements.immersive_weathering.mulch.description": "Craft some Mulch, it stays hydrated, weeds cant grow on it and crops grow fast!",
   "advancements.immersive_weathering.flower_crown.title": "Flower Power",
-  "advancements.immersive_weathering.flower_crown.description": "Put on a Flower Crown, the bees think you look cute in it",
+  "advancements.immersive_weathering.flower_crown.description": "Put on a Flower Crown, the bees think it looks cute on you",
   "advancements.immersive_weathering.eat_azalea_flower.title": "Flower Devour",
   "advancements.immersive_weathering.eat_azalea_flower.description": "Eat some Azalea Flowers, you know you want to",
   "advancements.immersive_weathering.fulgurite.title": "Shocking Discovery",
@@ -257,8 +257,6 @@
   "block.immersive_weathering.permafrost": "Permafrost",
   "block.immersive_weathering.grassy_permafrost": "Grassy Permafrost",
 
-
-
   "block.immersive_weathering.mulch_block": "Mulch",
   "block.immersive_weathering.nulch_block": "Nulch",
 
@@ -271,14 +269,6 @@
   "block.immersive_weathering.charred_stairs": "Charred Stairs",
   "block.immersive_weathering.charred_fence": "Charred Fence",
   "block.immersive_weathering.charred_fence_gate": "Charred Fence Gate",
-
-  "block.immersive_weathering.rotten_log": "Rotten Log",
-  "block.immersive_weathering.rotten_planks": "Rotten Planks",
-  "block.immersive_weathering.rotten_slab": "Rotten Slab",
-  "block.immersive_weathering.rotten_vertical_slab": "Rotten Vertical Slab",
-  "block.immersive_weathering.rotten_stairs": "Rotten Stairs",
-  "block.immersive_weathering.rotten_fence": "Rotten Fence",
-  "block.immersive_weathering.rotten_fence_gate": "Rotten Fence Gate",
 
   "block.immersive_weathering.mossy_bricks": "Mossy Bricks",
   "block.immersive_weathering.mossy_brick_stairs": "Mossy Brick Stairs",
@@ -293,12 +283,6 @@
   "block.immersive_weathering.mossy_stone_vertical_slab": "Mossy Stone Vertical Slab",
   "block.immersive_weathering.mossy_stone_wall": "Mossy Stone Wall",
   "block.immersive_weathering.stone_wall": "Stone Wall",
-
-
-  "block.immersive_weathering.snow_bricks": "Snow Bricks",
-  "block.immersive_weathering.snow_brick_stairs": "Snow Brick Stairs",
-  "block.immersive_weathering.snow_brick_slab": "Snow Brick Slab",
-  "block.immersive_weathering.snow_brick_wall": "Snow Brick Wall",
 
   "block.immersive_weathering.snowy_stone": "Snowy Stone",
   "block.immersive_weathering.snowy_stone_stairs": "Snowy Stone Stairs",
@@ -402,11 +386,6 @@
   "block.immersive_weathering.weathered_cut_iron_slab": "Weathered Cut Iron Slab",
   "block.immersive_weathering.rusted_cut_iron_slab": "Rusted Cut Iron Slab",
 
-  "block.immersive_weathering.cut_iron_vertical_slab": "Cut Iron Vertical Slab",
-  "block.immersive_weathering.exposed_cut_iron_vertical_slab": "Exposed Cut Iron Vertical Slab",
-  "block.immersive_weathering.weathered_cut_iron_vertical_slab": "Weathered Cut Iron Vertical Slab",
-  "block.immersive_weathering.rusted_cut_iron_vertical_slab": "Rusted Cut Iron Vertical Slab",
-
   "block.immersive_weathering.waxed_cut_iron": "Waxed Cut Iron",
   "block.immersive_weathering.waxed_exposed_cut_iron": "Waxed Exposed Cut Iron",
   "block.immersive_weathering.waxed_weathered_cut_iron": "Waxed Weathered Cut Iron",
@@ -421,11 +400,6 @@
   "block.immersive_weathering.waxed_exposed_cut_iron_slab": "Waxed Exposed Cut Iron Slab",
   "block.immersive_weathering.waxed_weathered_cut_iron_slab": "Waxed Weathered Cut Iron Slab",
   "block.immersive_weathering.waxed_rusted_cut_iron_slab": "Waxed Rusted Cut Iron Slab",
-
-  "block.immersive_weathering.waxed_cut_iron_vertical_slab": "Waxed Cut Iron Vertical Slab",
-  "block.immersive_weathering.waxed_exposed_cut_iron_vertical_slab": "Waxed Exposed Cut Iron Vertical Slab",
-  "block.immersive_weathering.waxed_weathered_cut_iron_vertical_slab": "Waxed Weathered Cut Iron Vertical Slab",
-  "block.immersive_weathering.waxed_rusted_cut_iron_vertical_slab": "Waxed Rusted Cut Iron Vertical Slab",
 
   "block.immersive_weathering.plate_iron": "Plate Iron",
   "block.immersive_weathering.exposed_plate_iron": "Exposed Plate Iron",
@@ -442,11 +416,6 @@
   "block.immersive_weathering.weathered_plate_iron_slab": "Weathered Plate Iron Slab",
   "block.immersive_weathering.rusted_plate_iron_slab": "Rusted Plate Iron Slab",
 
-  "block.immersive_weathering.plate_iron_vertical_slab": "Plate Iron Vertical Slab",
-  "block.immersive_weathering.exposed_plate_iron_vertical_slab": "Exposed Plate Iron Vertical Slab",
-  "block.immersive_weathering.weathered_plate_iron_vertical_slab": "Weathered Plate Iron Vertical Slab",
-  "block.immersive_weathering.rusted_plate_iron_vertical_slab": "Rusted Plate Iron Vertical Slab",
-
   "block.immersive_weathering.waxed_plate_iron": "Waxed Plate Iron",
   "block.immersive_weathering.waxed_exposed_plate_iron": "Waxed Exposed Plate Iron",
   "block.immersive_weathering.waxed_weathered_plate_iron": "Waxed Weathered Plate Iron",
@@ -461,11 +430,6 @@
   "block.immersive_weathering.waxed_exposed_plate_iron_slab": "Waxed Exposed Plate Iron Slab",
   "block.immersive_weathering.waxed_weathered_plate_iron_slab": "Waxed Weathered Plate Iron Slab",
   "block.immersive_weathering.waxed_rusted_plate_iron_slab": "Waxed Rusted Plate Iron Slab",
-
-  "block.immersive_weathering.waxed_plate_iron_vertical_slab": "Waxed Plate Iron Vertical Slab",
-  "block.immersive_weathering.waxed_exposed_plate_iron_vertical_slab": "Waxed Exposed Plate Iron Vertical Slab",
-  "block.immersive_weathering.waxed_weathered_plate_iron_vertical_slab": "Waxed Weathered Plate Iron Vertical Slab",
-  "block.immersive_weathering.waxed_rusted_plate_iron_vertical_slab": "Waxed Rusted Plate Iron Vertical Slab",
 
   "block.immersive_weathering.exposed_iron_door": "Exposed Iron Door",
   "block.immersive_weathering.weathered_iron_door": "Weathered Iron Door",
@@ -495,9 +459,7 @@
   "block.immersive_weathering.waxed_rusted_iron_bars": "Waxed Rusted Iron Bars",
 
   "item.immersive_weathering.bark": "%s Bark",
-  "particle.immersive_weathering.leaf_pile": "%s Leaf Pile",
   "block.immersive_weathering.leaf_pile": "%s Leaf Pile",
 
-  "sound.immersive_weathering.yummy": "poidobioq eats an apple sticker",
   "sound.immersive_weathering.ice.crack": "Thin Ice cracks"
 }

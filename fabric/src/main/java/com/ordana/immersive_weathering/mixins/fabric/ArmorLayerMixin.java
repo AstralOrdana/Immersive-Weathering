@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.ordana.immersive_weathering.items.FlowerCrownItem;
 import com.ordana.immersive_weathering.reg.ModItems;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -37,8 +36,8 @@ public abstract class ArmorLayerMixin <T extends LivingEntity, M extends Humanoi
     }
 
     @Inject(method = "renderArmorPiece", at =@At(value = "INVOKE_ASSIGN",
-            target = "Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;usesInnerModel(Lnet/minecraft/world/entity/EquipmentSlot;)Z",
-            shift = At.Shift.AFTER), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
+        target = "Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;usesInnerModel(Lnet/minecraft/world/entity/EquipmentSlot;)Z",
+        shift = At.Shift.AFTER), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
     public void renderFlowerCrown(PoseStack poseStack, MultiBufferSource buffer, T livingEntity, EquipmentSlot slot, int packedLight, A model, CallbackInfo ci,
                                   ItemStack itemStack, ArmorItem armorItem, boolean bl) {
         if(armorItem == ModItems.FLOWER_CROWN.get()){
@@ -54,7 +53,7 @@ public abstract class ArmorLayerMixin <T extends LivingEntity, M extends Humanoi
                 }
 
                 VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(buffer, RenderType.armorCutoutNoCull(
-                        resourcelocation), false, bl);
+                    resourcelocation), false, bl);
                 model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
 
 

@@ -1,25 +1,33 @@
 package com.ordana.immersive_weathering.integrations;
 
 import com.google.common.collect.BiMap;
-import com.ordana.immersive_weathering.blocks.crackable.Crackable;
-import com.ordana.immersive_weathering.blocks.frostable.Frosty;
-import com.ordana.immersive_weathering.blocks.mossable.Mossable;
-import com.ordana.immersive_weathering.blocks.rustable.Rustable;
+import com.ordana.immersive_weathering.blocks.cracked.Crackable;
+import com.ordana.immersive_weathering.blocks.frosted.Frosty;
+import com.ordana.immersive_weathering.blocks.mossy.Mossable;
+import com.ordana.immersive_weathering.blocks.rusty.Rustable;
 import com.ordana.immersive_weathering.blocks.sandy.Sandy;
 import com.ordana.immersive_weathering.blocks.snowy.Snowy;
 import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModItems;
+import com.ordana.immersive_weathering.util.WeatheringHelper;
 import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiWorldInteractionRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesTypeRegistry;
+import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
+import net.mehvahdjukaar.moonlight.api.set.wood.WoodTypeRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+
+import java.util.Map;
 
 @EmiEntrypoint
 public class EmiIntegration implements EmiPlugin {
@@ -27,12 +35,35 @@ public class EmiIntegration implements EmiPlugin {
     @Override
     public void register(EmiRegistry registry) {
 
-        EmiIngredient pickaxe = EmiStack.of(Items.IRON_PICKAXE);
-        EmiIngredient shovel = EmiStack.of(Items.IRON_SHOVEL);
-        EmiIngredient hoes = EmiStack.of(Items.IRON_HOE);
-        EmiIngredient flint_n_steel = EmiStack.of(Items.FLINT_AND_STEEL);
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/oak_log"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/birch_log"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/spruce_log"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/jungle_log"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/dark_oak_log"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/acacia_log"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/mangrove_log"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/cherry_log"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/bamboo_block"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/warped_stem"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/crimson_stem"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/oak_wood"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/birch_wood"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/spruce_wood"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/jungle_wood"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/dark_oak_wood"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/acacia_wood"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/mangrove_wood"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/cherry_wood"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/warped_hyphae"));
+        registry.removeRecipes(new ResourceLocation("emi", "/world/stripping/minecraft/crimson_hyphae"));
+
+        EmiIngredient pickaxe = EmiIngredient.of(ItemTags.PICKAXES);
+        EmiIngredient axe = EmiIngredient.of(ItemTags.AXES);
+        EmiIngredient shovel = EmiIngredient.of(ItemTags.SHOVELS);
+        EmiIngredient hoes = EmiIngredient.of(ItemTags.HOES);
         EmiIngredient shears = EmiStack.of(Items.SHEARS);
         EmiIngredient azalea = EmiStack.of(ModItems.AZALEA_FLOWERS.get());
+        EmiIngredient flint_n_steel = EmiStack.of(Items.FLINT_AND_STEEL);
 
         registry.addRecipe(EmiWorldInteractionRecipe.builder()
                 .id(new ResourceLocation("immersive_weathering", "/rooted_grass_uprooting"))
@@ -49,35 +80,26 @@ public class EmiIntegration implements EmiPlugin {
                 .output(EmiStack.of(ModBlocks.SOOT.get()))
                 .build());
 
-        registry.addRecipe(EmiWorldInteractionRecipe.builder()
-                .id(new ResourceLocation("immersive_weathering", "/azalea_leaves_flowering"))
-                .leftInput(EmiStack.of(Blocks.AZALEA_LEAVES))
+
+        BiMap<Block, Block> flowering = WeatheringHelper.FLOWERY_BLOCKS.get();
+        for (Block key : flowering.keySet()) {
+            registry.addRecipe(EmiWorldInteractionRecipe.builder()
+                .id(new ResourceLocation("immersive_weathering", key.getDescriptionId()))
+                .leftInput(EmiStack.of(flowering.get(key)))
                 .rightInput(azalea, false)
-                .output(EmiStack.of(Blocks.FLOWERING_AZALEA_LEAVES))
+                .output(EmiStack.of(key))
                 .build());
+        }
 
-        registry.addRecipe(EmiWorldInteractionRecipe.builder()
-                .id(new ResourceLocation("immersive_weathering", "/azalea_bush_flowering"))
-                .leftInput(EmiStack.of(Blocks.AZALEA))
-                .rightInput(azalea, false)
-                .output(EmiStack.of(Blocks.FLOWERING_AZALEA))
-                .build());
-
-        registry.addRecipe(EmiWorldInteractionRecipe.builder()
-                .id(new ResourceLocation("immersive_weathering", "/azalea_leaves_shearing"))
-                .leftInput(EmiStack.of(Blocks.FLOWERING_AZALEA_LEAVES))
+        BiMap<Block, Block> unflowering = WeatheringHelper.FLOWERY_BLOCKS.get().inverse();
+        for (Block key : unflowering.keySet()) {
+            registry.addRecipe(EmiWorldInteractionRecipe.builder()
+                .id(new ResourceLocation("immersive_weathering", key.getDescriptionId()))
+                .leftInput(EmiStack.of(unflowering.get(key)))
                 .rightInput(shears, true)
-                .output(EmiStack.of(Blocks.AZALEA_LEAVES))
-                .output(EmiStack.of(ModItems.AZALEA_FLOWERS.get()))
+                .output(EmiStack.of(key))
                 .build());
-
-        registry.addRecipe(EmiWorldInteractionRecipe.builder()
-                .id(new ResourceLocation("immersive_weathering", "/azalea_bush_shearing"))
-                .leftInput(EmiStack.of(Blocks.FLOWERING_AZALEA))
-                .rightInput(shears, true)
-                .output(EmiStack.of(Blocks.AZALEA))
-                .output(EmiStack.of(ModItems.AZALEA_FLOWERS.get()))
-                .build());
+        }
 
         BiMap<Block, Block> frost = Frosty.UNFROSTY_TO_FROSTY.get();
         for (Block key : frost.keySet()) {
@@ -105,6 +127,17 @@ public class EmiIntegration implements EmiPlugin {
                 .build());
         }
 
+        Map<TagKey<Block>, Block> charred = WeatheringHelper.WOOD_TO_CHARRED.get();
+        for (TagKey<Block> key : charred.keySet()) {
+            EmiIngredient unburnt_block = EmiIngredient.of(key);
+            EmiStack charred_block = EmiStack.of(charred.get(key));
+            registry.addRecipe(EmiWorldInteractionRecipe.builder()
+                .id(new ResourceLocation("immersive_weathering", "/block_charring/" + key.location().getNamespace() + "/" + key.location().getPath()))
+                .leftInput(unburnt_block)
+                .rightInput(EmiStack.of(ModItems.FIRE.get()), true)
+                .output(charred_block)
+                .build());
+        }
 
         BiMap<Block, Block> cracks = Crackable.CRACK_LEVEL_INCREASES.get();
         for (Block key : cracks.keySet()) {
@@ -121,14 +154,19 @@ public class EmiIntegration implements EmiPlugin {
                         .output(brick)
                         .build());
             }
+        }
+        for (Block key : cracks.keySet()) {
+            ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
+            EmiStack input = EmiStack.of(key);
+            EmiStack output = EmiStack.of(cracks.get(key));
             if (key instanceof Crackable cracked) {
                 EmiStack brick = EmiStack.of(cracked.getRepairItem(key.defaultBlockState()));
                 registry.addRecipe(EmiWorldInteractionRecipe.builder()
-                        .id(new ResourceLocation("immersive_weathering", "/brick_repair/" + blockId.getNamespace() + "/" + blockId.getPath()))
-                        .leftInput(output)
-                        .rightInput(brick, false)
-                        .output(input)
-                        .build());
+                    .id(new ResourceLocation("immersive_weathering", "/brick_repair/" + blockId.getNamespace() + "/" + blockId.getPath()))
+                    .leftInput(output)
+                    .rightInput(brick, false)
+                    .output(input)
+                    .build());
             }
         }
 
@@ -215,6 +253,30 @@ public class EmiIntegration implements EmiPlugin {
                     .rightInput(EmiStack.of(Items.WET_SPONGE), true)
                     .output(output)
                     .build());
+        }
+
+        //todo wood block recipes arent populating
+        BiMap<Block, Block> log = WeatheringHelper.RAW_TO_STRIPPED.get();
+        for (Block key : log.keySet()) {
+            ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
+            EmiStack raw_log = EmiStack.of(key);
+            EmiStack stripped_log = EmiStack.of(log.get(key));
+            EmiStack bark = EmiStack.of(WeatheringHelper.getBarkToStrip(key.defaultBlockState()));
+            if (bark == null) bark = EmiStack.of(WeatheringHelper.getBarkForStrippedLog(log.get(key).defaultBlockState()).get().getFirst());
+            registry.addRecipe(EmiWorldInteractionRecipe.builder()
+                .id(new ResourceLocation("immersive_weathering", "/block_stripping/" + blockId.getNamespace() + "/" + blockId.getPath()))
+                .leftInput(raw_log)
+                .rightInput(axe, true)
+                .output(bark)
+                .output(stripped_log)
+                .build());
+
+            registry.addRecipe(EmiWorldInteractionRecipe.builder()
+                .id(new ResourceLocation("immersive_weathering", "/block_unstripping/" + blockId.getNamespace() + "/" + blockId.getPath()))
+                .leftInput(stripped_log)
+                .rightInput(bark, false)
+                .output(raw_log)
+                .build());
         }
     }
 }

@@ -25,22 +25,17 @@
           ],
           "conditions": [
             {
-              "condition": "minecraft:alternative",
+              "condition": "minecraft:any_of",
               "terms": [
                 {
                   "condition": "minecraft:damage_source_properties",
                   "predicate": {
-                    "source_entity": {
-                      "equipment": {
-                        "offhand": {
-                          "enchantments": [
-                            {
-                              "enchantment": "minecraft:flame"
-                            }
-                          ]
-                        }
+                    "tags": [
+                      {
+                        "id": "minecraft:is_fire",
+                        "expected": false
                       }
-                    }
+                    ]
                   }
                 },
                 {

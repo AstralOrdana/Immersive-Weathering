@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.mixins.forge;
 
-import com.ordana.immersive_weathering.blocks.rustable.Rustable;
+import com.ordana.immersive_weathering.blocks.rusty.Rustable;
 import com.ordana.immersive_weathering.reg.ModWaxables;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.ChangeOverTimeBlock;

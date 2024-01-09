@@ -1,0 +1,33 @@
+{
+  "area_condition": {
+    "type": "generate_if_not_too_many",
+    "radiusX": 2,
+    "radiusY": 3,
+    "radiusZ": 2,
+    "requiredAmount": 6,
+    "includes": "minecraft:twisting_vines_plant"
+  },
+  "growth_chance": 0.1,
+  "growth_for_face": [
+    {
+      "direction": "up",
+      "growth": [
+        {
+          "data": {
+            "block": {
+              "Name": "minecraft:twisting_vines"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "owners": [
+    "minecraft:warped_wart_block"
+  ],
+  "replacing_target": {
+    "predicate_type": "minecraft:block_match",
+    "block": "minecraft:air"
+  }
+}

@@ -42,7 +42,7 @@ public final class ModTags {
     public static final TagKey<Block> SILT_SOIL_CROP = registerBlockTag("soil_silt_crops");
     public static final TagKey<Block> SAND_SOIL_CROP = registerBlockTag("soil_sand_crops");
     public static final TagKey<Block> LOAM_SOIL_CROP = registerBlockTag("soil_loam_crops");
-    public static final TagKey<Block> UNTINTED_PARTICLES = registerBlockTag("untinted_particles");
+    public static final TagKey<Block> GRASSY_BLOCKS = registerBlockTag("grassy_blocks");
 
     public static final TagKey<Block> CLEAN_IRON = registerBlockTag("clean_iron");
     public static final TagKey<Block> EXPOSED_IRON = registerBlockTag("exposed_iron");
