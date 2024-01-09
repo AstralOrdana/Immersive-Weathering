@@ -14,12 +14,10 @@ import net.mehvahdjukaar.moonlight.api.misc.EventCalled;
 import net.mehvahdjukaar.moonlight.api.platform.ClientHelper;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
 import net.mehvahdjukaar.moonlight.api.util.math.colors.RGBColor;
-import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.GlowParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.BlockPos;
@@ -27,7 +25,6 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -175,7 +172,7 @@ public class ImmersiveWeatheringClient {
         ModBlocks.LEAF_PILES.forEach((type, leafPile) -> {
             event.register((blockState, blockAndTintGetter, blockPos, i) -> {
                 return getLeafTypeColor(event, type, blockState, blockAndTintGetter, blockPos, i);
-            });
+            }, leafPile);
         });
 
         event.register((blockState, level, blockPos, i) -> event.getColor(Blocks.GRASS_BLOCK.defaultBlockState(),
@@ -212,7 +209,7 @@ public class ImmersiveWeatheringClient {
                 ModBlocks.GRASSY_EARTHEN_CLAY.get());
 
         ModItems.LEAF_PILES.forEach((type, leafPile) -> {
-            event.register((itemStack, i) -> event.getColor(type.leaves.asItem().getDefaultInstance(), i));
+            event.register((itemStack, i) -> event.getColor(type.leaves.asItem().getDefaultInstance(), i), leafPile);
         });
 
     }
