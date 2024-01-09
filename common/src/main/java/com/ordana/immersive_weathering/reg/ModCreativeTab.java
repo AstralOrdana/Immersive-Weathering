@@ -28,8 +28,8 @@ public class ModCreativeTab {
 
         //BUILDING BLOCKS
         after(e, Items.BAMBOO_BUTTON, CreativeModeTabs.BUILDING_BLOCKS,
-            ModBlocks.CHARRED_LOG, ModBlocks.CHARRED_PLANKS, ModBlocks.CHARRED_SLAB,
-            ModBlocks.CHARRED_STAIRS, ModBlocks.CHARRED_FENCE, ModBlocks.CHARRED_FENCE_GATE
+            ModBlocks.CHARRED_LOG, ModBlocks.CHARRED_PLANKS, ModBlocks.CHARRED_STAIRS,
+            ModBlocks.CHARRED_SLAB, ModBlocks.CHARRED_FENCE, ModBlocks.CHARRED_FENCE_GATE
         );
 
         after(e, Items.STONE_SLAB, CreativeModeTabs.BUILDING_BLOCKS,
@@ -245,6 +245,10 @@ public class ModCreativeTab {
 
         before(e, Items.INK_SAC, CreativeModeTabs.INGREDIENTS,
             ModItems.BARK.values().stream().map(s-> (Supplier<Object>) () -> s).toArray(Supplier[]::new)
+        );
+
+        after(e, Items.BARRIER, CreativeModeTabs.OP_BLOCKS,
+            ModItems.FIRE
         );
 
     }

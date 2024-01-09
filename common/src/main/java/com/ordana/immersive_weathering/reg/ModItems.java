@@ -13,6 +13,7 @@ import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
 import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -101,6 +102,9 @@ public class ModItems {
 
     public static final Supplier<Item> FROST_ITEM = regItem("frost", () ->
             new FrostItem(ModBlocks.FROST.get(), new Item.Properties()));
+
+    public static final Supplier<Item> FIRE = regItem("fire", () ->
+        new BlockItem(Blocks.FIRE, new Item.Properties().stacksTo(1)));
 
 
     private static void registerBark(Registrator<Item> event, Collection<WoodType> woodTypes) {

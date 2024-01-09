@@ -35,13 +35,16 @@
                   "function": "minecraft:apply_bonus",
                   "enchantment": "minecraft:fortune",
                   "formula": "minecraft:ore_drops"
+                },
+                {
+                  "function": "minecraft:set_count",
+                  "count": {
+                    "min": 0,
+                    "max": 2
+                  }
                 }
               ],
               "conditions": [
-                {
-                  "condition": "minecraft:random_chance",
-                  "chance": 0.25
-                },
                 {
                   "condition": "minecraft:survives_explosion"
                 }

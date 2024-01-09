@@ -20,6 +20,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
@@ -138,8 +139,8 @@ public class WeatheringHelper {
             boolean log = false;
 
             String childKey = woodType.getChildKey(normalLog.getBlock());
-            if (("log".equals(childKey) && woodType.getChild("stripped_log") != null) ||
-                    ("wood".equals(childKey)  && woodType.getChild("stripped_wood") != null)) {
+            if (("log".equals(childKey) && woodType.getChild("stripped_log") != null)
+                || ("wood".equals(childKey)  && woodType.getChild("stripped_wood") != null)) {
                 log = true;
             }
             if (log) {
@@ -223,25 +224,34 @@ public class WeatheringHelper {
         return getGrassySoil(state.getBlock()).map(block -> block.withPropertiesOf(state));
     }
 
-    Supplier<BiMap<Block, Block>> NORMAL_TO_SANDY = Suppliers.memoize(() -> {
+    public static final Supplier<BiMap<Block, Block>> RAW_TO_STRIPPED = Suppliers.memoize(() -> {
         var builder = ImmutableBiMap.<Block, Block>builder()
-                .put(Blocks.STONE, ModBlocks.SANDY_STONE.get())
-                .put(Blocks.STONE_STAIRS, ModBlocks.SANDY_STONE_STAIRS.get())
-                .put(Blocks.STONE_SLAB, ModBlocks.SANDY_STONE_SLAB.get())
-                .put(ModBlocks.STONE_WALL.get(), ModBlocks.SANDY_STONE_WALL.get())
-                .put(Blocks.COBBLESTONE, ModBlocks.SANDY_COBBLESTONE.get())
-                .put(Blocks.COBBLESTONE_STAIRS, ModBlocks.SANDY_COBBLESTONE_STAIRS.get())
-                .put(Blocks.COBBLESTONE_SLAB, ModBlocks.SANDY_COBBLESTONE_SLAB.get())
-                .put(Blocks.COBBLESTONE_WALL, ModBlocks.SANDY_COBBLESTONE_WALL.get())
-                .put(Blocks.STONE_BRICKS, ModBlocks.SANDY_STONE_BRICKS.get())
-                .put(Blocks.CHISELED_STONE_BRICKS, ModBlocks.SANDY_CHISELED_STONE_BRICKS.get())
-                .put(Blocks.STONE_BRICK_STAIRS, ModBlocks.SANDY_STONE_BRICK_STAIRS.get())
-                .put(Blocks.STONE_BRICK_SLAB, ModBlocks.SANDY_STONE_BRICK_SLAB.get())
-                .put(Blocks.STONE_BRICK_WALL, ModBlocks.SANDY_STONE_BRICK_WALL.get());
+            .put(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG)
+            .put(Blocks.BIRCH_LOG, Blocks.STRIPPED_BIRCH_LOG)
+            .put(Blocks.JUNGLE_LOG, Blocks.STRIPPED_JUNGLE_LOG)
+            .put(Blocks.SPRUCE_LOG, Blocks.STRIPPED_SPRUCE_LOG)
+            .put(Blocks.ACACIA_LOG, Blocks.STRIPPED_ACACIA_LOG)
+            .put(Blocks.DARK_OAK_LOG, Blocks.STRIPPED_DARK_OAK_LOG)
+            .put(Blocks.MANGROVE_LOG, Blocks.STRIPPED_MANGROVE_LOG)
+            .put(Blocks.CHERRY_LOG, Blocks.STRIPPED_CHERRY_LOG)
+            .put(Blocks.BAMBOO_BLOCK, Blocks.STRIPPED_BAMBOO_BLOCK)
+            .put(Blocks.CRIMSON_STEM, Blocks.STRIPPED_CRIMSON_STEM)
+            .put(Blocks.WARPED_STEM, Blocks.STRIPPED_WARPED_STEM)
+            .put(Blocks.OAK_WOOD, Blocks.STRIPPED_OAK_WOOD)
+            .put(Blocks.BIRCH_WOOD, Blocks.STRIPPED_BIRCH_WOOD)
+            .put(Blocks.JUNGLE_WOOD, Blocks.STRIPPED_JUNGLE_WOOD)
+            .put(Blocks.SPRUCE_WOOD, Blocks.STRIPPED_SPRUCE_WOOD)
+            .put(Blocks.ACACIA_WOOD, Blocks.STRIPPED_ACACIA_WOOD)
+            .put(Blocks.DARK_OAK_WOOD, Blocks.STRIPPED_DARK_OAK_WOOD)
+            .put(Blocks.MANGROVE_WOOD, Blocks.STRIPPED_MANGROVE_WOOD)
+            .put(Blocks.CHERRY_WOOD, Blocks.STRIPPED_CHERRY_WOOD)
+            .put(Blocks.CRIMSON_HYPHAE, Blocks.STRIPPED_CRIMSON_HYPHAE)
+            .put(Blocks.WARPED_HYPHAE, Blocks.STRIPPED_WARPED_HYPHAE);
         return builder.build();
     });
 
-    //reverse map for reverse access in descending order
+    public static final Supplier<BiMap<Block, Block>> STRIPPED_TO_RAW = Suppliers.memoize(() -> RAW_TO_STRIPPED.get().inverse());
+
 
 
 
@@ -325,6 +335,20 @@ public class WeatheringHelper {
 
     //spawn soot?
     public static void onFireExpired(ServerLevel serverLevel, BlockPos pos, BlockState state) {
+    }
+
+    public static final Supplier<Map<TagKey<Block>, Block>> WOOD_TO_CHARRED = Suppliers.memoize(() ->
+        ImmutableMap.<TagKey<Block>, Block>builder()
+            .put(BlockTags.WOODEN_FENCES, ModBlocks.CHARRED_FENCE.get())
+            .put(BlockTags.FENCE_GATES, ModBlocks.CHARRED_FENCE_GATE.get())
+            .put(BlockTags.WOODEN_SLABS, ModBlocks.CHARRED_SLAB.get())
+            .put(BlockTags.WOODEN_STAIRS, ModBlocks.CHARRED_STAIRS.get())
+            .put(BlockTags.PLANKS, ModBlocks.CHARRED_PLANKS.get())
+            .put(BlockTags.LOGS_THAT_BURN, ModBlocks.CHARRED_LOG.get())
+            .build());
+
+    public static Optional<Block> getCharredBlock(TagKey<Block> block) {
+        return Optional.ofNullable(WOOD_TO_CHARRED.get().get(block));
     }
 
 
