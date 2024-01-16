@@ -10,6 +10,7 @@ import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -29,6 +30,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
@@ -39,6 +41,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
 
@@ -46,6 +49,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
     private static final int FLAMMABILITY = 60;
 
     public static final IntegerProperty LAYERS = ModBlockProperties.LEAF_LAYERS;
+    public static final IntegerProperty AGE = ModBlockProperties.AGE;
 
 
     private static final VoxelShape[] SHAPE_BY_LAYER_L = new VoxelShape[8 + 1];
@@ -66,11 +70,17 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
     public LeafPileBlock(Properties settings, LeavesType leafType) {
         super(settings);
         this.leafType = leafType;
-        this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, 1));
+        this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, 1).setValue(AGE, 0));
         String name = leafType.id.getPath();
         this.canBeBonemealed = name.contains("flower");
         this.hasThorns = name.equals("spruce");
         RegHelper.registerBlockFlammability(this, FIRE_SPREAD, FLAMMABILITY);
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(AGE);
     }
 
     public LeavesType getLeafType() {
@@ -250,26 +260,19 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
     }
 
 
-    /*
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if (random.nextInt(16) == 0) {
-            BlockPos blockPos = pos.below();
-            if (isFree(level.getBlockState(blockPos))) {
-                int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
-                for (var p : particles) {
-                    var part = p.get();
-                    if (part != null && random.nextFloat() < 0.2) {
-                        double d = pos.getX() + random.nextDouble();
-                        double e = pos.getY() - 0.05;
-                        double f = pos.getZ() + random.nextDouble();
-                        level.addParticle(part, d, e, f, 0.0, color, 0.0);
-                    }
-                }
-            }
-        }
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource r) {
+        int age = state.getValue(AGE);
+        int layers = state.getValue(LAYERS);
+        if (age == 10) level.destroyBlock(pos, true);
+        else if (age > 0 && level.random.nextBoolean()) {
+            if (level.random.nextFloat() > 0.8 && level.getBlockState(pos.below()).is(BlockTags.DIRT))
+                level.setBlockAndUpdate(pos.below(), state.is(ModTags.LEAFY_LEAVES) ?
+                    Blocks.MYCELIUM.defaultBlockState() : Blocks.PODZOL.defaultBlockState());
 
+            level.setBlockAndUpdate(pos, state.setValue(AGE, age + 1)
+                .setValue(LAYERS, layers == 1 ? layers : layers - 1));
+        }
     }
-     */
 
 }

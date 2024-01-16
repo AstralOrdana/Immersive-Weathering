@@ -147,7 +147,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
             if (leafPile == null) return;
             BlockState baseLeaf = leafPile.defaultBlockState();
 
-            level.setBlock(pos, baseLeaf.setValue(LeafPileBlock.LAYERS, Mth.randomBetweenInclusive(level.random, 1, 5)), 2);
+            level.setBlock(pos, baseLeaf.setValue(LeafPileBlock.LAYERS, Mth.randomBetweenInclusive(level.random, 1, 5)).setValue(LeafPileBlock.AGE, 1), 2);
         }
 
 

@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering;
 
+import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.client.particles.EmberParticle;
 import com.ordana.immersive_weathering.client.particles.LeafParticle;
 import com.ordana.immersive_weathering.client.particles.NormalGravityParticle;
@@ -192,8 +193,8 @@ public class ImmersiveWeatheringClient {
         int original = event.getColor(type.leaves.defaultBlockState(), level, pos, i);
 
         //interpolate between color and brown
-        float percentage = 0.4f;// state.getValue(AGE) / MAX_AGE;
-        int brown = 0;
+        float percentage = state.getValue(LeafPileBlock.AGE) / 10f;
+        int brown = 0x7D5212;
         return new RGBColor(original).asLAB().mixWith(new RGBColor(brown).asLAB(), percentage).asRGB().toInt();
     }
 

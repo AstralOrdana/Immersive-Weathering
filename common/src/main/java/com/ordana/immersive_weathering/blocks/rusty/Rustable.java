@@ -83,8 +83,7 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
     }
 
     static Optional<Block> getIncreasedRustBlock(Block block) {
-        return Optional.empty();
-                //Optional.ofNullable(RUST_LEVEL_INCREASES.get().get(block));
+        return Optional.ofNullable(RUST_LEVEL_INCREASES.get().get(block));
     }
 
     static BlockState getUnaffectedRustState(BlockState state) {
@@ -110,7 +109,7 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
         RUSTED;
 
         public boolean canScrape() {
-            return this != WEATHERED && this != RUSTED;
+            return this != RUSTED;
         }
     }
 

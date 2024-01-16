@@ -8,6 +8,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
+import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -31,9 +32,10 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
 
         //events
         UseBlockCallback.EVENT.register(ImmersiveWeatheringFabric::onRightClickBlock);
+        PlatHelper.addCommonSetup(ImmersiveWeatheringFabric::onSetup);
     }
 
-    public static void onSetup(){
+    public static void onSetup() {
         ModWaxables.getValues().forEach(OxidizableBlocksRegistry::registerWaxableBlockPair);
     }
 

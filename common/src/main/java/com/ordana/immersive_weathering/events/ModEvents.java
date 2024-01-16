@@ -16,6 +16,7 @@ import com.ordana.immersive_weathering.integrations.QuarkPlugin;
 import com.ordana.immersive_weathering.reg.*;
 import com.ordana.immersive_weathering.util.Weatherable;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
+import net.mehvahdjukaar.moonlight.api.client.util.ParticleUtil;
 import net.mehvahdjukaar.moonlight.api.events.IFireConsumeBlockEvent;
 import net.mehvahdjukaar.moonlight.api.events.ILightningStruckBlockEvent;
 import net.mehvahdjukaar.moonlight.api.misc.EventCalled;
@@ -125,7 +126,7 @@ public class ModEvents {
                     level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
                     level.playSound(player, pos, SoundEvents.SHIELD_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
-                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SMOKE, UniformInt.of(3, 5));
+                    ParticleUtil.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SMOKE, UniformInt.of(3, 5), -0.05f, 0.05f, false);
                     if (player instanceof ServerPlayer serverPlayer) {
                         stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
                         player.awardStat(Stats.ITEM_USED.get(item));
@@ -251,7 +252,7 @@ public class ModEvents {
             if (newBlock != state) {
                 newBlock = Weatherable.setStable(newBlock);
                 if (level.isClientSide) {
-                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.FLAME, UniformInt.of(3, 5));
+                    ParticleUtil.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.FLAME, UniformInt.of(3, 5), -0.05f, 0.05f, false);
                     level.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
                 } else {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
