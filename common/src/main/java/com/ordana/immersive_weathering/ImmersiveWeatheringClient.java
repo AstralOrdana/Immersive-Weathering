@@ -171,12 +171,6 @@ public class ImmersiveWeatheringClient {
 
     @EventCalled
     private static void registerBlockColors(ClientHelper.BlockColorEvent event) {
-        final BlockColor defaultGrassColor = (state, world, pos, tintIndex) ->
-            world != null && pos != null ?
-                tintIndex != 1 ? -1 :
-                    BiomeColors.getAverageGrassColor(world, pos) :
-                GrassColor.get(0D, 0D);
-
         ModBlocks.LEAF_PILES.forEach((type, leafPile) -> {
             event.register((blockState, blockAndTintGetter, blockPos, i) -> {
                 return getLeafTypeColor(event, type, blockState, blockAndTintGetter, blockPos, i);
