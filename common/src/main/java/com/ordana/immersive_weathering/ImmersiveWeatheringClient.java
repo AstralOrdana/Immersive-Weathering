@@ -176,8 +176,10 @@ public class ImmersiveWeatheringClient {
             }, leafPile);
         });
 
-        event.register((blockState, level, blockPos, i) -> event.getColor(Blocks.GRASS_BLOCK.defaultBlockState(),
-                        level, blockPos, i),
+        event.register((blockState, level, blockPos, i) -> {
+                    if (i == 0) return -1;
+                    return event.getColor(Blocks.GRASS_BLOCK.defaultBlockState(), level, blockPos, i);
+                },
 
                 ModBlocks.GRASSY_LOAM.get(),
                 ModBlocks.GRASSY_PERMAFROST.get(),
@@ -190,6 +192,7 @@ public class ImmersiveWeatheringClient {
     }
 
     private static int getLeafTypeColor(ClientHelper.BlockColorEvent event, LeavesType type, BlockState state, BlockAndTintGetter level, BlockPos pos, int i) {
+        if(i == 0)return -1;
         int original = event.getColor(type.leaves.defaultBlockState(), level, pos, i);
 
         //interpolate between color and brown
