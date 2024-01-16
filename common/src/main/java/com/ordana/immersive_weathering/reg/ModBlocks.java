@@ -42,6 +42,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -587,31 +588,31 @@ public class ModBlocks {
 
     //waxed
     public static final Supplier<Block> WAXED_IRON_DOOR = regWithItem("waxed_iron_door", () ->
-        new RustAffectedDoorBlock(Rustable.RustLevel.UNAFFECTED, Properties.copy(Blocks.IRON_DOOR)));
+        new RustAffectedDoorBlock(Rustable.RustLevel.UNAFFECTED, noTick(Blocks.IRON_DOOR)));
     public static final Supplier<Block> WAXED_EXPOSED_IRON_DOOR = regWithItem("waxed_exposed_iron_door", () ->
-        new RustAffectedDoorBlock(Rustable.RustLevel.EXPOSED, Properties.copy(Blocks.IRON_DOOR)));
+        new RustAffectedDoorBlock(Rustable.RustLevel.EXPOSED, noTick(Blocks.IRON_DOOR)));
     public static final Supplier<Block> WAXED_WEATHERED_IRON_DOOR = regWithItem("waxed_weathered_iron_door", () ->
-        new RustAffectedDoorBlock(Rustable.RustLevel.WEATHERED, Properties.copy(Blocks.IRON_DOOR)));
+        new RustAffectedDoorBlock(Rustable.RustLevel.WEATHERED, noTick(Blocks.IRON_DOOR)));
     public static final Supplier<Block> WAXED_RUSTED_IRON_DOOR = regWithItem("waxed_rusted_iron_door", () ->
-        new RustAffectedDoorBlock(Rustable.RustLevel.RUSTED, Properties.copy(Blocks.IRON_DOOR)));
+        new RustAffectedDoorBlock(Rustable.RustLevel.RUSTED, noTick(Blocks.IRON_DOOR)));
 
     public static final Supplier<Block> WAXED_IRON_TRAPDOOR = regWithItem("waxed_iron_trapdoor", () ->
-        new RustAffectedTrapdoorBlock(Rustable.RustLevel.UNAFFECTED, Properties.copy(Blocks.IRON_TRAPDOOR),BlockSetType.IRON));
+        new RustAffectedTrapdoorBlock(Rustable.RustLevel.UNAFFECTED, noTick(Blocks.IRON_TRAPDOOR),BlockSetType.IRON));
     public static final Supplier<Block> WAXED_EXPOSED_IRON_TRAPDOOR = regWithItem("waxed_exposed_iron_trapdoor", () ->
-        new RustAffectedTrapdoorBlock(Rustable.RustLevel.EXPOSED, Properties.copy(Blocks.IRON_TRAPDOOR), BlockSetType.IRON));
+        new RustAffectedTrapdoorBlock(Rustable.RustLevel.EXPOSED, noTick(Blocks.IRON_TRAPDOOR), BlockSetType.IRON));
     public static final Supplier<Block> WAXED_WEATHERED_IRON_TRAPDOOR = regWithItem("waxed_weathered_iron_trapdoor", () ->
-        new RustAffectedTrapdoorBlock(Rustable.RustLevel.WEATHERED, Properties.copy(Blocks.IRON_TRAPDOOR), BlockSetType.IRON));
+        new RustAffectedTrapdoorBlock(Rustable.RustLevel.WEATHERED, noTick(Blocks.IRON_TRAPDOOR), BlockSetType.IRON));
     public static final Supplier<Block> WAXED_RUSTED_IRON_TRAPDOOR = regWithItem("waxed_rusted_iron_trapdoor", () ->
-        new RustAffectedTrapdoorBlock(Rustable.RustLevel.RUSTED, Properties.copy(Blocks.IRON_TRAPDOOR), BlockSetType.IRON));
+        new RustAffectedTrapdoorBlock(Rustable.RustLevel.RUSTED, noTick(Blocks.IRON_TRAPDOOR), BlockSetType.IRON));
 
     public static final Supplier<Block> WAXED_IRON_BARS = regWithItem("waxed_iron_bars", () ->
-        new IronBarsBlock(Properties.copy(Blocks.IRON_BARS)) {});
+        new IronBarsBlock(noTick(Blocks.IRON_BARS)) {});
     public static final Supplier<Block> WAXED_EXPOSED_IRON_BARS = regWithItem("waxed_exposed_iron_bars", () ->
-        new IronBarsBlock(Properties.copy(Blocks.IRON_BARS)) {});
+        new IronBarsBlock(noTick(Blocks.IRON_BARS)) {});
     public static final Supplier<Block> WAXED_WEATHERED_IRON_BARS = regWithItem("waxed_weathered_iron_bars", () ->
-        new IronBarsBlock(Properties.copy(Blocks.IRON_BARS)) {});
+        new IronBarsBlock(noTick(Blocks.IRON_BARS)) {});
     public static final Supplier<Block> WAXED_RUSTED_IRON_BARS = regWithItem("waxed_rusted_iron_bars", () ->
-        new IronBarsBlock(Properties.copy(Blocks.IRON_BARS)) {});
+        new IronBarsBlock(noTick(Blocks.IRON_BARS)) {});
 
 
     //vanilla completion blocks
@@ -638,5 +639,11 @@ public class ModBlocks {
             LEAF_PILES.put(type, block);
             type.addChild("immersive_weathering:leaf_pile", block);
         }
+    }
+
+    private static BlockBehaviour.Properties noTick(Block copyFrom){
+        var p = BlockBehaviour.Properties.copy(copyFrom);
+        p.isRandomlyTicking = false;
+        return p;
     }
 }
