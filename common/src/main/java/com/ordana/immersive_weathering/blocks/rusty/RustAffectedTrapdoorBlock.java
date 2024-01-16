@@ -75,11 +75,6 @@ public class RustAffectedTrapdoorBlock extends TrapDoorBlock {
         }
     }
 
-    @Override
-    public boolean isRandomlyTicking(BlockState state) {
-        return false;
-    }
-
     public Rustable.RustLevel getAge() {
         return this.rustLevel;
     }

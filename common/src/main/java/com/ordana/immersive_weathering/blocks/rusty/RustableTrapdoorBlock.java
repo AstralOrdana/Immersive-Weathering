@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 
 public class RustableTrapdoorBlock extends RustAffectedTrapdoorBlock implements Rustable {
 
-
     public RustableTrapdoorBlock(RustLevel rustLevel, Properties properties) {
         super(rustLevel, Rustable.setRandomTicking(properties, rustLevel), BlockSetType.IRON);
     }
