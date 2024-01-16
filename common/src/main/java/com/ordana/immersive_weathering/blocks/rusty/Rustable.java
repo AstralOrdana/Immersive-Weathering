@@ -14,6 +14,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChangeOverTimeBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Optional;
@@ -195,5 +196,12 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
                 applyChangeOverTime(state, level, pos, random);
             }
         }
+    }
+
+    static BlockBehaviour.Properties setRandomTicking(BlockBehaviour.Properties properties, RustLevel rustLevel){
+        if(rustLevel != RustLevel.RUSTED){
+            properties.randomTicks();
+        }
+        return properties;
     }
 }

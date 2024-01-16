@@ -10,18 +10,13 @@ public class RustableBarsBlock extends IronBarsBlock implements Rustable {
     private final RustLevel rustLevel;
 
     public RustableBarsBlock(RustLevel rustLevel, Properties settings) {
-        super(settings);
+        super(Rustable.setRandomTicking(settings, rustLevel));
         this.rustLevel = rustLevel;
     }
 
     @Override
     public RustLevel getAge() {
         return this.rustLevel;
-    }
-
-    @Override
-    public boolean isRandomlyTicking(BlockState state) {
-        return Rustable.getIncreasedRustBlock(state.getBlock()).isPresent();
     }
 
     @Override

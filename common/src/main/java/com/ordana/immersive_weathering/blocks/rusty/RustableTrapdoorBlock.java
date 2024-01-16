@@ -10,12 +10,7 @@ public class RustableTrapdoorBlock extends RustAffectedTrapdoorBlock implements 
 
 
     public RustableTrapdoorBlock(RustLevel rustLevel, Properties properties) {
-        super(rustLevel, properties, BlockSetType.IRON);
-    }
-
-    @Override
-    public boolean isRandomlyTicking(BlockState state) {
-        return Rustable.getIncreasedRustBlock(state.getBlock()).isPresent();
+        super(rustLevel, Rustable.setRandomTicking(properties, rustLevel), BlockSetType.IRON);
     }
 
     @Override

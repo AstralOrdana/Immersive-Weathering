@@ -14,18 +14,13 @@ public class RustableStairsBlock extends ModStairBlock implements Rustable {
     private final RustLevel rustLevel;
 
     public RustableStairsBlock(RustLevel rustLevel, Supplier<Block> baseBlockState, Properties settings) {
-        super(baseBlockState, settings);
+        super(baseBlockState, Rustable.setRandomTicking(settings, rustLevel));
         this.rustLevel = rustLevel;
     }
 
     @Override
     public RustLevel getAge() {
         return this.rustLevel;
-    }
-
-    @Override
-    public boolean isRandomlyTicking(BlockState state) {
-        return Rustable.getIncreasedRustBlock(state.getBlock()).isPresent();
     }
 
     @Override

@@ -9,12 +9,7 @@ public class RustableDoorBlock extends RustAffectedDoorBlock implements Rustable
 
 
     public RustableDoorBlock(RustLevel rustLevel, Properties properties) {
-        super(rustLevel, properties);
-    }
-
-    @Override
-    public boolean isRandomlyTicking(BlockState state) {
-        return Rustable.getIncreasedRustBlock(state.getBlock()).isPresent();
+        super(rustLevel, Rustable.setRandomTicking(properties, rustLevel));
     }
 
     @Override
