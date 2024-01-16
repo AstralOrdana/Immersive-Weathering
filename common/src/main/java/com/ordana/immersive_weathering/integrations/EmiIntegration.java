@@ -23,6 +23,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -261,7 +262,12 @@ public class EmiIntegration implements EmiPlugin {
             ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
             EmiStack raw_log = EmiStack.of(key);
             EmiStack stripped_log = EmiStack.of(log.get(key));
-            EmiStack bark = EmiStack.of(WeatheringHelper.getBarkToStrip(key.defaultBlockState()));
+            Item barkToStrip = WeatheringHelper.getBarkToStrip(key.defaultBlockState());
+            if(barkToStrip == null){
+                //error;
+                int aa = 1;
+            }
+            EmiStack bark = EmiStack.of(barkToStrip);
             if (bark == null) bark = EmiStack.of(WeatheringHelper.getBarkForStrippedLog(log.get(key).defaultBlockState()).get().getFirst());
             registry.addRecipe(EmiWorldInteractionRecipe.builder()
                 .id(new ResourceLocation("immersive_weathering", "/block_stripping/" + blockId.getNamespace() + "/" + blockId.getPath()))

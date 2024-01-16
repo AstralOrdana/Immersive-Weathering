@@ -17,7 +17,7 @@ public class EmberParticle extends TextureSheetParticle {
         this.lifetime = (int)(10.0D + (Mth.randomBetween(level.random, 0.1f, 0.2f)));
         this.hasPhysics = false;
         this.friction = 0.0F;
-        this.gravity = 0.0F;
+        this.gravity = -0.005F;
 
 
 
