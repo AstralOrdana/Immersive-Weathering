@@ -1,0 +1,21 @@
+{
+  "type": "target_self",
+  "fluid": "minecraft:water",
+  "priority": 0,
+  "generate": {
+    "Name": "minecraft:cobblestone"
+  },
+  "adjacent_blocks": {
+    "any": [
+      {
+        "block_state": {
+          "Name": "immersive_weathering:nulch_block",
+          "Properties": {
+            "molten": "true"
+          }
+        },
+        "predicate_type": "minecraft:blockstate_match"
+      }
+    ]
+  }
+}
