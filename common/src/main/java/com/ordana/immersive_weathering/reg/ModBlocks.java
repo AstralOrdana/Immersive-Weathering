@@ -384,8 +384,6 @@ public class ModBlocks {
 
     public static final Supplier<Block> LOAM = regWithItem("loam", () ->
         new LoamBlock(Properties.copy(Blocks.DIRT).strength(0.5f).sound(SoundType.GRAVEL)));
-    public static final Supplier<Block> GRASSY_LOAM = regWithItem("grassy_loam", () ->
-        new LoamBlockGrassy(Properties.copy(Blocks.DIRT).strength(0.5f).sound(SoundType.GRAVEL)));
     public static final Supplier<Block> LOAMY_FARMLAND = regWithItem("loamy_farmland", () ->
         new LoamyFarmlandBlock(Properties.copy(Blocks.DIRT).strength(0.5f).sound(SoundType.GRAVEL)));
 

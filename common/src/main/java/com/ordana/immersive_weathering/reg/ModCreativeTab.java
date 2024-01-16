@@ -157,7 +157,7 @@ public class ModCreativeTab {
             ModBlocks.GRASSY_EARTHEN_CLAY, ModBlocks.EARTHEN_CLAY, ModBlocks.EARTHEN_CLAY_FARMLAND,
             ModBlocks.GRASSY_SILT, ModBlocks.SILT, ModBlocks.SILTY_FARMLAND,
             ModBlocks.GRASSY_SANDY_DIRT, ModBlocks.SANDY_DIRT, ModBlocks.SANDY_FARMLAND,
-            ModBlocks.GRASSY_LOAM, ModBlocks.LOAM, ModBlocks.LOAMY_FARMLAND,
+            ModBlocks.LOAM, ModBlocks.LOAMY_FARMLAND,
             ModBlocks.GRASSY_PERMAFROST, ModBlocks.PERMAFROST
         );
 

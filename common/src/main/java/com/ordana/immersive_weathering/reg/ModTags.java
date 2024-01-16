@@ -29,7 +29,8 @@ public final class ModTags {
     public static final TagKey<Block> GRASS_GROWTH_REPLACEABLE = registerBlockTag("grass_growth_replaceable");
     public static final TagKey<Block> WEED_REPLACEABLE = registerBlockTag("weeds_replaceable");
     public static final TagKey<Block> GRASS_SPREAD_SOURCE = registerBlockTag("grass_spread_source");
-    public static final TagKey<Block> LEAFY_LEAVES = registerBlockTag("deciduous_leaf_piles");
+    public static final TagKey<Block> LEAFY_LEAVES = registerBlockTag("leaves_leafy");
+    public static final TagKey<Block> PINE_LEAVES = registerBlockTag("leaves_pine");
     public static final TagKey<Block> FIRE_REPLACEABLE = registerBlockTag("fire_replaceable");
     public static final TagKey<Block> SANDY = registerBlockTag("sandy");
     public static final TagKey<Block> SANDABLE = registerBlockTag("sandable");

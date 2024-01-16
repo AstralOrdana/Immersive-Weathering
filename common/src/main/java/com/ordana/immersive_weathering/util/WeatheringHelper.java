@@ -210,7 +210,6 @@ public class WeatheringHelper {
                     .put(ModBlocks.SANDY_DIRT.get(), ModBlocks.GRASSY_SANDY_DIRT.get())
                     .put(ModBlocks.EARTHEN_CLAY.get(), ModBlocks.GRASSY_EARTHEN_CLAY.get())
                     .put(ModBlocks.SILT.get(), ModBlocks.GRASSY_SILT.get())
-                    .put(ModBlocks.LOAM.get(), ModBlocks.GRASSY_LOAM.get())
                     .put(ModBlocks.PERMAFROST.get(), ModBlocks.GRASSY_PERMAFROST.get())
                     .put(Blocks.ROOTED_DIRT, ModBlocks.ROOTED_GRASS_BLOCK.get())
                     .put(Blocks.DIRT, Blocks.GRASS_BLOCK)

@@ -28,6 +28,7 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
         //fabric only stuff here
         if (CommonConfigs.FLAMMABLE_COBWEBS.get()) {
             FlammableBlockRegistry.getDefaultInstance().add(Blocks.COBWEB, 100, 100);
+            FlammableBlockRegistry.getDefaultInstance().add(Blocks.WHEAT, 100, 100);
         }
 
         //events

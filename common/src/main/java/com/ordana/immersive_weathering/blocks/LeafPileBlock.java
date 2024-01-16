@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.blocks;
 
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.entities.FallingLayerEntity;
+import com.ordana.immersive_weathering.reg.ModBlocks;
 import com.ordana.immersive_weathering.reg.ModTags;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
 import dev.architectury.injectables.annotations.PlatformOnly;
@@ -266,9 +267,10 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         int layers = state.getValue(LAYERS);
         if (age == 10) level.destroyBlock(pos, true);
         else if (age > 0 && level.random.nextBoolean()) {
-            if (level.random.nextFloat() > 0.8 && level.getBlockState(pos.below()).is(BlockTags.DIRT))
-                level.setBlockAndUpdate(pos.below(), state.is(ModTags.LEAFY_LEAVES) ?
-                    Blocks.MYCELIUM.defaultBlockState() : Blocks.PODZOL.defaultBlockState());
+            if (level.random.nextFloat() > 0.8 && level.getBlockState(pos.below()).is(BlockTags.DIRT)) {
+                if (state.is(ModTags.LEAFY_LEAVES)) level.setBlockAndUpdate(pos.below(), ModBlocks.LOAM.get().defaultBlockState());
+                else if (state.is(ModTags.PINE_LEAVES)) level.setBlockAndUpdate(pos.below(), Blocks.PODZOL.defaultBlockState());
+            }
 
             level.setBlockAndUpdate(pos, state.setValue(AGE, age + 1)
                 .setValue(LAYERS, layers == 1 ? layers : layers - 1));
