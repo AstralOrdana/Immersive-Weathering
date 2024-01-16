@@ -10,15 +10,6 @@
           "block": "minecraft:grass_block"
         },
         "state": {
-          "Name": "immersive_weathering:grassy_loam"
-        }
-      },
-      {
-        "target": {
-          "predicate_type": "minecraft:block_match",
-          "block": "minecraft:dirt"
-        },
-        "state": {
           "Name": "immersive_weathering:loam"
         }
       }

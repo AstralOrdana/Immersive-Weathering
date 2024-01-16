@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/cube_bottom_top",
   "textures": {
-    "all": "immersive_weathering:block/loam"
+    "top": "immersive_weathering:block/loam_top",
+    "bottom": "minecraft:block/dirt",
+    "side": "immersive_weathering:block/loam_side"
   }
 }
