@@ -192,7 +192,6 @@ public class ImmersiveWeatheringClient {
     }
 
     private static int getLeafTypeColor(ClientHelper.BlockColorEvent event, LeavesType type, BlockState state, BlockAndTintGetter level, BlockPos pos, int i) {
-        if (i == 0) return -1;
         int original = event.getColor(type.leaves.defaultBlockState(), level, pos, i);
 
         //interpolate between color and brown
