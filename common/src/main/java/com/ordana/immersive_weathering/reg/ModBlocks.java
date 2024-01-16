@@ -478,31 +478,31 @@ public class ModBlocks {
 
     //waxed
     public static final Supplier<Block> WAXED_CUT_IRON = regWithItem("waxed_cut_iron", () ->
-        new Block(Properties.copy(Blocks.IRON_BLOCK)));
+        new Block(noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_EXPOSED_CUT_IRON = regWithItem("waxed_exposed_cut_iron", () ->
-        new Block(Properties.copy(Blocks.IRON_BLOCK)));
+        new Block(noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_WEATHERED_CUT_IRON = regWithItem("waxed_weathered_cut_iron", () ->
-        new Block(Properties.copy(Blocks.IRON_BLOCK)));
+        new Block(noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_RUSTED_CUT_IRON = regWithItem("waxed_rusted_cut_iron", () ->
-        new Block(Properties.copy(Blocks.IRON_BLOCK)));
+        new Block(noTick(Blocks.IRON_BLOCK)));
 
     public static final Supplier<Block> WAXED_CUT_IRON_STAIRS = regWithItem("waxed_cut_iron_stairs", () ->
-        new ModStairBlock(WAXED_CUT_IRON, Properties.copy(Blocks.IRON_BLOCK)));
+        new ModStairBlock(WAXED_CUT_IRON, noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_EXPOSED_CUT_IRON_STAIRS = regWithItem("waxed_exposed_cut_iron_stairs", () ->
-        new ModStairBlock(WAXED_EXPOSED_CUT_IRON, Properties.copy(Blocks.IRON_BLOCK)));
+        new ModStairBlock(WAXED_EXPOSED_CUT_IRON, noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_WEATHERED_CUT_IRON_STAIRS = regWithItem("waxed_weathered_cut_iron_stairs", () ->
-        new ModStairBlock(WAXED_WEATHERED_CUT_IRON, Properties.copy(Blocks.IRON_BLOCK)));
+        new ModStairBlock(WAXED_WEATHERED_CUT_IRON, noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_RUSTED_CUT_IRON_STAIRS = regWithItem("waxed_rusted_cut_iron_stairs", () ->
-        new ModStairBlock(WAXED_RUSTED_CUT_IRON, Properties.copy(Blocks.IRON_BLOCK)));
+        new ModStairBlock(WAXED_RUSTED_CUT_IRON, noTick(Blocks.IRON_BLOCK)));
 
     public static final Supplier<Block> WAXED_CUT_IRON_SLAB = regWithItem("waxed_cut_iron_slab", () ->
-        new SlabBlock(Properties.copy(Blocks.IRON_BLOCK)));
+        new SlabBlock(noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_EXPOSED_CUT_IRON_SLAB = regWithItem("waxed_exposed_cut_iron_slab", () ->
-        new SlabBlock(Properties.copy(Blocks.IRON_BLOCK)));
+        new SlabBlock(noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_WEATHERED_CUT_IRON_SLAB = regWithItem("waxed_weathered_cut_iron_slab", () ->
-        new SlabBlock(Properties.copy(Blocks.IRON_BLOCK)));
+        new SlabBlock(noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_RUSTED_CUT_IRON_SLAB = regWithItem("waxed_rusted_cut_iron_slab", () ->
-        new SlabBlock(Properties.copy(Blocks.IRON_BLOCK)));
+        new SlabBlock(noTick(Blocks.IRON_BLOCK)));
 
     //plate iron
 
@@ -535,31 +535,31 @@ public class ModBlocks {
 
     //waxed
     public static final Supplier<Block> WAXED_PLATE_IRON = regWithItem("waxed_plate_iron", () ->
-        new Block(Properties.copy(Blocks.IRON_BLOCK)));
+        new Block(noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_EXPOSED_PLATE_IRON = regWithItem("waxed_exposed_plate_iron", () ->
-        new Block(Properties.copy(Blocks.IRON_BLOCK)));
+        new Block(noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_WEATHERED_PLATE_IRON = regWithItem("waxed_weathered_plate_iron", () ->
-        new Block(Properties.copy(Blocks.IRON_BLOCK)));
+        new Block(noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_RUSTED_PLATE_IRON = regWithItem("waxed_rusted_plate_iron", () ->
-        new Block(Properties.copy(Blocks.IRON_BLOCK)));
+        new Block(noTick(Blocks.IRON_BLOCK)));
 
     public static final Supplier<Block> WAXED_PLATE_IRON_STAIRS = regWithItem("waxed_plate_iron_stairs", () ->
-        new ModStairBlock(WAXED_PLATE_IRON, Properties.copy(Blocks.IRON_BLOCK)));
+        new ModStairBlock(WAXED_PLATE_IRON, noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_EXPOSED_PLATE_IRON_STAIRS = regWithItem("waxed_exposed_plate_iron_stairs", () ->
-        new ModStairBlock(WAXED_EXPOSED_PLATE_IRON, Properties.copy(Blocks.IRON_BLOCK)));
+        new ModStairBlock(WAXED_EXPOSED_PLATE_IRON, noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_WEATHERED_PLATE_IRON_STAIRS = regWithItem("waxed_weathered_plate_iron_stairs", () ->
-        new ModStairBlock(WAXED_WEATHERED_PLATE_IRON, Properties.copy(Blocks.IRON_BLOCK)));
+        new ModStairBlock(WAXED_WEATHERED_PLATE_IRON, noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_RUSTED_PLATE_IRON_STAIRS = regWithItem("waxed_rusted_plate_iron_stairs", () ->
-        new ModStairBlock(WAXED_RUSTED_PLATE_IRON, Properties.copy(Blocks.IRON_BLOCK)));
+        new ModStairBlock(WAXED_RUSTED_PLATE_IRON, noTick(Blocks.IRON_BLOCK)));
 
     public static final Supplier<Block> WAXED_PLATE_IRON_SLAB = regWithItem("waxed_plate_iron_slab", () ->
-        new SlabBlock(Properties.copy(Blocks.IRON_BLOCK)));
+        new SlabBlock(noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_EXPOSED_PLATE_IRON_SLAB = regWithItem("waxed_exposed_plate_iron_slab", () ->
-        new SlabBlock(Properties.copy(Blocks.IRON_BLOCK)));
+        new SlabBlock(noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_WEATHERED_PLATE_IRON_SLAB = regWithItem("waxed_weathered_plate_iron_slab", () ->
-        new SlabBlock(Properties.copy(Blocks.IRON_BLOCK)));
+        new SlabBlock(noTick(Blocks.IRON_BLOCK)));
     public static final Supplier<Block> WAXED_RUSTED_PLATE_IRON_SLAB = regWithItem("waxed_rusted_plate_iron_slab", () ->
-        new SlabBlock(Properties.copy(Blocks.IRON_BLOCK)));
+        new SlabBlock(noTick(Blocks.IRON_BLOCK)));
 
     //iron decor
 
