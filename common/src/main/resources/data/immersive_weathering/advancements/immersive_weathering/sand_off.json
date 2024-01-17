@@ -20,21 +20,22 @@
     "stone_brick_repair": {
       "trigger": "minecraft:item_used_on_block",
       "conditions": {
-        "item": {
-          "items": [
-            "minecraft:wooden_shovel",
-            "minecraft:golden_shovel",
-            "minecraft:stone_shovel",
-            "minecraft:iron_shovel",
-            "minecraft:diamond_shovel",
-            "minecraft:netherite_shovel"
-          ]
-        },
-        "location": {
-          "block": {
-            "tag": "immersive_weathering:sandy"
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "tag": "immersive_weathering:sandy"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "tag": "minecraft:shovels"
+            }
           }
-        }
+        ]
       }
     }
   },

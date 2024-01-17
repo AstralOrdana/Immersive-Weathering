@@ -13,7 +13,6 @@ public class ModSoundEvents {
     public static void init() {
     }
 
-    public static Supplier<SoundEvent> YUMMY = registerSoundEvent("yummy");
     public static Supplier<SoundEvent> ICICLE_CRACK = registerSoundEvent("icicle_crack");
 
     @NotNull

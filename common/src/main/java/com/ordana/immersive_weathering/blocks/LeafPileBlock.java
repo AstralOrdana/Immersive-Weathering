@@ -267,7 +267,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
         int layers = state.getValue(LAYERS);
         if (age == 10) level.destroyBlock(pos, true);
         else if (age > 0 && level.random.nextBoolean()) {
-            if (level.random.nextFloat() > 0.8 && level.getBlockState(pos.below()).is(BlockTags.DIRT)) {
+            if (level.random.nextFloat() > 0.8 && level.getBlockState(pos.below()).is(ModTags.DIRT_BASE_BLOCKS)) {
                 if (state.is(ModTags.LEAFY_LEAVES)) level.setBlockAndUpdate(pos.below(), ModBlocks.LOAM.get().defaultBlockState());
                 else if (state.is(ModTags.PINE_LEAVES)) level.setBlockAndUpdate(pos.below(), Blocks.PODZOL.defaultBlockState());
             }

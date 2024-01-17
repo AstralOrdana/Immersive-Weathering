@@ -20,75 +20,82 @@
     "wax_off": {
       "trigger": "minecraft:item_used_on_block",
       "conditions": {
-        "item": {
-          "items": [
-            "minecraft:wooden_axe",
-            "minecraft:golden_axe",
-            "minecraft:stone_axe",
-            "minecraft:iron_axe",
-            "minecraft:diamond_axe",
-            "minecraft:netherite_axe",
-            "immersive_weathering:steel_wool"
-          ]
-        },
-        "location": {
-          "block": {
-            "blocks": [
-              "minecraft:waxed_copper_block",
-              "minecraft:waxed_exposed_copper",
-              "minecraft:waxed_weathered_copper",
-              "minecraft:waxed_oxidized_copper",
-              "minecraft:waxed_cut_copper",
-              "minecraft:waxed_exposed_cut_copper",
-              "minecraft:waxed_weathered_cut_copper",
-              "minecraft:waxed_oxidized_cut_copper",
-              "minecraft:waxed_cut_copper_slab",
-              "minecraft:waxed_exposed_cut_copper_slab",
-              "minecraft:waxed_weathered_cut_copper_slab",
-              "minecraft:waxed_oxidized_cut_copper_slab",
-              "minecraft:waxed_cut_copper_stairs",
-              "minecraft:waxed_exposed_cut_copper_stairs",
-              "minecraft:waxed_weathered_cut_copper_stairs",
-              "minecraft:waxed_oxidized_cut_copper_stairs",
-              "immersive_weathering:waxed_cut_iron",
-              "immersive_weathering:waxed_exposed_cut_iron",
-              "immersive_weathering:waxed_weathered_cut_iron",
-              "immersive_weathering:waxed_rusted_cut_iron",
-              "immersive_weathering:waxed_cut_iron_stairs",
-              "immersive_weathering:waxed_exposed_cut_iron_stairs",
-              "immersive_weathering:waxed_weathered_cut_iron_stairs",
-              "immersive_weathering:waxed_rusted_cut_iron_stairs",
-              "immersive_weathering:waxed_cut_iron_slab",
-              "immersive_weathering:waxed_exposed_cut_iron_slab",
-              "immersive_weathering:waxed_weathered_cut_iron_slab",
-              "immersive_weathering:waxed_rusted_cut_iron_slab",
-              "immersive_weathering:waxed_plate_iron",
-              "immersive_weathering:waxed_exposed_plate_iron",
-              "immersive_weathering:waxed_weathered_plate_iron",
-              "immersive_weathering:waxed_rusted_plate_iron",
-              "immersive_weathering:waxed_plate_iron_stairs",
-              "immersive_weathering:waxed_exposed_plate_iron_stairs",
-              "immersive_weathering:waxed_weathered_plate_iron_stairs",
-              "immersive_weathering:waxed_rusted_plate_iron_stairs",
-              "immersive_weathering:waxed_plate_iron_slab",
-              "immersive_weathering:waxed_exposed_plate_iron_slab",
-              "immersive_weathering:waxed_weathered_plate_iron_slab",
-              "immersive_weathering:waxed_rusted_plate_iron_slab",
-              "immersive_weathering:waxed_iron_door",
-              "immersive_weathering:waxed_iron_trapdoor",
-              "immersive_weathering:waxed_iron_bars",
-              "immersive_weathering:waxed_exposed_iron_door",
-              "immersive_weathering:waxed_exposed_iron_trapdoor",
-              "immersive_weathering:waxed_exposed_iron_bars",
-              "immersive_weathering:waxed_weathered_iron_door",
-              "immersive_weathering:waxed_weathered_iron_trapdoor",
-              "immersive_weathering:waxed_weathered_iron_bars",
-              "immersive_weathering:waxed_rusted_iron_door",
-              "immersive_weathering:waxed_rusted_iron_trapdoor",
-              "immersive_weathering:waxed_rusted_iron_bars"
-            ]
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "blocks": [
+                  "minecraft:waxed_copper_block",
+                  "minecraft:waxed_exposed_copper",
+                  "minecraft:waxed_weathered_copper",
+                  "minecraft:waxed_oxidized_copper",
+                  "minecraft:waxed_cut_copper",
+                  "minecraft:waxed_exposed_cut_copper",
+                  "minecraft:waxed_weathered_cut_copper",
+                  "minecraft:waxed_oxidized_cut_copper",
+                  "minecraft:waxed_cut_copper_slab",
+                  "minecraft:waxed_exposed_cut_copper_slab",
+                  "minecraft:waxed_weathered_cut_copper_slab",
+                  "minecraft:waxed_oxidized_cut_copper_slab",
+                  "minecraft:waxed_cut_copper_stairs",
+                  "minecraft:waxed_exposed_cut_copper_stairs",
+                  "minecraft:waxed_weathered_cut_copper_stairs",
+                  "minecraft:waxed_oxidized_cut_copper_stairs",
+                  "immersive_weathering:waxed_cut_iron",
+                  "immersive_weathering:waxed_exposed_cut_iron",
+                  "immersive_weathering:waxed_weathered_cut_iron",
+                  "immersive_weathering:waxed_rusted_cut_iron",
+                  "immersive_weathering:waxed_cut_iron_stairs",
+                  "immersive_weathering:waxed_exposed_cut_iron_stairs",
+                  "immersive_weathering:waxed_weathered_cut_iron_stairs",
+                  "immersive_weathering:waxed_rusted_cut_iron_stairs",
+                  "immersive_weathering:waxed_cut_iron_slab",
+                  "immersive_weathering:waxed_exposed_cut_iron_slab",
+                  "immersive_weathering:waxed_weathered_cut_iron_slab",
+                  "immersive_weathering:waxed_rusted_cut_iron_slab",
+                  "immersive_weathering:waxed_plate_iron",
+                  "immersive_weathering:waxed_exposed_plate_iron",
+                  "immersive_weathering:waxed_weathered_plate_iron",
+                  "immersive_weathering:waxed_rusted_plate_iron",
+                  "immersive_weathering:waxed_plate_iron_stairs",
+                  "immersive_weathering:waxed_exposed_plate_iron_stairs",
+                  "immersive_weathering:waxed_weathered_plate_iron_stairs",
+                  "immersive_weathering:waxed_rusted_plate_iron_stairs",
+                  "immersive_weathering:waxed_plate_iron_slab",
+                  "immersive_weathering:waxed_exposed_plate_iron_slab",
+                  "immersive_weathering:waxed_weathered_plate_iron_slab",
+                  "immersive_weathering:waxed_rusted_plate_iron_slab",
+                  "immersive_weathering:waxed_iron_door",
+                  "immersive_weathering:waxed_iron_trapdoor",
+                  "immersive_weathering:waxed_iron_bars",
+                  "immersive_weathering:waxed_exposed_iron_door",
+                  "immersive_weathering:waxed_exposed_iron_trapdoor",
+                  "immersive_weathering:waxed_exposed_iron_bars",
+                  "immersive_weathering:waxed_weathered_iron_door",
+                  "immersive_weathering:waxed_weathered_iron_trapdoor",
+                  "immersive_weathering:waxed_weathered_iron_bars",
+                  "immersive_weathering:waxed_rusted_iron_door",
+                  "immersive_weathering:waxed_rusted_iron_trapdoor",
+                  "immersive_weathering:waxed_rusted_iron_bars"
+                ]
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": [
+                "minecraft:wooden_axe",
+                "minecraft:golden_axe",
+                "minecraft:stone_axe",
+                "minecraft:iron_axe",
+                "minecraft:diamond_axe",
+                "minecraft:netherite_axe"
+              ]
+            }
           }
-        }
+        ]
       }
     }
   },
@@ -96,5 +103,6 @@
     [
       "wax_off"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

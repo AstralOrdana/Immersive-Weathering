@@ -20,16 +20,24 @@
     "wax_off": {
       "trigger": "minecraft:item_used_on_block",
       "conditions": {
-        "item": {
-          "items": [
-            "minecraft:shears"
-          ]
-        },
-        "location": {
-          "block": {
-            "tag": "immersive_weathering:mossy"
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "tag": "immersive_weathering:mossy"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": [
+                "minecraft:shears"
+              ]
+            }
           }
-        }
+        ]
       }
     }
   },

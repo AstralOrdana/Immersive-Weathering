@@ -9,10 +9,12 @@ import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.mixins.accessors.BiomeAccessor;
 import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.reg.ModItems;
 import com.ordana.immersive_weathering.reg.ModTags;
 import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesTypeRegistry;
 import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
+import net.mehvahdjukaar.moonlight.api.set.wood.WoodTypeRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -251,8 +253,35 @@ public class WeatheringHelper {
 
     public static final Supplier<BiMap<Block, Block>> STRIPPED_TO_RAW = Suppliers.memoize(() -> RAW_TO_STRIPPED.get().inverse());
 
+    public static final Supplier<BiMap<Block, Item>> WOOD_TO_BARK = Suppliers.memoize(() -> {
+        var builder = ImmutableBiMap.<Block, Item>builder()
+            .put(Blocks.OAK_LOG,       ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("oak"))))
+            .put(Blocks.BIRCH_LOG,     ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("birch"))))
+            .put(Blocks.JUNGLE_LOG,    ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("jungle"))))
+            .put(Blocks.SPRUCE_LOG,    ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("spruce"))))
+            .put(Blocks.ACACIA_LOG,    ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("acacia"))))
+            .put(Blocks.DARK_OAK_LOG,  ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("dark_oak"))))
+            .put(Blocks.MANGROVE_LOG,  ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("mangrove"))))
+            .put(Blocks.CHERRY_LOG,    ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("cherry"))))
+            .put(Blocks.BAMBOO_BLOCK,  ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("bamboo"))))
+            .put(Blocks.CRIMSON_STEM,  ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("crimson"))))
+            .put(Blocks.WARPED_STEM,   ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("warped"))))
+            .put(Blocks.OAK_WOOD,      ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("oak"))))
+            .put(Blocks.BIRCH_WOOD,    ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("birch"))))
+            .put(Blocks.JUNGLE_WOOD,   ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("jungle"))))
+            .put(Blocks.SPRUCE_WOOD,   ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("spruce"))))
+            .put(Blocks.ACACIA_WOOD,   ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("acacia"))))
+            .put(Blocks.DARK_OAK_WOOD, ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("dark_oak"))))
+            .put(Blocks.MANGROVE_WOOD, ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("mangrove"))))
+            .put(Blocks.CHERRY_WOOD,   ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("cherry"))))
+            .put(Blocks.CRIMSON_HYPHAE,ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("crimson"))))
+            .put(Blocks.WARPED_HYPHAE, ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("warped"))));
+        return builder.build();
+    });
 
-
+    public static Optional<Item> getBark(Block block) {
+        return Optional.ofNullable(WOOD_TO_BARK.get().get(block));
+    }
 
     /**
      * Grabs block positions around center pos. Order of these is random and depends on current blockpos

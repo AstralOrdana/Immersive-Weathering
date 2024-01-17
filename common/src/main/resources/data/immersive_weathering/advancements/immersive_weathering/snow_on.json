@@ -19,16 +19,24 @@
     "wax_on": {
       "trigger": "minecraft:item_used_on_block",
       "conditions": {
-        "item": {
-          "items": [
-            "minecraft:snowball"
-          ]
-        },
-        "location": {
-          "block": {
-            "tag": "immersive_weathering:snowable"
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "tag": "immersive_weathering:snowable"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": [
+                "minecraft:snowball"
+              ]
+            }
           }
-        }
+        ]
       }
     }
   },

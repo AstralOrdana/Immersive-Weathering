@@ -21,6 +21,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -83,18 +84,12 @@ public class EarthenClayBlockGrassy extends BaseSoilBlock implements SimpleWater
     }
 
     public static boolean isNearWater(LevelReader level, BlockPos pos) {
-        Iterator var2 = BlockPos.betweenClosed(pos.offset(-1, 0, -1), pos.offset(1, 1, 1)).iterator();
-
-        BlockPos blockPos;
-        do {
-            if (!var2.hasNext()) {
-                return false;
-            }
-
-            blockPos = (BlockPos)var2.next();
-        } while(!level.getFluidState(blockPos).is(FluidTags.WATER));
-
-        return true;
+        boolean isNear = false;
+        for (Direction dir : Direction.values()) {
+            var relativeBlock = level.getBlockState(pos.relative(dir));
+            if (level.getFluidState(pos.relative(dir)).is(FluidTags.WATER) && (!relativeBlock.is(ModBlocks.EARTHEN_CLAY.get()) && !relativeBlock.is(ModBlocks.GRASSY_EARTHEN_CLAY.get()))) isNear = true;
+        }
+        return isNear;
     }
 
     @Override

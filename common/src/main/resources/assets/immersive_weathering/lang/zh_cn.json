@@ -11,8 +11,6 @@
   "advancements.immersive_weathering.weeds.description": "清理一些野草。野草只会生长在高草丛附近的耕地上。",
   "advancements.immersive_weathering.mulch.title": "化作春泥更护根",
   "advancements.immersive_weathering.mulch.description": "合成一些护根。护根可以保持湿润，还能防止野草生长并提升农作物的生长速度！",
-  "advancements.immersive_weathering.pond_water.title": "你为什么要这么做？？？",
-  "advancements.immersive_weathering.pond_water.description": "二氧化硅。",
   "advancements.immersive_weathering.flower_crown.title": "花之力",
   "advancements.immersive_weathering.flower_crown.description": "戴上花冠，蜜蜂们觉得你戴着很可爱",
   "advancements.immersive_weathering.eat_azalea_flower.title": "花朵吞噬者",
@@ -92,8 +90,6 @@
 
   "config.immersive_weathering.charring.fire_chars_wood": "木头烧焦率",
   "config.immersive_weathering.charring.fire_chars_wood.descriptionKey": "木头被火烧毁时变为烧焦的木头的概率应该是多少？",
-  "config.immersive_weathering.charring.ash_spawn": "灰烬生成率",
-  "config.immersive_weathering.charring.ash_spawn.descriptionKey": "方块燃烧时形成灰烬的概率应该是多少？",
   "config.immersive_weathering.charring.soot_spawn": "烟灰形成",
   "config.immersive_weathering.charring.soot_spawn.descriptionKey": "烟灰是否应该在火的上方或营火烟雾附近的墙面生成？",
   "config.immersive_weathering.charring.flammable_cobweb": "蜘蛛网可燃性",
@@ -132,11 +128,9 @@
   "config.immersive_weathering.item_interaction.sponge_rust_drying": "增锈时海绵变干",
   "config.immersive_weathering.item_interaction.axe_stripping": "允许使用斧削皮",
   "config.immersive_weathering.item_interaction.axe_rusting": "允许使用斧除锈",
-  "config.immersive_weathering.item_interaction.ash_item_spawn": "灰烬物品生成",
 
   "config.immersive_weathering.food.icicle_food": "冰凌可食用",
   "config.immersive_weathering.food.icicle_fire_resistance": "冰凌给予防火",
-  "config.immersive_weathering.food.muddy_water_enabled": "池水",
 
   "config.immersive_weathering.misc.mulch_grows_crops": "护根上种植作物",
   "config.immersive_weathering.misc.composter_dirt": "堆肥桶产生泥土",
@@ -205,7 +199,6 @@
   "block.immersive_weathering.vitrified_sand": "玻化沙",
   "block.immersive_weathering.fulgurite": "雷击石",
 
-  "item.immersive_weathering.pond_water": "池水",
   "item.immersive_weathering.azalea_flowers": "杜鹃花",
   "item.immersive_weathering.flower_crown": "花冠",
   "block.immersive_weathering.moss": "苔藓丛",
@@ -236,17 +229,10 @@
   "block.immersive_weathering.soot": "烟灰",
   "block.immersive_weathering.sand_layer_block": "沙堆",
   "block.immersive_weathering.red_sand_layer_block": "红沙堆",
-  "block.immersive_weathering.ash_layer_block": "灰烬堆",
-  "block.immersive_weathering.ash_block": "灰烬块",
   "item.immersive_weathering.tallow": "油脂",
 
 
-  "block.immersive_weathering.humus": "腐殖土",
-  "block.immersive_weathering.fluvisol": "冲积土",
   "block.immersive_weathering.silt": "淤泥",
-  "block.immersive_weathering.vertisol": "变性土",
-  "block.immersive_weathering.cracked_mud": "裂纹泥巴",
-  "block.immersive_weathering.cryosol": "冻土",
   "block.immersive_weathering.permafrost": "永久冻土",
 
   "block.immersive_weathering.mulch_block": "护根",
@@ -262,14 +248,6 @@
   "block.immersive_weathering.charred_fence": "烧焦的木栅栏",
   "block.immersive_weathering.charred_fence_gate": "烧焦的木栅栏门",
 
-  "block.immersive_weathering.rotten_log": "腐烂原木",
-  "block.immersive_weathering.rotten_planks": "腐烂木板",
-  "block.immersive_weathering.rotten_slab": "腐烂木台阶",
-  "block.immersive_weathering.rotten_vertical_slab": "腐烂木竖直台阶",
-  "block.immersive_weathering.rotten_stairs": "腐烂木楼梯",
-  "block.immersive_weathering.rotten_fence": "腐烂木栅栏",
-  "block.immersive_weathering.rotten_fence_gate": "腐烂木栅栏门",
-
   "block.immersive_weathering.mossy_bricks": "覆苔红砖块",
   "block.immersive_weathering.mossy_brick_stairs": "覆苔红砖楼梯",
   "block.immersive_weathering.mossy_brick_slab": "覆苔红砖台阶",
@@ -283,12 +261,6 @@
   "block.immersive_weathering.mossy_stone_vertical_slab": "覆苔石头竖直台阶",
   "block.immersive_weathering.mossy_stone_wall": "覆苔石头墙",
   "block.immersive_weathering.stone_wall": "石头墙",
-
-
-  "block.immersive_weathering.snow_bricks": "雪砖",
-  "block.immersive_weathering.snow_brick_stairs": "雪砖楼梯",
-  "block.immersive_weathering.snow_brick_slab": "雪砖台阶",
-  "block.immersive_weathering.snow_brick_wall": "雪砖墙",
 
   "block.immersive_weathering.snowy_stone": "积雪的石头",
   "block.immersive_weathering.snowy_stone_stairs": "积雪的石头楼梯",
@@ -392,11 +364,6 @@
   "block.immersive_weathering.weathered_cut_iron_slab": "锈蚀的切制铁台阶",
   "block.immersive_weathering.rusted_cut_iron_slab": "氧化的切制铁台阶",
 
-  "block.immersive_weathering.cut_iron_vertical_slab": "切制铁竖直台阶",
-  "block.immersive_weathering.exposed_cut_iron_vertical_slab": "斑驳的切制铁竖直台阶",
-  "block.immersive_weathering.weathered_cut_iron_vertical_slab": "锈蚀的切制铁竖直台阶",
-  "block.immersive_weathering.rusted_cut_iron_vertical_slab": "氧化的切制铁竖直台阶",
-
   "block.immersive_weathering.waxed_cut_iron": "涂蜡切制铁块",
   "block.immersive_weathering.waxed_exposed_cut_iron": "斑驳的涂蜡切制铁块",
   "block.immersive_weathering.waxed_weathered_cut_iron": "锈蚀的涂蜡切制铁块",
@@ -412,11 +379,6 @@
   "block.immersive_weathering.waxed_weathered_cut_iron_slab": "锈蚀的涂蜡切制铁台阶",
   "block.immersive_weathering.waxed_rusted_cut_iron_slab": "氧化的涂蜡切制铁台阶",
 
-  "block.immersive_weathering.waxed_cut_iron_vertical_slab": "涂蜡切制铁竖直台阶",
-  "block.immersive_weathering.waxed_exposed_cut_iron_vertical_slab": "斑驳的涂蜡切制铁竖直台阶",
-  "block.immersive_weathering.waxed_weathered_cut_iron_vertical_slab": "锈蚀的涂蜡切制铁竖直台阶",
-  "block.immersive_weathering.waxed_rusted_cut_iron_vertical_slab": "氧化的涂蜡切制铁竖直台阶",
-
   "block.immersive_weathering.plate_iron": "铁板块",
   "block.immersive_weathering.exposed_plate_iron": "斑驳的铁板块",
   "block.immersive_weathering.weathered_plate_iron": "锈蚀的铁板块",
@@ -431,12 +393,6 @@
   "block.immersive_weathering.exposed_plate_iron_slab": "斑驳的铁板台阶",
   "block.immersive_weathering.weathered_plate_iron_slab": "锈蚀的铁板台阶",
   "block.immersive_weathering.rusted_plate_iron_slab": "氧化的铁板台阶",
-
-  "block.immersive_weathering.plate_iron_vertical_slab": "铁板竖直台阶",
-  "block.immersive_weathering.exposed_plate_iron_vertical_slab": "斑驳的铁板竖直台阶",
-  "block.immersive_weathering.weathered_plate_iron_vertical_slab": "锈蚀的铁板竖直台阶",
-  "block.immersive_weathering.rusted_plate_iron_vertical_slab": "氧化的铁板竖直台阶",
-
   "block.immersive_weathering.waxed_plate_iron": "涂蜡铁板块",
   "block.immersive_weathering.waxed_exposed_plate_iron": "斑驳的涂蜡铁板块",
   "block.immersive_weathering.waxed_weathered_plate_iron": "锈蚀的涂蜡铁板块",
@@ -451,11 +407,6 @@
   "block.immersive_weathering.waxed_exposed_plate_iron_slab": "斑驳的涂蜡铁板台阶",
   "block.immersive_weathering.waxed_weathered_plate_iron_slab": "锈蚀的涂蜡铁板台阶",
   "block.immersive_weathering.waxed_rusted_plate_iron_slab": "氧化的涂蜡铁板台阶",
-
-  "block.immersive_weathering.waxed_plate_iron_vertical_slab": "涂蜡铁板竖直台阶",
-  "block.immersive_weathering.waxed_exposed_plate_iron_vertical_slab": "斑驳的涂蜡铁板竖直台阶",
-  "block.immersive_weathering.waxed_weathered_plate_iron_vertical_slab": "锈蚀的涂蜡铁板竖直台阶",
-  "block.immersive_weathering.waxed_rusted_plate_iron_vertical_slab": "氧化的涂蜡铁板竖直台阶",
 
   "block.immersive_weathering.exposed_iron_door": "斑驳的铁门",
   "block.immersive_weathering.weathered_iron_door": "锈蚀的铁门",
@@ -485,9 +436,7 @@
   "block.immersive_weathering.waxed_rusted_iron_bars": "氧化的涂蜡铁栏杆",
 
   "item.immersive_weathering.bark": "%s树皮",
-  "particle.immersive_weathering.leaf_pile": "%s树叶堆",
   "block.immersive_weathering.leaf_pile": "%s树叶堆",
 
-  "sound.immersive_weathering.yummy": "poidobioq吃了一个苹果贴纸",
   "sound.immersive_weathering.ice.crack": "薄冰：碎裂"
 }

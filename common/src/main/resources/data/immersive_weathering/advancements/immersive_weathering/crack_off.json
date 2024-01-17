@@ -19,14 +19,22 @@
     "stone_brick_repair": {
       "trigger": "minecraft:item_used_on_block",
       "conditions": {
-        "item": {
-          "tag": "immersive_weathering:bricks"
-        },
-        "location": {
-          "block": {
-            "tag": "immersive_weathering:cracked"
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "tag": "immersive_weathering:cracked"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "tag": "immersive_weathering:bricks"
+            }
           }
-        }
+        ]
       }
     }
   },

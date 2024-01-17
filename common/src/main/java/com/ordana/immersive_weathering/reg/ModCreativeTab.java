@@ -148,17 +148,20 @@ public class ModCreativeTab {
 
 
         //NATURAL BLOCKS
-        before(e, Items.ROOTED_DIRT, CreativeModeTabs.NATURAL_BLOCKS,
-            ModBlocks.ROOTED_GRASS_BLOCK
+        after(e, Items.PODZOL, CreativeModeTabs.NATURAL_BLOCKS,
+            ModBlocks.LOAM
         );
 
+        after(e, Items.ROOTED_DIRT, CreativeModeTabs.NATURAL_BLOCKS,
+            ModBlocks.ROOTED_GRASS_BLOCK,
+            ModBlocks.EARTHEN_CLAY, ModBlocks.SANDY_DIRT, ModBlocks.SILT, ModBlocks.PERMAFROST,
+            ModBlocks.GRASSY_EARTHEN_CLAY, ModBlocks.GRASSY_SANDY_DIRT, ModBlocks.GRASSY_SILT, ModBlocks.GRASSY_PERMAFROST
+            );
+
         after(e, Items.FARMLAND, CreativeModeTabs.NATURAL_BLOCKS,
-            ModBlocks.MULCH_BLOCK, ModBlocks.NULCH_BLOCK,
-            ModBlocks.GRASSY_EARTHEN_CLAY, ModBlocks.EARTHEN_CLAY, ModBlocks.EARTHEN_CLAY_FARMLAND,
-            ModBlocks.GRASSY_SILT, ModBlocks.SILT, ModBlocks.SILTY_FARMLAND,
-            ModBlocks.GRASSY_SANDY_DIRT, ModBlocks.SANDY_DIRT, ModBlocks.SANDY_FARMLAND,
-            ModBlocks.LOAM, ModBlocks.LOAMY_FARMLAND,
-            ModBlocks.GRASSY_PERMAFROST, ModBlocks.PERMAFROST
+            ModBlocks.LOAMY_FARMLAND,
+            ModBlocks.EARTHEN_CLAY_FARMLAND, ModBlocks.SANDY_FARMLAND, ModBlocks.SILTY_FARMLAND,
+            ModBlocks.MULCH_BLOCK, ModBlocks.NULCH_BLOCK
         );
 
         before(e, Items.ICE, CreativeModeTabs.NATURAL_BLOCKS,

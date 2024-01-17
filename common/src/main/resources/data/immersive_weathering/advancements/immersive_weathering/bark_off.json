@@ -20,36 +20,22 @@
     "wax_off": {
       "trigger": "minecraft:item_used_on_block",
       "conditions": {
-        "item": {
-          "items": [
-            "minecraft:wooden_axe",
-            "minecraft:golden_axe",
-            "minecraft:stone_axe",
-            "minecraft:iron_axe",
-            "minecraft:diamond_axe",
-            "minecraft:netherite_axe"
-          ]
-        },
-        "location": {
-          "block": {
-            "blocks": [
-              "minecraft:oak_log",
-              "minecraft:dark_oak_log",
-              "minecraft:birch_log",
-              "minecraft:jungle_log",
-              "minecraft:acacia_log",
-              "minecraft:spruce_log",
-              "minecraft:mangrove_log",
-              "minecraft:oak_wood",
-              "minecraft:dark_oak_wood",
-              "minecraft:birch_wood",
-              "minecraft:jungle_wood",
-              "minecraft:acacia_wood",
-              "minecraft:spruce_wood",
-              "minecraft:mangrove_wood"
-            ]
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "tag": "immersive_weathering:raw_logs"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "tag": "minecraft:axes"
+            }
           }
-        }
+        ]
       }
     }
   },

@@ -19,14 +19,22 @@
     "wax_on": {
       "trigger": "minecraft:item_used_on_block",
       "conditions": {
-        "item": {
-          "tag": "immersive_weathering:bark"
-        },
-        "location": {
-          "block": {
-            "tag": "immersive_weathering:stripped_logs"
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "tag": "immersive_weathering:stripped_logs"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "tag": "immersive_weathering:bark"
+            }
           }
-        }
+        ]
       }
     }
   },

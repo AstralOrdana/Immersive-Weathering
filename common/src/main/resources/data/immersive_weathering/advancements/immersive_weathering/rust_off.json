@@ -20,21 +20,22 @@
     "wax_off": {
       "trigger": "minecraft:item_used_on_block",
       "conditions": {
-        "item": {
-          "items": [
-            "minecraft:wooden_axe",
-            "minecraft:golden_axe",
-            "minecraft:stone_axe",
-            "minecraft:iron_axe",
-            "minecraft:diamond_axe",
-            "minecraft:netherite_axe"
-          ]
-        },
-        "location": {
-          "block": {
-            "tag": "immersive_weathering:unscrapeable"
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "tag": "immersive_weathering:unscrapeable"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "tag": "minecraft:axes"
+            }
           }
-        }
+        ]
       }
     }
   },

@@ -38,8 +38,6 @@ public class ImmersiveWeatheringClient {
         ClientHelper.addClientSetup(ImmersiveWeatheringClient::setup);
         ClientDynamicResourcesHandler.INSTANCE.register();
 
-        ClientHelper.registerOptionalTexturePack(ImmersiveWeathering.res("better_brick_items"), Component.literal("Better Brick Items"), false);
-        ClientHelper.registerOptionalTexturePack(ImmersiveWeathering.res("better_brick_blocks"));
         ClientHelper.registerOptionalTexturePack(ImmersiveWeathering.res("visual_waxed_iron_items"));
 
         ClientHelper.addEntityRenderersRegistration(ImmersiveWeatheringClient::registerEntityRenderers);

@@ -19,16 +19,24 @@
     "wax_on": {
       "trigger": "minecraft:item_used_on_block",
       "conditions": {
-        "item": {
-          "items": [
-            "immersive_weathering:sand_layer_block"
-          ]
-        },
-        "location": {
-          "block": {
-            "tag": "immersive_weathering:sandable"
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "tag": "immersive_weathering:sandable"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": [
+                "immersive_weathering:sand_layer_block"
+              ]
+            }
           }
-        }
+        ]
       }
     }
   },

@@ -3,7 +3,10 @@
   "fluid": "minecraft:water",
   "priority": 0,
   "generate": {
-    "Name": "minecraft:cobblestone"
+    "Name": "immersive_weathering:nulch_block",
+    "Properties": {
+      "molten": "false"
+    }
   },
   "adjacent_blocks": {
     "any": [

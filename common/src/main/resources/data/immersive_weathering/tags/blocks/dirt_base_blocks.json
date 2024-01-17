@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:dirt",
+    "minecraft:grass_block",
+    "minecraft:podzol",
+    "immersive_weathering:loam",
+    "minecraft:mycelium"
+  ]
+}

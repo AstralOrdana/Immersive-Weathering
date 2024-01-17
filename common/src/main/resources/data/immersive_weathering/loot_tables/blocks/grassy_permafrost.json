@@ -10,6 +10,25 @@
           "children": [
             {
               "type": "minecraft:item",
+              "name": "immersive_weathering:grassy_permafrost",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "enchantments": [
+                      {
+                        "enchantment": "minecraft:silk_touch",
+                        "levels": {
+                          "min": 1
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
               "name": "immersive_weathering:permafrost",
               "conditions": [
                 {

@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "immersive_weathering:humus"
+      "item": "immersive_weathering:loam"
     },
     "title": {
       "translate": "advancements.immersive_weathering.dirts.title"
@@ -64,13 +64,61 @@
         ]
       }
     },
-    "soul soil": {
+    "soul_soil": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
               "minecraft:soul_soil"
+            ]
+          }
+        ]
+      }
+    },
+    "loam": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:loam"
+            ]
+          }
+        ]
+      }
+    },
+    "earthen_clay": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:earthen_clay"
+            ]
+          }
+        ]
+      }
+    },
+    "silt": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:silt"
+            ]
+          }
+        ]
+      }
+    },
+    "sandy_dirt": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_weathering:sandy_dirt"
             ]
           }
         ]
@@ -91,7 +139,19 @@
       "podzol"
     ],
     [
-      "soul soil"
+      "soul_soil"
+    ],
+    [
+      "loam"
+    ],
+    [
+      "silt"
+    ],
+    [
+      "earthen_clay"
+    ],
+    [
+      "sandy_dirt"
     ]
   ]
 }

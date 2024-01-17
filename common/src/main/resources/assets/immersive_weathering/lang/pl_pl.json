@@ -11,8 +11,6 @@
   "advancements.immersive_weathering.weeds.description": "Zbierz trochę chwastów. Zbuduj szklarnię nad swoim polem uprawnym lub posadź je na ściółce, aby przestały się rozprzestrzeniać",
   "advancements.immersive_weathering.mulch.title": "Ściółka i spółka",
   "advancements.immersive_weathering.mulch.description": "Wytwórz ściółkę, najlepszego przyjaciela każdego rolnika",
-  "advancements.immersive_weathering.pond_water.title": "Dlaczego to zrobiłeś???",
-  "advancements.immersive_weathering.pond_water.description": "Pylica płuc.",
   "advancements.immersive_weathering.flower_crown.title": "Ładne kwiatki",
   "advancements.immersive_weathering.flower_crown.description": "Załóż azaliowy wianek. Pszczoły sądzą, że ci w nim do twarzy",
   "advancements.immersive_weathering.eat_azalea_flower.title": "Świetna dieta kwietna",
@@ -92,8 +90,6 @@
 
   "config.immersive_weathering.charring.fire_chars_wood": "Częstotliwość zwęglania się drewna",
   "config.immersive_weathering.charring.fire_chars_wood.descriptionKey": "Jak duża powinna być szansa na zwęglenie się podpalonego drewna?",
-  "config.immersive_weathering.charring.ash_spawn": "Częstotliwość pojawiania się popiołu",
-  "config.immersive_weathering.charring.ash_spawn.descriptionKey": "Jak duża powinna być szansa na pojawienie się popiołu po podpaleniu bloku?",
   "config.immersive_weathering.charring.soot_spawn": "Formowanie się sadzy",
   "config.immersive_weathering.charring.soot_spawn.descriptionKey": "Czy sadza powinna formować się nad ogniem i na ścianach przy dymie z ogniska?",
   "config.immersive_weathering.charring.flammable_cobweb": "Palność pajęczyn",
@@ -132,11 +128,9 @@
   "config.immersive_weathering.item_interaction.sponge_rust_drying": "Gąbki wysychają po nałożeniu rdzy",
   "config.immersive_weathering.item_interaction.axe_stripping": "Okorowanie siekierą",
   "config.immersive_weathering.item_interaction.axe_rusting": "Odrdzewianie siekierą",
-  "config.immersive_weathering.item_interaction.ash_item_spawn": "Pojawianie się popiołu",
 
   "config.immersive_weathering.food.icicle_food": "Jadalny sopel lodu",
   "config.immersive_weathering.food.icicle_fire_resistance": "Ognioodporność z sopli lodu",
-  "config.immersive_weathering.food.muddy_water_enabled": "Woda ze stawu",
 
   "config.immersive_weathering.misc.mulch_grows_crops": "Uprawy rosną na ściółce",
   "config.immersive_weathering.misc.composter_dirt": "Kompostownik daje ziemię",
@@ -203,7 +197,6 @@
   "block.immersive_weathering.vitrified_sand": "Zeszklony piasek",
   "block.immersive_weathering.fulgurite": "Piorunowiec",
 
-  "item.immersive_weathering.pond_water": "Woda ze stawu",
   "item.immersive_weathering.azalea_flowers": "Kwiaty azalii",
   "item.immersive_weathering.flower_crown": "Azaliowy wianek",
   "block.immersive_weathering.moss": "Kępa mchu",
@@ -234,17 +227,10 @@
   "block.immersive_weathering.soot": "Sadza",
   "block.immersive_weathering.sand_layer_block": "Kupa piasku",
   "block.immersive_weathering.red_sand_layer_block": "Kupa czerwonego piasku",
-  "block.immersive_weathering.ash_layer_block": "Kupa popiołu",
-  "block.immersive_weathering.ash_block": "Blok popiołu",
   "item.immersive_weathering.tallow": "Łój",
 
 
-  "block.immersive_weathering.humus": "Próchnica",
-  "block.immersive_weathering.fluvisol": "Mad",
   "block.immersive_weathering.silt": "Muł",
-  "block.immersive_weathering.vertisol": "Wertisol",
-  "block.immersive_weathering.cracked_mud": "Popękane błoto",
-  "block.immersive_weathering.cryosol": "Kriozol",
   "block.immersive_weathering.permafrost": "Marzłoć",
 
   "block.immersive_weathering.mulch_block": "Ściółka",
@@ -260,14 +246,6 @@
   "block.immersive_weathering.charred_fence": "Zwęglony płot",
   "block.immersive_weathering.charred_fence_gate": "Zwęglona furtka",
 
-  "block.immersive_weathering.rotten_log": "Zgniły pień",
-  "block.immersive_weathering.rotten_planks": "Zgniłe deski",
-  "block.immersive_weathering.rotten_slab": "Zgniła płyta",
-  "block.immersive_weathering.rotten_vertical_slab": "Pionowa zgniła płyta",
-  "block.immersive_weathering.rotten_stairs": "Zgniłe schody",
-  "block.immersive_weathering.rotten_fence": "Zgniły płot",
-  "block.immersive_weathering.rotten_fence_gate": "Zgniła furtka",
-
   "block.immersive_weathering.mossy_bricks": "Zamszone cegły",
   "block.immersive_weathering.mossy_brick_stairs": "Zamszone ceglane schody",
   "block.immersive_weathering.mossy_brick_slab": "Zamszona ceglana płyta",
@@ -280,12 +258,6 @@
   "block.immersive_weathering.mossy_stone_vertical_slab": "Pionowa zamszona kamienna płyta",
   "block.immersive_weathering.mossy_stone_wall": "Zamszony kamienny murek",
   "block.immersive_weathering.stone_wall": "Kamienny murek",
-
-
-  "block.immersive_weathering.snow_bricks": "Śnieżne cegły",
-  "block.immersive_weathering.snow_brick_stairs": "Śnieżne ceglane schody",
-  "block.immersive_weathering.snow_brick_slab": "Śnieżna ceglana płyta",
-  "block.immersive_weathering.snow_brick_wall": "Śnieżny ceglany murek",
 
   "block.immersive_weathering.snowy_stone": "Zaśnieżony kamień",
   "block.immersive_weathering.snowy_stone_stairs": "Zaśnieżone kamienne schody",
@@ -389,11 +361,6 @@
   "block.immersive_weathering.weathered_cut_iron_slab": "Zaśniedziała żłobiona żelazna płyta",
   "block.immersive_weathering.rusted_cut_iron_slab": "Zardzewiała żłobiona żelazna płyta",
 
-  "block.immersive_weathering.cut_iron_vertical_slab": "Pionowa żłobiona żelazna płyta",
-  "block.immersive_weathering.exposed_cut_iron_vertical_slab": "Pionowa zwietrzała żłobiona żelazna płyta",
-  "block.immersive_weathering.weathered_cut_iron_vertical_slab": "Pionowa zaśniedziała żłobiona żelazna płyta",
-  "block.immersive_weathering.rusted_cut_iron_vertical_slab": "Pionowa zardzewiała żłobiona żelazna płyta",
-
   "block.immersive_weathering.waxed_cut_iron": "Woskowane żłobione żelazo",
   "block.immersive_weathering.waxed_exposed_cut_iron": "Woskowane zwietrzałe żłobione żelazo",
   "block.immersive_weathering.waxed_weathered_cut_iron": "Woskowane zaśniedziałe żłobione żelazo",
@@ -408,11 +375,6 @@
   "block.immersive_weathering.waxed_exposed_cut_iron_slab": "Woskowana zwietrzała żłobiona żelazna płyta",
   "block.immersive_weathering.waxed_weathered_cut_iron_slab": "Woskowana zaśniedziała żłobiona żelazna płyta",
   "block.immersive_weathering.waxed_rusted_cut_iron_slab": "Woskowana zardzewiała żłobiona żelazna płyta",
-
-  "block.immersive_weathering.waxed_cut_iron_vertical_slab": "Pionowa woskowana żłobiona żelazna płyta",
-  "block.immersive_weathering.waxed_exposed_cut_iron_vertical_slab": "Pionowa woskowana zwietrzała żłobiona żelazna płyta",
-  "block.immersive_weathering.waxed_weathered_cut_iron_vertical_slab": "Pionowa woskowana zaśniedziała żłobiona żelazna płyta",
-  "block.immersive_weathering.waxed_rusted_cut_iron_vertical_slab": "Pionowa woskowana zardzewiała żłobiona żelazna płyta",
 
   "block.immersive_weathering.plate_iron": "Taflowane żelazo",
   "block.immersive_weathering.exposed_plate_iron": "Zwietrzałe taflowane żelazo",
@@ -429,11 +391,6 @@
   "block.immersive_weathering.weathered_plate_iron_slab": "Zaśniedziała taflowana żelazna płyta",
   "block.immersive_weathering.rusted_plate_iron_slab": "Zardzewiała taflowana żelazna płyta",
 
-  "block.immersive_weathering.plate_iron_vertical_slab": "Pionowa taflowana żelazna płyta",
-  "block.immersive_weathering.exposed_plate_iron_vertical_slab": "Pionowa zwietrzała taflowana żelazna płyta",
-  "block.immersive_weathering.weathered_plate_iron_vertical_slab": "Pionowa zaśniedziała taflowana żelazna płyta",
-  "block.immersive_weathering.rusted_plate_iron_vertical_slab": "Pionowa zardzewiała taflowana żelazna płyta",
-
   "block.immersive_weathering.waxed_plate_iron": "Woskowane taflowane żelazo",
   "block.immersive_weathering.waxed_exposed_plate_iron": "Woskowane zwietrzałe taflowane żelazo",
   "block.immersive_weathering.waxed_weathered_plate_iron": "Woskowane zaśniedziałe taflowane żelazo",
@@ -448,11 +405,6 @@
   "block.immersive_weathering.waxed_exposed_plate_iron_slab": "Woskowana zwietrzała taflowana żelazna płyta",
   "block.immersive_weathering.waxed_weathered_plate_iron_slab": "Woskowana zaśniedziała taflowana żelazna płyta",
   "block.immersive_weathering.waxed_rusted_plate_iron_slab": "Woskowana zardzewiała taflowana żelazna płyta",
-
-  "block.immersive_weathering.waxed_plate_iron_vertical_slab": "Pionowa woskowana taflowana żelazna płyta",
-  "block.immersive_weathering.waxed_exposed_plate_iron_vertical_slab": "Pionowa woskowana zwietrzała taflowana żelazna płyta",
-  "block.immersive_weathering.waxed_weathered_plate_iron_vertical_slab": "Pionowa woskowana zaśniedziała taflowana żelazna płyta",
-  "block.immersive_weathering.waxed_rusted_plate_iron_vertical_slab": "Pionowa woskowana zardzewiała taflowana żelazna płyta",
 
   "block.immersive_weathering.exposed_iron_door": "Zwietrzałe żelazne drzwi",
   "block.immersive_weathering.weathered_iron_door": "Zaśniedziałe żelazne drzwi",
@@ -482,9 +434,7 @@
   "block.immersive_weathering.waxed_rusted_iron_bars": "Woskowane zardzewiałe żelazne kraty",
 
   "item.immersive_weathering.bark": "%s kora",
-  "particle.immersive_weathering.leaf_pile": "%s sterta liści",
   "block.immersive_weathering.leaf_pile": "%s sterta liści",
 
-  "sound.immersive_weathering.yummy": "poidobioq zjada naklejkę apple",
   "sound.immersive_weathering.ice.crack": "Cienki lód pęka"
 }

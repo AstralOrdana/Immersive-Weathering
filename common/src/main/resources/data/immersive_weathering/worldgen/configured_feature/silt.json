@@ -21,6 +21,33 @@
         "state": {
           "Name": "immersive_weathering:silt"
         }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:clay"
+        },
+        "state": {
+          "Name": "immersive_weathering:silt"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:sand"
+        },
+        "state": {
+          "Name": "immersive_weathering:silt"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:gravel"
+        },
+        "state": {
+          "Name": "immersive_weathering:silt"
+        }
       }
     ]
   }
