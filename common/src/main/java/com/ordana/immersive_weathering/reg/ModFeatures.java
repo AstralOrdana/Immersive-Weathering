@@ -37,10 +37,6 @@ public class ModFeatures {
         ResourceKey<PlacedFeature> silt = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("silt"));
         IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_SILT, silt);
 
-        ResourceKey<PlacedFeature> silt_aquifer = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("silt_aquifer"));
-        IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, BiomeTags.IS_OVERWORLD, silt_aquifer);
-
-
         ResourceKey<PlacedFeature> sandy_dirt = ResourceKey.create(Registries.PLACED_FEATURE, ImmersiveWeathering.res("sandy_dirt"));
         IWPlatformStuff.addFeatureToBiome(GenerationStep.Decoration.RAW_GENERATION, ModTags.HAS_SANDY_DIRT, sandy_dirt);
 
