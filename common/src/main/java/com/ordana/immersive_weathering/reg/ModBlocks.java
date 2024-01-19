@@ -154,6 +154,9 @@ public class ModBlocks {
         new IvyBlock(Properties.copy(Blocks.VINE).noCollission().strength(0.2f)
             .sound(SoundType.AZALEA_LEAVES)));
 
+    public static final Supplier<Block> DUNE_GRASS = regWithItem("dune_grass", () ->
+        new DuneGrassBlock(Properties.copy(Blocks.GRASS).noCollission().instabreak().sound(SoundType.GRASS)));
+
 
     //mossy blocks
 

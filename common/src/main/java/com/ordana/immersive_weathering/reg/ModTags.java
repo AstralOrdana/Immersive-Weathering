@@ -56,7 +56,7 @@ public final class ModTags {
     public static final TagKey<Block> FLOWERY = registerBlockTag("flowery");
     public static final TagKey<Block> FLOWERABLE = registerBlockTag("flowerable");
 
-    public static final TagKey<Block> SAND_CAVE_FLOOR = registerBlockTag("sand_cave_floor");
+    public static final TagKey<Block> DUNE_GRASS_PATCH_REPLACEABLE = registerBlockTag("dune_grass_patch_replaceable");
 
     //items
     public static final TagKey<Item> BARK = registerItemTag("bark");
@@ -77,6 +77,7 @@ public final class ModTags {
 
     public static final TagKey<Biome> HAS_LAKEBED = registerBiomeTag("has_lakebed");
     public static final TagKey<Biome> HAS_IVY = registerBiomeTag("has_ivy");
+    public static final TagKey<Biome> HAS_DUNE_GRASS = registerBiomeTag("has_dune_grass");
     public static final TagKey<Biome> HAS_MOSS = registerBiomeTag("has_moss");
     public static final TagKey<Biome> HAS_SANDSTORM = registerBiomeTag("has_sandstorm");
 

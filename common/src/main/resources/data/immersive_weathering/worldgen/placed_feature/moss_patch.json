@@ -8,12 +8,6 @@
       "noise_offset": 0.4
     },
     {
-      "type": "minecraft:noise_threshold_count",
-      "noise_level": 0.2,
-      "below_noise": 100,
-      "above_noise": 128
-    },
-    {
       "type": "minecraft:count_on_every_layer",
       "count": {
         "type": "minecraft:uniform",

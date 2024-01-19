@@ -93,6 +93,7 @@ public class ImmersiveWeatheringClient {
         ClientHelper.registerRenderType(ModBlocks.IVY.get(), RenderType.cutoutMipped());
 
         ClientHelper.registerRenderType(ModBlocks.MOSS.get(), RenderType.cutoutMipped());
+        ClientHelper.registerRenderType(ModBlocks.DUNE_GRASS.get(), RenderType.cutoutMipped());
         ClientHelper.registerRenderType(ModBlocks.SOOT.get(), RenderType.cutoutMipped());
         ClientHelper.registerRenderType(ModBlocks.SOOT.get(), RenderType.translucent());
         ClientHelper.registerRenderType(ModBlocks.FROST.get(), RenderType.cutout());

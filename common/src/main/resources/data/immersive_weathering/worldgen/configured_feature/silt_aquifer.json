@@ -1,32 +1,26 @@
 {
-  "type": "minecraft:vegetation_patch",
+  "type": "minecraft:disk",
   "config": {
-    "surface": "floor",
-    "depth": 1,
-    "vertical_range": 5,
-    "extra_bottom_block_chance": 0,
-    "extra_edge_column_chance": 0.5,
-    "vegetation_chance": 0.01,
-    "xz_radius": {
+    "state_provider": {
+      "fallback": {
+        "type": "minecraft:simple_state_provider",
+        "state": {
+          "Name": "immersive_weathering:silt"
+        }
+      },
+      "rules": []
+    },
+    "target": {
+      "type": "minecraft:matching_blocks",
+      "blocks": "#minecraft:base_stone_overworld"
+    },
+    "radius": {
       "type": "minecraft:uniform",
       "value": {
         "min_inclusive": 2,
         "max_inclusive": 4
       }
     },
-    "replaceable": "#minecraft:base_stone_overworld",
-    "ground_state": {
-      "type": "minecraft:simple_state_provider",
-      "state": {
-        "Name": "immersive_weathering:silt"
-      }
-    },
-    "vegetation_feature": {
-      "feature": {
-        "type": "minecraft:no_op",
-        "config": {}
-      },
-      "placement": []
-    }
+    "half_height": 1
   }
 }

@@ -28,6 +28,14 @@
         {
           "data": {
             "block": {
+              "Name": "immersive_weathering:dune_grass"
+            }
+          },
+          "weight": 5
+        },
+        {
+          "data": {
+            "block": {
               "Name": "minecraft:dead_bush"
             }
           },

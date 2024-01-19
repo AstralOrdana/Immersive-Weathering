@@ -189,7 +189,7 @@ public class ModCreativeTab {
         );
 
         after(e, Items.FERN, CreativeModeTabs.NATURAL_BLOCKS,
-            ModBlocks.FROSTY_GRASS, ModBlocks.FROSTY_FERN
+            ModBlocks.FROSTY_GRASS, ModBlocks.FROSTY_FERN, ModBlocks.DUNE_GRASS
         );
 
         after(e, Items.FLOWERING_AZALEA_LEAVES, CreativeModeTabs.NATURAL_BLOCKS,
