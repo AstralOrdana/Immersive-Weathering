@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.blocks.soil_types;
 
 import com.ordana.immersive_weathering.reg.ModBlocks;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;

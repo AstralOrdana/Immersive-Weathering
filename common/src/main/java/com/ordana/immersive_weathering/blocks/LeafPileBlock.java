@@ -11,7 +11,6 @@ import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -42,7 +41,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
-import java.util.Random;
 
 public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
 

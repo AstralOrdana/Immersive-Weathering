@@ -32,7 +32,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Iterator;
 import java.util.Objects;
 
 public class EarthenClayBlock extends Block implements SimpleWaterloggedBlock {
