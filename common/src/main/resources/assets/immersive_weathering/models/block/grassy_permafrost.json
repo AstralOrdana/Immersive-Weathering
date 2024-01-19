@@ -4,7 +4,6 @@
         "particle": "immersive_weathering:block/permafrost",
         "top": "minecraft:block/grass_block_top",
         "bottom": "immersive_weathering:block/permafrost",
-        "side": "immersive_weathering:block/grassy_permafrost_side",
-        "side_overlay": "immersive_weathering:block/grass_overlay"
+        "side": "immersive_weathering:block/grassy_permafrost_side"
     }
 }

@@ -14,6 +14,10 @@ public class TemperatureManager {
         return biome.get().value().coldEnoughToSnow(pos);
     }
 
+    public static boolean canSnowMelt(BlockPos pos, Supplier<Holder<Biome>> biome) {
+        return biome.get().value().warmEnoughToRain(pos);
+    }
+
     public static boolean hasSandstorm(ServerLevel level, BlockPos pos, Supplier<Holder<Biome>> biome) {
         return level.isRaining() && biome.get().is(ModTags.HAS_SANDSTORM);
     }

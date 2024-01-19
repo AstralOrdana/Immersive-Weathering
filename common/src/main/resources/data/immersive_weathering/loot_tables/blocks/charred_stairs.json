@@ -2,6 +2,41 @@
   "type": "minecraft:block",
   "pools": [
     {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:fire_charge",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "immersive_weathering:charred_stairs",
+              "properties": {
+                "smoldering": "true"
+              }
+            },
+            {
+              "condition": "minecraft:random_chance",
+              "chance": 0.5
+            },
+            {
+              "condition": "minecraft:inverted",
+              "term": {
+                "condition": "minecraft:match_tool",
+                "predicate": {
+                  "enchantments": [
+                    {
+                      "enchantment": "minecraft:silk_touch"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [

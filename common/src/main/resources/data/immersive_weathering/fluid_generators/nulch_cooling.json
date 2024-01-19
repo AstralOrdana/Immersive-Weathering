@@ -1,0 +1,20 @@
+{
+  "type": "target_other",
+  "fluid": "minecraft:water",
+  "generate": {
+    "Name": "immersive_weathering:nulch_block",
+    "Properties": {
+      "molten": "false"
+    }
+  },
+  "target":
+  {
+    "block_state": {
+      "Name": "immersive_weathering:nulch_block",
+      "Properties": {
+        "molten": "true"
+      }
+    },
+    "predicate_type": "minecraft:blockstate_match"
+  }
+}

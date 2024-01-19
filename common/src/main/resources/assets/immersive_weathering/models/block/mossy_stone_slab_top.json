@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/slab_top",
   "textures": {
-    "bottom": "minecraft:block/stone",
-    "top": "immersive_weathering:block/mossy_stone_side",
+    "top": "immersive_weathering:block/mossy_stone_top",
+    "bottom": "immersive_weathering:block/mossy_stone_side",
     "side": "immersive_weathering:block/mossy_stone_side"
   }
 }

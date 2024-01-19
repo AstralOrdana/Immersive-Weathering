@@ -4,8 +4,8 @@
     "minecraft:snowy_slopes",
     "minecraft:snowy_plains",
     "minecraft:snowy_taiga",
-    "mineraft:frozen_peaks",
-    "mineraft:ice_spikes",
+    "minecraft:frozen_peaks",
+    "minecraft:ice_spikes",
     "minecraft:grove"
   ]
 }

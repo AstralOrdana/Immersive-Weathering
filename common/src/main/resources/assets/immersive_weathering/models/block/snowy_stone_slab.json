@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/slab",
+  "parent": "immersive_weathering:block/top_side_bottom_slab",
   "textures": {
     "top": "minecraft:block/snow",
     "bottom": "minecraft:block/stone",

@@ -3,7 +3,7 @@
         "particle": "#side",
         "top": "immersive_weathering:block/mossy_stone_top",
         "side": "immersive_weathering:block/mossy_stone_side",
-        "bottom": "minecraft:block/stone"
+        "bottom": "immersive_weathering:block/mossy_stone_side"
     },
     "elements": [
         {   "from": [ 4, 0, 4 ],

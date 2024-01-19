@@ -5,7 +5,7 @@
         "top": "minecraft:block/grass_block_top",
         "bottom": "immersive_weathering:block/earthen_clay_bottom",
         "side": "immersive_weathering:block/grassy_earthen_clay_side",
-        "side_overlay": "immersive_weathering:block/grass_overlay"
+        "side_overlay": "block/grass_block_side_overlay"
     },
     "elements": [
         {   "from": [ 0, 0, 0 ],

@@ -5,9 +5,11 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.reg.ModBlocks;
+import com.ordana.immersive_weathering.util.TemperatureManager;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -27,6 +29,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -99,11 +102,22 @@ public interface Snowy {
     default void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource randomSource) {
         Optional<BlockState> unSnowy = getUnSnowy(state);
 
+        if (!unSnowy.isPresent()) {
+            return;
+        }
+
         for (Direction dir : Direction.values()) {
-            if (level.getBrightness(LightLayer.BLOCK, pos.relative(dir)) > 11 && unSnowy.isPresent()) {
+            if (level.getBrightness(LightLayer.BLOCK, pos.relative(dir)) > 11) {
                 level.setBlockAndUpdate(pos, unSnowy.get());
                 Block.popResourceFromFace(level, pos, dir, new ItemStack(Items.SNOWBALL));
+
+                return;
             }
+        }
+
+        Supplier<Holder<Biome>> biome = Suppliers.memoize(() -> level.getBiome(pos));
+        if (level.canSeeSky(pos.above()) && TemperatureManager.canSnowMelt(pos, biome)) {
+            level.setBlockAndUpdate(pos, unSnowy.get());
         }
     }
 
@@ -114,17 +128,6 @@ public interface Snowy {
             level.setBlockAndUpdate(pos, unSnowy.get());
             level.playSound(null, pos, SoundEvents.SNOW_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
             if (neighborState.getFluidState().is(FluidTags.LAVA)) level.playSound(null, pos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1f, 1f);
-
-            //TODO make falling snow particles spawn on block faces
-            if (level instanceof ServerLevel serverLevel) serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SNOW.defaultBlockState()),
-                    pos.getX() + 0.5D,
-                    pos.getY() + 0.5D,
-                    pos.getZ() + 0.5D,
-                    10,
-                    0.5D, 0.5D, 0.5D,
-                    0.0D);
-
-            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SNOW.defaultBlockState()), UniformInt.of(3, 5));
         }
     }
 }

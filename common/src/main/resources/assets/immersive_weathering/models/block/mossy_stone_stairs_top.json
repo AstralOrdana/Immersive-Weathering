@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/stairs",
   "textures": {
-    "top": "minecraft:block/stone",
+    "top": "immersive_weathering:block/mossy_stone_side",
     "bottom": "immersive_weathering:block/mossy_stone_top",
     "side": "immersive_weathering:block/mossy_stone_side"
   }

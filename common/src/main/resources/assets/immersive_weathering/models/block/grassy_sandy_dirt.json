@@ -5,6 +5,6 @@
         "top": "minecraft:block/grass_block_top",
         "bottom": "immersive_weathering:block/sandy_dirt",
         "side": "immersive_weathering:block/grassy_sandy_dirt_side",
-        "side_overlay": "immersive_weathering:block/grass_overlay"
+        "side_overlay": "immersive_weathering:block/grassy_sandy_dirt_overlay"
     }
 }
