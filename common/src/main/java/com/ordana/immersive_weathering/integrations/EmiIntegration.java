@@ -65,7 +65,7 @@ public class EmiIntegration implements EmiPlugin {
         EmiIngredient shovels = EmiIngredient.of(ItemTags.SHOVELS);
         EmiIngredient hoes = EmiIngredient.of(ItemTags.HOES);
         EmiIngredient shears = EmiStack.of(Items.SHEARS);
-        EmiIngredient azalea = EmiStack.of(ModItems.AZALEA_FLOWERS.get());
+        EmiStack azalea = EmiStack.of(ModItems.AZALEA_FLOWERS.get());
         EmiIngredient flint_n_steel = EmiStack.of(Items.FLINT_AND_STEEL);
 
         registry.addRecipe(EmiWorldInteractionRecipe.builder()
@@ -130,7 +130,7 @@ public class EmiIntegration implements EmiPlugin {
             .output(EmiStack.of(ModBlocks.LOAMY_FARMLAND.get()))
             .build());
 
-        //FROSTING
+        //FLOWERING
         BiMap<Block, Block> flowering = WeatheringHelper.FLOWERY_BLOCKS.get();
         for (Block key : flowering.keySet()) {
             registry.addRecipe(EmiWorldInteractionRecipe.builder()
@@ -146,6 +146,7 @@ public class EmiIntegration implements EmiPlugin {
                 .id(new ResourceLocation("immersive_weathering", key.getDescriptionId()))
                 .leftInput(EmiStack.of(unflowering.get(key)))
                 .rightInput(shears, true)
+                .output(azalea)
                 .output(EmiStack.of(key))
                 .build());
         }
@@ -156,7 +157,7 @@ public class EmiIntegration implements EmiPlugin {
             ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
             EmiStack input = EmiStack.of(frost.get(key));
             EmiStack output = EmiStack.of(key);
-            registry.addRecipe(EmiWorldInteractionRecipe.builder()
+            if (!key.defaultBlockState().is(Blocks.AIR)) registry.addRecipe(EmiWorldInteractionRecipe.builder()
                     .id(new ResourceLocation("immersive_weathering", "/block_frosting/" + blockId.getNamespace() + "/" + blockId.getPath()))
                     .leftInput(input)
                     .rightInput(flint_n_steel, true)
@@ -168,7 +169,7 @@ public class EmiIntegration implements EmiPlugin {
             ResourceLocation blockId = BuiltInRegistries.ITEM.getKey(key.asItem());
             EmiStack input = EmiStack.of(unfrost.get(key));
             EmiStack output = EmiStack.of(key);
-            registry.addRecipe(EmiWorldInteractionRecipe.builder()
+            if (!key.defaultBlockState().is(ModBlocks.FROST.get())) registry.addRecipe(EmiWorldInteractionRecipe.builder()
                 .id(new ResourceLocation("immersive_weathering", "/block_frosting/" + blockId.getNamespace() + "/" + blockId.getPath()))
                 .leftInput(input)
                 .rightInput(EmiStack.of(ModItems.FROST_ITEM.get()), false)
