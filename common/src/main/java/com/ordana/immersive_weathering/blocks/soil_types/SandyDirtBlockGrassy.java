@@ -27,7 +27,7 @@ import net.minecraft.world.level.block.Fallable;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class SandyDirtBlockGrassy extends BaseSoilBlock implements Fallable {
+public class SandyDirtBlockGrassy extends FallableBaseSoilBlock implements Fallable {
     public SandyDirtBlockGrassy(Properties properties) {
         super(properties);
     }
@@ -92,6 +92,6 @@ public class SandyDirtBlockGrassy extends BaseSoilBlock implements Fallable {
     }
 
     public int getDustColor(BlockState state, BlockGetter level, BlockPos pos) {
-        return -16777216;
+        return 0xd3b893;
     }
 }

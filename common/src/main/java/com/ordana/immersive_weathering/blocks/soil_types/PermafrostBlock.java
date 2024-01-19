@@ -22,8 +22,7 @@ public class PermafrostBlock extends FallingBlock {
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if (random.nextInt(25) == 1 && level.getBrightness(LightLayer.BLOCK, pos) > 13 - state.getLightBlock(level, pos)) {
-
+        if (random.nextInt(25) == 1) {
             BlockPos blockpos = pos.below();
             BlockState blockstate = level.getBlockState(blockpos);
             if (!blockstate.canOcclude() || !blockstate.isFaceSturdy(level, blockpos, Direction.UP)) {
@@ -48,13 +47,17 @@ public class PermafrostBlock extends FallingBlock {
     }
 
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (canMelt(level, pos)) level.scheduleTick(pos, this, this.getDelayAfterPlace());
+    }
+
+    public boolean canMelt(Level level, BlockPos pos) {
+        boolean melt = false;
         for (Direction dir : Direction.values()) {
             var brightness = level.getBrightness(LightLayer.BLOCK, pos.relative(dir));
             boolean water = level.getFluidState(pos.relative(dir)).is(FluidTags.WATER);
-            if (brightness > 11 || water) {
-                level.scheduleTick(pos, this, this.getDelayAfterPlace());
-            }
+            if (brightness > 11 || water) melt = true;
         }
+        return melt;
     }
 
     @Override

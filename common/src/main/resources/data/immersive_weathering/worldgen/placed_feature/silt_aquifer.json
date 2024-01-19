@@ -2,11 +2,8 @@
   "feature": "immersive_weathering:silt_aquifer",
   "placement": [
     {
-      "type": "minecraft:in_square"
-    },
-    {
       "type": "minecraft:noise_based_count",
-      "noise_to_count_ratio": 10,
+      "noise_to_count_ratio": 50,
       "noise_factor": 50,
       "noise_offset": 0.4
     },
@@ -16,7 +13,7 @@
         "type": "minecraft:uniform",
         "value": {
           "min_inclusive": 1,
-          "max_inclusive": 5
+          "max_inclusive": 2
         }
       }
     },
@@ -28,7 +25,7 @@
           "above_bottom": 1
         },
         "max_inclusive": {
-          "absolute": 100
+          "absolute": 10
         }
       }
     },
