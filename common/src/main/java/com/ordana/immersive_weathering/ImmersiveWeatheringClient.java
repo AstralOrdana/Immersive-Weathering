@@ -90,6 +90,7 @@ public class ImmersiveWeatheringClient {
 
         ClientHelper.registerRenderType(ModBlocks.MOSS.get(), RenderType.cutoutMipped());
         ClientHelper.registerRenderType(ModBlocks.DUNE_GRASS.get(), RenderType.cutoutMipped());
+        ClientHelper.registerRenderType(ModBlocks.EDGE_GRASS.get(), RenderType.cutoutMipped());
         ClientHelper.registerRenderType(ModBlocks.SOOT.get(), RenderType.cutoutMipped());
         ClientHelper.registerRenderType(ModBlocks.SOOT.get(), RenderType.translucent());
         ClientHelper.registerRenderType(ModBlocks.FROST.get(), RenderType.cutout());
@@ -105,7 +106,7 @@ public class ImmersiveWeatheringClient {
         ClientHelper.registerRenderType(ModBlocks.HANGING_ROOTS_WALL.get(), RenderType.cutoutMipped());
 
         ItemProperties.register(ModItems.FLOWER_CROWN.get(), ImmersiveWeathering.res("supporter"),
-                (stack, world, entity, s) -> FlowerCrownItem.getItemTextureIndex(stack));
+            (stack, world, entity, s) -> FlowerCrownItem.getItemTextureIndex(stack));
     }
 
 
@@ -173,17 +174,23 @@ public class ImmersiveWeatheringClient {
         });
 
         event.register((blockState, level, blockPos, i) -> {
-                    if (i == 0) return -1;
-                    return event.getColor(Blocks.GRASS_BLOCK.defaultBlockState(), level, blockPos, i);
-                },
+                return event.getColor(Blocks.GRASS_BLOCK.defaultBlockState(), level, blockPos, i);
+            },
+            ModBlocks.EDGE_GRASS.get());
 
-                ModBlocks.GRASSY_PERMAFROST.get(),
-                ModBlocks.GRASSY_SILT.get(),
-                ModBlocks.GRASSY_EARTHEN_CLAY.get(),
-                ModBlocks.GRASSY_SANDY_DIRT.get(),
-                ModBlocks.ROOTED_GRASS_BLOCK.get(),
-                ModBlocks.FROSTY_GRASS.get(),
-                ModBlocks.FROSTY_FERN.get());
+
+        event.register((blockState, level, blockPos, i) -> {
+                if (i == 0) return -1;
+                return event.getColor(Blocks.GRASS_BLOCK.defaultBlockState(), level, blockPos, i);
+            },
+
+            ModBlocks.GRASSY_PERMAFROST.get(),
+            ModBlocks.GRASSY_SILT.get(),
+            ModBlocks.GRASSY_EARTHEN_CLAY.get(),
+            ModBlocks.GRASSY_SANDY_DIRT.get(),
+            ModBlocks.ROOTED_GRASS_BLOCK.get(),
+            ModBlocks.FROSTY_GRASS.get(),
+            ModBlocks.FROSTY_FERN.get());
     }
 
     private static int getLeafTypeColor(ClientHelper.BlockColorEvent event, LeavesType type, BlockState state, BlockAndTintGetter level, BlockPos pos, int i) {
@@ -199,11 +206,12 @@ public class ImmersiveWeatheringClient {
     private static void registerItemColors(ClientHelper.ItemColorEvent event) {
 
         event.register((itemStack, i) -> event.getColor(Items.GRASS_BLOCK.getDefaultInstance(), i),
-                ModBlocks.ROOTED_GRASS_BLOCK.get(),
-                ModBlocks.GRASSY_SILT.get(),
-                ModBlocks.GRASSY_PERMAFROST.get(),
-                ModBlocks.GRASSY_SANDY_DIRT.get(),
-                ModBlocks.GRASSY_EARTHEN_CLAY.get());
+            ModBlocks.EDGE_GRASS.get(),
+            ModBlocks.ROOTED_GRASS_BLOCK.get(),
+            ModBlocks.GRASSY_SILT.get(),
+            ModBlocks.GRASSY_PERMAFROST.get(),
+            ModBlocks.GRASSY_SANDY_DIRT.get(),
+            ModBlocks.GRASSY_EARTHEN_CLAY.get());
 
         ModItems.LEAF_PILES.forEach((type, leafPile) -> {
             event.register((itemStack, i) -> event.getColor(type.leaves.asItem().getDefaultInstance(), i), leafPile);

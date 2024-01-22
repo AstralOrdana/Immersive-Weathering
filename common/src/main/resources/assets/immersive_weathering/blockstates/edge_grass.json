@@ -1,0 +1,174 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "north": "1"
+      },
+      "apply": [
+        {
+          "model": "immersive_weathering:block/edge_grass_0",
+          "uvlock": true
+        },
+        {
+          "model": "immersive_weathering:block/edge_grass_1",
+          "uvlock": true
+        },
+        {
+          "model": "immersive_weathering:block/edge_grass_2",
+          "uvlock": true
+        }
+      ]
+    },
+    {
+      "when": {
+        "south": "1"
+      },
+      "apply": [
+        {
+          "model": "immersive_weathering:block/edge_grass_0",
+          "uvlock": true,
+          "y": 180
+        },
+        {
+          "model": "immersive_weathering:block/edge_grass_1",
+          "uvlock": true,
+          "y": 180
+        },
+        {
+          "model": "immersive_weathering:block/edge_grass_2",
+          "uvlock": true,
+          "y": 180
+        }
+      ]
+    },
+    {
+      "when": {
+        "east": "1"
+      },
+      "apply": [
+        {
+          "model": "immersive_weathering:block/edge_grass_0",
+          "uvlock": true,
+          "y": 90
+        },
+        {
+          "model": "immersive_weathering:block/edge_grass_1",
+          "uvlock": true,
+          "y": 90
+        },
+        {
+          "model": "immersive_weathering:block/edge_grass_2",
+          "uvlock": true,
+          "y": 90
+        }
+      ]
+    },
+    {
+      "when": {
+        "west": "1"
+      },
+      "apply": [
+        {
+          "model": "immersive_weathering:block/edge_grass_0",
+          "uvlock": true,
+          "y": 270
+        },
+        {
+          "model": "immersive_weathering:block/edge_grass_1",
+          "uvlock": true,
+          "y": 270
+        },
+        {
+          "model": "immersive_weathering:block/edge_grass_2",
+          "uvlock": true,
+          "y": 270
+        }
+      ]
+    },
+    {
+      "when": {
+        "north": "2"
+      },
+      "apply": [
+        {
+          "model": "immersive_weathering:block/edge_grass_angled_0",
+          "uvlock": true
+        },
+        {
+          "model": "immersive_weathering:block/edge_grass_angled_1",
+          "uvlock": true
+        },
+        {
+          "model": "immersive_weathering:block/edge_grass_angled_2",
+          "uvlock": true
+        }
+      ]
+    },
+    {
+      "when": {
+        "south": "2"
+      },
+      "apply": [
+        {
+          "model": "immersive_weathering:block/edge_grass_angled_0",
+          "uvlock": true,
+          "y": 180
+        },
+        {
+          "model": "immersive_weathering:block/edge_grass_angled_1",
+          "uvlock": true,
+          "y": 180
+        },
+        {
+          "model": "immersive_weathering:block/edge_grass_angled_2",
+          "uvlock": true,
+          "y": 180
+        }
+      ]
+    },
+    {
+      "when": {
+        "east": "2"
+      },
+      "apply": [
+        {
+          "model": "immersive_weathering:block/edge_grass_angled_0",
+          "uvlock": true,
+          "y": 90
+        },
+        {
+          "model": "immersive_weathering:block/edge_grass_angled_1",
+          "uvlock": true,
+          "y": 90
+        },
+        {
+          "model": "immersive_weathering:block/edge_grass_angled_2",
+          "uvlock": true,
+          "y": 90
+        }
+      ]
+    },
+    {
+      "when": {
+        "west": "2"
+      },
+      "apply": [
+        {
+          "model": "immersive_weathering:block/edge_grass_angled_0",
+          "uvlock": true,
+          "y": 270
+        },
+        {
+          "model": "immersive_weathering:block/edge_grass_angled_1",
+          "uvlock": true,
+          "y": 270
+        },
+        {
+          "model": "immersive_weathering:block/edge_grass_angled_2",
+          "uvlock": true,
+          "y": 270
+        }
+      ]
+    }
+  ]
+}

@@ -11,25 +11,14 @@ import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
-public class PermafrostBlockGrassy extends FallableBaseSoilBlock {
-    public static final BooleanProperty SNOWY = BlockStateProperties.SNOWY;
+public class PermafrostBlockGrassy extends BaseSoilBlockFallable {
 
     public PermafrostBlockGrassy(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(SNOWY, false));
     }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
-        stateManager.add(SNOWY);
-    }
-
 
     @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
@@ -77,10 +66,10 @@ public class PermafrostBlockGrassy extends FallableBaseSoilBlock {
 
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
-        return state;
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
     public void onLand(Level level, BlockPos pos, BlockState state, BlockState replaceableState, FallingBlockEntity fallingBlock) {
-        if (level.random.nextBoolean()) level.destroyBlock(pos, true);
+        if (level.random.nextBoolean()) level.destroyBlock(pos, false);
     }
 }

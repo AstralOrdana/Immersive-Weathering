@@ -1,6 +1,6 @@
 {
   "variants": {
-    "": [
+    "snowy=false": [
       {
         "model": "immersive_weathering:block/grassy_silt"
       },
@@ -15,6 +15,11 @@
       {
         "model": "immersive_weathering:block/grassy_silt",
         "y": 270
+      }
+    ],
+    "snowy=true": [
+      {
+        "model": "immersive_weathering:block/grassy_silt_snowy"
       }
     ]
   }

@@ -68,7 +68,7 @@ public class PermafrostBlock extends FallingBlock {
     }
 
     public void onLand(Level level, BlockPos pos, BlockState state, BlockState replaceableState, FallingBlockEntity fallingBlock) {
-        if (level.random.nextBoolean()) level.destroyBlock(pos, true);
+        if (level.random.nextBoolean()) level.destroyBlock(pos, false);
     }
 
 }

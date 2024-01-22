@@ -14,5 +14,6 @@ public class ModCompostable {
         RegHelper.registerCompostable(ModBlocks.WEEDS.get().asItem(), 0.3f);
         RegHelper.registerCompostable(ModBlocks.IVY.get().asItem(), 0.3f);
         RegHelper.registerCompostable(ModBlocks.DUNE_GRASS.get().asItem(), 0.3f);
+        RegHelper.registerCompostable(ModBlocks.EDGE_GRASS.get().asItem(), 0.15f);
     }
 }

@@ -17,5 +17,9 @@ public class ModBlockProperties {
     public static final IntegerProperty LEAF_LAYERS = IntegerProperty.create("layers", 0, 8);
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 10);
     public static final IntegerProperty OVERHANG = IntegerProperty.create("overhang", 0, 2);
+    public static final IntegerProperty NORTH = IntegerProperty.create("north", 0, 2);
+    public static final IntegerProperty SOUTH = IntegerProperty.create("south", 0, 2);
+    public static final IntegerProperty EAST = IntegerProperty.create("east", 0, 2);
+    public static final IntegerProperty WEST = IntegerProperty.create("west", 0, 2);
 
 }

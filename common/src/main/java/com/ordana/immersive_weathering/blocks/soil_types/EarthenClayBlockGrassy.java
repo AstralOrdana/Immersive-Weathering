@@ -32,33 +32,31 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
-
 public class EarthenClayBlockGrassy extends BaseSoilBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public EarthenClayBlockGrassy(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false).setValue(SNOWY, false));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
-        stateManager.add(WATERLOGGED);
+        stateManager.add(WATERLOGGED).add(SNOWY);
     }
 
     @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
         boolean bl = fluidState.getType() == Fluids.WATER;
-        return Objects.requireNonNull(super.getStateForPlacement(context)).setValue(WATERLOGGED, bl);
+        return super.getStateForPlacement(context).setValue(WATERLOGGED, bl);
     }
 
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos currentPos, BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED)) {
             level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
-        return state;
+        return super.updateShape(state, direction, neighborState, level, currentPos, neighborPos);
     }
 
     public FluidState getFluidState(BlockState state) {

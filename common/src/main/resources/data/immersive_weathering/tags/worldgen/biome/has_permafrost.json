@@ -6,6 +6,7 @@
     "minecraft:snowy_taiga",
     "minecraft:frozen_peaks",
     "minecraft:ice_spikes",
-    "minecraft:grove"
+    "minecraft:grove",
+    "#minecraft:is_taiga"
   ]
 }

@@ -12,11 +12,10 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
+import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -27,9 +26,10 @@ import net.minecraft.world.level.lighting.LightEngine;
 import java.util.List;
 import java.util.Optional;
 
-public class BaseSoilBlock extends Block implements BonemealableBlock {
+public class BaseSoilBlock extends SnowyDirtBlock implements BonemealableBlock {
     public BaseSoilBlock(Properties properties) {
         super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(SNOWY, false));
     }
 
     @Override
@@ -105,7 +105,7 @@ public class BaseSoilBlock extends Block implements BonemealableBlock {
             if (blockState2.isAir()) {
                 Holder holder;
                 if (random.nextInt(8) == 0) {
-                    List<ConfiguredFeature<?, ?>> list = ((Biome)level.getBiome(blockPos2).value()).getGenerationSettings().getFlowerFeatures();
+                    List<ConfiguredFeature<?, ?>> list = level.getBiome(blockPos2).value().getGenerationSettings().getFlowerFeatures();
                     if (list.isEmpty()) {
                         continue;
                     }

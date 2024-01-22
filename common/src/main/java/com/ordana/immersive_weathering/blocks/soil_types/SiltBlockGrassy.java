@@ -21,6 +21,7 @@ import net.minecraft.world.phys.BlockHitResult;
 public class SiltBlockGrassy extends BaseSoilBlock {
     public SiltBlockGrassy(Properties properties) {
         super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(SNOWY, false));
     }
 
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {

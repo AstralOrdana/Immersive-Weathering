@@ -8,17 +8,19 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.FallingBlock;
-import net.minecraft.world.level.block.SnowLayerBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
@@ -27,9 +29,13 @@ import net.minecraft.world.level.lighting.LightEngine;
 import java.util.List;
 import java.util.Optional;
 
-public class FallableBaseSoilBlock extends FallingBlock implements BonemealableBlock {
-    public FallableBaseSoilBlock(Properties properties) {
+public class BaseSoilBlockFallable extends FallingBlock implements BonemealableBlock {
+
+    public static final BooleanProperty SNOWY;
+
+    public BaseSoilBlockFallable(Properties properties) {
         super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(SNOWY, false));
     }
 
     @Override
@@ -122,5 +128,26 @@ public class FallableBaseSoilBlock extends FallingBlock implements BonemealableB
                 ((PlacedFeature)holder.value()).place(level, level.getChunkSource().getGenerator(), random, blockPos2);
             }
         }
+    }
+
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        return direction == Direction.UP ? state.setValue(SNOWY, isSnowySetting(neighborState)) : super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+    }
+
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockState blockState = context.getLevel().getBlockState(context.getClickedPos().above());
+        return this.defaultBlockState().setValue(SNOWY, isSnowySetting(blockState));
+    }
+
+    private static boolean isSnowySetting(BlockState state) {
+        return state.is(BlockTags.SNOW);
+    }
+
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(SNOWY);
+    }
+
+    static {
+        SNOWY = BlockStateProperties.SNOWY;
     }
 }

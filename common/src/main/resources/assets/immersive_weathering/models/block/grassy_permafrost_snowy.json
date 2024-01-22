@@ -1,0 +1,8 @@
+{
+    "parent": "immersive_weathering:block/grassy_snowy_block",
+    "textures": {
+        "particle": "immersive_weathering:block/permafrost",
+        "side": "immersive_weathering:block/grassy_permafrost_side",
+        "bottom": "immersive_weathering:block/permafrost"
+    }
+}
