@@ -51,8 +51,6 @@ public class ModItems {
 
     public static final Supplier<Item> STONE_BRICK = regItem("stone_brick", () ->
             new Item(new Item.Properties()));
-
-
     public static final Supplier<Item> PRISMARINE_BRICK = regItem("prismarine_brick", () ->
             new Item(new Item.Properties()));
     public static final Supplier<Item> END_STONE_BRICK = regItem("end_stone_brick", () ->
@@ -63,6 +61,8 @@ public class ModItems {
             new Item(new Item.Properties()));
     public static final Supplier<Item> DEEPSLATE_TILE = regItem("deepslate_tile", () ->
             new Item(new Item.Properties()));
+    public static final Supplier<Item> MORTAR = regItem("mortar", () ->
+        new Item(new Item.Properties()));
 
     //flowers
 

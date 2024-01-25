@@ -22,6 +22,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
@@ -81,39 +82,21 @@ public class EmiIntegration implements EmiPlugin {
         //TILLING
         registry.addRecipe(EmiWorldInteractionRecipe.builder()
             .id(new ResourceLocation("immersive_weathering", "/clay_tilling"))
-            .leftInput(EmiStack.of(ModBlocks.EARTHEN_CLAY.get()))
-            .rightInput(hoes, true)
-            .output(EmiStack.of(ModBlocks.EARTHEN_CLAY_FARMLAND.get()))
-            .build());
-        registry.addRecipe(EmiWorldInteractionRecipe.builder()
-            .id(new ResourceLocation("immersive_weathering", "/grassy_clay_tilling"))
-            .leftInput(EmiStack.of(ModBlocks.GRASSY_EARTHEN_CLAY.get()))
+            .leftInput(EmiIngredient.of(Ingredient.of(ModBlocks.EARTHEN_CLAY.get(), ModBlocks.GRASSY_EARTHEN_CLAY.get())))
             .rightInput(hoes, true)
             .output(EmiStack.of(ModBlocks.EARTHEN_CLAY_FARMLAND.get()))
             .build());
 
         registry.addRecipe(EmiWorldInteractionRecipe.builder()
             .id(new ResourceLocation("immersive_weathering", "/sandy_tilling"))
-            .leftInput(EmiStack.of(ModBlocks.SANDY_DIRT.get()))
-            .rightInput(hoes, true)
-            .output(EmiStack.of(ModBlocks.SANDY_FARMLAND.get()))
-            .build());
-        registry.addRecipe(EmiWorldInteractionRecipe.builder()
-            .id(new ResourceLocation("immersive_weathering", "/grassy_sandy_tilling"))
-            .leftInput(EmiStack.of(ModBlocks.GRASSY_SANDY_DIRT.get()))
+            .leftInput(EmiIngredient.of(Ingredient.of(ModBlocks.SANDY_DIRT.get(), ModBlocks.GRASSY_SANDY_DIRT.get())))
             .rightInput(hoes, true)
             .output(EmiStack.of(ModBlocks.SANDY_FARMLAND.get()))
             .build());
 
         registry.addRecipe(EmiWorldInteractionRecipe.builder()
             .id(new ResourceLocation("immersive_weathering", "/silt_tilling"))
-            .leftInput(EmiStack.of(ModBlocks.SILT.get()))
-            .rightInput(hoes, true)
-            .output(EmiStack.of(ModBlocks.SILTY_FARMLAND.get()))
-            .build());
-        registry.addRecipe(EmiWorldInteractionRecipe.builder()
-            .id(new ResourceLocation("immersive_weathering", "/grassy_silt_tilling"))
-            .leftInput(EmiStack.of(ModBlocks.GRASSY_SILT.get()))
+            .leftInput(EmiIngredient.of(Ingredient.of(ModBlocks.SILT.get(), ModBlocks.GRASSY_SILT.get())))
             .rightInput(hoes, true)
             .output(EmiStack.of(ModBlocks.SILTY_FARMLAND.get()))
             .build());
@@ -207,11 +190,11 @@ public class EmiIntegration implements EmiPlugin {
             EmiStack input = EmiStack.of(key);
             EmiStack output = EmiStack.of(cracks.get(key));
             if (key instanceof Crackable cracked) {
-                EmiStack brick = EmiStack.of(cracked.getRepairItem(key.defaultBlockState()));
+                var brick = cracked.getRepairItem(key.defaultBlockState());
                 registry.addRecipe(EmiWorldInteractionRecipe.builder()
                     .id(new ResourceLocation("immersive_weathering", "/brick_repair/" + blockId.getNamespace() + "/" + blockId.getPath()))
                     .leftInput(output)
-                    .rightInput(brick, false)
+                    .rightInput(EmiIngredient.of(Ingredient.of(brick, ModItems.MORTAR.get())), false)
                     .output(input)
                     .build());
             }

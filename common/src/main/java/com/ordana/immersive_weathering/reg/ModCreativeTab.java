@@ -189,7 +189,7 @@ public class ModCreativeTab {
         );
 
         after(e, Items.FERN, CreativeModeTabs.NATURAL_BLOCKS,
-            ModBlocks.EDGE_GRASS, ModBlocks.FROSTY_GRASS, ModBlocks.FROSTY_FERN, ModBlocks.DUNE_GRASS
+            ModBlocks.FROSTY_GRASS, ModBlocks.FROSTY_FERN, ModBlocks.DUNE_GRASS
         );
 
         after(e, Items.FLOWERING_AZALEA_LEAVES, CreativeModeTabs.NATURAL_BLOCKS,
@@ -235,7 +235,7 @@ public class ModCreativeTab {
         );
 
         after(e, Items.NETHER_BRICK, CreativeModeTabs.INGREDIENTS,
-            ModItems.BLACKSTONE_BRICK, ModItems.END_STONE_BRICK
+            ModItems.BLACKSTONE_BRICK, ModItems.END_STONE_BRICK, ModItems.MORTAR
         );
 
         after(e, Items.HONEYCOMB, CreativeModeTabs.INGREDIENTS,

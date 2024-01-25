@@ -27,6 +27,8 @@ public class CommonConfigs {
     public static final Supplier<Boolean> MOSS_NEEDS_AIR;
     public static final Supplier<Boolean> MOSS_SPREADING_ENABLED;
 
+
+    public static final Supplier<Boolean> CRACKING_DROPS_BRICK;
     public static final Supplier<Double> CRACK_INTERESTS_FOR_FACE;
     public static final Supplier<Double> CRACK_PATCHINESS;
     public static final Supplier<Double> CRACK_IMMUNE_CHANCE;
@@ -135,6 +137,7 @@ public class CommonConfigs {
         builder.pop();
 
         builder.push("cracked_blocks");
+        CRACKING_DROPS_BRICK = builder.define("cracking_drops_brick", false);
         CRACK_INTERESTS_FOR_FACE = builder.define("interest_for_face", 0.6, 0, 1d);
         CRACK_PATCHINESS = builder.define("patchiness", 0.4, 0, 1);
         CRACK_IMMUNE_CHANCE = builder.define("immune_chance", 0.4, 0, 1);

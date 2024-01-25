@@ -12,7 +12,6 @@ import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.integrations.IntegrationHandler;
-import com.ordana.immersive_weathering.integrations.QuarkPlugin;
 import com.ordana.immersive_weathering.reg.*;
 import com.ordana.immersive_weathering.util.Weatherable;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
@@ -141,8 +140,6 @@ public class ModEvents {
 
                     if (player instanceof ServerPlayer serverPlayer) {
                         stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
-                        //todo
-                        //if (IntegrationHandler.quark) s = QuarkPlugin.fixVerticalSlab(s, state);
                         player.awardStat(Stats.ITEM_USED.get(item));
                         level.setBlockAndUpdate(pos, rustable.getPrevious(state).get());
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
@@ -214,7 +211,6 @@ public class ModEvents {
             if (newState == null && CommonConfigs.MOSS_SHEARING.get()) {
                 newState = Mossable.getUnaffectedMossBlock(state);
                 if (newState != state) {
-                    if (IntegrationHandler.quark) newState = QuarkPlugin.fixVerticalSlab(newState, state);
                     if (level.isClientSide) {
                         ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.MOSS.get(), UniformInt.of(3, 5));
                     } else {
@@ -276,7 +272,6 @@ public class ModEvents {
 
             BlockState newBlock = Crackable.getCrackedBlock(state);
             if (newBlock != state) {
-                if (IntegrationHandler.quark) newBlock = QuarkPlugin.fixVerticalSlab(newBlock, state);
                 if (level.isClientSide) {
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.BLOCK, state), UniformInt.of(3, 5));
                     level.playSound(player, pos, newBlock.getSoundType().getHitSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -287,7 +282,7 @@ public class ModEvents {
                         player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                         level.setBlockAndUpdate(pos, newBlock);
                         if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
-                            Block.popResourceFromFace(level, pos, hitResult.getDirection(), crackable.getRepairItem(state).getDefaultInstance());
+                            if (CommonConfigs.CRACKING_DROPS_BRICK.get()) Block.popResourceFromFace(level, pos, hitResult.getDirection(), crackable.getRepairItem(state).getDefaultInstance());
                         }
                     }
                 }
@@ -301,11 +296,10 @@ public class ModEvents {
     //well this could very well be in each crackable classes...
     private static InteractionResult brickRepair(Item item, ItemStack stack, BlockPos pos, BlockState state, Player
         player, Level level, InteractionHand hand, BlockHitResult hitResult) {
-        if (state.getBlock() instanceof Crackable crackable && crackable.getRepairItem(state) == item && state.is(ModTags.CRACKED)) {
+        if (state.getBlock() instanceof Crackable crackable && state.is(ModTags.CRACKED) && (crackable.getRepairItem(state) == item || item.getDefaultInstance().is(ModItems.MORTAR.get()))) {
             BlockState newBlock = Crackable.getUncrackedCrackBlock(state);
             if (newBlock != null) {
                 newBlock = Weatherable.setStable(newBlock);
-                if (IntegrationHandler.quark) newBlock = QuarkPlugin.fixVerticalSlab(newBlock, state);
                 if (level.isClientSide) {
                     level.playSound(player, pos, newBlock.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
                 } else {
@@ -354,7 +348,6 @@ public class ModEvents {
 
             if (fixedLog != null && stack.getItem() == fixedLog.getFirst()) {
                 BlockState newBlock = fixedLog.getSecond().withPropertiesOf(state);
-                if (IntegrationHandler.quark) newBlock = QuarkPlugin.fixVerticalSlab(newBlock, state);
                 if (level.isClientSide) {
                     level.playSound(player, pos, newBlock.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
                 } else {

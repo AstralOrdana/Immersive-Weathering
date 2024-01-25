@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:water_bucket"
+    },
+    {
+      "item": "minecraft:clay_ball"
+    },
+    {
+      "item": "minecraft:bone_meal"
+    },
+    {
+      "item": "immersive_weathering:sand_layer_block"
+    }
+  ],
+  "result": {
+    "item": "immersive_weathering:mortar",
+    "count": 16
+  }
+}

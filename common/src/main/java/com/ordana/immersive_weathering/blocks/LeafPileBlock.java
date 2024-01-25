@@ -139,31 +139,6 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
                 }
             }
         }
-
-
-        /*
-        //particles
-        if (layers > 0 && level.isClientSide && (entity instanceof LivingEntity && entity.getFeetBlockState().is(this))) {
-
-            RandomSource random = level.getRandom();
-            boolean bl = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
-            if (bl && random.nextBoolean()) {
-                //double yOff = (layers < 5) ? 0.5 : 1;
-                double y = pos.getY() + SHAPE_BY_LAYER_L[layers].max(Direction.Axis.Y) + 0.0625;
-                int color = Minecraft.getInstance().getBlockColors().getColor(state, level, pos, 0);
-                for (var p : particles) {
-                    level.addParticle(p.get(),
-                            entity.getX() + Mth.randomBetween(random, -0.2f, 0.2f),
-                            y,
-                            entity.getZ() + Mth.randomBetween(random, -0.2f, 0.2f),
-                            Mth.randomBetween(random, -0.75f, -1),
-                            color,
-                            0);
-                    //Mth.randomBetween(random, -1.0F, 1.0F) * 0.001f)
-                }
-            }
-        }
-         */
     }
 
     @Override

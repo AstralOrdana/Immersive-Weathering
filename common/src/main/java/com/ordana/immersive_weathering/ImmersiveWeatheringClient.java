@@ -90,7 +90,6 @@ public class ImmersiveWeatheringClient {
 
         ClientHelper.registerRenderType(ModBlocks.MOSS.get(), RenderType.cutoutMipped());
         ClientHelper.registerRenderType(ModBlocks.DUNE_GRASS.get(), RenderType.cutoutMipped());
-        ClientHelper.registerRenderType(ModBlocks.EDGE_GRASS.get(), RenderType.cutoutMipped());
         ClientHelper.registerRenderType(ModBlocks.SOOT.get(), RenderType.cutoutMipped());
         ClientHelper.registerRenderType(ModBlocks.SOOT.get(), RenderType.translucent());
         ClientHelper.registerRenderType(ModBlocks.FROST.get(), RenderType.cutout());
@@ -174,12 +173,6 @@ public class ImmersiveWeatheringClient {
         });
 
         event.register((blockState, level, blockPos, i) -> {
-                return event.getColor(Blocks.GRASS_BLOCK.defaultBlockState(), level, blockPos, i);
-            },
-            ModBlocks.EDGE_GRASS.get());
-
-
-        event.register((blockState, level, blockPos, i) -> {
                 if (i == 0) return -1;
                 return event.getColor(Blocks.GRASS_BLOCK.defaultBlockState(), level, blockPos, i);
             },
@@ -206,7 +199,6 @@ public class ImmersiveWeatheringClient {
     private static void registerItemColors(ClientHelper.ItemColorEvent event) {
 
         event.register((itemStack, i) -> event.getColor(Items.GRASS_BLOCK.getDefaultInstance(), i),
-            ModBlocks.EDGE_GRASS.get(),
             ModBlocks.ROOTED_GRASS_BLOCK.get(),
             ModBlocks.GRASSY_SILT.get(),
             ModBlocks.GRASSY_PERMAFROST.get(),

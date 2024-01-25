@@ -65,6 +65,7 @@
   "config.immersive_weathering.mossy_blocks.needs_air": "Needs air",
   "config.immersive_weathering.mossy_blocks.needs_air.descriptionKey": "Should moss only be able to spread to blocks that are exposed to air?",
 
+  "config.immersive_weathering.cracked_blocks.cracking_drops_brick": "Should cracking a block drop a brick item?",
   "config.immersive_weathering.cracked_blocks.interest_for_face": "Interest for face",
   "config.immersive_weathering.cracked_blocks.interest_for_face.descriptionKey": "How much influence should neighboring cracked blocks have on crack spreading?",
   "config.immersive_weathering.cracked_blocks.patchiness": "Patchiness",
@@ -223,7 +224,6 @@
   "item.immersive_weathering.warped_scales": "Warped Scales",
 
   "block.immersive_weathering.ivy": "Ivy",
-  "block.immersive_weathering.edge_grass": "Edge Grass",
   "block.immersive_weathering.dune_grass": "Dune Grass",
   "block.immersive_weathering.weeds": "Weeds",
   "block.immersive_weathering.soot": "Soot",
@@ -362,6 +362,7 @@
   "block.immersive_weathering.cracked_polished_blackstone_brick_vertical_slab": "Cracked Polished Blackstone Brick Vertical Slab",
   "block.immersive_weathering.cracked_polished_blackstone_brick_wall": "Cracked Polished Blackstone Brick Wall",
 
+  "item.immersive_weathering.mortar": "Mortar",
   "item.immersive_weathering.stone_brick": "Stone Brick",
   "item.immersive_weathering.blackstone_brick": "Blackstone Brick",
   "item.immersive_weathering.deepslate_brick": "Deepslate Brick",
