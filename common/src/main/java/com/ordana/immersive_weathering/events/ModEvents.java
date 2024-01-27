@@ -11,7 +11,6 @@ import com.ordana.immersive_weathering.blocks.snowy.Snowy;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.data.block_growths.BlockGrowthHandler;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
-import com.ordana.immersive_weathering.integrations.IntegrationHandler;
 import com.ordana.immersive_weathering.reg.*;
 import com.ordana.immersive_weathering.util.Weatherable;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
@@ -429,34 +428,20 @@ public class ModEvents {
     }
 
     @EventCalled
-    public static boolean onFireConsume(IFireConsumeBlockEvent event) {
+    public static void onFireConsume(IFireConsumeBlockEvent event) {
         var level = event.getLevel();
         if (level instanceof ServerLevel serverLevel) {
             var pos = event.getPos();
             var state = event.getState();
             double charChance = CommonConfigs.FIRE_CHARS_WOOD_CHANCE.get();
-            double ashChance = CommonConfigs.ASH_SPAWNS_CHANCE.get();
-            if (charChance != 0 || ashChance != 0) {
-                BlockState newState = null;
-                BlockState charred = charChance != 0 ? WeatheringHelper.getCharredState(state) : null;
-                if (charred != null) {
-                    if (serverLevel.random.nextFloat() < charChance) {
-                        newState = charred.setValue(CharredBlock.SMOLDERING, serverLevel.random.nextBoolean());
-                    }
-                }
-                if (charred == null) {
-                    if (serverLevel.random.nextFloat() < ashChance) {
-                        //TODO: set random layer height and do similar to supp??
-                        if (PlatHelper.isModLoaded("supplementaries")) return false;
-                        //newState = ModBlocks.ASH_LAYER_BLOCK.get().defaultBlockState();
-                    }
-                }
-                if (newState != null) {
-                    return serverLevel.setBlock(pos, newState, 3);
+            if (charChance != 0) {
+                BlockState charred = WeatheringHelper.getCharredState(state);
+                if (charred == null) return;
+                if (serverLevel.random.nextFloat() < charChance) {
+                    serverLevel.setBlock(pos, charred.setValue(CharredBlock.SMOLDERING, serverLevel.random.nextBoolean()), 3);
                 }
             }
         }
-        return false;
     }
 
 }

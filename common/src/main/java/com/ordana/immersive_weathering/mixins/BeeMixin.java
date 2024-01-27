@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.mixins;
 
-import com.ordana.immersive_weathering.entities.FollowLeafCrownGoal;
+import com.ordana.immersive_weathering.entities.FollowFlowerCrownGoal;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Bee;
@@ -23,6 +23,6 @@ public abstract class BeeMixin extends Animal {
     }
 
     private void beeGoalHelper(Animal animal) {
-        this.goalSelector.addGoal(3, new FollowLeafCrownGoal(animal, 1D, false));
+        this.goalSelector.addGoal(3, new FollowFlowerCrownGoal(animal, 1D, false));
     }
 }

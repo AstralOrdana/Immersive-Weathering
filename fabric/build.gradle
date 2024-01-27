@@ -38,7 +38,7 @@ dependencies {
     modCompileOnly "com.terraformersmc:modmenu:4.0.6", {
         exclude module: "fabric-api"
     }
-    modImplementation("curse.maven:selene-499980:5039849")
+    modImplementation("curse.maven:selene-499980:5055462")
 
 }
 

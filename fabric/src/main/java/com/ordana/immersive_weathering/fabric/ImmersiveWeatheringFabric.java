@@ -30,6 +30,7 @@ public class ImmersiveWeatheringFabric implements ModInitializer {
             FlammableBlockRegistry.getDefaultInstance().add(Blocks.COBWEB, 100, 100);
             FlammableBlockRegistry.getDefaultInstance().add(Blocks.WHEAT, 100, 100);
         }
+        //if (PlatHelper.isModLoaded("trinkets")) TrinketRendererRegistry.registerRenderer(ModItems.FLOWER_CROWN.get(), new TrinketsImpl());
 
         //events
         UseBlockCallback.EVENT.register(ImmersiveWeatheringFabric::onRightClickBlock);

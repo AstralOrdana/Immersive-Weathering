@@ -7,14 +7,14 @@ import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.item.crafting.Ingredient;
 
-public class FollowLeafCrownGoal extends TemptGoal {
+public class FollowFlowerCrownGoal extends TemptGoal {
 
     private static final TargetingConditions TEMP_TARGETING = TargetingConditions.forNonCombat().range(10.0D).ignoreLineOfSight();
     private final TargetingConditions targetingConditions;
     private int calmDown;
     private final double speedModifier;
 
-    public FollowLeafCrownGoal(PathfinderMob mob, double speed, boolean canScare) {
+    public FollowFlowerCrownGoal(PathfinderMob mob, double speed, boolean canScare) {
         super(mob, speed, Ingredient.of(ModItems.FLOWER_CROWN.get()), canScare);
         this.targetingConditions = TEMP_TARGETING.copy()
                 .selector(e -> e.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.FLOWER_CROWN.get()));
