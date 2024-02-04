@@ -431,16 +431,16 @@ public class ModEvents {
     public static void onFireConsume(IFireConsumeBlockEvent event) {
         var level = event.getLevel();
         if (level instanceof ServerLevel serverLevel) {
-            var pos = event.getPos();
+
             var state = event.getState();
             double charChance = CommonConfigs.FIRE_CHARS_WOOD_CHANCE.get();
-            if (charChance != 0) {
-                BlockState charred = WeatheringHelper.getCharredState(state);
-                if (charred == null) return;
-                if (serverLevel.random.nextFloat() < charChance) {
-                    serverLevel.setBlock(pos, charred.setValue(CharredBlock.SMOLDERING, serverLevel.random.nextBoolean()), 3);
-                }
+            BlockState charred = WeatheringHelper.getCharredState(state);
+            if (charChance == 0 || charred == null) return;
+
+            if (serverLevel.random.nextFloat() < charChance) {
+                event.setFinalState(charred.setValue(CharredBlock.SMOLDERING, serverLevel.random.nextBoolean()));
             }
+
         }
     }
 

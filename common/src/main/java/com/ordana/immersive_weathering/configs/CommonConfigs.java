@@ -40,14 +40,9 @@ public class CommonConfigs {
     public static final Supplier<Integer> ICICLE_RARITY;
     public static final Supplier<Boolean> DISABLE_ICICLES;
 
-    public static final Supplier<Boolean> ENABLE_FREEZING_WATER;
-    public static final Supplier<Integer> FREEZING_WATER_SEVERITY;
     public static final Supplier<Integer> FREEZING_ICICLE_SEVERITY;
-    public static final Supplier<Boolean> ENABLE_FREEZING_PERMAFROST;
-    public static final Supplier<Integer> FREEZING_PERMAFROST_SEVERITY;
 
     public static final Supplier<Double> FIRE_CHARS_WOOD_CHANCE;
-    public static final Supplier<Double> ASH_SPAWNS_CHANCE;
     public static final Supplier<Boolean> SOOT_SPAWN;
     public static final Supplier<Boolean> FLAMMABLE_COBWEBS;
 
@@ -55,31 +50,22 @@ public class CommonConfigs {
     public static final Supplier<Boolean> PICKAXE_CRACKING;
     public static final Supplier<Boolean> PICKAXE_CRACKING_SHIFT;
     public static final Supplier<Boolean> BRICK_REPAIRING;
-    public static final Supplier<Boolean> PISTON_SLIMING;
-    public static final Supplier<Boolean> SOIL_SHEARING;
-    public static final Supplier<Boolean> GRASS_FLINTING;
     public static final Supplier<Boolean> AZALEA_SHEARING;
     public static final Supplier<Boolean> MOSS_SHEARING;
     public static final Supplier<Boolean> MOSS_BURNING;
-    public static final Supplier<Boolean> CHARRED_BLOCK_IGNITING;
     public static final Supplier<Boolean> SHOVEL_EXTINGUISH;
     public static final Supplier<Boolean> SPONGE_RUSTING;
     public static final Supplier<Boolean> SPONGE_RUST_DRYING;
     public static final Supplier<Boolean> AXE_STRIPPING;
     public static final Supplier<Boolean> AXE_SCRAPING;
-    public static final Supplier<Boolean> ASH_ITEM_SPAWN;
 
 
     public static final Supplier<Boolean> ICICLE_FOOD;
     public static final Supplier<Boolean> ICICLE_FIRE_RESISTANCE;
-    public static final Supplier<Boolean> MUDDY_WATER_ENABLED;
 
     public static final Supplier<Boolean> COMPOSTER_DIRT;
-    public static final Supplier<Boolean> FEATHER_FALLING_FARMERS;
     public static final Supplier<Boolean> LEGGINGS_PREVENTS_THORN_DAMAGE;
     public static final Supplier<String> GENERIC_BARK;
-    public static final Supplier<Boolean> DESIRE_PATHS;
-    public static final Supplier<Double> DESIRE_PATH_RATE;
     public static final Supplier<Boolean> GRASS_OVER_MYCELIUM;
     public static final Supplier<Boolean> MYCELIUM_OVER_GRASS;
 
@@ -100,11 +86,6 @@ public class CommonConfigs {
     public static final Supplier<Integer> RUSTING_INFLUENCE_RADIUS;
     public static final Supplier<Double> RUSTING_RATE;
     public static final Supplier<Boolean> RUST_STREAKING;
-
-    public static final Supplier<Boolean> MULCH_GROWS_CROPS;
-    public static final Supplier<Boolean> MULCH_GROWTH_TYPE_BONEMEAL;
-    public static final Supplier<Boolean> MULCH_GROWTH_TYPE_RANDOM_TICK;
-    public static final Supplier<Integer> MULCH_GROWTH_RANDOM_TICKS;
 
 
     public static void init() {
@@ -154,61 +135,41 @@ public class CommonConfigs {
 
         builder.push("freezing");
         //all these are disabled when at 0 of course
-        ENABLE_FREEZING_WATER = builder.define("enable_water_freezing", false);
-        FREEZING_WATER_SEVERITY = builder.comment("same as powder snow. If below 2 it will match natural unfreezing so will stay constant").define("water_increment", 3, 0, 5);
         FREEZING_ICICLE_SEVERITY = builder.define("icicle", 300, 0, 1000);
-        ENABLE_FREEZING_PERMAFROST = builder.define("enable_permafrost_freezing", false);
-        FREEZING_PERMAFROST_SEVERITY = builder.define("permafrost_increment", 2, 0, 5);
         builder.pop();
         builder.setSynced();
 
         builder.push("charring");
         FIRE_CHARS_WOOD_CHANCE = builder.define("fire_chars_wood", 0.3, 0, 1);
-        ASH_SPAWNS_CHANCE = builder.define("ash_spawn", 0.3, 0, 1); //gets aplied after fire charring
         SOOT_SPAWN = builder.define("soot_spawn", true);
         FLAMMABLE_COBWEBS = builder.define("flammable_cobweb", true);
         builder.pop();
 
 
         builder.push("item_interaction");
-        //TODO: use cauldron registry
         PICKAXE_CRACKING = builder.define("pickaxe_cracking", true);
         PICKAXE_CRACKING_SHIFT = builder.define("pickaxe_cracking_shift", false);
         BRICK_REPAIRING = builder.define("brick_breaking", true);
-        PISTON_SLIMING = builder.define("piston_sliming", true);
-        SOIL_SHEARING = builder.define("soil_shearing", true);
-        GRASS_FLINTING = builder.define("grass_flinting", true);
         AZALEA_SHEARING = builder.define("azalea_shearing", true);
         MOSS_SHEARING = builder.define("moss_shearing", true);
         MOSS_BURNING = builder.define("moss_burning", true);
-        CHARRED_BLOCK_IGNITING = builder.define("charred_block_igniting", true);
         SHOVEL_EXTINGUISH = builder.define("shovel_extinguish", true);
         SPONGE_RUSTING = builder.define("sponge_rusting", true);
         SPONGE_RUST_DRYING = builder.define("sponge_rust_drying", false);
         AXE_STRIPPING = builder.define("axe_stripping", true);
         AXE_SCRAPING = builder.define("axe_rusting", true);
-        ASH_ITEM_SPAWN = builder.comment("allows ash to spawn when extinguishing campfires")
-                .define("ash_item_spawn", true);
         builder.pop();
 
         builder.push("food");
         ICICLE_FOOD = builder.define("icicle_food", true);
         ICICLE_FIRE_RESISTANCE = builder.define("icicle_fire_resistance", true);
-        MUDDY_WATER_ENABLED = builder.define("muddy_water_enabled", true);
         builder.pop();
 
         builder.push("misc");
-        MULCH_GROWS_CROPS = builder.define("mulch_grows_crops", true);
-        MULCH_GROWTH_TYPE_BONEMEAL = builder.define("mulch_growth_type_bonemeal", true);
-        MULCH_GROWTH_TYPE_RANDOM_TICK = builder.define("mulch_growth_type_random_tick", false);
-        MULCH_GROWTH_RANDOM_TICKS = builder.define("mulch_growth_random_ticks", 10, 1, 100);
         COMPOSTER_DIRT = builder.define("composter_dirt", true);
-        DESIRE_PATHS = builder.define("desire_paths", false);
-        DESIRE_PATH_RATE = builder.define("desire_path_rate", 0.05, 0, 1);
         GRASS_OVER_MYCELIUM = builder.define("grass_over_mycelium", true);
         MYCELIUM_OVER_GRASS = builder.define("mycelium_over_grass", true);
         GENERIC_BARK = builder.define("generic_bark", "");
-        FEATHER_FALLING_FARMERS = builder.define("feather_falling_farmers", true);
         LEGGINGS_PREVENTS_THORN_DAMAGE = builder.define("leggings_prevents_thorn_damage", true);
         builder.pop();
 
