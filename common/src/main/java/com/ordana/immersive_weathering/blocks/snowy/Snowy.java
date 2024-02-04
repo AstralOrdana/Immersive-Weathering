@@ -32,6 +32,7 @@ import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
@@ -106,6 +107,7 @@ public interface Snowy {
             return;
         }
 
+        //todo remove this. they shoudlnt drop snow when melting
         for (Direction dir : Direction.values()) {
             if (level.getBrightness(LightLayer.BLOCK, pos.relative(dir)) > 11) {
                 level.setBlockAndUpdate(pos, unSnowy.get());
