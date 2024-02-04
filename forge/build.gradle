@@ -113,6 +113,8 @@ dependencies {
     //modImplementation ("net.mehvahdjukaar:moonlight-forge:${rootProject.moonlight_version}")
 
     modImplementation("curse.maven:selene-499980:5055464")
+    modImplementation("curse.maven:supplementaries-412082:5053567")
+
 
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))
     implementation(include("io.github.llamalad7:mixinextras-forge:${mixin_extras_version}"))
