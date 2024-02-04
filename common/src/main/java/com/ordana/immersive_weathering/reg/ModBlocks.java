@@ -76,18 +76,6 @@ public class ModBlocks {
         return block;
     }
 
-    private static boolean isCompatBlockEanbled(String requiredMod) {
-        if(Objects.equals(requiredMod, "quark")) {
-            if (PlatHelper.getPlatform().isFabric()) {
-                return requiredMod.equals("amogus");
-            }else{
-                return IntegrationHandler.quark && QuarkPlugin.isVerticalSlabsOn();
-            }
-        }
-        return PlatHelper.isModLoaded(requiredMod);
-    }
-
-
     public static Supplier<BlockItem> regBlockItem(String name, Supplier<? extends Block> blockSup, Item.Properties properties) {
         return RegHelper.registerItem(ImmersiveWeathering.res(name), () -> new BlockItem(blockSup.get(), properties));
     }

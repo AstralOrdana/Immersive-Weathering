@@ -38,7 +38,6 @@ public class MossClumpItem extends BlockItem {
                 ItemStack stack = context.getItemInHand();
                 Player player = context.getPlayer();
                 level.playSound(player, pos, SoundEvents.MOSS_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
-                if (IntegrationHandler.quark) newBlock = QuarkPlugin.fixVerticalSlab(newBlock, state);
 
                 if (level.isClientSide) {
                     level.playSound(player, pos, newBlock.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
