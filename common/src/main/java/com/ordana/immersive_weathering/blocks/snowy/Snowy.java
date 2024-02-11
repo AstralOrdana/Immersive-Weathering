@@ -117,8 +117,7 @@ public interface Snowy {
             }
         }
 
-        Supplier<Holder<Biome>> biome = Suppliers.memoize(() -> level.getBiome(pos));
-        if (level.canSeeSky(pos.above()) && TemperatureManager.canSnowMelt(pos, biome)) {
+        if (level.canSeeSky(pos.above()) && TemperatureManager.canSnowMelt(pos, level)) {
             level.setBlockAndUpdate(pos, unSnowy.get());
         }
     }

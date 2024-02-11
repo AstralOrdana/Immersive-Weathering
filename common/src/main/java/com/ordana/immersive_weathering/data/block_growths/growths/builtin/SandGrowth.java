@@ -40,7 +40,7 @@ public class SandGrowth extends BuiltinBlockGrowth {
     public void tryGrowing(BlockPos pos, BlockState state, ServerLevel level, Supplier<Holder<Biome>> biome) {
         if (!(growthChance == 1 || level.random.nextFloat() < growthChance)) return;
 
-        if (TemperatureManager.hasSandstorm(level, pos, biome)) {
+        if (TemperatureManager.hasSandstorm(level, pos)) {
             var sandyBlock = Sandy.getSandy(state);
 
             RandomSource random = level.random;

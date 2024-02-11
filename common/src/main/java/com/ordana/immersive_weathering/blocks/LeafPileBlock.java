@@ -246,7 +246,7 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
             }
 
             level.setBlockAndUpdate(pos, state.setValue(AGE, age + 1)
-                .setValue(LAYERS, layers > 1 ? layers : layers - 1));
+                .setValue(LAYERS, layers <= 1 ? layers : layers - 1));
         }
     }
 
