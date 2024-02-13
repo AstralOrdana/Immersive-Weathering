@@ -172,8 +172,10 @@ public interface Charred extends ILightable, Fallable {
         }
         else if (state.getValue(SMOLDERING)) {
             level.playSound(player, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0f, 1.0f);
-            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.EMBERSPARK.get(), UniformInt.of(3, 5));
-            ParticleUtil.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SMOKE, UniformInt.of(3, 5), -0.05f, 0.05f, false);
+            if (level.isClientSide()) {
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.EMBERSPARK.get(), UniformInt.of(3, 5));
+                ParticleUtil.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SMOKE, UniformInt.of(3, 5), -0.05f, 0.05f, false);
+            }
             if (player instanceof ServerPlayer) {
                 level.setBlockAndUpdate(pos, state.setValue(SMOLDERING, Boolean.FALSE));
             }

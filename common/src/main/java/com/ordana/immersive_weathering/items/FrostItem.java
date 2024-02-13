@@ -45,7 +45,7 @@ public class FrostItem extends BlockItem {
         if (frosty.isPresent()) {
             Player player = context.getPlayer();
             level.playSound(player, pos, SoundEvents.POWDER_SNOW_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
-            ParticleUtil.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SNOWFLAKE, UniformInt.of(3, 5), -0.05f, 0.05f, false);
+            if (level.isClientSide()) ParticleUtil.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SNOWFLAKE, UniformInt.of(3, 5), -0.05f, 0.05f, false);
             if (player instanceof ServerPlayer) {
                 if (!player.getAbilities().instabuild) {
                     context.getItemInHand().shrink(1);
