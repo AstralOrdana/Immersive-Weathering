@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "C#",
-    "#C"
+    "#S",
+    "S#"
   ],
   "key": {
     "#": {
-      "tag": "immersive_weathering:bark"
+      "item": "minecraft:sand"
     },
-    "C": {
+    "S": {
       "item": "minecraft:dirt"
     }
   },
   "result": {
-    "item": "immersive_weathering:mulch_block",
+    "item": "immersive_weathering:sandy_dirt",
     "count": 4
   }
 }

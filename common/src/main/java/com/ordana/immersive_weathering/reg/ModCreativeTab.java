@@ -143,7 +143,7 @@ public class ModCreativeTab {
         );
 
         after(e, Items.GLASS_PANE, CreativeModeTabs.COLORED_BLOCKS,
-            ModBlocks.FROSTY_GLASS_PANE
+            ModBlocks.FROSTY_GLASS_PANE, ModBlocks.TINTED_GLASS_PANE
         );
 
 
@@ -251,7 +251,7 @@ public class ModCreativeTab {
         );
 
         after(e, Items.BARRIER, CreativeModeTabs.OP_BLOCKS,
-            ModItems.FIRE
+            ModItems.FIRE, ModItems.SOUL_FIRE
         );
 
     }

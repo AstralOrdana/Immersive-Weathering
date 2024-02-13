@@ -615,6 +615,9 @@ public class ModBlocks {
     public static final Supplier<Block> DARK_PRISMARINE_WALL = regWithItem("dark_prismarine_wall", () ->
         new WallBlock(Properties.copy(Blocks.DARK_PRISMARINE)));
 
+    public static final Supplier<Block> TINTED_GLASS_PANE = regWithItem("tinted_glass_pane", () ->
+        new TintedGlassPane(Properties.of().strength(0.3F).sound(SoundType.GLASS).noOcclusion().isRedstoneConductor(NEVER).isSuffocating(NEVER).isViewBlocking(NEVER)));
+
 
     private static void registerLeafPiles(Registrator<Block> event, Collection<LeavesType> leavesTypes) {
         for (LeavesType type : leavesTypes) {

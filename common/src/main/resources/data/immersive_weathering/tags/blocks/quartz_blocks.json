@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:quartz_block",
+    "minecraft:smooth_quartz",
+    {
+      "id": "spelunkery:rough_quartz_block",
+      "required": false
+    }
+  ]
+}

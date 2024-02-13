@@ -12,6 +12,7 @@ import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
 import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
 import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
+import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Blocks;
 
@@ -105,6 +106,8 @@ public class ModItems {
 
     public static final Supplier<Item> FIRE = regItem("fire", () ->
         new BlockItem(Blocks.FIRE, new Item.Properties().stacksTo(1)));
+    public static final Supplier<Item> SOUL_FIRE = regItem("soul_fire", () ->
+        new BlockItem(Blocks.SOUL_FIRE, new Item.Properties().stacksTo(1)));
 
 
     private static void registerBark(Registrator<Item> event, Collection<WoodType> woodTypes) {

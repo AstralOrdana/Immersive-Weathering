@@ -14,10 +14,8 @@
     ],
     "any": [
       {
-        "block_state": {
-          "Name": "minecraft:smooth_quartz"
-        },
-        "predicate_type": "minecraft:blockstate_match"
+        "predicate_type": "minecraft:tag_match",
+        "tag": "immersive_weathering:quartz_blocks"
       }
     ]
   }

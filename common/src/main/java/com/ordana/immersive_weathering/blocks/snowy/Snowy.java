@@ -107,16 +107,14 @@ public interface Snowy {
             return;
         }
 
-        //todo remove this. they shoudlnt drop snow when melting
         for (Direction dir : Direction.values()) {
             if (level.getBrightness(LightLayer.BLOCK, pos.relative(dir)) > 11) {
                 level.setBlockAndUpdate(pos, unSnowy.get());
-                Block.popResourceFromFace(level, pos, dir, new ItemStack(Items.SNOWBALL));
+                //Block.popResourceFromFace(level, pos, dir, new ItemStack(Items.SNOWBALL));
 
                 return;
             }
         }
-
         if (level.canSeeSky(pos.above()) && TemperatureManager.canSnowMelt(pos, level)) {
             level.setBlockAndUpdate(pos, unSnowy.get());
         }

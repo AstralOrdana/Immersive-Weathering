@@ -1,4 +1,4 @@
-package com.ordana.immersive_weathering.mixins.fabric;
+package com.ordana.immersive_weathering.mixins;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

@@ -39,6 +39,7 @@ public final class ModTags {
     public static final TagKey<Block> SNOWY = registerBlockTag("snowy");
     public static final TagKey<Block> SNOWABLE = registerBlockTag("snowable");
     public static final TagKey<Block> DOUBLE_SNOWABLE = registerBlockTag("double_snowable");
+    public static final TagKey<Block> QUARTZ_BLOCKS = registerBlockTag("quartz_blocks");
 
     public static final TagKey<Block> CLAY_SOIL_CROP = registerBlockTag("soil_clay_crops");
     public static final TagKey<Block> SILT_SOIL_CROP = registerBlockTag("soil_silt_crops");

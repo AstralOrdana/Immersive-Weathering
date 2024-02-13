@@ -2,7 +2,7 @@
   "type": "target_self",
   "fluid": "minecraft:lava",
   "generate": {
-    "Name": "minecraft:magma_block"
+    "Name": "minecraft:tuff"
   },
   "adjacent_blocks": {
     "down": {

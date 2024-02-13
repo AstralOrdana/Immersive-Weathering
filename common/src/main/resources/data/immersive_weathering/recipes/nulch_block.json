@@ -1,19 +1,17 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:netherrack"
-    },
-    {
-      "item": "minecraft:netherrack"
-    },
-    {
-      "tag": "immersive_weathering:scales"
-    },
-    {
-      "tag": "immersive_weathering:scales"
-    }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "C#",
+    "#C"
   ],
+  "key": {
+    "#": {
+      "tag": "immersive_weathering:scales"
+    },
+    "C": {
+      "item": "minecraft:netherrack"
+    }
+  },
   "result": {
     "item": "immersive_weathering:nulch_block",
     "count": 4

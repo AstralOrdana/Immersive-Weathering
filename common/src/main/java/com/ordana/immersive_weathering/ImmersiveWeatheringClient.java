@@ -101,6 +101,7 @@ public class ImmersiveWeatheringClient {
         ClientHelper.registerRenderType(ModBlocks.FROSTY_GRASS.get(), RenderType.cutoutMipped());
         ClientHelper.registerRenderType(ModBlocks.FROSTY_FERN.get(), RenderType.cutoutMipped());
         ClientHelper.registerRenderType(ModBlocks.THIN_ICE.get(), RenderType.translucent());
+        ClientHelper.registerRenderType(ModBlocks.TINTED_GLASS_PANE.get(), RenderType.translucent());
 
         ClientHelper.registerRenderType(ModBlocks.HANGING_ROOTS_WALL.get(), RenderType.cutoutMipped());
 

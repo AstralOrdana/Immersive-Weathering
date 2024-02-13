@@ -165,6 +165,12 @@
 
   "subtitles.block.icicle.land": "Icicle crashes down",
 
+  "tooltip.immersive_weathering.adjacent": "Placed next to flowing lava",
+  "tooltip.immersive_weathering.below": "Placed below flowing lava",
+  "tooltip.immersive_weathering.rising": "Rising Bubble Column",
+  "tooltip.immersive_weathering.sinking": "Sinking Bubble Column",
+
+
   "tag.immersive_weathering.weathered_iron": "Weathered Iron",
   "tag.immersive_weathering.exposed_iron": "Exposed Iron",
   "tag.immersive_weathering.clean_iron": "Clean Iron",
@@ -193,6 +199,7 @@
   "block.immersive_weathering.frosty_fern": "Frosty Fern",
   "block.immersive_weathering.frosty_glass": "Frosty Glass",
   "block.immersive_weathering.frosty_glass_pane": "Frosty Glass Pane",
+  "block.immersive_weathering.tinted_glass_pane": "Tinted Glass Pane",
   "block.immersive_weathering.thin_ice": "Thin Ice",
 
   "block.immersive_weathering.vitrified_sand": "Vitrified Sand",

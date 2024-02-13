@@ -12,6 +12,7 @@
     "BubbleColumnMixin",
     "BushBlockMixin",
     "CampfireMixin",
+    "CropBlockMixin",
     "EatBlockGoalMixin",
     "FireMixin",
     "GrassBlockMixin",
