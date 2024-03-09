@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "# #",
+    "# #"
+  ],
+  "key": {
+    "#": {
+      "item": "immersive_weathering:fire"
+    }
+  },
+  "result": {
+    "item": "minecraft:chainmail_leggings"
+  }
+}
