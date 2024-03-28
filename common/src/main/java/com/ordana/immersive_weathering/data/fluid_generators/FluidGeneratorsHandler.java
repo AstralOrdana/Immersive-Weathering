@@ -106,7 +106,7 @@ public class FluidGeneratorsHandler extends RegistryAccessJsonReloadListener {
     }
 
     private static Optional<Pair<BlockPos, @Nullable SoundEvent>> generate(List<Direction> possibleFlowDir, BlockPos pos, Level level, ImmutableList<IFluidGenerator> list) {
-        if (list != null && !list.isEmpty()) {
+        if (list != null && !list.isEmpty() && PlatHelper.isAreaLoaded(level, pos,3)) {
             Map<Direction, BlockState> neighborCache = new EnumMap<>(Direction.class);
             for (var generator : list) {
                 var res = generator.tryGenerating(possibleFlowDir, pos, level, neighborCache);
