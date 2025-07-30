@@ -117,6 +117,11 @@ public class LeafPileBlock extends LayerBlock implements BonemealableBlock {
     }
 
     @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rand) {
+     // shh
+    }
+    
+    @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         int layers = this.getLayers(state);
 
