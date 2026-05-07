@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.blocks.soil_types;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -14,8 +15,15 @@ import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class PermafrostBlock extends FallingBlock {
+    public static final MapCodec<PermafrostBlock> CODEC = simpleCodec(PermafrostBlock::new);
+
     public PermafrostBlock(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public MapCodec<PermafrostBlock> codec() {
+        return CODEC;
     }
 
     @Override

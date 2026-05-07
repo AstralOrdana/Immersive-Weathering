@@ -1,7 +1,8 @@
 package com.ordana.immersive_weathering.data.position_tests;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelHeightAccessor;
@@ -9,6 +10,8 @@ import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.biome.FixedBiomeSource;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -19,15 +22,11 @@ import net.minecraft.world.level.levelgen.blending.Blender;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-
 
 public class DummyWorldGenerationContext extends WorldGenerationContext {
 
-    private static final DummyGenerator DUMMY_GENERATOR = new DummyGenerator(null);
-
     public DummyWorldGenerationContext(Level level) {
-        super(DUMMY_GENERATOR, level);
+    super(new DummyGenerator(new FixedBiomeSource(level.registryAccess().lookupOrThrow(Registries.BIOME).getOrThrow(Biomes.PLAINS))), level);
     }
 
     private static class DummyGenerator extends ChunkGenerator {
@@ -44,8 +43,8 @@ public class DummyWorldGenerationContext extends WorldGenerationContext {
         }
 
         @Override
-        public CompletableFuture<ChunkAccess> fillFromNoise(Executor executor, Blender blender, RandomState randomState, StructureManager structureManager, ChunkAccess chunkAccess) {
-            return null;
+        public CompletableFuture<ChunkAccess> fillFromNoise(Blender blender, RandomState randomState, StructureManager structureManager, ChunkAccess chunkAccess) {
+            return CompletableFuture.completedFuture(chunkAccess);
         }
 
         @Override
@@ -70,8 +69,8 @@ public class DummyWorldGenerationContext extends WorldGenerationContext {
         //these will never get called
 
         @Override
-        protected Codec<? extends ChunkGenerator> codec() {
-            return null;
+        protected MapCodec<? extends ChunkGenerator> codec() {
+            return MapCodec.unit(this);
         }
 
         @Override

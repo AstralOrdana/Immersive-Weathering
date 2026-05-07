@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.data.rute_tests;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.ordana.immersive_weathering.reg.ModRuleTests;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.util.RandomSource;
@@ -12,7 +12,7 @@ public class LogMatchTest extends RuleTest {
 
     public static final LogMatchTest INSTANCE = new LogMatchTest();
 
-    public static final Codec<LogMatchTest> CODEC = Codec.unit(() -> INSTANCE);
+    public static final MapCodec<LogMatchTest> CODEC = MapCodec.unit(INSTANCE);
 
     @Override
     public boolean test(BlockState state, RandomSource random) {

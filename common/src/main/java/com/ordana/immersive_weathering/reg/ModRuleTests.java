@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.reg;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.data.rute_tests.*;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
@@ -28,7 +28,7 @@ public class ModRuleTests {
             "tree_log", LogMatchTest.CODEC);
 
 
-    private static <P extends RuleTest> Supplier<RuleTestType<P>> register(String name, Codec<P> codec) {
+        private static <P extends RuleTest> Supplier<RuleTestType<P>> register(String name, MapCodec<P> codec) {
         return RegHelper.register(ImmersiveWeathering.res(name), () -> () -> codec, Registries.RULE_TEST);
     }
 }

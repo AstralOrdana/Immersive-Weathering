@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
+@SuppressWarnings("removal")
 public class CeilingAndWallBlockItem extends BlockItem {
     protected final Block wallBlock;
 

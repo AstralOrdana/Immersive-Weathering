@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.data.rute_tests;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.data.block_growths.Operator;
 import com.ordana.immersive_weathering.reg.ModRuleTests;
@@ -22,8 +23,8 @@ import java.util.function.Predicate;
 
 public class BlockPropertyTest extends RuleTest {
 
-    public static final Codec<BlockPropertyTest> CODEC = PropPredicate.CODEC.listOf().fieldOf("properties")
-            .xmap(BlockPropertyTest::new, (t) -> t.propPredicates).codec();
+        public static final MapCodec<BlockPropertyTest> CODEC = PropPredicate.CODEC.listOf().fieldOf("properties")
+            .xmap(BlockPropertyTest::new, (t) -> t.propPredicates);
 
     private final List<PropPredicate> propPredicates;
 
@@ -47,25 +48,19 @@ public class BlockPropertyTest extends RuleTest {
 
     private static final class PropPredicate implements Predicate<BlockState> { //
 
-        public static Codec<PropPredicate> CODEC =
-                BuiltInRegistries.BLOCK.byNameCodec().partialDispatch("from_block", b -> DataResult.success(b.getFromBlock()),
-                        (block) -> {
-                            BlockState state = block.defaultBlockState();
-                            if (state.getValues().isEmpty()) {
-                                return DataResult.error(() -> "Target Block has no properties");
-                            }
-                            Codec<PropPredicate> c = propertyCodec(state).partialDispatch("property",
-                                    b -> DataResult.success(b.getProperty()), (property) -> {
+        private static final Codec<SerializedPredicate> SERIALIZED_CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("from_block").forGetter(serialized -> serialized.fromBlock),
+            Codec.STRING.fieldOf("property").forGetter(serialized -> serialized.property),
+            Codec.STRING.optionalFieldOf("value").forGetter(serialized -> serialized.value),
+            Operator.CODEC.optionalFieldOf("operator", Operator.EQUAL).forGetter(serialized -> serialized.operator)
+        ).apply(instance, (fromBlock, property, value, operator) -> new SerializedPredicate(fromBlock, property, value, operator)));
 
-                                        Codec<PropPredicate> c1 = RecordCodecBuilder.create(i -> i.group(
-                                                StrOpt.of(valueCodec(property),"value").forGetter(PropPredicate::getTargetValue),
-                                                StrOpt.of(Operator.CODEC, "operator", Operator.EQUAL).forGetter(PropPredicate::getOperator)
-                                        ).apply(i, (v, o) -> new PropPredicate(block, property, v, o)));
-
-                                        return DataResult.success(c1);
-                                    });
-                            return DataResult.success(c);
-                        });
+        public static final Codec<PropPredicate> CODEC = SERIALIZED_CODEC.flatXmap(PropPredicate::fromSerialized, predicate ->
+            DataResult.success(new SerializedPredicate(
+                predicate.fromBlock,
+                predicate.property.getName(),
+                predicate.getTargetValue().map(Object::toString),
+                predicate.operator)));
 
         private final Block fromBlock;
         private final Property<?> property;
@@ -104,6 +99,32 @@ public class BlockPropertyTest extends RuleTest {
             return operator;
         }
 
+        private static DataResult<PropPredicate> fromSerialized(SerializedPredicate serialized) {
+            BlockState state = serialized.fromBlock().defaultBlockState();
+            Property<?> property = null;
+            for (Property<?> candidate : state.getProperties()) {
+                if (candidate.getName().equals(serialized.property())) {
+                    property = candidate;
+                    break;
+                }
+            }
+            if (property == null) {
+                return DataResult.error(() -> "Unknown Property " + serialized.property() + " in " + state);
+            }
+
+            Optional<Comparable<?>> value = Optional.empty();
+            if (serialized.value().isPresent()) {
+                Property<?> matchedProperty = property;
+                var parsedValue = matchedProperty.getValue(serialized.value().get());
+                if (parsedValue.isEmpty()) {
+                    return DataResult.error(() -> "Unknown Property value" + serialized.value().get() + " in " + matchedProperty);
+                }
+                value = Optional.of(parsedValue.get());
+            }
+
+            return DataResult.success(new PropPredicate(serialized.fromBlock(), property, value, serialized.operator()));
+        }
+
         @Override
         public boolean test(BlockState state) {
             var val = state.getOptionalValue(property);
@@ -114,6 +135,9 @@ public class BlockPropertyTest extends RuleTest {
                 return targetValue == null || val.get() == targetValue;
             }
             return false;
+        }
+
+        private record SerializedPredicate(Block fromBlock, String property, Optional<String> value, Operator operator) {
         }
 
     }

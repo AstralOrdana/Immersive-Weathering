@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.data.block_growths.growths.builtin;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.data.block_growths.growths.IBlockGrowth;
@@ -27,7 +28,7 @@ public abstract class BuiltinBlockGrowth implements IBlockGrowth {
                         if (factory == null) {
                             return DataResult.error(() -> "No builtin growth found with id " + n);
                         }
-                        Codec<BuiltinBlockGrowth> codec = RecordCodecBuilder.create(i -> i.group(
+                        MapCodec<BuiltinBlockGrowth> codec = RecordCodecBuilder.mapCodec(i -> i.group(
                                 StrOpt.of(TickSource.CODEC.listOf(), "tick_sources", List.of(TickSource.BLOCK_TICK))
                                         .forGetter(b -> b.sources),
                                 StrOpt.of(RegistryCodecs.homogeneousList(Registries.BLOCK), "owners")

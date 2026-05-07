@@ -4,6 +4,7 @@ import com.ordana.immersive_weathering.blocks.ModBlockProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -14,6 +15,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -21,6 +23,7 @@ import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -88,10 +91,15 @@ public class NulchBlock extends Block {
     @Override
     public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
         if (state.getValue(MOLTEN)) {
-            if (!entity.fireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
+            if (!entity.fireImmune() && entity instanceof LivingEntity livingEntity && !hasFrostWalker(level, livingEntity)) {
                 entity.hurt(level.damageSources().hotFloor(), 1.0F);
             }
         }
+    }
+
+    private static boolean hasFrostWalker(Level level, LivingEntity entity) {
+        var frostWalker = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FROST_WALKER);
+        return EnchantmentHelper.getItemEnchantmentLevel(frostWalker, entity.getItemBySlot(EquipmentSlot.FEET)) > 0;
     }
 
 
@@ -113,7 +121,7 @@ public class NulchBlock extends Block {
 
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    protected net.minecraft.world.ItemInteractionResult useItemOn(ItemStack heldStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!player.isSecondaryUseActive()) {
             // empty bucket into mulch
             ItemStack stack = player.getItemInHand(hand);
@@ -126,7 +134,7 @@ public class NulchBlock extends Block {
                     level.setBlockAndUpdate(pos, state.setValue(MOLTEN, true));
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                 }
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                return net.minecraft.world.ItemInteractionResult.sidedSuccess(level.isClientSide);
             }
             // fill bucket from mulch
             else if (stack.is(Items.BUCKET) && state.getValue(MOLTEN)) {
@@ -138,10 +146,10 @@ public class NulchBlock extends Block {
                     level.setBlockAndUpdate(pos, state.setValue(MOLTEN, false));
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                 }
-                return InteractionResult.SUCCESS;
+                return net.minecraft.world.ItemInteractionResult.SUCCESS;
             }
         }
-        return super.use(state, level, pos, player, hand, hit);
+        return super.useItemOn(heldStack, state, level, pos, player, hand, hit);
     }
 
 

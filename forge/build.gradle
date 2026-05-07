@@ -1,3 +1,6 @@
+// Obsolete Architectury/Forge build script kept only for reference.
+// The active NeoForge 1.21.1 build is configured in the repository root build.gradle.
+
 plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }

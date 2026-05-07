@@ -118,7 +118,7 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
         int weight = v.weight.orElse(1);
         dirBuilder.add(direction, weight);
         growthBuilder.put(direction, v.randomList);
-        v.randomList.unwrap().stream().map(WeightedEntry.Wrapper::getData).forEach(o -> {
+        v.randomList.unwrap().stream().map(WeightedEntry.Wrapper::data).forEach(o -> {
             BlockState f = o.getFirst();
             if (f != null) blockBuilder.add(f.getBlock());
             BlockState s = o.getFirst();
@@ -135,10 +135,10 @@ public class ConfigurableBlockGrowth implements IBlockGrowth {
                 dir = Optional.empty();
                 weight = Optional.empty();
             } else {
-                dir = Optional.of(e.getData());
-                weight = Optional.of(e.getWeight().asInt());
+                dir = Optional.of(e.data());
+                weight = Optional.of(e.weight().asInt());
             }
-            list.add(new DirectionalList(dir, weight, blockGrowths.get(e.getData())));
+            list.add(new DirectionalList(dir, weight, blockGrowths.get(e.data())));
         }
         return list;
     }

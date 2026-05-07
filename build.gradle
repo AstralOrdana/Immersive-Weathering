@@ -1,69 +1,174 @@
 plugins {
-    id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
-    id "com.github.johnrengelman.shadow" version "7.1.2" apply false
-
+    id 'java-library'
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    // NeoForge userdev drives the 1.21.1 toolchain, runs, and recompiled Minecraft sources.
+    id 'net.neoforged.gradle.userdev' version '7.1.25'
 }
 
-architectury {
-    minecraft = rootProject.minecraft_version
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = mod_id
 }
 
-subprojects {
-    apply plugin: "dev.architectury.loom"
-    apply plugin: "com.github.johnrengelman.shadow"
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    withSourcesJar()
+}
 
+sourceSets {
+    main {
+        java {
+            // The NeoForge port is built from merged common + forge sources in one root project.
+            srcDirs = [
+                    'common/src/main/java',
+                    'forge/src/main/java'
+            ]
+            exclude 'com/ordana/immersive_weathering/integrations/EmiIntegration.java'
+        }
+        resources {
+            // Forge resources stay on the active build path so icon.png and neoforge.mods.toml land in the final JAR.
+            srcDirs = [
+                    'common/src/main/resources',
+                    'forge/src/main/resources',
+                    'forge/src/generated/resources'
+            ]
+        }
+    }
+}
 
-    loom {
-        silentMojangMappingsLicense()
+repositories {
+    mavenLocal()
+    maven {
+        url = 'https://www.cursemaven.com'
+        allowInsecureProtocol = true
+    }
+    maven { url 'https://maven.terraformersmc.com/releases' }
+    mavenCentral()
+}
+
+dependencies {
+    // NeoForge replaces the old Forge dependency for this port target.
+    implementation "net.neoforged:neoforge:${neo_version}"
+    compileOnly 'org.jetbrains:annotations:22.0.0'
+    compileOnly "curse.maven:selene-499980:5619074"
+}
+
+runs {
+    configureEach { run ->
+        run.systemProperty 'forge.logging.markers', 'REGISTRIES'
+        run.systemProperty 'forge.logging.console.level', 'debug'
+        run.modSource project.sourceSets.main
     }
 
-    dependencies {
-        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+    client {
+        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+    }
 
-        mappings loom.layered() {
+    server {
+        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        argument '--nogui'
+    }
 
-            it.parchment("org.parchmentmc.data:parchment-${rootProject.parchment_version}")
-            it.officialMojangMappings {
-                setNameSyntheticMembers(false)
+    gameTestServer {
+        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+    }
+
+    data {
+        arguments.addAll '--mod', project.mod_id, '--all', '--output',
+                file('src/generated/resources/').getAbsolutePath(), '--existing',
+                file('common/src/main/resources/').getAbsolutePath(), '--existing',
+                file('forge/src/main/resources/').getAbsolutePath()
+    }
+}
+
+tasks.named('jar', Jar).configure {
+    // Keep the legacy artifact name while shipping NeoForge 1.21.1 internals under the hood.
+    archiveFileName = "immersive_weathering-1.20.1-2.0.5-neoforge.jar"
+    dependsOn tasks.named('classes'), tasks.named('processResources')
+    reproducibleFileOrder = true
+    preserveFileTimestamps = false
+
+    manifest {
+        attributes(
+                'MixinConfigs': 'immersive_weathering-common.mixins.json,immersive_weathering.mixins.json'
+        )
+    }
+
+    doLast {
+        def packagedJar = archiveFile.get().asFile
+        def zipFile = new java.util.zip.ZipFile(packagedJar)
+        try {
+            // Release guard: fail the build if NeoForge metadata is missing from the packaged artifact.
+            def modsToml = zipFile.getEntry('META-INF/neoforge.mods.toml')
+            if (modsToml == null) {
+                throw new RuntimeException('Packaged JAR is missing META-INF/neoforge.mods.toml')
             }
+
+            // Release guard: fail fast if Gradle placeholders leaked into the distributed metadata.
+            def packagedToml = zipFile.getInputStream(modsToml).getText('UTF-8')
+            if (packagedToml.contains('${')) {
+                throw new RuntimeException('Packaged neoforge.mods.toml still contains unresolved placeholders')
+            }
+        } finally {
+            zipFile.close()
         }
     }
 }
 
-allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
-    apply plugin: "maven-publish"
+tasks.register('releaseJar') {
+    group = 'build'
+    description = 'Builds the release JAR and verifies packaged NeoForge metadata.'
+    dependsOn tasks.named('jar')
+}
 
-    archivesBaseName = rootProject.mod_id
-    version = rootProject.mod_version
-    group = rootProject.maven_group
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_authors            : mod_authors,
+            mod_logo_file          : mod_logo_file,
+            mod_description        : mod_description,
+            moonlight_version      : moonlight_version
+    ]
+    inputs.properties replaceProperties
 
+    // NeoForge metadata is expanded here so the packaged JAR carries the tested MC/NeoForge/Moonlight versions.
+    filesMatching(['META-INF/neoforge.mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties
+    }
+}
 
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 21
+}
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            from components.java
+        }
+    }
     repositories {
-
-        flatDir {
-            dirs 'mods'
-        }
-
-        mavenLocal()
-
-        maven { url "https://maven.parchmentmc.org" }
-
         maven {
-            url = "https://www.cursemaven.com"
-            allowInsecureProtocol = true
+            url "file://${project.projectDir}/repo"
         }
-
     }
+}
 
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
-        options.release = 17
-    }
-
-    java {
-        withSourcesJar()
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
     }
 }

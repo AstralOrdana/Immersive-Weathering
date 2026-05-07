@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.data.fluid_generators.builtin;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.ordana.immersive_weathering.blocks.mossy.Mossable;
 import com.ordana.immersive_weathering.data.fluid_generators.IFluidGenerator;
 import com.ordana.immersive_weathering.util.Weatherable;
@@ -20,7 +21,7 @@ public class BurnMossGenerator implements IFluidGenerator {
 
     public static final BurnMossGenerator INSTANCE = new BurnMossGenerator();
 
-    public static final Codec<BurnMossGenerator> CODEC = Codec.unit(() -> INSTANCE);
+    public static final MapCodec<BurnMossGenerator> CODEC = MapCodec.unit(INSTANCE);
 
     public static final IFluidGenerator.Type<BurnMossGenerator> TYPE = new IFluidGenerator.Type<>(CODEC, "burn_moss");
 

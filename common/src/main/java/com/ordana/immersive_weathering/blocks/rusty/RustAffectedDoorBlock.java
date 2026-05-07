@@ -19,7 +19,7 @@ public class RustAffectedDoorBlock extends DoorBlock{
     protected final Rustable.RustLevel rustLevel;
 
     public RustAffectedDoorBlock(Rustable.RustLevel rustLevel, Properties properties) {
-        super(properties, BlockSetType.IRON);
+        super(BlockSetType.IRON, properties);
         this.rustLevel = rustLevel;
     }
 

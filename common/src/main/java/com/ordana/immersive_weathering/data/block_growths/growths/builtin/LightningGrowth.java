@@ -35,8 +35,10 @@ public class LightningGrowth extends BuiltinBlockGrowth {
     @Override
     public @Nullable Iterable<Block> getOwners() {
         List<Block> blocks = new ArrayList<>();
-        BuiltInRegistries.BLOCK.getTag(BlockTags.SAND).get().stream().forEach(h -> blocks.add(h.value()));
-        BuiltInRegistries.BLOCK.getTag(ModTags.CRACKABLE).get().stream().forEach(h -> blocks.add(h.value()));
+        BuiltInRegistries.BLOCK.getTag(BlockTags.SAND)
+            .ifPresent(tag -> tag.stream().forEach(h -> blocks.add(h.value())));
+        BuiltInRegistries.BLOCK.getTag(ModTags.CRACKABLE)
+            .ifPresent(tag -> tag.stream().forEach(h -> blocks.add(h.value())));
         return blocks;
     }
 
@@ -90,7 +92,7 @@ public class LightningGrowth extends BuiltinBlockGrowth {
         } else if (state.is(BlockTags.SAND)) {
             level.setBlock(pos, ModBlocks.VITRIFIED_SAND.get().defaultBlockState(), 3);
             if (level.random.nextFloat() < CommonConfigs.FULGURITE_CHANCE.get()) {
-                var dir = list.getRandom(level.random).get().getData();
+                var dir = list.getRandom(level.random).get().data();
                 var offset = pos.relative(dir);
                 if(level.getBlockState(offset).isAir()){
                     level.setBlock(offset, ModBlocks.FULGURITE.get().defaultBlockState()

@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.data.position_tests;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,7 +14,7 @@ record HasAroundTest(IPositionRuleTest predicate) implements IPositionRuleTest {
 
     public static final String NAME = "has_around";
 
-    public static final Codec<HasAroundTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        public static final MapCodec<HasAroundTest> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             IPositionRuleTest.CODEC.fieldOf("predicate").forGetter(HasAroundTest::predicate)
     ).apply(instance, HasAroundTest::new));
 

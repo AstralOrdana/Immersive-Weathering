@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.data.position_tests;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.data.block_growths.Operator;
 import com.ordana.immersive_weathering.util.StrOpt;
@@ -18,7 +19,7 @@ import java.util.function.Supplier;
 record LightTest(int targetLight, Operator operator, Optional<Vec3i> offset) implements IPositionRuleTest {
 
     public static final String NAME = "light_test";
-    public static final Codec<LightTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        public static final MapCodec<LightTest> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.intRange(0,15).fieldOf("light").forGetter(LightTest::targetLight),
             Operator.CODEC.fieldOf("operator").forGetter(LightTest::operator),
             StrOpt.of(Vec3i.offsetCodec(16),"offset").forGetter(LightTest::offset)

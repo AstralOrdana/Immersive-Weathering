@@ -37,7 +37,7 @@
       ]
     }
   ],
-  "owners": "minecraft:grass",
+  "owners": "minecraft:short_grass",
   "replacing_target": {
     "block": "minecraft:air",
     "predicate_type": "minecraft:block_match"

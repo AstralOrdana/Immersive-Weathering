@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering;
 
 import com.google.common.collect.ImmutableBiMap;
-import dev.architectury.injectables.annotations.ExpectPlatform;
+import com.ordana.immersive_weathering.forge.IWPlatformStuffImpl;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
@@ -15,23 +15,19 @@ import org.jetbrains.annotations.Contract;
 public class IWPlatformStuff {
 
     @Contract
-    @ExpectPlatform
     public static FlowingFluid getFlowingFluid(LiquidBlock liquidBlock) {
-        throw new AssertionError();
+        return IWPlatformStuffImpl.getFlowingFluid(liquidBlock);
     }
 
-    @ExpectPlatform
     public static void addFeatureToBiome(GenerationStep.Decoration step, TagKey<Biome> tagKey, ResourceKey<PlacedFeature> feature) {
-        throw new AssertionError();
+        IWPlatformStuffImpl.addFeatureToBiome(step, tagKey, feature);
     }
 
-    @ExpectPlatform
     public static void addExtraMossyBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
-        throw new AssertionError();
+        IWPlatformStuffImpl.addExtraMossyBlocks(builder);
     }
 
-    @ExpectPlatform
     public static void addExtraCrackedBlocks(ImmutableBiMap.Builder<Block, Block> builder) {
-        throw new AssertionError();
+        IWPlatformStuffImpl.addExtraCrackedBlocks(builder);
     }
 }

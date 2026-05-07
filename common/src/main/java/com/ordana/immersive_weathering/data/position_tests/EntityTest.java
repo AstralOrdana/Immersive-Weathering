@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.data.position_tests;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.util.StrOpt;
 import net.minecraft.core.*;
@@ -19,7 +20,7 @@ import java.util.function.Supplier;
 public class EntityTest implements IPositionRuleTest {
 
     public static final String NAME = "entity_test";
-    public static final Codec<EntityTest> CODEC = RecordCodecBuilder.create((i) -> i.group(
+    public static final MapCodec<EntityTest> CODEC = RecordCodecBuilder.mapCodec((i) -> i.group(
             RegistryCodecs.homogeneousList(Registries.ENTITY_TYPE).fieldOf("targets").forGetter(EntityTest::getTargets),
             IntProvider.codec(0, 100).fieldOf("count").forGetter(EntityTest::getIntProvider),
             Codec.intRange(0, 64).fieldOf("radius").forGetter(EntityTest::getSize),

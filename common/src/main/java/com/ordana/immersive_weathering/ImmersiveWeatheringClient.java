@@ -23,10 +23,14 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+
+import java.lang.reflect.Method;
 
 public class ImmersiveWeatheringClient {
 
@@ -34,12 +38,37 @@ public class ImmersiveWeatheringClient {
         ClientHelper.addClientSetup(ImmersiveWeatheringClient::setup);
         ClientDynamicResourcesHandler.INSTANCE.register();
 
-        ClientHelper.registerOptionalTexturePack(ImmersiveWeathering.res("visual_waxed_iron_items"));
+        registerOptionalTexturePack(ImmersiveWeathering.res("visual_waxed_iron_items"));
 
         ClientHelper.addEntityRenderersRegistration(ImmersiveWeatheringClient::registerEntityRenderers);
         ClientHelper.addBlockColorsRegistration(ImmersiveWeatheringClient::registerBlockColors);
         ClientHelper.addItemColorsRegistration(ImmersiveWeatheringClient::registerItemColors);
         ClientHelper.addParticleRegistration(ImmersiveWeatheringClient::registerParticles);
+    }
+
+    private static void registerOptionalTexturePack(ResourceLocation packId) {
+        try {
+            Method legacy = ClientHelper.class.getMethod("registerOptionalTexturePack", ResourceLocation.class);
+            legacy.invoke(null, packId);
+            return;
+        } catch (ReflectiveOperationException ignored) {
+        }
+
+        try {
+            Method current = ClientHelper.class.getMethod("registerOptionalTexturePack", ResourceLocation.class, boolean.class);
+            current.invoke(null, packId, true);
+            return;
+        } catch (ReflectiveOperationException ignored) {
+        }
+
+        try {
+            Method currentWithName = ClientHelper.class.getMethod("registerOptionalTexturePack", ResourceLocation.class, Component.class, boolean.class);
+            currentWithName.invoke(null, packId, Component.literal(packId.getPath()), true);
+            return;
+        } catch (ReflectiveOperationException ignored) {
+        }
+
+        throw new IllegalStateException("Could not register optional texture pack for " + packId);
     }
 
     public static void setup() {

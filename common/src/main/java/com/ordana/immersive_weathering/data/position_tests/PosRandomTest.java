@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.data.position_tests;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -14,7 +15,7 @@ import java.util.function.Supplier;
 public record PosRandomTest(int rarity) implements IPositionRuleTest {
 
     public static final String NAME = "pos_random";
-    public static final Codec<PosRandomTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        public static final MapCodec<PosRandomTest> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.intRange(0, 10000).fieldOf("rarity").forGetter(PosRandomTest::rarity)
     ).apply(instance, PosRandomTest::new));
 

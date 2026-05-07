@@ -14,11 +14,15 @@ import net.mehvahdjukaar.moonlight.api.set.leaves.LeavesType;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.PreparableReloadListener.PreparationBarrier;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.profiling.ProfilerFiller;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 public class ServerDynamicResourcesHandler extends DynServerResourcesGenerator {
 
@@ -37,6 +41,14 @@ public class ServerDynamicResourcesHandler extends DynServerResourcesGenerator {
     @Override
     public boolean dependsOnLoadedPacks() {
         return true;
+    }
+
+    @Override
+    public CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager,
+                                          ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler,
+                                          Executor backgroundExecutor, Executor gameExecutor) {
+        return super.m_5540_(preparationBarrier, resourceManager, preparationsProfiler, reloadProfiler,
+                backgroundExecutor, gameExecutor);
     }
 
     @Override

@@ -3,9 +3,9 @@ package com.ordana.immersive_weathering.configs;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigBuilder;
-import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigSpec;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigType;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 public class CommonConfigs {
 
 
-    public static final ConfigSpec SERVER_SPEC;
+    public static final Object SERVER_SPEC;
 
     public static final Supplier<Boolean> BLOCK_GROWTHS;
     public static final Supplier<List<String>> DISABLED_GROWTHS;
@@ -94,7 +94,7 @@ public class CommonConfigs {
     static{
         ConfigBuilder builder = ConfigBuilder.create(ImmersiveWeathering.res("common"), ConfigType.COMMON);
 
-        builder.setSynced();
+        markSynced(builder);
 
         builder.push("general");
         BLOCK_GROWTHS = builder.define("block_growths", true);
@@ -137,7 +137,7 @@ public class CommonConfigs {
         //all these are disabled when at 0 of course
         FREEZING_ICICLE_SEVERITY = builder.define("icicle", 300, 0, 1000);
         builder.pop();
-        builder.setSynced();
+        markSynced(builder);
 
         builder.push("charring");
         FIRE_CHARS_WOOD_CHANCE = builder.define("fire_chars_wood", 0.3, 0, 1);
@@ -206,8 +206,39 @@ public class CommonConfigs {
         });
 
 
-        SERVER_SPEC = builder.buildAndRegister();
-        SERVER_SPEC.loadFromFile();
+        SERVER_SPEC = buildAndLoad(builder);
+    }
+
+    private static void markSynced(ConfigBuilder builder) {
+        invokeIfPresent(builder, "setSynced");
+    }
+
+    private static Object buildAndLoad(ConfigBuilder builder) {
+        Object configHolder = invokeRequired(builder, "buildAndRegister", "build");
+        invokeIfPresent(configHolder, "loadFromFile", "forceLoad");
+        return configHolder;
+    }
+
+    private static Object invokeRequired(Object target, String... methodNames) {
+        for (String methodName : methodNames) {
+            try {
+                Method method = target.getClass().getMethod(methodName);
+                return method.invoke(target);
+            } catch (ReflectiveOperationException ignored) {
+            }
+        }
+        throw new IllegalStateException("Could not call any of " + String.join(", ", methodNames) + " on " + target.getClass().getName());
+    }
+
+    private static void invokeIfPresent(Object target, String... methodNames) {
+        for (String methodName : methodNames) {
+            try {
+                Method method = target.getClass().getMethod(methodName);
+                method.invoke(target);
+                return;
+            } catch (ReflectiveOperationException ignored) {
+            }
+        }
     }
 
 

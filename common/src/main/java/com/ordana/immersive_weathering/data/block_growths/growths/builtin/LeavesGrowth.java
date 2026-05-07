@@ -155,7 +155,7 @@ public class LeavesGrowth extends BuiltinBlockGrowth {
         if (!downState.canOcclude() || !downState.isFaceSturdy(level, downPos, Direction.UP)) {
 
             //packet here
-            NetworkHandler.CHANNEL.sendToAllClientPlayersInRange(level, pos, 32,
+                NetworkHandler.sendToAllClientPlayersInRange(level, pos, 32,
                     new SendCustomParticlesPacket(SendCustomParticlesPacket.EventType.DECAY_LEAVES,
                             pos, Block.getId(state)));
         }

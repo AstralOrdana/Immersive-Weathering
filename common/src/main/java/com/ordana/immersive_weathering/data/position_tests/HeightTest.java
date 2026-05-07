@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.data.position_tests;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -13,7 +14,7 @@ import java.util.function.Supplier;
 public record HeightTest( HeightProvider height, int tolerance) implements IPositionRuleTest {
 
     public static final String NAME = "height_test";
-    public static final Codec<HeightTest> CODEC = RecordCodecBuilder.create((i) -> i.group(
+        public static final MapCodec<HeightTest> CODEC = RecordCodecBuilder.mapCodec((i) -> i.group(
             HeightProvider.CODEC.fieldOf("distribution").forGetter(HeightTest::height),
             Codec.INT.fieldOf("tolerance").forGetter(HeightTest::tolerance)
     ).apply(i, HeightTest::new));

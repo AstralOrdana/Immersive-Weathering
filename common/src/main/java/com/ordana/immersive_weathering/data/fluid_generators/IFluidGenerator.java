@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.data.fluid_generators;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
@@ -41,7 +42,7 @@ public interface IFluidGenerator extends Comparable<IFluidGenerator> {
     }
 
 
-    record Type<T extends IFluidGenerator>(Codec<T> codec, String name) {
+    record Type<T extends IFluidGenerator>(MapCodec<T> codec, String name) {
         
         private static final Codec<Type<?>> CODEC = Codec.STRING.flatXmap(
                 (name) -> ModFluidGenerators.get(name).map(DataResult::success).orElseGet(

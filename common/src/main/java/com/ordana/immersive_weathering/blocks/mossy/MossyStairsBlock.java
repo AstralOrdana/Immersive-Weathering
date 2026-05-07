@@ -27,7 +27,7 @@ public class MossyStairsBlock extends ModStairBlock implements Mossable, Bonemea
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
         return this.mossLevel == MossLevel.MOSSY;
     }
 

@@ -44,7 +44,7 @@ public class WeedsBlock extends CropBlock {
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         int i = this.getAge(state);
         if (i < this.getMaxAge()) {
-            float f = getGrowthSpeed(this, level, pos);
+            float f = getGrowthSpeed(state, level, pos);
             if (random.nextInt((int) (25.0F / f) + 1) == 0) {
                 level.setBlock(pos, this.getStateForAge(i + 1), 2);
             }

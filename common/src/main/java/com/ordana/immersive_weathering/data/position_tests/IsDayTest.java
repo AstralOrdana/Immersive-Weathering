@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.data.position_tests;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -12,7 +13,7 @@ import java.util.function.Supplier;
 record IsDayTest(boolean day) implements IPositionRuleTest {
 
     public static final String NAME = "day_test";
-    public static final Codec<IsDayTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        public static final MapCodec<IsDayTest> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.BOOL.fieldOf("day").forGetter(IsDayTest::day)
     ).apply(instance, IsDayTest::new));
     static final Type<IsDayTest> TYPE =

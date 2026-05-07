@@ -7,6 +7,7 @@ import net.mehvahdjukaar.moonlight.api.block.ILightable;
 import net.mehvahdjukaar.moonlight.api.client.util.ParticleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -21,6 +22,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
@@ -29,6 +31,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Fallable;
 import net.minecraft.world.level.block.FallingBlock;
@@ -38,6 +41,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 
+@SuppressWarnings("removal")
 public interface Charred extends ILightable, Fallable {
 
     BooleanProperty SMOLDERING = ModBlockProperties.SMOLDERING;
@@ -88,10 +92,15 @@ public interface Charred extends ILightable, Fallable {
 
     default void onEntityStepOn(BlockState state, Entity entity) {
         if (isLitUp(state)) {
-            if (!entity.fireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
+            if (!entity.fireImmune() && entity instanceof LivingEntity livingEntity && !hasFrostWalker(livingEntity)) {
                 entity.hurt(entity.damageSources().hotFloor(), 1.0F);
             }
         }
+    }
+
+    private static boolean hasFrostWalker(LivingEntity entity) {
+        var frostWalker = entity.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FROST_WALKER);
+        return EnchantmentHelper.getItemEnchantmentLevel(frostWalker, entity.getItemBySlot(EquipmentSlot.FEET)) > 0;
     }
 
 
@@ -161,7 +170,7 @@ public interface Charred extends ILightable, Fallable {
             level.playSound(player, pos, flint ? SoundEvents.FLINTANDSTEEL_USE : SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
             ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.EMBERSPARK.get(), UniformInt.of(3, 5));
             if (!player.getAbilities().instabuild) {
-                if (flint) stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                if (flint) stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
                 if (charge) stack.shrink(1);
             }
             if (player instanceof ServerPlayer) {

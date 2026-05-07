@@ -1,5 +1,6 @@
 package com.ordana.immersive_weathering.blocks.soil_types;
 
+import com.mojang.serialization.MapCodec;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.util.WeatheringHelper;
 import net.minecraft.core.BlockPos;
@@ -30,12 +31,18 @@ import java.util.List;
 import java.util.Optional;
 
 public class BaseSoilBlockFallable extends FallingBlock implements BonemealableBlock {
+    public static final MapCodec<BaseSoilBlockFallable> CODEC = simpleCodec(BaseSoilBlockFallable::new);
 
     public static final BooleanProperty SNOWY;
 
     public BaseSoilBlockFallable(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(SNOWY, false));
+    }
+
+    @Override
+    public MapCodec<BaseSoilBlockFallable> codec() {
+        return CODEC;
     }
 
     @Override
@@ -79,7 +86,7 @@ public class BaseSoilBlockFallable extends FallingBlock implements BonemealableB
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
         return level.getBlockState(pos.above()).isAir();
     }
 
@@ -89,7 +96,7 @@ public class BaseSoilBlockFallable extends FallingBlock implements BonemealableB
 
     public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
         BlockPos blockPos = pos.above();
-        BlockState blockState = Blocks.GRASS.defaultBlockState();
+        BlockState blockState = Blocks.SHORT_GRASS.defaultBlockState();
         Optional<Holder.Reference<PlacedFeature>> optional = level.registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getHolder(VegetationPlacements.GRASS_BONEMEAL);
 
         label49:

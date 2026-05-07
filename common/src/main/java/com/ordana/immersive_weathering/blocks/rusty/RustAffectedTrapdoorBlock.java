@@ -15,7 +15,7 @@ public class RustAffectedTrapdoorBlock extends TrapDoorBlock {
     private final Rustable.RustLevel rustLevel;
 
     public RustAffectedTrapdoorBlock(Rustable.RustLevel rustLevel, Properties properties, BlockSetType type) {
-        super(properties, type);
+        super(type, properties);
         this.rustLevel = rustLevel;
     }
 

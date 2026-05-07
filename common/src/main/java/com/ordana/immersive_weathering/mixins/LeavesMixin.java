@@ -33,7 +33,7 @@ public abstract class LeavesMixin extends Block implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
         int i = 0;
         for (var direction : Direction.values()) {
                 var targetPos = pos.relative(direction);
