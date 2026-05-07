@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.data.block_growths.area_condition;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.data.block_growths.growths.ConfigurableBlockGrowth;
 import com.ordana.immersive_weathering.util.StrOpt;
@@ -20,7 +21,7 @@ record NeighborCheck(RuleTest mustHavePredicate, RuleTest mustNotHavePredicate,
                      Integer requiredAmount, List<Direction> directions) implements AreaCondition {
 
     public static final String NAME = "neighbor_based_generation";
-    public static final Codec<NeighborCheck> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final MapCodec<NeighborCheck> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             RuleTest.CODEC.fieldOf("must_have").forGetter(NeighborCheck::mustHavePredicate),
             StrOpt.of(RuleTest.CODEC,"must_not_have", AlwaysTrueTest.INSTANCE).forGetter(NeighborCheck::mustNotHavePredicate),
             StrOpt.of(Codec.INT,"required_amount", 1).forGetter(NeighborCheck::requiredAmount),

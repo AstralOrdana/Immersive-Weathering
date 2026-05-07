@@ -27,7 +27,7 @@ public class ImmersiveWeathering {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static ResourceLocation res(String name) {
-        return new ResourceLocation(MOD_ID, name);
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
     }
 
     //called either on mod creation on fabric or mod setup on forge
@@ -38,7 +38,6 @@ public class ImmersiveWeathering {
         CommonConfigs.init();
         if (PlatHelper.getPhysicalSide().isClient()) {
             ClientConfigs.init();
-            ImmersiveWeatheringClient.init();
         }
 
         PlatHelper.addCommonSetup(ImmersiveWeathering::setup);
@@ -53,8 +52,6 @@ public class ImmersiveWeathering {
 
         ModCreativeTab.init();
 
-        NetworkHandler.init();
-
         ModBlocks.init();
         ModItems.init();
         ModEntities.init();
@@ -62,6 +59,10 @@ public class ImmersiveWeathering {
         ModRuleTests.init();
         ModFeatures.init();
         ModSoundEvents.init();
+
+        if (PlatHelper.getPhysicalSide().isClient()) {
+            ImmersiveWeatheringClient.init();
+        }
 
         PlatHelper.addServerReloadListener(BlockGrowthHandler.RELOAD_INSTANCE, res("block_growths"));
         PlatHelper.addServerReloadListener(FluidGeneratorsHandler.RELOAD_INSTANCE, res("fluid_generators"));

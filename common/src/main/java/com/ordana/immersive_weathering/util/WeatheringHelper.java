@@ -45,8 +45,8 @@ public class WeatheringHelper {
 
     public static void addOptional(ImmutableBiMap.Builder<Block, Block> map,
                                    String moddedId, String moddedId2) {
-        var o1 = BuiltInRegistries.BLOCK.getOptional(new ResourceLocation(moddedId));
-        var o2 = BuiltInRegistries.BLOCK.getOptional(new ResourceLocation(moddedId2));
+        var o1 = BuiltInRegistries.BLOCK.getOptional(ResourceLocation.parse(moddedId));
+        var o2 = BuiltInRegistries.BLOCK.getOptional(ResourceLocation.parse(moddedId2));
         if (o1.isPresent() && o2.isPresent()) {
             map.put(o1.get(), o2.get());
         }
@@ -56,8 +56,8 @@ public class WeatheringHelper {
         var builder = ImmutableBiMap.<Block, Block>builder()
                 .put(Blocks.FLOWERING_AZALEA, Blocks.AZALEA)
                 .put(Blocks.FLOWERING_AZALEA_LEAVES, Blocks.AZALEA_LEAVES)
-                .put(ModBlocks.LEAF_PILES.get(LeavesTypeRegistry.getValue(new ResourceLocation("flowering_azalea"))),
-                        ModBlocks.LEAF_PILES.get(LeavesTypeRegistry.getValue(new ResourceLocation("azalea"))));
+                .put(ModBlocks.LEAF_PILES.get(LeavesTypeRegistry.getValue(ResourceLocation.parse("flowering_azalea"))),
+                        ModBlocks.LEAF_PILES.get(LeavesTypeRegistry.getValue(ResourceLocation.parse("azalea"))));
         addOptional(builder, "quark:flowering_azalea_hedge", "quark:azalea_hedge");
         addOptional(builder, "quark:flowering_azalea_leaf_carpet", "quark:azalea_leaf_carpet");
         return builder.build();
@@ -148,7 +148,7 @@ public class WeatheringHelper {
             if (log) {
                 String s = CommonConfigs.GENERIC_BARK.get();
                 if (!s.isEmpty()) {
-                    var bark = BuiltInRegistries.ITEM.getOptional(new ResourceLocation(s));
+                    var bark = BuiltInRegistries.ITEM.getOptional(ResourceLocation.parse(s));
                     if (bark.isPresent()) {
                         return bark.get();
                     }
@@ -171,7 +171,7 @@ public class WeatheringHelper {
             if (log instanceof Block unStripped) {
                 String s = CommonConfigs.GENERIC_BARK.get();
                 if (!s.isEmpty()) {
-                    var bark = BuiltInRegistries.ITEM.getOptional(new ResourceLocation(s));
+                    var bark = BuiltInRegistries.ITEM.getOptional(ResourceLocation.parse(s));
                     if (bark.isPresent()) {
                         return Optional.of(Pair.of(bark.get(), unStripped));
                     }
@@ -194,7 +194,7 @@ public class WeatheringHelper {
             if (log instanceof Block unStripped) {
                 String s = CommonConfigs.GENERIC_BARK.get();
                 if (!s.isEmpty()) {
-                    var bark = BuiltInRegistries.ITEM.getOptional(new ResourceLocation(s));
+                    var bark = BuiltInRegistries.ITEM.getOptional(ResourceLocation.parse(s));
                     if (bark.isPresent()) {
                         return Optional.of(Pair.of(bark.get(), unStripped));
                     }
@@ -255,27 +255,27 @@ public class WeatheringHelper {
 
     public static final Supplier<BiMap<Block, Item>> WOOD_TO_BARK = Suppliers.memoize(() -> {
         var builder = ImmutableBiMap.<Block, Item>builder()
-            .put(Blocks.OAK_LOG,       ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("oak"))))
-            .put(Blocks.BIRCH_LOG,     ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("birch"))))
-            .put(Blocks.JUNGLE_LOG,    ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("jungle"))))
-            .put(Blocks.SPRUCE_LOG,    ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("spruce"))))
-            .put(Blocks.ACACIA_LOG,    ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("acacia"))))
-            .put(Blocks.DARK_OAK_LOG,  ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("dark_oak"))))
-            .put(Blocks.MANGROVE_LOG,  ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("mangrove"))))
-            .put(Blocks.CHERRY_LOG,    ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("cherry"))))
-            .put(Blocks.BAMBOO_BLOCK,  ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("bamboo"))))
-            .put(Blocks.CRIMSON_STEM,  ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("crimson"))))
-            .put(Blocks.WARPED_STEM,   ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("warped"))))
-            .put(Blocks.OAK_WOOD,      ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("oak"))))
-            .put(Blocks.BIRCH_WOOD,    ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("birch"))))
-            .put(Blocks.JUNGLE_WOOD,   ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("jungle"))))
-            .put(Blocks.SPRUCE_WOOD,   ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("spruce"))))
-            .put(Blocks.ACACIA_WOOD,   ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("acacia"))))
-            .put(Blocks.DARK_OAK_WOOD, ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("dark_oak"))))
-            .put(Blocks.MANGROVE_WOOD, ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("mangrove"))))
-            .put(Blocks.CHERRY_WOOD,   ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("cherry"))))
-            .put(Blocks.CRIMSON_HYPHAE,ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("crimson"))))
-            .put(Blocks.WARPED_HYPHAE, ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("warped"))));
+            .put(Blocks.OAK_LOG,       ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("oak"))))
+            .put(Blocks.BIRCH_LOG,     ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("birch"))))
+            .put(Blocks.JUNGLE_LOG,    ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("jungle"))))
+            .put(Blocks.SPRUCE_LOG,    ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("spruce"))))
+            .put(Blocks.ACACIA_LOG,    ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("acacia"))))
+            .put(Blocks.DARK_OAK_LOG,  ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("dark_oak"))))
+            .put(Blocks.MANGROVE_LOG,  ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("mangrove"))))
+            .put(Blocks.CHERRY_LOG,    ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("cherry"))))
+            .put(Blocks.BAMBOO_BLOCK,  ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("bamboo"))))
+            .put(Blocks.CRIMSON_STEM,  ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("crimson"))))
+            .put(Blocks.WARPED_STEM,   ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("warped"))))
+            .put(Blocks.OAK_WOOD,      ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("oak"))))
+            .put(Blocks.BIRCH_WOOD,    ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("birch"))))
+            .put(Blocks.JUNGLE_WOOD,   ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("jungle"))))
+            .put(Blocks.SPRUCE_WOOD,   ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("spruce"))))
+            .put(Blocks.ACACIA_WOOD,   ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("acacia"))))
+            .put(Blocks.DARK_OAK_WOOD, ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("dark_oak"))))
+            .put(Blocks.MANGROVE_WOOD, ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("mangrove"))))
+            .put(Blocks.CHERRY_WOOD,   ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("cherry"))))
+            .put(Blocks.CRIMSON_HYPHAE,ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("crimson"))))
+            .put(Blocks.WARPED_HYPHAE, ModItems.BARK.get(WoodTypeRegistry.getValue(ResourceLocation.parse("warped"))));
         return builder.build();
     });
 
@@ -442,3 +442,4 @@ public class WeatheringHelper {
     }
 
 }
+

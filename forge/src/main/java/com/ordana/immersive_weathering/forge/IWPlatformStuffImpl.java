@@ -26,7 +26,7 @@ public class IWPlatformStuffImpl {
     }
 
     public static FlowingFluid getFlowingFluid(LiquidBlock block) {
-        return block.getFluid();
+        return block.fluid;
     }
 
 

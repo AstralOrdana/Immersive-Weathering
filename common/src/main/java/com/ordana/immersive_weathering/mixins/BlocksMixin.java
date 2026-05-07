@@ -10,6 +10,7 @@ import com.ordana.immersive_weathering.blocks.rusty.RustableTrapdoorBlock;
 import com.ordana.immersive_weathering.reg.ModItems;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -23,9 +24,13 @@ import org.spongepowered.asm.mixin.injection.Slice;
 @Mixin(Blocks.class)
 public abstract class BlocksMixin {
 
+        private static BlockBehaviour.Properties legacyStairProperties(Block block) {
+                return BlockBehaviour.Properties.ofFullCopy(block);
+        }
+
     @Redirect(method = "<clinit>", at = @At(
             value = "NEW",
-            target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/MangrovePropaguleBlock;",
+            target = "(Lnet/minecraft/world/level/block/grower/TreeGrower;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/MangrovePropaguleBlock;",
             ordinal = 0
     ),
             slice = @Slice(
@@ -35,7 +40,7 @@ public abstract class BlocksMixin {
                     )
             )
     )
-    private static MangrovePropaguleBlock mangrovePropaguleBlock(BlockBehaviour.Properties settings) {
+        private static MangrovePropaguleBlock mangrovePropaguleBlock(TreeGrower grower, BlockBehaviour.Properties settings) {
         return new ModPropaguleBlock(settings);
     }
 
@@ -75,8 +80,8 @@ public abstract class BlocksMixin {
     @Redirect(
             method = "<clinit>",
             at = @At(
-                    value = "NEW",
-                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/block/Blocks;legacyStair(Lnet/minecraft/world/level/block/Block;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -86,8 +91,8 @@ public abstract class BlocksMixin {
                     )
             )
     )
-    private static StairBlock polishedBlackstoneBricksStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> Blocks.POLISHED_BLACKSTONE_BRICKS, () -> ModItems.BLACKSTONE_BRICK.get(), settings);
+        private static Block polishedBlackstoneBricksStairs(Block baseBlock) {
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> Blocks.POLISHED_BLACKSTONE_BRICKS, () -> ModItems.BLACKSTONE_BRICK.get(), legacyStairProperties(baseBlock));
     }
 
     @Redirect(
@@ -229,8 +234,8 @@ public abstract class BlocksMixin {
     @Redirect(
             method = "<clinit>",
             at = @At(
-                    value = "NEW",
-                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/block/Blocks;legacyStair(Lnet/minecraft/world/level/block/Block;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice
@@ -241,8 +246,8 @@ public abstract class BlocksMixin {
                             )
                     )
     )
-    private static StairBlock deepslateBrickStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> Blocks.DEEPSLATE_BRICKS, () -> ModItems.DEEPSLATE_BRICK.get(), settings);
+        private static Block deepslateBrickStairs(Block baseBlock) {
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> Blocks.DEEPSLATE_BRICKS, () -> ModItems.DEEPSLATE_BRICK.get(), legacyStairProperties(baseBlock));
     }
 
     @Redirect(
@@ -302,8 +307,8 @@ public abstract class BlocksMixin {
     @Redirect(
             method = "<clinit>",
             at = @At(
-                    value = "NEW",
-                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/block/Blocks;legacyStair(Lnet/minecraft/world/level/block/Block;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -313,8 +318,8 @@ public abstract class BlocksMixin {
                     )
             )
     )
-    private static StairBlock deepslateTileStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> Blocks.DEEPSLATE_TILES, () -> ModItems.DEEPSLATE_TILE.get(), settings);
+        private static Block deepslateTileStairs(Block baseBlock) {
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> Blocks.DEEPSLATE_TILES, () -> ModItems.DEEPSLATE_TILE.get(), legacyStairProperties(baseBlock));
     }
 
     @Redirect(
@@ -375,8 +380,8 @@ public abstract class BlocksMixin {
     @Redirect(
             method = "<clinit>",
             at = @At(
-                    value = "NEW",
-                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/block/Blocks;legacyStair(Lnet/minecraft/world/level/block/Block;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice
@@ -388,8 +393,8 @@ public abstract class BlocksMixin {
                                     )
                     )
     )
-    private static StairBlock netherBrickStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> Blocks.NETHER_BRICKS, () -> Items.NETHER_BRICK, settings);
+                private static Block netherBrickStairs(Block baseBlock) {
+                return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> Blocks.NETHER_BRICKS, () -> Items.NETHER_BRICK, legacyStairProperties(baseBlock));
     }
 
     @Redirect(
@@ -470,8 +475,8 @@ public abstract class BlocksMixin {
     @Redirect(
             method = "<clinit>",
             at = @At(
-                    value = "NEW",
-                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/block/Blocks;legacyStair(Lnet/minecraft/world/level/block/Block;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -481,8 +486,8 @@ public abstract class BlocksMixin {
                     )
             )
     )
-    private static StairBlock brickStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableMossableStairsBlock(Mossable.MossLevel.UNAFFECTED, Crackable.CrackLevel.UNCRACKED, () -> Items.BRICK, () -> Blocks.BRICKS, settings);
+        private static Block brickStairs(Block baseBlock) {
+        return new CrackableMossableStairsBlock(Mossable.MossLevel.UNAFFECTED, Crackable.CrackLevel.UNCRACKED, () -> Items.BRICK, () -> Blocks.BRICKS, legacyStairProperties(baseBlock));
     }
 
     @Redirect(
@@ -543,8 +548,8 @@ public abstract class BlocksMixin {
     @Redirect(
             method = "<clinit>",
             at = @At(
-                    value = "NEW",
-                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/block/Blocks;legacyStair(Lnet/minecraft/world/level/block/Block;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -554,8 +559,8 @@ public abstract class BlocksMixin {
                     )
             )
     )
-    private static StairBlock stoneBricksStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableMossableStairsBlock(Mossable.MossLevel.UNAFFECTED, Crackable.CrackLevel.UNCRACKED, () -> ModItems.STONE_BRICK.get(), () -> Blocks.STONE_BRICKS, settings);
+        private static Block stoneBricksStairs(Block baseBlock) {
+        return new CrackableMossableStairsBlock(Mossable.MossLevel.UNAFFECTED, Crackable.CrackLevel.UNCRACKED, () -> ModItems.STONE_BRICK.get(), () -> Blocks.STONE_BRICKS, legacyStairProperties(baseBlock));
     }
 
     @Redirect(
@@ -633,8 +638,8 @@ public abstract class BlocksMixin {
     @Redirect(
             method = "<clinit>",
             at = @At(
-                    value = "NEW",
-                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/block/Blocks;legacyStair(Lnet/minecraft/world/level/block/Block;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -644,8 +649,8 @@ public abstract class BlocksMixin {
                     )
             )
     )
-    private static StairBlock cobblestoneStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, () -> Blocks.COBBLESTONE, settings);
+        private static Block cobblestoneStairs(Block baseBlock) {
+        return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, () -> Blocks.COBBLESTONE, legacyStairProperties(baseBlock));
     }
 
     @Redirect(
@@ -705,8 +710,8 @@ public abstract class BlocksMixin {
     @Redirect(
             method = "<clinit>",
             at = @At(
-                    value = "NEW",
-                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/block/Blocks;legacyStair(Lnet/minecraft/world/level/block/Block;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -716,8 +721,8 @@ public abstract class BlocksMixin {
                     )
             )
     )
-    private static StairBlock mossyStoneBrickStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new MossyStairsBlock(Mossable.MossLevel.MOSSY, () -> Blocks.MOSSY_STONE_BRICKS, settings);
+        private static Block mossyStoneBrickStairs(Block baseBlock) {
+        return new MossyStairsBlock(Mossable.MossLevel.MOSSY, () -> Blocks.MOSSY_STONE_BRICKS, legacyStairProperties(baseBlock));
     }
 
     @Redirect(
@@ -778,8 +783,8 @@ public abstract class BlocksMixin {
     @Redirect(
             method = "<clinit>",
             at = @At(
-                    value = "NEW",
-                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/block/Blocks;legacyStair(Lnet/minecraft/world/level/block/Block;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -789,8 +794,8 @@ public abstract class BlocksMixin {
                     )
             )
     )
-    private static StairBlock mossyCobblestoneStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new MossyStairsBlock(Mossable.MossLevel.MOSSY, () -> Blocks.MOSSY_COBBLESTONE, settings);
+        private static Block mossyCobblestoneStairs(Block baseBlock) {
+        return new MossyStairsBlock(Mossable.MossLevel.MOSSY, () -> Blocks.MOSSY_COBBLESTONE, legacyStairProperties(baseBlock));
     }
 
     @Redirect(
@@ -834,7 +839,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;Lnet/minecraft/world/level/block/state/properties/BlockSetType;)Lnet/minecraft/world/level/block/DoorBlock;",
+                    target = "(Lnet/minecraft/world/level/block/state/properties/BlockSetType;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/DoorBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -845,7 +850,7 @@ public abstract class BlocksMixin {
             )
     )
 
-    private static DoorBlock ironDoor(BlockBehaviour.Properties properties, BlockSetType type) {
+        private static DoorBlock ironDoor(BlockSetType type, BlockBehaviour.Properties properties) {
         return new RustableDoorBlock(Rustable.RustLevel.UNAFFECTED, properties);
     }
 
@@ -853,7 +858,7 @@ public abstract class BlocksMixin {
             method = "<clinit>",
             at = @At(
                     value = "NEW",
-                    target = "(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;Lnet/minecraft/world/level/block/state/properties/BlockSetType;)Lnet/minecraft/world/level/block/TrapDoorBlock;",
+                    target = "(Lnet/minecraft/world/level/block/state/properties/BlockSetType;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/TrapDoorBlock;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -863,7 +868,7 @@ public abstract class BlocksMixin {
                     )
             )
     )
-    private static TrapDoorBlock ironTrapdoor(BlockBehaviour.Properties properties, BlockSetType type) {
+        private static TrapDoorBlock ironTrapdoor(BlockSetType type, BlockBehaviour.Properties properties) {
         return new RustableTrapdoorBlock(Rustable.RustLevel.UNAFFECTED, properties);
     }
 
@@ -911,8 +916,8 @@ public abstract class BlocksMixin {
     @Redirect(
             method = "<clinit>",
             at = @At(
-                    value = "NEW",
-                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/block/Blocks;legacyStair(Lnet/minecraft/world/level/block/Block;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -922,8 +927,8 @@ public abstract class BlocksMixin {
                     )
             )
     )
-    private static StairBlock prismarineBricksStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> PRISMARINE_BRICKS, () -> ModItems.PRISMARINE_BRICK.get(), settings);
+        private static Block prismarineBricksStairs(Block baseBlock) {
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> PRISMARINE_BRICKS, () -> ModItems.PRISMARINE_BRICK.get(), legacyStairProperties(baseBlock));
     }
 
 
@@ -970,8 +975,8 @@ public abstract class BlocksMixin {
     @Redirect(
             method = "<clinit>",
             at = @At(
-                    value = "NEW",
-                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/block/Blocks;legacyStair(Lnet/minecraft/world/level/block/Block;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -981,8 +986,8 @@ public abstract class BlocksMixin {
                     )
             )
     )
-    private static StairBlock endStoneBricksStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> END_STONE_BRICKS, () -> ModItems.END_STONE_BRICK.get(), settings);
+        private static Block endStoneBricksStairs(Block baseBlock) {
+        return new CrackableStairsBlock(Crackable.CrackLevel.UNCRACKED, () -> END_STONE_BRICKS, () -> ModItems.END_STONE_BRICK.get(), legacyStairProperties(baseBlock));
     }
 
     @Redirect(
@@ -1042,8 +1047,8 @@ public abstract class BlocksMixin {
     @Redirect(
             method = "<clinit>",
             at = @At(
-                    value = "NEW",
-                    target = "(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/StairBlock;",
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/block/Blocks;legacyStair(Lnet/minecraft/world/level/block/Block;)Lnet/minecraft/world/level/block/Block;",
                     ordinal = 0
             ),
             slice = @Slice(
@@ -1053,8 +1058,8 @@ public abstract class BlocksMixin {
                     )
             )
     )
-    private static StairBlock stoneStairs(BlockState baseBlockState, BlockBehaviour.Properties settings) {
-        return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, () -> Blocks.STONE, settings);
+        private static Block stoneStairs(Block baseBlock) {
+        return new MossableStairsBlock(Mossable.MossLevel.UNAFFECTED, () -> Blocks.STONE, legacyStairProperties(baseBlock));
     }
 
 }

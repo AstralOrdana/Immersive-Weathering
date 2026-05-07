@@ -126,7 +126,7 @@ public class ModEvents {
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
                     if (level.isClientSide()) ParticleUtil.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SMOKE, UniformInt.of(3, 5), -0.05f, 0.05f, false);
                     if (player instanceof ServerPlayer serverPlayer) {
-                        stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                        stack.hurtAndBreak(1, player, net.minecraft.world.entity.LivingEntity.getSlotForHand(hand));
                         player.awardStat(Stats.ITEM_USED.get(item));
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger( serverPlayer, pos, stack);
                     }
@@ -138,7 +138,7 @@ public class ModEvents {
                     level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
 
                     if (player instanceof ServerPlayer serverPlayer) {
-                        stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                        stack.hurtAndBreak(1, player, net.minecraft.world.entity.LivingEntity.getSlotForHand(hand));
                         player.awardStat(Stats.ITEM_USED.get(item));
                         level.setBlockAndUpdate(pos, rustable.getPrevious(state).get());
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
@@ -152,7 +152,7 @@ public class ModEvents {
                         level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
                         ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ModParticles.SCRAPE_RUST.get(), UniformInt.of(3, 5));
                         if (player instanceof ServerPlayer serverPlayer) {
-                            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                            stack.hurtAndBreak(1, player, net.minecraft.world.entity.LivingEntity.getSlotForHand(hand));
                             CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
                             player.awardStat(Stats.ITEM_USED.get(item));
                             level.setBlockAndUpdate(pos, rustable.getPrevious(state).get());
@@ -165,7 +165,7 @@ public class ModEvents {
                     level.playSound(player, pos, SoundEvents.AXE_WAX_OFF, SoundSource.BLOCKS, 1.0f, 1.0f);
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
                     if (player instanceof ServerPlayer serverPlayer) {
-                        stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                        stack.hurtAndBreak(1, player, net.minecraft.world.entity.LivingEntity.getSlotForHand(hand));
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
                         player.awardStat(Stats.ITEM_USED.get(item));
                         level.setBlockAndUpdate(pos, Objects.requireNonNull(ModWaxables.getUnWaxed(state).orElse(null)));
@@ -176,7 +176,7 @@ public class ModEvents {
                     level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0f, 1.0f);
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.SCRAPE, UniformInt.of(3, 5));
                     if (player instanceof ServerPlayer serverPlayer) {
-                        stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                        stack.hurtAndBreak(1, player, net.minecraft.world.entity.LivingEntity.getSlotForHand(hand));
                         CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
                         player.awardStat(Stats.ITEM_USED.get(item));
                         WeatheringCopper.getPrevious(state).ifPresent(o -> level.setBlockAndUpdate(pos, o));
@@ -225,7 +225,7 @@ public class ModEvents {
                 level.playSound(player, pos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0f, 1.0f);
                 level.setBlockAndUpdate(pos, newState);
 
-                stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                stack.hurtAndBreak(1, player, net.minecraft.world.entity.LivingEntity.getSlotForHand(hand));
 
                 if (player instanceof ServerPlayer serverPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger( serverPlayer, pos, stack);
@@ -251,7 +251,7 @@ public class ModEvents {
                     level.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
                 } else {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                    stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                    stack.hurtAndBreak(1, player, net.minecraft.world.entity.LivingEntity.getSlotForHand(hand));
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                     level.setBlockAndUpdate(pos, newBlock);
                 }
@@ -277,7 +277,7 @@ public class ModEvents {
                 } else {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
                     if (state.getBlock() instanceof Crackable crackable) {
-                        stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                        stack.hurtAndBreak(1, player, net.minecraft.world.entity.LivingEntity.getSlotForHand(hand));
                         player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                         level.setBlockAndUpdate(pos, newBlock);
                         if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
@@ -327,7 +327,7 @@ public class ModEvents {
                     ParticleUtils.spawnParticlesOnBlockFaces(level, pos, barkParticle, UniformInt.of(3, 5));
                 } else {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
-                    stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+                    stack.hurtAndBreak(1, player, net.minecraft.world.entity.LivingEntity.getSlotForHand(hand));
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                     if (!player.isCreative() || CommonConfigs.CREATIVE_DROP.get()) {
                         Block.popResourceFromFace(level, pos, hitResult.getDirection(), bark.getDefaultInstance());
@@ -384,7 +384,7 @@ public class ModEvents {
             (state.getBlock() instanceof Sandy && state.getValue(ModBlockProperties.SANDINESS) == 0))) {
             level.playSound(player, pos, SoundEvents.SAND_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
             ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()), UniformInt.of(3, 5));
-            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+            stack.hurtAndBreak(1, player, net.minecraft.world.entity.LivingEntity.getSlotForHand(hand));
             if (player instanceof ServerPlayer serverPlayer) {
                 if (!player.getAbilities().instabuild) stack.shrink(1);
                 CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
@@ -407,7 +407,7 @@ public class ModEvents {
         if (stack.is(Items.SNOWBALL) && snowy.isPresent()) {
             level.playSound(player, pos, SoundEvents.SNOW_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
             ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SNOW_BLOCK.defaultBlockState()), UniformInt.of(3, 5));
-            stack.hurtAndBreak(1, player, (l) -> l.broadcastBreakEvent(hand));
+            stack.hurtAndBreak(1, player, net.minecraft.world.entity.LivingEntity.getSlotForHand(hand));
             if (player instanceof ServerPlayer serverPlayer) {
                 CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
                 if (!player.getAbilities().instabuild) stack.shrink(1);

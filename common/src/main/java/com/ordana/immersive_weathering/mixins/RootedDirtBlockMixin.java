@@ -22,7 +22,7 @@ public abstract class RootedDirtBlockMixin extends Block implements Bonemealable
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
         boolean space = false;
         for (Direction dir : Direction.values()) {
             var targetState = level.getBlockState(pos.relative(dir));

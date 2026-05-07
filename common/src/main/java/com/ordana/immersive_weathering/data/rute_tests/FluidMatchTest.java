@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.data.rute_tests;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.reg.ModRuleTests;
 import com.ordana.immersive_weathering.util.StrOpt;
@@ -15,7 +16,7 @@ import net.minecraft.world.level.material.Fluid;
 
 public class FluidMatchTest extends RuleTest {
 
-    public static final Codec<FluidMatchTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        public static final MapCodec<FluidMatchTest> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             RegistryCodecs.homogeneousList(Registries.FLUID).fieldOf("fluids").forGetter(b -> b.fluids),
             StrOpt.of(Codec.FLOAT,"probability",1f).forGetter(b->b.probability)
     ).apply(instance, FluidMatchTest::new));

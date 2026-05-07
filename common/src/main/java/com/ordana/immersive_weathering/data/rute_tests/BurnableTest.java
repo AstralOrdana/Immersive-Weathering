@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.data.rute_tests;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.ordana.immersive_weathering.reg.ModRuleTests;
 import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.minecraft.core.Direction;
@@ -13,7 +13,7 @@ public class BurnableTest extends RuleTest {
 
     private static final BurnableTest INSTANCE = new BurnableTest();
 
-    public static final Codec<BurnableTest> CODEC = Codec.unit(() -> INSTANCE);
+    public static final MapCodec<BurnableTest> CODEC = MapCodec.unit(INSTANCE);
 
     public boolean test(BlockState state, RandomSource random) {
         //hack since we don't have world and pos. hopefully mods aren't using those lol

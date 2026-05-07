@@ -9,11 +9,16 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class ModCreativeTab {
+
+    private static final Class<?>[] TAB_EVENT_METHOD_ARGS = new Class<?>[]{
+        ResourceKey.class, Predicate.class, ItemLike[].class
+    };
 
     public static final RegSupplier<CreativeModeTab> MOD_TAB = !CommonConfigs.CREATIVE_TAB.get() ? null :
         RegHelper.registerCreativeModeTab(ImmersiveWeathering.res("immersive_weathering"),
@@ -256,34 +261,44 @@ public class ModCreativeTab {
 
     }
 
-    private static void after(RegHelper.ItemToTabEvent event, Item target,
+    private static void after(Object event, Item target,
                               ResourceKey<CreativeModeTab> tab, Supplier<?>... items) {
         after(event, i -> i.is(target), tab, items);
     }
 
-    private static void after(RegHelper.ItemToTabEvent event, Predicate<ItemStack> targetPred,
+    private static void after(Object event, Predicate<ItemStack> targetPred,
                               ResourceKey<CreativeModeTab> tab, Supplier<?>... items) {
         //if (CommonConfigs.isEnabled(key)) {
         ItemLike[] entries = Arrays.stream(items).map((s -> (ItemLike) (s.get()))).toArray(ItemLike[]::new);
         if(MOD_TAB != null){
             tab = MOD_TAB.getKey();
         }
-        event.addAfter(tab, targetPred, entries);
+        invokeTabEvent(event, "addAfter", tab, targetPred, entries);
     }
 
-    private static void before(RegHelper.ItemToTabEvent event, Item target,
+    private static void before(Object event, Item target,
                                ResourceKey<CreativeModeTab> tab, Supplier<?>... items) {
         before(event, i -> i.is(target), tab, items);
     }
 
-    private static void before(RegHelper.ItemToTabEvent event, Predicate<ItemStack> targetPred,
+    private static void before(Object event, Predicate<ItemStack> targetPred,
                                ResourceKey<CreativeModeTab> tab, Supplier<?>... items) {
         //if (CommonConfigs.isEnabled(key)) {
         ItemLike[] entries = Arrays.stream(items).map(s -> (ItemLike) s.get()).toArray(ItemLike[]::new);
         if(MOD_TAB != null){
             tab = MOD_TAB.getKey();
         }
-        event.addBefore(tab, targetPred, entries);
+        invokeTabEvent(event, "addBefore", tab, targetPred, entries);
         //}
+    }
+
+    private static void invokeTabEvent(Object event, String methodName, ResourceKey<CreativeModeTab> tab,
+                                       Predicate<ItemStack> targetPred, ItemLike[] entries) {
+        try {
+            Method method = event.getClass().getMethod(methodName, TAB_EVENT_METHOD_ARGS);
+            method.invoke(event, tab, targetPred, entries);
+        } catch (ReflectiveOperationException exception) {
+            throw new IllegalStateException("Failed to invoke creative tab event method " + methodName, exception);
+        }
     }
 }

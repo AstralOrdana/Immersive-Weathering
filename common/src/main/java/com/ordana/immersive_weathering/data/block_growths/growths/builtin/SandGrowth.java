@@ -31,8 +31,10 @@ public class SandGrowth extends BuiltinBlockGrowth {
     @Override
     public @Nullable Iterable<Block> getOwners() {
         List<Block> blocks = new ArrayList<>();
-        BuiltInRegistries.BLOCK.getTag(ModTags.SANDABLE).get().stream().forEach(h -> blocks.add(h.value()));
-        BuiltInRegistries.BLOCK.getTag(ModTags.SANDY).get().stream().forEach(h -> blocks.add(h.value()));
+        BuiltInRegistries.BLOCK.getTag(ModTags.SANDABLE)
+            .ifPresent(tag -> tag.stream().forEach(h -> blocks.add(h.value())));
+        BuiltInRegistries.BLOCK.getTag(ModTags.SANDY)
+            .ifPresent(tag -> tag.stream().forEach(h -> blocks.add(h.value())));
         return blocks;
     }
 

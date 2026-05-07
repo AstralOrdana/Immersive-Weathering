@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.data.fluid_generators;
 
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.data.position_tests.IPositionRuleTest;
 import com.ordana.immersive_weathering.util.StrOpt;
@@ -22,7 +23,7 @@ import java.util.function.Supplier;
 
 public class OtherFluidGenerator implements IFluidGenerator {
 
-    public static final Codec<OtherFluidGenerator> CODEC = RecordCodecBuilder.<OtherFluidGenerator>create(
+        public static final MapCodec<OtherFluidGenerator> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     BuiltInRegistries.FLUID.byNameCodec().fieldOf("fluid").forGetter(OtherFluidGenerator::getFluid),
                     StrOpt.of(FluidType.CODEC, "fluid_type", FluidType.BOTH).forGetter(OtherFluidGenerator::getFluidType),

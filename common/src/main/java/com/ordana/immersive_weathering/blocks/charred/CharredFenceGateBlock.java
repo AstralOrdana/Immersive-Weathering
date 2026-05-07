@@ -21,7 +21,7 @@ import net.minecraft.world.phys.BlockHitResult;
 public class CharredFenceGateBlock extends FenceGateBlock implements Charred {
 
     public CharredFenceGateBlock(Properties properties, WoodType type) {
-        super(properties, type);
+        super(type, properties);
         this.registerDefaultState(this.defaultBlockState().setValue(OVERHANG, 0).setValue(SMOLDERING, false).setValue(OPEN, false).setValue(POWERED, false).setValue(IN_WALL, false));
     }
 

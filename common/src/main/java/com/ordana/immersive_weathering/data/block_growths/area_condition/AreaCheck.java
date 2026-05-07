@@ -1,6 +1,7 @@
 package com.ordana.immersive_weathering.data.block_growths.area_condition;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.data.block_growths.growths.ConfigurableBlockGrowth;
 import com.ordana.immersive_weathering.util.StrOpt;
@@ -24,7 +25,7 @@ record AreaCheck(int rX, int rY, int rZ, int requiredAmount, Optional<Integer> y
                  Optional<HolderSet<Block>> extraIncluded) implements AreaCondition {
 
     public static final String NAME = "generate_if_not_too_many";
-    public static final Codec<AreaCheck> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final MapCodec<AreaCheck> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("radiusX").forGetter(AreaCheck::rX),
             Codec.INT.fieldOf("radiusY").forGetter(AreaCheck::rY),
             Codec.INT.fieldOf("radiusZ").forGetter(AreaCheck::rZ),

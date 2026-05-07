@@ -1,7 +1,7 @@
 package com.ordana.immersive_weathering.data.position_tests;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.mixins.accessors.BiomeAccessor;
 import com.ordana.immersive_weathering.util.StrOpt;
@@ -10,24 +10,18 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
-record TemperatureMatchTest(float max, float min, boolean useLocalPos) implements IPositionRuleTest {
+record TemperatureMatchTest(float min, float max, boolean useLocalPos) implements IPositionRuleTest {
 
     public static final String NAME = "temperature_range";
 
-    private static final Codec<TemperatureMatchTest> C = RecordCodecBuilder.<TemperatureMatchTest>create(
-            instance -> instance.group(
-                    Codec.FLOAT.fieldOf("min").forGetter(g -> g.min),
-                    Codec.FLOAT.fieldOf("max").forGetter(g -> g.max),
-                    StrOpt.of(Codec.BOOL,"use_local_pos", true).forGetter(TemperatureMatchTest::useLocalPos))
-            .apply( instance, TemperatureMatchTest::new)).comapFlatMap(t -> {
-        if (t.max < t.min) {
-            return DataResult.error(() -> "Max must be at least min, min_inclusive: " + t.min + ", max_inclusive: " + t.max);
-        }
-        return DataResult.success(t);
-    }, Function.identity());
+    private static final MapCodec<TemperatureMatchTest> C = RecordCodecBuilder.<TemperatureMatchTest>mapCodec(instance ->
+            instance.group(
+                    Codec.FLOAT.fieldOf("min").forGetter(TemperatureMatchTest::min),
+                    Codec.FLOAT.fieldOf("max").forGetter(TemperatureMatchTest::max),
+                    StrOpt.of(Codec.BOOL, "use_local_pos", true).forGetter(TemperatureMatchTest::useLocalPos))
+                    .apply(instance, TemperatureMatchTest::new));
 
 
     static final Type<TemperatureMatchTest> TYPE =

@@ -1,0 +1,36 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+
+# NeoForge loader metadata for the 1.21.1 port. Values are expanded from gradle.properties during processResources.
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+logoFile="${mod_logo_file}"
+authors="${mod_authors}"
+description='''${mod_description}'''
+
+# Hard loader gate for the NeoForge runtime targeted by this port.
+[[dependencies.${mod_id}]]
+modId="neoforge"
+type="required"
+versionRange="[${neo_version},)"
+ordering="NONE"
+side="BOTH"
+
+# Keep Minecraft pinned to 1.21.1 so users fail early on unsupported game versions.
+[[dependencies.${mod_id}]]
+modId="minecraft"
+type="required"
+versionRange="${minecraft_version_range}"
+ordering="NONE"
+side="BOTH"
+
+# Keep this in sync with the Forge-side preflight check for clearer Moonlight startup errors.
+[[dependencies.${mod_id}]]
+modId="moonlight"
+type="required"
+versionRange="[${moonlight_version},)"
+ordering="NONE"
+side="BOTH"

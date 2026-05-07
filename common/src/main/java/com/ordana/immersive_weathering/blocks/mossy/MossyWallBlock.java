@@ -24,7 +24,7 @@ public class MossyWallBlock extends WallBlock implements Mossable, BonemealableB
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
         return this.mossLevel == MossLevel.MOSSY;
     }
 

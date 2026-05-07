@@ -2,6 +2,7 @@ package com.ordana.immersive_weathering.reg;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.blocks.LeafPileBlock;
+import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.items.*;
 import com.ordana.immersive_weathering.items.materials.FlowerCrownMaterial;
 import com.ordana.immersive_weathering.items.materials.IcicleToolMaterial;
@@ -42,7 +43,9 @@ public class ModItems {
     //icicle
 
     public static final Supplier<BlockItem> ICICLE = regItem("icicle", () -> new IcicleItem(
-            ModBlocks.ICICLE.get(), new Item.Properties().food(ModFoods.ICICLE)));
+            ModBlocks.ICICLE.get(), CommonConfigs.ICICLE_FOOD.get()
+                    ? new Item.Properties().food(ModFoods.ICICLE)
+                    : new Item.Properties()));
 
     //leaf pile
     public static final Map<LeavesType, BlockItem> LEAF_PILES = new LinkedHashMap<>();
@@ -92,11 +95,13 @@ public class ModItems {
             () -> new HoneycombItem(new Item.Properties()));
 
     public static final Supplier<Item> STEEL_WOOL = regItem("steel_wool", () ->
-            new Item(new Item.Properties().defaultDurability(128)));
+            new Item(new Item.Properties().durability(128)));
 
     public static final Supplier<Item> ICE_SICKLE = regItem("ice_sickle", () ->
             new IceSickleItem(IcicleToolMaterial.INSTANCE, 5, -1f,
-                    new Item.Properties().food(ModFoods.ICICLE)));
+                    CommonConfigs.ICICLE_FOOD.get()
+                            ? new Item.Properties().food(ModFoods.ICICLE)
+                            : new Item.Properties()));
 
     public static final Supplier<Item> THIN_ICE_ITEM = regItem("thin_ice", () ->
             new ThinIceItem(ModBlocks.THIN_ICE.get(), new Item.Properties()));
@@ -114,7 +119,7 @@ public class ModItems {
         for (WoodType type : woodTypes) {
             String name = !type.canBurn() ? type.getVariantId("scales", false) : type.getVariantId("bark", false);
 
-            Item item = new WoodBasedItem(new Item.Properties(), type, 200);
+                        Item item = new FuelWoodBasedItem(new Item.Properties(), type, 200);
             event.register(ImmersiveWeathering.res(name), item);
             BARK.put(type, item);
             type.addChild("immersive_weathering:bark", item);

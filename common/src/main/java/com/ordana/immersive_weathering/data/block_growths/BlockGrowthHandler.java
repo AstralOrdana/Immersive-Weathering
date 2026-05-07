@@ -131,7 +131,6 @@ public class BlockGrowthHandler extends RegistryAccessJsonReloadListener {
                     growths.add(g);
                 }
             }
-            o.ifPresent(growths::add);
         }
         ImmersiveWeathering.LOGGER.info("Loaded {} block growths configurations", map.size());
 

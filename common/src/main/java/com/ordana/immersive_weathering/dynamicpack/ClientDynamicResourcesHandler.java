@@ -18,14 +18,19 @@ import net.mehvahdjukaar.moonlight.api.resources.textures.TextureImage;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.PreparableReloadListener.PreparationBarrier;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.util.FastColor;
 import net.minecraft.world.level.block.Blocks;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+@SuppressWarnings("removal")
 public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
 
     public static final ClientDynamicResourcesHandler INSTANCE = new ClientDynamicResourcesHandler();
@@ -43,6 +48,14 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
     @Override
     public boolean dependsOnLoadedPacks() {
         return true;
+    }
+
+    @Override
+    public CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager,
+                                          ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler,
+                                          Executor backgroundExecutor, Executor gameExecutor) {
+        return super.m_5540_(preparationBarrier, resourceManager, preparationsProfiler, reloadProfiler,
+                backgroundExecutor, gameExecutor);
     }
 
     public void addLeafPilesModel(StaticResource resource, String id, ResourceLocation texturePath) {
@@ -236,7 +249,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
     }
 
     public static final Predicate<String> LOOKS_LIKE_LEAF_TEXTURE = s -> {
-        s = new ResourceLocation(s).getPath();
+        s = ResourceLocation.parse(s).getPath();
         return !s.contains("_bushy") && !s.contains("_snow") && !s.contains("_overlay");
     };
 }

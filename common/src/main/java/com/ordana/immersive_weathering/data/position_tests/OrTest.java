@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.data.position_tests;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 record OrTest(List<IPositionRuleTest> predicates) implements IPositionRuleTest {
 
     public static final String NAME = "or";
-    public static final Codec<OrTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        public static final MapCodec<OrTest> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             IPositionRuleTest.CODEC.listOf().fieldOf("predicates").forGetter(OrTest::predicates)
     ).apply(instance, OrTest::new));
 

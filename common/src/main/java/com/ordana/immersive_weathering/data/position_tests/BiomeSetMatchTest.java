@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.data.position_tests;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 record BiomeSetMatchTest(HolderSet<Biome> biomes) implements IPositionRuleTest {
 
     public static final String NAME = "biome_match";
-    public static final Codec<BiomeSetMatchTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        public static final MapCodec<BiomeSetMatchTest> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes").forGetter(BiomeSetMatchTest::biomes)
     ).apply(instance, BiomeSetMatchTest::new));
 

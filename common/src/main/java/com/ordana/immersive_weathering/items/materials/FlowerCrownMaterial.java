@@ -1,53 +1,35 @@
 package com.ordana.immersive_weathering.items.materials;
 
+import net.minecraft.Util;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import com.ordana.immersive_weathering.reg.ModItems;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 
-public class FlowerCrownMaterial implements ArmorMaterial {
+import java.util.EnumMap;
+import java.util.List;
 
-    public static final FlowerCrownMaterial INSTANCE = new FlowerCrownMaterial();
+public final class FlowerCrownMaterial {
 
-    @Override
-    public int getDurabilityForType(ArmorItem.Type type) {
-        return 64;
-    }
+    public static final Holder<ArmorMaterial> INSTANCE = Holder.direct(new ArmorMaterial(
+            Util.make(new EnumMap<>(ArmorItem.Type.class), defense -> {
+                defense.put(ArmorItem.Type.BOOTS, 0);
+                defense.put(ArmorItem.Type.LEGGINGS, 0);
+                defense.put(ArmorItem.Type.CHESTPLATE, 0);
+                defense.put(ArmorItem.Type.HELMET, 0);
+                defense.put(ArmorItem.Type.BODY, 0);
+            }),
+            64,
+            SoundEvents.ARMOR_EQUIP_LEATHER,
+            () -> Ingredient.of(ModItems.AZALEA_FLOWERS.get()),
+            List.of(new ArmorMaterial.Layer(ResourceLocation.withDefaultNamespace("flower"))),
+            0.0F,
+            0.0F
+    ));
 
-    @Override
-    public int getDefenseForType(ArmorItem.Type type) {
-        return 0;
-    }
-
-    @Override
-    public int getEnchantmentValue() {
-        return 64;
-    }
-
-    @Override
-    public SoundEvent getEquipSound() {
-        return SoundEvents.ARMOR_EQUIP_LEATHER;
-    }
-
-    @Override
-    public Ingredient getRepairIngredient() {
-        return Ingredient.of(ModItems.AZALEA_FLOWERS.get());
-    }
-
-    @Override
-    public String getName() {
-        return "flower";
-    }
-
-    @Override
-    public float getToughness() {
-        return 0f;
-    }
-
-    @Override
-    public float getKnockbackResistance() {
-        return 0;
+    private FlowerCrownMaterial() {
     }
 }

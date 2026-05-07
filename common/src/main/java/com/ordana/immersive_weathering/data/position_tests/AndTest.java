@@ -1,6 +1,6 @@
 package com.ordana.immersive_weathering.data.position_tests;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 record AndTest(List<IPositionRuleTest> predicates) implements IPositionRuleTest {
 
     public static final String NAME = "and";
-    public static final Codec<AndTest> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        public static final MapCodec<AndTest> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             IPositionRuleTest.CODEC.listOf().fieldOf("predicates").forGetter(AndTest::predicates)
     ).apply(instance, AndTest::new));
 

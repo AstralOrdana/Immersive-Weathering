@@ -7,6 +7,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -19,7 +20,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class IcicleBlockEntity extends BlockEntity implements GameEventListener {
 
-    public static final Object2IntMap<GameEvent> VOLUME_FOR_EVENT = Object2IntMaps.unmodifiable(Util.make(new Object2IntOpenHashMap<>(), (map) -> {
+    public static final Object2IntMap<Holder<GameEvent>> VOLUME_FOR_EVENT = Object2IntMaps.unmodifiable(Util.make(new Object2IntOpenHashMap<>(), map -> {
         map.put(GameEvent.HIT_GROUND, 2);
         map.put(GameEvent.BLOCK_DESTROY, 1);
         //TODO: revisit
@@ -54,9 +55,9 @@ public class IcicleBlockEntity extends BlockEntity implements GameEventListener 
     }
 
     @Override
-    public boolean handleGameEvent(ServerLevel level, GameEvent gameEvent, GameEvent.Context context, Vec3 pos) {
+    public boolean handleGameEvent(ServerLevel level, Holder<GameEvent> gameEvent, GameEvent.Context context, Vec3 pos) {
         if (!new BlockPos((int)pos.x, (int)pos.y, (int)pos.z).equals(this.worldPosition)) {
-            int volume = VOLUME_FOR_EVENT.getInt(context.affectedState());
+            int volume = VOLUME_FOR_EVENT.getInt(gameEvent);
             double distanceSqr = this.worldPosition.distToCenterSqr(pos.x(), pos.y(), pos.z());
             if (volume * volume > distanceSqr * 0.5 + level.random.nextFloat() * distanceSqr) {
                 float distScaling = 2f;

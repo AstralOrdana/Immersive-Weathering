@@ -120,7 +120,7 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
 
     //same as the base one but has configurable radius
     @Override
-    default void applyChangeOverTime(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource randomSource) {
+    default void changeOverTime(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource randomSource) {
         int age = this.getAge().ordinal();
         int j = 0;
         int k = 0;
@@ -189,13 +189,12 @@ public interface Rustable extends ChangeOverTimeBlock<Rustable.RustLevel> {
                 }
             }
             if (canWeather) {
-                applyChangeOverTime(state, level, pos, random);
+                changeOverTime(state, level, pos, random);
             }
         }
     }
 
     static BlockBehaviour.Properties setRandomTicking(BlockBehaviour.Properties properties, RustLevel rustLevel) {
-        properties.isRandomlyTicking = rustLevel != RustLevel.RUSTED;
-        return properties;
+        return rustLevel != RustLevel.RUSTED ? properties.randomTicks() : properties;
     }
 }

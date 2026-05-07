@@ -2,14 +2,14 @@ package com.ordana.immersive_weathering.configs;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigBuilder;
-import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigSpec;
 import net.mehvahdjukaar.moonlight.api.platform.configs.ConfigType;
 
+import java.lang.reflect.Method;
 import java.util.function.Supplier;
 
 public class ClientConfigs {
 
-    public static ConfigSpec CLIENT_SPEC;
+    public static Object CLIENT_SPEC;
 
 
     //client configs
@@ -35,11 +35,36 @@ public class ClientConfigs {
         STORMY_FALLING_LEAF_PARTICLE_RATE = builder.define("stormy_falling_leaf_rate", 0.4f, 0f, 1f);
         builder.pop();
 
-        CLIENT_SPEC = builder.buildAndRegister();
+        CLIENT_SPEC = buildAndLoad(builder);
 
-        //load early
-        CLIENT_SPEC.loadFromFile();
+    }
 
+    private static Object buildAndLoad(ConfigBuilder builder) {
+        Object configHolder = invokeRequired(builder, "buildAndRegister", "build");
+        invokeIfPresent(configHolder, "loadFromFile", "forceLoad");
+        return configHolder;
+    }
+
+    private static Object invokeRequired(Object target, String... methodNames) {
+        for (String methodName : methodNames) {
+            try {
+                Method method = target.getClass().getMethod(methodName);
+                return method.invoke(target);
+            } catch (ReflectiveOperationException ignored) {
+            }
+        }
+        throw new IllegalStateException("Could not call any of " + String.join(", ", methodNames) + " on " + target.getClass().getName());
+    }
+
+    private static void invokeIfPresent(Object target, String... methodNames) {
+        for (String methodName : methodNames) {
+            try {
+                Method method = target.getClass().getMethod(methodName);
+                method.invoke(target);
+                return;
+            } catch (ReflectiveOperationException ignored) {
+            }
+        }
     }
 
 }

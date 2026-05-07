@@ -1,56 +1,48 @@
 package com.ordana.immersive_weathering.network;
 
 import com.ordana.immersive_weathering.configs.ClientConfigs;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.mehvahdjukaar.moonlight.api.platform.network.ChannelHandler;
-import net.mehvahdjukaar.moonlight.api.platform.network.Message;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-public class SendCustomParticlesPacket implements Message {
+public record SendCustomParticlesPacket(EventType eventType, BlockPos pos, int extraData) implements CustomPacketPayload {
 
-    private final EventType type;
-    private final int extraData;
-    private final BlockPos pos;
-
-    public SendCustomParticlesPacket(FriendlyByteBuf buffer) {
-        this.extraData = buffer.readInt();
-        this.type = EventType.values()[buffer.readByte()];
-        this.pos = buffer.readBlockPos();
-    }
-
-    public SendCustomParticlesPacket(EventType type, BlockPos pos, int extraData) {
-        this.type = type;
-        this.pos = pos;
-        this.extraData = extraData;
-    }
+    public static final Type<SendCustomParticlesPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath("immersive_weathering", "custom_particles"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, SendCustomParticlesPacket> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.VAR_INT,
+            packet -> packet.eventType.ordinal(),
+            BlockPos.STREAM_CODEC,
+            SendCustomParticlesPacket::pos,
+            ByteBufCodecs.VAR_INT,
+            SendCustomParticlesPacket::extraData,
+            (typeId, pos, extraData) -> new SendCustomParticlesPacket(EventType.byId(typeId), pos, extraData));
 
     @Override
-    public void writeToBuffer(FriendlyByteBuf buf) {
-        buf.writeInt(this.extraData);
-        buf.writeByte(type.ordinal());
-        buf.writeBlockPos(pos);
+    public Type<SendCustomParticlesPacket> type() {
+        return TYPE;
     }
 
-    @Override
-    public void handle(ChannelHandler.Context context) {
-        clientStuff(type, pos, extraData);
+    public static void handle(SendCustomParticlesPacket payload, IPayloadContext context) {
+        context.enqueueWork(() -> payload.clientStuff());
     }
 
-    @Environment(EnvType.CLIENT)
-    public void clientStuff( EventType type, BlockPos pos, int extraData) {
+    private void clientStuff() {
         Player player = Minecraft.getInstance().player;
+        if (player == null) return;
         var level = player.level();
-        if (type == EventType.DECAY_LEAVES) {
+        if (eventType == EventType.DECAY_LEAVES) {
             if (ClientConfigs.LEAF_DECAY_PARTICLES.get()) {
                 BlockState state = Block.stateById(extraData);
                 var leafParticle = new BlockParticleOption(ParticleTypes.BLOCK, state);
@@ -72,6 +64,14 @@ public class SendCustomParticlesPacket implements Message {
     }
 
     public enum EventType {
-        DECAY_LEAVES
+        DECAY_LEAVES;
+
+        private static EventType byId(int id) {
+            EventType[] values = values();
+            if (id < 0 || id >= values.length) {
+                throw new IllegalArgumentException("Unknown SendCustomParticlesPacket.EventType id: " + id);
+            }
+            return values[id];
+        }
     }
 }

@@ -1,12 +1,12 @@
 package com.ordana.immersive_weathering.data.block_growths;
 
-import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ordana.immersive_weathering.util.StrOpt;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -61,7 +61,7 @@ public class BlockPair extends Pair<BlockState, BlockState> {
 
     public static class BlockStateAccessor extends BlockState {
 
-        public BlockStateAccessor(Block block, ImmutableMap<Property<?>, Comparable<?>> map, MapCodec<BlockState> mapCodec) {
+        public BlockStateAccessor(Block block, Reference2ObjectArrayMap<Property<?>, Comparable<?>> map, MapCodec<BlockState> mapCodec) {
             super(block, map, mapCodec);
         }
 

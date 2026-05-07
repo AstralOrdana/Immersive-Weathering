@@ -3,6 +3,7 @@ package com.ordana.immersive_weathering.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -16,6 +17,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ThrownTrident;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AmethystClusterBlock;
@@ -97,7 +100,7 @@ public class FulguriteBlock extends AmethystClusterBlock {
 
     @Override
     public void onProjectileHit(Level level, BlockState state, BlockHitResult hit, Projectile projectile) {
-        if (level.isThundering() && projectile instanceof ThrownTrident && ((ThrownTrident) projectile).isChanneling()) {
+        if (level.isThundering() && projectile instanceof ThrownTrident thrownTrident && hasChanneling(level, thrownTrident)) {
             BlockPos blockPos = hit.getBlockPos();
             if (level.canSeeSky(blockPos)) {
                 LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(level);
@@ -105,10 +108,15 @@ public class FulguriteBlock extends AmethystClusterBlock {
                 Entity entity = projectile.getOwner();
                 lightningEntity.setCause(entity instanceof ServerPlayer ? (ServerPlayer) entity : null);
                 level.addFreshEntity(lightningEntity);
-                level.playSound(null, blockPos, SoundEvents.TRIDENT_THUNDER, SoundSource.WEATHER, 5.0F, 1.0F);
+                level.playSound(null, blockPos, SoundEvents.TRIDENT_THUNDER.value(), SoundSource.WEATHER, 5.0F, 1.0F);
             }
         }
 
+    }
+
+    private static boolean hasChanneling(Level level, ThrownTrident thrownTrident) {
+        var channeling = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.CHANNELING);
+        return EnchantmentHelper.getItemEnchantmentLevel(channeling, thrownTrident.getWeaponItem()) > 0;
     }
 
     @Override

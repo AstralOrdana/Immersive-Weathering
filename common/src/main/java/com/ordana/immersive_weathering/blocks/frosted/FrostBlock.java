@@ -1,11 +1,14 @@
 package com.ordana.immersive_weathering.blocks.frosted;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -16,11 +19,17 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class FrostBlock extends MultifaceBlock implements Frosty {
+    public static final MapCodec<FrostBlock> CODEC = simpleCodec(FrostBlock::new);
     private final MultifaceSpreader spreader = new MultifaceSpreader(this);
 
     public FrostBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.defaultBlockState().setValue(NATURAL, false));
+    }
+
+    @Override
+    public MapCodec<FrostBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -45,11 +54,11 @@ public class FrostBlock extends MultifaceBlock implements Frosty {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         InteractionResult success = interactWithPlayer(state, level, pos, player, hand);
-        if (success != InteractionResult.PASS) return success;
+        if (success != InteractionResult.PASS) return ItemInteractionResult.SUCCESS;
 
-        return super.use(state, level, pos, player, hand, hit);
+        return super.useItemOn(stack, state, level, pos, player, hand, hit);
     }
 
 
