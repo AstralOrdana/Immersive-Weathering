@@ -18,7 +18,7 @@ public class ModCreativeTab {
     public static final RegSupplier<CreativeModeTab> MOD_TAB = !CommonConfigs.CREATIVE_TAB.get() ? null :
         RegHelper.registerCreativeModeTab(ImmersiveWeathering.res("immersive_weathering"),
             (c) -> c.title(Component.translatable("itemGroup.immersive_weathering.immersive_weathering"))
-                .icon(() -> ModBlocks.IVY.get().asItem().getDefaultInstance()));
+                .icon(() -> ModBlocks.MOSSY_BRICKS.get().asItem().getDefaultInstance()));
 
     public static void init(){
         RegHelper.addItemsToTabsRegistration(ModCreativeTab::addItems);
@@ -103,40 +103,6 @@ public class ModCreativeTab {
             ModBlocks.CRACKED_END_STONE_BRICK_STAIRS, ModBlocks.CRACKED_END_STONE_BRICK_SLAB, ModBlocks.CRACKED_END_STONE_BRICK_WALL
         );
 
-        after(e, Items.IRON_BLOCK, CreativeModeTabs.BUILDING_BLOCKS,
-            ModBlocks.PLATE_IRON, ModBlocks.PLATE_IRON_STAIRS, ModBlocks.PLATE_IRON_SLAB,
-            ModBlocks.CUT_IRON, ModBlocks.CUT_IRON_STAIRS, ModBlocks.CUT_IRON_SLAB,
-            ModBlocks.EXPOSED_PLATE_IRON, ModBlocks.EXPOSED_PLATE_IRON_STAIRS, ModBlocks.EXPOSED_PLATE_IRON_SLAB,
-            ModBlocks.EXPOSED_CUT_IRON, ModBlocks.EXPOSED_CUT_IRON_STAIRS, ModBlocks.EXPOSED_CUT_IRON_SLAB,
-            ModBlocks.WEATHERED_PLATE_IRON, ModBlocks.WEATHERED_PLATE_IRON_STAIRS, ModBlocks.WEATHERED_PLATE_IRON_SLAB,
-            ModBlocks.WEATHERED_CUT_IRON, ModBlocks.WEATHERED_CUT_IRON_STAIRS, ModBlocks.WEATHERED_CUT_IRON_SLAB,
-            ModBlocks.RUSTED_PLATE_IRON, ModBlocks.RUSTED_PLATE_IRON_STAIRS, ModBlocks.RUSTED_PLATE_IRON_SLAB,
-            ModBlocks.RUSTED_CUT_IRON, ModBlocks.RUSTED_CUT_IRON_STAIRS, ModBlocks.RUSTED_CUT_IRON_SLAB,
-            ModBlocks.WAXED_PLATE_IRON, ModBlocks.WAXED_PLATE_IRON_STAIRS, ModBlocks.WAXED_PLATE_IRON_SLAB,
-            ModBlocks.WAXED_CUT_IRON, ModBlocks.WAXED_CUT_IRON_STAIRS, ModBlocks.WAXED_CUT_IRON_SLAB,
-            ModBlocks.WAXED_EXPOSED_PLATE_IRON, ModBlocks.WAXED_EXPOSED_PLATE_IRON_STAIRS, ModBlocks.WAXED_EXPOSED_PLATE_IRON_SLAB,
-            ModBlocks.WAXED_EXPOSED_CUT_IRON, ModBlocks.WAXED_EXPOSED_CUT_IRON_STAIRS, ModBlocks.WAXED_EXPOSED_CUT_IRON_SLAB,
-            ModBlocks.WAXED_WEATHERED_PLATE_IRON, ModBlocks.WAXED_WEATHERED_PLATE_IRON_STAIRS, ModBlocks.WAXED_WEATHERED_PLATE_IRON_SLAB,
-            ModBlocks.WAXED_WEATHERED_CUT_IRON, ModBlocks.WAXED_WEATHERED_CUT_IRON_STAIRS, ModBlocks.WAXED_WEATHERED_CUT_IRON_SLAB,
-            ModBlocks.WAXED_RUSTED_PLATE_IRON, ModBlocks.WAXED_RUSTED_PLATE_IRON_STAIRS, ModBlocks.WAXED_RUSTED_PLATE_IRON_SLAB,
-            ModBlocks.WAXED_RUSTED_CUT_IRON, ModBlocks.WAXED_RUSTED_CUT_IRON_STAIRS, ModBlocks.WAXED_RUSTED_CUT_IRON_SLAB
-        );
-
-        after(e, Items.IRON_BARS, CreativeModeTabs.BUILDING_BLOCKS,
-            ModBlocks.EXPOSED_IRON_BARS, ModBlocks.WEATHERED_IRON_BARS, ModBlocks.RUSTED_IRON_BARS,
-            ModBlocks.WAXED_IRON_BARS, ModBlocks.WAXED_EXPOSED_IRON_BARS, ModBlocks.WAXED_WEATHERED_IRON_BARS, ModBlocks.WAXED_RUSTED_IRON_BARS
-        );
-
-        after(e, Items.IRON_DOOR, CreativeModeTabs.BUILDING_BLOCKS,
-            ModBlocks.EXPOSED_IRON_DOOR, ModBlocks.WEATHERED_IRON_DOOR, ModBlocks.RUSTED_IRON_DOOR,
-            ModBlocks.WAXED_IRON_DOOR, ModBlocks.WAXED_EXPOSED_IRON_DOOR, ModBlocks.WAXED_WEATHERED_IRON_DOOR, ModBlocks.WAXED_RUSTED_IRON_DOOR
-        );
-
-        after(e, Items.IRON_TRAPDOOR, CreativeModeTabs.BUILDING_BLOCKS,
-            ModBlocks.EXPOSED_IRON_TRAPDOOR, ModBlocks.WEATHERED_IRON_TRAPDOOR, ModBlocks.RUSTED_IRON_TRAPDOOR,
-            ModBlocks.WAXED_IRON_TRAPDOOR, ModBlocks.WAXED_EXPOSED_IRON_TRAPDOOR, ModBlocks.WAXED_WEATHERED_IRON_TRAPDOOR, ModBlocks.WAXED_RUSTED_IRON_TRAPDOOR
-        );
-
         //COLORED BLOCKS
         after(e, Items.GLASS, CreativeModeTabs.COLORED_BLOCKS,
             ModBlocks.FROSTY_GLASS
@@ -144,24 +110,6 @@ public class ModCreativeTab {
 
         after(e, Items.GLASS_PANE, CreativeModeTabs.COLORED_BLOCKS,
             ModBlocks.FROSTY_GLASS_PANE, ModBlocks.TINTED_GLASS_PANE
-        );
-
-
-        //NATURAL BLOCKS
-        after(e, Items.PODZOL, CreativeModeTabs.NATURAL_BLOCKS,
-            ModBlocks.LOAM
-        );
-
-        after(e, Items.ROOTED_DIRT, CreativeModeTabs.NATURAL_BLOCKS,
-            ModBlocks.ROOTED_GRASS_BLOCK,
-            ModBlocks.EARTHEN_CLAY, ModBlocks.SANDY_DIRT, ModBlocks.SILT, ModBlocks.PERMAFROST,
-            ModBlocks.GRASSY_EARTHEN_CLAY, ModBlocks.GRASSY_SANDY_DIRT, ModBlocks.GRASSY_SILT, ModBlocks.GRASSY_PERMAFROST
-            );
-
-        after(e, Items.FARMLAND, CreativeModeTabs.NATURAL_BLOCKS,
-            ModBlocks.LOAMY_FARMLAND,
-            ModBlocks.EARTHEN_CLAY_FARMLAND, ModBlocks.SANDY_FARMLAND, ModBlocks.SILTY_FARMLAND,
-            ModBlocks.MULCH_BLOCK, ModBlocks.NULCH_BLOCK
         );
 
         before(e, Items.ICE, CreativeModeTabs.NATURAL_BLOCKS,
@@ -180,50 +128,18 @@ public class ModCreativeTab {
             ModBlocks.ICICLE, ModBlocks.THIN_ICE
         );
 
-        after(e, Items.MOSS_CARPET, CreativeModeTabs.NATURAL_BLOCKS,
-            ModItems.MOSS_CLUMP
-        );
-
         after(e, Items.POINTED_DRIPSTONE, CreativeModeTabs.NATURAL_BLOCKS,
             ModBlocks.VITRIFIED_SAND, ModBlocks.FULGURITE
         );
 
         after(e, Items.FERN, CreativeModeTabs.NATURAL_BLOCKS,
-            ModBlocks.FROSTY_GRASS, ModBlocks.FROSTY_FERN, ModBlocks.DUNE_GRASS
+            ModBlocks.FROSTY_GRASS, ModBlocks.FROSTY_FERN
         );
-
-        after(e, Items.FLOWERING_AZALEA_LEAVES, CreativeModeTabs.NATURAL_BLOCKS,
-            ModItems.AZALEA_FLOWER_PILE
-        );
-
-        after(e, Items.FLOWERING_AZALEA_LEAVES, CreativeModeTabs.NATURAL_BLOCKS,
-            ModBlocks.LEAF_PILES.values().stream().map(s-> (Supplier<Object>) () -> s).toArray(Supplier[]::new)
-        );
-
-        after(e, Items.VINE, CreativeModeTabs.NATURAL_BLOCKS,
-            ModBlocks.IVY
-        );
-
-        after(e, Items.BEETROOT_SEEDS, CreativeModeTabs.NATURAL_BLOCKS,
-            ModBlocks.WEEDS
-        );
-
-
-        //FOOD
-        after(e, Items.ENCHANTED_GOLDEN_APPLE, CreativeModeTabs.FOOD_AND_DRINKS,
-            ModItems.MOSS_CLUMP, ModItems.GOLDEN_MOSS_CLUMP, ModItems.ENCHANTED_GOLDEN_MOSS_CLUMP
-        );
-
 
         //COMBAT
         after(e, Items.TRIDENT, CreativeModeTabs.COMBAT,
             ModItems.ICE_SICKLE
         );
-
-        before(e, Items.LEATHER_HELMET, CreativeModeTabs.COMBAT,
-            ModItems.FLOWER_CROWN
-        );
-
 
         //INGREDIENTS
         before(e, Items.BRICK, CreativeModeTabs.INGREDIENTS,
@@ -240,14 +156,6 @@ public class ModCreativeTab {
 
         after(e, Items.HONEYCOMB, CreativeModeTabs.INGREDIENTS,
             ModItems.TALLOW
-        );
-
-        before(e, Items.INK_SAC, CreativeModeTabs.INGREDIENTS,
-            ModItems.AZALEA_FLOWERS
-        );
-
-        before(e, Items.INK_SAC, CreativeModeTabs.INGREDIENTS,
-            ModItems.BARK.values().stream().map(s-> (Supplier<Object>) () -> s).toArray(Supplier[]::new)
         );
 
         after(e, Items.BARRIER, CreativeModeTabs.OP_BLOCKS,

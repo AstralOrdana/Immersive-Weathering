@@ -70,7 +70,6 @@ public class ImmersiveWeathering {
     public static void setup() {
         ModPositionRuleTests.register();
         ModFluidGenerators.register();
-        ModCompostable.register();
     }
 
     // dispenser interactions like de rusting

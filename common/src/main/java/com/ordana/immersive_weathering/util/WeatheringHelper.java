@@ -5,7 +5,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
-import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.mixins.accessors.BiomeAccessor;
 import com.ordana.immersive_weathering.reg.ModBlocks;
@@ -55,9 +54,7 @@ public class WeatheringHelper {
     public static final Supplier<BiMap<Block, Block>> FLOWERY_BLOCKS = Suppliers.memoize(() -> {
         var builder = ImmutableBiMap.<Block, Block>builder()
                 .put(Blocks.FLOWERING_AZALEA, Blocks.AZALEA)
-                .put(Blocks.FLOWERING_AZALEA_LEAVES, Blocks.AZALEA_LEAVES)
-                .put(ModBlocks.LEAF_PILES.get(LeavesTypeRegistry.getValue(new ResourceLocation("flowering_azalea"))),
-                        ModBlocks.LEAF_PILES.get(LeavesTypeRegistry.getValue(new ResourceLocation("azalea"))));
+                .put(Blocks.FLOWERING_AZALEA_LEAVES, Blocks.AZALEA_LEAVES);
         addOptional(builder, "quark:flowering_azalea_hedge", "quark:azalea_hedge");
         addOptional(builder, "quark:flowering_azalea_leaf_carpet", "quark:azalea_leaf_carpet");
         return builder.build();
@@ -72,215 +69,6 @@ public class WeatheringHelper {
     public static Optional<BlockState> getAzaleaSheared(BlockState state) {
         return Optional.ofNullable(FLOWERY_BLOCKS.get().get(state.getBlock()))
                 .map(block -> block.withPropertiesOf(state));
-    }
-
-
-    public static final Supplier<Map<Block, LeafPileBlock>> LEAVES_TO_PILES = Suppliers.memoize(() -> {
-                var b = ImmutableMap.<Block, LeafPileBlock>builder();
-                ModBlocks.LEAF_PILES.forEach((key, value) -> b.put(key.leaves, value));
-                return b.build();
-            }
-    );
-
-
-    /*
-    public static final Supplier<Map<Block, SimpleParticleType>> LEAVES_TO_PARTICLE = Suppliers.memoize(() -> {
-                var b = ImmutableMap.<Block, SimpleParticleType>builder();
-                ModParticles.FALLING_LEAVES_PARTICLES.forEach((key, value) -> b.put(key.leaves, value));
-                return b.build();
-            }
-    );
-
-
-    public static final Supplier<Map<Block, ParticleOptions>> LOG_TO_PARTICLES = Suppliers.memoize(() ->
-            ImmutableMap.<Block, ParticleOptions>builder()
-                    .put(Blocks.OAK_LOG, ModParticles.OAK_BARK.get())
-                    .put(Blocks.DARK_OAK_LOG, ModParticles.DARK_OAK_BARK.get())
-                    .put(Blocks.SPRUCE_LOG, ModParticles.SPRUCE_BARK.get())
-                    .put(Blocks.BIRCH_LOG, ModParticles.BIRCH_BARK.get())
-                    .put(Blocks.JUNGLE_LOG, ModParticles.JUNGLE_BARK.get())
-                    .put(Blocks.ACACIA_LOG, ModParticles.ACACIA_BARK.get())
-                    .put(Blocks.MANGROVE_LOG, ModParticles.MANGROVE_BARK.get())
-                    .put(Blocks.CRIMSON_STEM, ModParticles.NETHER_SCALE.get())
-                    .put(Blocks.WARPED_STEM, ModParticles.NETHER_SCALE.get())
-
-                    .put(Blocks.OAK_WOOD, ModParticles.OAK_BARK.get())
-                    .put(Blocks.DARK_OAK_WOOD, ModParticles.DARK_OAK_BARK.get())
-                    .put(Blocks.SPRUCE_WOOD, ModParticles.SPRUCE_BARK.get())
-                    .put(Blocks.BIRCH_WOOD, ModParticles.BIRCH_BARK.get())
-                    .put(Blocks.JUNGLE_WOOD, ModParticles.JUNGLE_BARK.get())
-                    .put(Blocks.ACACIA_WOOD, ModParticles.ACACIA_BARK.get())
-                    .put(Blocks.MANGROVE_WOOD, ModParticles.MANGROVE_BARK.get())
-                    .put(Blocks.CRIMSON_HYPHAE, ModParticles.NETHER_SCALE.get())
-                    .put(Blocks.WARPED_HYPHAE, ModParticles.NETHER_SCALE.get())
-                    .build());
-
-    public static ParticleOptions getBarkParticle(BlockState state) {
-        return LOG_TO_PARTICLES.get().getOrDefault(state.getBlock(), new BlockParticleOption(ParticleTypes.BLOCK, state));
-    }
-
-    public static Optional<SimpleParticleType> getFallenLeafParticle(BlockState state) {
-        Block b = state.getBlock();
-        return Optional.ofNullable(LEAVES_TO_PARTICLE.get().get(b));
-    }
-
-     */
-
-
-    public static Optional<Block> getFallenLeafPile(BlockState state) {
-        Block b = state.getBlock();
-        if (CommonConfigs.LEAF_PILES_BLACKLIST.get().contains(BuiltInRegistries.BLOCK.getKey(b).toString()))
-            return Optional.empty();
-        return Optional.ofNullable(LEAVES_TO_PILES.get().get(b));
-    }
-
-    @Nullable
-    public static Item getBarkToStrip(BlockState normalLog) {
-        WoodType woodType = BlockSetAPI.getBlockTypeOf(normalLog.getBlock(), WoodType.class);
-        if (woodType != null) {
-            boolean log = false;
-
-            String childKey = woodType.getChildKey(normalLog.getBlock());
-            if (("log".equals(childKey) && woodType.getChild("stripped_log") != null)
-                || ("wood".equals(childKey)  && woodType.getChild("stripped_wood") != null)) {
-                log = true;
-            }
-            if (log) {
-                String s = CommonConfigs.GENERIC_BARK.get();
-                if (!s.isEmpty()) {
-                    var bark = BuiltInRegistries.ITEM.getOptional(new ResourceLocation(s));
-                    if (bark.isPresent()) {
-                        return bark.get();
-                    }
-                }
-                return woodType.getItemOfThis("immersive_weathering:bark");
-            }
-        }
-        return null;
-    }
-
-    public static Optional<Pair<Item, Block>> getBarkForStrippedLog(BlockState stripped) {
-        WoodType woodType = BlockSetAPI.getBlockTypeOf(stripped.getBlock(), WoodType.class);
-        if (woodType != null) {
-            Object log = null;
-            if (woodType.getChild("stripped_log") == stripped.getBlock()) {
-                log = woodType.getChild("log");
-            } else if (woodType.getChild("stripped_wood") == stripped.getBlock()) {
-                log = woodType.getChild("wood");
-            }
-            if (log instanceof Block unStripped) {
-                String s = CommonConfigs.GENERIC_BARK.get();
-                if (!s.isEmpty()) {
-                    var bark = BuiltInRegistries.ITEM.getOptional(new ResourceLocation(s));
-                    if (bark.isPresent()) {
-                        return Optional.of(Pair.of(bark.get(), unStripped));
-                    }
-                } else {
-                    Item bark = woodType.getItemOfThis("immersive_weathering:bark");
-                    if (bark != null) return Optional.of(Pair.of(bark, unStripped));
-                }
-            }
-        }
-        return Optional.empty();
-    }
-
-    public static Optional<Pair<Item, Block>> getWoodFromLog(BlockState sourceLog) {
-        WoodType woodType = BlockSetAPI.getBlockTypeOf(sourceLog.getBlock(), WoodType.class);
-        if (woodType != null) {
-            Object log = null;
-            if (woodType.getChild("log") == sourceLog.getBlock()) {
-                log = woodType.getChild("wood");
-            }
-            if (log instanceof Block unStripped) {
-                String s = CommonConfigs.GENERIC_BARK.get();
-                if (!s.isEmpty()) {
-                    var bark = BuiltInRegistries.ITEM.getOptional(new ResourceLocation(s));
-                    if (bark.isPresent()) {
-                        return Optional.of(Pair.of(bark.get(), unStripped));
-                    }
-                } else {
-                    Item bark = woodType.getItemOfThis("immersive_weathering:bark");
-                    if (bark != null) return Optional.of(Pair.of(bark, unStripped));
-                }
-            }
-        }
-        return Optional.empty();
-    }
-
-    public static final Supplier<Map<Block, Block>> SOIL_TO_GRASSY = Suppliers.memoize(() ->
-            ImmutableMap.<Block, Block>builder()
-                    .put(ModBlocks.SANDY_DIRT.get(), ModBlocks.GRASSY_SANDY_DIRT.get())
-                    .put(ModBlocks.EARTHEN_CLAY.get(), ModBlocks.GRASSY_EARTHEN_CLAY.get())
-                    .put(ModBlocks.SILT.get(), ModBlocks.GRASSY_SILT.get())
-                    .put(ModBlocks.PERMAFROST.get(), ModBlocks.GRASSY_PERMAFROST.get())
-                    .put(Blocks.ROOTED_DIRT, ModBlocks.ROOTED_GRASS_BLOCK.get())
-                    .put(Blocks.DIRT, Blocks.GRASS_BLOCK)
-                    .build());
-
-    static Optional<Block> getGrassySoil(Block block) {
-        return Optional.ofNullable(SOIL_TO_GRASSY.get().get(block));
-    }
-
-    public static Optional<BlockState> getGrassySoil(BlockState state) {
-        return getGrassySoil(state.getBlock()).map(block -> block.withPropertiesOf(state));
-    }
-
-    public static final Supplier<BiMap<Block, Block>> RAW_TO_STRIPPED = Suppliers.memoize(() -> {
-        var builder = ImmutableBiMap.<Block, Block>builder()
-            .put(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG)
-            .put(Blocks.BIRCH_LOG, Blocks.STRIPPED_BIRCH_LOG)
-            .put(Blocks.JUNGLE_LOG, Blocks.STRIPPED_JUNGLE_LOG)
-            .put(Blocks.SPRUCE_LOG, Blocks.STRIPPED_SPRUCE_LOG)
-            .put(Blocks.ACACIA_LOG, Blocks.STRIPPED_ACACIA_LOG)
-            .put(Blocks.DARK_OAK_LOG, Blocks.STRIPPED_DARK_OAK_LOG)
-            .put(Blocks.MANGROVE_LOG, Blocks.STRIPPED_MANGROVE_LOG)
-            .put(Blocks.CHERRY_LOG, Blocks.STRIPPED_CHERRY_LOG)
-            .put(Blocks.BAMBOO_BLOCK, Blocks.STRIPPED_BAMBOO_BLOCK)
-            .put(Blocks.CRIMSON_STEM, Blocks.STRIPPED_CRIMSON_STEM)
-            .put(Blocks.WARPED_STEM, Blocks.STRIPPED_WARPED_STEM)
-            .put(Blocks.OAK_WOOD, Blocks.STRIPPED_OAK_WOOD)
-            .put(Blocks.BIRCH_WOOD, Blocks.STRIPPED_BIRCH_WOOD)
-            .put(Blocks.JUNGLE_WOOD, Blocks.STRIPPED_JUNGLE_WOOD)
-            .put(Blocks.SPRUCE_WOOD, Blocks.STRIPPED_SPRUCE_WOOD)
-            .put(Blocks.ACACIA_WOOD, Blocks.STRIPPED_ACACIA_WOOD)
-            .put(Blocks.DARK_OAK_WOOD, Blocks.STRIPPED_DARK_OAK_WOOD)
-            .put(Blocks.MANGROVE_WOOD, Blocks.STRIPPED_MANGROVE_WOOD)
-            .put(Blocks.CHERRY_WOOD, Blocks.STRIPPED_CHERRY_WOOD)
-            .put(Blocks.CRIMSON_HYPHAE, Blocks.STRIPPED_CRIMSON_HYPHAE)
-            .put(Blocks.WARPED_HYPHAE, Blocks.STRIPPED_WARPED_HYPHAE);
-        return builder.build();
-    });
-
-    public static final Supplier<BiMap<Block, Block>> STRIPPED_TO_RAW = Suppliers.memoize(() -> RAW_TO_STRIPPED.get().inverse());
-
-    public static final Supplier<BiMap<Block, Item>> WOOD_TO_BARK = Suppliers.memoize(() -> {
-        var builder = ImmutableBiMap.<Block, Item>builder()
-            .put(Blocks.OAK_LOG,       ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("oak"))))
-            .put(Blocks.BIRCH_LOG,     ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("birch"))))
-            .put(Blocks.JUNGLE_LOG,    ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("jungle"))))
-            .put(Blocks.SPRUCE_LOG,    ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("spruce"))))
-            .put(Blocks.ACACIA_LOG,    ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("acacia"))))
-            .put(Blocks.DARK_OAK_LOG,  ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("dark_oak"))))
-            .put(Blocks.MANGROVE_LOG,  ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("mangrove"))))
-            .put(Blocks.CHERRY_LOG,    ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("cherry"))))
-            .put(Blocks.BAMBOO_BLOCK,  ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("bamboo"))))
-            .put(Blocks.CRIMSON_STEM,  ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("crimson"))))
-            .put(Blocks.WARPED_STEM,   ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("warped"))))
-            .put(Blocks.OAK_WOOD,      ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("oak"))))
-            .put(Blocks.BIRCH_WOOD,    ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("birch"))))
-            .put(Blocks.JUNGLE_WOOD,   ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("jungle"))))
-            .put(Blocks.SPRUCE_WOOD,   ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("spruce"))))
-            .put(Blocks.ACACIA_WOOD,   ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("acacia"))))
-            .put(Blocks.DARK_OAK_WOOD, ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("dark_oak"))))
-            .put(Blocks.MANGROVE_WOOD, ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("mangrove"))))
-            .put(Blocks.CHERRY_WOOD,   ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("cherry"))))
-            .put(Blocks.CRIMSON_HYPHAE,ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("crimson"))))
-            .put(Blocks.WARPED_HYPHAE, ModItems.BARK.get(WoodTypeRegistry.getValue(new ResourceLocation("warped"))));
-        return builder.build();
-    });
-
-    public static Optional<Item> getBark(Block block) {
-        return Optional.ofNullable(WOOD_TO_BARK.get().get(block));
     }
 
     /**
@@ -425,20 +213,6 @@ public class WeatheringHelper {
 
     public static boolean isPosHot(Level level, Holder<Biome> biome, BlockPos pos) {
         return biome.is(ModTags.HOT);
-    }
-
-    public static void growHangingRoots(ServerLevel level, RandomSource random, BlockPos pos) {
-        Direction dir = Direction.values()[1 + random.nextInt(5)].getOpposite();
-        BlockPos targetPos = pos.relative(dir);
-        BlockState targetState = level.getBlockState(targetPos);
-        FluidState fluidState = level.getFluidState(targetPos);
-        boolean bl = fluidState.is(Fluids.WATER);
-        if (targetState.canBeReplaced()) {
-            BlockState newState = dir == Direction.DOWN ?
-                Blocks.HANGING_ROOTS.defaultBlockState() :
-                ModBlocks.HANGING_ROOTS_WALL.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, dir);
-            level.setBlockAndUpdate(targetPos, newState.setValue(BlockStateProperties.WATERLOGGED, bl));
-        }
     }
 
 }

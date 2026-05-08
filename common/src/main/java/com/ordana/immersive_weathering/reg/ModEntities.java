@@ -3,7 +3,6 @@ package com.ordana.immersive_weathering.reg;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.entities.FallingIcicleEntity;
 import com.ordana.immersive_weathering.entities.FallingLayerEntity;
-import com.ordana.immersive_weathering.entities.FallingPropaguleEntity;
 import com.ordana.immersive_weathering.entities.IcicleBlockEntity;
 import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.mehvahdjukaar.moonlight.api.platform.RegHelper;
@@ -26,10 +25,6 @@ public class ModEntities {
     public static Supplier<EntityType<FallingLayerEntity>> FALLING_LAYER = RegHelper.registerEntityType(
             ImmersiveWeathering.res("falling_layer"),
             FallingLayerEntity::new, MobCategory.MISC, 0.98F, 0.98F, 10, 20);
-
-    public static Supplier<EntityType<FallingPropaguleEntity>> FALLING_PROPAGULE = RegHelper.registerEntityType(
-            ImmersiveWeathering.res("falling_propagule"),
-            FallingPropaguleEntity::new, MobCategory.MISC, 0.28F, 0.98F, 10, 20);
 
 
     //block entities

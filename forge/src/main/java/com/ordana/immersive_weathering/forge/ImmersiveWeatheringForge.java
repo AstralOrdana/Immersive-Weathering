@@ -4,7 +4,6 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableBiMap;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.reg.ModBlocks;
-import com.ordana.immersive_weathering.reg.ModWaxables;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.HoneycombItem;

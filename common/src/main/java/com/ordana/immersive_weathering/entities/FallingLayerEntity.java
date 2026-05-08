@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.entities;
 
 import com.ordana.immersive_weathering.blocks.LayerBlock;
-import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.reg.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

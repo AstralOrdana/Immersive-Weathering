@@ -1,7 +1,6 @@
 package com.ordana.immersive_weathering.data.block_growths.growths.builtin;
 
 import com.ordana.immersive_weathering.ImmersiveWeathering;
-import com.ordana.immersive_weathering.blocks.LeafPileBlock;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.data.block_growths.TickSource;
 import com.ordana.immersive_weathering.network.NetworkHandler;

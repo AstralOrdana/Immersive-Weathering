@@ -3,7 +3,6 @@ package com.ordana.immersive_weathering.fabric;
 import com.ordana.immersive_weathering.ImmersiveWeathering;
 import com.ordana.immersive_weathering.configs.CommonConfigs;
 import com.ordana.immersive_weathering.events.ModEvents;
-import com.ordana.immersive_weathering.reg.ModWaxables;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;

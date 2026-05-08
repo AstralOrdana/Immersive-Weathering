@@ -1,6 +1,5 @@
 package com.ordana.immersive_weathering.mixins;
 
-import com.ordana.immersive_weathering.blocks.ModPropaguleBlock;
 import com.ordana.immersive_weathering.blocks.cracked.*;
 import com.ordana.immersive_weathering.blocks.mossy.*;
 import com.ordana.immersive_weathering.blocks.rusty.Rustable;

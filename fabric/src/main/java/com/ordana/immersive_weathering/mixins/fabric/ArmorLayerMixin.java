@@ -2,7 +2,6 @@ package com.ordana.immersive_weathering.mixins.fabric;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.ordana.immersive_weathering.items.FlowerCrownItem;
 import com.ordana.immersive_weathering.reg.ModItems;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
