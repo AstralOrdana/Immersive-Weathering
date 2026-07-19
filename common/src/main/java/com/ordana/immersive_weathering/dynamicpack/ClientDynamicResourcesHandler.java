@@ -50,9 +50,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
 
         String path = resource.location.getPath().replace("oak_leaf_pile", id);
 
-        string = string.replace("immersive_weathering:block/light_oak_leaves", texturePath.toString());
-        string = string.replace("immersive_weathering:block/medium_oak_leaves", texturePath.toString());
-        string = string.replace("heavy_oak_leaves", id.replace("/", "/heavy_"));
+        string = string.replace("block/oak_leaves", texturePath.toString());
 
         //adds modified under my namespace
         ResourceLocation newRes = ImmersiveWeathering.res(path);
@@ -70,8 +68,6 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
 
             StaticResource lpBlockState = StaticResource.getOrLog(manager,
                     ResType.BLOCKSTATES.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
-            StaticResource lpModel1 = StaticResource.getOrLog(manager,
-                    ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height1")));
             StaticResource lpModel2 = StaticResource.getOrLog(manager,
                     ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height2")));
             StaticResource lpModel4 = StaticResource.getOrLog(manager,
@@ -86,8 +82,6 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
                     ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height12")));
             StaticResource lpModel14 = StaticResource.getOrLog(manager,
                     ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height14")));
-            StaticResource lpModel16 = StaticResource.getOrLog(manager,
-                    ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height16")));
 
             StaticResource lpItemModel = StaticResource.getOrLog(manager,
                     ResType.ITEM_MODELS.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
@@ -119,7 +113,6 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
                         getLogger().warn("Failed to find texture for Leaf Pile {}, using oak one instead", pile);
                         leavesTexture = RPUtils.findFirstBlockTextureLocation(manager, Blocks.OAK_LEAVES, (s) -> true);
                     }
-                    addLeafPilesModel(Objects.requireNonNull(lpModel1), id, leavesTexture);
                     addLeafPilesModel(Objects.requireNonNull(lpModel2), id, leavesTexture);
                     addLeafPilesModel(Objects.requireNonNull(lpModel4), id, leavesTexture);
                     addLeafPilesModel(Objects.requireNonNull(lpModel6), id, leavesTexture);
@@ -127,7 +120,6 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
                     addLeafPilesModel(Objects.requireNonNull(lpModel10), id, leavesTexture);
                     addLeafPilesModel(Objects.requireNonNull(lpModel12), id, leavesTexture);
                     addLeafPilesModel(Objects.requireNonNull(lpModel14), id, leavesTexture);
-                    addLeafPilesModel(Objects.requireNonNull(lpModel16), id, leavesTexture);
                 } catch (Exception ex) {
                     getLogger().error("Failed to generate Leaf Pile model for {} : {}", pile, ex);
                 }

@@ -1,18 +1,18 @@
 {
     "textures": {
-        "particle": "immersive_weathering:block/heavy_flowering_azalea_leaves",
-        "texture": "immersive_weathering:block/heavy_flowering_azalea_leaves"
+        "particle": "block/flowering_azalea_leaves",
+        "texture": "block/flowering_azalea_leaves"
     },
     "elements": [
         {   "from": [ 0, 0, 0 ],
             "to": [ 16, 14, 16 ],
             "faces": {
-                "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#texture", "cullface": "down" },
-                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#texture"},
-                "north": { "uv": [ 0, 2, 16, 16 ], "texture": "#texture", "cullface": "north" },
-                "south": { "uv": [ 0, 2, 16, 16 ], "texture": "#texture", "cullface": "south" },
-                "west":  { "uv": [ 0, 2, 16, 16 ], "texture": "#texture", "cullface": "west" },
-                "east":  { "uv": [ 0, 2, 16, 16 ], "texture": "#texture", "cullface": "east" }
+                "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#texture", "tintindex": 0, "cullface": "down" },
+                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#texture", "tintindex": 0 },
+                "north": { "uv": [ 0, 2, 16, 16 ], "texture": "#texture", "tintindex": 0, "cullface": "north" },
+                "south": { "uv": [ 0, 2, 16, 16 ], "texture": "#texture", "tintindex": 0, "cullface": "south" },
+                "west":  { "uv": [ 0, 2, 16, 16 ], "texture": "#texture", "tintindex": 0, "cullface": "west" },
+                "east":  { "uv": [ 0, 2, 16, 16 ], "texture": "#texture", "tintindex": 0, "cullface": "east" }
             }
         }
     ]

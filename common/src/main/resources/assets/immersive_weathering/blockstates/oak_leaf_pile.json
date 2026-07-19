@@ -1,8 +1,5 @@
 {
   "variants": {
-    "layers=0": {
-      "model": "immersive_weathering:block/leaf_piles/oak_leaf_pile_height1"
-    },
     "layers=1": {
       "model": "immersive_weathering:block/leaf_piles/oak_leaf_pile_height2"
     },
@@ -25,7 +22,7 @@
       "model": "immersive_weathering:block/leaf_piles/oak_leaf_pile_height14"
     },
     "layers=8": {
-      "model": "immersive_weathering:block/leaf_piles/oak_leaf_pile_height16"
+      "model": "minecraft:block/oak_leaves"
     }
   }
 }
