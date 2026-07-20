@@ -83,8 +83,6 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
                     ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height12")));
             StaticResource lpModel14 = StaticResource.getOrLog(manager,
                     ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height14")));
-            StaticResource lpModel16 = StaticResource.getOrLog(manager,
-                    ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height16")));
 
             StaticResource lpItemModel = StaticResource.getOrLog(manager,
                     ResType.ITEM_MODELS.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
@@ -118,7 +116,6 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
                     addLeafPilesModel(Objects.requireNonNull(lpModel10), id, leavesTexture);
                     addLeafPilesModel(Objects.requireNonNull(lpModel12), id, leavesTexture);
                     addLeafPilesModel(Objects.requireNonNull(lpModel14), id, leavesTexture);
-                    addLeafPilesModel(Objects.requireNonNull(lpModel16), id, leavesTexture);
                 } catch (Exception ex) {
                     getLogger().error("Failed to generate Leaf Pile model for {} : {}", pile, ex);
                 }
