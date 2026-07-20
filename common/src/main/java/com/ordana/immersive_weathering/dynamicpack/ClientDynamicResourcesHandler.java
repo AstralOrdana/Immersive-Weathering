@@ -82,6 +82,8 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
                     ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height12")));
             StaticResource lpModel14 = StaticResource.getOrLog(manager,
                     ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height14")));
+            StaticResource lpModel16 = StaticResource.getOrLog(manager,
+                    ResType.BLOCK_MODELS.getPath(ImmersiveWeathering.res("leaf_piles/oak_leaf_pile_height16")));
 
             StaticResource lpItemModel = StaticResource.getOrLog(manager,
                     ResType.ITEM_MODELS.getPath(ImmersiveWeathering.res("oak_leaf_pile")));
@@ -120,6 +122,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
                     addLeafPilesModel(Objects.requireNonNull(lpModel10), id, leavesTexture);
                     addLeafPilesModel(Objects.requireNonNull(lpModel12), id, leavesTexture);
                     addLeafPilesModel(Objects.requireNonNull(lpModel14), id, leavesTexture);
+                    addLeafPilesModel(Objects.requireNonNull(lpModel16), id, leavesTexture);
                 } catch (Exception ex) {
                     getLogger().error("Failed to generate Leaf Pile model for {} : {}", pile, ex);
                 }
@@ -144,33 +147,6 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
                 }
             });
         }
-
-        //heavy leaves textures
-        ModBlocks.LEAF_PILES.forEach((type, pile) -> {
-            if (type.isVanilla() && PlatHelper.isDev()) return;
-
-            String path = type.getNamespace() + "/heavy_" + type.getTypeName() + "_leaf_pile";
-
-            try (TextureImage baseTexture = TextureImage.open(manager, RPUtils.findFirstBlockTextureLocation(manager, type.leaves, LOOKS_LIKE_LEAF_TEXTURE))) {
-
-                ResourceLocation textureRes = ImmersiveWeathering.res(
-                        String.format("block/%s", path));
-                if (!alreadyHasTextureAtLocation(manager, textureRes)) {
-
-                    Palette targetPalette = Palette.fromImage(baseTexture);
-                    if (targetPalette.getDarkest().getOccurrence() > 5) {
-                        targetPalette.increaseDown();
-                    }
-                    var dark = targetPalette.getDarkest();
-
-                    baseTexture.removeAlpha(dark.value());
-
-                    dynamicPack.addAndCloseTexture(textureRes, baseTexture);
-                }
-            } catch (Exception ex) {
-                getLogger().error("Could not generate heavy leaf pile texture for type {}", type, ex);
-            }
-        });
 
         //bark textures
         try (TextureImage template = TextureImage.open(manager, ImmersiveWeathering.res("item/bark_template"))) {
