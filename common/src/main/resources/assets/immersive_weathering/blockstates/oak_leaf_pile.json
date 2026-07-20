@@ -25,7 +25,7 @@
       "model": "immersive_weathering:block/leaf_piles/oak_leaf_pile_height14"
     },
     "layers=8": {
-      "model": "immersive_weathering:block/leaf_piles/oak_leaf_pile_height16"
+      "model": "block/oak_leaves"
     }
   }
 }

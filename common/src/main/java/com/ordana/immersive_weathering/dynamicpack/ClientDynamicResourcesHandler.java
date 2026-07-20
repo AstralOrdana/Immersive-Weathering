@@ -51,6 +51,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
         String path = resource.location.getPath().replace("oak_leaf_pile", id);
 
         string = string.replace("block/oak_leaves", texturePath.toString());
+        string = string.replace("oak_leaf_pile", id);
 
         //adds modified under my namespace
         ResourceLocation newRes = ImmersiveWeathering.res(path);
@@ -95,12 +96,6 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
                 String id = path + "_leaf_pile";
 
                 try {
-                    addSimilarJsonResource(manager,lpBlockState, "oak_leaf_pile", id);
-                } catch (Exception ex) {
-                    getLogger().error("Failed to generate Leaf Pile blockstate definition for {} : {}", pile, ex);
-                }
-
-                try {
                     addSimilarJsonResource(manager,lpItemModel, "oak_leaf_pile", id);
                 } catch (Exception ex) {
                     getLogger().error("Failed to generate Leaf Pile item model for {} : {}", pile, ex);
@@ -115,6 +110,7 @@ public class ClientDynamicResourcesHandler extends DynClientResourcesGenerator {
                         getLogger().warn("Failed to find texture for Leaf Pile {}, using oak one instead", pile);
                         leavesTexture = RPUtils.findFirstBlockTextureLocation(manager, Blocks.OAK_LEAVES, (s) -> true);
                     }
+                    addLeafPilesModel(Objects.requireNonNull(lpBlockState), id, leavesTexture);
                     addLeafPilesModel(Objects.requireNonNull(lpModel2), id, leavesTexture);
                     addLeafPilesModel(Objects.requireNonNull(lpModel4), id, leavesTexture);
                     addLeafPilesModel(Objects.requireNonNull(lpModel6), id, leavesTexture);
