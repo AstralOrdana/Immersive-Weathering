@@ -1,5 +1,8 @@
 {
   "variants": {
+    "layers=0": {
+      "model": "block/air"
+    },
     "layers=1": {
       "model": "immersive_weathering:block/leaf_piles/spruce_leaf_pile_height2"
     },
@@ -22,7 +25,7 @@
       "model": "immersive_weathering:block/leaf_piles/spruce_leaf_pile_height14"
     },
     "layers=8": {
-      "model": "minecraft:block/spruce_leaves"
+      "model": "block/spruce_leaves"
     }
   }
 }
