@@ -12,4 +12,4 @@ However, nothing stands forever without care and attention so you will need to t
 
 ## Links
 
-[Modrinth](https://modrinth.com/mod/immersive-weathering) | [Wiki](https://github.com/Silversmith-Mods/Immersive-Weathering/wiki) | [LICENSE](https://github.com/Silversmith-Mods/Immersive-Weathering?tab=LGPL-3.0-1-ov-file#)
+[Modrinth](https://modrinth.com/mod/immersive-weathering) | [Wiki](https://github.com/Silversmith-Mods/Immersive-Weathering/wiki)
